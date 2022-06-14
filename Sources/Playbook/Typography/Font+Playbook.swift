@@ -41,7 +41,7 @@ public enum PBTextStyle {
 }
 
 extension Font {
-  @available(*, deprecated, message: "use .font(.pbBody)")
+  
   public static func pb(_ style: PBTextStyle) -> Font {
     return style.font
   }

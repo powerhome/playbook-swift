@@ -72,7 +72,7 @@ public extension Typography {
 }
 
 public extension View {
-    @available(*, deprecated, message: "use .font(.pbBody)")
+    
     func pbFont(_ style: PBTextStyle,
                 variant: Typography.Variant = .none,
                 color: Color = .pbTextDefault) -> some View {
