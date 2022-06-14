@@ -1,2 +1,3 @@
-# playbook-apple
-Playbook for Apple native platforms (iOS &amp; macOS)
+# Playbook
+
+SwiftUI version of [https://playbook.powerapp.cloud/](Playbook) components.
