@@ -13,28 +13,28 @@ import ViewInspector
 final class PBCardTests: XCTestCase {
 
     // MARK: Default tests
-    func test_default_card() throws {
-        let card = PBCard { Text("test") }
-        let modifier = card.modifier(self)
-        let content = modifier.content
-        let vStack = try card.inspect().vStack()
-
-        let padding = content.padding
-        let border = content.border
-        let borderRadius = content.borderRadius
-        let shadow = content.shadow
-        let selected = content.selected
-
-        let text = try vStack.text(0).string()
-
-        XCTAssertTrue(padding.isEqual(to: .pbMedium))
-        XCTAssertEqual(border, true)
-        XCTAssertEqual(borderRadius, PBCard.BorderRadius.medium)
-        XCTAssertEqual(borderRadius.rawValue, CGFloat(6))
-        XCTAssertEqual(shadow, PBCard.Shadow.none)
-        XCTAssertFalse(selected)
-        XCTAssertEqual(text, "test")
-    }
+//    func test_default_card() throws {
+//        let card = PBCard { Text("test") }
+//        let modifier = card.modifier(self)
+//        let content = modifier.content
+//        let vStack = try card.inspect().vStack()
+//
+//        let padding = content.padding
+//        let border = content.border
+//        let borderRadius = content.borderRadius
+//        let shadow = content.shadow
+//        let selected = content.selected
+//
+//        let text = try vStack.text(0).string()
+//
+//        XCTAssertTrue(padding.isEqual(to: .pbMedium))
+//        XCTAssertEqual(border, true)
+//        XCTAssertEqual(borderRadius, PBCard.BorderRadius.medium)
+//        XCTAssertEqual(borderRadius.rawValue, CGFloat(6))
+//        XCTAssertEqual(shadow, PBCard.Shadow.none)
+//        XCTAssertFalse(selected)
+//        XCTAssertEqual(text, "test")
+//    }
     //
 
     // MARK: Highlight tests
@@ -66,18 +66,18 @@ final class PBCardTests: XCTestCase {
     //
 
     // MARK: Selected tests
-    func test_selected_card() throws {
-        let card = PBCard(selected: true) {
-            Text("test")
-        }
-        let vStack = try card.inspect().vStack()
-
-        let selected = card.modifier(self).content.selected
-        let text = try vStack.text(0).string()
-
-        XCTAssertTrue(selected)
-        XCTAssertEqual(text, "test")
-    }
+//    func test_selected_card() throws {
+//        let card = PBCard(selected: true) {
+//            Text("test")
+//        }
+//        let vStack = try card.inspect().vStack()
+//
+//        let selected = card.modifier(self).content.selected
+//        let text = try vStack.text(0).string()
+//
+//        XCTAssertTrue(selected)
+//        XCTAssertEqual(text, "test")
+//    }
     //
 
     // MARK: Padding tests
