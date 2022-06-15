@@ -61,7 +61,7 @@ struct PBNavigationItem<Content: View>: View {
         }
     }
 
-    var selBackground: some View {
+    var selectionBackground: some View {
         if variant == .normal,
            orientation == .horizontal {
             return Color.clear
@@ -154,7 +154,7 @@ struct PBNavigationItem<Content: View>: View {
                 .frame(maxWidth: maxWidth, alignment: .leading)
                 .padding(padding)
                 .onHover { isHovering = $0 }
-                .background(selected ? selBackground : nil)
+                .background(selected ? selectionBackground : nil)
                 .overlay(isHovering ? hoverColor : nil)
                 .background(selectionMarker)
                 .cornerRadius(cornerRadius)
