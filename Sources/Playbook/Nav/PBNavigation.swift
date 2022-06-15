@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-enum PBNavigationOrientation {
+public enum PBNavigationOrientation {
     case horizontal
     case vertical
 }
-enum PBNavigationVariant {
+public enum PBNavigationVariant {
     case normal
     case subtle
 }
@@ -82,7 +82,8 @@ struct PBNavigationItem<Content: View>: View {
     }
 
     var hoverColor: some View {
-        if orientation == .horizontal, variant == .normal {
+        if orientation == .horizontal,
+           variant == .normal {
             return Color.clear
         }
         return markerColor.opacity(0.1)
@@ -103,31 +104,33 @@ struct PBNavigationItem<Content: View>: View {
         var isHovering: Bool
 
         var captionForegroundColor: Color {
-          if variant == .normal && orientation == .horizontal {
-          if self.isHovering {
-              return .pbPrimary
+            if variant == .normal,
+               orientation == .horizontal {
+                if self.isHovering {
+                    return .pbPrimary
+                }
+                return .pbTextDefault
             }
-            return .pbTextDefault
-          }
 
             if selected || self.isHovering {
-            return .pbPrimary
-          }
-          return .pbTextDefault
+                return .pbPrimary
+            }
+            return .pbTextDefault
         }
 
         var font: PBTextStyle {
-          if variant == .normal, orientation == .horizontal {
-            return selectedFont
-          }
-          if selected, variant == .normal {
-            return selectedFont
-          }
-          return .body
+            if variant == .normal,
+               orientation == .horizontal {
+                return selectedFont
+            }
+            if selected, variant == .normal {
+                return selectedFont
+            }
+            return .body
         }
 
         var selectedFont: PBTextStyle {
-          return .title4
+            return .title4
         }
 
         func makeBody(configuration: Configuration) -> some View {
