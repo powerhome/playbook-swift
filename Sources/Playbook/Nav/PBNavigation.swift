@@ -165,7 +165,7 @@ struct PBNavigationItem<Content: View>: View {
 
 public struct PBNavigation<Option: Equatable & Identifiable, Content: View>: View {
 
-    public init(_ options: [Option], selected: Binding<Option.ID>, variant: PBNavigationVariant = .normal, orientation: PBNavigationOrientation = .vertical, @ViewBuilder renderOption: @escaping (Option) -> Content) {
+    public init(_ options: [Option], selected: Binding<Option>, variant: PBNavigationVariant = .normal, orientation: PBNavigationOrientation = .vertical, @ViewBuilder renderOption: @escaping (Option) -> Content) {
         self.options = options
         self.selected = selected
         self.variant = variant
@@ -174,7 +174,7 @@ public struct PBNavigation<Option: Equatable & Identifiable, Content: View>: Vie
     }
 
     var options: [Option]
-    var selected: Binding<Option.ID>
+    var selected: Binding<Option>
     var variant: PBNavigationVariant
     var orientation: PBNavigationOrientation
     var border: Bool = true
@@ -183,11 +183,11 @@ public struct PBNavigation<Option: Equatable & Identifiable, Content: View>: Vie
     func item(_ option: Option) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 0) {
-                PBNavigationItem(selected: selected.wrappedValue == option.id,
+                PBNavigationItem(selected: selected.wrappedValue == option,
                                  variant: variant,
                                  orientation: orientation,
                                  onTap: {
-                    selected.wrappedValue = option.id
+                    selected.wrappedValue = option
                 }) {
                     HStack {
                         renderOption(option)
@@ -243,7 +243,7 @@ struct PBNavigation_Previews: PreviewProvider {
         return Group {
             VStack(spacing: 20) {
                 PBNavigation(NavOptions.allCases,
-                             selected: .constant(NavOptions.op1.id),
+                             selected: .constant(NavOptions.op1),
                              variant: .normal,
                              orientation: .horizontal) { option in
                     Label {
@@ -253,7 +253,7 @@ struct PBNavigation_Previews: PreviewProvider {
                     }
                 }
                 PBNavigation(NavOptions.allCases,
-                             selected: .constant(NavOptions.op1.id),
+                             selected: .constant(NavOptions.op1),
                              variant: .normal,
                              orientation: .vertical) { option in
                     Label {
@@ -268,7 +268,7 @@ struct PBNavigation_Previews: PreviewProvider {
 
             VStack(spacing: 20) {
                 PBNavigation(NavOptions.allCases,
-                             selected: .constant(NavOptions.op1.id),
+                             selected: .constant(NavOptions.op1),
                              variant: .subtle,
                              orientation: .horizontal) { option in
                     Label {
@@ -278,7 +278,7 @@ struct PBNavigation_Previews: PreviewProvider {
                     }
                 }
                 PBNavigation(NavOptions.allCases,
-                             selected: .constant(NavOptions.op1.id),
+                             selected: .constant(NavOptions.op1),
                              variant: .subtle,
                              orientation: .vertical) { option in
                     Label {
