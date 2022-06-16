@@ -31,6 +31,7 @@ public struct PBSelect: ButtonStyle {
             .pbFont(.body)
           Spacer()
           PBIcon.fontAwesome(.chevronDown)
+            .foregroundColor(.pbTextDefault)
         }
         .padding(.horizontal, .pbSmall)
       }
@@ -47,6 +48,7 @@ struct PBSelect_Previews: PreviewProvider {
       }
       .buttonStyle(PBSelect("FAVORITE FOOD", style: .default))
       .preferredColorScheme(.light)
+      .padding(24)
     }
   }
 }
