@@ -14,7 +14,7 @@ final class PBMessageTests: XCTestCase {
 
     // MARK: Message tests
     func testMessageDisplayingOnlyContent() throws {
-        let message = PBMessage {
+        let message = PBMessage(avatar: EmptyView()) {
             Text("Message test")
         }
         let hStack = try message.inspect().hStack()
