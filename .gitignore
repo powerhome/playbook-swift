@@ -2,3 +2,4 @@
 .swiftpm/xcode/xcuserdata
 Package.resolved
 PlaybookDemo.xcodeproj
+.DS_Store
