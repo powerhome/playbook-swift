@@ -7,29 +7,26 @@
 
 import SwiftUI
 
-public struct PBMessage<Content: View>: View {
+public struct PBMessage<Content: View, Avatar: View>: View {
 
     // MARK: Props
     let content: Content // mandatory
 
-    var avatar: PBAvatar?
+    var avatar: Avatar
     let label: String?
     let timestamp: PBTimestamp?
     //
 
-  public init(avatar: PBAvatar? = nil, label: String? = nil, timestamp: PBTimestamp? = nil, @ViewBuilder content: () -> Content) {
+  public init(avatar: Avatar, label: String? = nil, timestamp: PBTimestamp? = nil, @ViewBuilder content: () -> Content) {
         self.content = content()
         self.avatar = avatar
-        self.avatar?.size = .xSmall
         self.label = label
         self.timestamp = timestamp
     }
 
     public var body: some View {
         HStack(alignment: .top, spacing: nil, content: {
-            if let avatar = avatar, avatar.image != nil || avatar.name != nil {
-                avatar
-            }
+            avatar
             VStack(alignment: .leading, spacing: nil, content: {
                 HStack(alignment: .firstTextBaseline, spacing: 2, content: {
                     if let label = label, !label.isEmpty {
