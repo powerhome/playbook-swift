@@ -38,7 +38,7 @@ To the left of "Build Succeeded" at the top of the window, there may be
         My Mac is the default, so click it and choose an iPhone of your choice.
         (You can always change this later). 
         
-        https://share.getcloudapp.com/QwunglBQ?collection_id=EpfrdPx
+https://share.getcloudapp.com/QwunglBQ?collection_id=EpfrdPx
         
 ### 2. Opening the kits to see the previews.
 Be sure to click open the specific kit from the files on the left-hand side in order to preview it in the UI.
