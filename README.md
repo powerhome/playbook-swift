@@ -16,7 +16,7 @@ To keep Playbook's design system identical across all platforms, updating playbo
 
 ### Make sure you have the playbook-apple repo (clone it if you do not).
 ### To open the package in Xcode, there are 2 ways to go about this. EITHER:
-1) Go to the playbook-swift directory in terminal and type:  xed .
+1) Go to the playbook-apple directory in terminal and type:  xed .
 
 **or** 
 
@@ -63,6 +63,10 @@ d) completely delete DerivedData folder. Then go back to step 3 (resolve package
         
 ### **IF** there isn't a preview of the UI of the selected kit, click Resume.
 https://share.getcloudapp.com/E0uykzgN?collection_id=EpfrdPx
+
+### After building, errors may populate the left-side navigation. To go back to the files and folders, click the folder tab.
+
+https://share.getcloudapp.com/ApuX5O2L
 
 # How to Contribute
 First, be sure you can run the package to make edits and see previews (See above).
