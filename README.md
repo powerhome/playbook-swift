@@ -76,8 +76,9 @@ https://share.getcloudapp.com/xQuwy9OK
 https://share.getcloudapp.com/YEukL8JR
 
 ### To quickly find all files that use a certain color in the "Color" Swift file, we can right-click (or ctrl click) -> Find -> Find Selected Symbol in Workpace
-    https://share.getcloudapp.com/d5uOoW9N?collection_id=EpfrdPx
-    Your left side vertical bar should now show each file and where that variable is used. Click through the files.
+
+https://share.getcloudapp.com/d5uOoW9N?collection_id=EpfrdPx
+Your left side vertical bar should now show each file and where that variable is used. Click through the files.
     
 ### BEFORE you edit a color!
 
