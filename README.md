@@ -69,13 +69,16 @@ First, be sure you can run the package to make edits and see previews (See above
 
 ## Colors
 
-- To learn how and where Color assets are used and created, and how to edit or create new ones, watch the following video:
-TODO: New video
+### To learn how to create and edit Color assets watch the following video:
+https://share.getcloudapp.com/xQuwy9OK
 
-- To quickly find all files that use a certain color in the "Color" Swift file, we can right-click (or ctrl click) -> Find -> Find Selected Symbol in Workpace
+### To add created Color assets into the Color swift file, so it can be used in the application:
+https://share.getcloudapp.com/YEukL8JR
+
+### To quickly find all files that use a certain color in the "Color" Swift file, we can right-click (or ctrl click) -> Find -> Find Selected Symbol in Workpace
     https://share.getcloudapp.com/d5uOoW9N?collection_id=EpfrdPx
     Your left side vertical bar should now show each file and where that variable is used. Click through the files.
     
 ### BEFORE you edit a color!
 
-- Because so many components use these colors, editing a color can impact many other files. For example, pbError is used in three files (at the time of writing this), PBBadge, PBPill, and PBCard Swift files. Make sure you observe each file before and after editing a color in it, so that we have the desired results.
+Because so many components use these colors, editing a color can impact many other files. For example, pbError is used in three files (at the time of writing this), PBBadge, PBPill, and PBCard Swift files. Make sure you observe each file before and after editing a color in it, so that we have the desired results.
