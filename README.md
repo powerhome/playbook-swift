@@ -20,7 +20,7 @@ To keep Playbook's design system identical across all platforms, updating playbo
 
 **or** 
 
-2) Drag the playbook-swift to the Xcode icon
+2) Drag the playbook-apple to the Xcode icon
 
 ## Resolve Package Dependencies 
 
@@ -64,7 +64,7 @@ d) completely delete DerivedData folder. Then go back to step 3 (resolve package
 ### **IF** there isn't a preview of the UI of the selected kit, click Resume.
 https://share.getcloudapp.com/E0uykzgN?collection_id=EpfrdPx
 
-### After building, errors may populate the left-side navigation. To go back to the files and folders, click the folder tab.
+### After building, errors may populate the left-side navigation. To go back to the files and folders, click the folder tab. Ignore the errors.
 
 https://share.getcloudapp.com/ApuX5O2L
 
