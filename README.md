@@ -1,5 +1,3 @@
-# Playbook
-
 # Intro
 
 ## What is this?
@@ -18,17 +16,17 @@ To keep Playbook's design system identical across all platforms, updating playbo
 
 ### Make sure you have the playbook-apple repo (clone it if you do not).
 ### To open the package in Xcode, there are 2 ways to go about this. EITHER:
-1) Go to the playbook-swift directory in terminal and type:  xed .
+1) Go to the playbook-apple directory in terminal and type:  xed .
 
 **or** 
 
-2) Drag the playbook-swift to the Xcode icon
+2) Drag the playbook-apple to the Xcode icon
 
 ## Resolve Package Dependencies 
 
 ### Right click (or ctrl click) on "Package Dependencies" on file navigation area (left side). 
 Click "resolve package versions" :
-https://cloud.powerhrg.com/s/DYTMQPSp6c3WHNw
+https://share.getcloudapp.com/7Ku6OmQO?collection_id=EpfrdPx
     
 ### Build the package (command b). 
 
@@ -39,31 +37,36 @@ To the left of "Build Succeeded" at the top of the window, there may be
         Playbook -> My Mac.
         My Mac is the default, so click it and choose an iPhone of your choice.
         (You can always change this later). 
-        https://cloud.powerhrg.com/s/RZbPpMPJGAwcDdR
+        
+https://share.getcloudapp.com/QwunglBQ?collection_id=EpfrdPx
         
 ### 2. Opening the kits to see the previews.
 Be sure to click open the specific kit from the files on the left-hand side in order to preview it in the UI.
 Sources -> Playbook -> any folder (aside from Assets)
-https://cloud.powerhrg.com/s/dgBZyD5Rfd3tNLp
+
+https://share.getcloudapp.com/Wnu7ObpB?collection_id=EpfrdPx
 
 ## Troubleshooting
 
 ### **IF** building the package fails:
     
 a) go to the top left: Xcode:
-        https://cloud.powerhrghttps://cloud.powerhrg.com/s/mj6fi7WkXrjS7HR
+        https://share.getcloudapp.com/X6uRpoKZ?collection_id=EpfrdPx
         
 b) click Preferences
         
 c) click on the tiny arrow next to /Xcode/DerivedData (make sure you are under the Locations tab):
-        https://cloud.powerhrg.com/s/Ltw3z4cf9moaWSr
+        https://share.getcloudapp.com/12uLWNk5?collection_id=EpfrdPx
         
 d) completely delete DerivedData folder. Then go back to step 3 (resolve package versions):
-        https://cloud.powerhrg.com/s/SToDqG5jAC9AZ3d
+        https://share.getcloudapp.com/YEukxp4R?collection_id=EpfrdPx
         
 ### **IF** there isn't a preview of the UI of the selected kit, click Resume.
-https://cloud.powerhrg.com/s/zNNzLDAMDcQDJQY
+https://share.getcloudapp.com/E0uykzgN?collection_id=EpfrdPx
 
+### After building, errors may populate the left-side navigation. To go back to the files and folders, click the folder tab. Ignore the errors.
+
+https://share.getcloudapp.com/ApuX5O2L
 
 # How to Contribute
 First, be sure you can run the package to make edits and see previews (See above).
@@ -71,6 +74,19 @@ First, be sure you can run the package to make edits and see previews (See above
 # File Structure
 
 ## Colors
-Colors are in Playbook -> Assets -> "Colors" AND there is a SwiftUI file extension called "Color" that shows how colors are used and can be used
 
+### Before you edit a color
 
+Because so many components use these colors, editing a color can impact many other files. For example, pbError is used in three files (at the time of writing this), PBBadge, PBPill, and PBCard Swift files. Make sure you observe each file before and after editing a color in it, so that we have the desired results.
+
+### To create and edit Color assets:
+https://share.getcloudapp.com/xQuwy9OK
+
+### To add created Color assets into the Color swift file, so it can be used in the application:
+https://share.getcloudapp.com/YEukL8JR
+
+### To quickly find all files that use a certain color in the "Color" Swift file, we can right-click (or ctrl click) -> Find -> Find Selected Symbol in Workpace
+
+https://share.getcloudapp.com/d5uOoW9N?collection_id=EpfrdPx
+
+Your left side vertical bar should now show each file and where that variable is used. Click through the files.
