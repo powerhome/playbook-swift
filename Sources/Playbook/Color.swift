@@ -37,9 +37,9 @@ public extension Color {
     static let pbSuccess         = Color("Green", bundle: .module)
     static let pbWarning         = Color("Yellow", bundle: .module)
     /** Status Error light: #FF2229  dark: #FF2229 */
-    static let pbError           = Color("Red", bundle: .module)
+    static let pbError           = Color("Error", bundle: .module)
     static let pbInfo            = Color("Teal", bundle: .module)
-    static let pbNeutral         = Color("Neutral", bundle: .module)
+    static let pbNeutral         = Color("Slate", bundle: .module)
 
     // MARK: Actions
     /** light: #0056CF  dark: #0055CF */
@@ -96,6 +96,9 @@ public extension Color {
     static let pbCategoryNineteen  = Color("Category19", bundle: .module)
     static let pbCategoryTwenty    = Color("Category20", bundle: .module)
     static let pbCategoryTwentyOne = Color("Category21", bundle: .module)
+    
+    // MARK: Data Colors
+    
 }
 
 public extension Color {
