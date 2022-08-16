@@ -72,7 +72,7 @@ public extension Color {
     static let pbSolar           = Color("Green", bundle: .module)
     static let pbRoofing         = Color("Slate", bundle: .module)
     static let pbGutters         = Color("Purple", bundle: .module)
-    static let pbAtticInsulation = Color("Red", bundle: .module)
+    static let pbInsulation      = Color("Red", bundle: .module)
 
     // MARK: Category Colors
     static let pbCategoryOne       = Color("Royal", bundle: .module)
@@ -98,7 +98,14 @@ public extension Color {
     static let pbCategoryTwentyOne = Color("Category21", bundle: .module)
     
     // MARK: Data Colors
-    
+    static let pbDataOne    = Color("Royal", bundle: .module)
+    static let pbDataTwo    = Color("Yellow", bundle: .module)
+    static let pbDataThree  = Color("Purple", bundle: .module)
+    static let pbDataFour   = Color("Green", bundle: .module)
+    static let pbDataFive   = Color("Orange", bundle: .module)
+    static let pbDataSix    = Color("Data6", bundle: .module)
+    static let pbDataSeven  = Color("Teal", bundle: .module)
+    static let pbDataEight  = Color("Red", bundle: .module)
 }
 
 public extension Color {
@@ -106,7 +113,7 @@ public extension Color {
     // MARK: Grouped Colors
 
     static let pbCategoryColors: [Color] = [.pbCategoryOne, .pbCategoryTwo, .pbCategoryThree, .pbCategoryFour, .pbCategoryFive, .pbCategorySix, .pbCategorySeven, .pbCategoryEight, .pbCategoryNine, .pbCategoryTen, .pbCategoryEleven, .pbCategoryTwelve, .pbCategoryThirteen, .pbCategoryTFourteen, .pbCategoryFifteen, .pbCategorySixteen, .pbCategorySeventeen, .pbCategoryEighteen, .pbCategoryNineteen, .pbCategoryTwenty, .pbCategoryTwentyOne]
-    static let pbProductColors: [Color]  = [.pbWindows, .pbSiding, .pbDoors, .pbSolar, .pbRoofing, .pbGutters, .pbAtticInsulation]
+    static let pbProductColors: [Color]  = [.pbWindows, .pbSiding, .pbDoors, .pbSolar, .pbRoofing, .pbGutters, .pbInsulation]
     static let pbStatusColors: [Color]   = [.pbSuccess, .pbWarning, .pbError, .pbInfo, .pbNeutral]
     static let pbBackgroundColors: [Color]     = [.pbBackground, .pbNavigationPrimary, .pbNavigationSecondary]
     static let pbTextColors: [Color]     = [.pbTextDefault, .pbTextLight, .pbTextLighter]
