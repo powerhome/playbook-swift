@@ -123,6 +123,9 @@ public extension Color {
     static let pbDataSix    = Color("Data6", bundle: .module)
     static let pbDataSeven  = Color("Teal", bundle: .module)
     static let pbDataEight  = Color("Red", bundle: .module)
+    
+    // MARK: Focus Colors
+    static let pbFocusColor = Color("Focus", bundle: .module)
 }
 
 public extension Color {
