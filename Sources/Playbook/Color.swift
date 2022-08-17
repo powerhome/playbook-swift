@@ -88,7 +88,7 @@ public extension Color {
     static let pbCategoryEleven    = Color("Red", bundle: .module)
     static let pbCategoryTwelve    = Color("Category12", bundle: .module)
     static let pbCategoryThirteen  = Color("Category13", bundle: .module)
-    static let pbCategoryTFourteen = Color("Category14", bundle: .module)
+    static let pbCategoryFourteen = Color("Category14", bundle: .module)
     static let pbCategoryFifteen   = Color("Category15", bundle: .module)
     static let pbCategorySixteen   = Color("Category16", bundle: .module)
     static let pbCategorySeventeen = Color("Category17", bundle: .module)
@@ -112,7 +112,7 @@ public extension Color {
 
     // MARK: Grouped Colors
 
-    static let pbCategoryColors: [Color] = [.pbCategoryOne, .pbCategoryTwo, .pbCategoryThree, .pbCategoryFour, .pbCategoryFive, .pbCategorySix, .pbCategorySeven, .pbCategoryEight, .pbCategoryNine, .pbCategoryTen, .pbCategoryEleven, .pbCategoryTwelve, .pbCategoryThirteen, .pbCategoryTFourteen, .pbCategoryFifteen, .pbCategorySixteen, .pbCategorySeventeen, .pbCategoryEighteen, .pbCategoryNineteen, .pbCategoryTwenty, .pbCategoryTwentyOne]
+    static let pbCategoryColors: [Color] = [.pbCategoryOne, .pbCategoryTwo, .pbCategoryThree, .pbCategoryFour, .pbCategoryFive, .pbCategorySix, .pbCategorySeven, .pbCategoryEight, .pbCategoryNine, .pbCategoryTen, .pbCategoryEleven, .pbCategoryTwelve, .pbCategoryThirteen, .pbCategoryFourteen, .pbCategoryFifteen, .pbCategorySixteen, .pbCategorySeventeen, .pbCategoryEighteen, .pbCategoryNineteen, .pbCategoryTwenty, .pbCategoryTwentyOne]
     static let pbProductColors: [Color]  = [.pbWindows, .pbSiding, .pbDoors, .pbSolar, .pbRoofing, .pbGutters, .pbInsulation]
     static let pbStatusColors: [Color]   = [.pbSuccess, .pbWarning, .pbError, .pbInfo, .pbNeutral]
     static let pbBackgroundColors: [Color]     = [.pbBackground, .pbNavigationPrimary, .pbNavigationSecondary]
