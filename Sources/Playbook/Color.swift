@@ -36,18 +36,25 @@ public extension Color {
     // MARK: Status
     static let pbSuccess         = Color("Green", bundle: .module)
     static let pbWarning         = Color("Yellow", bundle: .module)
-    /** Status Error light: #FF2229  dark: #FF2229 */
+    /** Status Error light: #FF2229  dark: #FF4A50 */
     static let pbError           = Color("Error", bundle: .module)
     static let pbInfo            = Color("Teal", bundle: .module)
     static let pbNeutral         = Color("Slate", bundle: .module)
     //also uses pbPrimary ("Royal")
     /* Status Secondary Colors*/
+    /* #00FD91 */
     static let pbSuccessSecondary = Color("GreenLighten10", bundle: .module)
+    /* #FFCB2D */
     static let pbWarningSecondary = Color("YellowLighten10", bundle: .module)
+    /* #FF4F55 */
     static let pbErrorDarkBody = Color("ErrorDarkBody", bundle: .module)
+    /* #FF555A */
     static let pbErrorSecondary = Color("RedLighten10", bundle: .module)
+    /* #0BE9FF */
     static let pbInfoSecondary = Color("TealLighten10", bundle: .module)
+    /* #E0E6EA */
     static let pbNeutralSecondary = Color("SlateLighten10", bundle: .module)
+    /* #036CFF */
     static let pbPrimarySecondary = Color("RoyalLighten10", bundle: .module)
     
     // MARK: Status Color Text
@@ -55,7 +62,9 @@ public extension Color {
     static let pbErrorText = Color("Red", bundle: .module) /* Red for dark and light modes*/
     static let pbInfoText = Color("Teal", bundle: .module)
     static let pbPrimaryText = Color("Royal", bundle: .module)
+    /* #C69500 */
     static let pbWarningText = Color("YellowDarken10", bundle: .module)
+    /* #93A8B8 */
     static let pbNeutralText = Color("SlateDarken15", bundle: .module)
 
     // MARK: Actions
@@ -120,11 +129,13 @@ public extension Color {
     static let pbDataThree  = Color("Purple", bundle: .module)
     static let pbDataFour   = Color("Green", bundle: .module)
     static let pbDataFive   = Color("Orange", bundle: .module)
+    /** #144075 */
     static let pbDataSix    = Color("Data6", bundle: .module)
     static let pbDataSeven  = Color("Teal", bundle: .module)
     static let pbDataEight  = Color("Red", bundle: .module)
     
     // MARK: Focus Colors
+    /** light: #EEFBFF opacity 50%  Dark: #144075 opacity 50%    */
     static let pbFocusColor = Color("Focus", bundle: .module)
 }
 
