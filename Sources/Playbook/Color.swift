@@ -41,30 +41,30 @@ public extension Color {
     static let pbInfo            = Color("Teal", bundle: .module)
     static let pbNeutral         = Color("Slate", bundle: .module)
     //also uses pbPrimary ("Royal")
-    /* Status Secondary Colors*/
-    /* #00FD91 */
+    /** Status Secondary Colors*/
+    /** #00FD91 */
     static let pbSuccessSecondary = Color("GreenLighten10", bundle: .module)
-    /* #FFCB2D */
+    /** #FFCB2D */
     static let pbWarningSecondary = Color("YellowLighten10", bundle: .module)
-    /* #FF4F55 */
+    /** #FF4F55 */
     static let pbErrorDarkBody = Color("ErrorDarkBody", bundle: .module)
-    /* #FF555A */
+    /** #FF555A */
     static let pbErrorSecondary = Color("RedLighten10", bundle: .module)
-    /* #0BE9FF */
+    /** #0BE9FF */
     static let pbInfoSecondary = Color("TealLighten10", bundle: .module)
-    /* #E0E6EA */
+    /** #E0E6EA */
     static let pbNeutralSecondary = Color("SlateLighten10", bundle: .module)
-    /* #036CFF */
+    /** #036CFF */
     static let pbPrimarySecondary = Color("RoyalLighten10", bundle: .module)
     
     // MARK: Status Color Text
     static let pbSuccessText = Color("Green", bundle: .module)
-    static let pbErrorText = Color("Red", bundle: .module) /* Red for dark and light modes*/
+    static let pbErrorText = Color("Red", bundle: .module) /** Red for dark and light modes*/
     static let pbInfoText = Color("Teal", bundle: .module)
     static let pbPrimaryText = Color("Royal", bundle: .module)
-    /* #C69500 */
+    /** #C69500 */
     static let pbWarningText = Color("YellowDarken10", bundle: .module)
-    /* #93A8B8 */
+    /** #93A8B8 */
     static let pbNeutralText = Color("SlateDarken15", bundle: .module)
 
     // MARK: Actions
