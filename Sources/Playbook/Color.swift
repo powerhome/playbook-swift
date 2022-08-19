@@ -26,7 +26,6 @@ public extension Color {
     // MARK: Backgrounds
     static let pbBackground      = Color("Background", bundle: .module)
     /** light: #F3F7FB  dark: #0A0527 */
-    static let pbBackgroundLight = Color("BackgroundLight", bundle: .module)
     static let pbNavigationPrimary = Color("NavigationPrimary", bundle: .module)
     static let pbNavigationSecondary = Color("NavigationSecondary", bundle: .module)
 
