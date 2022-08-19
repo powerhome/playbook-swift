@@ -16,6 +16,8 @@ public extension Color {
     static let pbRoyal           = Color("Royal", bundle: .module)
     static let pbTeal            = Color("Teal", bundle: .module)
     static let pbYellow          = Color("Yellow", bundle: .module)
+    static let pbOrange          = Color("Orange", bundle: .module)
+    static let pbDefault          = Color("Default", bundle: .module)
 
     // MARK: Text Colors
     static let pbTextDefault     = Color("TextDefault", bundle: .module)
