@@ -71,8 +71,8 @@ public extension Color {
     static let pbPrimary         = Color("Royal", bundle: .module)
     static let pbSecondary       = Color("Yellow", bundle: .module)
     static let pbTertiary        = Color("Purple", bundle: .module)
-    /** light: #0056cf  dark: #0082ff */
-    static let pbPrimaryAction   = Color("PrimaryAction", bundle: .module)
+    /** same color as primary (royal) */
+    static let pbPrimaryAction   = Color("Royal", bundle: .module)
 
     // MARK: Mentions
     static let pbMention         = Color("Mention", bundle: .module)
