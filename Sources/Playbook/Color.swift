@@ -16,6 +16,8 @@ public extension Color {
     static let pbRoyal           = Color("Royal", bundle: .module)
     static let pbTeal            = Color("Teal", bundle: .module)
     static let pbYellow          = Color("Yellow", bundle: .module)
+    static let pbOrange          = Color("Orange", bundle: .module)
+    static let pbDefault          = Color("Default", bundle: .module)
 
     // MARK: Text Colors
     static let pbTextDefault     = Color("TextDefault", bundle: .module)
@@ -26,7 +28,6 @@ public extension Color {
     // MARK: Backgrounds
     static let pbBackground      = Color("Background", bundle: .module)
     /** light: #F3F7FB  dark: #0A0527 */
-    static let pbBackgroundLight = Color("BackgroundLight", bundle: .module)
     static let pbNavigationPrimary = Color("NavigationPrimary", bundle: .module)
     static let pbNavigationSecondary = Color("NavigationSecondary", bundle: .module)
 
@@ -72,8 +73,8 @@ public extension Color {
     static let pbPrimary         = Color("Royal", bundle: .module)
     static let pbSecondary       = Color("Yellow", bundle: .module)
     static let pbTertiary        = Color("Purple", bundle: .module)
-    /** light: #0056cf  dark: #0082ff */
-    static let pbPrimaryAction   = Color("PrimaryAction", bundle: .module)
+    /** same color as primary (royal) */
+    static let pbPrimaryAction   = Color("Royal", bundle: .module)
 
     // MARK: Mentions
     static let pbMention         = Color("Mention", bundle: .module)

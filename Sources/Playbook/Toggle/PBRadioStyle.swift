@@ -39,7 +39,7 @@ public struct PBRadioStyle: ToggleStyle {
                                          ? (colorScheme == .light
                                             ? .white
                                             : .pbTextDefault)
-                                         : .pbBackgroundLight)
+                                         : .pbBackground)
                         .opacity(configuration.isOn ? 1 : 0.05)
                 }
                 .buttonStyle(.borderless)
