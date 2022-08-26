@@ -13,16 +13,13 @@ public struct PBButtonStyle: ButtonStyle {
     var variant: PBButtonVariant = .primary
     var size: PBButtonSize = .medium
     var disabled: Bool = false
-    var fullWidth: Bool = false
     //
 
     public init(variant: PBButtonVariant? = .primary,
                 size: PBButtonSize? = .medium,
-                disabled: Bool? = false,
-                fullWidth: Bool? = false) {
+                disabled: Bool? = false) {
         self.variant = variant ?? self.variant
         self.disabled = disabled ?? self.disabled
-        self.fullWidth = fullWidth ?? self.fullWidth
         self.size = size ?? self.size
     }
 
@@ -40,7 +37,7 @@ public struct PBButtonStyle: ButtonStyle {
             }
             .padding(.vertical, size.verticalPadding())
             .padding(.horizontal, size.horizontalPadding())
-            .frame(minWidth: 0, maxWidth: fullWidth ? .infinity : nil, minHeight: size.minHeight())
+            .frame(minWidth: 0, minHeight: size.minHeight())
             .background(variant.backgroundColor(disabled))
             .foregroundColor(variant.foregroundColor(disabled))
             .cornerRadius(5)
@@ -147,9 +144,6 @@ struct PBButtonStyle_Previews: PreviewProvider {
                 Button("Button Link Disabled") {
                 }.buttonStyle(PBButtonStyle(variant: .link,
                                             disabled: true))
-                Button("Button Full Width") {
-                }.buttonStyle(PBButtonStyle(fullWidth: true))
-                
                 HStack {
                     Button("Cancel") {
                     }.buttonStyle(PBButtonStyle(variant: .secondary, size: .small))
