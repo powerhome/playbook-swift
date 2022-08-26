@@ -106,7 +106,7 @@ struct Typography_Previews: PreviewProvider {
             }
             VStack {
                 Text("Button Text")
-                    .pbFont(.buttonText)
+                    .pbFont(.buttonText())
             }
             VStack {
                 Text("Large Caption")
