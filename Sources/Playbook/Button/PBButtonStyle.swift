@@ -40,7 +40,7 @@ public struct PBButtonStyle: ButtonStyle {
             }
             .padding(.vertical, size.verticalPadding())
             .padding(.horizontal, size.horizontalPadding())
-            .frame(minWidth: 0, maxWidth: fullWidth ? .infinity : nil, minHeight: 40)
+            .frame(minWidth: 0, maxWidth: fullWidth ? .infinity : nil, minHeight: size.minHeight())
             .background(variant.backgroundColor(disabled))
             .foregroundColor(variant.foregroundColor(disabled))
             .cornerRadius(5)
@@ -119,6 +119,10 @@ public enum PBButtonSize {
     
     func horizontalPadding() -> CGFloat {
         return fontSize() * 2.42
+    }
+    
+    func minHeight() -> CGFloat {
+        return self == .small ? 36 : 40
     }
 }
 
