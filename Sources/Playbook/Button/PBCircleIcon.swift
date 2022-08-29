@@ -23,7 +23,7 @@ public struct PBCircleIcon: View {
       .frame(minWidth: 38, minHeight: 38)
       .background(variant.backgroundColor)
       .foregroundColor(variant.foregroundColor)
-      .font(.pb(.buttonText))
+      .font(.pb(.buttonText()))
       .clipShape(Circle())
   }
 }

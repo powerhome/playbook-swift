@@ -11,16 +11,16 @@ public struct PBButtonStyle: ButtonStyle {
 
     // MARK: Props
     var variant: PBButtonVariant = .primary
+    var size: PBButtonSize = .medium
     var disabled: Bool = false
-    var fullWidth: Bool = false
     //
 
     public init(variant: PBButtonVariant? = .primary,
-                disabled: Bool? = false,
-                fullWidth: Bool? = false) {
+                size: PBButtonSize? = .medium,
+                disabled: Bool? = false) {
         self.variant = variant ?? self.variant
         self.disabled = disabled ?? self.disabled
-        self.fullWidth = fullWidth ?? self.fullWidth
+        self.size = size ?? self.size
     }
 
     public func makeBody(configuration: Configuration) -> some View {
@@ -35,13 +35,13 @@ public struct PBButtonStyle: ButtonStyle {
                 }
                 #endif
             }
-            .padding(.vertical, 15)
-            .padding(.horizontal, 30)
-            .frame(minWidth: 0, maxWidth: fullWidth ? .infinity : nil)
+            .padding(.vertical, size.verticalPadding())
+            .padding(.horizontal, size.horizontalPadding())
+            .frame(minWidth: 0, minHeight: size.minHeight())
             .background(variant.backgroundColor(disabled))
             .foregroundColor(variant.foregroundColor(disabled))
-            .cornerRadius(4)
-            .font(.pb(.buttonText))
+            .cornerRadius(5)
+            .font(.pb(.buttonText(size)))
             .modifier(OnHover(disabled: disabled))
             .brightness(configuration.isPressed && !disabled ? 0.04 : 0.0)
     }
@@ -88,9 +88,38 @@ public enum PBButtonVariant {
         switch (self, disabled) {
         case (.primary, true): return Color.pbNeutral.opacity(0.4)
         case (.primary, false): return .pbPrimary
-        case (.secondary, _): return .pbBackground
+        case (.secondary, _): return Color.pbPrimary.opacity(0.05)
         case (.link, _): return .clear
         }
+    }
+}
+
+public enum PBButtonSize {
+    case small
+    case medium
+    case large
+    
+    func fontSize() -> CGFloat {
+        switch (self) {
+        case .small:
+            return 12
+        case .medium:
+            return 14
+        case .large:
+            return 18
+        }
+    }
+    
+    func verticalPadding() -> CGFloat {
+        return fontSize() / 2
+    }
+    
+    func horizontalPadding() -> CGFloat {
+        return fontSize() * 2.42
+    }
+    
+    func minHeight() -> CGFloat {
+        return self == .small ? 36 : 40
     }
 }
 
@@ -102,6 +131,7 @@ struct PBButtonStyle_Previews: PreviewProvider {
             VStack {
                 Button("Button Primary") {
                 }.buttonStyle(PBButtonStyle())
+                
                 Button("Button Primary Disabled") {
                 }.buttonStyle(PBButtonStyle(disabled: true))
                 Button("Button Secondary") {
@@ -114,8 +144,18 @@ struct PBButtonStyle_Previews: PreviewProvider {
                 Button("Button Link Disabled") {
                 }.buttonStyle(PBButtonStyle(variant: .link,
                                             disabled: true))
-                Button("Button Full Width") {
-                }.buttonStyle(PBButtonStyle(fullWidth: true))
+                HStack {
+                    Button("Cancel") {
+                    }.buttonStyle(PBButtonStyle(variant: .secondary, size: .small))
+                    
+                    Button("Save") {
+                    }.buttonStyle(PBButtonStyle(variant: .primary, size: .small))
+                }
+                Button("Button Primary Medium") {
+                }.buttonStyle(PBButtonStyle(variant: .primary, size: .medium))
+
+                Button("Button Primary Large") {
+                }.buttonStyle(PBButtonStyle(variant: .primary, size: .large))
             }.padding(.horizontal, 20)
         }
     }

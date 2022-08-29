@@ -1,5 +1,5 @@
 //
-//  Spinner.swift
+//  PBSpinner.swift
 //  
 //
 //  Created by Alexandre Hauber on 02/05/22.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-public struct Spinner: View {
+public struct PBSpinner: View {
 
     let innerColor: Color
     let ringColor: Color
     let ringSize: CGSize
     @State private var isAnimating: Bool = false
 
-    public init(ringColor: Color = .pbPrimary, innerColor: Color = .pbBorder, ringSize: CGSize = CGSize(width: 20, height: 20)) {
+    public init(ringColor: Color = .pbPrimary, innerColor: Color = .pbCard, ringSize: CGSize = CGSize(width: 20, height: 20)) {
         self.innerColor = innerColor
         self.ringColor = ringColor
         self.ringSize = ringSize
@@ -52,7 +52,7 @@ public struct Spinner: View {
 #if DEBUG || TEST
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        Spinner()
+        PBSpinner()
             .padding()
     }
 }
