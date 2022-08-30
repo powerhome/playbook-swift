@@ -17,10 +17,13 @@ extension PBIcon {
 
     public static func getFileIcon(fileType: String) -> FontAwesome {
         switch fileType {
-        case "csv": return FontAwesome.fileCsv
-        case "pdf": return FontAwesome.filePdf
-        case "zip": return FontAwesome.fileArchive
-        default: return FontAwesome.fileUpload
+            case "csv": return FontAwesome.fileCsv
+            case "doc", "docx" : return FontAwesome.fileWord
+            case "pdf": return FontAwesome.filePdf
+            case "ppt", "pptx": return FontAwesome.filePowerpoint
+            case "xls", "xlsx" : return FontAwesome.fileExcel
+            case "zip": return FontAwesome.fileArchive
+            default: return FontAwesome.fileUpload
         }
     }
 }
