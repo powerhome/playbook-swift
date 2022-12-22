@@ -36,6 +36,7 @@ public struct PBMessage<Content: View, Avatar: View>: View {
                         timestamp.padding(.leading, 8)
                     }
                 })
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: -15, trailing: 0))
                 content
             })
         })
