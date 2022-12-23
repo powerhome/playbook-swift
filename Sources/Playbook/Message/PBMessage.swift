@@ -27,16 +27,17 @@ public struct PBMessage<Content: View, Avatar: View>: View {
     public var body: some View {
         HStack(alignment: .top, spacing: nil, content: {
             avatar
-            VStack(alignment: .leading, spacing: nil, content: {
+            VStack(alignment: .leading, spacing: 0, content: {
                 HStack(alignment: .firstTextBaseline, spacing: 2, content: {
                     if let label = label, !label.isEmpty {
                         Text(label).pbFont(.title4)
                     }
                     if let timestamp = timestamp {
                         timestamp.padding(.leading, 8)
+                            .padding(.bottom, -4)
                     }
                 })
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: -15, trailing: 0))
+//                .padding(EdgeInsets(top: 0, leading: 0, bottom: -15, trailing: 0))
                 content
             })
         })
