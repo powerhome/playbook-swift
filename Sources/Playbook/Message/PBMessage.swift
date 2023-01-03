@@ -34,11 +34,13 @@ public struct PBMessage<Content: View, Avatar: View>: View {
                     }
                     if let timestamp = timestamp {
                         timestamp.padding(.leading, 8)
+                            .padding(.bottom, -4)
                     }
                 })
                 content
-
+                    .padding(.bottom, 4)
             })
+            .padding(.bottom, 4)
         })
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
     }
