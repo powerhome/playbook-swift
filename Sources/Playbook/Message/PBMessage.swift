@@ -37,8 +37,9 @@ public struct PBMessage<Content: View, Avatar: View>: View {
                             .padding(.bottom, -4)
                     }
                 })
-//                .padding(EdgeInsets(top: 0, leading: 0, bottom: -15, trailing: 0))
                 content
+                    .padding(.bottom,4)
+
             })
         })
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
@@ -50,7 +51,7 @@ struct PBMessage_Previews: PreviewProvider {
         registerFonts()
 
       return PBMessage(avatar: PBAvatar(image: Image("andrew", bundle: .module)), label: "Andrew Koeckler", timestamp: PBTimestamp(Date.init(), showDate: false)) {
-            Text("This below ir our great friend (and amazing dev), aka me, Andrew:").pbFont(.body)
+            Text("This below is our great friend (and amazing dev), aka me, Andrew:").pbFont(.body)
             Image("andrew", bundle: .module).resizable().frame(width: 240, height: 240)
         }
     }
