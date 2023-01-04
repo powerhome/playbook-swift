@@ -34,6 +34,7 @@ public struct PBMessage<Content: View, Avatar: View>: View {
                     }
                     if let timestamp = timestamp {
                         timestamp.padding(.leading, 8)
+                            .padding(.bottom, -4)
                     }
                 })
                 .padding(.bottom, -6)
