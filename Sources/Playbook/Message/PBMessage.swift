@@ -1,6 +1,6 @@
 //
 //  PBMessage.swift
-//  
+//
 //
 //  Created by Alexandre Hauber on 29/07/21.
 //
@@ -27,20 +27,18 @@ public struct PBMessage<Content: View, Avatar: View>: View {
     public var body: some View {
         HStack(alignment: .top, spacing: nil, content: {
             avatar
-            VStack(alignment: .leading, spacing: 0, content: {
+            VStack(alignment: .leading, spacing: nil, content: {
                 HStack(alignment: .firstTextBaseline, spacing: 2, content: {
                     if let label = label, !label.isEmpty {
                         Text(label).pbFont(.title4)
                     }
                     if let timestamp = timestamp {
                         timestamp.padding(.leading, 8)
-                            .padding(.bottom, -4)
                     }
                 })
+                .padding(.bottom, -6)
                 content
-                    .padding(.bottom, 4)
             })
-            .padding(.bottom, 4)
         })
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
     }
