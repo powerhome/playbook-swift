@@ -37,8 +37,9 @@ public struct PBMessage<Content: View, Avatar: View>: View {
                             .padding(.bottom, -4)
                     }
                 })
-                .padding(.bottom, -6)
+                .padding(.bottom, -2)
                 content
+                    .padding(.top, -2)
             })
         })
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
