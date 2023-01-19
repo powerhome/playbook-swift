@@ -47,13 +47,6 @@ public struct Typography: ViewModifier {
         }
     }
 
-    var kerning: CGFloat {
-        switch style {
-        case .caption:          return 1.12
-        default:                return 1
-        }
-    }
-
     var casing: Text.Case? {
         switch style {
         case .largeCaption, .caption: return .uppercase
@@ -68,7 +61,6 @@ public struct Typography: ViewModifier {
             .lineSpacing(spacing) // Only works between lines in a paragraph.
             .padding(.vertical, spacing) // Adds the space around the text block.
             .textCase(casing)
-            .kerning(kerning)
     }
 }
 
