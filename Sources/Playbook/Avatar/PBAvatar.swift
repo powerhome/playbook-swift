@@ -51,13 +51,11 @@ public struct PBAvatar: View {
             } else if additionalUser {
                 Text(name ?? "")
                     .tag("additionalUser")
-                    .font(.proximaNova(family: .bold,
-                                       size: size.fontSize))
+                    .pbFont(family: .bold, size: size.fontSize)
             } else if let initials = initials {
                 Text(initials)
                     .tag("monogram")
-                    .font(.proximaNova(family: .light,
-                                       size: size.fontSize))
+                    .pbFont(family: .light, size: size.fontSize)
             } else {
                 Image(systemName: "person")
                     .tag("fallback")
@@ -187,8 +185,6 @@ struct PBAvatar_Previews: PreviewProvider {
                 PBAvatar(name: "Tim Wenhold", size: .large, status: .online)
                 PBAvatar(name: "Tim Wenhold", size: .xLarge, status: .offline)
             }
-
-            PBAvatar(name: "+4", size: .medium, wrapped: true, additionalUser: true)
 
           PBAvatar(image: Image("andrew", bundle: .module), size: .large, shape: .roundedSquare)
         }
