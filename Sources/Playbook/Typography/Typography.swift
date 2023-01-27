@@ -101,7 +101,7 @@ struct Typography_Previews: PreviewProvider {
             }
             
             Section("Body") {
-                ForEach(TextSize.allCases, id: \.rawValue) { size in
+                ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
                     Text("Body: Text size \(Int(size.rawValue)) px")
                         .pbFont(.body(size))
                         .padding(6)

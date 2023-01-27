@@ -13,7 +13,7 @@ public enum PBFont: Equatable {
     case title2
     case title3
     case title4
-    case body(_ size: TextSize? = .base)
+    case body(_ size: TextSize.Body? = .base)
     case buttonText(_ size: CGFloat = PBButtonSize.medium.fontSize)
     case largeCaption
     case caption
@@ -24,38 +24,47 @@ public enum PBFont: Equatable {
     var font: Font {
         switch self {
         case .title1:
-            return Font.custom(ProximaNova.light.rawValue, size: 48, relativeTo: .largeTitle)
+            return Font.custom(ProximaNova.light.rawValue, size: TextSize.Title.title1.rawValue, relativeTo: .largeTitle)
         case .title2:
-            return Font.custom(ProximaNova.light.rawValue, size: 34, relativeTo: .title)
+            return Font.custom(ProximaNova.light.rawValue, size: TextSize.Title.title2.rawValue, relativeTo: .title)
         case .title3:
-            return Font.custom(ProximaNova.light.rawValue, size: TextSize.larger.rawValue, relativeTo: .title2)
+            return Font.custom(ProximaNova.light.rawValue, size: TextSize.Title.title3.rawValue, relativeTo: .title2)
         case .title4:
-            return Font.custom(ProximaNova.bold.rawValue, size: TextSize.base.rawValue, relativeTo: .title3)
+            return Font.custom(ProximaNova.bold.rawValue, size: TextSize.Title.title4.rawValue, relativeTo: .title3)
         case .body(let size):
-            return Font.custom(ProximaNova.light.rawValue, size: size?.rawValue ?? TextSize.base.rawValue, relativeTo: .body)
+            return Font.custom(ProximaNova.light.rawValue, size: size?.rawValue ?? TextSize.Body.base.rawValue, relativeTo: .body)
         case .buttonText(let size):
             return Font.custom(ProximaNova.bold.rawValue, size: size, relativeTo: .body)
         case .largeCaption:
-            return Font.custom(ProximaNova.regular.rawValue, size: TextSize.small.rawValue, relativeTo: .caption)
+            return Font.custom(ProximaNova.regular.rawValue, size: TextSize.Body.small.rawValue, relativeTo: .caption)
         case .caption:
-            return Font.custom(ProximaNova.semibold.rawValue, size: TextSize.smaller.rawValue, relativeTo: .caption2)
+            return Font.custom(ProximaNova.semibold.rawValue, size: TextSize.Body.smaller.rawValue, relativeTo: .caption2)
         case .subcaption:
-            return Font.custom(ProximaNova.regular.rawValue, size: TextSize.smaller.rawValue, relativeTo: .caption2)
+            return Font.custom(ProximaNova.regular.rawValue, size: TextSize.Body.smaller.rawValue, relativeTo: .caption2)
         case .monogram(let size):
             return Font.custom(ProximaNova.light.rawValue, size: size, relativeTo: .body)
         case .badgeText:
-            return Font.custom(ProximaNova.bold.rawValue, size: TextSize.smallest.rawValue, relativeTo: .body)
+            return Font.custom(ProximaNova.bold.rawValue, size: TextSize.Body.smallest.rawValue, relativeTo: .body)
         }
     }
 }
 
-public enum TextSize: CGFloat, CaseIterable {
-    case smallest = 11
-    case smaller = 12
-    case small = 14
-    case base = 16
-    case large = 20
-    case larger = 28
-    case largest = 32
-    case jumbo = 36
+public enum TextSize {
+    enum Title: CGFloat, CaseIterable  {
+        case title1 = 48
+        case title2 = 34
+        case title3 = 28
+        case title4 = 16
+    }
+    
+    public enum Body: CGFloat, CaseIterable  {
+        case smallest = 11
+        case smaller = 12
+        case small = 14
+        case base = 16
+        case large = 20
+        case larger = 28
+        case largest = 32
+        case jumbo = 36
+    }
 }
