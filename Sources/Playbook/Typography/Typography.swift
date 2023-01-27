@@ -86,8 +86,8 @@ struct Typography_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
         
-        return Group {
-            VStack {
+        return List {
+            Section("Title") {
                 Text("Title 1\nTitle 1")
                     .pbFont(.title1)
                 Text("Title 2\nTitle 2")
@@ -99,15 +99,24 @@ struct Typography_Previews: PreviewProvider {
                 Text("Title 4 Link Variant")
                     .pbFont(.title4, variant: .link)
             }
-            VStack {
-                Text("Body: The quick brown fox jumps over the lazy dog")
-                    .pbFont(.body())
+            
+            Section("Body") {
+                ForEach(TextSize.allCases, id: \.rawValue) { size in
+                    Text("Body: Text size \(Int(size.rawValue)) px")
+                        .pbFont(.body(size))
+                        .padding(6)
+                }
             }
-            VStack {
+            
+            Section("Components Text") {
                 Text("Button Text")
                     .pbFont(.buttonText())
+                
+                Text("Badge Text")
+                    .pbFont(.badgeText)
             }
-            VStack {
+            
+            Section("Caption") {
                 Text("Large Caption")
                     .pbFont(.largeCaption)
                 Text("Caption")

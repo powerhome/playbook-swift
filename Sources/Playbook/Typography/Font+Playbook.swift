@@ -49,7 +49,7 @@ public enum PBFont: Equatable {
     }
 }
 
-public enum TextSize: CGFloat {
+public enum TextSize: CGFloat, CaseIterable {
     case smallest = 11
     case smaller = 12
     case small = 14
