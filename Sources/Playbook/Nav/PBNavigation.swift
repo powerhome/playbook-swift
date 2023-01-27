@@ -118,19 +118,12 @@ struct PBNavigationItem<Content: View>: View {
             return .pbTextDefault
         }
 
-        var font: PBTextStyle {
+        var font: PBFont {
             if variant == .normal,
-               orientation == .horizontal {
-                return selectedFont
+               orientation == .horizontal || selected {
+                return .title4
             }
-            if selected, variant == .normal {
-                return selectedFont
-            }
-            return .body
-        }
-
-        var selectedFont: PBTextStyle {
-            return .title4
+            return .body(.base)
         }
 
         func makeBody(configuration: Configuration) -> some View {
@@ -138,7 +131,7 @@ struct PBNavigationItem<Content: View>: View {
                 configuration.icon
                     .foregroundColor(captionForegroundColor)
                 configuration.title
-                    .font(.pb(font))
+                    .pbFont(font)
                     .foregroundColor(captionForegroundColor)
             }
         }
@@ -207,13 +200,7 @@ public struct PBNavigation<Option: Equatable & Identifiable, Content: View>: Vie
         }
     }
 
-    var spacing: CGFloat {
-        if variant == .normal {
-            return 0
-        } else {
-            return 2
-        }
-    }
+    var spacing: CGFloat { return variant == .normal ? 0 : 2 }
 
     public var body: some View {
         if orientation == .horizontal {

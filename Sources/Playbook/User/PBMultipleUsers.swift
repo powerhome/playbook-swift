@@ -71,7 +71,6 @@ public extension PBMultipleUsers {
     }
 }
 
-#if DEBUG || TEST
 struct PBMultipleUsers_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
@@ -93,4 +92,3 @@ struct PBMultipleUsers_Previews: PreviewProvider {
         }).padding(.leading, 4)
     }
 }
-#endif

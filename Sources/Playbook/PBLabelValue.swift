@@ -25,7 +25,7 @@ public struct PBLabelValue: View {
         .pbFont(.title4)
       Text(value)
         .foregroundColor(.pbTextDefault)
-        .pbFont(.body)
+        .pbFont(.body())
     }
   }
 }

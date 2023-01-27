@@ -28,7 +28,7 @@ public struct PBSelect: ButtonStyle {
         HStack {
           configuration.label
             .frame(height: 44)
-            .pbFont(.body)
+            .pbFont(.body())
           Spacer()
           PBIcon.fontAwesome(.chevronDown)
             .foregroundColor(.pbTextDefault)

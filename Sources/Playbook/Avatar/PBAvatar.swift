@@ -8,32 +8,31 @@
 import SwiftUI
 
 public struct PBAvatar: View {
-
-  public enum Shape {
-    case circle
-    case roundedSquare
-  }
-
-  // MARK: Props
-  var image: Image?
-  var name: String?
-  var size: Size
-  var status: PresenceStatus?
-  var wrapped: Bool
-  var additionalUser: Bool
-  var shape: Shape
-  //
-
-  public init(image: Image? = nil, name: String? = nil, size: Size = .medium, status: PresenceStatus? = nil, wrapped: Bool = false, additionalUser: Bool = false, shape: Shape = .circle) {
-    self.image = image
-    self.name = name
-    self.size = size
-    self.status = status
-    self.wrapped = wrapped
-    self.additionalUser = additionalUser
-    self.shape = shape
-  }
-
+    
+    public enum Shape {
+        case circle
+        case roundedSquare
+    }
+    
+    // MARK: Props
+    var image: Image?
+    var name: String?
+    var size: Size
+    var status: PresenceStatus?
+    var wrapped: Bool
+    var additionalUser: Bool
+    var shape: Shape
+    
+    public init(image: Image? = nil, name: String? = nil, size: Size = .medium, status: PresenceStatus? = nil, wrapped: Bool = false, additionalUser: Bool = false, shape: Shape = .circle) {
+        self.image = image
+        self.name = name
+        self.size = size
+        self.status = status
+        self.wrapped = wrapped
+        self.additionalUser = additionalUser
+        self.shape = shape
+    }
+    
     var initials: String? {
         guard let name = name else { return nil }
         let names = name.split(separator: " ")
@@ -41,37 +40,35 @@ public struct PBAvatar: View {
         let lastNameInitial = String(names.last ?? " ").first
         return "\(firstNameInitial!.uppercased())\(lastNameInitial!.uppercased())"
     }
-
+    
     public var body: some View {
         ZStack {
-          Group {
-            if let image = image {
-                image
-                    .resizable()
-            } else if additionalUser {
-                Text(name ?? "")
-                    .tag("additionalUser")
-                    .font(.proximaNova(family: .bold,
-                                       size: size.fontSize))
-            } else if let initials = initials {
-                Text(initials)
-                    .tag("monogram")
-                    .font(.proximaNova(family: .light,
-                                       size: size.fontSize))
-            } else {
-                Image(systemName: "person")
-                    .tag("fallback")
-                    .font(.system(size: size.fontSize))
-
-            }
-          }.modifier(AvatarShape(diameter: size.diameter, additionalUser: image == nil && additionalUser, shape: shape))
-
+            Group {
+                if let image = image {
+                    image
+                        .resizable()
+                } else if additionalUser {
+                    Text(name ?? "")
+                        .tag("additionalUser")
+                        .pbFont(.buttonText(size.fontSize), color: .pbPrimary)
+                } else if let initials = initials {
+                    Text(initials)
+                        .tag("monogram")
+                        .pbFont(.monogram(size.fontSize), color: .white)
+                } else {
+                    Image(systemName: "person")
+                        .tag("fallback")
+                        .font(.system(size: size.fontSize))
+                    
+                }
+            }.modifier(AvatarShape(diameter: size.diameter, additionalUser: image == nil && additionalUser, shape: shape))
+            
             if wrapped {
                 Circle()
                     .strokeBorder(Color.pbBackground, lineWidth: 1)
                     .frame(width: size.diameter + 1, height: size.diameter + 1)
             }
-
+            
             if let statusColor = self.status?.color {
                 Circle()
                     .strokeBorder(Color.pbBackground, lineWidth: 2)
@@ -80,7 +77,6 @@ public struct PBAvatar: View {
                     .cornerRadius(size.diameter/2)
                     .offset(x: size.diameter/2 - size.diameter/9,
                             y: (size.diameter/2 - size.diameter/6) * size.statusYModifier)
-
             }
         }
     }
@@ -94,7 +90,7 @@ public extension PBAvatar {
         case medium
         case large
         case xLarge
-
+        
         var diameter: CGFloat {
             switch self {
             case .xxSmall: return 20
@@ -105,11 +101,11 @@ public extension PBAvatar {
             case .xLarge: return 100
             }
         }
-
+        
         var fontSize: CGFloat {
             return diameter * 0.38
         }
-
+        
         var statusYModifier: CGFloat {
             switch self {
             case .xxSmall, .xSmall, .small: return -1
@@ -117,12 +113,12 @@ public extension PBAvatar {
             }
         }
     }
-
+    
     enum PresenceStatus {
         case away
         case offline
         case online
-
+        
         var color: Color {
             switch self {
             case .online: return .pbSuccess
@@ -134,28 +130,28 @@ public extension PBAvatar {
 }
 
 private struct AvatarShape: ViewModifier {
-  var diameter: CGFloat
-  var additionalUser: Bool
-  var shape: PBAvatar.Shape
-
-  func radius() -> CGFloat {
-    switch shape {
-    case .circle:
-      return diameter/2
-    case .roundedSquare:
-      return 7
+    var diameter: CGFloat
+    var additionalUser: Bool
+    var shape: PBAvatar.Shape
+    
+    func radius() -> CGFloat {
+        switch shape {
+        case .circle:
+            return diameter/2
+        case .roundedSquare:
+            return 7
+        }
     }
-  }
-
-  func body(content: Content) -> some View {
-    content
-      .foregroundColor(additionalUser ? Color.pbPrimary : Color.white)
-      .frame(width: diameter,
-             height: diameter,
-             alignment: .center)
-      .background(additionalUser ? Color.pbShadow: Color.pbNeutral)
-      .cornerRadius(radius())
-  }
+    
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(additionalUser ? Color.pbPrimary : Color.white)
+            .frame(width: diameter,
+                   height: diameter,
+                   alignment: .center)
+            .background(additionalUser ? Color.pbShadow: Color.pbNeutral)
+            .cornerRadius(radius())
+    }
 }
 
 struct PBAvatar_Previews: PreviewProvider {

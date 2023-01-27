@@ -111,7 +111,7 @@ struct PBCollapsible_Previews: PreviewProvider {
             )
         }
         var content: some View {
-            Text(lorem).pbFont(.body)
+            Text(lorem).pbFont(.body())
         }
 
         var body: some View {

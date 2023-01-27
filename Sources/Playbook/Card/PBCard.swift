@@ -160,7 +160,6 @@ extension View {
 }
 
 // MARK: Preview
-#if DEBUG || TEST
 struct PBCard_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
@@ -172,17 +171,17 @@ struct PBCard_Previews: PreviewProvider {
             VStack(alignment: .leading, spacing: 8, content: {
                 Text("Default").pbFont(.caption)
                 PBCard {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
             }).padding().previewDisplayName("Default")
 
             VStack(alignment: .leading, spacing: 8, content: {
                 Text("Highlight").pbFont(.caption)
                 PBCard(highlight: .side) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(highlight: .top, highlightColor: .pbWarning) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
             }).padding().previewDisplayName("Highlight")
 
@@ -190,123 +189,122 @@ struct PBCard_Previews: PreviewProvider {
                 Text("Header cards").pbFont(.caption)
                 PBCard(padding: .pbNone) {
                     PBCardHeader {
-                        Text(text).pbFont(.body).padding(.pbSmall)
+                        Text(text).pbFont(.body()).padding(.pbSmall)
                     }
-                    Text(text).pbFont(.body).padding(.pbSmall)
+                    Text(text).pbFont(.body()).padding(.pbSmall)
                 }
                 PBCard(padding: .pbNone) {
                     PBCardHeader(color: .pbSiding) {
-                        Text(text).pbFont(.body).padding(.pbSmall)
+                        Text(text).pbFont(.body()).padding(.pbSmall)
                     }
-                    Text(text).pbFont(.body).padding(.pbSmall)
+                    Text(text).pbFont(.body()).padding(.pbSmall)
                 }
             }).padding().previewDisplayName("Header cards")
 
             VStack(alignment: .leading, spacing: nil, content: {
                 Text("Default").pbFont(.caption)
                 PBCard {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
               Text("Selected").pbFont(.caption)
                 PBCard(style: .selected) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
               Text("Error").pbFont(.caption)
               PBCard(style: .error) {
-                Text(text).pbFont(.body)
+                Text(text).pbFont(.body())
               }
             }).padding().previewDisplayName("Styles")
 
-            VStack(alignment: .leading, spacing: 8, content: {
+            VStack(alignment: .leading, content: {
                 Text("Padding size").pbFont(.caption)
                 PBCard(padding: .pbNone) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(padding: .pbXsmall) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(padding: .pbSmall) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(padding: .pbMedium) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(padding: .pbLarge) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(padding: .pbXlarge) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
             }).padding().previewDisplayName("Padding size")
 
-            VStack(alignment: .leading, spacing: 8, content: {
+            VStack(alignment: .leading, content: {
                 Text("Shadow").pbFont(.caption)
                 PBCard(shadow: .none) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(shadow: .deep) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }.padding(.top, 25)
                 PBCard(shadow: .deeper) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }.padding(.top, 25)
                 PBCard(shadow: .deepest) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }.padding(.top, 25)
             }).padding().previewDisplayName("Shadow")
 
             VStack(alignment: .leading, spacing: 8, content: {
                 Text("Separator & Content").pbFont(.caption)
                 PBCard(padding: .pbNone) {
-                    Text("Header").pbFont(.body).padding(.pbSmall)
+                    Text("Header").pbFont(.body()).padding(.pbSmall)
                     PBSectionSeparator()
-                    Text(loremIpsum).pbFont(.body).padding(.pbSmall)
+                    Text(loremIpsum).pbFont(.body()).padding(.pbSmall)
                     PBSectionSeparator()
-                    Text("Footer").pbFont(.body).padding(.pbSmall)
+                    Text("Footer").pbFont(.body()).padding(.pbSmall)
                 }
             }).padding().previewDisplayName("Separator & Content")
 
             VStack(alignment: .leading, spacing: 8, content: {
                 Text("No border & border radius").pbFont(.caption)
                 PBCard(border: false) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
 
                 PBCard(borderRadius: .none) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(borderRadius: .xSmall) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(borderRadius: .small) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(borderRadius: .medium) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(borderRadius: .large) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(borderRadius: .xLarge) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
                 PBCard(borderRadius: .rounded) {
-                    Text(text).pbFont(.body)
+                    Text(text).pbFont(.body())
                 }
             }).padding().previewDisplayName("No border & border radius")
 
             VStack(alignment: .leading, spacing: 0, content: {
                 PBCard(padding: .pbNone) {
                     PBCardHeader(color: .pbWindows) {
-                        Text("Andrew").foregroundColor(.pbTextLighter).pbFont(.body).padding(.pbSmall)
+                        Text("Andrew").foregroundColor(.pbTextLighter).pbFont(.body()).padding(.pbSmall)
                     }
                     Image("andrew", bundle: .module).resizable().frame(height: 240)
                     Text(loremIpsum).pbFont(.caption).padding(.pbSmall)
                     PBSectionSeparator()
-                    Text("A nice guy and great dev").pbFont(.body).padding(.pbSmall)
+                    Text("A nice guy and great dev").pbFont(.body()).padding(.pbSmall)
                 }
             }).frame(width: 240).previewDisplayName("Image")
         }
     }
 }
-#endif

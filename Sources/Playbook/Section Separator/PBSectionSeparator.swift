@@ -114,7 +114,7 @@ struct PBSectionSeparator_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
 
-        let loremIpsum = Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua").pbFont(.body).padding()
+        let loremIpsum = Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua").pbFont(.body()).padding()
 
         return Group {
             VStack(alignment: .leading, spacing: nil) {

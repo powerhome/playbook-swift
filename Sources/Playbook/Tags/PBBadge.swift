@@ -10,10 +10,9 @@ import SwiftUI
 public struct PBBadge: View {
 
     // MARK: Props
-    var text: String // mandatory
+    var text: String
     var rounded: Bool
     var variant: Variant
-    //
 
     public init(text: String, rounded: Bool = false, variant: Variant = .primary) {
         self.text = text
@@ -23,12 +22,11 @@ public struct PBBadge: View {
 
     public var body: some View {
         Text(text)
+            .padding(EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4))
             .frame(minWidth: 8)
-            .padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
             .foregroundColor(variant.foregroundColor())
             .background(variant.backgroundColor())
-            .font(.proximaNova(family: .bold,
-                               size: 12))
+            .pbFont(.badgeText)
             .cornerRadius(rounded ? 10 : 4)
     }
 }
@@ -66,7 +64,6 @@ public extension PBBadge {
 }
 
 // MARK: Preview
-#if DEBUG || TEST
 struct PBBadge_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
@@ -112,4 +109,3 @@ struct PBBadge_Previews: PreviewProvider {
         .previewDisplayName("Badges")
     }
 }
-#endif

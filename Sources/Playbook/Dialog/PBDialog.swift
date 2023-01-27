@@ -101,12 +101,12 @@ public struct PBDialog<Content: View>: View {
             VStack {
                 PBCard(padding: .pbNone) {
                     if let title = title {
-                        Text(title).tag("title").pbFont(.body).padding()
+                        Text(title).tag("title").pbFont(.body()).padding()
                         PBSectionSeparator()
                     }
 
                     if let text = text {
-                        Text(text).tag("text").pbFont(.body).lineLimit(nil)
+                        Text(text).tag("text").pbFont(.body()).lineLimit(nil)
                             .fixedSize(horizontal: false, vertical: true).padding()
                     }
 
@@ -243,7 +243,7 @@ struct PBBDialog_Previews: PreviewProvider {
                     PBSectionSeparator()
 
                   PBMessage(avatar: PBAvatar(name: "Andrew Koeckler"), label: "Andrew Koeckler", timestamp: PBTimestamp(Date(), showDate: false)) {
-                        Text(message).pbFont(.body)
+                      Text(message).pbFont(.body())
                     }.padding()
                     HStack {
                         Button {

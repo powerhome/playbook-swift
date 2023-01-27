@@ -96,7 +96,7 @@ public struct PBRadioButtonStyle: ButtonStyle {
       VStack(alignment: .leading, spacing: 4) {
         configuration.label
           .foregroundColor(.pbTextDefault)
-          .pbFont(.body)
+          .pbFont(.body())
           .frame(minHeight: 22)
         if !subtitle.isEmpty {
           Text(subtitle)

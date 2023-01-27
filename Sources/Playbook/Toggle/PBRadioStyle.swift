@@ -53,7 +53,7 @@ public struct PBRadioStyle: ToggleStyle {
             if !labelsHidden {
                 configuration.label
                     .foregroundColor(.pbTextLight)
-                    .pbFont(.body)
+                    .pbFont(.body())
             }
         }
     }

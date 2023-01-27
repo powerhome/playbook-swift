@@ -46,7 +46,6 @@ public extension PBMultipleUsersStacked {
 }
 
 // MARK: Preview
-#if DEBUG || TEST
 struct PBMultipleUsersStacked_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
@@ -64,4 +63,3 @@ struct PBMultipleUsersStacked_Previews: PreviewProvider {
         }
     }
 }
-#endif

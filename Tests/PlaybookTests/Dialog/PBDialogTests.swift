@@ -44,7 +44,7 @@ final class PBDialogTests: XCTestCase {
             Text("Complex title").tag("complexTitle")
 
             PBMessage(avatar: PBAvatar(name: "Andrew Koeckler"), label: "Andrew Koeckler", timestamp: PBTimestamp(Date(), showDate: false)) {
-                Text("Complex text").pbFont(.body).tag("complexText")
+                Text("Complex text").pbFont(.body()).tag("complexText")
             }
             HStack {
                 Button {

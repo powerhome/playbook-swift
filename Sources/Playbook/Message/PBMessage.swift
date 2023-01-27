@@ -42,15 +42,14 @@ public struct PBMessage<Content: View, Avatar: View>: View {
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
     }
 }
-#if DEBUG
+
 struct PBMessage_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
 
       return PBMessage(avatar: PBAvatar(image: Image("andrew", bundle: .module)), label: "Andrew Koeckler", timestamp: PBTimestamp(Date.init(), showDate: false)) {
-            Text("This below ir our great friend (and amazing dev), aka me, Andrew:").pbFont(.body)
+          Text("This below ir our great friend (and amazing dev), aka me, Andrew:").pbFont(.body())
             Image("andrew", bundle: .module).resizable().frame(width: 240, height: 240)
         }
     }
 }
-#endif

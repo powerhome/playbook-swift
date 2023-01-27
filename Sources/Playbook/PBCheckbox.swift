@@ -41,15 +41,15 @@ public struct PBCheckboxButtonStyle: ButtonStyle {
           .frame(width: 22, height: 22)
         PBIcon.fontAwesome(.check, size: .small)
           .foregroundColor(Color.white)
-      }// :ZSTACK
+      }
       
       VStack(alignment: .leading, spacing: 4) {
         configuration.label
           .foregroundColor(.pbTextDefault)
-          .pbFont(.body)
+          .pbFont(.body())
           .frame(minHeight: 22)
-      }// : VSTACK
-    }// : HSTACK
+      }
+    }
     .frame(minWidth: 44, minHeight: 44)
     .contentShape(Rectangle())
   }

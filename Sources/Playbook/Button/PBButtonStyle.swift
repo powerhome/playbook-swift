@@ -41,7 +41,7 @@ public struct PBButtonStyle: ButtonStyle {
             .background(variant.backgroundColor(disabled))
             .foregroundColor(variant.foregroundColor(disabled))
             .cornerRadius(5)
-            .font(.pb(.buttonText(size)))
+            .pbFont(.buttonText(size.fontSize))
             .modifier(OnHover(disabled: disabled))
             .brightness(configuration.isPressed && !disabled ? 0.04 : 0.0)
     }
@@ -99,7 +99,7 @@ public enum PBButtonSize {
     case medium
     case large
     
-    func fontSize() -> CGFloat {
+    public var fontSize: CGFloat {
         switch (self) {
         case .small:
             return 12
@@ -111,11 +111,11 @@ public enum PBButtonSize {
     }
     
     func verticalPadding() -> CGFloat {
-        return fontSize() / 2
+        return fontSize / 2
     }
     
     func horizontalPadding() -> CGFloat {
-        return fontSize() * 2.42
+        return fontSize * 2.42
     }
     
     func minHeight() -> CGFloat {
