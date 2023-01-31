@@ -27,10 +27,9 @@ public struct PBMultipleUsersStacked: View {
                 PBAvatar(image: users[0].image, name: users[0].name, size: variant == .chat ? .xSmall : .xxSmall)
 
                 if users.count == 2 {
-                    PBAvatar(image: users[1].image, name: users[1].name, size: .xxSmall, wrapped: true).offset(x: 10, y: 10.0)
+                    PBAvatar(image: users[1].image, name: users[1].name, size: .xxSmall, wrapped: true).offset(x: 10, y: 10)
                 } else {
-                    PBAvatar(name: "+\(users.count - 1)", size: .xxSmall, wrapped: true, additionalUser: true)
-                        .offset(x: 10, y: 10.0)
+                    PBMultipleUsersIndicator(usersCount: users.count - 1, size: .xxSmall).offset(x: 10, y: 10)
                 }
             }
         }

@@ -21,11 +21,11 @@ final class PBAvatarTests: XCTestCase {
 
     // if additionalUser = true, uses the full name, when = false, use monogram and the initials
     func testAdditionalUser() throws {
-        let subject = PBAvatar(name: "+2", additionalUser: true)
+        let subject = PBAvatar(name: "+2")
         let additionalUser = try subject.inspect().find(viewWithTag: "additionalUser").text().string()
         XCTAssertEqual(additionalUser, "+2")
 
-        let subject2 = PBAvatar(name: "+2", additionalUser: false)
+        let subject2 = PBAvatar(name: "+2")
         let additionalUser2 = try subject2.inspect().find(viewWithTag: "monogram").text().string()
         XCTAssertNotEqual(additionalUser2, "+2")
     }
