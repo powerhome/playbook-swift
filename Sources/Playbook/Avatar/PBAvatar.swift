@@ -71,7 +71,7 @@ public struct PBAvatar: View {
 }
 
 public extension PBAvatar {
-    enum Size {
+    enum Size: CaseIterable {
         case xxSmall
         case xSmall
         case small

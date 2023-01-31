@@ -35,9 +35,17 @@ public struct PBMultipleUsersIndicator: View {
         }
     }
 }
+
 struct PBMultipleUsersIndicator_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
-        return PBMultipleUsersIndicator(usersCount: 4, size: .small)
+        return List {
+            Section("Multiple Users Indicator") {
+                ForEach(PBAvatar.Size.allCases, id: \.self) { size in
+                    PBMultipleUsersIndicator(usersCount: 4, size: size)
+                }
+            }
+            .listRowSeparator(.hidden)
+        }
     }
 }
