@@ -39,6 +39,7 @@ public struct PBAvatar: View {
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
+                        .tag("userImage")
                 } else if let initials = initials {
                     Text(initials)
                         .tag("monogram")
