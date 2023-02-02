@@ -10,7 +10,6 @@ import SwiftUI
 public struct PBTextInputStyle: TextFieldStyle {
 
   public let title: String?
-
   public let style: PBCardStyle
 
   public init(_ title: String? = nil, style: PBCardStyle = .default) {
@@ -29,7 +28,7 @@ public struct PBTextInputStyle: TextFieldStyle {
           .padding(.leading, 16)
           .frame(height: 44)
           .foregroundColor(.pbTextDefault)
-          .pbFont(.body)
+          .pbFont(.body())
           .textFieldStyle(PlainTextFieldStyle())
       }
     }

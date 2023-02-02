@@ -61,6 +61,3 @@ final class PBNavTests: XCTestCase {
     }
 
 }
-
-extension PBNav: Inspectable {}
-extension PBNavItem: Inspectable {}

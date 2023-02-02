@@ -8,16 +8,15 @@
 import SwiftUI
 
 public struct PBButtonStyle: ButtonStyle {
-
-    // MARK: Props
     var variant: PBButtonVariant = .primary
     var size: PBButtonSize = .medium
     var disabled: Bool = false
-    //
 
-    public init(variant: PBButtonVariant? = .primary,
-                size: PBButtonSize? = .medium,
-                disabled: Bool? = false) {
+    public init(
+        variant: PBButtonVariant? = .primary,
+        size: PBButtonSize? = .medium,
+        disabled: Bool? = false
+    ) {
         self.variant = variant ?? self.variant
         self.disabled = disabled ?? self.disabled
         self.size = size ?? self.size
@@ -27,7 +26,7 @@ public struct PBButtonStyle: ButtonStyle {
         configuration.label
             .onHover { isHovering in
                 #if os(macOS)
-                if disabled { return }
+                guard !disabled else { return }
                 if isHovering {
                     NSCursor.pointingHand.push()
                 } else {
@@ -41,32 +40,8 @@ public struct PBButtonStyle: ButtonStyle {
             .background(variant.backgroundColor(disabled))
             .foregroundColor(variant.foregroundColor(disabled))
             .cornerRadius(5)
-            .font(.pb(.buttonText(size)))
-            .modifier(OnHover(disabled: disabled))
+            .pbFont(.buttonText(size.fontSize))
             .brightness(configuration.isPressed && !disabled ? 0.04 : 0.0)
-    }
-}
-
-struct OnHover: ViewModifier {
-    var disabled: Bool
-//    @State private var isHovering = false
-
-    func body(content: Content) -> some View {
-        content
-#if os(macOS)
-            .onHover { isHovering in
-              if isHovering {
-                NSCursor.pointingHand.push()
-              } else {
-                NSCursor.pop()
-              }
-              // the code below conflicts with pointingHand
-//                withAnimation(.easeInOut(duration: 0.2)) {
-//                    self.isHovering = isHovering
-//                }
-            }
-//            .brightness(isHovering && !disabled ? -0.04 : 0.0)
-#endif
     }
 }
 
@@ -98,9 +73,9 @@ public enum PBButtonSize {
     case small
     case medium
     case large
-    
-    func fontSize() -> CGFloat {
-        switch (self) {
+
+    public var fontSize: CGFloat {
+        switch self {
         case .small:
             return 12
         case .medium:
@@ -109,15 +84,15 @@ public enum PBButtonSize {
             return 18
         }
     }
-    
+
     func verticalPadding() -> CGFloat {
-        return fontSize() / 2
+        return fontSize / 2
     }
-    
+
     func horizontalPadding() -> CGFloat {
-        return fontSize() * 2.42
+        return fontSize * 2.42
     }
-    
+
     func minHeight() -> CGFloat {
         return self == .small ? 36 : 40
     }
@@ -129,34 +104,34 @@ struct PBButtonStyle_Previews: PreviewProvider {
 
         return Group {
             VStack {
-                Button("Button Primary") {
-                }.buttonStyle(PBButtonStyle())
-                
-                Button("Button Primary Disabled") {
-                }.buttonStyle(PBButtonStyle(disabled: true))
-                Button("Button Secondary") {
-                }.buttonStyle(PBButtonStyle(variant: .secondary))
-                Button("Button Secondary Disabled") {
-                }.buttonStyle(PBButtonStyle(variant: .secondary,
-                                            disabled: true))
-                Button("Button Link") {
-                }.buttonStyle(PBButtonStyle(variant: .link))
-                Button("Button Link Disabled") {
-                }.buttonStyle(PBButtonStyle(variant: .link,
-                                            disabled: true))
-                HStack {
-                    Button("Cancel") {
-                    }.buttonStyle(PBButtonStyle(variant: .secondary, size: .small))
-                    
-                    Button("Save") {
-                    }.buttonStyle(PBButtonStyle(variant: .primary, size: .small))
-                }
-                Button("Button Primary Medium") {
-                }.buttonStyle(PBButtonStyle(variant: .primary, size: .medium))
+                Button("Button Primary") {}
+                    .buttonStyle(PBButtonStyle())
+                Button("Button Primary Disabled") {}
+                    .buttonStyle(PBButtonStyle(disabled: true))
+                Button("Button Secondary") {}
+                    .buttonStyle(PBButtonStyle(variant: .secondary))
+                Button("Button Secondary Disabled") {}
+                    .buttonStyle(PBButtonStyle(variant: .secondary, disabled: true))
+                Button("Button Link") {}
+                    .buttonStyle(PBButtonStyle(variant: .link))
+                Button("Button Link Disabled") {}
+                    .buttonStyle(PBButtonStyle(variant: .link, disabled: true))
 
-                Button("Button Primary Large") {
-                }.buttonStyle(PBButtonStyle(variant: .primary, size: .large))
-            }.padding(.horizontal, 20)
+                HStack {
+                    Button("Cancel") {}
+                        .buttonStyle(PBButtonStyle(variant: .secondary, size: .small))
+
+                    Button("Save") {}
+                        .buttonStyle(PBButtonStyle(variant: .primary, size: .small))
+                }
+
+                Button("Button Primary Medium") {}
+                    .buttonStyle(PBButtonStyle(variant: .primary, size: .medium))
+
+                Button("Button Primary Large") {}
+                    .buttonStyle(PBButtonStyle(variant: .primary, size: .large))
+            }
+            .padding(.horizontal, 20)
         }
     }
 }

@@ -23,10 +23,3 @@ public enum ProximaNova: String {
     case thin = "ProximaNova-Thin"
     case thinit = "ProximaNova-ThinIt"
 }
-
-extension Font {
-    /// To use ProximaNova fonts directly with a custom size (i.e. Avatar kit)
-    public static func proximaNova(family: ProximaNova, size: CGFloat) -> Font {
-        return Font.custom(family.rawValue, size: size)
-    }
-}

@@ -8,13 +8,12 @@
 import SwiftUI
 
 public struct PBCollapsible<HeaderContent: View, Content: View>: View {
-
     @Binding private var isCollapsed: Bool
+    @State private var opacity = 1.0
     var indicatorPosition: IndicatorPosition
     var indicatorColor: Color
     var headerView: HeaderContent
     var contentView: Content
-    @State private var opacity = 1.0
 
     public init(isCollapsed: Binding<Bool> = .constant(false),
                 indicatorPosition: IndicatorPosition = .leading,
@@ -32,7 +31,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
         PBIcon.fontAwesome(.chevronDown, size: .small)
             .padding(.pbXxsmall)
             .foregroundColor(indicatorColor)
-            .animation(.easeOut)
+            .animation(.easeOut, value: true)
             .rotation3DEffect(
                 .degrees(isCollapsed ? 180 : 0),
                 axis: (x: 1.0, y: 1.0, z: 0.0)
@@ -61,7 +60,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
                 .padding(.bottom, .pbXsmall)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: isCollapsed ? 0 : .none)
                 .opacity(isCollapsed ? 0.4 : 1.0)
-                .animation(.easeOut)
+                .animation(.easeOut, value: true)
                 .clipped()
                 .transition(.moveBottom)
         }
@@ -85,15 +84,6 @@ extension AnyTransition {
     }
 }
 
-// MARK: - Preview
-let lorem = """
-Group members... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel erat sed purus hendrerit viverra. Duis et vestibulum metus. Sed consequat ut ante non vehicula.
-
-Etiam nunc massa, pharetra vel quam id, posuere rhoncus quam. Quisque imperdiet arcu enim, nec aliquet justo auctor eget. Curabitur in metus nec nunc rhoncus faucibus vitae ac elit. Nulla facilisi. Vestibulum quis pretium nulla. Nulla ut accumsan velit. Duis varius urna sed sem tempor, sit amet fermentum nibh auctor.
-
-Praesent lorem arcu, egestas non ante quis, placerat pellentesque lectus.Vestibulum lacinia ipsum quis venenatis tristique. Vivamus suscipit, libero eu fringilla egestas, orci urna commodo arcu, vel gravida turpis ipsum molestie nibh.
-"""
-
 struct PBCollapsible_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
@@ -104,6 +94,14 @@ struct PBCollapsible_Previews: PreviewProvider {
         @State var isCollapsed = false
         @State var isCollapsedTrailing = true
 
+        let lorem = """
+        Group members... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel erat sed purus hendrerit vive.
+
+        Etiam nunc massa, pharetra vel quam id, posuere rhoncus quam. Quisque imperdiet arcu enim, nec aliquet justo.
+
+        Praesent lorem arcu. Vivamus suscipit, libero eu fringilla egestas, orci urna commodo arcu, vel gravida turpis.
+        """
+
         var header: some View {
             Label(
                 title: { Text("Members").pbFont(.title4) },
@@ -111,7 +109,7 @@ struct PBCollapsible_Previews: PreviewProvider {
             )
         }
         var content: some View {
-            Text(lorem).pbFont(.body)
+            Text(lorem).pbFont(.body())
         }
 
         var body: some View {

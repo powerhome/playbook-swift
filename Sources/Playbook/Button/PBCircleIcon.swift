@@ -8,9 +8,7 @@
 import SwiftUI
 
 public struct PBCircleIcon: View {
-
   var icon: PBIcon
-
   var variant: PBCircleIcon.Variant
 
   public init(icon: PBIcon, variant: PBCircleIcon.Variant) {
@@ -23,7 +21,7 @@ public struct PBCircleIcon: View {
       .frame(minWidth: 38, minHeight: 38)
       .background(variant.backgroundColor)
       .foregroundColor(variant.foregroundColor)
-      .font(.pb(.buttonText()))
+      .pbFont(.buttonText())
       .clipShape(Circle())
   }
 }
@@ -58,10 +56,9 @@ struct PBCircleIcon_Previews: PreviewProvider {
 
     return VStack {
       VStack {
-        PBCircleIcon(icon: PBIcon(FontAwesome.plus, size: .small), variant: .secondary)
-
+          PBCircleIcon(icon: PBIcon(FontAwesome.plus, size: .small), variant: .secondary)
       }
       .background(Color.pbBackground)
-    }.preferredColorScheme(.light)
+    }
   }
 }

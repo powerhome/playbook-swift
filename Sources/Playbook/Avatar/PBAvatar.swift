@@ -8,31 +8,25 @@
 import SwiftUI
 
 public struct PBAvatar: View {
+    var image: Image?
+    var name: String?
+    var size: Size
+    var status: PresenceStatus?
+    var wrapped: Bool
 
-  public enum Shape {
-    case circle
-    case roundedSquare
-  }
-
-  // MARK: Props
-  var image: Image?
-  var name: String?
-  var size: Size
-  var status: PresenceStatus?
-  var wrapped: Bool
-  var additionalUser: Bool
-  var shape: Shape
-  //
-
-  public init(image: Image? = nil, name: String? = nil, size: Size = .medium, status: PresenceStatus? = nil, wrapped: Bool = false, additionalUser: Bool = false, shape: Shape = .circle) {
-    self.image = image
-    self.name = name
-    self.size = size
-    self.status = status
-    self.wrapped = wrapped
-    self.additionalUser = additionalUser
-    self.shape = shape
-  }
+    public init(
+        image: Image? = nil,
+        name: String? = nil,
+        size: Size = .medium,
+        status: PresenceStatus? = nil,
+        wrapped: Bool = false
+    ) {
+        self.image = image
+        self.name = name
+        self.size = size
+        self.status = status
+        self.wrapped = wrapped
+    }
 
     var initials: String? {
         guard let name = name else { return nil }
@@ -44,27 +38,22 @@ public struct PBAvatar: View {
 
     public var body: some View {
         ZStack {
-          Group {
-            if let image = image {
-                image
-                    .resizable()
-            } else if additionalUser {
-                Text(name ?? "")
-                    .tag("additionalUser")
-                    .font(.proximaNova(family: .bold,
-                                       size: size.fontSize))
-            } else if let initials = initials {
-                Text(initials)
-                    .tag("monogram")
-                    .font(.proximaNova(family: .light,
-                                       size: size.fontSize))
-            } else {
-                Image(systemName: "person")
-                    .tag("fallback")
-                    .font(.system(size: size.fontSize))
-
+            Group {
+                if let image = image {
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .tag("userImage")
+                } else if let initials = initials {
+                    Text(initials)
+                        .tag("monogram")
+                        .pbFont(.monogram(size.fontSize), color: .white)
+                }
             }
-          }.modifier(AvatarShape(diameter: size.diameter, additionalUser: image == nil && additionalUser, shape: shape))
+            .foregroundColor(.white)
+            .frame(width: size.diameter, height: size.diameter)
+            .background(Color.pbNeutral)
+            .clipShape(Circle())
 
             if wrapped {
                 Circle()
@@ -80,14 +69,13 @@ public struct PBAvatar: View {
                     .cornerRadius(size.diameter/2)
                     .offset(x: size.diameter/2 - size.diameter/9,
                             y: (size.diameter/2 - size.diameter/6) * size.statusYModifier)
-
             }
         }
     }
 }
 
 public extension PBAvatar {
-    enum Size {
+    enum Size: CaseIterable {
         case xxSmall
         case xSmall
         case small
@@ -133,37 +121,13 @@ public extension PBAvatar {
     }
 }
 
-private struct AvatarShape: ViewModifier {
-  var diameter: CGFloat
-  var additionalUser: Bool
-  var shape: PBAvatar.Shape
-
-  func radius() -> CGFloat {
-    switch shape {
-    case .circle:
-      return diameter/2
-    case .roundedSquare:
-      return 7
-    }
-  }
-
-  func body(content: Content) -> some View {
-    content
-      .foregroundColor(additionalUser ? Color.pbPrimary : Color.white)
-      .frame(width: diameter,
-             height: diameter,
-             alignment: .center)
-      .background(additionalUser ? Color.pbShadow: Color.pbNeutral)
-      .cornerRadius(radius())
-  }
-}
-
+@available(macOS 13.0, *)
 struct PBAvatar_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
 
-        return Group {
-            HStack {
+        return List {
+            Section("Default") {
                 PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online)
                 PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .away)
                 PBAvatar(image: Image("andrew", bundle: .module), size: .small, status: .online)
@@ -171,15 +135,9 @@ struct PBAvatar_Previews: PreviewProvider {
                 PBAvatar(image: Image("andrew", bundle: .module), size: .large, status: .online)
                 PBAvatar(image: Image("andrew", bundle: .module), size: .xLarge, status: .offline)
             }
-            HStack {
-                PBAvatar(size: .xxSmall, status: .online)
-                PBAvatar(size: .xSmall, status: .away)
-                PBAvatar(size: .small, status: .online)
-                PBAvatar(size: .medium, status: .away)
-                PBAvatar(size: .large, status: .online)
-                PBAvatar(size: .xLarge, status: .offline)
-            }
-            HStack {
+            .listRowSeparator(.hidden)
+
+            Section("Monogram") {
                 PBAvatar(name: "Tim Wenhold", size: .xxSmall, status: .online)
                 PBAvatar(name: "Tim Wenhold", size: .xSmall, status: .away)
                 PBAvatar(name: "Tim Wenhold", size: .small, status: .online)
@@ -187,10 +145,7 @@ struct PBAvatar_Previews: PreviewProvider {
                 PBAvatar(name: "Tim Wenhold", size: .large, status: .online)
                 PBAvatar(name: "Tim Wenhold", size: .xLarge, status: .offline)
             }
-
-            PBAvatar(name: "+4", size: .medium, wrapped: true, additionalUser: true)
-
-          PBAvatar(image: Image("andrew", bundle: .module), size: .large, shape: .roundedSquare)
+            .listRowSeparator(.hidden)
         }
     }
 }

@@ -26,5 +26,3 @@ final class PBUserTests: XCTestCase {
         XCTAssertNil(avatar)
     }
 }
-
-extension PBUser: Inspectable {}

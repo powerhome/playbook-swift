@@ -68,14 +68,14 @@ public struct PBNav: View {
 
     if variant == .subtle {
       HStack(spacing: variant.spacing) {
-        ForEach(views.indices) { index in
+          ForEach(views.indices, id: \.self) { index in
           item(views[index], index)
         }
       }
     } else {
       VStack(alignment: .leading, spacing: 0) {
         HStack(spacing: variant.spacing) {
-          ForEach(views.indices) { index in
+          ForEach(views.indices, id: \.self) { index in
             item(views[index], index)
               .contentShape(Rectangle())
           }
@@ -92,7 +92,7 @@ public struct PBNav: View {
 
   var verticalBody: some View {
     VStack(spacing: variant.spacing) {
-      ForEach(views.indices) { index in
+      ForEach(views.indices, id: \.self) { index in
         VStack(alignment: .leading, spacing: 0) {
           item(views[index], index)
 

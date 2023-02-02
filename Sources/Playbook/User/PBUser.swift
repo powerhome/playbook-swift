@@ -19,7 +19,7 @@ public struct PBUser: View {
   var title: String?
   //
 
-  var titleStyle: PBTextStyle {
+  var titleStyle: PBFont {
     switch size {
     case .large: return .title3
     default: return .title4
@@ -64,8 +64,7 @@ public struct PBUser: View {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.pbTextDefault)
-          bodyText
-            .font(.pbBody)
+          bodyText.pbFont(.body())
             .foregroundColor(.pbTextLight)
         })
       }
@@ -77,8 +76,7 @@ public struct PBUser: View {
         Text(name)
           .font(titleStyle.font)
           .foregroundColor(.pbTextDefault)
-        bodyText
-          .font(.pbBody)
+        bodyText.pbFont(.body())
           .foregroundColor(.pbTextLight)
       }
     }

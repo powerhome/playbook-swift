@@ -32,7 +32,7 @@ public struct PBTextArea: View {
           .padding(.horizontal, 12)
           .frame(height: 88)
           .foregroundColor(.pbTextDefault)
-          .pbFont(.body)
+          .pbFont(.body())
       }
     }
   }

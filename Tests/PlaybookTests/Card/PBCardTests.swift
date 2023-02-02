@@ -111,7 +111,3 @@ final class PBCardTests: XCTestCase {
     }
     //
 }
-
-extension PBCard: Inspectable {}
-extension PBCardHeader: Inspectable {}
-extension Spacer: Inspectable {}

@@ -13,14 +13,10 @@ public protocol PlaybookGenericIcon {
 }
 
 public struct PBIcon: View {
-
-    // MARK: Props
     var icon: PlaybookGenericIcon
     var size: Size
-    //
 
-    public init(_ icon: PlaybookGenericIcon,
-                size: Size = .medium) {
+    public init(_ icon: PlaybookGenericIcon, size: Size = .medium) {
         self.size = size
         self.icon = icon
     }
@@ -31,8 +27,8 @@ public struct PBIcon: View {
     }
 }
 
-extension PBIcon {
-    public enum Size {
+public extension PBIcon {
+    enum Size {
         /// 16
         case small
         /// 20
@@ -75,7 +71,6 @@ extension PBIcon {
     }
 }
 
-#if DEBUG || TEST
 struct PBIcon_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
@@ -101,8 +96,8 @@ struct PBIcon_Previews: PreviewProvider {
                     PBIcon.fontAwesome(.user, size: .x9)
                     PBIcon.fontAwesome(.user, size: .x10)
                 }
-            }.previewDisplayName("Icons")
+            }
+            .previewDisplayName("Icons")
         }
     }
 }
-#endif
