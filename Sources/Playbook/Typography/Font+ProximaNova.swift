@@ -30,3 +30,18 @@ extension Font {
         return Font.custom(family.rawValue, size: size)
     }
 }
+
+public extension View {
+    func pbFont(family: ProximaNova, size: CGFloat) -> some View {
+        modifier(PBFont(family: family, size: size))
+    }
+}
+
+public struct PBFont: ViewModifier {
+    let family: ProximaNova
+    let size: CGFloat
+    
+    public func body(content: Content) -> some View {
+        return content.font(.custom(family.rawValue, size: size)).padding(.bottom, -2.5)
+    }
+}
