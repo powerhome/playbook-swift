@@ -10,7 +10,6 @@ import SwiftUI
 import ViewInspector
 @testable import Playbook
 
-
 final class PBMultipleUsersStackedTests: XCTestCase {
     static let andrew = PBUser(name: "Andrew Kloecker")
     static let picAndrew = PBUser(name: "Andrew Kloecker", image: Image("andrew", bundle: .module))
@@ -23,13 +22,13 @@ final class PBMultipleUsersStackedTests: XCTestCase {
         let additionalUser = try subject.inspect().find(viewWithTag: "additionalUser").text().string()
         XCTAssertEqual(additionalUser, "+4")
     }
-    
+
     func testMultipleUsersImage() throws {
         let subject = PBMultipleUsersStacked(users: twoUsersWithImage)
         let userImage = try subject.inspect().find(viewWithTag: "userImage").image().actualImage()
         XCTAssertNotNil(userImage)
     }
-    
+
     func testMultipleUsersWithoutImage() throws {
         let subject = PBMultipleUsersStacked(users: twoUsersWithoutImage)
         let users = try subject.inspect().find(viewWithTag: "monogram").text().string()

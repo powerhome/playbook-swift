@@ -11,7 +11,7 @@ public struct Typography: ViewModifier {
     var font: PBFont
     var variant: Variant = .none
     var color: Color = .pbTextDefault
-    
+
     // if color is not allowed, return the default for the style
     var foregroundColor: Color {
         if !Color.pbTextColors.contains(color) {
@@ -37,7 +37,7 @@ public struct Typography: ViewModifier {
             }
         }
     }
-    
+
     // We don't have access to the UIFont.lineHeight here
     // which is needed to calculate the spacing between lines
     // so we tested values that replicate the desired lineHeights.
@@ -51,14 +51,14 @@ public struct Typography: ViewModifier {
         default: return 6
         }
     }
-    
+
     var casing: Text.Case? {
         switch font {
         case .largeCaption, .caption: return .uppercase
         default: return nil
         }
     }
-    
+
     public func body(content: Content) -> some View {
         content
             .font(font.font)
@@ -77,7 +77,11 @@ public extension Typography {
 }
 
 public extension View {
-    func pbFont(_ font: PBFont, variant: Typography.Variant = .none, color: Color = .pbTextDefault) -> some View {
+    func pbFont(
+        _ font: PBFont,
+        variant: Typography.Variant = .none,
+        color: Color = .pbTextDefault
+    ) -> some View {
         self.modifier(Typography(font: font, variant: variant, color: color))
     }
 }
@@ -85,7 +89,7 @@ public extension View {
 struct Typography_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
-        
+
         return List {
             Section("Title") {
                 Text("Title 1\nTitle 1")
@@ -99,7 +103,7 @@ struct Typography_Previews: PreviewProvider {
                 Text("Title 4 Link Variant")
                     .pbFont(.title4, variant: .link)
             }
-            
+
             Section("Body") {
                 ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
                     Text("Body: Text size \(Int(size.rawValue)) px")
@@ -107,15 +111,15 @@ struct Typography_Previews: PreviewProvider {
                         .padding(6)
                 }
             }
-            
+
             Section("Components Text") {
                 Text("Button Text")
                     .pbFont(.buttonText())
-                
+
                 Text("Badge Text")
                     .pbFont(.badgeText)
             }
-            
+
             Section("Caption") {
                 Text("Large Caption")
                     .pbFont(.largeCaption)

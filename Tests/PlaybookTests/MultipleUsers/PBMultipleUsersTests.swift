@@ -10,7 +10,6 @@ import SwiftUI
 import ViewInspector
 @testable import Playbook
 
-
 final class PBMultipleUsersTests: XCTestCase {
     static let andrew = PBUser(name: "Andrew Kloecker")
     static let picAndrew = PBUser(name: "Andrew Kloecker", image: Image("andrew", bundle: .module))

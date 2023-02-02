@@ -10,7 +10,7 @@ import SwiftUI
 public struct PBMultipleUsersIndicator: View {
     let usersCount: Int?
     var size: PBAvatar.Size
-    
+
     public var body: some View {
         if let count = usersCount, count != 0 {
             Text("+\(count)")
@@ -21,11 +21,11 @@ public struct PBMultipleUsersIndicator: View {
                 .frame(width: size.diameter)
                 .background(Color.pbShadow)
                 .clipShape(Circle())
-                .background() {
+                .background {
                     Circle()
                         .foregroundColor(.white)
                         .frame(width: size.diameter)
-                    
+
                 }
                 .overlay {
                     Circle()
@@ -36,6 +36,7 @@ public struct PBMultipleUsersIndicator: View {
     }
 }
 
+@available(macOS 13.0, *)
 struct PBMultipleUsersIndicator_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
