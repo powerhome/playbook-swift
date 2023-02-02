@@ -10,7 +10,6 @@ import SwiftUI
 public struct PBLabelValue: View {
 
   private let label: String
-
   private let value: String
 
   public init(_ label: String, _ value: String) {
@@ -25,7 +24,7 @@ public struct PBLabelValue: View {
         .pbFont(.title4)
       Text(value)
         .foregroundColor(.pbTextDefault)
-        .pbFont(.body)
+        .pbFont(.body())
     }
   }
 }

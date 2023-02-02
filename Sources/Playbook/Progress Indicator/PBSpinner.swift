@@ -14,7 +14,11 @@ public struct PBSpinner: View {
     let ringSize: CGSize
     @State private var isAnimating: Bool = false
 
-    public init(ringColor: Color = .pbPrimary, innerColor: Color = .pbCard, ringSize: CGSize = CGSize(width: 20, height: 20)) {
+    public init(
+        ringColor: Color = .pbPrimary,
+        innerColor: Color = .pbCard,
+        ringSize: CGSize = CGSize(width: 20, height: 20)
+    ) {
         self.innerColor = innerColor
         self.ringColor = ringColor
         self.ringSize = ringSize
@@ -29,8 +33,12 @@ public struct PBSpinner: View {
 
             Circle()
                 .trim(from: 0.3, to: 1)
-                .stroke(LinearGradient(gradient: Gradient(colors: [.pbPrimary, .pbPrimary.opacity(0.75)]), startPoint: .topTrailing, endPoint: .bottomLeading),
-                        style: StrokeStyle(lineWidth: 4, lineCap: .round)
+                .stroke(
+                    LinearGradient(
+                        gradient: Gradient(colors: [.pbPrimary, .pbPrimary.opacity(0.75)]),
+                        startPoint: .topTrailing, endPoint: .bottomLeading
+                    ),
+                    style: StrokeStyle(lineWidth: 4, lineCap: .round)
                 )
                 .rotationEffect(Angle(degrees: isAnimating ? 360 : 0))
                 .frame(width: ringSize.width, height: ringSize.height)
@@ -49,11 +57,9 @@ public struct PBSpinner: View {
 }
 
 // MARK: Preview
-#if DEBUG || TEST
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         PBSpinner()
             .padding()
     }
 }
-#endif

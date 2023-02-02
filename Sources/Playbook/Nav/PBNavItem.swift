@@ -67,17 +67,17 @@ public struct PBNavItem: View {
     return .pbTextDefault
   }
 
-  var font: PBTextStyle {
+  var font: PBFont {
     if variant == .normal, orientation == .horizontal {
       return selectedFont
     }
     if isSelected, variant == .normal {
       return selectedFont
     }
-    return .body
+      return .body(.base)
   }
 
-  var selectedFont: PBTextStyle {
+  var selectedFont: PBFont {
     return .title4
   }
 

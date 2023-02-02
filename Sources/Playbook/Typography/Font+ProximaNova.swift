@@ -23,25 +23,3 @@ public enum ProximaNova: String {
     case thin = "ProximaNova-Thin"
     case thinit = "ProximaNova-ThinIt"
 }
-
-extension Font {
-    /// To use ProximaNova fonts directly with a custom size (i.e. Avatar kit)
-    public static func proximaNova(family: ProximaNova, size: CGFloat) -> Font {
-        return Font.custom(family.rawValue, size: size)
-    }
-}
-
-public extension View {
-    func pbFont(family: ProximaNova, size: CGFloat) -> some View {
-        modifier(PBFont(family: family, size: size))
-    }
-}
-
-public struct PBFont: ViewModifier {
-    let family: ProximaNova
-    let size: CGFloat
-    
-    public func body(content: Content) -> some View {
-        return content.font(.custom(family.rawValue, size: size)).padding(.bottom, -2.5)
-    }
-}

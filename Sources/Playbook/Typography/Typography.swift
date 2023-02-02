@@ -8,25 +8,29 @@
 import SwiftUI
 
 public struct Typography: ViewModifier {
-    var style: PBTextStyle
+    var font: PBFont
     var variant: Variant = .none
     var color: Color = .pbTextDefault
 
     // if color is not allowed, return the default for the style
     var foregroundColor: Color {
         if !Color.pbTextColors.contains(color) {
-            switch style {
+            switch font {
             case .title4:
                 return variant == .link ? .pbPrimary : .pbTextDefault
             case .subcaption:
                 return variant == .link ? .pbPrimary : .pbTextLight
             case .caption, .largeCaption:
                 return .pbTextLight
+            case .monogram:
+                return color
+            case .buttonText:
+                return color
             default:
                 return .pbTextDefault
             }
         } else {
-            if [.title4, .subcaption].contains(style), variant == .link {
+            if [.title4, .subcaption].contains(font), variant == .link {
                 return .pbPrimary
             } else {
                 return color
@@ -38,17 +42,18 @@ public struct Typography: ViewModifier {
     // which is needed to calculate the spacing between lines
     // so we tested values that replicate the desired lineHeights.
     var spacing: CGFloat {
-        switch style {
-        case .title1:           return 3
-        case .title2:           return -1
-        case .title3, .title4:  return 2
-        case .body:             return 0
-        default:                return 6
+        switch font {
+        case .title1: return 3
+        case .title2: return -1
+        case .title3, .title4: return 2
+        case .body, .badgeText: return 0
+        case .monogram: return 2.5
+        default: return 6
         }
     }
 
     var casing: Text.Case? {
-        switch style {
+        switch font {
         case .largeCaption, .caption: return .uppercase
         default: return nil
         }
@@ -56,7 +61,7 @@ public struct Typography: ViewModifier {
 
     public func body(content: Content) -> some View {
         content
-            .font(.pb(style))
+            .font(font.font)
             .foregroundColor(foregroundColor)
             .lineSpacing(spacing) // Only works between lines in a paragraph.
             .padding(.vertical, spacing) // Adds the space around the text block.
@@ -72,14 +77,12 @@ public extension Typography {
 }
 
 public extension View {
-    
-    func pbFont(_ style: PBTextStyle,
-                variant: Typography.Variant = .none,
-                color: Color = .pbTextDefault) -> some View {
-
-        self.modifier(Typography(style: style,
-                                 variant: variant,
-                                 color: color))
+    func pbFont(
+        _ font: PBFont,
+        variant: Typography.Variant = .none,
+        color: Color = .pbTextDefault
+    ) -> some View {
+        self.modifier(Typography(font: font, variant: variant, color: color))
     }
 }
 
@@ -87,8 +90,8 @@ struct Typography_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
 
-        return Group {
-            VStack {
+        return List {
+            Section("Title") {
                 Text("Title 1\nTitle 1")
                     .pbFont(.title1)
                 Text("Title 2\nTitle 2")
@@ -100,15 +103,24 @@ struct Typography_Previews: PreviewProvider {
                 Text("Title 4 Link Variant")
                     .pbFont(.title4, variant: .link)
             }
-            VStack {
-                Text("Body: The quick brown fox jumps over the lazy dog")
-                    .pbFont(.body)
+
+            Section("Body") {
+                ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
+                    Text("Body: Text size \(Int(size.rawValue)) px")
+                        .pbFont(.body(size))
+                        .padding(6)
+                }
             }
-            VStack {
+
+            Section("Components Text") {
                 Text("Button Text")
                     .pbFont(.buttonText())
+
+                Text("Badge Text")
+                    .pbFont(.badgeText)
             }
-            VStack {
+
+            Section("Caption") {
                 Text("Large Caption")
                     .pbFont(.largeCaption)
                 Text("Caption")
@@ -118,8 +130,6 @@ struct Typography_Previews: PreviewProvider {
                 Text("Subcaption Link Variant")
                     .pbFont(.subcaption, variant: .link)
             }
-//            .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
-
         }
     }
 }

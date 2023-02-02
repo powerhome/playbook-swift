@@ -17,6 +17,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
         .package(url: "https://github.com/nalexn/ViewInspector", from: "0.9.1")
     ],
     targets: [
@@ -25,9 +26,8 @@ let package = Package(
         .target(
             name: "Playbook",
             dependencies: [],
-            resources: [
-                .process("Assets")
-            ]
+            resources: [.process("Assets")],
+            plugins: [.plugin(name: "SwiftLint", package: "SwiftLintPlugin")]
         ),
         .testTarget(
             name: "PlaybookTests",

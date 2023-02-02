@@ -36,5 +36,3 @@ final class PBPillTests: XCTestCase {
         XCTAssertEqual(try textBackgroundColor?.value(), Color.pbSuccess.opacity(0.12))
     }
 }
-
-extension PBPill: Inspectable {}

@@ -135,6 +135,3 @@ final class PBSectionSeparatorTests: XCTestCase {
     }
 
 }
-
-extension Divider: Inspectable {}
-extension PBSectionSeparator: Inspectable {}

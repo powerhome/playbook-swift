@@ -6,11 +6,8 @@
 //
 
 import SwiftUI
-// import Playbook
 
 public struct PBIconCircle: View {
-
-    // MARK: Props
     var icon: PlaybookGenericIcon
     var size: PBIcon.Size
     var color: Color
@@ -21,7 +18,6 @@ public struct PBIconCircle: View {
         self.color = color
     }
 
-    // MARK: View
     public var body: some View {
         ZStack {
             PBIcon(icon, size: size)
@@ -30,7 +26,6 @@ public struct PBIconCircle: View {
     }
 }
 
-// MARK: ViewModifier
 private struct IconCircle: ViewModifier {
     var diameter: CGFloat
     var color: Color
@@ -52,8 +47,6 @@ fileprivate extension View {
     }
 }
 
-// MARK: Preview
-#if DEBUG || TEST
 struct PBIconCircle_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
@@ -85,4 +78,3 @@ struct PBIconCircle_Previews: PreviewProvider {
         .previewDisplayName("IconCircles")
     }
 }
-#endif

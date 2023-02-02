@@ -8,7 +8,6 @@
 import SwiftUI
 
 public extension Color {
-
     // MARK: RGB Colors
     static let pbGreen           = Color("Green", bundle: .module)
     static let pbPurple          = Color("Purple", bundle: .module)
@@ -42,7 +41,7 @@ public extension Color {
     static let pbError           = Color("Error", bundle: .module)
     static let pbInfo            = Color("Teal", bundle: .module)
     static let pbNeutral         = Color("Slate", bundle: .module)
-    //also uses pbPrimary ("Royal")
+    // also uses pbPrimary ("Royal")
     /** Status Secondary Colors*/
     /** #00FD91 */
     static let pbSuccessSecondary = Color("GreenLighten10", bundle: .module)
@@ -58,7 +57,7 @@ public extension Color {
     static let pbNeutralSecondary = Color("SlateLighten10", bundle: .module)
     /** #036CFF */
     static let pbPrimarySecondary = Color("RoyalLighten10", bundle: .module)
-    
+
     // MARK: Status Color Text
     static let pbSuccessText = Color("Green", bundle: .module)
     static let pbErrorText = Color("Red", bundle: .module) /** Red for dark and light modes*/
@@ -124,7 +123,7 @@ public extension Color {
     static let pbCategoryNineteen  = Color("Category19", bundle: .module)
     static let pbCategoryTwenty    = Color("Category20", bundle: .module)
     static let pbCategoryTwentyOne = Color("Category21", bundle: .module)
-    
+
     // MARK: Data Colors
     static let pbDataOne    = Color("Royal", bundle: .module)
     static let pbDataTwo    = Color("Yellow", bundle: .module)
@@ -135,26 +134,87 @@ public extension Color {
     static let pbDataSix    = Color("Data6", bundle: .module)
     static let pbDataSeven  = Color("Teal", bundle: .module)
     static let pbDataEight  = Color("Red", bundle: .module)
-    
+
     // MARK: Focus Colors
     /** light: #EEFBFF opacity 50%  Dark: #144075 opacity 50%    */
     static let pbFocusColor = Color("Focus", bundle: .module)
 }
 
 public extension Color {
-
     // MARK: Grouped Colors
+    static let pbCategoryColors: [Color] = [
+        .pbCategoryOne,
+        .pbCategoryTwo,
+        .pbCategoryThree,
+        .pbCategoryFour,
+        .pbCategoryFive,
+        .pbCategorySix,
+        .pbCategorySeven,
+        .pbCategoryEight,
+        .pbCategoryNine,
+        .pbCategoryTen,
+        .pbCategoryEleven,
+        .pbCategoryTwelve,
+        .pbCategoryThirteen,
+        .pbCategoryFourteen,
+        .pbCategoryFifteen,
+        .pbCategorySixteen,
+        .pbCategorySeventeen,
+        .pbCategoryEighteen,
+        .pbCategoryNineteen,
+        .pbCategoryTwenty,
+        .pbCategoryTwentyOne
+    ]
 
-    static let pbCategoryColors: [Color] = [.pbCategoryOne, .pbCategoryTwo, .pbCategoryThree, .pbCategoryFour, .pbCategoryFive, .pbCategorySix, .pbCategorySeven, .pbCategoryEight, .pbCategoryNine, .pbCategoryTen, .pbCategoryEleven, .pbCategoryTwelve, .pbCategoryThirteen, .pbCategoryFourteen, .pbCategoryFifteen, .pbCategorySixteen, .pbCategorySeventeen, .pbCategoryEighteen, .pbCategoryNineteen, .pbCategoryTwenty, .pbCategoryTwentyOne]
-    static let pbProductColors: [Color]  = [.pbWindows, .pbSiding, .pbDoors, .pbSolar, .pbRoofing, .pbGutters, .pbInsulation]
-    static let pbStatusColors: [Color]   = [.pbSuccess, .pbWarning, .pbError, .pbInfo, .pbNeutral, .pbSuccessSecondary, .pbWarningSecondary, .pbErrorSecondary, .pbErrorDarkBody, .pbInfoSecondary, .pbPrimarySecondary, .pbNeutralSecondary, .pbPrimary]
-    static let pbBackgroundColors: [Color]     = [.pbBackground, .pbNavigationPrimary, .pbNavigationSecondary]
-    static let pbTextColors: [Color]     = [.pbTextDefault, .pbTextLight, .pbTextLighter]
-    static let pbStatusColorText: [Color] = [.pbSuccessText, .pbWarningText, .pbErrorText, .pbInfoText, .pbNeutralText, .pbPrimaryText]
+    static let pbProductColors: [Color] = [
+        .pbWindows,
+        .pbSiding,
+        .pbDoors,
+        .pbSolar,
+        .pbRoofing,
+        .pbGutters,
+        .pbInsulation
+    ]
+
+    static let pbStatusColors: [Color] = [
+        .pbSuccess,
+        .pbWarning,
+        .pbError,
+        .pbInfo,
+        .pbNeutral,
+        .pbSuccessSecondary,
+        .pbWarningSecondary,
+        .pbErrorSecondary,
+        .pbErrorDarkBody,
+        .pbInfoSecondary,
+        .pbPrimarySecondary,
+        .pbNeutralSecondary,
+        .pbPrimary
+    ]
+
+    static let pbBackgroundColors: [Color] = [
+        .pbBackground,
+        .pbNavigationPrimary,
+        .pbNavigationSecondary
+    ]
+
+    static let pbTextColors: [Color] = [
+        .pbTextDefault,
+        .pbTextLight,
+        .pbTextLighter
+    ]
+
+    static let pbStatusColorText: [Color] = [
+        .pbSuccessText,
+        .pbWarningText,
+        .pbErrorText,
+        .pbInfoText,
+        .pbNeutralText,
+        .pbPrimaryText
+    ]
 }
 
 extension Color {
-
   init(hex: String) {
     let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
     var int: UInt64 = 0

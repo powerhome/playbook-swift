@@ -17,7 +17,13 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     var content: () -> Content?
     //
 
-    public init(_ text: String? = nil, orientation: Orientation = .horizontal, variant: Variant = .card, dividerOpacity: CGFloat? = 1, @ViewBuilder content: @escaping () -> Content? = { nil }) {
+    public init(
+        _ text: String? = nil,
+        orientation: Orientation = .horizontal,
+        variant: Variant = .card,
+        dividerOpacity: CGFloat? = 1,
+        @ViewBuilder content: @escaping () -> Content? = { nil }
+    ) {
         self.text = text
         self.orientation = orientation
         self.variant = variant
@@ -32,8 +38,10 @@ public struct PBSectionSeparator<Content>: View where Content: View {
         case .bubble:
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.pbCard)
-                .overlay(RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.pbBorder, lineWidth: 1))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.pbBorder, lineWidth: 1)
+                )
                 .tag("Border")
         default: Color.clear
         }
@@ -42,11 +50,15 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     @ViewBuilder
     private var dividerView: some View {
         switch variant {
-        case .bubble: PBLine()
+        case .bubble:
+            PBLine()
                 .stroke(Color.pbBorder, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
                 .frame(height: 1)
                 .tag("Dashed divider")
-        default: Divider().background(Color.pbBorder).tag("Divider")
+        default:
+            Divider()
+                .background(Color.pbBorder)
+                .tag("Divider")
         }
     }
 
@@ -109,12 +121,15 @@ public extension PBSectionSeparator {
 }
 
 // MARK: Preview
-#if DEBUG || TEST
 struct PBSectionSeparator_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
 
-        let loremIpsum = Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua").pbFont(.body).padding()
+        let loremIpsum = Text(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
+        )
+            .pbFont(.body())
+            .padding()
 
         return Group {
             VStack(alignment: .leading, spacing: nil) {
@@ -147,4 +162,3 @@ struct PBSectionSeparator_Previews: PreviewProvider {
         }
     }
 }
-#endif
