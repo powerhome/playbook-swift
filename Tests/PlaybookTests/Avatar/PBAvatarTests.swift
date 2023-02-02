@@ -11,5 +11,3 @@ final class PBAvatarTests: XCTestCase {
         XCTAssertEqual(initials, "TF")
     }
 }
-
-extension PBAvatar: Inspectable {}

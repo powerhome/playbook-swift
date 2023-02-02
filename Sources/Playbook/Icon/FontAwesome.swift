@@ -17,13 +17,13 @@ extension PBIcon {
 
     public static func getFileIcon(fileType: String) -> FontAwesome {
         switch fileType {
-            case "csv": return FontAwesome.fileCsv
-            case "doc", "docx" : return FontAwesome.fileWord
-            case "pdf": return FontAwesome.filePdf
-            case "ppt", "pptx": return FontAwesome.filePowerpoint
-            case "xls", "xlsx" : return FontAwesome.fileExcel
-            case "zip": return FontAwesome.fileArchive
-            default: return FontAwesome.fileUpload
+        case "csv": return FontAwesome.fileCsv
+        case "doc", "docx": return FontAwesome.fileWord
+        case "pdf": return FontAwesome.filePdf
+        case "ppt", "pptx": return FontAwesome.filePowerpoint
+        case "xls", "xlsx": return FontAwesome.fileExcel
+        case "zip": return FontAwesome.fileArchive
+        default: return FontAwesome.fileUpload
         }
     }
 }
@@ -51,7 +51,7 @@ extension PBIcon {
 // THE SOFTWARE.
 // DO NOT EDIT! This file is auto-generated. To regenerate it, update
 // Font-Awesome submodule and run `./codegen.swift`.
-/// An enumaration of FontAwesome icon names.
+// An enumaration of FontAwesome icon names.
 // swiftlint:disable file_length type_body_length
 public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case fiveHundredPixels = "fa-500px"

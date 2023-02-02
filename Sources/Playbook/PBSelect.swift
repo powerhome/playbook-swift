@@ -8,16 +8,15 @@
 import SwiftUI
 
 public struct PBSelect: ButtonStyle {
-  
+
   let title: String
-  
   let style: PBCardStyle
-  
+
   public init(_ title: String, style: PBCardStyle) {
     self.title = title
     self.style = style
   }
-  
+
   public func makeBody(configuration: Configuration) -> some View {
     VStack(alignment: .leading, spacing: 4) {
       if let title = title {
@@ -44,7 +43,7 @@ struct PBSelect_Previews: PreviewProvider {
     registerFonts()
     return Group {
       Button("Burguers") {
-        
+
       }
       .buttonStyle(PBSelect("FAVORITE FOOD", style: .default))
       .preferredColorScheme(.light)

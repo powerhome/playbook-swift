@@ -17,13 +17,13 @@ public enum PBNavigationVariant {
 }
 
 struct PBNavigationItem<Content: View>: View {
+    @State var isHovering: Bool = false
+
     var selected: Bool
     var variant: PBNavigationVariant
     var orientation: PBNavigationOrientation
     var onTap: () -> Void
     var content: () -> Content
-
-    @State var isHovering: Bool = false
 
     var markerColor: Color {
         if isHovering {
@@ -38,8 +38,7 @@ struct PBNavigationItem<Content: View>: View {
 
     @ViewBuilder
     var selectionMarker: some View {
-        if variant == .subtle { EmptyView() }
-        else {
+        if variant == .subtle { EmptyView() } else {
             let marker = Rectangle()
                 .fill(markerColor)
 
@@ -140,10 +139,13 @@ struct PBNavigationItem<Content: View>: View {
     var body: some View {
         Button(action: onTap) {
             content()
-                .labelStyle(PBNavigationLabelStyle(selected: selected,
-                                                   variant: variant,
-                                                   orientation: orientation,
-                                                   isHovering: isHovering))
+                .labelStyle(
+                    PBNavigationLabelStyle(
+                        selected: selected,
+                        variant: variant,
+                        orientation: orientation,
+                        isHovering: isHovering)
+                )
                 .frame(maxWidth: maxWidth, alignment: .leading)
                 .padding(padding)
                 .onHover { isHovering = $0 }
@@ -158,7 +160,13 @@ struct PBNavigationItem<Content: View>: View {
 
 public struct PBNavigation<Option: Equatable & Identifiable, Content: View>: View {
 
-    public init(_ options: [Option], selected: Binding<Option>, variant: PBNavigationVariant = .normal, orientation: PBNavigationOrientation = .vertical, @ViewBuilder renderOption: @escaping (Option) -> Content) {
+    public init(
+        _ options: [Option],
+        selected: Binding<Option>,
+        variant: PBNavigationVariant = .normal,
+        orientation: PBNavigationOrientation = .vertical,
+        @ViewBuilder renderOption: @escaping (Option) -> Content
+    ) {
         self.options = options
         self.selected = selected
         self.variant = variant
@@ -176,16 +184,13 @@ public struct PBNavigation<Option: Equatable & Identifiable, Content: View>: Vie
     func item(_ option: Option) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 0) {
-                PBNavigationItem(selected: selected.wrappedValue == option,
-                                 variant: variant,
-                                 orientation: orientation,
-                                 onTap: {
-                    selected.wrappedValue = option
-                }) {
-                    HStack {
-                        renderOption(option)
-                    }
-                }
+                PBNavigationItem(
+                    selected: selected.wrappedValue == option,
+                    variant: variant,
+                    orientation: orientation,
+                    onTap: { selected.wrappedValue = option },
+                    content: { HStack { renderOption(option) } }
+                )
             }
 
             if orientation == .vertical, variant == .normal, border {

@@ -39,7 +39,4 @@ final class PBMessageTests: XCTestCase {
         XCTAssertNotNil(avatar)
         XCTAssertEqual(text, "Message test")
     }
-    //
 }
-
-extension PBMessage: Inspectable {}

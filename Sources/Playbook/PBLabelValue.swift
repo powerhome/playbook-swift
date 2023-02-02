@@ -10,7 +10,6 @@ import SwiftUI
 public struct PBLabelValue: View {
 
   private let label: String
-
   private let value: String
 
   public init(_ label: String, _ value: String) {

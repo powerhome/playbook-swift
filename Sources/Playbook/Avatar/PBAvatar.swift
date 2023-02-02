@@ -8,22 +8,26 @@
 import SwiftUI
 
 public struct PBAvatar: View {
-    
-    // MARK: Props
     var image: Image?
     var name: String?
     var size: Size
     var status: PresenceStatus?
     var wrapped: Bool
-    
-    public init(image: Image? = nil, name: String? = nil, size: Size = .medium, status: PresenceStatus? = nil, wrapped: Bool = false) {
+
+    public init(
+        image: Image? = nil,
+        name: String? = nil,
+        size: Size = .medium,
+        status: PresenceStatus? = nil,
+        wrapped: Bool = false
+    ) {
         self.image = image
         self.name = name
         self.size = size
         self.status = status
         self.wrapped = wrapped
     }
-    
+
     var initials: String? {
         guard let name = name else { return nil }
         let names = name.split(separator: " ")
@@ -31,7 +35,7 @@ public struct PBAvatar: View {
         let lastNameInitial = String(names.last ?? " ").first
         return "\(firstNameInitial!.uppercased())\(lastNameInitial!.uppercased())"
     }
-    
+
     public var body: some View {
         ZStack {
             Group {
@@ -50,13 +54,13 @@ public struct PBAvatar: View {
             .frame(width: size.diameter, height: size.diameter)
             .background(Color.pbNeutral)
             .clipShape(Circle())
-            
+
             if wrapped {
                 Circle()
                     .strokeBorder(Color.pbBackground, lineWidth: 1)
                     .frame(width: size.diameter + 1, height: size.diameter + 1)
             }
-            
+
             if let statusColor = self.status?.color {
                 Circle()
                     .strokeBorder(Color.pbBackground, lineWidth: 2)
@@ -78,7 +82,7 @@ public extension PBAvatar {
         case medium
         case large
         case xLarge
-        
+
         var diameter: CGFloat {
             switch self {
             case .xxSmall: return 20
@@ -89,11 +93,11 @@ public extension PBAvatar {
             case .xLarge: return 100
             }
         }
-        
+
         var fontSize: CGFloat {
             return diameter * 0.38
         }
-        
+
         var statusYModifier: CGFloat {
             switch self {
             case .xxSmall, .xSmall, .small: return -1
@@ -101,12 +105,12 @@ public extension PBAvatar {
             }
         }
     }
-    
+
     enum PresenceStatus {
         case away
         case offline
         case online
-        
+
         var color: Color {
             switch self {
             case .online: return .pbSuccess
@@ -117,10 +121,11 @@ public extension PBAvatar {
     }
 }
 
+@available(macOS 13.0, *)
 struct PBAvatar_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
-        
+
         return List {
             Section("Default") {
                 PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online)
@@ -131,7 +136,7 @@ struct PBAvatar_Previews: PreviewProvider {
                 PBAvatar(image: Image("andrew", bundle: .module), size: .xLarge, status: .offline)
             }
             .listRowSeparator(.hidden)
-            
+
             Section("Monogram") {
                 PBAvatar(name: "Tim Wenhold", size: .xxSmall, status: .online)
                 PBAvatar(name: "Tim Wenhold", size: .xSmall, status: .away)

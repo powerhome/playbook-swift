@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBRadioStyle: ToggleStyle {
-
     @Environment(\.colorScheme) var colorScheme
     @State var isHovering: Bool = false
     var labelsHidden: Bool
@@ -29,11 +28,11 @@ public struct PBRadioStyle: ToggleStyle {
                     )
                     .frame(width: 30, height: 30, alignment: .center)
 
-                Button(action: {
+                Button {
                     withAnimation(.easeInOut(duration: 0.25)) {
                         configuration.isOn.toggle()
                     }
-                }) {
+                } label: {
                     PBIcon.fontAwesome(.check, size: .medium)
                         .foregroundColor(configuration.isOn
                                          ? (colorScheme == .light

@@ -27,7 +27,20 @@ public struct PBDialog<Content: View>: View {
     let shouldCloseOnOverlay: Bool
 
     // MARK: - Init
-    public init(title: String? = nil, text: String? = nil, cancelButton: String? = nil, cancelButtonStyle: PBButtonStyle = PBButtonStyle(variant: .link), confirmButton: String? = nil, confirmButtonStyle: PBButtonStyle = PBButtonStyle(variant: .primary), onCancel: (() -> Void)? = nil, onClose: (() -> Void)? = nil, onConfirm: (() -> Void)? = nil, size: Size = .medium, shouldCloseOnOverlay: Bool = true, @ViewBuilder content: () -> Content) {
+    public init(
+        title: String? = nil,
+        text: String? = nil,
+        cancelButton: String? = nil,
+        cancelButtonStyle: PBButtonStyle = PBButtonStyle(variant: .link),
+        confirmButton: String? = nil,
+        confirmButtonStyle: PBButtonStyle = PBButtonStyle(variant: .primary),
+        onCancel: (() -> Void)? = nil,
+        onClose: (() -> Void)? = nil,
+        onConfirm: (() -> Void)? = nil,
+        size: Size = .medium,
+        shouldCloseOnOverlay: Bool = true,
+        @ViewBuilder content: () -> Content
+    ) {
         self.content = content()
         self.title = title
         self.text = text
@@ -50,7 +63,6 @@ public struct PBDialog<Content: View>: View {
 
     }
 
-    // MARK: - Views
     public var body: some View {
         #if os(iOS)
         GeometryReader { geometry in
@@ -104,14 +116,11 @@ public struct PBDialog<Content: View>: View {
                         Text(title).tag("title").pbFont(.body()).padding()
                         PBSectionSeparator()
                     }
-
                     if let text = text {
                         Text(text).tag("text").pbFont(.body()).lineLimit(nil)
                             .fixedSize(horizontal: false, vertical: true).padding()
                     }
-
-                    content // dynamic content
-
+                    content
                     HStack {
                         if let confirmButton = confirmButton, !confirmButton.isEmpty {
                             Button {
@@ -127,7 +136,6 @@ public struct PBDialog<Content: View>: View {
                             .buttonStyle(confirmButtonStyle).padding()
                             Spacer()
                         }
-
                         if let cancelButton = cancelButton, !cancelButton.isEmpty {
                             Spacer()
                             Button {
@@ -163,7 +171,6 @@ public struct PBDialog<Content: View>: View {
     func dismissDialog() {
         self.presentationMode.wrappedValue.dismiss()
     }
-
 }
 
 public extension PBDialog {
@@ -210,8 +217,33 @@ public extension PBDialog {
 
 /// Extension to allow optional Content
 public extension PBDialog where Content == EmptyView {
-    init(title: String? = nil, text: String? = nil, cancelButton: String? = nil, cancelButtonStyle: PBButtonStyle = PBButtonStyle(variant: .link), confirmButton: String? = nil, confirmButtonStyle: PBButtonStyle = PBButtonStyle(variant: .primary), onCancel: (() -> Void)? = nil, onClose: (() -> Void)? = nil, onConfirm: (() -> Void)? = nil, size: Size = .medium, shouldCloseOnOverlay: Bool = true) {
-        self.init(title: title, text: text, cancelButton: cancelButton, cancelButtonStyle: cancelButtonStyle, confirmButton: confirmButton, confirmButtonStyle: confirmButtonStyle, onCancel: onCancel, onClose: onClose, onConfirm: onConfirm, size: size, shouldCloseOnOverlay: shouldCloseOnOverlay, content: { EmptyView() })
+    init(
+        title: String? = nil,
+        text: String? = nil,
+        cancelButton: String? = nil,
+        cancelButtonStyle: PBButtonStyle = PBButtonStyle(variant: .link),
+        confirmButton: String? = nil,
+        confirmButtonStyle: PBButtonStyle = PBButtonStyle(variant: .primary),
+        onCancel: (() -> Void)? = nil,
+        onClose: (() -> Void)? = nil,
+        onConfirm: (() -> Void)? = nil,
+        size: Size = .medium,
+        shouldCloseOnOverlay: Bool = true
+    ) {
+        self.init(
+            title: title,
+            text: text,
+            cancelButton: cancelButton,
+            cancelButtonStyle: cancelButtonStyle,
+            confirmButton: confirmButton,
+            confirmButtonStyle: confirmButtonStyle,
+            onCancel: onCancel,
+            onClose: onClose,
+            onConfirm: onConfirm,
+            size: size,
+            shouldCloseOnOverlay: shouldCloseOnOverlay,
+            content: { EmptyView() }
+        )
     }
 }
 
@@ -220,37 +252,37 @@ struct PBBDialog_Previews: PreviewProvider {
         registerFonts()
 
         let infoMessage = "This is a message for informational purposes only and requires no action."
-        let message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut tortor pretium viverra suspendisse potenti nullam. Imperdiet nulla malesuada pellentesque elit egam."
 
         func foo() {
             print("alal")
         }
 
         return Group {
-            VStack(alignment: .leading, spacing: nil, content: {
+            VStack(alignment: .leading) {
                 Text("Simple").pbFont(.caption).padding()
-
-                PBDialog(title: "This is some informative text", text: infoMessage, cancelButton: "Cancel", confirmButton: "Okay", onCancel: foo) {
-                }
-            }).padding().previewDisplayName("Simple")
+                PBDialog(
+                    title: "This is some informative text",
+                    text: infoMessage,
+                    cancelButton: "Cancel",
+                    confirmButton: "Okay",
+                    onCancel: foo
+                ) {}
+            }
+            .padding()
+            .previewDisplayName("Simple")
             .frame(width: 800, height: 800)
 
-            VStack(alignment: .leading, spacing: nil, content: {
+            VStack(alignment: .leading) {
                 Text("Complex").pbFont(.caption)
 
                 PBDialog {
-                    Text("Title").pbFont(.title4).padding()
-                    PBSectionSeparator()
-
-                  PBMessage(avatar: PBAvatar(name: "Andrew Koeckler"), label: "Andrew Koeckler", timestamp: PBTimestamp(Date(), showDate: false)) {
-                      Text(message).pbFont(.body())
-                    }.padding()
                     HStack {
                         Button {
                             print("Left button tapped")
                         } label: {
                             Text("Left button")
-                        }.buttonStyle(PBButtonStyle())
+                        }
+                        .buttonStyle(PBButtonStyle())
 
                         Spacer()
 
@@ -258,19 +290,42 @@ struct PBBDialog_Previews: PreviewProvider {
                             print("Right button tapped")
                         } label: {
                             Text("Right button")
-                        }.buttonStyle(PBButtonStyle(variant: .secondary))
-                    }.padding()
-                }.padding()
+                        }
+                        .buttonStyle(PBButtonStyle(variant: .secondary))
+                    }
+                    .padding()
+                }
+                .padding()
+            }
+            .padding()
+            .previewDisplayName("Complex")
 
-            }).padding().previewDisplayName("Complex")
-
-            VStack(alignment: .leading, spacing: nil, content: {
+            VStack(alignment: .leading, spacing: nil) {
                 Text("Size").pbFont(.caption)
+                PBDialog(
+                    title: "Small Dialog",
+                    text: infoMessage,
+                    cancelButton: "Cancel",
+                    confirmButton: "Okay",
+                    size: .small
+                )
 
-                PBDialog(title: "Small Dialog", text: infoMessage, cancelButton: "Cancel", confirmButton: "Okay", size: .small)
-                PBDialog(title: "Medium Dialog", text: infoMessage, cancelButton: "Cancel", confirmButton: "Okay", size: .medium)
-                PBDialog(title: "Large Dialog", text: infoMessage, cancelButton: "Cancel", confirmButton: "Okay", size: .large)
-            }).padding().previewDisplayName("Size")
-        }//: GROUP
+                PBDialog(
+                    title: "Medium Dialog",
+                    text: infoMessage,
+                    cancelButton: "Cancel", confirmButton: "Okay", size: .medium
+                )
+
+                PBDialog(
+                    title: "Large Dialog",
+                    text: infoMessage,
+                    cancelButton: "Cancel",
+                    confirmButton: "Okay",
+                    size: .large
+                )
+            }
+            .padding()
+            .previewDisplayName("Size")
+        }
     }
 }

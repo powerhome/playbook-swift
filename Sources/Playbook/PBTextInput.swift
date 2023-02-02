@@ -10,7 +10,6 @@ import SwiftUI
 public struct PBTextInputStyle: TextFieldStyle {
 
   public let title: String?
-
   public let style: PBCardStyle
 
   public init(_ title: String? = nil, style: PBCardStyle = .default) {
