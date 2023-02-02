@@ -21,15 +21,17 @@ public struct PBMultipleUsers: View {
         self.reversed = reversed
         self.maxDisplayedUsers = maxDisplayedUsers
     }
-
-    var filteredUsers: [PBUser] {
+    
+    var filteredUsers: ([PBUser], Int?) {
         var mUsers = users
+        var additionalUsers = 0
+        
         if users.count > maxDisplayedUsers {
             mUsers = Array(users.prefix(maxDisplayedUsers - 1))
-         let additionalUsers = PBUser(name: "+\(users.count - maxDisplayedUsers + 1)")
-            mUsers.append(additionalUsers)
+            additionalUsers = users.count - maxDisplayedUsers + 1
+            
         }
-        return mUsers
+        return (mUsers, additionalUsers)
     }
 
     func xOffset(index: Int) -> CGFloat {
@@ -38,22 +40,28 @@ public struct PBMultipleUsers: View {
     }
 
     var leadingPadding: CGFloat {
-        let padding = size.avatarSize.diameter / 1.5 * CGFloat(filteredUsers.count - 1)
+        let padding = size.avatarSize.diameter / 1.5 * CGFloat(filteredUsers.0.count - (filteredUsers.1 == 0 ? 1 : 0 ))
         return reversed ? padding : 0
     }
 
     // MARK: Views
     public var body: some View {
         ZStack {
-            ForEach(filteredUsers.indices) { index in
-                PBAvatar(image: filteredUsers[index].image,
-                       name: filteredUsers[index].name,
-                       size: size.avatarSize,
-                       wrapped: index > 0,
-                       additionalUser: index == filteredUsers.count - 1)
-                    .offset(x: xOffset(index: index), y: 0)
-            }.padding(.leading, leadingPadding)
+            ForEach(filteredUsers.0.indices) { index in
+                PBAvatar(
+                    image: filteredUsers.0[index].image,
+                    name: filteredUsers.0[index].name,
+                    size: size.avatarSize,
+                    wrapped: true
+                )
+                .offset(x: xOffset(index: index), y: 0)
+            }
+            
+            PBMultipleUsersIndicator(usersCount: filteredUsers.1, size: size.avatarSize)
+                .offset(x: xOffset(index: filteredUsers.0.endIndex), y: 0)
         }
+        
+        .padding(.leading, leadingPadding)
     }
 }
 
@@ -61,7 +69,7 @@ public extension PBMultipleUsers {
     enum Size {
         case xSmall
         case small
-
+        
         var avatarSize: PBAvatar.Size {
             switch self {
             case .xSmall: return .xSmall
@@ -74,12 +82,12 @@ public extension PBMultipleUsers {
 struct PBMultipleUsers_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
-
+        
         let andrew = PBUser(name: "Andrew Kloecker")
         let picAndrew = PBUser(name: "Andrew Kloecker", image: Image("andrew", bundle: .module))
         let twoUsers = [andrew, picAndrew]
         let multipleUsers = [andrew, picAndrew, andrew, andrew, andrew]
-
+        
         return VStack(alignment: .leading, spacing: nil, content: {
             Text("xsmall").pbFont(.title4)
             PBMultipleUsers(users: twoUsers, size: .xSmall)
@@ -89,6 +97,9 @@ struct PBMultipleUsers_Previews: PreviewProvider {
             Divider()
             Text("small reverse").pbFont(.title4)
             PBMultipleUsers(users: multipleUsers, size: .small, reversed: true)
+            
+            PBMultipleUsers(users: twoUsers, size: .small, reversed: true)
+            
         }).padding(.leading, 4)
     }
 }
