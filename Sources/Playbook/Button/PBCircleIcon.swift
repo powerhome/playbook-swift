@@ -60,6 +60,5 @@ struct PBCircleIcon_Previews: PreviewProvider {
       }
       .background(Color.pbBackground)
     }
-    .preferredColorScheme(.dark)
   }
 }

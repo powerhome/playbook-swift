@@ -60,7 +60,6 @@ public struct PBMultipleUsers: View {
             PBMultipleUsersIndicator(usersCount: filteredUsers.1, size: size.avatarSize)
                 .offset(x: xOffset(index: filteredUsers.0.endIndex), y: 0)
         }
-
         .padding(.leading, leadingPadding)
     }
 }
@@ -88,7 +87,7 @@ struct PBMultipleUsers_Previews: PreviewProvider {
         let twoUsers = [andrew, picAndrew]
         let multipleUsers = [andrew, picAndrew, andrew, andrew, andrew]
 
-        return VStack(alignment: .leading, spacing: nil, content: {
+        return VStack(alignment: .leading, spacing: nil) {
             Text("xsmall").pbFont(.title4)
             PBMultipleUsers(users: twoUsers, size: .xSmall)
             Divider()
@@ -97,9 +96,8 @@ struct PBMultipleUsers_Previews: PreviewProvider {
             Divider()
             Text("small reverse").pbFont(.title4)
             PBMultipleUsers(users: multipleUsers, size: .small, reversed: true)
-
             PBMultipleUsers(users: twoUsers, size: .small, reversed: true)
-
-        }).padding(.leading, 4)
+        }
+        .padding(.leading, 4)
     }
 }
