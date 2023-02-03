@@ -8,8 +8,6 @@
 import SwiftUI
 
 public struct PBBadge: View {
-
-    // MARK: Props
     var text: String
     var rounded: Bool
     var variant: Variant
@@ -63,7 +61,6 @@ public extension PBBadge {
     }
 }
 
-// MARK: Preview
 struct PBBadge_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()

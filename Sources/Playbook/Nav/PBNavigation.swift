@@ -18,7 +18,6 @@ public enum PBNavigationVariant {
 
 struct PBNavigationItem<Content: View>: View {
     @State var isHovering: Bool = false
-
     var selected: Bool
     var variant: PBNavigationVariant
     var orientation: PBNavigationOrientation

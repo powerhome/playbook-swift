@@ -8,9 +8,6 @@
 import SwiftUI
 
 public struct PBNav: View {
-
-  // MARK: - Properties
-
   @Binding private var currentSelection: Int?
   @State private var currentHover: Int?
   private let variant: Variant
@@ -19,8 +16,6 @@ public struct PBNav: View {
   private let borders: Bool
   private let highlight: Bool
   private let views: [AnyView]
-
-  // MARK: -
 
   public init<Views>(selected: Binding<Int?> = .constant(nil),
                      variant: Variant? = .normal,
@@ -37,8 +32,6 @@ public struct PBNav: View {
     self.highlight = highlight
     _currentSelection = selected
   }
-
-  // MARK: -
 
   func item(_ view: AnyView, _ index: Int) -> some View {
     let isSelected = index == currentSelection
@@ -65,7 +58,6 @@ public struct PBNav: View {
 
   @ViewBuilder
   var horizontalBody: some View {
-
     if variant == .subtle {
       HStack(spacing: variant.spacing) {
           ForEach(views.indices, id: \.self) { index in

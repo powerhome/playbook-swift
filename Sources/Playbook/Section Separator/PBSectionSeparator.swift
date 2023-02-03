@@ -8,14 +8,11 @@
 import SwiftUI
 
 public struct PBSectionSeparator<Content>: View where Content: View {
-
-    // MARK: Props
     var text: String?
     var orientation: Orientation
     var variant: Variant
     var dividerOpacity: CGFloat
     var content: () -> Content?
-    //
 
     public init(
         _ text: String? = nil,
@@ -105,7 +102,6 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     }
 }
 
-/// Extension to allow optional Content
 public extension PBSectionSeparator where Content == EmptyView {
     init(_ text: String? = nil, orientation: Orientation = .horizontal, variant: Variant = .card) {
         self.init(text, orientation: orientation, variant: variant, content: { EmptyView() })
@@ -120,7 +116,6 @@ public extension PBSectionSeparator {
     }
 }
 
-// MARK: Preview
 struct PBSectionSeparator_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()

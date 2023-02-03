@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBPill: View {
-
     private let title: String
     private let variant: Variant
 
