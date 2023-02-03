@@ -8,12 +8,9 @@
 import SwiftUI
 
 public struct PBDialog<Content: View>: View {
-
     @Environment(\.presentationMode) var presentationMode
 
-    // MARK: - Properties
     let content: Content
-
     let title: String?
     let text: String?
     let cancelButton: String?
@@ -26,7 +23,6 @@ public struct PBDialog<Content: View>: View {
     let size: Size
     let shouldCloseOnOverlay: Bool
 
-    // MARK: - Init
     public init(
         title: String? = nil,
         text: String? = nil,

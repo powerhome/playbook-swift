@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBSpinner: View {
-
     let innerColor: Color
     let ringColor: Color
     let ringSize: CGSize

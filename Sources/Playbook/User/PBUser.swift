@@ -8,16 +8,13 @@
 import SwiftUI
 
 public struct PBUser: View {
-
-  // MARK: Props
-  var name: String // Mandatory
+  var name: String
   var displayAvatar: Bool = true
   var image: Image?
   var orientation: Orientation = .horizontal
   var size: Size = .medium
   var territory: String?
   var title: String?
-  //
 
   var titleStyle: PBFont {
     switch size {
@@ -132,7 +129,7 @@ struct PBUser_Previews: PreviewProvider {
                title: title)
       }).padding(.horizontal, 20)
 
-      VStack(alignment: .center, spacing: 20, content: {
+      VStack(alignment: .center, spacing: 20) {
         Text("Vertical Presentation")
         Divider()
         PBUser(name: name,
@@ -160,7 +157,8 @@ struct PBUser_Previews: PreviewProvider {
                orientation: .vertical,
                size: .small,
                title: title)
-      }).padding(.horizontal, 20)
+      }
+      .padding(.horizontal, 20)
     }
   }
 }

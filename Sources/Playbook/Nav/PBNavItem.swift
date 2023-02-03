@@ -8,20 +8,14 @@
 import SwiftUI
 
 public struct PBNavItem: View {
-
   @Environment(\.selected) var isSelected: Bool
   @Environment(\.hovering) var isHovering: Bool
   @Environment(\.variant) var variant: PBNav.Variant
   @Environment(\.orientation) var orientation: Orientation
   @Environment(\.highlight) var highlight: Bool
-
-  // MARK: -
-
   var name: String
   var icon: PBIcon?
   var accessory: PBIcon?
-
-  // MARK: -
 
   var hoverBackgroundColor: Color {
     if variant == .normal && orientation == .horizontal {
@@ -38,7 +32,6 @@ public struct PBNavItem: View {
   }
 
   var iconForegroundColor: Color {
-
     if variant == .normal && orientation == .horizontal {
       if isHovering {
         return .pbPrimary
@@ -53,7 +46,6 @@ public struct PBNavItem: View {
   }
 
   var captionForegroundColor: Color {
-
     if variant == .normal && orientation == .horizontal {
       if isHovering {
         return .pbPrimary
@@ -109,8 +101,6 @@ public struct PBNavItem: View {
     }
   }
 
-  // MARK: -
-
   public init(_ name: String,
               icon: PBIcon? = nil,
               accessory: PBIcon? = nil) {
@@ -118,8 +108,6 @@ public struct PBNavItem: View {
     self.icon = icon
     self.accessory = accessory
   }
-
-  // MARK: - Views
 
   var selectionIndicator: some View {
     Group {

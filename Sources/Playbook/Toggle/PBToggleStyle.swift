@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBToggleStyle: ToggleStyle {
-
     @State var isHovering: Bool = false
     var labelsHidden: Bool
 

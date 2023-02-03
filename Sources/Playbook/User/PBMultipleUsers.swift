@@ -8,8 +8,6 @@
 import SwiftUI
 
 public struct PBMultipleUsers: View {
-
-    // MARK: Props
     var users: [PBUser]
     var size: Size
     var reversed: Bool
@@ -44,7 +42,6 @@ public struct PBMultipleUsers: View {
         return reversed ? padding : 0
     }
 
-    // MARK: Views
     public var body: some View {
         ZStack {
             ForEach(filteredUsers.0.indices, id: \.self) { index in

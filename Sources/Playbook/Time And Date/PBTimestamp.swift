@@ -57,7 +57,7 @@ public struct PBTimestamp: View {
             if let inputYear = inputDate.year, let currentYear = currentDate.year, inputYear > currentYear {
                 formatter.dateFormat = "MMM d, YYYY \u{00b7} h:mma"
             } else {
-            formatter.dateFormat = "MMM d \u{00b7} h:mma"
+                formatter.dateFormat = "MMM d \u{00b7} h:mma"
             }
         } else {
             formatter.dateFormat = "h:mma"
@@ -76,7 +76,7 @@ public struct PBTimestamp: View {
             formatter.pmSymbol = "pm"
         }
 
-       return formatter.string(from: timestamp)
+        return formatter.string(from: timestamp)
     }
 
     var formattedElapsed: String {
@@ -134,77 +134,92 @@ struct PBTimestamp_Previews: PreviewProvider {
         let timeInterval: TimeInterval = 31536000
         let minWidth: CGFloat = 0
 
-        return Group {
-            VStack(alignment: .leading, spacing: nil, content: {
-                Text("Default").pbFont(.caption)
+        return List {
+            Section("Default") {
+                VStack(alignment: .leading, spacing: nil) {
+                    PBTimestamp(Date(), showDate: false)
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date())
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date().addingTimeInterval(timeInterval))
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                }
+            }
 
-                PBTimestamp(Date(), showDate: false)
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date())
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date().addingTimeInterval(timeInterval))
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-            }).padding().previewDisplayName("Default")
+            Section("Alignments") {
+                VStack(alignment: .leading, spacing: nil) {
+                    PBTimestamp(Date(), showDate: false)
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date())
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date().addingTimeInterval(timeInterval))
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-            VStack(alignment: .leading, spacing: nil, content: {
-                Text("Alignments").pbFont(.caption)
-                PBTimestamp(Date(), showDate: false)
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date())
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date().addingTimeInterval(timeInterval))
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date(), showDate: false)
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+                    PBTimestamp(Date())
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+                    PBTimestamp(Date().addingTimeInterval(timeInterval))
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
 
-                PBTimestamp(Date(), showDate: false)
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
-                PBTimestamp(Date())
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
-                PBTimestamp(Date().addingTimeInterval(timeInterval))
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+                    PBTimestamp(Date(), showDate: false)
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+                    PBTimestamp(Date())
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+                    PBTimestamp(Date().addingTimeInterval(timeInterval))
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+                }
+            }
 
-                PBTimestamp(Date(), showDate: false)
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
-                PBTimestamp(Date())
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
-                PBTimestamp(Date().addingTimeInterval(timeInterval))
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
-            }).padding().previewDisplayName("Alignments")
+            Section("Timezones") {
+                VStack(alignment: .leading, spacing: nil) {
+                    PBTimestamp(Date(), showDate: false, showTimeZone: true, timeZone: "America/New_York")
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date(), showTimeZone: true, timeZone: "America/New_York")
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(
+                        Date().addingTimeInterval(timeInterval),
+                        showTimeZone: true,
+                        timeZone: "America/New_York"
+                    )
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-            VStack(alignment: .leading, spacing: nil, content: {
-                Text("Timezones").pbFont(.caption)
+                    PBTimestamp(Date(), showDate: false, showTimeZone: true, timeZone: "Asia/Hong_Kong")
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date(), showTimeZone: true, timeZone: "Asia/Hong_Kong")
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date().addingTimeInterval(timeInterval), showTimeZone: true, timeZone: "Asia/Hong_Kong")
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                }
+            }
 
-                PBTimestamp(Date(), showDate: false, showTimeZone: true, timeZone: "America/New_York")
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date(), showTimeZone: true, timeZone: "America/New_York")
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date().addingTimeInterval(timeInterval), showTimeZone: true, timeZone: "America/New_York")
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+            Section("Last Updated By") {
+                VStack(alignment: .leading, spacing: nil) {
+                    PBTimestamp(
+                        Date().addingTimeInterval(-12),
+                        showUser: true,
+                        text: "Andrew Koeckler",
+                        variant: .updated
+                    )
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date().addingTimeInterval(-12), variant: .updated)
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                }
+            }
 
-                PBTimestamp(Date(), showDate: false, showTimeZone: true, timeZone: "Asia/Hong_Kong")
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date(), showTimeZone: true, timeZone: "Asia/Hong_Kong")
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date().addingTimeInterval(timeInterval), showTimeZone: true, timeZone: "Asia/Hong_Kong")
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-            }).padding().previewDisplayName("Timezones")
-
-            VStack(alignment: .leading, spacing: nil, content: {
-                Text("Last Updated By").pbFont(.caption)
-
-                PBTimestamp(Date().addingTimeInterval(-12), showUser: true, text: "Andrew Koeckler", variant: .updated)
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date().addingTimeInterval(-12), variant: .updated)
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-            }).padding().previewDisplayName("Last Updated By")
-
-            VStack(alignment: .leading, spacing: nil, content: {
-                Text("Time Ago").pbFont(.caption)
-
-                PBTimestamp(Date().addingTimeInterval(-10), showUser: true, text: "Andrew Koeckler", variant: .elapsed)
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-                PBTimestamp(Date().addingTimeInterval(-88000), variant: .elapsed)
-                    .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-            }).padding().previewDisplayName("Time Ago")
+            Section("Time Ago") {
+                VStack(alignment: .leading, spacing: nil) {
+                    PBTimestamp(
+                        Date().addingTimeInterval(-10),
+                        showUser: true,
+                        text: "Andrew Koeckler",
+                        variant: .elapsed
+                    )
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                    PBTimestamp(Date().addingTimeInterval(-88000), variant: .elapsed)
+                        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+                }
+            }
         }
     }
 }
