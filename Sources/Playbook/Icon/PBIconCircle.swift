@@ -12,7 +12,9 @@ public struct PBIconCircle: View {
     var size: PBIcon.Size
     var color: Color
 
-    public init(_ icon: PlaybookGenericIcon, size: PBIcon.Size = .medium, color: Color = .pbPrimary) {
+    public init(_ icon: PlaybookGenericIcon,
+                size: PBIcon.Size = .medium,
+                color: Color = .pbDefault) {
         self.icon = icon
         self.size = size
         self.color = color
@@ -51,30 +53,36 @@ struct PBIconCircle_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
 
-        return VStack {
-            HStack {
-                PBIconCircle(FontAwesome.rocket, size: .small)
-                PBIconCircle(FontAwesome.rocket, size: .small, color: .pbRed)
-                PBIconCircle(FontAwesome.rocket, size: .small, color: .pbYellow)
-            }
-            HStack {
+        return List {
+            Section("Default") {
                 PBIconCircle(FontAwesome.rocket)
-                PBIconCircle(FontAwesome.rocket, color: .pbRed)
-                PBIconCircle(FontAwesome.rocket, color: .pbYellow)
             }
-            HStack {
-                PBIconCircle(FontAwesome.rocket, size: .large)
-                PBIconCircle(FontAwesome.rocket, size: .large, color: .pbRed)
-                PBIconCircle(FontAwesome.rocket, size: .large, color: .pbYellow)
+
+            Section("Size") {
+                let pBIconSizes = [PBIcon.Size.small, PBIcon.Size.medium, PBIcon.Size.large]
+
+                ForEach(pBIconSizes, id: \.self) { size in
+                   PBIconCircle(FontAwesome.rocket, size: size)
+                }
             }
-            HStack {
-                PBIconCircle(FontAwesome.rocket, size: .x3)
-                PBIconCircle(FontAwesome.rocket, size: .x3, color: .pbRed)
-                PBIconCircle(FontAwesome.rocket, size: .x3, color: .pbYellow)
+            .listRowSeparator(.hidden)
+
+            Section("Color") {
+                let pBIconColors = [
+                    Color.pbRoyal,
+                    Color.pbOrange,
+                    Color.pbPurple,
+                    Color.pbTeal,
+                    Color.pbRed,
+                    Color.pbYellow,
+                    Color.pbGreen
+                ]
+
+                ForEach(pBIconColors, id: \.self) { color in
+                    PBIconCircle(FontAwesome.rocket, size: .small, color: color)
+                }
             }
+            .listRowSeparator(.hidden)
         }
-        .padding()
-        .background(Color.pbCard)
-        .previewDisplayName("IconCircles")
     }
 }
