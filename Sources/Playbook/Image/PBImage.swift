@@ -17,7 +17,7 @@ public struct PBImage: View {
         image: Image?,
         placeholder: Image? = nil,
         size: Size? = nil,
-        cornerRadius: ImageCornerRadius
+        cornerRadius: ImageCornerRadius = .sharp
     ) {
         self.image = image
         self.placeholder = placeholder
@@ -27,7 +27,9 @@ public struct PBImage: View {
 
     public var body: some View {
         if let size = size {
-            imageView.frame(width: size.rawValue, height: size.rawValue)
+            imageView
+                .cornerRadius(cornerRadius.rawValue)
+                .frame(width: size.rawValue, height: size.rawValue)
         } else {
             imageView
         }
@@ -36,14 +38,9 @@ public struct PBImage: View {
     @ViewBuilder
     private var imageView: some View {
         if let image = image {
-            image
-                .resizable()
-                .cornerRadius(cornerRadius.rawValue)
+            image.resizable()
         } else {
-            placeholder?
-                .resizable()
-                .background(Color.pbNeutral)
-                .cornerRadius(cornerRadius.rawValue)
+            placeholder?.resizable()
         }
     }
 }
@@ -75,12 +72,9 @@ public extension PBImage {
 
 struct PBImage_Previews: PreviewProvider {
     static var previews: some View {
-        ScrollView {
+        List {
             ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-                VStack(alignment: .leading) {
-                    Text(size.name)
-                        .font(.callout)
-                        .opacity(0.5)
+                Section(size.name) {
                     HStack {
                         PBImage(
                             image: nil,
@@ -96,26 +90,13 @@ struct PBImage_Previews: PreviewProvider {
                         )
                     }
                 }
-                .padding(.vertical)
             }
-            VStack(alignment: .leading) {
-                Text("No size")
-                    .font(.callout)
-                    .opacity(0.5)
-                HStack {
-                    PBImage(
-                        image: nil,
-                        placeholder: Image("Forest", bundle: .module),
-                        cornerRadius: .rounded
-                    )
-                    Spacer()
-                    PBImage(
-                        image: Image("Forest", bundle: .module),
-                        cornerRadius: .sharp
-                    )
-                }
+            .listRowBackground(Color.clear)
+
+            Section("No size") {
+                PBImage(image: Image("Forest", bundle: .module))
             }
+            .listRowBackground(Color.clear)
         }
-        .padding()
     }
 }
