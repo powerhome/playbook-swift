@@ -8,15 +8,44 @@
 import SwiftUI
 
 public struct PBImage: View {
-    let image: Image
+    let image: Image?
+    let placeholder: Image?
     let size: Size
     let cornerRadius: ImageCornerRadius
 
+    public init(
+        image: Image?,
+        placeholder: Image? = nil,
+        size: Size,
+        cornerRadius: ImageCornerRadius
+    ) {
+        self.image = image
+        self.placeholder = placeholder
+        self.size = size
+        self.cornerRadius = cornerRadius
+    }
+
     public var body: some View {
-        image
-            .resizable()
-            .cornerRadius(cornerRadius.rawValue)
-            .frame(width: size.rawValue, height: size.rawValue)
+        if size == .none {
+            imageView
+        } else {
+            imageView
+                .frame(width: size.rawValue, height: size.rawValue)
+        }
+    }
+
+    @ViewBuilder
+    private var imageView: some View {
+        if let image = image {
+            image
+                .resizable()
+                .cornerRadius(cornerRadius.rawValue)
+        } else {
+            placeholder?
+                .resizable()
+                .background(Color.pbNeutral)
+                .cornerRadius(cornerRadius.rawValue)
+        }
     }
 }
 
@@ -52,12 +81,17 @@ struct PBImage_Previews: PreviewProvider {
         List(PBImage.Size.allCases, id: \.rawValue) { size in
             Section(size.name) {
                 HStack {
-                    PBImage(image: Image("Forest", bundle: .module), size: size, cornerRadius: .rounded)
+                    PBImage(
+                        image: nil,
+                        placeholder: Image("Forest", bundle: .module),
+                        size: size,
+                        cornerRadius: .rounded
+                    )
                     Spacer()
                     PBImage(image: Image("Forest", bundle: .module), size: size, cornerRadius: .sharp)
                 }
             }
         }
-        .listStyle(.plain)
+        .listStyle(.grouped)
     }
 }
