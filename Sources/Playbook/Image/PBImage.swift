@@ -10,13 +10,13 @@ import SwiftUI
 public struct PBImage: View {
     let image: Image?
     let placeholder: Image?
-    let size: Size
+    let size: Size?
     let cornerRadius: ImageCornerRadius
 
     public init(
         image: Image?,
         placeholder: Image? = nil,
-        size: Size,
+        size: Size? = nil,
         cornerRadius: ImageCornerRadius
     ) {
         self.image = image
@@ -26,11 +26,10 @@ public struct PBImage: View {
     }
 
     public var body: some View {
-        if size == .none {
-            imageView
+        if let size = size {
+            imageView.frame(width: size.rawValue, height: size.rawValue)
         } else {
             imageView
-                .frame(width: size.rawValue, height: size.rawValue)
         }
     }
 
@@ -56,7 +55,6 @@ public extension PBImage {
         case small = 100
         case medium = 120
         case large = 140
-        case none
 
         var name: String {
             switch self {
@@ -65,7 +63,6 @@ public extension PBImage {
             case .small: return "small"
             case .medium: return "medium"
             case .large: return "large"
-            case .none: return "none"
             }
         }
     }
@@ -78,20 +75,47 @@ public extension PBImage {
 
 struct PBImage_Previews: PreviewProvider {
     static var previews: some View {
-        List(PBImage.Size.allCases, id: \.rawValue) { size in
-            Section(size.name) {
+        ScrollView {
+            ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+                VStack(alignment: .leading) {
+                    Text(size.name)
+                        .font(.callout)
+                        .opacity(0.5)
+                    HStack {
+                        PBImage(
+                            image: nil,
+                            placeholder: Image("Forest", bundle: .module),
+                            size: size,
+                            cornerRadius: .rounded
+                        )
+                        Spacer()
+                        PBImage(
+                            image: Image("Forest", bundle: .module),
+                            size: size,
+                            cornerRadius: .sharp
+                        )
+                    }
+                }
+                .padding(.vertical)
+            }
+            VStack(alignment: .leading) {
+                Text("No size")
+                    .font(.callout)
+                    .opacity(0.5)
                 HStack {
                     PBImage(
                         image: nil,
                         placeholder: Image("Forest", bundle: .module),
-                        size: size,
                         cornerRadius: .rounded
                     )
                     Spacer()
-                    PBImage(image: Image("Forest", bundle: .module), size: size, cornerRadius: .sharp)
+                    PBImage(
+                        image: Image("Forest", bundle: .module),
+                        cornerRadius: .sharp
+                    )
                 }
             }
         }
-        .listStyle(.grouped)
+        .padding()
     }
 }
