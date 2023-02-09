@@ -22,14 +22,12 @@ extension View {
 }
 
 public enum Shadow: String, CaseIterable {
-    case none = "None"
-    case deep = "Deep"
-    case deeper = "Deeper"
-    case deepest = "Deepest"
+    case deep
+    case deeper
+    case deepest
 
     var color: Color {
         switch self {
-        case .none: return Color.clear
         case .deep: return Color.pbShadow.opacity(0.74)
         default: return Color.pbShadow
         }

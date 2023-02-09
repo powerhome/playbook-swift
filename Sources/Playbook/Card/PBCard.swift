@@ -41,7 +41,7 @@ public struct PBCard<Content: View>: View {
     let isHovering: Bool
     let padding: CGFloat
     let style: PBCardStyle
-    let shadow: Shadow
+    let shadow: Shadow?
     let width: CGFloat?
 
     public init(
@@ -53,7 +53,7 @@ public struct PBCard<Content: View>: View {
         isHovering: Bool = false,
         padding: CGFloat = .pbMedium,
         style: PBCardStyle = .default,
-        shadow: Shadow = .none,
+        shadow: Shadow? = nil,
         width: CGFloat? = .infinity,
         @ViewBuilder content: () -> Content
     ) {
@@ -99,7 +99,7 @@ public struct PBCard<Content: View>: View {
         .background(
             RoundedRectangle(cornerRadius: borderRadius.rawValue, style: .continuous)
                 .fill(Color.pbCard.opacity(isHovering ? 0.4 : 1))
-                .pbShadow(shadow)
+                .pbShadow(shadow ?? .deep)
         )
         .overlay(
             RoundedRectangle(cornerRadius: borderRadius.rawValue)
