@@ -42,11 +42,12 @@ public enum Shadow: String, CaseIterable {
     }
 }
 
+@available(macOS 13.0, *)
 struct PBShadow_Previews: PreviewProvider {
     static var previews: some View {
         let shape = RoundedRectangle(cornerRadius: 7)
         List(Shadow.allCases, id: \.hashValue) { shadow in
-            Section(shadow.rawValue) {
+            Section(shadow.rawValue.uppercased()) {
                 shape
                     .foregroundColor(.white)
                     .frame(height: 100)
