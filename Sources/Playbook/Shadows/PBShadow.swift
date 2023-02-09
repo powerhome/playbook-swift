@@ -58,7 +58,7 @@ struct PBShadow_Previews: PreviewProvider {
                     }
             }
             .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
         }
-        .listStyle(.plain)
     }
 }
