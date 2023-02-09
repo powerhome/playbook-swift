@@ -49,6 +49,7 @@ fileprivate extension View {
     }
 }
 
+@available(macOS 13.0, *)
 struct PBIconCircle_Previews: PreviewProvider {
     static var previews: some View {
         registerFonts()
