@@ -99,7 +99,7 @@ public struct PBCard<Content: View>: View {
         .background(
             RoundedRectangle(cornerRadius: borderRadius.rawValue, style: .continuous)
                 .fill(Color.pbCard.opacity(isHovering ? 0.4 : 1))
-                .pbShadow(color: shadow.color, radius: shadow.radius, deepest: shadow == .deepest)
+                .pbShadow(shadow)
         )
         .overlay(
             RoundedRectangle(cornerRadius: borderRadius.rawValue)
@@ -125,43 +125,6 @@ extension PBCard {
         case none
         case side
         case top
-    }
-
-    public enum Shadow {
-        case none
-        case deep
-        case deeper
-        case deepest
-
-        var color: Color {
-            switch self {
-            case .none: return Color.clear
-            case .deep: return Color.pbShadow.opacity(0.74)
-            default: return Color.pbShadow
-            }
-        }
-
-        var radius: CGFloat {
-            switch self {
-            case .deep: return 4
-            case .deeper: return 10
-            default: return 14
-            }
-        }
-    }
-}
-
-extension View {
-    func pbShadow(color: Color, radius: CGFloat, deepest: Bool) -> some View {
-        if deepest {
-            return AnyView(self
-                .shadow(color: color, radius: radius, x: 0, y: 10)
-                .shadow(color: color, radius: radius, x: 0, y: 10)
-            )
-        } else {
-            return AnyView(self
-                .shadow(color: color, radius: radius, x: 0, y: 6))
-        }
     }
 }
 
@@ -258,24 +221,6 @@ struct PBCard_Previews: PreviewProvider {
             }
             .padding()
             .previewDisplayName("Padding size")
-
-            VStack(alignment: .leading) {
-                Text("Shadow").pbFont(.caption)
-                PBCard(shadow: .none) {
-                    Text(text).pbFont(.body())
-                }
-                PBCard(shadow: .deep) {
-                    Text(text).pbFont(.body())
-                }.padding(.top, 25)
-                PBCard(shadow: .deeper) {
-                    Text(text).pbFont(.body())
-                }.padding(.top, 25)
-                PBCard(shadow: .deepest) {
-                    Text(text).pbFont(.body())
-                }.padding(.top, 25)
-            }
-            .padding()
-            .previewDisplayName("Shadow")
 
             VStack(alignment: .leading, spacing: 8) {
                 Text("Separator & Content").pbFont(.caption)
