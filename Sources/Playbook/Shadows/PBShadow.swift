@@ -46,6 +46,7 @@ public enum Shadow: String, CaseIterable {
 struct PBShadow_Previews: PreviewProvider {
     static var previews: some View {
         let shape = RoundedRectangle(cornerRadius: 7)
+
         List(Shadow.allCases, id: \.hashValue) { shadow in
             Section(shadow.rawValue.uppercased()) {
                 shape
@@ -56,8 +57,8 @@ struct PBShadow_Previews: PreviewProvider {
                         shape
                             .stroke(.gray, lineWidth: 0.1)
                     }
+                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 30, trailing: 10))
             }
-            .listRowSeparator(.hidden)
             .listRowBackground(Color.clear)
         }
     }
