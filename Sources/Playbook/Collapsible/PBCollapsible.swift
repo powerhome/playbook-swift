@@ -43,16 +43,17 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
             } label: {
                 if indicatorPosition == .leading {
                     indicator
-                    headerView
+                    headerView.pbFont(.title4)
                     Spacer()
                 } else {
-                    headerView
+                    headerView.pbFont(.title4)
                     Spacer()
                     indicator
                 }
             }.tint(indicatorColor)
 
             contentView
+                .pbFont(.body())
                 .padding(.bottom, .pbXsmall)
                 .frame(height: isCollapsed ? 0 : .none, alignment: .top)
                 .clipped()
@@ -88,14 +89,13 @@ struct PBCollapsible_Previews: PreviewProvider {
 
         var header: some View {
             Label(
-                title: { Text("Members").pbFont(.title4) },
+                title: { Text("Members") },
                 icon: { PBIcon.fontAwesome(.users) }
             )
         }
 
         var content: some View {
             Text(lorem)
-                .pbFont(.body())
                 .fixedSize(horizontal: false, vertical: true)
         }
 
