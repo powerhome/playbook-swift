@@ -76,7 +76,7 @@ struct PBCollapsible_Previews: PreviewProvider {
     }
 
     struct Preview: View {
-        @State var isCollapsed = true
+        @State var isCollapsed = false
         @State var isCollapsedTrailing = true
         @State var isCollapsedImage = true
 
