@@ -76,8 +76,9 @@ struct PBCollapsible_Previews: PreviewProvider {
     }
 
     struct Preview: View {
-        @State var isCollapsed = false
+        @State var isCollapsed = true
         @State var isCollapsedTrailing = true
+        @State var isCollapsedImage = true
 
         let lorem = """
         Group members... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel erat sed purus hendrerit vive.
@@ -89,9 +90,17 @@ struct PBCollapsible_Previews: PreviewProvider {
 
         var header: some View {
             Label(
-                title: { Text("Members") },
+                title: { Text("Title with Icon") },
                 icon: { PBIcon.fontAwesome(.users) }
             )
+        }
+
+        var textOnlyHeader: some View {
+            Text("Title with Only Text")
+        }
+
+        var imageHeader: some View {
+            Text("Image")
         }
 
         var content: some View {
@@ -116,7 +125,13 @@ struct PBCollapsible_Previews: PreviewProvider {
                     }
 
                     PBCollapsible(isCollapsed: $isCollapsedTrailing, indicatorPosition: .trailing) {
-                        header
+                        textOnlyHeader
+                    } content: {
+                        content
+                    }
+
+                    PBCollapsible(isCollapsed: $isCollapsedImage, indicatorPosition: .trailing) {
+                        imageHeader
                     } content: {
                         image
                     }
