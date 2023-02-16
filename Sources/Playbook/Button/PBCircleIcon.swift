@@ -21,12 +21,9 @@ public struct PBCircleIcon: View {
       .frame(minWidth: 38, minHeight: 38)
       .background(variant.backgroundColor)
       .foregroundColor(variant.foregroundColor)
-      .pbFont(.buttonText())
       .clipShape(Circle())
   }
 }
-
-// MARK: - Variant enum
 
 public extension PBCircleIcon {
   enum Variant {
@@ -48,17 +45,13 @@ public extension PBCircleIcon {
   }
 }
 
-// MARK: - Preview
-
 struct PBCircleIcon_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
     return VStack {
-      VStack {
-          PBCircleIcon(icon: PBIcon(FontAwesome.plus, size: .small), variant: .secondary)
-      }
-      .background(Color.pbBackground)
+      PBCircleIcon(icon: PBIcon(FontAwesome.plus, size: .small), variant: .secondary)
     }
+    .background(Color.pbBackground)
   }
 }
