@@ -9,7 +9,6 @@ import SwiftUI
 
 public struct PBCollapsible<HeaderContent: View, Content: View>: View {
     @Binding private var isCollapsed: Bool
-    @State private var opacity = 1.0
     var indicatorPosition: IndicatorPosition
     var indicatorColor: Color
     var headerView: HeaderContent
@@ -30,17 +29,18 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
     var indicator: some View {
         PBIcon.fontAwesome(.chevronDown, size: .small)
             .padding(.pbXxsmall)
-            .foregroundColor(indicatorColor)
-            .animation(.easeOut, value: true)
-            .rotation3DEffect(
-                .degrees(isCollapsed ? 180 : 0),
-                axis: (x: 1.0, y: 1.0, z: 0.0)
+            .rotationEffect(
+                .degrees(isCollapsed ? 0 : 180)
             )
     }
 
     public var body: some View {
         VStack {
-            HStack {
+            Button {
+                withAnimation {
+                    isCollapsed.toggle()
+                }
+            } label: {
                 if indicatorPosition == .leading {
                     indicator
                     headerView
@@ -50,19 +50,12 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
                     Spacer()
                     indicator
                 }
-            }
-            .onTapGesture {
-                isCollapsed.toggle()
-            }
-            .padding(.vertical, .pbXsmall)
+            }.tint(indicatorColor)
 
             contentView
                 .padding(.bottom, .pbXsmall)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: isCollapsed ? 0 : .none)
-                .opacity(isCollapsed ? 0.4 : 1.0)
-                .animation(.easeOut, value: true)
+                .frame(height: isCollapsed ? 0 : .none, alignment: .top)
                 .clipped()
-                .transition(.moveBottom)
         }
     }
 }
@@ -72,15 +65,6 @@ public extension PBCollapsible {
     enum IndicatorPosition {
         case leading
         case trailing
-    }
-}
-
-extension AnyTransition {
-    static var moveBottom: AnyTransition {
-        let insertion = AnyTransition.move(edge: .bottom)
-            .combined(with: .scale(scale: 0.2, anchor: .topTrailing))
-        let removal = AnyTransition.move(edge: .top)
-        return .asymmetric(insertion: insertion, removal: removal)
     }
 }
 
@@ -108,8 +92,18 @@ struct PBCollapsible_Previews: PreviewProvider {
                 icon: { PBIcon.fontAwesome(.users) }
             )
         }
+
         var content: some View {
-            Text(lorem).pbFont(.body())
+            Text(lorem)
+                .pbFont(.body())
+                .fixedSize(horizontal: false, vertical: true)
+        }
+
+        var image: some View {
+            PBImage(
+                image: Image("Forest", bundle: .module),
+                size: .large
+            )
         }
 
         var body: some View {
@@ -124,9 +118,10 @@ struct PBCollapsible_Previews: PreviewProvider {
                     PBCollapsible(isCollapsed: $isCollapsedTrailing, indicatorPosition: .trailing) {
                         header
                     } content: {
-                        content
+                        image
                     }
                 }
+                .padding()
             }
         }
     }
