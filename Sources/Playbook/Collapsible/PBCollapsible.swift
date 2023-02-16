@@ -52,6 +52,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
                 }
             }
             .tint(indicatorColor)
+            .buttonStyle(BorderlessButtonStyle())
 
             contentView
                 .fixedSize(horizontal: false, vertical: true)
