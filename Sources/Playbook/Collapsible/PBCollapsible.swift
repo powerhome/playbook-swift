@@ -90,13 +90,13 @@ struct PBCollapsible_Previews: PreviewProvider {
 
         var header: some View {
             Label(
-                title: { Text("Title with Icon") },
+                title: { Text("Title with Icon, Chevron Left") },
                 icon: { PBIcon.fontAwesome(.users) }
             )
         }
 
         var textOnlyHeader: some View {
-            Text("Title with Only Text")
+            Text("Title with Only Text, Chevron Right")
         }
 
         var imageHeader: some View {
