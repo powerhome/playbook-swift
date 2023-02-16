@@ -50,9 +50,11 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
                     Spacer()
                     indicator
                 }
-            }.tint(indicatorColor)
+            }
+            .tint(indicatorColor)
 
             contentView
+                .fixedSize(horizontal: false, vertical: true)
                 .pbFont(.body())
                 .padding(.bottom, .pbXsmall)
                 .frame(height: isCollapsed ? 0 : .none, alignment: .top)
@@ -105,13 +107,12 @@ struct PBCollapsible_Previews: PreviewProvider {
 
         var content: some View {
             Text(lorem)
-                .fixedSize(horizontal: false, vertical: true)
         }
 
         var image: some View {
             PBImage(
                 image: Image("Forest", bundle: .module),
-                size: .large
+                size: .none
             )
         }
 
