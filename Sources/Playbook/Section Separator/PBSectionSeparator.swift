@@ -31,10 +31,10 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     @ViewBuilder
     private var backgroundVariant: some View {
         switch variant {
-        case .background: Color.pbBackground
+        case .background: PBColor.background(.light).color
         case .bubble:
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color.pbCard)
+            .fill(PBColor.card.color)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
                             .stroke(Color.pbBorder, lineWidth: 1)
@@ -49,12 +49,12 @@ public struct PBSectionSeparator<Content>: View where Content: View {
         switch variant {
         case .bubble:
             PBLine()
-                .stroke(Color.pbBorder, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
+            .stroke(PBColor.border.color, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
                 .frame(height: 1)
                 .tag("Dashed divider")
         default:
             Divider()
-                .background(Color.pbBorder)
+            .background(PBColor.border.color)
                 .tag("Divider")
         }
     }

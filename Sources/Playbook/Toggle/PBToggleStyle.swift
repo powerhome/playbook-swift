@@ -20,13 +20,13 @@ public struct PBToggleStyle: ToggleStyle {
 
             if !labelsHidden { // Check if we can use the .labelsHidden() from the Toggle itself.
                 configuration.label
-                    .foregroundColor(.pbTextLight)
+                    .pbForegroundColor(.text(.light))
                     .pbFont(.caption)
             }
 
             ZStack {
                 RoundedRectangle(cornerRadius: 15)
-                    .strokeBorder(configuration.strokeColor(isHovering: isHovering), lineWidth: 3)
+                .strokeBorder(configuration.strokeColor(isHovering: isHovering).color, lineWidth: 3)
                     .foregroundColor(configuration.backgroundColor)
                     .background(
                         RoundedRectangle(cornerRadius: 15)
@@ -54,8 +54,8 @@ public struct PBToggleStyle: ToggleStyle {
 }
 
 extension ToggleStyleConfiguration {
-    func strokeColor(isHovering: Bool) -> Color {
-        isOn || isHovering ? .pbPrimary : .pbNeutral
+    func strokeColor(isHovering: Bool) -> PBColor {
+      isOn || isHovering ? .primary : .neutral
     }
 
     func circleColor(isHovering: Bool) -> Color {
@@ -63,14 +63,14 @@ extension ToggleStyleConfiguration {
             return .white
         }
         if isHovering {
-            return .pbPrimary
+            return PBColor.primary.color
         }
         return .pbNeutral
     }
 
     var backgroundColor: Color {
         if isOn {
-            return .pbPrimary
+          return PBColor.primary.color
         }
         return .clear
     }

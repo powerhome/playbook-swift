@@ -21,7 +21,7 @@ public struct PBNavItem: View {
     if variant == .normal && orientation == .horizontal {
       return .clear
     }
-    return .pbPrimary
+    return PBColor.primary.color
   }
 
   var selectionIndicatorAlignment: Alignment {
@@ -31,32 +31,32 @@ public struct PBNavItem: View {
     return .bottom
   }
 
-  var iconForegroundColor: Color {
+  var iconForegroundColor: PBColor {
     if variant == .normal && orientation == .horizontal {
       if isHovering {
-        return .pbPrimary
+        return .primary
       }
-      return .pbTextDefault
+      return .text(.textDefault)
     }
 
     if isSelected || isHovering {
-      return .pbPrimary
+      return .primary
     }
-    return .pbTextLighter
+    return .text(.lighter)
   }
 
-  var captionForegroundColor: Color {
+  var captionForegroundColor: PBColor {
     if variant == .normal && orientation == .horizontal {
       if isHovering {
-        return .pbPrimary
+        return .primary
       }
-      return .pbTextDefault
+      return .text(.textDefault)
     }
 
     if isSelected || isHovering {
-      return .pbPrimary
+      return .primary
     }
-    return .pbTextDefault
+    return .text(.textDefault)
   }
 
   var font: PBFont {
@@ -114,11 +114,11 @@ public struct PBNavItem: View {
       if orientation == .vertical {
         Rectangle()
           .frame(width: variant == .normal ? 3 : 0)
-          .foregroundColor(isSelected ? .pbPrimary : .clear)
+          .foregroundColor(isSelected ? .primary : .clear)
       } else {
         Rectangle()
           .frame(height: variant == .normal ? 3 : 0)
-          .foregroundColor(isSelected ? .pbPrimary : .clear)
+          .foregroundColor(isSelected ? .primary : .clear)
       }
     }
   }
@@ -126,10 +126,10 @@ public struct PBNavItem: View {
   public var body: some View {
     HStack {
       icon
-        .foregroundColor(iconForegroundColor)
+        .pbForegroundColor(iconForegroundColor)
         .frame(width: 30)
       Text(name)
-        .foregroundColor(captionForegroundColor)
+        .pbForegroundColor(captionForegroundColor)
         .pbFont(font)
 
       if orientation == .vertical {
@@ -137,7 +137,7 @@ public struct PBNavItem: View {
       }
 
       accessory
-        .foregroundColor(iconForegroundColor)
+        .pbForegroundColor(iconForegroundColor)
         .frame(width: 30)
     }
     .padding(padding)

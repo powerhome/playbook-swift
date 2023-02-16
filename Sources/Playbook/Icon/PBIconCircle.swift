@@ -10,11 +10,11 @@ import SwiftUI
 public struct PBIconCircle: View {
     var icon: PlaybookGenericIcon
     var size: PBIcon.Size
-    var color: Color
+    var color: PBColor
 
     public init(_ icon: PlaybookGenericIcon,
                 size: PBIcon.Size = .medium,
-                color: Color = .pbDefault) {
+                color: PBColor = .neutral) {
         self.icon = icon
         self.size = size
         self.color = color
@@ -23,7 +23,7 @@ public struct PBIconCircle: View {
     public var body: some View {
         ZStack {
             PBIcon(icon, size: size)
-                .iconCircle(diameter: size.fontSize * 2.4, color: color)
+            .iconCircle(diameter: size.fontSize * 2.4, color: color.color)
         }
     }
 }
@@ -69,18 +69,18 @@ struct PBIconCircle_Previews: PreviewProvider {
             .listRowSeparator(.hidden)
 
             Section("Color") {
-                let pBIconColors = [
-                    Color.pbRoyal,
-                    Color.pbOrange,
-                    Color.pbPurple,
-                    Color.pbTeal,
-                    Color.pbRed,
-                    Color.pbYellow,
-                    Color.pbGreen
+              let pBIconColors = [
+                PBColor.data(.data1),
+                PBColor.data(.data5),
+                PBColor.data(.data3),
+                PBColor.data(.data7),
+                PBColor.data(.data8),
+                PBColor.data(.data2),
+                PBColor.data(.data4)
                 ]
 
                 ForEach(pBIconColors, id: \.self) { color in
-                    PBIconCircle(FontAwesome.rocket, size: .small, color: color)
+                  PBIconCircle(FontAwesome.rocket, size: .small, color: color)
                 }
             }
             .listRowSeparator(.hidden)

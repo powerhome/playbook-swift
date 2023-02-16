@@ -29,11 +29,8 @@ public struct PBIcon: View {
 
 public extension PBIcon {
     enum Size {
-        /// 16
         case small
-        /// 20
         case medium
-        /// 24
         case large
 
         // swiftlint:disable identifier_name

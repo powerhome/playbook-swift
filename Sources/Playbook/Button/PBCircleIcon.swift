@@ -35,14 +35,14 @@ public extension PBCircleIcon {
     var backgroundColor: Color {
       switch self {
       case .secondary:
-        return .pbPrimaryAction.opacity(0.05)
+        return PBColor.primary.color.opacity(0.05)
       }
     }
 
     var foregroundColor: Color {
       switch self {
       case .secondary:
-        return .pbPrimaryAction
+        return PBColor.primary.color
       }
     }
   }

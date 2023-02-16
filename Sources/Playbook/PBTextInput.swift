@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBTextInputStyle: TextFieldStyle {
-
   public let title: String?
   public let style: PBCardStyle
 
@@ -21,21 +20,19 @@ public struct PBTextInputStyle: TextFieldStyle {
     VStack(alignment: .leading, spacing: 4) {
       if let title = title {
         Text(title)
-          .pbFont(.title4, color: .pbTextLight)
+          .pbFont(.title4, color: .text(.light))
       }
       PBCard(padding: 0, style: style) {
         configuration
           .padding(.leading, 16)
           .frame(height: 44)
-          .foregroundColor(.pbTextDefault)
+          .pbForegroundColor(.text(.textDefault))
           .pbFont(.body())
           .textFieldStyle(PlainTextFieldStyle())
       }
     }
   }
 }
-
-// MARK: -
 
 struct PBTextInput_Previews: PreviewProvider {
     static var previews: some View {

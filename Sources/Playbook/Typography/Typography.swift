@@ -8,96 +8,82 @@
 import SwiftUI
 
 public struct Typography: ViewModifier {
-    var font: PBFont
-    var variant: Variant = .none
-    var color: Color = .pbTextDefault
+  var font: PBFont
+  var variant: Variant = .none
+  var color: PBColor = .text(.textDefault)
 
-    // if color is not allowed, return the default for the style
-    var foregroundColor: Color {
-        if !Color.pbTextColors.contains(color) {
-            switch font {
-            case .title4:
-                return variant == .link ? .pbPrimary : .pbTextDefault
-            case .subcaption:
-                return variant == .link ? .pbPrimary : .pbTextLight
-            case .caption, .largeCaption:
-                return .pbTextLight
-            case .monogram:
-                return color
-            case .buttonText:
-                return color
-            default:
-                return .pbTextDefault
-            }
-        } else {
-            if [.title4, .subcaption].contains(font), variant == .link {
-                return .pbPrimary
-            } else {
-                return color
-            }
-        }
-    }
+  var foregroundColor: PBColor {
+      switch font {
+      case .title4:
+        return variant == .link ? .primary : .text(.textDefault)
+      case .subcaption:
+        return variant == .link ? .primary : .text(.light)
+      case .caption, .largeCaption:
+        return .text(.light)
+      case .monogram, .buttonText:
+        return color
+      default:
+        return .text(.textDefault)
+      }
+  }
 
-    // We don't have access to the UIFont.lineHeight here
-    // which is needed to calculate the spacing between lines
-    // so we tested values that replicate the desired lineHeights.
-    var spacing: CGFloat {
-        switch font {
-        case .title1: return 3
-        case .title2: return -1
-        case .title3, .title4: return 2
-        case .body, .badgeText: return 0
-        case .monogram: return 2.5
-        default: return 6
-        }
+  var spacing: CGFloat {
+    switch font {
+    case .title1: return 3
+    case .title2: return -1
+    case .title3, .title4: return 2
+    case .body, .badgeText: return 0
+    case .monogram: return 2.5
+    default: return 6
     }
+  }
 
-    var casing: Text.Case? {
-        switch font {
-        case .largeCaption, .caption: return .uppercase
-        default: return nil
-        }
+  var casing: Text.Case? {
+    switch font {
+    case .largeCaption, .caption: return .uppercase
+    default: return nil
     }
+  }
 
-    public func body(content: Content) -> some View {
-        content
-            .font(font.font)
-            .foregroundColor(foregroundColor)
-            .lineSpacing(spacing) // Only works between lines in a paragraph.
-            .padding(.vertical, spacing) // Adds the space around the text block.
-            .textCase(casing)
-    }
+  public func body(content: Content) -> some View {
+    content
+      .font(font.font)
+      .pbForegroundColor(foregroundColor)
+      .lineSpacing(spacing) // Only works between lines in a paragraph.
+      .padding(.vertical, spacing) // Adds the space around the text block.
+      .textCase(casing)
+  }
 }
 
 public extension Typography {
-    enum Variant {
-        case none
-        case link
-    }
+  enum Variant {
+    case none
+    case link
+  }
 }
 
 public extension View {
-    func pbFont(
-        _ font: PBFont,
-        variant: Typography.Variant = .none,
-        color: Color = .pbTextDefault
-    ) -> some View {
-        self.modifier(Typography(font: font, variant: variant, color: color))
-    }
+  func pbFont(
+    _ font: PBFont,
+    variant: Typography.Variant = .none,
+    color: PBColor = .text(.textDefault)
+  ) -> some View {
+    self.modifier(Typography(font: font, variant: variant, color: color))
+  }
 }
 
 struct Typography_Previews: PreviewProvider {
-    static var previews: some View {
-        registerFonts()
+  static var previews: some View {
+    registerFonts()
 
-        return List {
-            Section("Title") {
-                Text("Title 1\nTitle 1")
-                    .pbFont(.title1)
-                Text("Title 2\nTitle 2")
-                    .pbFont(.title2)
-                Text("Title 3\nTitle 3")
-                    .pbFont(.title3)
+    return List {
+      Section("Title") {
+        Text("Title 1\nTitle 1")
+          .pbFont(.title1)
+        Text("Title 2\nTitle 2")
+          .pbFont(.title2)
+        Text("Title 3\nTitle 3")
+          .pbFont(.title3)
                 Text("Title 4\nTitle 4")
                     .pbFont(.title4)
                 Text("Title 4 Link Variant")

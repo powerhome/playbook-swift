@@ -8,30 +8,24 @@
 import SwiftUI
 
 public struct PBTextArea: View {
-
-  var title: String
-
   @Binding var text: String
-
-  // MARK: -
+  var title: String
 
   public init(_ title: String, text: Binding<String>) {
     self.title = title
     self._text = text
   }
 
-  // MARK: -
-
   public var body: some View {
     VStack(alignment: .leading, spacing: 4) {
       Text(title)
-        .pbFont(.title4, color: .pbTextLight)
+        .pbFont(.title4, color: .text(.light))
       PBCard(padding: 0) {
         TextEditor(text: $text)
           .padding(.top, 4)
           .padding(.horizontal, 12)
           .frame(height: 88)
-          .foregroundColor(.pbTextDefault)
+          .pbForegroundColor(.text(.textDefault))
           .pbFont(.body())
       }
     }

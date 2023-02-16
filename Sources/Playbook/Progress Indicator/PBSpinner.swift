@@ -14,7 +14,7 @@ public struct PBSpinner: View {
     @State private var isAnimating: Bool = false
 
     public init(
-        ringColor: Color = .pbPrimary,
+        ringColor: Color = PBColor.primary.color,
         innerColor: Color = .pbCard,
         ringSize: CGSize = CGSize(width: 20, height: 20)
     ) {
@@ -34,7 +34,7 @@ public struct PBSpinner: View {
                 .trim(from: 0.3, to: 1)
                 .stroke(
                     LinearGradient(
-                        gradient: Gradient(colors: [.pbPrimary, .pbPrimary.opacity(0.75)]),
+                        gradient: Gradient(colors: [PBColor.primary.color, PBColor.primary.color.opacity(0.75)]),
                         startPoint: .topTrailing, endPoint: .bottomLeading
                     ),
                     style: StrokeStyle(lineWidth: 4, lineCap: .round)

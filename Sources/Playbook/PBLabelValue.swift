@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBLabelValue: View {
-
   private let label: String
   private let value: String
 
@@ -20,10 +19,10 @@ public struct PBLabelValue: View {
   public var body: some View {
     VStack(alignment: .leading, spacing: 4) {
       Text(label)
-        .foregroundColor(.pbTextLight)
+        .pbForegroundColor(.text(.light))
         .pbFont(.title4)
       Text(value)
-        .foregroundColor(.pbTextDefault)
+        .pbForegroundColor(.text(.textDefault))
         .pbFont(.body())
     }
   }
@@ -32,8 +31,5 @@ public struct PBLabelValue: View {
 struct PBLabelValue_Previews: PreviewProvider {
   static var previews: some View {
     PBLabelValue("Room", "this is value")
-      .preferredColorScheme(.light)
-    PBLabelValue("label", "this is a value")
-      .preferredColorScheme(.dark)
   }
 }

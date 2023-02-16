@@ -60,9 +60,9 @@ public struct PBUser: View {
         VStack(alignment: .leading, spacing: 4, content: {
           Text(name)
             .font(titleStyle.font)
-            .foregroundColor(.pbTextDefault)
+            .pbForegroundColor(.text(.textDefault))
           bodyText.pbFont(.body())
-            .foregroundColor(.pbTextLight)
+                .pbForegroundColor(.text(.light))
         })
       }
     } else {
@@ -72,9 +72,9 @@ public struct PBUser: View {
         }
         Text(name)
           .font(titleStyle.font)
-          .foregroundColor(.pbTextDefault)
+          .pbForegroundColor(.text(.textDefault))
         bodyText.pbFont(.body())
-          .foregroundColor(.pbTextLight)
+              .pbForegroundColor(.text(.light))
       }
     }
   }

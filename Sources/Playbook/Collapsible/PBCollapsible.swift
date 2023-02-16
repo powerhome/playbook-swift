@@ -11,13 +11,13 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
     @Binding private var isCollapsed: Bool
     @State private var opacity = 1.0
     var indicatorPosition: IndicatorPosition
-    var indicatorColor: Color
+    var indicatorColor: PBColor
     var headerView: HeaderContent
     var contentView: Content
 
     public init(isCollapsed: Binding<Bool> = .constant(false),
                 indicatorPosition: IndicatorPosition = .leading,
-                indicatorColor: Color = .pbTextLight,
+                indicatorColor: PBColor = .text(.light),
                 @ViewBuilder header: @escaping () -> HeaderContent,
                 @ViewBuilder content: @escaping () -> Content) {
         _isCollapsed = isCollapsed
@@ -30,7 +30,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
     var indicator: some View {
         PBIcon.fontAwesome(.chevronDown, size: .small)
             .padding(.pbXxsmall)
-            .foregroundColor(indicatorColor)
+            .pbForegroundColor(indicatorColor)
             .animation(.easeOut, value: true)
             .rotation3DEffect(
                 .degrees(isCollapsed ? 180 : 0),
