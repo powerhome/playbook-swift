@@ -79,12 +79,13 @@ public struct PBCard<Content: View>: View {
         content
           .padding(padding)
           .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
-          .background(RoundedRectangle(cornerRadius: borderRadius.rawValue)
-            .stroke(highlightColor.color, lineWidth: 10)
-            .padding(.init(top: highlight == .top ? 0 : -10,
-                           leading: highlight == .side ? 0 : -10,
-                           bottom: -10,
-                           trailing: -10))
+          .background(
+            RoundedRectangle(cornerRadius: borderRadius.rawValue)
+              .stroke(highlightColor.color, lineWidth: 10)
+              .padding(.init(top: highlight == .top ? 0 : -10,
+                             leading: highlight == .side ? 0 : -10,
+                             bottom: -10,
+                             trailing: -10))
           )
       }
     }
@@ -92,15 +93,13 @@ public struct PBCard<Content: View>: View {
     .frame(minWidth: 0, maxWidth: width, alignment: alignment)
     .background(
       RoundedRectangle(cornerRadius: borderRadius.rawValue, style: .continuous)
-        .fill(Color.pbCard.opacity(isHovering ? 0.4 : 1))
+        .fill(PBColor.card.color.opacity(isHovering ? 0.4 : 1))
         .pbShadow(color: shadow.color, radius: shadow.radius, deepest: shadow == .deepest)
     )
     .overlay(
       RoundedRectangle(cornerRadius: borderRadius.rawValue)
-        .stroke(style.color.color,
-                lineWidth: border ? style.lineWidth : 0)
+        .stroke(style.color.color, lineWidth: border ? style.lineWidth : 0)
     )
-
   }
 }
 
@@ -130,8 +129,8 @@ extension PBCard {
     var color: Color {
       switch self {
       case .none: return Color.clear
-      case .deep: return Color.pbShadow.opacity(0.74)
-      default: return Color.pbShadow
+      case .deep: return PBColor.shadow.color.opacity(0.74)
+      default: return PBColor.shadow.color
       }
     }
 

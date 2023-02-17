@@ -41,7 +41,7 @@ struct PBPill_Previews: PreviewProvider {
     }
     .frame(maxWidth: .infinity, alignment: .leading)
     .padding(.leading, 20)
-    .background(Color.pbCard)
+    .background(PBColor.card.color)
     .previewDisplayName("Pills")
   }
 }

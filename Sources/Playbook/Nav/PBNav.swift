@@ -180,7 +180,6 @@ struct PBNav_Previews: PreviewProvider {
             .padding()
     }
     .frame(width: 400)
-    .background(Color.white)
-    .preferredColorScheme(.light)
+    .pbBackgroundColor(.card)
   }
 }

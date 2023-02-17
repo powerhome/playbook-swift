@@ -37,7 +37,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
             .fill(PBColor.card.color)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.pbBorder, lineWidth: 1)
+                      .stroke(PBColor.border.color, lineWidth: 1)
                 )
                 .tag("Border")
         default: Color.clear
@@ -97,7 +97,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
             }).frame(maxWidth: .infinity)
 
         } else {
-            Divider().background(Color.pbBorder)
+            Divider().background(PBColor.border.color)
         }
     }
 }

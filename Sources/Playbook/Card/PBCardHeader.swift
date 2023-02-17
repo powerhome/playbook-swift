@@ -19,7 +19,7 @@ public struct PBCardHeader<Content: View>: View {
   public var body: some View {
     content
       .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-      .background(color.color)
+      .pbBackgroundColor(color)
   }
 }
 

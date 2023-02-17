@@ -73,7 +73,7 @@ final class PBSectionSeparatorTests: XCTestCase {
         XCTAssertNotNil(textTag)
         XCTAssertEqual(textContent, "Background separator")
         XCTAssertNotNil(textBackgroundColor)
-        XCTAssertEqual(try textBackgroundColor?.name(), "Background")
+        XCTAssertEqual(try textBackgroundColor?.name(), "BackgroundLight")
         XCTAssertNotNil(endDivider)
     }
 
