@@ -114,11 +114,11 @@ public struct PBNavItem: View {
       if orientation == .vertical {
         Rectangle()
           .frame(width: variant == .normal ? 3 : 0)
-          .foregroundColor(isSelected ? .primary : .clear)
+          .pbForegroundColor(isSelected ? .primary : .clear)
       } else {
         Rectangle()
           .frame(height: variant == .normal ? 3 : 0)
-          .foregroundColor(isSelected ? .primary : .clear)
+          .pbForegroundColor(isSelected ? .primary : .clear)
       }
     }
   }

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ColorsCatalog: View {
-
   var body: some View {
     let shape = Circle().frame(width: 60)
     List {
@@ -28,28 +27,11 @@ struct ColorsCatalog: View {
         }
       }
 
-      Section("Card Colors") {
-        HStack {
-          shape.pbForegroundColor(.card)
-        }
-      }
-
       Section("Status Colors") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(PBColor.StatusColor.allCases, id: \.self) { color in
             VStack {
               shape.pbForegroundColor(.status(color))
-              Text(color.rawValue).pbFont(.caption, color: .light)
-            }
-          }
-        }
-      }
-
-      Section("Data Colors") {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-          ForEach(PBColor.DataColor.allCases, id: \.self) { color in
-            VStack {
-              shape.pbForegroundColor(.data(color))
               Text(color.rawValue).pbFont(.caption, color: .light)
             }
           }
