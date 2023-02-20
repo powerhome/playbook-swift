@@ -10,20 +10,18 @@ import SwiftUI
 public struct PBToggleStyle: ToggleStyle {
   @State var isHovering: Bool = false
   var labelsHidden: Bool
-  
+
   public init(labelsHidden: Bool = false) {
     self.labelsHidden = labelsHidden
   }
-  
+
   public func makeBody(configuration: Configuration) -> some View {
     VStack(alignment: .leading, spacing: 0) {
-      
       if !labelsHidden { // Check if we can use the .labelsHidden() from the Toggle itself.
         configuration.label
           .pbForegroundColor(.text(.light))
           .pbFont(.caption)
       }
-      
       ZStack {
         RoundedRectangle(cornerRadius: 15)
           .strokeBorder(configuration.strokeColor(isHovering: isHovering).color, lineWidth: 3)
@@ -33,7 +31,6 @@ public struct PBToggleStyle: ToggleStyle {
               .foregroundColor(configuration.backgroundColor)
           )
           .frame(width: 55, height: 30, alignment: .center)
-        
         Circle()
           .pbForegroundColor(configuration.circleColor(isHovering: isHovering))
           .frame(width: 20, height: 20, alignment: .center)
@@ -57,7 +54,7 @@ extension ToggleStyleConfiguration {
   func strokeColor(isHovering: Bool) -> PBColor {
     isOn || isHovering ? .primary : .neutral
   }
-  
+
   func circleColor(isHovering: Bool) -> PBColor {
     if isOn {
       return .card

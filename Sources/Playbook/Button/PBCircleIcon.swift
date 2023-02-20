@@ -20,7 +20,7 @@ public struct PBCircleIcon: View {
   }
 
   var backgroundColor: Color {
-    return PBColor.primary.color.opacity(0.05)
+    PBColor.primary.color.opacity(0.1)
   }
 }
 
