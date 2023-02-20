@@ -1,5 +1,5 @@
 //
-//  Color.swift
+//  PBColor.swift
 //  
 //
 //  Created by Lucas C. Feijo on 12/07/21.
@@ -112,7 +112,6 @@ extension View {
 
 extension Color {
   // TODO: - Add this colors in playbook kit or change connect design to use playbook colors
-  // MARK: Mentions
   static let pbMention         = Color("Mention", bundle: .module)
   static let pbMentionMe       = Color("MentionMe", bundle: .module)
   static let pbMentionText     = Color("MentionText", bundle: .module)

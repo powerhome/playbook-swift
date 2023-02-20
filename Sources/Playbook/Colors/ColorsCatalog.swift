@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if DEBUG
 struct ColorsCatalog: View {
   var body: some View {
     let shape = Circle().frame(width: 60)
@@ -57,3 +58,4 @@ struct ColorsCatalog_Previews: PreviewProvider {
     ColorsCatalog()
   }
 }
+#endif
