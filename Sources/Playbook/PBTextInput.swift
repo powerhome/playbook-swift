@@ -20,7 +20,7 @@ public struct PBTextInputStyle: TextFieldStyle {
     VStack(alignment: .leading, spacing: 4) {
       if let title = title {
         Text(title)
-          .pbFont(.title4, color: .text(.light))
+          .pbFont(.title4, color: .light)
       }
       PBCard(padding: 0, style: style) {
         configuration

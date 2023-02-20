@@ -20,7 +20,7 @@ public struct PBSelect: ButtonStyle {
     VStack(alignment: .leading, spacing: 4) {
       if let title = title {
         Text(title)
-          .pbFont(.caption, color: .text(.light))
+          .pbFont(.caption, color: .light)
       }
       PBCard(padding: 0, style: style) {
         HStack {

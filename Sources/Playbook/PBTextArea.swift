@@ -19,7 +19,7 @@ public struct PBTextArea: View {
   public var body: some View {
     VStack(alignment: .leading, spacing: 4) {
       Text(title)
-        .pbFont(.title4, color: .text(.light))
+        .pbFont(.title4, color: .light)
       PBCard(padding: 0) {
         TextEditor(text: $text)
           .padding(.top, 4)

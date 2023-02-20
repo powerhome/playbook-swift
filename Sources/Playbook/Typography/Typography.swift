@@ -9,21 +9,16 @@ import SwiftUI
 
 public struct Typography: ViewModifier {
   var font: PBFont
-  var variant: Variant = .none
-  var color: PBColor = .text(.textDefault)
+  var variant: Variant
+  var color: PBColor.TextColor
 
   var foregroundColor: PBColor {
-      switch font {
-      case .title4:
-        return variant == .link ? .primary : .text(.textDefault)
-      case .subcaption:
-        return variant == .link ? .primary : .text(.light)
-      case .caption, .largeCaption:
-        return .text(.light)
-      case .monogram, .buttonText:
-        return color
-      default:
-        return .text(.textDefault)
+      switch variant {
+      case .link:
+        return .primary
+      case .status(let color):
+        return .status(color)
+      default: return .text(color)
       }
   }
 
@@ -48,10 +43,10 @@ public struct Typography: ViewModifier {
   public func body(content: Content) -> some View {
     content
       .font(font.font)
-      .pbForegroundColor(foregroundColor)
-      .lineSpacing(spacing) // Only works between lines in a paragraph.
-      .padding(.vertical, spacing) // Adds the space around the text block.
+      .lineSpacing(spacing)
+      .padding(.vertical, spacing)
       .textCase(casing)
+      .pbForegroundColor(foregroundColor)
   }
 }
 
@@ -59,6 +54,7 @@ public extension Typography {
   enum Variant {
     case none
     case link
+    case status(_ color: PBColor.StatusColor)
   }
 }
 
@@ -66,7 +62,7 @@ public extension View {
   func pbFont(
     _ font: PBFont,
     variant: Typography.Variant = .none,
-    color: PBColor = .text(.textDefault)
+    color: PBColor.TextColor = .textDefault
   ) -> some View {
     self.modifier(Typography(font: font, variant: variant, color: color))
   }
@@ -85,7 +81,7 @@ struct Typography_Previews: PreviewProvider {
         Text("Title 3\nTitle 3")
           .pbFont(.title3)
                 Text("Title 4\nTitle 4")
-                    .pbFont(.title4)
+          .pbFont(.title4, variant: .status(.success))
                 Text("Title 4 Link Variant")
                     .pbFont(.title4, variant: .link)
             }

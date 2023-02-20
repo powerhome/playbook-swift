@@ -29,6 +29,7 @@ public enum PBColor: Hashable {
     case .text(.textDefault): return Color("TextDefault", bundle: .module)
     case .text(.light): return Color("TextLight", bundle: .module)
     case .text(.lighter): return Color("TextLighter", bundle: .module)
+    case .text(.white): return Color.white
     case .background(.light): return Color("BackgroundLight", bundle: .module)
     case .background(.white): return Color("BackgroundWhite", bundle: .module)
     case .background(.dark): return Color("BackgroundDark", bundle: .module)
@@ -154,7 +155,7 @@ extension Color {
 
 public extension PBColor {
   enum TextColor: String, CaseIterable {
-    case textDefault, light, lighter
+    case textDefault, light, lighter, white
   }
 
   enum BackgroundColor: String, CaseIterable {

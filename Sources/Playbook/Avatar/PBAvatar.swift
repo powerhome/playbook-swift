@@ -47,7 +47,7 @@ public struct PBAvatar: View {
         } else if let initials = initials {
           Text(initials)
             .tag("monogram")
-            .pbFont(.monogram(size.fontSize), color: .card)
+            .pbFont(.monogram(size.fontSize), color: .white)
         }
       }
       .foregroundColor(.white)
