@@ -84,7 +84,7 @@ public enum PBColor: Hashable {
   }
 }
 
-struct PBForegroundColor: ViewModifier {
+private struct PBForegroundColor: ViewModifier {
   var pbColor: PBColor
 
   func body(content: Content) -> some View {
@@ -92,7 +92,7 @@ struct PBForegroundColor: ViewModifier {
   }
 }
 
-struct PBBackgroundColor: ViewModifier {
+private struct PBBackgroundColor: ViewModifier {
   var pbColor: PBColor
 
   func body(content: Content) -> some View {
@@ -100,7 +100,7 @@ struct PBBackgroundColor: ViewModifier {
   }
 }
 
-extension View {
+public extension View {
   func pbForegroundColor(_ pbColor: PBColor) -> some View {
     self.modifier(PBForegroundColor(pbColor: pbColor))
   }
