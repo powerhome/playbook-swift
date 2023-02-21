@@ -8,126 +8,140 @@
 import SwiftUI
 
 public struct PBCollapsible<HeaderContent: View, Content: View>: View {
-    @Binding private var isCollapsed: Bool
-    @State private var opacity = 1.0
-    var indicatorPosition: IndicatorPosition
-    var indicatorColor: PBColor
-    var headerView: HeaderContent
-    var contentView: Content
+  @Binding private var isCollapsed: Bool
+  var indicatorPosition: IndicatorPosition
+  var indicatorColor: PBColor
+  var headerView: HeaderContent
+  var contentView: Content
 
-    public init(isCollapsed: Binding<Bool> = .constant(false),
-                indicatorPosition: IndicatorPosition = .leading,
-                indicatorColor: PBColor = .text(.light),
-                @ViewBuilder header: @escaping () -> HeaderContent,
-                @ViewBuilder content: @escaping () -> Content) {
-        _isCollapsed = isCollapsed
-        self.indicatorPosition = indicatorPosition
-        self.indicatorColor = indicatorColor
-        self.headerView = header()
-        self.contentView = content()
-    }
+  public init(
+    isCollapsed: Binding<Bool> = .constant(false),
+    indicatorPosition: IndicatorPosition = .leading,
+    indicatorColor: PBColor = .text(.light),
+    @ViewBuilder header: @escaping () -> HeaderContent,
+    @ViewBuilder content: @escaping () -> Content
+  ) {
+    _isCollapsed = isCollapsed
+    self.indicatorPosition = indicatorPosition
+    self.indicatorColor = indicatorColor
+    self.headerView = header()
+    self.contentView = content()
+  }
 
-    var indicator: some View {
-        PBIcon.fontAwesome(.chevronDown, size: .small)
-            .padding(.pbXxsmall)
-            .pbForegroundColor(indicatorColor)
-            .animation(.easeOut, value: true)
-            .rotation3DEffect(
-                .degrees(isCollapsed ? 180 : 0),
-                axis: (x: 1.0, y: 1.0, z: 0.0)
-            )
-    }
+  var indicator: some View {
+    PBIcon.fontAwesome(.chevronDown, size: .small)
+      .padding(.pbXxsmall)
+      .rotationEffect(
+        .degrees(isCollapsed ? 0 : 180)
+      )
+  }
 
-    public var body: some View {
-        VStack {
-            HStack {
-                if indicatorPosition == .leading {
-                    indicator
-                    headerView
-                    Spacer()
-                } else {
-                    headerView
-                    Spacer()
-                    indicator
-                }
-            }
-            .onTapGesture {
-                isCollapsed.toggle()
-            }
-            .padding(.vertical, .pbXsmall)
-
-            contentView
-                .padding(.bottom, .pbXsmall)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: isCollapsed ? 0 : .none)
-                .opacity(isCollapsed ? 0.4 : 1.0)
-                .animation(.easeOut, value: true)
-                .clipped()
-                .transition(.moveBottom)
+  public var body: some View {
+    VStack {
+      Button {
+        withAnimation {
+          isCollapsed.toggle()
         }
+      } label: {
+        if indicatorPosition == .leading {
+          indicator
+          headerView.pbFont(.title4)
+          Spacer()
+        } else {
+          headerView.pbFont(.title4)
+          Spacer()
+          indicator
+        }
+      }
+      .tint(indicatorColor.color)
+      .buttonStyle(BorderlessButtonStyle())
+
+      contentView
+        .fixedSize(horizontal: false, vertical: true)
+        .pbFont(.body())
+        .padding(.bottom, .pbXsmall)
+        .frame(height: isCollapsed ? 0 : .none, alignment: .top)
+        .clipped()
     }
+  }
 }
 
 // MARK: - Extensions
 public extension PBCollapsible {
-    enum IndicatorPosition {
-        case leading
-        case trailing
-    }
-}
-
-extension AnyTransition {
-    static var moveBottom: AnyTransition {
-        let insertion = AnyTransition.move(edge: .bottom)
-            .combined(with: .scale(scale: 0.2, anchor: .topTrailing))
-        let removal = AnyTransition.move(edge: .top)
-        return .asymmetric(insertion: insertion, removal: removal)
-    }
+  enum IndicatorPosition {
+    case leading
+    case trailing
+  }
 }
 
 struct PBCollapsible_Previews: PreviewProvider {
-    static var previews: some View {
-        registerFonts()
-        return Preview()
+  static var previews: some View {
+    registerFonts()
+    return Preview()
+  }
+
+  struct Preview: View {
+    @State var isCollapsed = false
+    @State var isCollapsedTrailing = true
+    @State var isCollapsedImage = true
+
+    let lorem = """
+      Group members... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel erat sed purus hendrerit vive.
+
+      Etiam nunc massa, pharetra vel quam id, posuere rhoncus quam. Quisque imperdiet arcu enim, nec aliquet justo.
+
+      Praesent lorem arcu. Vivamus suscipit, libero eu fringilla egestas, orci urna commodo arcu, vel gravida turpis.
+      """
+
+    var header: some View {
+      Label(
+        title: { Text("Title with Icon, Chevron Left") },
+        icon: { PBIcon.fontAwesome(.users) }
+      )
     }
 
-    struct Preview: View {
-        @State var isCollapsed = false
-        @State var isCollapsedTrailing = true
-
-        let lorem = """
-        Group members... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel erat sed purus hendrerit vive.
-
-        Etiam nunc massa, pharetra vel quam id, posuere rhoncus quam. Quisque imperdiet arcu enim, nec aliquet justo.
-
-        Praesent lorem arcu. Vivamus suscipit, libero eu fringilla egestas, orci urna commodo arcu, vel gravida turpis.
-        """
-
-        var header: some View {
-            Label(
-                title: { Text("Members").pbFont(.title4) },
-                icon: { PBIcon.fontAwesome(.users) }
-            )
-        }
-        var content: some View {
-            Text(lorem).pbFont(.body())
-        }
-
-        var body: some View {
-            GeometryReader { _ in
-                VStack {
-                    PBCollapsible(isCollapsed: $isCollapsed) {
-                        header
-                    } content: {
-                        content
-                    }
-
-                    PBCollapsible(isCollapsed: $isCollapsedTrailing, indicatorPosition: .trailing) {
-                        header
-                    } content: {
-                        content
-                    }
-                }
-            }
-        }
+    var textOnlyHeader: some View {
+      Text("Title with Only Text, Chevron Right")
     }
+
+    var imageHeader: some View {
+      Text("Image")
+    }
+
+    var content: some View {
+      Text(lorem)
+    }
+
+    var image: some View {
+      PBImage(
+        image: Image("Forest", bundle: .module),
+        size: .none
+      )
+    }
+
+    var body: some View {
+      GeometryReader { _ in
+        VStack {
+          PBCollapsible(isCollapsed: $isCollapsed) {
+            header
+          } content: {
+            content
+          }
+
+          PBCollapsible(isCollapsed: $isCollapsedTrailing, indicatorPosition: .trailing) {
+            textOnlyHeader
+          } content: {
+            content
+          }
+
+          PBCollapsible(isCollapsed: $isCollapsedImage, indicatorPosition: .trailing) {
+            imageHeader
+          } content: {
+            image
+          }
+        }
+        .padding()
+      }
+    }
+  }
 }

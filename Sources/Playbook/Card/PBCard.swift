@@ -62,12 +62,13 @@ public struct PBCard<Content: View>: View {
     self.border = border
     self.borderRadius = borderRadius
     self.highlight = highlight
+    self.highlightColor = highlightColor
     self.isHovering = isHovering
     self.padding = padding
     self.style = style
     self.shadow = shadow
     self.width = width
-    self.highlightColor = highlightColor
+
   }
 
   public var body: some View {
@@ -170,11 +171,17 @@ struct PBCard_Previews: PreviewProvider {
             Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
             Sed commodo posuere lectus, at porta nulla ornare a.
         """
-
     return Group {
       VStack(alignment: .leading, spacing: 8) {
         Text("Default").pbFont(.caption)
         PBCard {
+          Text(text).pbFont(.body())
+        }
+        .previewDisplayName("Default")
+        .padding(.bottom)
+
+        Text("Default with shadow deep").pbFont(.caption)
+        PBCard(shadow: .deep) {
           Text(text).pbFont(.body())
         }
       }
@@ -251,24 +258,6 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Padding size")
-
-      VStack(alignment: .leading) {
-        Text("Shadow").pbFont(.caption)
-        PBCard(shadow: .none) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(shadow: .deep) {
-          Text(text).pbFont(.body())
-        }.padding(.top, 25)
-        PBCard(shadow: .deeper) {
-          Text(text).pbFont(.body())
-        }.padding(.top, 25)
-        PBCard(shadow: .deepest) {
-          Text(text).pbFont(.body())
-        }.padding(.top, 25)
-      }
-      .padding()
-      .previewDisplayName("Shadow")
 
       VStack(alignment: .leading, spacing: 8) {
         Text("Separator & Content").pbFont(.caption)

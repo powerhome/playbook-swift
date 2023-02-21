@@ -109,5 +109,4 @@ final class PBCardTests: XCTestCase {
     XCTAssertEqual(shadow, PBCard.Shadow.deep)
     XCTAssertEqual(text, "test")
   }
-  //
 }
