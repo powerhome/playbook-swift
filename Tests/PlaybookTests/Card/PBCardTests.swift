@@ -106,7 +106,7 @@ final class PBCardTests: XCTestCase {
         let shadow = card.modifier(self).content.shadow
         let text = try vStack.text(0).string()
 
-        XCTAssertEqual(shadow, PBCard.Shadow.deep)
+        XCTAssertEqual(shadow, Shadow.deep)
         XCTAssertEqual(text, "test")
     }
     //
