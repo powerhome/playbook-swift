@@ -21,6 +21,7 @@ public enum PBColor: Hashable {
   case product(_ variant: ProductColor)
   case category(_ variant: CategoryColor)
   case clear
+  case hover
 
   public var color: Color {
     switch self {
@@ -80,6 +81,7 @@ public enum PBColor: Hashable {
     case .category(.category20): return Color("Category20", bundle: .module)
     case .category(.category21): return Color("Category21", bundle: .module)
     case .clear: return Color.clear
+    case .hover: return Color("Hover", bundle: .module)
     }
   }
 }
