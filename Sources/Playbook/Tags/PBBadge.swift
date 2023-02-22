@@ -29,6 +29,7 @@ public struct PBBadge: View {
   }
 }
 
+@available(macOS 13.0, *)
 struct PBBadge_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()

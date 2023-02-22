@@ -13,14 +13,10 @@ public struct PBCircleIcon: View {
   public var body: some View {
     icon
       .frame(minWidth: 38, minHeight: 38)
-      .background(backgroundColor)
+      .background(PBColor.primary.color.opacity(0.1))
       .pbForegroundColor(.primary)
       .pbFont(.buttonText())
       .clipShape(Circle())
-  }
-
-  var backgroundColor: Color {
-    PBColor.primary.color.opacity(0.1)
   }
 }
 
