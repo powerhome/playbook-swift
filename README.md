@@ -19,4 +19,4 @@ packages:
 
 ## Troubleshooting
 
-- Check the Wiki for common troubleshooting solutions
+- Visit the Wiki for common troubleshooting solutions
