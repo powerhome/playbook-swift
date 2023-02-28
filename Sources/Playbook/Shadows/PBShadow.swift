@@ -26,9 +26,9 @@ public enum Shadow: String, CaseIterable {
 
   var color: Color {
     switch self {
-    case .deep: return PBColor.shadow.color.opacity(0.74)
-    case .none: return PBColor.clear.color
-    default: return PBColor.shadow.color
+    case .deep: return .shadow.opacity(0.74)
+    case .none: return .clear
+    default: return .shadow
     }
   }
 

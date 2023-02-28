@@ -51,19 +51,19 @@ public enum PBButtonVariant {
   case link
 
   func foregroundColor(_ disabled: Bool) -> Color {
-    if disabled { return PBColor.text(.textDefault).color.opacity(0.5) }
+    if disabled { return Color.text(.textDefault).opacity(0.5) }
     switch self {
     case .primary: return .white
-    case .secondary: return PBColor.primary.color
-    case .link: return PBColor.primary.color
+    case .secondary: return .pbPrimary
+    case .link: return .pbPrimary
     }
   }
 
   func backgroundColor(_ disabled: Bool) -> Color {
     switch (self, disabled) {
-    case (.primary, true): return PBColor.neutral.color.opacity(0.4)
-    case (.primary, false): return PBColor.primary.color
-    case (.secondary, _): return PBColor.primary.color.opacity(0.05)
+    case (.primary, true): return .neutral
+    case (.primary, false): return .pbPrimary
+    case (.secondary, _): return .pbPrimary.opacity(0.05)
     case (.link, _): return .clear
     }
   }

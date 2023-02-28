@@ -19,10 +19,10 @@ public struct PBLabelValue: View {
   public var body: some View {
     VStack(alignment: .leading, spacing: 4) {
       Text(label)
-        .pbForegroundColor(.text(.light))
+        .foregroundColor(.text(.light))
         .pbFont(.title4)
       Text(value)
-        .pbForegroundColor(.text(.textDefault))
+        .foregroundColor(.text(.textDefault))
         .pbFont(.body())
     }
   }

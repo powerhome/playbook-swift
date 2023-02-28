@@ -14,26 +14,26 @@ struct ColorsCatalog: View {
     List {
       Section("Text Colors") {
         HStack {
-          ForEach(PBColor.TextColor.allCases, id: \.self) { color in
-            shape.pbForegroundColor(.text(color))
+          ForEach(Color.TextColor.allCases, id: \.self) { color in
+            shape.foregroundColor(.text(color))
           }
         }
       }
 
       Section("Background Colors") {
         HStack {
-          ForEach(PBColor.BackgroundColor.allCases, id: \.self) { color in
-            shape.pbForegroundColor(.background(color))
+          ForEach(Color.BackgroundColor.allCases, id: \.self) { color in
+            shape.foregroundColor(.background(color))
           }
         }
       }
 
       Section("Status Colors") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-          ForEach(PBColor.StatusColor.allCases, id: \.self) { color in
+          ForEach(Color.StatusColor.allCases, id: \.self) { color in
             VStack {
-              shape.pbForegroundColor(.status(color))
-              Text(color.rawValue).pbFont(.caption, color: .light)
+              shape.foregroundColor(.status(color))
+              Text(color.rawValue).pbFont(.caption, color: .text(.light))
             }
           }
         }
@@ -41,10 +41,10 @@ struct ColorsCatalog: View {
 
       Section("Product Colors") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-          ForEach(PBColor.ProductColor.allCases, id: \.self) { color in
+          ForEach(Color.ProductColor.allCases, id: \.self) { color in
             VStack {
-              shape.pbForegroundColor(.product(color))
-              Text(color.rawValue).pbFont(.caption, color: .light)
+              shape.foregroundColor(.product(color))
+              Text(color.rawValue).pbFont(.caption, color: .text(.light))
             }
           }
         }

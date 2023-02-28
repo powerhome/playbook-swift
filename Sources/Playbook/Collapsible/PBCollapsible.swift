@@ -10,14 +10,14 @@ import SwiftUI
 public struct PBCollapsible<HeaderContent: View, Content: View>: View {
   @Binding private var isCollapsed: Bool
   var indicatorPosition: IndicatorPosition
-  var indicatorColor: PBColor
+  var indicatorColor: Color
   var headerView: HeaderContent
   var contentView: Content
 
   public init(
     isCollapsed: Binding<Bool> = .constant(false),
     indicatorPosition: IndicatorPosition = .leading,
-    indicatorColor: PBColor = .text(.light),
+    indicatorColor: Color = .text(.light),
     @ViewBuilder header: @escaping () -> HeaderContent,
     @ViewBuilder content: @escaping () -> Content
   ) {
@@ -53,7 +53,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
           indicator
         }
       }
-      .tint(indicatorColor.color)
+      .tint(indicatorColor)
       .buttonStyle(BorderlessButtonStyle())
 
       contentView

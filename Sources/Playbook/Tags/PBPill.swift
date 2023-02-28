@@ -9,9 +9,9 @@ import SwiftUI
 
 public struct PBPill: View {
   private let title: String
-  private let variant: StatusVariant
+  private let variant: Color.StatusColor
 
-  public init(_ title: String, variant: StatusVariant = .neutral) {
+  public init(_ title: String, variant: Color.StatusColor = .neutral) {
     self.title = title
     self.variant = variant
   }
@@ -19,9 +19,9 @@ public struct PBPill: View {
   public var body: some View {
     Text(title)
       .padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
-      .pbForegroundColor(variant.foregroundColor)
+      .foregroundColor(.status(variant))
+      .background(Color.status(variant).subtle)
       .pbFont(.title4)
-      .background(variant.backgroundColor)
       .cornerRadius(12)
   }
 }
@@ -31,7 +31,6 @@ struct PBPill_Previews: PreviewProvider {
     registerFonts()
 
     return VStack(alignment: .leading) {
-      PBPill("default")
       PBPill("success", variant: .success)
       PBPill("error", variant: .error)
       PBPill("warning", variant: .warning)
@@ -41,7 +40,7 @@ struct PBPill_Previews: PreviewProvider {
     }
     .frame(maxWidth: .infinity, alignment: .leading)
     .padding(.leading, 20)
-    .background(PBColor.card.color)
+    .background(Color.card)
     .previewDisplayName("Pills")
   }
 }

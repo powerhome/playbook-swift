@@ -10,12 +10,12 @@ import SwiftUI
 public enum PBCardStyle {
   case `default`, selected, error
 
-  var color: PBColor {
+  var color: Color {
     switch self {
     case .`default`:
       return .border
     case .selected:
-      return .primary
+      return .pbPrimary
     case .error:
       return .status(.error)
     }
@@ -37,7 +37,7 @@ public struct PBCard<Content: View>: View {
   let border: Bool
   let borderRadius: BorderRadius
   let highlight: Highlight
-  let highlightColor: PBColor
+  let highlightColor: Color
   let isHovering: Bool
   let padding: CGFloat
   let style: PBCardStyle
@@ -49,7 +49,7 @@ public struct PBCard<Content: View>: View {
     border: Bool = true,
     borderRadius: BorderRadius = .medium,
     highlight: Highlight = .none,
-    highlightColor: PBColor = .product(.windows),
+    highlightColor: Color = .product(.windows),
     isHovering: Bool = false,
     padding: CGFloat = .pbMedium,
     style: PBCardStyle = .default,
@@ -82,7 +82,7 @@ public struct PBCard<Content: View>: View {
           .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
           .background(
             RoundedRectangle(cornerRadius: borderRadius.rawValue)
-              .stroke(highlightColor.color, lineWidth: 10)
+              .stroke(highlightColor, lineWidth: 10)
               .padding(.init(top: highlight == .top ? 0 : -10,
                              leading: highlight == .side ? 0 : -10,
                              bottom: -10,
@@ -94,12 +94,12 @@ public struct PBCard<Content: View>: View {
     .frame(minWidth: 0, maxWidth: width, alignment: alignment)
     .background(
       RoundedRectangle(cornerRadius: borderRadius.rawValue, style: .continuous)
-        .fill(PBColor.card.color.opacity(isHovering ? 0.4 : 1))
-        .pbShadow(color: shadow.color, radius: shadow.radius, deepest: shadow == .deepest)
+        .fill(Color.card.opacity(isHovering ? 0.4 : 1))
+        .pbShadow(color: .shadow, radius: shadow.radius, deepest: shadow == .deepest)
     )
     .overlay(
       RoundedRectangle(cornerRadius: borderRadius.rawValue)
-        .stroke(style.color.color, lineWidth: border ? style.lineWidth : 0)
+        .stroke(style.color, lineWidth: border ? style.lineWidth : 0)
     )
   }
 }
@@ -129,9 +129,9 @@ extension PBCard {
 
     var color: Color {
       switch self {
-      case .none: return Color.clear
-      case .deep: return PBColor.shadow.color.opacity(0.74)
-      default: return PBColor.shadow.color
+      case .none: return .clear
+      case .deep: return .shadow.opacity(0.74)
+      default: return .shadow
       }
     }
 
@@ -306,7 +306,7 @@ struct PBCard_Previews: PreviewProvider {
         PBCard(padding: .pbNone) {
           PBCardHeader(color: .product(.windows)) {
             Text("Andrew")
-              .pbForegroundColor(.text(.lighter))
+              .foregroundColor(.text(.lighter))
               .pbFont(.body())
               .padding(.pbSmall)
           }

@@ -9,9 +9,9 @@ import SwiftUI
 
 public struct PBCardHeader<Content: View>: View {
   let content: Content
-  let color: PBColor
+  let color: Color
 
-  public init(color: PBColor = .product(.windows), @ViewBuilder content: () -> Content) {
+  public init(color: Color = .product(.windows), @ViewBuilder content: () -> Content) {
     self.content = content()
     self.color = color
   }
@@ -19,7 +19,7 @@ public struct PBCardHeader<Content: View>: View {
   public var body: some View {
     content
       .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-      .pbBackgroundColor(color)
+      .background(color)
   }
 }
 

@@ -102,7 +102,7 @@ public struct PBNav: View {
     VStack(alignment: .leading) {
       if let title = title {
         Text(title)
-          .pbFont(.caption, color: .light)
+          .pbFont(.caption, color: .text(.light))
           .padding(.leading, .pbSmall)
       }
 
@@ -179,6 +179,6 @@ struct PBNav_Previews: PreviewProvider {
             .padding()
     }
     .frame(width: 400)
-    .pbBackgroundColor(.card)
+    .background(Color.card)
   }
 }

@@ -26,10 +26,10 @@ struct PBNavigationItem<Content: View>: View {
 
   var markerColor: Color {
     if isHovering {
-      return PBColor.primary.color
+      return .pbPrimary
     }
     if selected {
-      return PBColor.primary.color
+      return .pbPrimary
     } else {
       return Color(hex: 0xE4E8F0)
     }
@@ -101,17 +101,17 @@ struct PBNavigationItem<Content: View>: View {
     var orientation: PBNavigationOrientation
     var isHovering: Bool
 
-    var captionForegroundColor: PBColor {
+    var captionForegroundColor: Color {
       if variant == .normal,
          orientation == .horizontal {
         if self.isHovering {
-          return .primary
+          return .pbPrimary
         }
         return .text(.textDefault)
       }
 
       if selected || self.isHovering {
-        return .primary
+        return .pbPrimary
       }
       return .text(.textDefault)
     }
@@ -127,10 +127,10 @@ struct PBNavigationItem<Content: View>: View {
     func makeBody(configuration: Configuration) -> some View {
       HStack(alignment: .bottom) {
         configuration.icon
-          .pbForegroundColor(captionForegroundColor)
+          .foregroundColor(captionForegroundColor)
         configuration.title
           .pbFont(font)
-          .pbForegroundColor(captionForegroundColor)
+          .foregroundColor(captionForegroundColor)
       }
     }
   }

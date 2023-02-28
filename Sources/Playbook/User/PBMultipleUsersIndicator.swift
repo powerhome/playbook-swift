@@ -19,7 +19,7 @@ public struct PBMultipleUsersIndicator: View {
                 .frame(width: size.diameter)
                 .padding(6)
                 .frame(width: size.diameter)
-                .background(PBColor.shadow.color)
+                .background(Color.shadow)
                 .clipShape(Circle())
                 .background {
                     Circle()

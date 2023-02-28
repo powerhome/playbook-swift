@@ -63,8 +63,8 @@ public struct PBRadioButtonStyle: ButtonStyle {
     private let subtitle: String
     private let isSelected: Bool
 
-    private var borderColor: PBColor {
-      isSelected ? .primary : .border
+    private var borderColor: Color {
+      isSelected ? .pbPrimary : .border
     }
 
     private var lineWidth: CGFloat {
@@ -79,16 +79,16 @@ public struct PBRadioButtonStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         HStack(alignment: .top) {
             Circle()
-            .strokeBorder(borderColor.color, lineWidth: lineWidth)
+            .strokeBorder(borderColor, lineWidth: lineWidth)
                 .frame(width: 22, height: 22)
             VStack(alignment: .leading, spacing: 4) {
                 configuration.label
-                    .pbForegroundColor(.text(.textDefault))
+                    .foregroundColor(.text(.textDefault))
                     .pbFont(.body())
                     .frame(minHeight: 22)
                 if !subtitle.isEmpty {
                     Text(subtitle)
-                        .pbForegroundColor(.text(.light))
+                        .foregroundColor(.text(.light))
                         .pbFont(.subcaption)
                 }
             }

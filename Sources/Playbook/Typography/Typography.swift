@@ -10,15 +10,13 @@ import SwiftUI
 public struct Typography: ViewModifier {
   var font: PBFont
   var variant: Variant
-  var color: PBColor.TextColor
+  var color: Color
 
-  var foregroundColor: PBColor {
+  var foregroundColor: Color {
       switch variant {
       case .link:
-        return .primary
-      case .status(let color):
-        return .status(color)
-      default: return .text(color)
+        return .pbPrimary
+      default: return color
       }
   }
 
@@ -46,7 +44,7 @@ public struct Typography: ViewModifier {
       .lineSpacing(spacing)
       .padding(.vertical, spacing)
       .textCase(casing)
-      .pbForegroundColor(foregroundColor)
+      .foregroundColor(foregroundColor)
   }
 }
 
@@ -54,7 +52,6 @@ public extension Typography {
   enum Variant {
     case none
     case link
-    case status(_ color: PBColor.StatusColor)
   }
 }
 
@@ -62,7 +59,7 @@ public extension View {
   func pbFont(
     _ font: PBFont,
     variant: Typography.Variant = .none,
-    color: PBColor.TextColor = .textDefault
+    color: Color = .text(.textDefault)
   ) -> some View {
     self.modifier(Typography(font: font, variant: variant, color: color))
   }
@@ -81,7 +78,7 @@ struct Typography_Previews: PreviewProvider {
         Text("Title 3\nTitle 3")
           .pbFont(.title3)
                 Text("Title 4\nTitle 4")
-          .pbFont(.title4, variant: .status(.success))
+          .pbFont(.title4, color: .status(.success))
                 Text("Title 4 Link Variant")
                     .pbFont(.title4, variant: .link)
             }

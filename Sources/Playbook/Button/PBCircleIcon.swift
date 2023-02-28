@@ -8,14 +8,17 @@
 import SwiftUI
 
 public struct PBCircleIcon: View {
-  public var icon: PBIcon
+  var icon: PBIcon
+
+  public init(icon: PBIcon) {
+    self.icon = icon
+  }
 
   public var body: some View {
     icon
       .frame(minWidth: 38, minHeight: 38)
-      .background(PBColor.primary.color.opacity(0.1))
-      .pbForegroundColor(.primary)
-      .pbFont(.buttonText())
+      .background(Color.pbPrimary.subtle)
+      .foregroundColor(.pbPrimary)
       .clipShape(Circle())
   }
 }
@@ -23,6 +26,6 @@ public struct PBCircleIcon: View {
 struct PBCircleIcon_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-    return PBCircleIcon(icon: PBIcon(FontAwesome.plus, size: .small))
+    return PBCircleIcon(icon: PBIcon(FontAwesome.info, size: .small))
   }
 }

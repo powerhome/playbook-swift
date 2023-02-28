@@ -32,9 +32,12 @@ file_length:
   error: 800
 
 large_tuple: # warn user when using 3 values in tuple, give error if there are 4
-   - 3
-   - 4
-   
+  - 3
+  - 4
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
 # naming rules can set warnings/errors for min_length and max_length
 # additionally they can set excluded names
 type_name:

@@ -10,12 +10,12 @@ import SwiftUI
 public struct PBCheckboxButtonStyle: ButtonStyle {
     let isSelected: Bool
 
-    private var borderColor: PBColor {
-      isSelected ? .primary : .border
+    private var borderColor: Color {
+      isSelected ? .pbPrimary : .border
     }
 
     var backgroundColor: Color {
-      isSelected ? PBColor.primary.color : Color.clear
+      isSelected ? .pbPrimary : .clear
     }
 
     public init(isSelected: Bool) {
@@ -26,7 +26,7 @@ public struct PBCheckboxButtonStyle: ButtonStyle {
         HStack(alignment: .top) {
             ZStack {
                 RoundedRectangle(cornerRadius: 4)
-                .strokeBorder(borderColor.color, lineWidth: 2)
+                .strokeBorder(borderColor, lineWidth: 2)
                     .background(backgroundColor)
                     .clipShape(RoundedRectangle(cornerRadius: 4))
                     .frame(width: 22, height: 22)
@@ -35,7 +35,7 @@ public struct PBCheckboxButtonStyle: ButtonStyle {
             }
             VStack(alignment: .leading, spacing: 4) {
                 configuration.label
-                    .pbForegroundColor(.text(.textDefault))
+                    .foregroundColor(.text(.textDefault))
                     .pbFont(.body())
                     .frame(minHeight: 22)
             }

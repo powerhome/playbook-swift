@@ -52,19 +52,19 @@ public struct PBAvatar: View {
       }
       .foregroundColor(.white)
       .frame(width: size.diameter, height: size.diameter)
-      .pbBackgroundColor(.neutral)
+      .background(Color.neutral)
       .clipShape(Circle())
 
       if wrapped {
         Circle()
-          .strokeBorder(PBColor.background(.light).color, lineWidth: 1)
+          .strokeBorder(Color.background(.light), lineWidth: 1)
           .frame(width: size.diameter + 1, height: size.diameter + 1)
       }
 
-      if let statusColor = self.status?.color {
+      if let statusColor = self.status {
         Circle()
-          .strokeBorder(PBColor.background(.light).color, lineWidth: 2)
-          .background(Circle().pbForegroundColor(statusColor))
+          .strokeBorder(Color.background(.light), lineWidth: 2)
+          .background(Circle().foregroundColor(statusColor.color))
           .frame(width: 10.0, height: 10.0)
           .cornerRadius(size.diameter/2)
           .offset(x: size.diameter/2 - size.diameter/9,
@@ -111,7 +111,7 @@ public extension PBAvatar {
     case offline
     case online
 
-    var color: PBColor {
+    var color: Color {
       switch self {
       case .online: return .status(.success)
       case .away: return .status(.warning)

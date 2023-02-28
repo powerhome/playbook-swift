@@ -14,8 +14,8 @@ public struct PBSpinner: View {
     @State private var isAnimating: Bool = false
 
     public init(
-        ringColor: Color = PBColor.primary.color,
-        innerColor: Color = PBColor.card.color,
+        ringColor: Color = .pbPrimary,
+        innerColor: Color = .card,
         ringSize: CGSize = CGSize(width: 20, height: 20)
     ) {
         self.innerColor = innerColor
@@ -29,21 +29,22 @@ public struct PBSpinner: View {
                 .stroke(innerColor, style: StrokeStyle(lineWidth: 4))
                 .frame(width: ringSize.width, height: ringSize.height)
                 .background(
-                  RoundedRectangle(cornerRadius: ringSize.height).fill(PBColor.background(.light).color)
+                  RoundedRectangle(cornerRadius: ringSize.height).fill(Color.background(.light))
                 )
 
             Circle()
                 .trim(from: 0.3, to: 1)
                 .stroke(
-                    LinearGradient(
-                        gradient: Gradient(colors: [PBColor.primary.color, PBColor.primary.color.opacity(0.75)]),
-                        startPoint: .topTrailing, endPoint: .bottomLeading
-                    ),
+                  LinearGradient(
+                    colors: [.pbPrimary, .pbPrimary.opacity(0.75)],
+                    startPoint: .topTrailing,
+                    endPoint: .bottomLeading
+                  ),
                     style: StrokeStyle(lineWidth: 4, lineCap: .round)
                 )
                 .rotationEffect(Angle(degrees: isAnimating ? 360 : 0))
                 .frame(width: ringSize.width, height: ringSize.height)
-                .shadow(color: PBColor.shadow.color, radius: 2, x: 0, y: 2)
+                .shadow(color: .shadow, radius: 2, x: 0, y: 2)
                 .animation(
                     Animation
                         .linear(duration: 0.75)

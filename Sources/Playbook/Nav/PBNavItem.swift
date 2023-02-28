@@ -21,7 +21,7 @@ public struct PBNavItem: View {
     if variant == .normal && orientation == .horizontal {
       return .clear
     }
-    return PBColor.primary.color
+    return .pbPrimary
   }
 
   var selectionIndicatorAlignment: Alignment {
@@ -31,30 +31,30 @@ public struct PBNavItem: View {
     return .bottom
   }
 
-  var iconForegroundColor: PBColor {
+  var iconForegroundColor: Color {
     if variant == .normal && orientation == .horizontal {
       if isHovering {
-        return .primary
+        return .pbPrimary
       }
       return .text(.textDefault)
     }
 
     if isSelected || isHovering {
-      return .primary
+      return .pbPrimary
     }
     return .text(.lighter)
   }
 
-  var captionForegroundColor: PBColor {
+  var captionForegroundColor: Color {
     if variant == .normal && orientation == .horizontal {
       if isHovering {
-        return .primary
+        return .pbPrimary
       }
       return .text(.textDefault)
     }
 
     if isSelected || isHovering {
-      return .primary
+      return .pbPrimary
     }
     return .text(.textDefault)
   }
@@ -114,11 +114,11 @@ public struct PBNavItem: View {
       if orientation == .vertical {
         Rectangle()
           .frame(width: variant == .normal ? 3 : 0)
-          .pbForegroundColor(isSelected ? .primary : .clear)
+          .foregroundColor(isSelected ? .pbPrimary : .clear)
       } else {
         Rectangle()
           .frame(height: variant == .normal ? 3 : 0)
-          .pbForegroundColor(isSelected ? .primary : .clear)
+          .foregroundColor(isSelected ? .pbPrimary : .clear)
       }
     }
   }
@@ -126,10 +126,10 @@ public struct PBNavItem: View {
   public var body: some View {
     HStack {
       icon
-        .pbForegroundColor(iconForegroundColor)
+        .foregroundColor(iconForegroundColor)
         .frame(width: 30)
       Text(name)
-        .pbForegroundColor(captionForegroundColor)
+        .foregroundColor(captionForegroundColor)
         .pbFont(font)
 
       if orientation == .vertical {
@@ -137,7 +137,7 @@ public struct PBNavItem: View {
       }
 
       accessory
-        .pbForegroundColor(iconForegroundColor)
+        .foregroundColor(iconForegroundColor)
         .frame(width: 30)
     }
     .padding(padding)

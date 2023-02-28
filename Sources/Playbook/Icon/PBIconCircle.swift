@@ -10,11 +10,11 @@ import SwiftUI
 public struct PBIconCircle: View {
     var icon: PlaybookGenericIcon
     var size: PBIcon.Size
-    var color: PBColor
+    var color: Color
 
     public init(_ icon: PlaybookGenericIcon,
                 size: PBIcon.Size = .medium,
-                color: PBColor = .neutral) {
+                color: Color = .neutral) {
         self.icon = icon
         self.size = size
         self.color = color
@@ -23,7 +23,7 @@ public struct PBIconCircle: View {
     public var body: some View {
         ZStack {
             PBIcon(icon, size: size)
-            .iconCircle(diameter: size.fontSize * 2.4, color: color.color)
+            .iconCircle(diameter: size.fontSize * 2.4, color: color)
         }
     }
 }
@@ -70,13 +70,13 @@ struct PBIconCircle_Previews: PreviewProvider {
 
             Section("Color") {
               let pBIconColors = [
-                PBColor.data(.data1),
-                PBColor.data(.data5),
-                PBColor.data(.data3),
-                PBColor.data(.data7),
-                PBColor.data(.data8),
-                PBColor.data(.data2),
-                PBColor.data(.data4)
+                Color.data(.data1),
+                Color.data(.data5),
+                Color.data(.data3),
+                Color.data(.data7),
+                Color.data(.data8),
+                Color.data(.data2),
+                Color.data(.data4)
                 ]
 
                 ForEach(pBIconColors, id: \.self) { color in

@@ -20,7 +20,7 @@ public struct PBRadioStyle: ToggleStyle {
     HStack(alignment: .center, spacing: 10) {
       ZStack {
         RoundedRectangle(cornerRadius: 4)
-          .strokeBorder(configuration.strokeColor(isHovering: isHovering).color, lineWidth: 3)
+          .strokeBorder(configuration.strokeColor(isHovering: isHovering), lineWidth: 3)
           .foregroundColor(configuration.backgroundColor)
           .background(
             RoundedRectangle(cornerRadius: 4)
@@ -34,7 +34,7 @@ public struct PBRadioStyle: ToggleStyle {
           }
         } label: {
           PBIcon.fontAwesome(.check, size: .medium)
-            .pbForegroundColor(
+            .foregroundColor(
               configuration.isOn
               ? (colorScheme == .light ? .card : .text(.textDefault))
               : .background(.light)
@@ -51,7 +51,7 @@ public struct PBRadioStyle: ToggleStyle {
 
       if !labelsHidden {
         configuration.label
-          .pbForegroundColor(.text(.light))
+          .foregroundColor(.text(.light))
           .pbFont(.body())
       }
     }
