@@ -52,7 +52,7 @@ public struct PBAvatar: View {
       }
       .foregroundColor(.white)
       .frame(width: size.diameter, height: size.diameter)
-      .background(Color.neutral)
+      .background(Color.status(.neutral))
       .clipShape(Circle())
 
       if wrapped {

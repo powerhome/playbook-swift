@@ -9,7 +9,6 @@ import SwiftUI
 
 public extension Color {
   static let pbPrimary = Color("Primary", bundle: .module)
-  static let neutral = Color("Neutral", bundle: .module)
   static let card = Color("Card", bundle: .module)
   static let active = Color("Active", bundle: .module)
   static let border = Color("Border", bundle: .module)
@@ -45,7 +44,8 @@ public extension Color {
     case .error: return Color("Error", bundle: .module).opacity(subtle ? 0.1 : 1)
     case .info: return Color("Info", bundle: .module).opacity(subtle ? 0.1 : 1)
     case .neutral: return Color("Neutral", bundle: .module).opacity(subtle ? 0.1 : 1)
-    case .primary: return Color("Primary", bundle: .module) }
+    case .primary: return Color("Primary", bundle: .module)
+    }
   }
 
   static func data(_ variant: DataColor) -> Color {
@@ -108,7 +108,7 @@ public extension Color {
   enum BackgroundColor: String, CaseIterable {
     case `default`, light, dark, white
   }
-  
+
   enum StatusColor: String, CaseIterable {
     case success, warning, error, info, neutral, primary
   }

@@ -31,7 +31,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     @ViewBuilder
     private var backgroundVariant: some View {
         switch variant {
-        case .background: Color.background(.light)
+        case .background: Color.background(.default)
         case .bubble:
             RoundedRectangle(cornerRadius: 12)
             .fill(Color.card)

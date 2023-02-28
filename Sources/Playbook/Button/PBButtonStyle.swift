@@ -61,7 +61,7 @@ public enum PBButtonVariant {
 
   func backgroundColor(_ disabled: Bool) -> Color {
     switch (self, disabled) {
-    case (.primary, true): return .neutral
+    case (.primary, true): return .status(.neutral)
     case (.primary, false): return .pbPrimary
     case (.secondary, _): return .pbPrimary.opacity(0.05)
     case (.link, _): return .clear

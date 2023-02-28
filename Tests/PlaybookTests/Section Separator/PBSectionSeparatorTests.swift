@@ -129,7 +129,7 @@ final class PBSectionSeparatorTests: XCTestCase {
     // MARK: Vertical tests
     func test_line_separator_is_vertical() throws {
         let separator = PBSectionSeparator(orientation: .vertical)
-        let verticalLine = try separator.inspect().view(Divider.self, 0)
+        let verticalLine = try separator.inspect().divider(0)
 
         XCTAssertNotNil(verticalLine)
     }

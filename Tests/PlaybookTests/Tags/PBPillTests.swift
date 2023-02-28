@@ -20,7 +20,7 @@ final class PBPillTests: XCTestCase {
     XCTAssertNotNil(textView)
     XCTAssertEqual(textContent, "default")
     XCTAssertNotNil(textBackgroundColor)
-    XCTAssertEqual(try textBackgroundColor?.value(), Color.status(.neutral).opacity(0.12))
+    XCTAssertEqual(try textBackgroundColor?.value(), Color.status(.neutral).opacity(0.10))
   }
 
   func test_pill_success_variant() throws {
@@ -32,6 +32,6 @@ final class PBPillTests: XCTestCase {
     XCTAssertNotNil(textView)
     XCTAssertEqual(textContent, "success")
     XCTAssertNotNil(textBackgroundColor)
-    XCTAssertEqual(try textBackgroundColor?.value(), Color.status(.success).opacity(0.12))
+    XCTAssertEqual(try textBackgroundColor?.value(), Color.status(.success).opacity(0.10))
   }
 }

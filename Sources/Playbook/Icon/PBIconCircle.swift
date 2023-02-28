@@ -14,7 +14,7 @@ public struct PBIconCircle: View {
 
     public init(_ icon: PlaybookGenericIcon,
                 size: PBIcon.Size = .medium,
-                color: Color = .neutral) {
+                color: Color = .status(.neutral)) {
         self.icon = icon
         self.size = size
         self.color = color

@@ -52,7 +52,7 @@ public struct PBToggleStyle: ToggleStyle {
 
 extension ToggleStyleConfiguration {
   func strokeColor(isHovering: Bool) -> Color {
-    isOn || isHovering ? .pbPrimary : .neutral
+    isOn || isHovering ? .pbPrimary : .status(.neutral)
   }
 
   func circleColor(isHovering: Bool) -> Color {
@@ -62,7 +62,7 @@ extension ToggleStyleConfiguration {
     if isHovering {
       return .pbPrimary
     }
-    return .neutral
+    return .status(.neutral)
   }
 
   var backgroundColor: Color {

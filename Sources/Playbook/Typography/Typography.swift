@@ -103,7 +103,7 @@ struct Typography_Previews: PreviewProvider {
                 Text("Large Caption")
                     .pbFont(.largeCaption)
                 Text("Caption")
-                    .pbFont(.caption)
+                .pbFont(.caption, color: .text(.light))
                 Text("Subcaption")
                     .pbFont(.subcaption)
                 Text("Subcaption Link Variant")
