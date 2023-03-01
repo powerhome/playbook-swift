@@ -6,16 +6,13 @@ Built and maintained by the User Experience Team at [Power Home Remodeling](http
 
 ## Installation
 
-- In your project configuration `.yml` file, under `packages`, add this package like so:
-
-```
-packages:
-  Playbook:
-    url: git@github.com:powerhome/playbook-apple.git
-    version x.x.x // Where x.x.x is the desired version
-```
-
-- Then add the package as a dependency in your application
+- Playbook Apple can be added via the Swift Package Manager
+  1. Search for: `git@github.com:powerhome/playbook-apple.git`
+  2. Resolve package dependencies
+  3. In your Swift view file, `import Playbook`
+  4. Use the kits
+  5. Rebuild the project
+- For more detailed instructions, visit the Wiki
 
 ## Troubleshooting
 
