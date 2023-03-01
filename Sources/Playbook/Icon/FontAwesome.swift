@@ -1517,7 +1517,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case zhihu = "fa-zhihu"
 
     public var fontFamily: String {
-        "Font Awesome 5 Pro"
+        "Font Awesome 6 Pro"
     }
 
     /// An unicode code of FontAwesome icon
@@ -2492,7 +2492,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
         case .playCircle: return "\u{f144}"
         case .playstation: return "\u{f3df}"
         case .plug: return "\u{f1e6}"
-        case .plus: return "\u{f067}"
+        case .plus: return "\u{e409}"
         case .plusCircle: return "\u{f055}"
         case .plusSquare: return "\u{f0fe}"
         case .podcast: return "\u{f2ce}"
@@ -3450,7 +3450,7 @@ public enum FontAwesomeBrands: String, PlaybookGenericIcon {
     case zhihu = "fa-zhihu"
 
     public var fontFamily: String {
-        "Font Awesome 5 Brands"
+        "Font Awesome 6 Brands"
     }
 
     /// An unicode code of FontAwesome icon
