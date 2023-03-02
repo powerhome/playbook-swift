@@ -10,8 +10,16 @@ import SwiftUI
 #if DEBUG
 struct ColorsCatalog: View {
   var body: some View {
-    let shape = Circle().frame(width: 60)
+    let shape = Circle().frame(width: 60).pbShadow(.deep)
     List {
+      Section("Main Colors") {
+        HStack {
+          ForEach(Color.MainColor.allCases, id: \.self) { color in
+            shape.foregroundColor(.main(color))
+          }
+        }
+      }
+
       Section("Text Colors") {
         HStack {
           ForEach(Color.TextColor.allCases, id: \.self) { color in

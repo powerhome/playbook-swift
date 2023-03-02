@@ -19,6 +19,14 @@ public extension Color {
     self.opacity(0.1)
   }
 
+  static func main(_ variant: MainColor) -> Color {
+    switch variant {
+    case .primary: return Color("Primary", bundle: .module)
+    case .secondary: return Color("Secondary", bundle: .module)
+    case .tertiary: return Color("Tertiary", bundle: .module)
+    }
+  }
+
   static func text(_ variant: TextColor) -> Color {
     switch variant {
     case .textDefault: return Color("TextDefault", bundle: .module)
@@ -31,7 +39,6 @@ public extension Color {
   static func background(_ variant: BackgroundColor) -> Color {
     switch variant {
     case .light: return Color("BackgroundLight", bundle: .module)
-    case .white: return Color("BackgroundWhite", bundle: .module)
     case .dark: return Color("BackgroundDark", bundle: .module)
     case .`default`: return Color("Background", bundle: .module)
     }
@@ -101,12 +108,16 @@ public extension Color {
 }
 
 public extension Color {
+  enum MainColor: String, CaseIterable {
+    case primary, secondary, tertiary
+  }
+
   enum TextColor: String, CaseIterable {
     case textDefault, light, lighter, white
   }
 
   enum BackgroundColor: String, CaseIterable {
-    case `default`, light, dark, white
+    case `default`, light, dark
   }
 
   enum StatusColor: String, CaseIterable {
@@ -147,11 +158,6 @@ public extension Color {
 }
 
 public extension Color {
-  // TODO: - Add this colors in playbook kit or change connect design to use playbook colors
-  static let pbMention         = Color("Mention", bundle: .module)
-  static let pbMentionMe       = Color("MentionMe", bundle: .module)
-  static let pbMentionText     = Color("MentionText", bundle: .module)
-
   init(hex: String) {
     let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
     var int: UInt64 = 0
@@ -167,7 +173,7 @@ public extension Color {
     default:
       (a, r, g, b) = (1, 1, 1, 0)
     }
-    
+
     self.init(
       .sRGB,
       red: Double(r) / 255,
@@ -176,7 +182,7 @@ public extension Color {
       opacity: Double(a) / 255
     )
   }
-  
+
   init(hex: UInt, alpha: Double = 1) {
     self.init(
       .sRGB,
