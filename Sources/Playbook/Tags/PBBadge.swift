@@ -10,9 +10,9 @@ import SwiftUI
 public struct PBBadge: View {
   var text: String
   var rounded: Bool
-  var variant: Color.StatusColor
+  var variant: Variant
 
-  public init(text: String, rounded: Bool = false, variant: Color.StatusColor = .success) {
+  public init(text: String, rounded: Bool = false, variant: Variant = .success) {
     self.text = text
     self.rounded = rounded
     self.variant = variant
@@ -22,10 +22,38 @@ public struct PBBadge: View {
     Text(text)
       .padding(EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4))
       .frame(minWidth: 8)
-      .foregroundColor(.status(variant))
-      .background(Color.status(variant, subtle: true))
+      .foregroundColor(variant.foregroundColor())
+      .background(variant.backgroundColor())
       .pbFont(.badgeText)
       .cornerRadius(rounded ? 10 : 4)
+  }
+}
+
+public extension PBBadge {
+  enum Variant: CaseIterable {
+    case chat
+    case error
+    case info
+    case neutral
+    case primary
+    case success
+    case warning
+
+    func foregroundColor() -> Color {
+      switch self {
+      case .chat: return .white
+      case .error: return .status(.error)
+      case .info: return .status(.info)
+      case .neutral: return .status(.neutral)
+      case .success: return .status(.success)
+      case .warning: return .status(.warning)
+      default: return .pbPrimary
+      }
+    }
+
+    func backgroundColor() -> Color {
+      return self == .chat ? .pbPrimary : foregroundColor().subtle
+    }
   }
 }
 
@@ -36,7 +64,7 @@ struct PBBadge_Previews: PreviewProvider {
 
     return List {
       Section("Rectangle") {
-        ForEach(Color.StatusColor.allCases, id: \.self) { varient in
+        ForEach(PBBadge.Variant.allCases, id: \.self) { varient in
           HStack {
             PBBadge(text: "+1", variant: varient)
             PBBadge(text: "+4", variant: varient)
@@ -48,7 +76,7 @@ struct PBBadge_Previews: PreviewProvider {
       }
 
       Section("Rounded") {
-        ForEach(Color.StatusColor.allCases, id: \.self) { varient in
+        ForEach(PBBadge.Variant.allCases, id: \.self) { varient in
           HStack {
             PBBadge(text: "+1", rounded: true, variant: varient)
             PBBadge(text: "+4", rounded: true, variant: varient)
