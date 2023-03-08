@@ -63,10 +63,11 @@ public struct PBAvatar: View {
 
       if let statusColor = self.status?.color {
         Circle()
-          .strokeBorder(Color.pbBackground, lineWidth: 2)
-          .background(Circle().foregroundColor(statusColor))
+          .foregroundColor(statusColor)
+          .overlay(
+            Circle().stroke(Color.pbBackground, lineWidth: 2)
+          )
           .frame(width: 10.0, height: 10.0)
-          .cornerRadius(size.diameter/2)
           .offset(x: size.diameter/2 - size.diameter/9,
                   y: (size.diameter/2 - size.diameter/6) * size.statusYModifier)
       }
