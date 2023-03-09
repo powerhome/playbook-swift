@@ -1,6 +1,6 @@
 //
 //  PBCard.swift
-//  
+//
 //
 //  Created by Alexandre Hauber on 23/07/21.
 //
@@ -12,7 +12,7 @@ public enum PBCardStyle {
 
   var color: Color {
     switch self {
-    case .`default`:
+    case .default:
       return .pbBorder
     case .selected:
       return .pbPrimary
@@ -23,7 +23,7 @@ public enum PBCardStyle {
 
   var lineWidth: CGFloat {
     switch self {
-    case .`default`, .error:
+    case .default, .error:
       return 1
     case .selected:
       return 1.6
@@ -68,14 +68,14 @@ public struct PBCard<Content: View>: View {
     self.shadow = shadow
     self.width = width
     if Color.pbStatusColors.contains(highlightColor) ||
-        Color.pbProductColors.contains(highlightColor) ||
-        Color.pbCategoryColors.contains(highlightColor) {
+      Color.pbProductColors.contains(highlightColor) ||
+      Color.pbCategoryColors.contains(highlightColor) {
       self.highlightColor = highlightColor
     } else {
       self.highlightColor = .white
     }
   }
-  
+
   public var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if highlight == .none {
@@ -87,10 +87,14 @@ public struct PBCard<Content: View>: View {
           .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
           .background(RoundedRectangle(cornerRadius: borderRadius.rawValue)
             .stroke(highlightColor, lineWidth: 10)
-            .padding(.init(top: highlight == .top ? 0 : -10,
-                           leading: highlight == .side ? 0 : -10,
-                           bottom: -10,
-                           trailing: -10))
+            .padding(
+              .init(
+                top: highlight == .top ? 0 : -10,
+                leading: highlight == .side ? 0 : -10,
+                bottom: -10,
+                trailing: -10
+              )
+            )
           )
       }
     }
@@ -103,25 +107,26 @@ public struct PBCard<Content: View>: View {
     )
     .overlay(
       RoundedRectangle(cornerRadius: borderRadius.rawValue)
-        .stroke(style.color,
-                lineWidth: border ? style.lineWidth : 0)
+        .stroke(
+          style.color,
+          lineWidth: border ? style.lineWidth : 0
+        )
     )
-    
   }
 }
 
-extension PBCard {
-  public enum BorderRadius: CGFloat {
-    case none    = 0
-    case xSmall  = 2
-    case small   = 4
-    case medium  = 6
-    case large   = 8
-    case xLarge  = 12
+public extension PBCard {
+  enum BorderRadius: CGFloat {
+    case none = 0
+    case xSmall = 2
+    case small = 4
+    case medium = 6
+    case large = 8
+    case xLarge = 12
     case rounded = 48
   }
-  
-  public enum Highlight {
+
+  enum Highlight {
     case none
     case side
     case top
@@ -129,18 +134,19 @@ extension PBCard {
 }
 
 // MARK: Preview
+
 struct PBCard_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-    
+
     let text = "Card Content"
     let loremIpsum = """
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec iaculis, risus a fringilla luctus, sapien eros sodales ex, quis molestie est nulla non turpis.
-            Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
-            Sed commodo posuere lectus, at porta nulla ornare a.
-        """
-    
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec iaculis, risus a fringilla luctus, sapien eros sodales ex, quis molestie est nulla non turpis.
+      Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
+      Sed commodo posuere lectus, at porta nulla ornare a.
+    """
+
     return Group {
       VStack(alignment: .leading, spacing: 8) {
         Text("Default").pbFont(.caption)
@@ -148,7 +154,7 @@ struct PBCard_Previews: PreviewProvider {
           Text(text).pbFont(.body())
         }
         .padding(.bottom)
-        
+
         Text("Default with shadow deep").pbFont(.caption)
         PBCard(shadow: .deep) {
           Text(text).pbFont(.body())
@@ -156,7 +162,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Default")
-      
+
       VStack(alignment: .leading, spacing: 8) {
         Text("Highlight").pbFont(.caption)
         PBCard(highlight: .side) {
@@ -168,7 +174,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Highlight")
-      
+
       VStack(alignment: .leading, spacing: 8) {
         Text("Header cards").pbFont(.caption)
         PBCard(padding: .pbNone) {
@@ -186,7 +192,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Header cards")
-      
+
       VStack(alignment: .leading, spacing: nil) {
         Text("Default").pbFont(.caption)
         PBCard {
@@ -203,7 +209,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Styles")
-      
+
       VStack(alignment: .leading) {
         Text("Padding size").pbFont(.caption)
         PBCard(padding: .pbNone) {
@@ -227,7 +233,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Padding size")
-      
+
       VStack(alignment: .leading, spacing: 8) {
         Text("Separator & Content").pbFont(.caption)
         PBCard(padding: .pbNone) {
@@ -240,7 +246,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Separator & Content")
-      
+
       VStack(alignment: .leading, spacing: 8) {
         Text("No border & border radius").pbFont(.caption)
         PBCard(border: false) {
@@ -270,7 +276,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("No border & border radius")
-      
+
       VStack(alignment: .leading, spacing: 0) {
         PBCard(padding: .pbNone) {
           PBCardHeader(color: .pbWindows) {

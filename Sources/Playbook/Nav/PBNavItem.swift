@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Lucas C. Feijo on 30/07/21.
 //
@@ -66,7 +66,7 @@ public struct PBNavItem: View {
     if isSelected, variant == .normal {
       return selectedFont
     }
-      return .body(.base)
+    return .body(.base)
   }
 
   var selectedFont: PBFont {
@@ -101,9 +101,11 @@ public struct PBNavItem: View {
     }
   }
 
-  public init(_ name: String,
-              icon: PBIcon? = nil,
-              accessory: PBIcon? = nil) {
+  public init(
+    _ name: String,
+    icon: PBIcon? = nil,
+    accessory: PBIcon? = nil
+  ) {
     self.name = name
     self.icon = icon
     self.accessory = accessory
@@ -143,23 +145,29 @@ public struct PBNavItem: View {
     .padding(padding)
     .background(backgroundColor)
     .cornerRadius(cornerRadius)
-    .overlay(selectionIndicator,
-             alignment: selectionIndicatorAlignment)
+    .overlay(
+      selectionIndicator,
+      alignment: selectionIndicatorAlignment
+    )
   }
 }
 
 private struct PBNavSelection: EnvironmentKey {
   static let defaultValue = false
 }
+
 private struct PBNavHovering: EnvironmentKey {
   static let defaultValue = false
 }
+
 private struct PBNavVariant: EnvironmentKey {
   static let defaultValue = PBNav.Variant.normal
 }
+
 private struct PBNavOrientation: EnvironmentKey {
   static let defaultValue = Orientation.vertical
 }
+
 private struct PBNavHighlight: EnvironmentKey {
   static let defaultValue = true
 }
@@ -169,18 +177,22 @@ extension EnvironmentValues {
     get { self[PBNavSelection.self] }
     set { self[PBNavSelection.self] = newValue }
   }
+
   var hovering: Bool {
     get { self[PBNavHovering.self] }
     set { self[PBNavHovering.self] = newValue }
   }
+
   var variant: PBNav.Variant {
     get { self[PBNavVariant.self] }
     set { self[PBNavVariant.self] = newValue }
   }
+
   var orientation: Orientation {
     get { self[PBNavOrientation.self] }
     set { self[PBNavOrientation.self] = newValue }
   }
+
   var highlight: Bool {
     get { self[PBNavHighlight.self] }
     set { self[PBNavHighlight.self] = newValue }
@@ -191,8 +203,10 @@ struct PBNavItem_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    let item = PBNavItem("Users Item",
-                         icon: PBIcon.fontAwesome(.users))
+    let item = PBNavItem(
+      "Users Item",
+      icon: PBIcon.fontAwesome(.users)
+    )
 
     let allItemCombinations = Group {
       item
@@ -211,22 +225,22 @@ struct PBNavItem_Previews: PreviewProvider {
 
     return Group {
       HStack { allItemCombinations }
-      .environment(\.variant, .normal)
-      .environment(\.orientation, .horizontal)
-      .previewDisplayName("Normal Variant Horizontal")
+        .environment(\.variant, .normal)
+        .environment(\.orientation, .horizontal)
+        .previewDisplayName("Normal Variant Horizontal")
 
       HStack { allItemCombinations }
-      .environment(\.variant, .subtle)
-      .environment(\.orientation, .horizontal)
-      .previewDisplayName("Subtle Variant Horizontal")
+        .environment(\.variant, .subtle)
+        .environment(\.orientation, .horizontal)
+        .previewDisplayName("Subtle Variant Horizontal")
 
       VStack { allItemCombinations }
-      .environment(\.variant, .normal)
-      .previewDisplayName("Normal Variant")
+        .environment(\.variant, .normal)
+        .previewDisplayName("Normal Variant")
 
       VStack { allItemCombinations }
-      .environment(\.variant, .subtle)
-      .previewDisplayName("Subtle Variant")
+        .environment(\.variant, .subtle)
+        .previewDisplayName("Subtle Variant")
     }
     .frame(width: 500)
     .preferredColorScheme(.light)

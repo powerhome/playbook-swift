@@ -1,6 +1,6 @@
 //
 //  PBNav.swift
-//  
+//
 //
 //  Created by Lucas C. Feijo on 26/07/21.
 //
@@ -17,14 +17,16 @@ public struct PBNav: View {
   private let highlight: Bool
   private let views: [AnyView]
 
-  public init<Views>(selected: Binding<Int?> = .constant(nil),
-                     variant: Variant? = .normal,
-                     orientation: Orientation = .vertical,
-                     title: String? = nil,
-                     borders: Bool = true,
-                     highlight: Bool = true,
-                     @ViewBuilder content: @escaping () -> TupleView<Views>) {
-    self.views = content().getViews
+  public init<Views>(
+    selected: Binding<Int?> = .constant(nil),
+    variant: Variant? = .normal,
+    orientation: Orientation = .vertical,
+    title: String? = nil,
+    borders: Bool = true,
+    highlight: Bool = true,
+    @ViewBuilder content: @escaping () -> TupleView<Views>
+  ) {
+    views = content().getViews
     self.variant = variant ?? .normal
     self.orientation = orientation
     self.title = title
@@ -60,7 +62,7 @@ public struct PBNav: View {
   var horizontalBody: some View {
     if variant == .subtle {
       HStack(spacing: variant.spacing) {
-          ForEach(views.indices, id: \.self) { index in
+        ForEach(views.indices, id: \.self) { index in
           item(views[index], index)
         }
       }
@@ -89,8 +91,8 @@ public struct PBNav: View {
           item(views[index], index)
 
           if index < views.count - 1,
-             borders,
-             variant == .normal {
+            borders,
+            variant == .normal {
             Divider()
           }
         }
@@ -116,8 +118,8 @@ public struct PBNav: View {
   }
 }
 
-extension PBNav {
-  public enum Variant {
+public extension PBNav {
+  enum Variant {
     case normal
     case subtle
 
@@ -137,47 +139,57 @@ struct PBNav_Previews: PreviewProvider {
     registerFonts()
 
     return Group {
-      PBNav(selected: .constant(0),
-            variant: .subtle,
-            orientation: .horizontal) {
+      PBNav(
+        selected: .constant(0),
+        variant: .subtle,
+        orientation: .horizontal
+      ) {
         PBNavItem("File")
         PBNavItem("Edit")
         PBNavItem("View")
         PBNavItem("Find")
       }
-            .previewDisplayName("Horizontal + Subtle")
-            .padding()
+      .previewDisplayName("Horizontal + Subtle")
+      .padding()
 
-      PBNav(selected: .constant(0),
-            orientation: .horizontal) {
+      PBNav(
+        selected: .constant(0),
+        orientation: .horizontal
+      ) {
         PBNavItem("Short")
         PBNavItem("MediumText")
         PBNavItem("Titans")
       }
-            .previewDisplayName("Horizontal + Normal")
-            .padding()
+      .previewDisplayName("Horizontal + Normal")
+      .padding()
 
-      PBNav(selected: .constant(0),
-            variant: .subtle) {
+      PBNav(
+        selected: .constant(0),
+        variant: .subtle
+      ) {
         PBNavItem("Rebels")
         PBNavItem("Rogue One")
         PBNavItem("Titans")
         PBNavItem("Code Blue")
       }
-            .previewDisplayName("Vertical + Subtle")
-            .padding()
+      .previewDisplayName("Vertical + Subtle")
+      .padding()
 
-      PBNav(selected: .constant(1),
-            title: "Why is this a prop?") {
-        PBNavItem("Humans",
-                  icon: PBIcon.fontAwesome(.users),
-                  accessory: PBIcon.fontAwesome(.angleDown))
+      PBNav(
+        selected: .constant(1),
+        title: "Why is this a prop?"
+      ) {
+        PBNavItem(
+          "Humans",
+          icon: PBIcon.fontAwesome(.users),
+          accessory: PBIcon.fontAwesome(.angleDown)
+        )
         PBNavItem("Yumm", icon: PBIcon.fontAwesome(.user))
         PBNavItem("Existence", icon: PBIcon.fontAwesome(.clock))
         PBNavItem("Escape", icon: PBIcon.fontAwesome(.rocket))
       }
-            .previewDisplayName("Vertical + Normal")
-            .padding()
+      .previewDisplayName("Vertical + Normal")
+      .padding()
     }
     .frame(width: 400)
     .background(Color.white)
