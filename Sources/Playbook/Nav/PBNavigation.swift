@@ -107,10 +107,11 @@ struct PBNavigationItem<Content: View>: View {
     var captionForegroundColor: Color {
       if
         variant == .normal,
-        orientation == .horizontal {
-          if isHovering {
-            return .pbPrimary
-          }
+        orientation == .horizontal
+      {
+        if isHovering {
+          return .pbPrimary
+        }
         return .pbTextDefault
       }
 
