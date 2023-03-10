@@ -140,12 +140,13 @@ struct PBCard_Previews: PreviewProvider {
     registerFonts()
 
     let text = "Card Content"
-    let loremIpsum = """
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec iaculis, risus a fringilla luctus, sapien eros sodales ex, quis molestie est nulla non turpis.
-      Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
-      Sed commodo posuere lectus, at porta nulla ornare a.
-    """
+    let loremIpsum =
+      """
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Donec iaculis, risus a fringilla luctus, sapien eros sodales ex, quis molestie est nulla non turpis.
+        Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
+        Sed commodo posuere lectus, at porta nulla ornare a.
+      """
 
     return Group {
       VStack(alignment: .leading, spacing: 8) {

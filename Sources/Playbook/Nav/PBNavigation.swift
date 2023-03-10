@@ -61,7 +61,8 @@ struct PBNavigationItem<Content: View>: View {
   }
 
   var selectionBackground: some View {
-    if variant == .normal,
+    if
+      variant == .normal,
       orientation == .horizontal {
       return Color.clear
     }
@@ -81,7 +82,8 @@ struct PBNavigationItem<Content: View>: View {
   }
 
   var hoverColor: some View {
-    if orientation == .horizontal,
+    if
+      orientation == .horizontal,
       variant == .normal {
       return Color.clear
     }
@@ -103,11 +105,12 @@ struct PBNavigationItem<Content: View>: View {
     var isHovering: Bool
 
     var captionForegroundColor: Color {
-      if variant == .normal,
+      if
+        variant == .normal,
         orientation == .horizontal {
-        if isHovering {
-          return .pbPrimary
-        }
+          if isHovering {
+            return .pbPrimary
+          }
         return .pbTextDefault
       }
 
@@ -118,7 +121,8 @@ struct PBNavigationItem<Content: View>: View {
     }
 
     var font: PBFont {
-      if variant == .normal,
+      if
+        variant == .normal,
         orientation == .horizontal || selected {
         return .title4
       }

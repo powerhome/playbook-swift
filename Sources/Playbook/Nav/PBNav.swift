@@ -90,7 +90,8 @@ public struct PBNav: View {
         VStack(alignment: .leading, spacing: 0) {
           item(views[index], index)
 
-          if index < views.count - 1,
+          if
+            index < views.count - 1,
             borders,
             variant == .normal {
             Divider()
