@@ -2492,7 +2492,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
         case .playCircle: return "\u{f144}"
         case .playstation: return "\u{f3df}"
         case .plug: return "\u{f1e6}"
-        case .plus: return "\u{e409}"
+        case .plus: return "\u{f067}"
         case .plusCircle: return "\u{f055}"
         case .plusSquare: return "\u{f0fe}"
         case .podcast: return "\u{f2ce}"
