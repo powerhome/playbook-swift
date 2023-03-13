@@ -28,7 +28,6 @@ public func registerFonts() {
     _ = registerFont(bundle: .module, fontName: "ProximaNova-ThinIt", fontExtension: "otf")
 
     // Icons
-//    _ = registerFont(bundle: .module, fontName: "Font Awesome 5 Pro-Regular-400", fontExtension: "ttf")
     _ = registerFont(bundle: .module, fontName: "Fontastic", fontExtension: "ttf")
     _ = registerFont(bundle: .module, fontName: "Font Awesome 6 Brands-Regular-400", fontExtension: "otf")
     _ = registerFont(bundle: .module, fontName: "Font Awesome 6 Duotone-Solid-900", fontExtension: "otf")
