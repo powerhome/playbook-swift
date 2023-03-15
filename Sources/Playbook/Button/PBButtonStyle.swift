@@ -22,27 +22,30 @@ public struct PBButtonStyle: ButtonStyle {
         self.size = size ?? self.size
     }
 
-    public func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .onHover { isHovering in
-                #if os(macOS)
-                guard !disabled else { return }
-                if isHovering {
-                    NSCursor.pointingHand.push()
-                } else {
-                    NSCursor.pop()
-                }
-                #endif
-            }
-            .padding(.vertical, size.verticalPadding())
-            .padding(.horizontal, size.horizontalPadding())
-            .frame(minWidth: 0, minHeight: size.minHeight())
-            .background(variant.backgroundColor(disabled))
-            .foregroundColor(variant.foregroundColor(disabled))
-            .cornerRadius(5)
-            .pbFont(.buttonText(size.fontSize))
-            .brightness(configuration.isPressed && !disabled ? 0.04 : 0.0)
+  public func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .padding(.vertical, size.verticalPadding())
+      .padding(.horizontal, size.horizontalPadding())
+      .frame(minWidth: 0, minHeight: size.minHeight())
+      .background(background(for: configuration))
+      .foregroundColor(variant.foregroundColor(disabled))
+      .cornerRadius(5)
+      .pbFont(.buttonText(size.fontSize))
+  }
+
+  @ViewBuilder func background(for configuration: Configuration) -> some View {
+    if configuration.isPressed && !disabled {
+      if variant == .primary {
+        Color.pbPrimary.brightness(-0.04)
+      }
+
+      if variant == .secondary {
+        Color.pbPrimary.opacity(0.3)
+      }
+    } else {
+      variant.backgroundColor(disabled)
     }
+  }
 }
 
 public enum PBButtonVariant {
@@ -52,6 +55,7 @@ public enum PBButtonVariant {
 
     func foregroundColor(_ disabled: Bool) -> Color {
         if disabled { return Color.pbTextDefault.opacity(0.5) }
+
         switch self {
         case .primary: return .white
         case .secondary: return .pbPrimary
