@@ -11,6 +11,7 @@ public struct PBButtonStyle: ButtonStyle {
   var variant: PBButtonVariant = .primary
   var size: PBButtonSize = .medium
   var disabled: Bool = false
+  @Environment(\.colorScheme) var colorScheme
 
   public init(
     variant: PBButtonVariant? = .primary,
@@ -28,7 +29,11 @@ public struct PBButtonStyle: ButtonStyle {
       .padding(.horizontal, size.horizontalPadding())
       .frame(minWidth: 0, minHeight: size.minHeight())
       .background(background(for: configuration))
-      .foregroundColor(variant.foregroundColor(disabled))
+      .foregroundColor(
+        colorScheme == .light
+          ? variant.foregroundColor(disabled)
+          : variant.darkForegroundColor(disabled)
+      )
       .cornerRadius(5)
       .pbFont(.buttonText(size.fontSize))
   }
@@ -40,10 +45,18 @@ public struct PBButtonStyle: ButtonStyle {
       }
 
       if variant == .secondary {
-        Color.pbPrimary.opacity(0.3)
+        if colorScheme == .light {
+          Color.pbPrimary.opacity(0.3)
+        } else {
+          Color.pbPrimary.opacity(0.2)
+        }
       }
     } else {
-      variant.backgroundColor(disabled)
+      if colorScheme == .light {
+        variant.backgroundColor(disabled)
+      } else {
+        variant.darkBackgroundColor(disabled)
+      }
     }
   }
 }
@@ -63,11 +76,30 @@ public enum PBButtonVariant {
     }
   }
 
+  func darkForegroundColor(_ disabled: Bool) -> Color {
+    if disabled { return Color.pbTextDefault.opacity(0.5) }
+
+    switch self {
+    case .primary: return .white
+    case .secondary: return .white
+    case .link: return .white
+    }
+  }
+
   func backgroundColor(_ disabled: Bool) -> Color {
     switch (self, disabled) {
     case (.primary, true): return Color.pbNeutral.opacity(0.4)
     case (.primary, false): return .pbPrimary
     case (.secondary, _): return Color.pbPrimary.opacity(0.05)
+    case (.link, _): return .clear
+    }
+  }
+
+  func darkBackgroundColor(_ disabled: Bool) -> Color {
+    switch (self, disabled) {
+    case (.primary, true): return Color.pbNeutral.opacity(0.4)
+    case (.primary, false): return .pbPrimary
+    case (.secondary, _): return Color.white.opacity(0.2)
     case (.link, _): return .clear
     }
   }
