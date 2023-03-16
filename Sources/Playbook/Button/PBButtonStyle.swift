@@ -30,9 +30,9 @@ public struct PBButtonStyle: ButtonStyle {
       .padding(.vertical, size.verticalPadding())
       .padding(.horizontal, size.horizontalPadding())
       .frame(minWidth: 0, minHeight: size.minHeight())
-      .background(background(for: configuration))
+      .background(background(configuration))
       .foregroundColor(
-        variant == .link && configuration.isPressed && !disabled
+        variant == .link && (configuration.isPressed || isHovering) && !disabled
           ? linkForegroundColor(colorScheme)
           : variant.foregroundColor(disabled, colorScheme: colorScheme)
       )
@@ -54,7 +54,7 @@ public struct PBButtonStyle: ButtonStyle {
       #endif
   }
 
-  @ViewBuilder private func background(for configuration: Configuration) -> some View {
+  @ViewBuilder private func background(_ configuration: Configuration) -> some View {
     if configuration.isPressed && !disabled || isHovering && !disabled {
       switch (variant, colorScheme) {
       case (.secondary, .light): Color.pbPrimary.opacity(0.3)
