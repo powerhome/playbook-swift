@@ -38,24 +38,18 @@ public struct PBButtonStyle: ButtonStyle {
       .pbFont(.buttonText(size.fontSize))
   }
 
-  @ViewBuilder func background(for configuration: Configuration) -> some View {
+  @ViewBuilder private func background(for configuration: Configuration) -> some View {
     if configuration.isPressed && !disabled {
-      if variant == .primary {
-        Color.pbPrimary.brightness(-0.04)
-      }
-
-      if variant == .secondary {
-        if colorScheme == .light {
-          Color.pbPrimary.opacity(0.3)
-        } else {
-          Color.pbPrimary.opacity(0.2)
-        }
+      switch (variant, colorScheme) {
+      case (.secondary, .light): Color.pbPrimary.opacity(0.3)
+      case (.secondary, .dark): Color.pbPrimary.opacity(0.2)
+      case (.link, _): Color.clear
+      default: Color.pbPrimary.brightness(-0.04)
       }
     } else {
-      if colorScheme == .light {
-        variant.backgroundColor(disabled)
-      } else {
-        variant.darkBackgroundColor(disabled)
+      switch colorScheme {
+      case .dark: variant.darkBackgroundColor(disabled)
+      default: variant.backgroundColor(disabled)
       }
     }
   }
