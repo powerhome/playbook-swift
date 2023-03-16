@@ -27,8 +27,8 @@ public struct PBButtonStyle: ButtonStyle {
 
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .padding(.vertical, size.verticalPadding())
-      .padding(.horizontal, size.horizontalPadding())
+      .padding(.vertical, variant != .link ? size.verticalPadding() : 0)
+      .padding(.horizontal, variant != .link ? size.horizontalPadding() : 0)
       .frame(minWidth: 0, minHeight: size.minHeight())
       .background(background(for: configuration))
       .foregroundColor(
@@ -46,10 +46,9 @@ public struct PBButtonStyle: ButtonStyle {
           guard !disabled else { return }
 
           if isHovering {
-            NSCursor.pointingHand.push()
+            NSCursor.pointingHand.set()
           } else {
-            NSCursor.pop()
-            isHovering = false
+            NSCursor.arrow.set()
           }
         }
       #endif
