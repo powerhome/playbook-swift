@@ -27,8 +27,8 @@ public struct PBButtonStyle: ButtonStyle {
 
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .padding(.vertical, variant != .link ? size.verticalPadding() : 0)
-      .padding(.horizontal, variant != .link ? size.horizontalPadding() : 0)
+      .padding(.vertical, size.verticalPadding())
+      .padding(.horizontal, size.horizontalPadding())
       .frame(minWidth: 0, minHeight: size.minHeight())
       .background(background(for: configuration))
       .foregroundColor(
