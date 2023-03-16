@@ -11,12 +11,14 @@ public struct PBButtonStyle: ButtonStyle {
   var variant: PBButtonVariant = .primary
   var size: PBButtonSize = .medium
   var disabled: Bool = false
+  @State private var isPressed: Bool = false
   @Environment(\.colorScheme) var colorScheme
 
   public init(
     variant: PBButtonVariant? = .primary,
     size: PBButtonSize? = .medium,
-    disabled: Bool? = false
+    disabled: Bool? = false,
+    isPressed: Bool? = false
   ) {
     self.variant = variant ?? self.variant
     self.disabled = disabled ?? self.disabled
@@ -30,12 +32,17 @@ public struct PBButtonStyle: ButtonStyle {
       .frame(minWidth: 0, minHeight: size.minHeight())
       .background(background(for: configuration))
       .foregroundColor(
-        colorScheme == .light
-          ? variant.foregroundColor(disabled)
-          : variant.darkForegroundColor(disabled)
+        variant == .link && isPressed && !disabled
+          ? linkForegroundColor(colorScheme)
+          : variant.foregroundColor(disabled, colorScheme: colorScheme)
       )
       .cornerRadius(5)
       .pbFont(.buttonText(size.fontSize))
+      .onTapGesture {
+        if variant == .link && !disabled {
+          toggleIsPressed()
+        }
+      }
   }
 
   @ViewBuilder private func background(for configuration: Configuration) -> some View {
@@ -53,6 +60,21 @@ public struct PBButtonStyle: ButtonStyle {
       }
     }
   }
+
+  private func linkForegroundColor(_ colorScheme: ColorScheme) -> Color {
+    switch colorScheme {
+    case .dark: return Color.white.opacity(0.5)
+    default: return Color.pbTextDefault
+    }
+  }
+
+  private func toggleIsPressed() {
+    self.isPressed.toggle()
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+      isPressed.toggle()
+    }
+  }
 }
 
 public enum PBButtonVariant {
@@ -60,23 +82,19 @@ public enum PBButtonVariant {
   case secondary
   case link
 
-  func foregroundColor(_ disabled: Bool) -> Color {
+  func foregroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
     if disabled { return Color.pbTextDefault.opacity(0.5) }
 
-    switch self {
-    case .primary: return .white
-    case .secondary: return .pbPrimary
-    case .link: return .pbPrimary
-    }
-  }
-
-  func darkForegroundColor(_ disabled: Bool) -> Color {
-    if disabled { return Color.pbTextDefault.opacity(0.5) }
-
-    switch self {
-    case .primary: return .white
-    case .secondary: return .white
-    case .link: return .white
+    if colorScheme == .light {
+      switch self {
+      case .primary: return .white
+      case .secondary: return .pbPrimary
+      case .link: return .pbPrimary
+      }
+    } else {
+      switch self {
+      default: return .white
+      }
     }
   }
 
