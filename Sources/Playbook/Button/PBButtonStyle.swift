@@ -54,10 +54,7 @@ public struct PBButtonStyle: ButtonStyle {
       default: Color.pbPrimary.brightness(-0.04)
       }
     } else {
-      switch colorScheme {
-      case .dark: variant.darkBackgroundColor(disabled)
-      default: variant.backgroundColor(disabled)
-      }
+      variant.backgroundColor(disabled, colorScheme: colorScheme)
     }
   }
 
@@ -98,21 +95,21 @@ public enum PBButtonVariant {
     }
   }
 
-  func backgroundColor(_ disabled: Bool) -> Color {
-    switch (self, disabled) {
-    case (.primary, true): return Color.pbNeutral.opacity(0.4)
-    case (.primary, false): return .pbPrimary
-    case (.secondary, _): return Color.pbPrimary.opacity(0.05)
-    case (.link, _): return .clear
-    }
-  }
-
-  func darkBackgroundColor(_ disabled: Bool) -> Color {
-    switch (self, disabled) {
-    case (.primary, true): return Color.pbNeutral.opacity(0.4)
-    case (.primary, false): return .pbPrimary
-    case (.secondary, _): return Color.white.opacity(0.2)
-    case (.link, _): return .clear
+  func backgroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
+    if colorScheme == .light {
+      switch (self, disabled) {
+      case (.primary, true): return Color.pbNeutral.opacity(0.4)
+      case (.primary, false): return Color.pbPrimary
+      case (.secondary, _): return Color.pbPrimary.opacity(0.05)
+      case (.link, _): return Color.clear
+      }
+    } else {
+      switch (self, disabled) {
+      case (.primary, true): return Color.pbNeutral.opacity(0.4)
+      case (.primary, false): return Color.pbPrimary
+      case (.secondary, _): return Color.white.opacity(0.2)
+      case (.link, _): return Color.clear
+      }
     }
   }
 }
