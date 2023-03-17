@@ -26,6 +26,9 @@ public struct PBButtonStyle: ButtonStyle {
   }
 
   public func makeBody(configuration: Configuration) -> some View {
+    let primaryVariantHovered = variant == .primary && isHovering && !disabled
+    let linkVariantClickHover = variant == .link && (configuration.isPressed || isHovering) && !disabled
+
     configuration.label
       .padding(.vertical, size.verticalPadding())
       .padding(.horizontal, size.horizontalPadding())
@@ -38,9 +41,9 @@ public struct PBButtonStyle: ButtonStyle {
           isHovering: isHovering
         )
       )
-      .brightness(isHovering && variant == .primary && !disabled ? -0.04 : 0)
+      .brightness(primaryVariantHovered ? -0.04 : 0)
       .foregroundColor(
-        variant == .link && (configuration.isPressed || isHovering) && !disabled
+        linkVariantClickHover
           ? linkForegroundColor(colorScheme)
           : variant.foregroundColor(disabled, colorScheme: colorScheme)
       )
@@ -68,7 +71,9 @@ public struct PBButtonStyle: ButtonStyle {
     disabled: Bool,
     isHovering: Bool
   ) -> Color {
-    if (configuration.isPressed || isHovering) && !disabled {
+    let isPressedOrHovered = (configuration.isPressed || isHovering) && !disabled
+
+    if isPressedOrHovered {
       switch (variant, colorScheme) {
       case (.secondary, .light): return .pbPrimary.opacity(0.3)
       case (.secondary, .dark): return .pbPrimary.opacity(0.2)
@@ -82,8 +87,8 @@ public struct PBButtonStyle: ButtonStyle {
 
   private func linkForegroundColor(_ colorScheme: ColorScheme) -> Color {
     switch colorScheme {
-    case .dark: return Color.white.opacity(0.5)
-    default: return Color.pbTextDefault
+    case .dark: return .white.opacity(0.5)
+    default: return .pbTextDefault
     }
   }
 }
@@ -96,33 +101,35 @@ public enum PBButtonVariant {
   func foregroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
     if disabled { return Color.pbTextDefault.opacity(0.5) }
 
-    if colorScheme == .light {
-      switch self {
-      case .primary: return .white
-      case .secondary: return .pbPrimary
-      case .link: return .pbPrimary
+    switch self {
+    case .primary:
+      switch colorScheme {
+      default: return .white
       }
-    } else {
-      switch self {
+    case .secondary, .link:
+      switch colorScheme {
+      case .light: return .pbPrimary
       default: return .white
       }
     }
   }
 
   func backgroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
-    if colorScheme == .light {
-      switch (self, disabled) {
-      case (.primary, true): return Color.pbNeutral.opacity(0.4)
-      case (.primary, false): return Color.pbPrimary
-      case (.secondary, _): return Color.pbPrimary.opacity(0.05)
-      case (.link, _): return Color.clear
+    switch self {
+    case .primary:
+      switch (disabled, colorScheme) {
+      case (true, _ ): return .pbNeutral.opacity(0.4)
+      case (false, _): return .pbPrimary
       }
-    } else {
-      switch (self, disabled) {
-      case (.primary, true): return Color.pbNeutral.opacity(0.4)
-      case (.primary, false): return Color.pbPrimary
-      case (.secondary, _): return Color.white.opacity(0.2)
-      case (.link, _): return Color.clear
+    case .secondary:
+      switch (disabled, colorScheme) {
+      case (_, .light): return .pbPrimary.opacity(0.05)
+      case (_, .dark): return .white.opacity(0.2)
+      default: return .pbPrimary.opacity(0.05)
+      }
+    case .link:
+      switch (disabled, colorScheme) {
+      default: return .clear
       }
     }
   }
