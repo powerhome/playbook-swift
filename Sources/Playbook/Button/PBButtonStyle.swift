@@ -30,7 +30,15 @@ public struct PBButtonStyle: ButtonStyle {
       .padding(.vertical, size.verticalPadding())
       .padding(.horizontal, size.horizontalPadding())
       .frame(minWidth: 0, minHeight: size.minHeight())
-      .background(background(configuration))
+      .background(
+        backgroundColor(
+          configuration,
+          variant: variant,
+          disabled: disabled,
+          isHovering: isHovering
+        )
+      )
+      .brightness(isHovering && variant == .primary && !disabled ? -0.04 : 0)
       .foregroundColor(
         variant == .link && (configuration.isPressed || isHovering) && !disabled
           ? linkForegroundColor(colorScheme)
@@ -54,17 +62,22 @@ public struct PBButtonStyle: ButtonStyle {
       #endif
   }
 
-  @ViewBuilder private func background(_ configuration: Configuration) -> some View {
-    if configuration.isPressed && !disabled || isHovering && !disabled {
+  private func backgroundColor(
+    _ configuration: Configuration,
+    variant: PBButtonVariant,
+    disabled: Bool,
+    isHovering: Bool
+  ) -> Color {
+    if (configuration.isPressed || isHovering) && !disabled {
       switch (variant, colorScheme) {
-      case (.secondary, .light): Color.pbPrimary.opacity(0.3)
-      case (.secondary, .dark): Color.pbPrimary.opacity(0.2)
-      case (.link, _): Color.clear
-      default: Color.pbPrimary.brightness(-0.04)
+      case (.secondary, .light): return .pbPrimary.opacity(0.3)
+      case (.secondary, .dark): return .pbPrimary.opacity(0.2)
+      case (.link, _): return .clear
+      default: return .pbPrimary
       }
-    } else {
-      variant.backgroundColor(disabled, colorScheme: colorScheme)
     }
+
+    return variant.backgroundColor(disabled, colorScheme: colorScheme)
   }
 
   private func linkForegroundColor(_ colorScheme: ColorScheme) -> Color {
