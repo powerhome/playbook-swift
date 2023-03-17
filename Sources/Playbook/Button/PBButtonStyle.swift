@@ -54,12 +54,10 @@ public struct PBButtonStyle: ButtonStyle {
         .onHover { hovering in
           isHovering = hovering
 
-          guard !disabled else { return }
-
-          if isHovering {
-            NSCursor.pointingHand.set()
-          } else {
-            NSCursor.arrow.set()
+          switch (isHovering, disabled) {
+          case (true, true): NSCursor.operationNotAllowed.set()
+          case (true, false): NSCursor.pointingHand.set()
+          default: NSCursor.arrow.set()
           }
         }
       #endif
