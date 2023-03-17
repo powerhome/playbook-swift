@@ -116,14 +116,12 @@ public enum PBButtonVariant {
     switch self {
     case .primary:
       switch (disabled, colorScheme) {
-      case (true, _ ): return .pbNeutral.opacity(0.4)
+      case (true, _ ): return .pbNeutral.opacity(0.5)
       case (false, _): return .pbPrimary
       }
     case .secondary:
       switch (disabled, colorScheme) {
-      case (_, .light): return .pbPrimary.opacity(0.05)
-      case (_, .dark): return .white.opacity(0.2)
-      default: return .pbPrimary.opacity(0.05)
+      default: return .pbNeutral.opacity(0.5)
       }
     case .link:
       switch (disabled, colorScheme) {
@@ -170,12 +168,10 @@ struct PBButtonStyle_Previews: PreviewProvider {
       VStack {
         Button("Button Primary") {}
           .buttonStyle(PBButtonStyle())
-        Button("Button Primary Disabled") {}
+        Button("Button Disabled") {}
           .buttonStyle(PBButtonStyle(disabled: true))
         Button("Button Secondary") {}
           .buttonStyle(PBButtonStyle(variant: .secondary))
-        Button("Button Secondary Disabled") {}
-          .buttonStyle(PBButtonStyle(variant: .secondary, disabled: true))
         Button("Button Link") {}
           .buttonStyle(PBButtonStyle(variant: .link))
         Button("Button Link Disabled") {}
