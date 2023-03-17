@@ -26,8 +26,9 @@ public struct PBButtonStyle: ButtonStyle {
   }
 
   public func makeBody(configuration: Configuration) -> some View {
-    let primaryVariantHovered = variant == .primary && isHovering && !disabled
-    let linkVariantClickHover = variant == .link && (configuration.isPressed || isHovering) && !disabled
+    let isPressedOrHovered = (configuration.isPressed || isHovering) && !disabled
+    let primaryVariantPressedHovered = variant == .primary && isPressedOrHovered
+    let linkVariantPressedHovered = variant == .link && isPressedOrHovered
 
     configuration.label
       .padding(.vertical, size.verticalPadding())
@@ -41,9 +42,9 @@ public struct PBButtonStyle: ButtonStyle {
           isHovering: isHovering
         )
       )
-      .brightness(primaryVariantHovered ? -0.04 : 0)
+      .brightness(primaryVariantPressedHovered ? -0.04 : 0)
       .foregroundColor(
-        linkVariantClickHover
+        linkVariantPressedHovered
           ? linkForegroundColor(colorScheme)
           : variant.foregroundColor(disabled, colorScheme: colorScheme)
       )
