@@ -161,38 +161,41 @@ public enum PBButtonSize {
   }
 }
 
+@available(macOS 13.0, *)
 struct PBButtonStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    return Group {
-      VStack {
+    return List {
+      Section("Button Variants") {
         Button("Button Primary") {}
           .buttonStyle(PBButtonStyle())
-        Button("Button Disabled") {}
-          .buttonStyle(PBButtonStyle(disabled: true))
+
         Button("Button Secondary") {}
           .buttonStyle(PBButtonStyle(variant: .secondary))
+
+        Button("Button Disabled") {}
+          .buttonStyle(PBButtonStyle(disabled: true))
+
         Button("Button Link") {}
           .buttonStyle(PBButtonStyle(variant: .link))
+
         Button("Button Link Disabled") {}
           .buttonStyle(PBButtonStyle(variant: .link, disabled: true))
+      }
+      .listRowSeparator(.hidden)
 
-        HStack {
-          Button("Cancel") {}
-            .buttonStyle(PBButtonStyle(variant: .secondary, size: .small))
+      Section("Button Sizes") {
+        Button("Button sm size") {}
+          .buttonStyle(PBButtonStyle(variant: .primary, size: .small))
 
-          Button("Save") {}
-            .buttonStyle(PBButtonStyle(variant: .primary, size: .small))
-        }
-
-        Button("Button Primary Medium") {}
+        Button("Button md size") {}
           .buttonStyle(PBButtonStyle(variant: .primary, size: .medium))
 
-        Button("Button Primary Large") {}
+        Button("Button lg size") {}
           .buttonStyle(PBButtonStyle(variant: .primary, size: .large))
       }
-      .padding(.horizontal, 20)
+      .listRowSeparator(.hidden)
     }
   }
 }
