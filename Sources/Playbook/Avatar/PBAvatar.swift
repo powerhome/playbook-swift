@@ -123,7 +123,6 @@ public extension PBAvatar {
   }
 }
 
-//@available(macOS 13.0, *)
 struct PBAvatar_Previews: PreviewProvider {
   static var defaultAvatars: some View {
     VStack(alignment: .leading) {
@@ -154,12 +153,10 @@ struct PBAvatar_Previews: PreviewProvider {
       Section("Default") {
         defaultAvatars
       }
-//      .listRowSeparator(.hidden)
 
       Section("Monogram") {
         monograms
       }
-//      .listRowSeparator(.hidden)
     }
   }
 }
