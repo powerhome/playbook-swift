@@ -1,6 +1,6 @@
 //
 //  PBSelect.swift
-//  
+//
 //
 //  Created by Everton Cunha on 14/06/22.
 //
@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBSelect: ButtonStyle {
-
   let title: String
   let style: PBCardStyle
 
@@ -42,12 +41,10 @@ struct PBSelect_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
     return Group {
-      Button("Burguers") {
-
-      }
-      .buttonStyle(PBSelect("FAVORITE FOOD", style: .default))
-      .preferredColorScheme(.light)
-      .padding(24)
+      Button("Burguers") {}
+        .buttonStyle(PBSelect("FAVORITE FOOD", style: .default))
+        .preferredColorScheme(.light)
+        .padding(24)
     }
   }
 }
