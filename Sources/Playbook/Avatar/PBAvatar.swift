@@ -4,7 +4,6 @@
 //
 //  Created by Lucas C. Feijo on 12/07/21.
 //
-
 import SwiftUI
 
 public struct PBAvatar: View {
@@ -63,13 +62,14 @@ public struct PBAvatar: View {
 
       if let statusColor = self.status?.color {
         Circle()
-          .strokeBorder(Color.pbBackground, lineWidth: 2)
-          .background(Circle().foregroundColor(statusColor))
+          .foregroundColor(statusColor)
+          .overlay(
+            Circle().stroke(Color.pbBackground, lineWidth: 2)
+          )
           .frame(width: 10.0, height: 10.0)
-          .cornerRadius(size.diameter / 2)
           .offset(
-            x: size.diameter / 2 - size.diameter / 9,
-            y: (size.diameter / 2 - size.diameter / 6) * size.statusYModifier
+            x: size.diameter/2 - size.diameter/9,
+            y: (size.diameter/2 - size.diameter/6) * size.statusYModifier
           )
       }
     }
@@ -123,31 +123,40 @@ public extension PBAvatar {
   }
 }
 
-@available(macOS 13.0, *)
 struct PBAvatar_Previews: PreviewProvider {
+  static var defaultAvatars: some View {
+    VStack(alignment: .leading) {
+      PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online)
+      PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .away)
+      PBAvatar(image: Image("andrew", bundle: .module), size: .small, status: .online)
+      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away)
+      PBAvatar(image: Image("andrew", bundle: .module), size: .large, status: .online)
+      PBAvatar(image: Image("andrew", bundle: .module), size: .xLarge, status: .offline)
+    }
+  }
+
+  static var monograms: some View {
+    VStack(alignment: .leading) {
+      PBAvatar(name: "Tim Wenhold", size: .xxSmall, status: .online)
+      PBAvatar(name: "Tim Wenhold", size: .xSmall, status: .away)
+      PBAvatar(name: "Tim Wenhold", size: .small, status: .online)
+      PBAvatar(name: "Tim Wenhold", size: .medium, status: .away)
+      PBAvatar(name: "Tim Wenhold", size: .large, status: .online)
+      PBAvatar(name: "Tim Wenhold", size: .xLarge, status: .offline)
+    }
+  }
+
   static var previews: some View {
     registerFonts()
 
     return List {
       Section("Default") {
-        PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online)
-        PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .away)
-        PBAvatar(image: Image("andrew", bundle: .module), size: .small, status: .online)
-        PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away)
-        PBAvatar(image: Image("andrew", bundle: .module), size: .large, status: .online)
-        PBAvatar(image: Image("andrew", bundle: .module), size: .xLarge, status: .offline)
+        defaultAvatars
       }
-      .listRowSeparator(.hidden)
 
       Section("Monogram") {
-        PBAvatar(name: "Tim Wenhold", size: .xxSmall, status: .online)
-        PBAvatar(name: "Tim Wenhold", size: .xSmall, status: .away)
-        PBAvatar(name: "Tim Wenhold", size: .small, status: .online)
-        PBAvatar(name: "Tim Wenhold", size: .medium, status: .away)
-        PBAvatar(name: "Tim Wenhold", size: .large, status: .online)
-        PBAvatar(name: "Tim Wenhold", size: .xLarge, status: .offline)
+        monograms
       }
-      .listRowSeparator(.hidden)
     }
   }
 }
