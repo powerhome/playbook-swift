@@ -1,20 +1,27 @@
-# What does this PR do?
+## Summary
+- [First bullet point must be a **_short_** overall summary]
 
-____
+## Additional Details
+- [Runway Story]
+- [Optional: add more details]
 
-#### Screens
+## Screenshots (for UI stories: show before/after changes)
 
-[INSERT SCREENSHOT]
+| Before                            | After                             |
+| --------------------------------- | --------------------------------- |
+| [Before Pic]                      | [After Pic]                       |
 
-#### Breaking Changes
+## Breaking Changes
 
 [Yes/No (Explain)]
 
-#### How to test this
+## Testing
 
-[INSERT TESTING DETAILS]
+[Insert testing details or N/A]
 
-#### Checklist:
+## Checklist
 
-- [ ] **LABELS** Add a label: `enhancement`, `bug`, `improvement`, `new component`, `deprecated`, or `breaking`. See [Changelog & Labels](https://github.com/powerhome/playbook/wiki/Changelog-&-Labels) for details.
-- [ ] **SCREENSHOT** Please add a screen shot or two.
+- [ ] **LABELS** - Add a label: `breaking`, `bug`, `improvement`, `documentation`, `enhancement`, or `improvement`. See [Labels](https://github.com/powerhome/playbook-apple/labels) for descriptions.
+- [ ] **SCREENSHOTS** - Please add a screenshot or two. For UI changes, you MUST provide before and after screenshots.
+- [ ] **RELEASES** - Add the appropriate label: `Ready for Testing` / `Ready for Release`
+- [ ] **TESTING** - Have you tested your story?

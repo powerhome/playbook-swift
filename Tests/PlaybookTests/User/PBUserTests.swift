@@ -1,28 +1,27 @@
 //
 //  PBUserTests.swift
-//  
+//
 //
 //  Created by Alexandre Hauber on 23/07/21.
 //
 
-import XCTest
+@testable import Playbook
 import SwiftUI
 import ViewInspector
-@testable import Playbook
+import XCTest
 
 final class PBUserTests: XCTestCase {
+  func testAvatarDisplayed() throws {
+    let user = PBUser(name: "Test User")
+    let hStack = try user.inspect().hStack()
+    let avatar = try hStack.view(PBAvatar.self, 0)
+    XCTAssertNotNil(avatar)
+  }
 
-    func testAvatarDisplayed() throws {
-        let user = PBUser(name: "Test User")
-        let hStack = try user.inspect().hStack()
-        let avatar = try hStack.view(PBAvatar.self, 0)
-        XCTAssertNotNil(avatar)
-    }
-
-    func testAvatarNotDisplayed() throws {
-        let user = PBUser(name: "Test User", displayAvatar: false)
-        let hStack = try user.inspect().hStack()
-        let avatar = try? hStack.view(PBAvatar.self, 0)
-        XCTAssertNil(avatar)
-    }
+  func testAvatarNotDisplayed() throws {
+    let user = PBUser(name: "Test User", displayAvatar: false)
+    let hStack = try user.inspect().hStack()
+    let avatar = try? hStack.view(PBAvatar.self, 0)
+    XCTAssertNil(avatar)
+  }
 }

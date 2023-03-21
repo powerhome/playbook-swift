@@ -1,6 +1,6 @@
 //
 //  PBButtonStyle.swift
-//  
+//
 //
 //  Created by Lucas C. Feijo on 16/07/21.
 //
@@ -50,18 +50,18 @@ public struct PBButtonStyle: ButtonStyle {
       )
       .cornerRadius(5)
       .pbFont(.buttonText(size.fontSize))
-      #if os(macOS)
-        .opacity(configuration.isPressed && !disabled ? 0.8 : 1)
-        .onHover { hovering in
-          isHovering = hovering
+    #if os(macOS)
+      .opacity(configuration.isPressed && !disabled ? 0.8 : 1)
+      .onHover { hovering in
+        isHovering = hovering
 
-          switch (isHovering, disabled) {
-          case (true, true): NSCursor.operationNotAllowed.set()
-          case (true, false): NSCursor.pointingHand.set()
-          default: NSCursor.arrow.set()
-          }
+        switch (isHovering, disabled) {
+        case (true, true): NSCursor.operationNotAllowed.set()
+        case (true, false): NSCursor.pointingHand.set()
+        default: NSCursor.arrow.set()
         }
-      #endif
+      }
+    #endif
   }
 
   private func backgroundColor(

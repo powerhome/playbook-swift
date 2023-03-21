@@ -1,6 +1,6 @@
 //
 //  PBCollapsible.swift
-//  
+//
 //
 //  Created by Lucas C. Feijo on 10/08/21.
 //
@@ -14,16 +14,18 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
   var headerView: HeaderContent
   var contentView: Content
 
-  public init(isCollapsed: Binding<Bool> = .constant(false),
-              indicatorPosition: IndicatorPosition = .leading,
-              indicatorColor: Color = .pbTextLight,
-              @ViewBuilder header: @escaping () -> HeaderContent,
-              @ViewBuilder content: @escaping () -> Content) {
+  public init(
+    isCollapsed: Binding<Bool> = .constant(false),
+    indicatorPosition: IndicatorPosition = .leading,
+    indicatorColor: Color = .pbTextLight,
+    @ViewBuilder header: @escaping () -> HeaderContent,
+    @ViewBuilder content: @escaping () -> Content
+  ) {
     _isCollapsed = isCollapsed
     self.indicatorPosition = indicatorPosition
     self.indicatorColor = indicatorColor
-    self.headerView = header()
-    self.contentView = content()
+    headerView = header()
+    contentView = content()
   }
 
   var indicator: some View {
@@ -65,6 +67,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
 }
 
 // MARK: - Extensions
+
 public extension PBCollapsible {
   enum IndicatorPosition {
     case leading
@@ -83,7 +86,8 @@ struct PBCollapsible_Previews: PreviewProvider {
     @State var isCollapsedTrailing = true
     @State var isCollapsedImage = true
 
-    let lorem = """
+    let lorem =
+      """
       Group members... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel erat sed purus hendrerit vive.
 
       Etiam nunc massa, pharetra vel quam id, posuere rhoncus quam. Quisque imperdiet arcu enim, nec aliquet justo.

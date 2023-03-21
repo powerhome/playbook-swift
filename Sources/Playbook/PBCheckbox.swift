@@ -1,6 +1,6 @@
 //
 //  PBCheckbox.swift
-//  
+//
 //
 //  Created by Everton Cunha on 15/06/22.
 //
@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBCheckboxButtonStyle: ButtonStyle {
-
   let isSelected: Bool
 
   // MARK: - Computed properties
@@ -24,7 +23,6 @@ public struct PBCheckboxButtonStyle: ButtonStyle {
   // MARK: -
 
   public init(isSelected: Bool) {
-
     self.isSelected = isSelected
   }
 
@@ -32,7 +30,6 @@ public struct PBCheckboxButtonStyle: ButtonStyle {
 
   public func makeBody(configuration: Configuration) -> some View {
     HStack(alignment: .top) {
-
       ZStack {
         RoundedRectangle(cornerRadius: 4)
           .strokeBorder(borderColor, lineWidth: 2)
@@ -60,10 +57,10 @@ struct PBCheckbox_Previews: PreviewProvider {
     registerFonts()
     return VStack {
       Button("Checkbox example") {}
-            .buttonStyle(PBCheckboxButtonStyle(isSelected: false))
+        .buttonStyle(PBCheckboxButtonStyle(isSelected: false))
 
       Button("Marked example") {}
-            .buttonStyle(PBCheckboxButtonStyle(isSelected: true))
+        .buttonStyle(PBCheckboxButtonStyle(isSelected: true))
     }
   }
 }

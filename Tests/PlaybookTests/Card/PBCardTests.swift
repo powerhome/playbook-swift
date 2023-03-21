@@ -1,18 +1,18 @@
 //
 //  PBCardTests.swift
-//  
+//
 //
 //  Created by Alexandre Hauber on 28/07/21.
 //
 
-import XCTest
+@testable import Playbook
 import SwiftUI
 import ViewInspector
-@testable import Playbook
+import XCTest
 
 final class PBCardTests: XCTestCase {
+  // MARK: Default tests
 
-    // MARK: Default tests
 //    func test_default_card() throws {
 //        let card = PBCard { Text("test") }
 //        let modifier = card.modifier(self)
@@ -35,37 +35,40 @@ final class PBCardTests: XCTestCase {
 //        XCTAssertFalse(selected)
 //        XCTAssertEqual(text, "test")
 //    }
-    //
+  //
 
-    // MARK: Highlight tests
-    func test_card_highlight_colors() throws {
-        let cardAllowedColor = PBCard(highlightColor: .pbWindows) { Text("test right color") }
-        let cardWrongColor = PBCard(highlightColor: .pbActive) { Text("test wrong color") }
+  // MARK: Highlight tests
 
-        let modifierAllowed = cardAllowedColor.modifier(self)
-        let colorAllowed = modifierAllowed.content.highlightColor
+  func test_card_highlight_colors() throws {
+    let cardAllowedColor = PBCard(highlightColor: .pbWindows) { Text("test right color") }
+    let cardWrongColor = PBCard(highlightColor: .pbActive) { Text("test wrong color") }
 
-        let modifierWrong = cardWrongColor.modifier(self)
-        let colorWrong = modifierWrong.content.highlightColor
+    let modifierAllowed = cardAllowedColor.modifier(self)
+    let colorAllowed = modifierAllowed.content.highlightColor
 
-        let vStackAllowed = try cardAllowedColor.inspect().vStack()
-        let textAllowed = try vStackAllowed.text(0).string()
+    let modifierWrong = cardWrongColor.modifier(self)
+    let colorWrong = modifierWrong.content.highlightColor
 
-        let vStackWrong = try cardWrongColor.inspect().vStack()
-        let textWrong = try vStackWrong.text(0).string()
+    let vStackAllowed = try cardAllowedColor.inspect().vStack()
+    let textAllowed = try vStackAllowed.text(0).string()
 
-        XCTAssertEqual(colorAllowed, .pbWindows)
-        XCTAssertEqual(colorWrong, .white)
-        XCTAssertEqual(textAllowed, "test right color")
-        XCTAssertEqual(textWrong, "test wrong color")
-    }
-    //
+    let vStackWrong = try cardWrongColor.inspect().vStack()
+    let textWrong = try vStackWrong.text(0).string()
 
-    // MARK: Header tests
+    XCTAssertEqual(colorAllowed, .pbWindows)
+    XCTAssertEqual(colorWrong, .white)
+    XCTAssertEqual(textAllowed, "test right color")
+    XCTAssertEqual(textWrong, "test wrong color")
+  }
 
-    //
+  //
 
-    // MARK: Selected tests
+  // MARK: Header tests
+
+  //
+
+  // MARK: Selected tests
+
 //    func test_selected_card() throws {
 //        let card = PBCard(selected: true) {
 //            Text("test")
@@ -78,36 +81,39 @@ final class PBCardTests: XCTestCase {
 //        XCTAssertTrue(selected)
 //        XCTAssertEqual(text, "test")
 //    }
-    //
+  //
 
-    // MARK: Padding tests
-    func test_padding_card() throws {
-        let card = PBCard(padding: .pbSmall) {
-            Text("test")
-        }
-        let vStack = try card.inspect().vStack()
+  // MARK: Padding tests
 
-        let padding = card.modifier(self).content.padding
-        let text = try vStack.text(0).string()
-
-        XCTAssertEqual(padding, .pbSmall)
-        XCTAssertEqual(padding, CGFloat(16))
-        XCTAssertEqual(text, "test")
+  func test_padding_card() throws {
+    let card = PBCard(padding: .pbSmall) {
+      Text("test")
     }
-    //
+    let vStack = try card.inspect().vStack()
 
-    // MARK: Padding tests
-    func test_card_with_shadows() throws {
-        let card = PBCard(shadow: .deep) {
-            Text("test")
-        }
-        let vStack = try card.inspect().vStack()
+    let padding = card.modifier(self).content.padding
+    let text = try vStack.text(0).string()
 
-        let shadow = card.modifier(self).content.shadow
-        let text = try vStack.text(0).string()
+    XCTAssertEqual(padding, .pbSmall)
+    XCTAssertEqual(padding, CGFloat(16))
+    XCTAssertEqual(text, "test")
+  }
 
-        XCTAssertEqual(shadow, Shadow.deep)
-        XCTAssertEqual(text, "test")
+  //
+
+  // MARK: Padding tests
+
+  func test_card_with_shadows() throws {
+    let card = PBCard(shadow: .deep) {
+      Text("test")
     }
-    //
+    let vStack = try card.inspect().vStack()
+
+    let shadow = card.modifier(self).content.shadow
+    let text = try vStack.text(0).string()
+
+    XCTAssertEqual(shadow, Shadow.deep)
+    XCTAssertEqual(text, "test")
+  }
+  //
 }
