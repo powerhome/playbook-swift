@@ -1,6 +1,6 @@
 //
 //  PBLabelValue.swift
-//  
+//
 //
 //  Created by Everton Cunha on 10/03/22.
 //
@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBLabelValue: View {
-
   private let label: String
   private let value: String
 

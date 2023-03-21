@@ -1,6 +1,6 @@
 //
 //  PBTextArea.swift
-//  
+//
 //
 //  Created by Everton Cunha on 04/03/22.
 //
@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBTextArea: View {
-
   var title: String
 
   @Binding var text: String
@@ -17,7 +16,7 @@ public struct PBTextArea: View {
 
   public init(_ title: String, text: Binding<String>) {
     self.title = title
-    self._text = text
+    _text = text
   }
 
   // MARK: -
@@ -39,13 +38,13 @@ public struct PBTextArea: View {
 }
 
 struct PBTextArea_Previews: PreviewProvider {
-    static var previews: some View {
-      PBTextArea("Title", text: .constant("Text"))
-        .padding(16)
-        .preferredColorScheme(.light)
+  static var previews: some View {
+    PBTextArea("Title", text: .constant("Text"))
+      .padding(16)
+      .preferredColorScheme(.light)
 
-      PBTextArea("Title", text: .constant("Text"))
-        .padding(16)
-        .preferredColorScheme(.dark)
-    }
+    PBTextArea("Title", text: .constant("Text"))
+      .padding(16)
+      .preferredColorScheme(.dark)
+  }
 }

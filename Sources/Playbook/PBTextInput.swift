@@ -1,6 +1,6 @@
 //
 //  PBTextInput.swift
-//  
+//
 //
 //  Created by Everton Cunha on 04/03/22.
 //
@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct PBTextInputStyle: TextFieldStyle {
-
   public let title: String?
   public let style: PBCardStyle
 
@@ -38,15 +37,15 @@ public struct PBTextInputStyle: TextFieldStyle {
 // MARK: -
 
 struct PBTextInput_Previews: PreviewProvider {
-    static var previews: some View {
-      VStack {
-        TextField("", text: .constant("text"))
-          .textFieldStyle(PBTextInputStyle("default"))
-        TextField("", text: .constant("text"))
-          .textFieldStyle(PBTextInputStyle("selected", style: .selected))
-        TextField("", text: .constant("text"))
-          .textFieldStyle(PBTextInputStyle("error", style: .error))
-      }
-      .padding(24)
+  static var previews: some View {
+    VStack {
+      TextField("", text: .constant("text"))
+        .textFieldStyle(PBTextInputStyle("default"))
+      TextField("", text: .constant("text"))
+        .textFieldStyle(PBTextInputStyle("selected", style: .selected))
+      TextField("", text: .constant("text"))
+        .textFieldStyle(PBTextInputStyle("error", style: .error))
     }
+    .padding(24)
+  }
 }
