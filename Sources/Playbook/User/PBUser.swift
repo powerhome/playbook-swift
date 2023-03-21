@@ -1,6 +1,6 @@
 //
 //  PBUser.swift
-//  
+//
 //
 //  Created by Alexandre Hauber on 15/07/21.
 //
@@ -35,13 +35,15 @@ public struct PBUser: View {
     }
   }
 
-  public init(name: String = "",
-              displayAvatar: Bool = true,
-              image: Image? = nil,
-              orientation: Orientation = .horizontal,
-              size: Size = .medium,
-              territory: String? = nil,
-              title: String? = nil) {
+  public init(
+    name: String = "",
+    displayAvatar: Bool = true,
+    image: Image? = nil,
+    orientation: Orientation = .horizontal,
+    size: Size = .medium,
+    territory: String? = nil,
+    title: String? = nil
+  ) {
     self.name = name
     self.displayAvatar = displayAvatar
     self.image = image
@@ -80,8 +82,8 @@ public struct PBUser: View {
   }
 }
 
-extension PBUser {
-  public enum Size {
+public extension PBUser {
+  enum Size {
     case small
     case medium
     case large
@@ -107,56 +109,76 @@ struct PBUser_Previews: PreviewProvider {
       VStack(alignment: .leading, spacing: 20, content: {
         Text("Horizontal Presentation")
         Divider()
-        PBUser(name: name,
-               image: img,
-               size: .large,
-               territory: "PHL",
-               title: title)
-        PBUser(name: name,
-               image: img,
-               size: .medium)
-        PBUser(name: name,
-               size: .medium,
-               territory: "PHL",
-               title: title)
-        PBUser(name: name,
-               image: img,
-               size: .small,
-               title: title)
-        PBUser(name: name,
-               displayAvatar: false,
-               size: .small,
-               title: title)
+        PBUser(
+          name: name,
+          image: img,
+          size: .large,
+          territory: "PHL",
+          title: title
+        )
+        PBUser(
+          name: name,
+          image: img,
+          size: .medium
+        )
+        PBUser(
+          name: name,
+          size: .medium,
+          territory: "PHL",
+          title: title
+        )
+        PBUser(
+          name: name,
+          image: img,
+          size: .small,
+          title: title
+        )
+        PBUser(
+          name: name,
+          displayAvatar: false,
+          size: .small,
+          title: title
+        )
       }).padding(.horizontal, 20)
 
       VStack(alignment: .center, spacing: 20) {
         Text("Vertical Presentation")
         Divider()
-        PBUser(name: name,
-               image: img,
-               orientation: .vertical,
-               size: .large,
-               territory: "PHL",
-               title: title)
-        PBUser(name: name,
-               image: img,
-               orientation: .vertical,
-               size: .medium)
-        PBUser(name: name,
-               orientation: .vertical,
-               size: .medium,
-               territory: "PHL",
-               title: title)
-        PBUser(name: name,
-               image: img,
-               orientation: .vertical,
-               size: .small,
-               title: title)
-        PBUser(name: name,
-               displayAvatar: false,
-               orientation: .vertical,
-               size: .small,
-               title: title)
+        PBUser(
+          name: name,
+          image: img,
+          orientation: .vertical,
+          size: .large,
+          territory: "PHL",
+          title: title
+        )
+        PBUser(
+          name: name,
+          image: img,
+          orientation: .vertical,
+          size: .medium
+        )
+        PBUser(
+          name: name,
+          orientation: .vertical,
+          size: .medium,
+          territory: "PHL",
+          title: title
+        )
+        PBUser(
+          name: name,
+          image: img,
+          orientation: .vertical,
+          size: .small,
+          title: title
+        )
+        PBUser(
+          name: name,
+          displayAvatar: false,
+          orientation: .vertical,
+          size: .small,
+          title: title
+        )
       }
       .padding(.horizontal, 20)
     }

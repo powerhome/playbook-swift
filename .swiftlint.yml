@@ -4,6 +4,7 @@ disabled_rules: # rule identifiers to exclude from running
   - todo
 
 opt_in_rules: # some rules are only opt-in
+  - indentation_width
 
 included: # paths to include during linting. `--path` is ignored if present.
 
@@ -15,6 +16,9 @@ force_cast: warning # implicitly. Give warning only for force casting
 
 force_try:
   severity: warning # explicitly. Give warning only for force try
+
+indentation_width:
+  indentation_width: 2
 
 type_body_length:
   - 300 # warning

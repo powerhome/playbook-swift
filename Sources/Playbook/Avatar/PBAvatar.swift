@@ -1,10 +1,9 @@
 //
 //  PBAvatar.swift
-//  
+//
 //
 //  Created by Lucas C. Feijo on 12/07/21.
 //
-
 import SwiftUI
 
 public struct PBAvatar: View {
@@ -68,8 +67,10 @@ public struct PBAvatar: View {
             Circle().stroke(Color.pbBackground, lineWidth: 2)
           )
           .frame(width: 10.0, height: 10.0)
-          .offset(x: size.diameter/2 - size.diameter/9,
-                  y: (size.diameter/2 - size.diameter/6) * size.statusYModifier)
+          .offset(
+            x: size.diameter/2 - size.diameter/9,
+            y: (size.diameter/2 - size.diameter/6) * size.statusYModifier
+          )
       }
     }
   }
@@ -122,7 +123,7 @@ public extension PBAvatar {
   }
 }
 
-@available(macOS 13.0, *)
+//@available(macOS 13.0, *)
 struct PBAvatar_Previews: PreviewProvider {
   static var defaultAvatars: some View {
     VStack(alignment: .leading) {
@@ -153,12 +154,12 @@ struct PBAvatar_Previews: PreviewProvider {
       Section("Default") {
         defaultAvatars
       }
-      .listRowSeparator(.hidden)
+//      .listRowSeparator(.hidden)
 
       Section("Monogram") {
         monograms
       }
-      .listRowSeparator(.hidden)
+//      .listRowSeparator(.hidden)
     }
   }
 }
