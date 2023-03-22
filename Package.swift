@@ -17,6 +17,7 @@ let package = Package(
   dependencies: [
     // Dependencies declare other packages that this package depends on.
     .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
+    .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.51.2"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
       from: "1.11.0"
