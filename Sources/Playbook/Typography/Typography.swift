@@ -9,38 +9,17 @@ import SwiftUI
 
 public struct Typography: ViewModifier {
   var font: PBFont
-  var variant: Variant = .none
-  var color: Color = .pbTextDefault
+  var variant: Variant
+  var color: Color
 
-  // if color is not allowed, return the default for the style
   var foregroundColor: Color {
-    if !Color.pbTextColors.contains(color) {
-      switch font {
-      case .title4:
-        return variant == .link ? .pbPrimary : .pbTextDefault
-      case .subcaption:
-        return variant == .link ? .pbPrimary : .pbTextLight
-      case .caption, .largeCaption:
-        return .pbTextLight
-      case .monogram:
-        return color
-      case .buttonText:
-        return color
-      default:
-        return .pbTextDefault
-      }
-    } else {
-      if [.title4, .subcaption].contains(font), variant == .link {
-        return .pbPrimary
-      } else {
-        return color
-      }
+    switch variant {
+    case .link:
+      return .pbPrimary
+    default: return color
     }
   }
 
-  // We don't have access to the UIFont.lineHeight here
-  // which is needed to calculate the spacing between lines
-  // so we tested values that replicate the desired lineHeights.
   var spacing: CGFloat {
     switch font {
     case .title1: return 3
@@ -62,10 +41,10 @@ public struct Typography: ViewModifier {
   public func body(content: Content) -> some View {
     content
       .font(font.font)
-      .foregroundColor(foregroundColor)
-      .lineSpacing(spacing) // Only works between lines in a paragraph.
-      .padding(.vertical, spacing) // Adds the space around the text block.
+      .lineSpacing(spacing)
+      .padding(.vertical, spacing)
       .textCase(casing)
+      .foregroundColor(foregroundColor)
   }
 }
 
@@ -82,7 +61,7 @@ public extension View {
     variant: Typography.Variant = .none,
     color: Color = .pbTextDefault
   ) -> some View {
-    modifier(Typography(font: font, variant: variant, color: color))
+    self.modifier(Typography(font: font, variant: variant, color: color))
   }
 }
 
