@@ -29,7 +29,7 @@ let package = Package(
     .target(
       name: "Playbook",
       dependencies: [],
-      resources: [.process("Assets")],
+      resources: [.process("Resources/Assets/")],
       plugins: [.plugin(name: "SwiftLint", package: "SwiftLintPlugin")]
     ),
     .testTarget(
