@@ -2,7 +2,7 @@
   "extends": [
     "config:base"
   ],
-  "labels": ["improvements"],
+  "labels": ["improvement"],
   "lockFileMaintenance": {
     "enabled": true
   },
