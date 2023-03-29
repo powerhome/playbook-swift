@@ -2,7 +2,11 @@
   "extends": [
     "config:base"
   ],
+  "labels": ["improvements"],
   "lockFileMaintenance": {
+    "enabled": true
+  },
+  "pre-commit": {
     "enabled": true
   }
 }
