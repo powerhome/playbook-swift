@@ -6,7 +6,7 @@ Built and maintained by the User Experience Team at [Power Home Remodeling](http
 
 ## Installation
 
-- Playbook Apple can be added via the Swift Package Manager
+- Playbook Swift can be added via the Swift Package Manager
   1. Search for: `git@github.com:powerhome/PlaybookSwift.git`
   2. Resolve package dependencies
   3. In your Swift view file, `import Playbook`
