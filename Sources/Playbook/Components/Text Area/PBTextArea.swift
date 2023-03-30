@@ -12,14 +12,10 @@ public struct PBTextArea: View {
 
   @Binding var text: String
 
-  // MARK: -
-
   public init(_ title: String, text: Binding<String>) {
     self.title = title
     _text = text
   }
-
-  // MARK: -
 
   public var body: some View {
     VStack(alignment: .leading, spacing: 4) {
