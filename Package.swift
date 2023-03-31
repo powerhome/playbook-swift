@@ -16,7 +16,7 @@ let package = Package(
   ],
   dependencies: [
     // Dependencies declare other packages that this package depends on.
-    .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
+    .package(url: "https://github.com/realm/SwiftLint.git", from: "0.51.0"),
     .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.51.2"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
@@ -29,8 +29,8 @@ let package = Package(
     .target(
       name: "Playbook",
       dependencies: [],
-      resources: [.process("Assets")],
-      plugins: [.plugin(name: "SwiftLint", package: "SwiftLintPlugin")]
+      resources: [.process("Resources/Assets/")],
+      plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]
     ),
     .testTarget(
       name: "SnapshotTests",
