@@ -1516,9 +1516,9 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
   case youtubeSquare = "fa-youtube-square"
   case zhihu = "fa-zhihu"
 
-    public var fontFamily: String {
-      "Font Awesome 6 Pro"
-    }
+  public var fontFamily: String {
+    "Font Awesome 6 Pro"
+  }
 
   /// An unicode code of FontAwesome icon
   public var unicodeString: String {
@@ -3449,9 +3449,9 @@ public enum FontAwesomeBrands: String, PlaybookGenericIcon {
   case youtubeSquare = "fa-youtube-square"
   case zhihu = "fa-zhihu"
 
-    public var fontFamily: String {
-      "Font Awesome 6 Brands"
-    }
+  public var fontFamily: String {
+    "Font Awesome 6 Brands"
+  }
 
   /// An unicode code of FontAwesome icon
   public var unicodeString: String {
@@ -3917,3 +3917,4 @@ public enum FontAwesomeBrands: String, PlaybookGenericIcon {
     }
   }
 }
+// swiftlint:enable file_length type_body_length
