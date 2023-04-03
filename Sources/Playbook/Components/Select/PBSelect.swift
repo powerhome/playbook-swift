@@ -8,10 +8,10 @@
 import SwiftUI
 
 public struct PBSelect: ButtonStyle {
-  let title: String
+  let title: String?
   let style: PBCardStyle
 
-  public init(_ title: String, style: PBCardStyle) {
+  public init(_ title: String?, style: PBCardStyle) {
     self.title = title
     self.style = style
   }
@@ -22,6 +22,7 @@ public struct PBSelect: ButtonStyle {
         Text(title)
           .pbFont(.caption, color: .pbTextLight)
       }
+
       PBCard(padding: 0, style: style) {
         HStack {
           configuration.label
