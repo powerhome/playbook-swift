@@ -152,7 +152,7 @@ public enum PBButtonVariant {
       }
     case .secondary:
       switch (disabled, colorScheme) {
-      default: return .pbPrimary.opacity(0.05)
+      default: return .white.opacity(0.2)
       }
     case .link:
       switch (disabled, colorScheme) {
