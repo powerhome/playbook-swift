@@ -108,7 +108,10 @@ public struct PBButtonStyle: ButtonStyle {
   ) -> Color {
     #if os(macOS)
       if isPressed {
-        return .pbPrimary
+        switch colorScheme {
+        case .dark: return .white
+        default: return .pbPrimary
+        }
       }
     #endif
 
