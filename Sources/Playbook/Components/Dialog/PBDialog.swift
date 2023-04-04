@@ -20,7 +20,7 @@ public struct PBDialog<Content: View>: View {
   let onClose: (() -> Void)?
   let size: Size
   let shouldCloseOnOverlay: Bool
-
+  
   public init(
     title: String? = nil,
     text: String? = nil,
@@ -46,7 +46,7 @@ public struct PBDialog<Content: View>: View {
     self.size = size
     self.shouldCloseOnOverlay = shouldCloseOnOverlay
   }
-
+  
   public var body: some View {
     dialogView()
       .padding(EdgeInsets(top: 0, leading: size.padding, bottom: 0, trailing: size.padding))
@@ -62,18 +62,20 @@ public struct PBDialog<Content: View>: View {
       }
       .edgesIgnoringSafeArea(.all)
   }
-
+  
   private func dialogView() -> some View {
     return PBCard(padding: .pbNone) {
-      DialogHeaderView(title: title) { dismissDialog() }
-      PBSectionSeparator()
-
+      if let title = title {
+        DialogHeaderView(title: title) { dismissDialog() }
+        PBSectionSeparator()
+      }
+      
       if let text = text {
         Text(text).pbFont(.body()).lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true).padding()
       }
       content
-
+      
       if let confirmButton = confirmButton {
         DialogActionView(
           isStacked: isStacked,
@@ -86,7 +88,7 @@ public struct PBDialog<Content: View>: View {
       }
     }
   }
-
+  
   func cancelButtonAction() -> (String, (() -> Void))? {
     if let cancelButton = cancelButton {
       if let cancelButtonAction = cancelButton.1 {
@@ -98,7 +100,7 @@ public struct PBDialog<Content: View>: View {
       return nil
     }
   }
-
+  
   func dismissDialog() {
     presentationMode.wrappedValue.dismiss()
   }
@@ -110,7 +112,7 @@ public extension PBDialog {
     case medium
     case large
     case content
-
+    
 #if os(iOS)
     var padding: CGFloat {
       if UIDevice.current.userInterfaceIdiom == .pad {
@@ -124,7 +126,7 @@ public extension PBDialog {
         return 30
       }
     }
-
+    
 #elseif os(macOS)
     var padding: CGFloat {
       switch self {
@@ -141,28 +143,26 @@ public extension PBDialog {
 struct PBBDialog_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-
+    
     let infoMessage = "This is a message for informational purposes only and requires no action."
-
+    
     func foo() {
       print("alal")
     }
-
+    
     return Group {
-
+      
       VStack(alignment: .leading) {
         Text("Stacked").pbFont(.caption).padding()
         PBDialog(
-          title: "This is some informative text",
-          text: "öcnwowbsnrnn",
           isStacked: true,
-          cancelButton: ("Cancel", foo),
-          cancelButtonStyle: PBButtonStyle(variant: .secondary),
           confirmButton: ("Okay", foo)
-        )
+        ) {
+          StatusDialogView(status: (FontAwesome.rocket, .pbGreen), title: "Success!", description: "Some description")
+        }
       }
       .previewDisplayName("Stacked")
-
+      
       VStack(alignment: .leading) {
         Text("Simple").pbFont(.caption).padding()
         PBDialog(
@@ -173,9 +173,9 @@ struct PBBDialog_Previews: PreviewProvider {
         )
       }
       .previewDisplayName("Simple")
-
+      
       VStack(alignment: .leading) {
-
+        
         PBDialog(
           cancelButton: ("Back", {}),
           confirmButton: ("Send My Issue", {})
@@ -188,7 +188,7 @@ struct PBBDialog_Previews: PreviewProvider {
         }
       }
       .previewDisplayName("Complex")
-
+      
       VStack(alignment: .leading, spacing: nil) {
         Text("Size").pbFont(.caption)
         PBDialog(
@@ -198,7 +198,7 @@ struct PBBDialog_Previews: PreviewProvider {
           confirmButton: ("Okay", foo),
           size: .small
         )
-
+        
         PBDialog(
           title: "Medium Dialog",
           text: infoMessage,
@@ -206,7 +206,7 @@ struct PBBDialog_Previews: PreviewProvider {
           confirmButton: ("Okay", foo),
           size: .medium
         )
-
+        
         PBDialog(
           title: "Large Dialog",
           text: infoMessage,
