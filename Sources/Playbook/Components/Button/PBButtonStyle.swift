@@ -26,9 +26,13 @@ public struct PBButtonStyle: ButtonStyle {
   }
 
   public func makeBody(configuration: Configuration) -> some View {
-    let isPressedOrHovered = (configuration.isPressed || isHovering) && !disabled
-    let primaryVariantPressedHovered = variant == .primary && isPressedOrHovered
-    let linkVariantPressedHovered = variant == .link && isPressedOrHovered
+    let isPressed = configuration.isPressed && !disabled
+    let primaryVariant = variant == .primary
+    let linkVariant = variant == .link
+
+    let primaryVariantPressed = primaryVariant && isPressed
+    let primaryVariantPressedHovered = primaryVariant && (isPressed || isHovering) && !disabled
+    let linkVariantPressedHovered = linkVariant && (isPressed || isHovering) && !disabled
 
     configuration.label
       .padding(.vertical, size.verticalPadding())
@@ -41,17 +45,19 @@ public struct PBButtonStyle: ButtonStyle {
           disabled: disabled,
           isHovering: isHovering
         )
+        #if os(macOS)
+        .brightness(primaryVariantPressed ? 0 : -0.04)
+        #endif
+        .brightness(primaryVariantPressedHovered ? -0.04 : 0)
       )
-      .brightness(primaryVariantPressedHovered ? -0.04 : 0)
       .foregroundColor(
         linkVariantPressedHovered
-          ? linkForegroundColor(colorScheme)
+          ? linkForegroundColor(colorScheme, isPressed: isPressed)
           : variant.foregroundColor(disabled, colorScheme: colorScheme)
       )
       .cornerRadius(5)
       .pbFont(.buttonText(size.fontSize))
     #if os(macOS)
-      .opacity(configuration.isPressed && !disabled ? 0.8 : 1)
       .onHover { hovering in
         isHovering = hovering
 
@@ -70,9 +76,21 @@ public struct PBButtonStyle: ButtonStyle {
     disabled: Bool,
     isHovering: Bool
   ) -> Color {
-    let isPressedOrHovered = (configuration.isPressed || isHovering) && !disabled
+    let isPressed = configuration.isPressed && !disabled
+    let hovering = isHovering && !disabled
 
-    if isPressedOrHovered {
+    #if os(macOS)
+      if isPressed {
+        switch (variant, colorScheme) {
+        case (.secondary, .light): return .pbPrimary.opacity(0.05)
+        case (.secondary, .dark): return .pbPrimary.opacity(0.05)
+        case (.link, _): return .clear
+        default: return .pbPrimary
+        }
+      }
+    #endif
+
+    if isPressed || hovering {
       switch (variant, colorScheme) {
       case (.secondary, .light): return .pbPrimary.opacity(0.3)
       case (.secondary, .dark): return .pbPrimary.opacity(0.2)
@@ -84,7 +102,16 @@ public struct PBButtonStyle: ButtonStyle {
     return variant.backgroundColor(disabled, colorScheme: colorScheme)
   }
 
-  private func linkForegroundColor(_ colorScheme: ColorScheme) -> Color {
+  private func linkForegroundColor(
+    _ colorScheme: ColorScheme,
+    isPressed: Bool
+  ) -> Color {
+    #if os(macOS)
+      if isPressed {
+        return .pbPrimary
+      }
+    #endif
+
     switch colorScheme {
     case .dark: return .white.opacity(0.5)
     default: return .pbTextDefault

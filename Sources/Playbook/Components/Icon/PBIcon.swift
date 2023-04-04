@@ -36,7 +36,6 @@ public extension PBIcon {
     /// 24
     case large
 
-    // swiftlint:disable identifier_name
     case x1
     case x2
     case x3
