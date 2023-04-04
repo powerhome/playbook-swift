@@ -9,157 +9,93 @@ import SwiftUI
 
 public struct PBDialog<Content: View>: View {
   @Environment(\.presentationMode) var presentationMode
-
-  let content: Content
+  let content: Content?
   let title: String?
   let text: String?
-  let cancelButton: String?
+  let isStacked: Bool
+  let cancelButton: (String, (() -> Void)?)?
   let cancelButtonStyle: PBButtonStyle
-  let confirmButton: String?
+  let confirmButton: (String, (() -> Void))?
   let confirmButtonStyle: PBButtonStyle
-  let onCancel: (() -> Void)?
   let onClose: (() -> Void)?
-  let onConfirm: (() -> Void)?
   let size: Size
   let shouldCloseOnOverlay: Bool
 
   public init(
     title: String? = nil,
     text: String? = nil,
-    cancelButton: String? = nil,
+    isStacked: Bool = false,
+    cancelButton: (String, (() -> Void)?)? = nil,
     cancelButtonStyle: PBButtonStyle = PBButtonStyle(variant: .link),
-    confirmButton: String? = nil,
+    confirmButton: (String, (() -> Void))? = nil,
     confirmButtonStyle: PBButtonStyle = PBButtonStyle(variant: .primary),
-    onCancel: (() -> Void)? = nil,
     onClose: (() -> Void)? = nil,
-    onConfirm: (() -> Void)? = nil,
     size: Size = .medium,
     shouldCloseOnOverlay: Bool = true,
-    @ViewBuilder content: () -> Content
+    @ViewBuilder _ content: (() -> Content) = { EmptyView() }
   ) {
     self.content = content()
     self.title = title
     self.text = text
+    self.isStacked = isStacked
     self.cancelButton = cancelButton
     self.cancelButtonStyle = cancelButtonStyle
     self.confirmButton = confirmButton
     self.confirmButtonStyle = confirmButtonStyle
-    self.onCancel = onCancel
     self.onClose = onClose
-    self.onConfirm = onConfirm
     self.size = size
     self.shouldCloseOnOverlay = shouldCloseOnOverlay
-
-    #if os(iOS)
-      UIScrollView.appearance().bounces = false
-    #elseif os(macOS)
-      // TODO: remove bounce from mac
-      // Didn't work -> NSScrollView.init().verticalScrollElasticity = .none
-    #endif
   }
 
   public var body: some View {
-    #if os(iOS)
-      GeometryReader { geometry in
-        ScrollView {
-          dialogContent()
-            .frame(minHeight: geometry.size.height)
-            .onTapGesture {
-              // overrides the overlay tap
-            }
-            .padding(EdgeInsets(top: 0, leading: size.padding, bottom: 0, trailing: size.padding))
-            .backgroundViewModifier(alpha: 0.2)
-        }
-        .onTapGesture {
-          if shouldCloseOnOverlay {
-            if let onClose = onClose {
-              onClose()
-            } else {
-              dismissDialog()
-            }
+    dialogView()
+      .padding(EdgeInsets(top: 0, leading: size.padding, bottom: 0, trailing: size.padding))
+      .backgroundViewModifier(alpha: 0.2)
+      .onTapGesture {
+        if shouldCloseOnOverlay {
+          if let onClose = onClose {
+            onClose()
+          } else {
+            dismissDialog()
           }
         }
       }
       .edgesIgnoringSafeArea(.all)
-    #elseif os(macOS)
-      ZStack(alignment: .center) {
-        Color.black.opacity(0.2)
-        GeometryReader { geometry in
-          ScrollView {
-            dialogContent()
-              .frame(width: size.width, height: geometry.size.height)
-              .onTapGesture {
-                // overrides the overlay tap
-              }
-          }
-          .padding(EdgeInsets(top: 0, leading: size.padding, bottom: 0, trailing: size.padding))
-          .onTapGesture {
-            if shouldCloseOnOverlay {
-              dismissDialog()
-            }
-          }
-        }
-      }.frame(maxWidth: .infinity)
-    #endif
   }
 
-  private func dialogContent() -> some View {
-    return ZStack(alignment: .topTrailing) {
-      VStack {
-        PBCard(padding: .pbNone) {
-          if let title = title {
-            Text(title).tag("title").pbFont(.body()).padding()
-            PBSectionSeparator()
-          }
-          if let text = text {
-            Text(text).tag("text").pbFont(.body()).lineLimit(nil)
-              .fixedSize(horizontal: false, vertical: true).padding()
-          }
-          content
-          HStack {
-            if let confirmButton = confirmButton, !confirmButton.isEmpty {
-              Button {
-                if let onConfirm = onConfirm {
-                  onConfirm()
-                } else {
-                  dismissDialog()
-                }
-              } label: {
-                Text(confirmButton)
-              }
-              .tag("confirmButton")
-              .buttonStyle(confirmButtonStyle).padding()
-              Spacer()
-            }
-            if let cancelButton = cancelButton, !cancelButton.isEmpty {
-              Spacer()
-              Button {
-                if let onCancel = onCancel {
-                  onCancel()
-                } else {
-                  dismissDialog()
-                }
-              } label: {
-                Text(cancelButton)
-              }
-              .tag("cancelButton")
-              .buttonStyle(cancelButtonStyle).padding()
-            }
-          }
-        }
-      }.tag("card")
+  private func dialogView() -> some View {
+    return PBCard(padding: .pbNone) {
+      DialogHeaderView(title: title) { dismissDialog() }
+      PBSectionSeparator()
 
-      Button {
-        if let onClose = onClose {
-          onClose()
-        } else {
-          dismissDialog()
-        }
-      } label: {
-        PBIcon(FontAwesome.times, size: .medium)
+      if let text = text {
+        Text(text).pbFont(.body()).lineLimit(nil)
+          .fixedSize(horizontal: false, vertical: true).padding()
       }
-      .buttonStyle(PBButtonStyle(variant: .link))
-      .tag("closeIcon")
+      content
+
+      if let confirmButton = confirmButton {
+        DialogActionView(
+          isStacked: isStacked,
+          confirmButton: confirmButton,
+          confirmButtonStyle: confirmButtonStyle,
+          cancelButton: cancelButtonAction(),
+          cancelButtonStyle: cancelButtonStyle
+        )
+        .padding()
+      }
+    }
+  }
+
+  func cancelButtonAction() -> (String, (() -> Void))? {
+    if let cancelButton = cancelButton {
+      if let cancelButtonAction = cancelButton.1 {
+        return (cancelButton.0, cancelButtonAction)
+      } else {
+        return (cancelButton.0, { dismissDialog() })
+      }
+    } else {
+      return nil
     }
   }
 
@@ -175,71 +111,30 @@ public extension PBDialog {
     case large
     case content
 
-    #if os(iOS)
-      var padding: CGFloat {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-          switch self {
-          case .small: return 252
-          case .medium: return 168
-          case .large: return 80
-          case .content: return 10
-          }
-        } else {
-          return 30
-        }
-      }
-
-    #elseif os(macOS)
-      var padding: CGFloat {
+#if os(iOS)
+    var padding: CGFloat {
+      if UIDevice.current.userInterfaceIdiom == .pad {
         switch self {
-        case .small: return 300
-        case .medium: return 200
-        case .large: return 100
-        case .content: return 30
+        case .small: return 168
+        case .medium: return 168
+        case .large: return 80
+        case .content: return 10
         }
-      }
-    #endif
-
-    var width: CGFloat? {
-      switch self {
-      case .small: return 300
-      case .medium: return 500
-      case .large: return 800
-      case .content: return nil
+      } else {
+        return 30
       }
     }
-  }
-}
 
-/// Extension to allow optional Content
-public extension PBDialog where Content == EmptyView {
-  init(
-    title: String? = nil,
-    text: String? = nil,
-    cancelButton: String? = nil,
-    cancelButtonStyle: PBButtonStyle = PBButtonStyle(variant: .link),
-    confirmButton: String? = nil,
-    confirmButtonStyle: PBButtonStyle = PBButtonStyle(variant: .primary),
-    onCancel: (() -> Void)? = nil,
-    onClose: (() -> Void)? = nil,
-    onConfirm: (() -> Void)? = nil,
-    size: Size = .medium,
-    shouldCloseOnOverlay: Bool = true
-  ) {
-    self.init(
-      title: title,
-      text: text,
-      cancelButton: cancelButton,
-      cancelButtonStyle: cancelButtonStyle,
-      confirmButton: confirmButton,
-      confirmButtonStyle: confirmButtonStyle,
-      onCancel: onCancel,
-      onClose: onClose,
-      onConfirm: onConfirm,
-      size: size,
-      shouldCloseOnOverlay: shouldCloseOnOverlay,
-      content: { EmptyView() }
-    )
+#elseif os(macOS)
+    var padding: CGFloat {
+      switch self {
+      case .small: return 150
+      case .medium: return 100
+      case .large: return 50
+      case .content: return 30
+      }
+    }
+#endif
   }
 }
 
@@ -254,46 +149,44 @@ struct PBBDialog_Previews: PreviewProvider {
     }
 
     return Group {
+
+      VStack(alignment: .leading) {
+        Text("Stacked").pbFont(.caption).padding()
+        PBDialog(
+          title: "This is some informative text",
+          text: "öcnwowbsnrnn",
+          isStacked: true,
+          cancelButton: ("Cancel", foo),
+          cancelButtonStyle: PBButtonStyle(variant: .secondary),
+          confirmButton: ("Okay", foo)
+        )
+      }
+      .previewDisplayName("Stacked")
+
       VStack(alignment: .leading) {
         Text("Simple").pbFont(.caption).padding()
         PBDialog(
           title: "This is some informative text",
-          text: infoMessage,
-          cancelButton: "Cancel",
-          confirmButton: "Okay",
-          onCancel: foo
-        ) {}
+          text: "öcnwow",
+          cancelButton: ("Cancel", foo),
+          confirmButton: ("Okay", foo)
+        )
       }
-      .padding()
       .previewDisplayName("Simple")
-      .frame(width: 800, height: 800)
 
       VStack(alignment: .leading) {
-        Text("Complex").pbFont(.caption)
 
-        PBDialog {
-          HStack {
-            Button {
-              print("Left button tapped")
-            } label: {
-              Text("Left button")
-            }
-            .buttonStyle(PBButtonStyle())
-
-            Spacer()
-
-            Button {
-              print("Right button tapped")
-            } label: {
-              Text("Right button")
-            }
-            .buttonStyle(PBButtonStyle(variant: .secondary))
+        PBDialog(
+          cancelButton: ("Back", {}),
+          confirmButton: ("Send My Issue", {})
+        ) {
+          ScrollView {
+            Image(systemName: "person")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
           }
-          .padding()
         }
-        .padding()
       }
-      .padding()
       .previewDisplayName("Complex")
 
       VStack(alignment: .leading, spacing: nil) {
@@ -301,22 +194,23 @@ struct PBBDialog_Previews: PreviewProvider {
         PBDialog(
           title: "Small Dialog",
           text: infoMessage,
-          cancelButton: "Cancel",
-          confirmButton: "Okay",
+          cancelButton: ("Cancel", foo),
+          confirmButton: ("Okay", foo),
           size: .small
         )
 
         PBDialog(
           title: "Medium Dialog",
           text: infoMessage,
-          cancelButton: "Cancel", confirmButton: "Okay", size: .medium
+          cancelButton: ("Cancel", nil),
+          confirmButton: ("Okay", foo),
+          size: .medium
         )
 
         PBDialog(
           title: "Large Dialog",
           text: infoMessage,
-          cancelButton: "Cancel",
-          confirmButton: "Okay",
+          confirmButton: ("Okay", foo),
           size: .large
         )
       }
