@@ -19,10 +19,12 @@ struct PBStatusDialogView: View {
       Text(title)
         .pbFont(.body(.larger))
         .padding(.vertical)
+        .multilineTextAlignment(.center)
       Text(description)
         .pbFont(.body())
         .padding(.horizontal)
         .multilineTextAlignment(.center)
+        .fixedSize(horizontal: false, vertical: true)
     }
     .padding()
   }
@@ -42,7 +44,6 @@ struct PBStatusDialogView: View {
     }
   }
 
-
 struct PBStatusDialogView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
@@ -53,6 +54,7 @@ struct PBStatusDialogView_Previews: PreviewProvider {
           title: status.rawValue.capitalized,
           description: "Some description Some description Some description Some description Some description "
         )
+        .frame(maxWidth: .infinity)
       }
     }
   }

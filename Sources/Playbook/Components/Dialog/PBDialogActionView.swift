@@ -49,6 +49,7 @@ struct PBDialogActionView: View {
           stackedLabel(cancelButton.0)
         }
         .buttonStyle(cancelButtonStyle)
+        .padding(.top, -8)
       }
     }
     .frame(maxWidth: .infinity)

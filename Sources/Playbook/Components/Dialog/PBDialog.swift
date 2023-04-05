@@ -77,11 +77,11 @@ public struct PBDialog<Content: View>: View {
         if let message = message {
           Text(message)
             .pbFont(.body())
-            .lineLimit(nil)
-            .fixedSize(horizontal: false, vertical: true)
             .padding()
         }
+
         content
+
       case .status(let status):
         PBStatusDialogView(status: status, title: title ?? "", description: message ?? "")
           .frame(maxWidth: Size.medium.width)
@@ -123,7 +123,7 @@ public extension PBDialog {
     case medium
     case large
 
-    var padding: CGFloat { 32 }
+    var padding: CGFloat { 24 }
 
     var width: CGFloat {
       switch self {
@@ -166,13 +166,14 @@ struct PBBDialog_Previews: PreviewProvider {
         confirmButton: ("Send My Issue", foo),
         content: ({
           ScrollView {
-            Image(systemName: "person")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-
             Text("Hello Complex Dialog!\n Anything can be placed here")
               .pbFont(.title2)
-              .multilineTextAlignment(.center)
+              .multilineTextAlignment(.leading)
+
+            TextField("", text: .constant("text"))
+              .textFieldStyle(PBTextInputStyle("default"))
+              .padding()
+
           }
           .padding()
         }))
@@ -193,7 +194,7 @@ struct PBBDialog_Previews: PreviewProvider {
 
       List {
         Section("stacked") {
-          HStack {
+          ScrollView(showsIndicators: false) {
             PBDialog(
               title: "Success!",
               message: infoMessage,
@@ -213,10 +214,8 @@ struct PBBDialog_Previews: PreviewProvider {
               confirmButton: ("Okay", foo),
               size: .small
             )
-
           }
           .backgroundViewModifier(alpha: 0.2)
-          .frame(maxWidth: .infinity)
         }
 
         Section("Default") {
@@ -238,16 +237,16 @@ struct PBBDialog_Previews: PreviewProvider {
 
       List(DialogStatus.allCases, id: \.self) { status in
         Section(status.rawValue) {
-            PBDialog(
-              title: status.rawValue.capitalized,
-              message: infoMessage,
-              variant: .status(status),
-              isStacked: false,
-              cancelButton: ("Cancel", foo),
-              cancelButtonStyle: PBButtonStyle(variant: .secondary),
-              confirmButton: ("Okay", foo)
-            )
-            .frame(maxWidth: .infinity)
+          PBDialog(
+            title: status.rawValue.capitalized,
+            message: infoMessage,
+            variant: .status(status),
+            isStacked: false,
+            cancelButton: ("Cancel", foo),
+            cancelButtonStyle: PBButtonStyle(variant: .secondary),
+            confirmButton: ("Okay", foo)
+          )
+          .frame(maxWidth: .infinity)
           .backgroundViewModifier(alpha: 0.2)
         }
       }
