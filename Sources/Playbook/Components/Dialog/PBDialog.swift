@@ -166,7 +166,7 @@ struct PBBDialog_Previews: PreviewProvider {
         confirmButton: ("Send My Issue", foo),
         content: ({
           ScrollView {
-            Text("Hello Complex Dialog!\n Anything can be placed here")
+            Text("Hello Complex Dialog!\nAnything can be placed here")
               .pbFont(.title2)
               .multilineTextAlignment(.leading)
 
@@ -215,6 +215,7 @@ struct PBBDialog_Previews: PreviewProvider {
               size: .small
             )
           }
+          .frame(maxWidth: .infinity)
           .backgroundViewModifier(alpha: 0.2)
         }
 
