@@ -1,5 +1,5 @@
 //
-//  DialogHeaderView.swift
+//  PBDialogHeaderView.swift
 //  
 //
 //  Created by Isis Silva on 03/04/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DialogHeaderView: View {
+struct PBDialogHeaderView: View {
   let title: String?
   let dismissAction: (() -> Void)
 
@@ -34,9 +34,9 @@ struct DialogHeaderView: View {
   }
 }
 
-struct DialogHeaderView_Previews: PreviewProvider {
+struct PBDialogHeaderView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-    return DialogHeaderView(title: "Dialog Header", dismissAction: {})
+    return PBDialogHeaderView(title: "Dialog Header", dismissAction: {})
   }
 }

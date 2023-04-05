@@ -14,7 +14,7 @@ struct AdaptiveStack<Content: View>: View {
 
   init(
     isStacked: Bool,
-       spacing: CGFloat? = nil,
+    spacing: CGFloat? = nil,
     @ViewBuilder content: @escaping () -> Content
   ) {
     self.isStacked = isStacked

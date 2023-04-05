@@ -1,5 +1,5 @@
 //
-//  DialogActionView.swift
+//  PBDialogActionView.swift
 //  
 //
 //  Created by Isis Silva on 03/04/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DialogActionView: View {
+struct PBDialogActionView: View {
   let isStacked: Bool
   let confirmButton: (String, (() -> Void))?
   let confirmButtonStyle: PBButtonStyle
@@ -64,18 +64,18 @@ struct DialogActionView: View {
   }
 }
 
-struct DialogActionView_Previews: PreviewProvider {
+struct PBDialogActionView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
     return List {
-      DialogActionView(
+      PBDialogActionView(
         confirmButton: ("Okay", {}),
         confirmButtonStyle: PBButtonStyle(variant: .primary),
         cancelButton: ("Cancel", {}),
         cancelButtonStyle: PBButtonStyle(variant: .link)
       )
 
-      DialogActionView(
+      PBDialogActionView(
         isStacked: true,
         confirmButton: ("Yes, Action", {}),
         confirmButtonStyle: PBButtonStyle(variant: .primary),
@@ -83,7 +83,7 @@ struct DialogActionView_Previews: PreviewProvider {
         cancelButtonStyle: PBButtonStyle(variant: .secondary)
       )
 
-      DialogActionView(
+      PBDialogActionView(
         confirmButton: ("Okay", {}),
         confirmButtonStyle: PBButtonStyle(variant: .primary)
       )
