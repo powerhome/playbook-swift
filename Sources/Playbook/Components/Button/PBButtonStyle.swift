@@ -7,6 +7,131 @@
 
 import SwiftUI
 
+public struct PBButton: View {
+  var variant: PBButtonVariant
+  var size: PBButtonSize
+  var shape: PBButtonShape
+  var title: String?
+  var disabled: Bool
+  let action: (() -> Void)
+  @State private var isHovering: Bool = false
+
+  public init(
+    variant: PBButtonVariant = .primary,
+    size: PBButtonSize = .medium,
+    shape: PBButtonShape = .primary,
+    title: String? = nil,
+    disabled: Bool = false,
+    action: @escaping (() -> Void)
+  ) {
+    self.variant = variant
+    self.size = size
+    self.shape = shape
+    self.title = title
+    self.disabled = disabled
+    self.action = action
+  }
+
+  public var body: some View {
+    Button {
+      action()
+    } label: {
+      HStack {
+        PBIcon.fontAwesome(.user, size: .x1)
+        if let title = title {
+          Text(title)
+        }
+      }
+    }
+    .buttonStyle(
+      PBButtonStyle2(
+        variant: variant,
+        shape: shape,
+        size: size,
+        disabled: disabled
+      )
+    )
+  }
+
+  public struct PBButtonStyle2: ButtonStyle {
+    var variant: PBButtonVariant
+    var shape: PBButtonShape
+    var size: PBButtonSize
+    var disabled: Bool
+
+    public func makeBody(configuration: Configuration) -> some View {
+      configuration.label
+        .padding(.vertical, size.verticalPadding())
+        .padding(.horizontal, size.horizontalPadding())
+        .frame(minWidth: 0, minHeight: size.minHeight())
+        .background(background(for: configuration))
+        .foregroundColor(foregroundColor(variant, disabled: disabled))
+        .cornerRadius(5)
+        .pbFont(.buttonText(size.fontSize))
+    }
+
+    func background(for configuration: Configuration) -> some View {
+      if configuration.isPressed {
+        return Color.red
+      } else {
+        return backgroundColor(variant, disabled: disabled)
+      }
+    }
+
+    private func backgroundColor(_ variant: PBButtonVariant, disabled: Bool) -> Color {
+
+      switch variant {
+      case .secondary: return .pbPrimary.opacity(0.05)
+      case .link: return .clear
+      case .disabled: return .pbNeutral.opacity(0.5)
+      default: return .pbPrimary
+      }
+    }
+
+    private func foregroundColor(_ variant: PBButtonVariant, disabled: Bool) -> Color {
+      if disabled { return Color.pbTextDefault.opacity(0.5) }
+
+      switch variant {
+      case .primary: return .white
+      case .disabled: return .pbTextDefault.opacity(0.5)
+      default: return .pbPrimary
+      }
+    }
+  }
+
+  public enum PBButtonSize {
+    case small
+    case medium
+    case large
+
+    public var fontSize: CGFloat {
+      switch self {
+      case .small:
+        return 12
+      case .medium:
+        return 14
+      case .large:
+        return 18
+      }
+    }
+
+    func verticalPadding() -> CGFloat {
+      return fontSize / 2
+    }
+
+    func horizontalPadding() -> CGFloat {
+      return fontSize * 2.42
+    }
+
+    func minHeight() -> CGFloat {
+      return self == .small ? 36 : 40
+    }
+  }
+}
+
+// DON'T TOUCH THIS
+// DON'T TOUCH THIS
+// DON'T TOUCH THIS
 public struct PBButtonStyle: ButtonStyle {
   var variant: PBButtonVariant = .primary
   var size: PBButtonSize = .medium
@@ -121,11 +246,15 @@ public struct PBButtonStyle: ButtonStyle {
     }
   }
 }
+// DON'T TOUCH THIS
+// DON'T TOUCH THIS
+// DON'T TOUCH THIS
 
 public enum PBButtonVariant {
   case primary
   case secondary
   case link
+  case disabled
 
   func foregroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
     if disabled { return Color.pbTextDefault.opacity(0.5) }
@@ -140,6 +269,7 @@ public enum PBButtonVariant {
       case .light: return .pbPrimary
       default: return .white
       }
+    default: return .black
     }
   }
 
@@ -158,6 +288,7 @@ public enum PBButtonVariant {
       switch (disabled, colorScheme) {
       default: return .clear
       }
+    default: return .black
     }
   }
 }
@@ -191,41 +322,21 @@ public enum PBButtonSize {
   }
 }
 
+public enum PBButtonShape {
+  case primary
+  case circle
+}
+
 @available(macOS 13.0, *)
 struct PBButtonStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    return List {
-      Section("Button Variants") {
-        Button("Button Primary") {}
-          .buttonStyle(PBButtonStyle())
-
-        Button("Button Secondary") {}
-          .buttonStyle(PBButtonStyle(variant: .secondary))
-
-        Button("Button Disabled") {}
-          .buttonStyle(PBButtonStyle(disabled: true))
-
-        Button("Button Link") {}
-          .buttonStyle(PBButtonStyle(variant: .link))
-
-        Button("Button Link Disabled") {}
-          .buttonStyle(PBButtonStyle(variant: .link, disabled: true))
-      }
-      .listRowSeparator(.hidden)
-
-      Section("Button Sizes") {
-        Button("Button sm size") {}
-          .buttonStyle(PBButtonStyle(variant: .primary, size: .small))
-
-        Button("Button md size") {}
-          .buttonStyle(PBButtonStyle(variant: .primary, size: .medium))
-
-        Button("Button lg size") {}
-          .buttonStyle(PBButtonStyle(variant: .primary, size: .large))
-      }
-      .listRowSeparator(.hidden)
+    return VStack {
+      PBButton(action: {})
+      PBButton(variant: .secondary, action: {})
+      PBButton(variant: .link, action: {})
+      PBButton(variant: .disabled, action: {})
     }
   }
 }
