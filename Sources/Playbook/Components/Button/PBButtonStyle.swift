@@ -24,7 +24,7 @@ public struct PBButton: View {
     disabled: Bool = false,
     action: @escaping (() -> Void)
   ) {
-    self.variant = variant
+    self.variant = disabled == true ? .disabled : variant
     self.size = size
     self.shape = shape
     self.title = title
@@ -47,17 +47,16 @@ public struct PBButton: View {
       PBButtonStyle2(
         variant: variant,
         shape: shape,
-        size: size,
-        disabled: disabled
+        size: size
       )
     )
+    .disabled(disabled)
   }
 
   public struct PBButtonStyle2: ButtonStyle {
     var variant: PBButtonVariant
     var shape: PBButtonShape
     var size: PBButtonSize
-    var disabled: Bool
 
     public func makeBody(configuration: Configuration) -> some View {
       configuration.label
@@ -65,7 +64,7 @@ public struct PBButton: View {
         .padding(.horizontal, size.horizontalPadding())
         .frame(minWidth: 0, minHeight: size.minHeight())
         .background(background(for: configuration))
-        .foregroundColor(foregroundColor(variant, disabled: disabled))
+        .foregroundColor(foregroundColor(variant))
         .cornerRadius(5)
         .pbFont(.buttonText(size.fontSize))
     }
@@ -74,11 +73,11 @@ public struct PBButton: View {
       if configuration.isPressed {
         return Color.red
       } else {
-        return backgroundColor(variant, disabled: disabled)
+        return backgroundColor(variant)
       }
     }
 
-    private func backgroundColor(_ variant: PBButtonVariant, disabled: Bool) -> Color {
+    private func backgroundColor(_ variant: PBButtonVariant) -> Color {
 
       switch variant {
       case .secondary: return .pbPrimary.opacity(0.05)
@@ -88,9 +87,7 @@ public struct PBButton: View {
       }
     }
 
-    private func foregroundColor(_ variant: PBButtonVariant, disabled: Bool) -> Color {
-      if disabled { return Color.pbTextDefault.opacity(0.5) }
-
+    private func foregroundColor(_ variant: PBButtonVariant) -> Color {
       switch variant {
       case .primary: return .white
       case .disabled: return .pbTextDefault.opacity(0.5)
@@ -334,9 +331,9 @@ struct PBButtonStyle_Previews: PreviewProvider {
 
     return VStack {
       PBButton(action: {})
-      PBButton(variant: .secondary, action: {})
+      PBButton(variant: .secondary, title: "Test", action: {})
       PBButton(variant: .link, action: {})
-      PBButton(variant: .disabled, action: {})
+      PBButton(disabled: true, action: {})
     }
   }
 }
