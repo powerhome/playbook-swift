@@ -59,30 +59,42 @@ public struct PBButton: View {
     var size: PBButtonSize
 
     public func makeBody(configuration: Configuration) -> some View {
+      let isPressed = configuration.isPressed
+
       configuration.label
         .padding(.vertical, size.verticalPadding())
         .padding(.horizontal, size.horizontalPadding())
         .frame(minWidth: 0, minHeight: size.minHeight())
-        .background(background(for: configuration))
-        .foregroundColor(foregroundColor(variant))
+        .background(
+          background(for: configuration)
+            .brightness(variant == .primary && isPressed ? -0.04 : 0)
+        )
+        .foregroundColor(
+          variant == .link && isPressed
+            ? .pbTextDefault
+            : foregroundColor(variant)
+        )
         .cornerRadius(5)
         .pbFont(.buttonText(size.fontSize))
     }
 
-    func background(for configuration: Configuration) -> some View {
-      if configuration.isPressed {
-        return Color.red
-      } else {
-        return backgroundColor(variant)
-      }
+    private func background(for configuration: Configuration) -> some View {
+      configuration.isPressed ? activeBackgroundColor(variant) : backgroundColor(variant)
     }
 
     private func backgroundColor(_ variant: PBButtonVariant) -> Color {
-
       switch variant {
       case .secondary: return .pbPrimary.opacity(0.05)
       case .link: return .clear
       case .disabled: return .pbNeutral.opacity(0.5)
+      default: return .pbPrimary
+      }
+    }
+
+    private func activeBackgroundColor(_ variant: PBButtonVariant) -> Color {
+      switch variant {
+      case .secondary: return .pbPrimary.opacity(0.3)
+      case .link: return .clear
       default: return .pbPrimary
       }
     }
