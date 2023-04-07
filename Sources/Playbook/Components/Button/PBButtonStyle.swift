@@ -56,7 +56,7 @@ public struct PBButton: View {
       }
     }
     .buttonStyle(
-      PBButtonStyle2(
+      PBButtonStyle(
         variant: variant,
         shape: shape,
         size: size,
@@ -66,7 +66,7 @@ public struct PBButton: View {
     .disabled(disabled)
   }
 
-  public struct PBButtonStyle2: ButtonStyle {
+  public struct PBButtonStyle: ButtonStyle {
     var variant: PBButtonVariant
     var shape: PBButtonShape
     var size: PBButtonSize
@@ -90,6 +90,15 @@ public struct PBButton: View {
         .foregroundColor(
           desktopForegroundColor(for: configuration)
         )
+        .onHover { hovering in
+          self.isHovering = hovering
+
+          switch (isHovering, disabled) {
+          case (true, false): NSCursor.pointingHand.set()
+          case (true, true): NSCursor.operationNotAllowed.set()
+          default: NSCursor.arrow.set()
+          }
+        }
       #endif
       #if os(iOS)
       .background(
@@ -103,15 +112,6 @@ public struct PBButton: View {
       )
       #endif
       .cornerRadius(5)
-      .onHover { hovering in
-        self.isHovering = hovering
-
-        switch (isHovering, disabled) {
-        case (true, false): NSCursor.pointingHand.set()
-        case (true, true): NSCursor.operationNotAllowed.set()
-        default: NSCursor.arrow.set()
-        }
-      }
       .pbFont(.buttonText(size.fontSize))
     }
 
@@ -180,168 +180,11 @@ public struct PBButton: View {
   }
 }
 
-// DON'T TOUCH THIS
-// DON'T TOUCH THIS
-// DON'T TOUCH THIS
-public struct PBButtonStyle: ButtonStyle {
-  var variant: PBButtonVariant = .primary
-  var size: PBButtonSize = .medium
-  var disabled: Bool = false
-  @State private var isHovering: Bool = false
-  @Environment(\.colorScheme) var colorScheme
-
-  public init(
-    variant: PBButtonVariant? = .primary,
-    size: PBButtonSize? = .medium,
-    disabled: Bool? = false,
-    isHovering: Bool? = false
-  ) {
-    self.variant = variant ?? self.variant
-    self.disabled = disabled ?? self.disabled
-    self.size = size ?? self.size
-  }
-
-  public func makeBody(configuration: Configuration) -> some View {
-    let isPressed = configuration.isPressed && !disabled
-    let primaryVariant = variant == .primary
-    let linkVariant = variant == .link
-
-    let primaryVariantPressed = primaryVariant && isPressed
-    let primaryVariantPressedHovered = primaryVariant && (isPressed || isHovering) && !disabled
-    let linkVariantPressedHovered = linkVariant && (isPressed || isHovering) && !disabled
-
-    configuration.label
-      .padding(.vertical, size.verticalPadding())
-      .padding(.horizontal, size.horizontalPadding())
-      .frame(minWidth: 0, minHeight: size.minHeight())
-      .background(
-        backgroundColor(
-          configuration,
-          variant: variant,
-          disabled: disabled,
-          isHovering: isHovering
-        )
-        #if os(macOS)
-        .brightness(primaryVariantPressed ? 0 : -0.04)
-        #endif
-        .brightness(primaryVariantPressedHovered ? -0.04 : 0)
-      )
-      .foregroundColor(
-        linkVariantPressedHovered
-          ? linkForegroundColor(colorScheme, isPressed: isPressed)
-          : variant.foregroundColor(disabled, colorScheme: colorScheme)
-      )
-      .cornerRadius(5)
-      .pbFont(.buttonText(size.fontSize))
-    #if os(macOS)
-      .onHover { hovering in
-        isHovering = hovering
-
-        switch (isHovering, disabled) {
-        case (true, true): NSCursor.operationNotAllowed.set()
-        case (true, false): NSCursor.pointingHand.set()
-        default: NSCursor.arrow.set()
-        }
-      }
-    #endif
-  }
-
-  private func backgroundColor(
-    _ configuration: Configuration,
-    variant: PBButtonVariant,
-    disabled: Bool,
-    isHovering: Bool
-  ) -> Color {
-    let isPressed = configuration.isPressed && !disabled
-    let hovering = isHovering && !disabled
-
-    #if os(macOS)
-      if isPressed {
-        switch (variant, colorScheme) {
-        case (.secondary, .light): return .pbPrimary.opacity(0.05)
-        case (.secondary, .dark): return .pbPrimary.opacity(0.05)
-        case (.link, _): return .clear
-        default: return .pbPrimary
-        }
-      }
-    #endif
-
-    if isPressed || hovering {
-      switch (variant, colorScheme) {
-      case (.secondary, .light): return .pbPrimary.opacity(0.3)
-      case (.secondary, .dark): return .pbPrimary.opacity(0.2)
-      case (.link, _): return .clear
-      default: return .pbPrimary
-      }
-    }
-
-    return variant.backgroundColor(disabled, colorScheme: colorScheme)
-  }
-
-  private func linkForegroundColor(
-    _ colorScheme: ColorScheme,
-    isPressed: Bool
-  ) -> Color {
-    #if os(macOS)
-      if isPressed {
-        switch colorScheme {
-        case .dark: return .white
-        default: return .pbPrimary
-        }
-      }
-    #endif
-
-    switch colorScheme {
-    case .dark: return .white.opacity(0.5)
-    default: return .pbTextDefault
-    }
-  }
-}
-// DON'T TOUCH THIS
-// DON'T TOUCH THIS
-// DON'T TOUCH THIS
-
 public enum PBButtonVariant {
   case primary
   case secondary
   case link
   case disabled
-
-  func foregroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
-    if disabled { return Color.pbTextDefault.opacity(0.5) }
-
-    switch self {
-    case .primary:
-      switch colorScheme {
-      default: return .white
-      }
-    case .secondary, .link:
-      switch colorScheme {
-      case .light: return .pbPrimary
-      default: return .white
-      }
-    default: return .black
-    }
-  }
-
-  func backgroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
-    switch self {
-    case .primary:
-      switch (disabled, colorScheme) {
-      case (true, _ ): return .pbNeutral.opacity(0.5)
-      case (false, _): return .pbPrimary
-      }
-    case .secondary:
-      switch (disabled, colorScheme) {
-      default: return .white.opacity(0.2)
-      }
-    case .link:
-      switch (disabled, colorScheme) {
-      default: return .clear
-      }
-    default: return .black
-    }
-  }
 }
 
 public enum PBButtonSize {
