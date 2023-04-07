@@ -62,6 +62,7 @@ public struct PBButton: View {
 
     public func makeBody(configuration: Configuration) -> some View {
       let isPressed = configuration.isPressed
+      let isPrimaryVariant = variant == .primary
 
       configuration.label
         .padding(.vertical, size.verticalPadding())
@@ -70,8 +71,8 @@ public struct PBButton: View {
       #if os(macOS)
         .background(
           desktopBackgroundColor(for: configuration)
-            .brightness(variant == .primary && isPressed ? 0 : -0.04)
-            .brightness(variant == .primary && isHovering ? -0.04 : 0)
+            .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
+            .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
         )
         .foregroundColor(
           desktopForegroundColor(for: configuration)
@@ -80,7 +81,7 @@ public struct PBButton: View {
       #if os(iOS)
       .background(
         mobileBackgroundColor(for: configuration)
-          .brightness(variant == .primary && isPressed ? -0.04 : 0)
+          .brightness(isPrimaryVariant && isPressed ? -0.04 : 0)
       )
       .foregroundColor(
         variant == .link && isPressed
