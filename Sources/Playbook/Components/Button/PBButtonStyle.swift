@@ -67,45 +67,76 @@ public struct PBButton: View {
         .padding(.vertical, size.verticalPadding())
         .padding(.horizontal, size.horizontalPadding())
         .frame(minWidth: 0, minHeight: size.minHeight())
+      #if os(macOS)
         .background(
-          background(for: configuration)
-            .brightness(variant == .primary && (isPressed || isHovering) ? -0.04 : 0)
+          desktopBackgroundColor(for: configuration)
+            .brightness(variant == .primary && isPressed ? 0 : -0.04)
+            .brightness(variant == .primary && isHovering ? -0.04 : 0)
         )
-        .foregroundColor(
-          variant == .link && isPressed
-            ? .pbTextDefault
-            : foregroundColor(variant)
-        )
-        .cornerRadius(5)
-        .onHover { hovering in
-          self.isHovering = hovering
+      #endif
+      #if os(iOS)
+      .background(
+        mobileBackgroundColor(for: configuration)
+          .brightness(variant == .primary && isPressed ? -0.04 : 0)
+      )
+      #endif
+      .foregroundColor(
+        variant == .link && (isPressed || isHovering)
+          ? .pbTextDefault
+          : foregroundColor(variant)
+      )
+      .cornerRadius(5)
+      .onHover { hovering in
+        self.isHovering = hovering
 
-          switch (isHovering, disabled) {
-          case (true, false): NSCursor.pointingHand.set()
-          case (true, true): NSCursor.operationNotAllowed.set()
-          default: NSCursor.arrow.set()
-          }
+        switch (isHovering, disabled) {
+        case (true, false): NSCursor.pointingHand.set()
+        case (true, true): NSCursor.operationNotAllowed.set()
+        default: NSCursor.arrow.set()
         }
-        .pbFont(.buttonText(size.fontSize))
+      }
+      .pbFont(.buttonText(size.fontSize))
     }
 
-    private func background(for configuration: Configuration) -> some View {
-      configuration.isPressed ? activeBackgroundColor(variant) : backgroundColor(variant)
+    // iOS-specific functions
+    private func mobileBackgroundColor(for configuration: Configuration) -> some View {
+      configuration.isPressed ? mobilePressedBackgroundColor(variant) : backgroundColor(variant)
     }
 
-    private func backgroundColor(_ variant: PBButtonVariant) -> Color {
+    private func mobilePressedBackgroundColor(_ variant: PBButtonVariant) -> Color {
       switch variant {
-      case .secondary: return .pbPrimary.opacity(0.05)
+      case .secondary: return .pbPrimary.opacity(0.3)
+      case .link: return .clear
+      default: return .pbPrimary
+      }
+    }
+
+    // macOS-specific functions
+    private func desktopBackgroundColor(for configuration: Configuration) -> Color {
+      if configuration.isPressed {
+        return backgroundColor(variant)
+      } else if isHovering {
+        return hoverBackgroundColor(variant)
+      } else {
+        return backgroundColor(variant)
+      }
+    }
+
+    private func hoverBackgroundColor(_ variant: PBButtonVariant) -> Color {
+      switch variant {
+      case .secondary: return .pbPrimary.opacity(0.3)
       case .link: return .clear
       case .disabled: return .pbNeutral.opacity(0.5)
       default: return .pbPrimary
       }
     }
 
-    private func activeBackgroundColor(_ variant: PBButtonVariant) -> Color {
+    // OS-agnostic functions
+    private func backgroundColor(_ variant: PBButtonVariant) -> Color {
       switch variant {
-      case .secondary: return .pbPrimary.opacity(0.3)
+      case .secondary: return .pbPrimary.opacity(0.05)
       case .link: return .clear
+      case .disabled: return .pbNeutral.opacity(0.5)
       default: return .pbPrimary
       }
     }
