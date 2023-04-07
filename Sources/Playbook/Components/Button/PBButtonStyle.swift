@@ -73,18 +73,21 @@ public struct PBButton: View {
             .brightness(variant == .primary && isPressed ? 0 : -0.04)
             .brightness(variant == .primary && isHovering ? -0.04 : 0)
         )
+        .foregroundColor(
+          desktopForegroundColor(for: configuration)
+        )
       #endif
       #if os(iOS)
       .background(
         mobileBackgroundColor(for: configuration)
           .brightness(variant == .primary && isPressed ? -0.04 : 0)
       )
-      #endif
       .foregroundColor(
-        variant == .link && (isPressed || isHovering)
+        variant == .link && isPressed
           ? .pbTextDefault
           : foregroundColor(variant)
       )
+      #endif
       .cornerRadius(5)
       .onHover { hovering in
         self.isHovering = hovering
@@ -128,6 +131,18 @@ public struct PBButton: View {
       case .link: return .clear
       case .disabled: return .pbNeutral.opacity(0.5)
       default: return .pbPrimary
+      }
+    }
+
+    private func desktopForegroundColor(for configuration: Configuration) -> Color {
+      let isLinkVariant = variant == .link
+
+      if isLinkVariant && configuration.isPressed {
+        return .pbPrimary
+      } else if isLinkVariant && isHovering {
+        return .pbTextDefault
+      } else {
+        return foregroundColor(variant)
       }
     }
 
