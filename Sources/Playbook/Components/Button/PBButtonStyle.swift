@@ -25,7 +25,7 @@ public struct PBButton: View {
     title: String? = nil,
     icon: PBIcon? = nil,
     iconPosition: PBIconPosition? = .left,
-    action: @escaping (() -> Void) = {}
+    action: (() -> Void)? = {}
   ) {
     self.variant = disabled == true ? .disabled : variant
     self.disabled = disabled
