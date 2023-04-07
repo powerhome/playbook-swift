@@ -14,7 +14,6 @@ public struct PBButton: View {
   var title: String?
   var disabled: Bool
   let action: (() -> Void)
-  @State private var isHovering: Bool = false
 
   public init(
     variant: PBButtonVariant = .primary,
@@ -47,7 +46,8 @@ public struct PBButton: View {
       PBButtonStyle2(
         variant: variant,
         shape: shape,
-        size: size
+        size: size,
+        disabled: disabled
       )
     )
     .disabled(disabled)
@@ -57,6 +57,8 @@ public struct PBButton: View {
     var variant: PBButtonVariant
     var shape: PBButtonShape
     var size: PBButtonSize
+    var disabled: Bool
+    @State private var isHovering = false
 
     public func makeBody(configuration: Configuration) -> some View {
       let isPressed = configuration.isPressed
@@ -67,7 +69,7 @@ public struct PBButton: View {
         .frame(minWidth: 0, minHeight: size.minHeight())
         .background(
           background(for: configuration)
-            .brightness(variant == .primary && isPressed ? -0.04 : 0)
+            .brightness(variant == .primary && (isPressed || isHovering) ? -0.04 : 0)
         )
         .foregroundColor(
           variant == .link && isPressed
@@ -75,6 +77,15 @@ public struct PBButton: View {
             : foregroundColor(variant)
         )
         .cornerRadius(5)
+        .onHover { hovering in
+          self.isHovering = hovering
+
+          switch (isHovering, disabled) {
+          case (true, false): NSCursor.pointingHand.set()
+          case (true, true): NSCursor.operationNotAllowed.set()
+          default: NSCursor.arrow.set()
+          }
+        }
         .pbFont(.buttonText(size.fontSize))
     }
 
