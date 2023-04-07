@@ -9,36 +9,49 @@ import SwiftUI
 
 public struct PBButton: View {
   var variant: PBButtonVariant
+  var disabled: Bool
   var size: PBButtonSize
   var shape: PBButtonShape
   var title: String?
-  var disabled: Bool
-  let action: (() -> Void)
+  var icon: PBIcon?
+  var iconPosition: PBIconPosition?
+  let action: (() -> Void)?
 
   public init(
     variant: PBButtonVariant = .primary,
+    disabled: Bool = false,
     size: PBButtonSize = .medium,
     shape: PBButtonShape = .primary,
     title: String? = nil,
-    disabled: Bool = false,
-    action: @escaping (() -> Void)
+    icon: PBIcon? = nil,
+    iconPosition: PBIconPosition? = .left,
+    action: @escaping (() -> Void) = {}
   ) {
     self.variant = disabled == true ? .disabled : variant
+    self.disabled = disabled
     self.size = size
     self.shape = shape
     self.title = title
-    self.disabled = disabled
+    self.icon = icon
+    self.iconPosition = iconPosition
     self.action = action
   }
 
   public var body: some View {
     Button {
-      action()
+      action?()
     } label: {
       HStack {
-        PBIcon.fontAwesome(.user, size: .x1)
+        if let icon, iconPosition == .left {
+          icon
+        }
+
         if let title = title {
           Text(title)
+        }
+
+        if let icon, iconPosition == .right {
+          icon
         }
       }
     }
@@ -163,35 +176,6 @@ public struct PBButton: View {
       case .disabled: return .pbTextDefault.opacity(0.5)
       default: return .pbPrimary
       }
-    }
-  }
-
-  public enum PBButtonSize {
-    case small
-    case medium
-    case large
-
-    public var fontSize: CGFloat {
-      switch self {
-      case .small:
-        return 12
-      case .medium:
-        return 14
-      case .large:
-        return 18
-      }
-    }
-
-    func verticalPadding() -> CGFloat {
-      return fontSize / 2
-    }
-
-    func horizontalPadding() -> CGFloat {
-      return fontSize * 2.42
-    }
-
-    func minHeight() -> CGFloat {
-      return self == .small ? 36 : 40
     }
   }
 }
@@ -394,16 +378,34 @@ public enum PBButtonShape {
   case circle
 }
 
+public enum PBIconPosition {
+  case left
+  case right
+}
+
 @available(macOS 13.0, *)
 struct PBButtonStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
     return VStack {
-      PBButton(action: {})
-      PBButton(variant: .secondary, title: "Test", action: {})
-      PBButton(variant: .link, action: {})
-      PBButton(disabled: true, action: {})
+      PBButton(
+        title: "Test",
+        icon: PBIcon.fontAwesome(.user, size: .x1),
+        iconPosition: .right,
+        action: {}
+      )
+      PBButton(
+        variant: .secondary,
+        title: "Test",
+        icon: PBIcon.fontAwesome(.user, size: .x1),
+        action: {})
+      PBButton(
+        variant: .link,
+        title: "Test",
+        action: {}
+      )
+      PBButton(disabled: true, title: "Test")
     }
   }
 }
