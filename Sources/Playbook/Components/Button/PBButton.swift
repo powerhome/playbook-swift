@@ -46,7 +46,7 @@ public struct PBButton: View {
           icon
         }
 
-        if let title = title {
+        if let title = title, shape == .primary {
           Text(title)
         }
 
@@ -77,42 +77,78 @@ public struct PBButton: View {
       let isPressed = configuration.isPressed
       let isPrimaryVariant = variant == .primary
 
-      configuration.label
-        .padding(.vertical, size.verticalPadding())
-        .padding(.horizontal, size.horizontalPadding())
-        .frame(minWidth: 0, minHeight: size.minHeight())
-      #if os(macOS)
+      if shape == .circle {
+        configuration.label
+          .frame(minWidth: 38, minHeight: 38)
+        #if os(macOS)
+          .background(
+            desktopBackgroundColor(for: configuration)
+              .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
+              .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
+          )
+          .foregroundColor(
+            desktopForegroundColor(for: configuration)
+          )
+          .onHover { hovering in
+            self.isHovering = hovering
+
+            switch (isHovering, disabled) {
+            case (true, false): NSCursor.pointingHand.set()
+            case (true, true): NSCursor.operationNotAllowed.set()
+            default: NSCursor.arrow.set()
+            }
+          }
+        #endif
+        #if os(iOS)
         .background(
-          desktopBackgroundColor(for: configuration)
-            .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
-            .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
+          mobileBackgroundColor(for: configuration)
+            .brightness(isPrimaryVariant && isPressed ? -0.04 : 0)
         )
         .foregroundColor(
-          desktopForegroundColor(for: configuration)
+          variant == .link && isPressed
+            ? .pbTextDefault
+            : foregroundColor(variant)
         )
-        .onHover { hovering in
-          self.isHovering = hovering
+        #endif
+        .clipShape(Circle())
+      } else {
+        configuration.label
+          .padding(.vertical, size.verticalPadding())
+          .padding(.horizontal, size.horizontalPadding())
+          .frame(minWidth: 0, minHeight: size.minHeight())
+        #if os(macOS)
+          .background(
+            desktopBackgroundColor(for: configuration)
+              .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
+              .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
+          )
+          .foregroundColor(
+            desktopForegroundColor(for: configuration)
+          )
+          .onHover { hovering in
+            self.isHovering = hovering
 
-          switch (isHovering, disabled) {
-          case (true, false): NSCursor.pointingHand.set()
-          case (true, true): NSCursor.operationNotAllowed.set()
-          default: NSCursor.arrow.set()
+            switch (isHovering, disabled) {
+            case (true, false): NSCursor.pointingHand.set()
+            case (true, true): NSCursor.operationNotAllowed.set()
+            default: NSCursor.arrow.set()
+            }
           }
-        }
-      #endif
-      #if os(iOS)
-      .background(
-        mobileBackgroundColor(for: configuration)
-          .brightness(isPrimaryVariant && isPressed ? -0.04 : 0)
-      )
-      .foregroundColor(
-        variant == .link && isPressed
-          ? .pbTextDefault
-          : foregroundColor(variant)
-      )
-      #endif
-      .cornerRadius(5)
-      .pbFont(.buttonText(size.fontSize))
+        #endif
+        #if os(iOS)
+        .background(
+          mobileBackgroundColor(for: configuration)
+            .brightness(isPrimaryVariant && isPressed ? -0.04 : 0)
+        )
+        .foregroundColor(
+          variant == .link && isPressed
+            ? .pbTextDefault
+            : foregroundColor(variant)
+        )
+        #endif
+        .cornerRadius(5)
+        .pbFont(.buttonText(size.fontSize))
+      }
     }
 
     // iOS-specific functions
@@ -231,24 +267,85 @@ struct PBButtonStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    return VStack {
-      PBButton(
-        title: "Test",
-        icon: PBIcon.fontAwesome(.user, size: .x1),
-        iconPosition: .right,
-        action: {}
-      )
-      PBButton(
-        variant: .secondary,
-        title: "Test",
-        icon: PBIcon.fontAwesome(.user, size: .x1),
-        action: {})
-      PBButton(
-        variant: .link,
-        title: "Test",
-        action: {}
-      )
-      PBButton(disabled: true, title: "Test")
+    return List {
+      Section("Button Variants") {
+        PBButton(
+          title: "Button Primary",
+          action: {}
+        )
+        PBButton(
+          variant: .secondary,
+          title: "Button Secondary",
+          action: {})
+        PBButton(
+          variant: .link,
+          title: "Button Link",
+          action: {}
+        )
+        PBButton(disabled: true, title: "Button Disabled")
+      }
+      .listRowSeparator(.hidden)
+
+      Section("Button Icon Positions") {
+        PBButton(
+          title: "Button with Icon on Left",
+          icon: PBIcon.fontAwesome(.user, size: .x1),
+          action: {}
+        )
+        PBButton(
+          title: "Button with Icon on Right",
+          icon: PBIcon.fontAwesome(.user, size: .x1),
+          iconPosition: .right,
+          action: {}
+        )
+      }
+      .listRowSeparator(.hidden)
+
+      Section("Circle Buttons") {
+        HStack {
+          PBButton(
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.plus, size: .x1),
+            action: {}
+          )
+          PBButton(
+            variant: .secondary,
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.pen, size: .x1),
+            action: {}
+          )
+          PBButton(
+            disabled: true,
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.times, size: .x1),
+            action: {}
+          )
+          PBButton(
+            variant: .link,
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.user, size: .x1),
+            action: {}
+          )
+        }
+      }
+
+      Section("Button Sizes") {
+        PBButton(
+          size: .small,
+          title: "Button sm",
+          action: {}
+        )
+        PBButton(
+          title: "Button md",
+          action: {}
+        )
+        PBButton(
+          size: .large,
+          title: "Button lg",
+          action: {}
+        )
+      }
+      .listRowSeparator(.hidden)
     }
   }
 }
