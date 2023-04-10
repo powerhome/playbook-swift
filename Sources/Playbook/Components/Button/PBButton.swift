@@ -317,8 +317,7 @@ struct PBButtonStyle_Previews: PreviewProvider {
           PBButton(
             disabled: true,
             shape: .circle,
-            icon: PBIcon.fontAwesome(.times, size: .x1),
-            action: {}
+            icon: PBIcon.fontAwesome(.times, size: .x1)
           )
           PBButton(
             variant: .link,
