@@ -21,20 +21,19 @@ public struct PBButtonStyle: ButtonStyle {
       .padding(.vertical, size.verticalPadding())
       .padding(.horizontal, size.horizontalPadding())
       .frame(minWidth: 0, minHeight: size.minHeight())
-    #if os(macOS)
       .background(
-        desktopBackgroundColor(for: configuration)
+        backgroundForDevice(for: configuration)
+        #if os(macOS)
           .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
-          .brightness(isPrimaryVariant && isHovering ? -0.04 : 0))
+          .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
+        #endif
+      )
+    #if os(macOS)
       .foregroundColor(
         desktopForegroundColor(for: configuration)
       )
-      .onHover(disabled: variant == .disabled ? true : false) { isHovering in
-        self.isHovering = isHovering
-      }
     #endif
     #if os(iOS)
-    .background(mobileBackgroundColor(for: configuration))
     .foregroundColor(
       variant == .link && isPressed
         ? .pbTextDefault
@@ -42,14 +41,13 @@ public struct PBButtonStyle: ButtonStyle {
     )
     #endif
     .cornerRadius(5)
+    .onHover(disabled: variant == .disabled ? true : false) { isHovering in
+      self.isHovering = isHovering
+    }
     .pbFont(.buttonText(size.fontSize))
   }
 
   // iOS-specific functions
-  private func mobileBackgroundColor(for configuration: Configuration) -> some View {
-    configuration.isPressed ? mobilePressedBackgroundColor(variant) : backgroundColor(variant)
-  }
-
   private func mobilePressedBackgroundColor(_ variant: PBButtonVariant) -> Color {
     switch variant {
     case .secondary: return .pbPrimary.opacity(0.3)
@@ -59,16 +57,6 @@ public struct PBButtonStyle: ButtonStyle {
   }
 
   // macOS-specific functions
-  private func desktopBackgroundColor(for configuration: Configuration) -> Color {
-    if configuration.isPressed {
-      return backgroundColor(variant)
-    } else if isHovering {
-      return hoverBackgroundColor(variant)
-    } else {
-      return backgroundColor(variant)
-    }
-  }
-
   private func hoverBackgroundColor(_ variant: PBButtonVariant) -> Color {
     switch variant {
     case .secondary: return .pbPrimary.opacity(0.3)
@@ -91,6 +79,22 @@ public struct PBButtonStyle: ButtonStyle {
   }
 
   // General functions
+  private func backgroundForDevice(for configuration: Configuration) -> Color {
+    #if os(macOS)
+      if configuration.isPressed {
+        return backgroundColor(variant)
+      } else if isHovering {
+        return hoverBackgroundColor(variant)
+      } else {
+        return backgroundColor(variant)
+      }
+    #endif
+
+    #if os(iOS)
+      configuration.isPressed ? mobilePressedBackgroundColor(variant) : backgroundColor(variant)
+    #endif
+  }
+
   private func backgroundColor(_ variant: PBButtonVariant) -> Color {
     switch variant {
     case .secondary: return .pbPrimary.opacity(0.05)
@@ -190,7 +194,6 @@ struct PBButtonStyle_Previews: PreviewProvider {
           action: {}
         )
       }
-
     }
   }
 }
