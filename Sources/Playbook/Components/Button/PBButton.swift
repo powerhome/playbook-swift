@@ -142,26 +142,8 @@ struct PBButton_Previews: PreviewProvider {
 
     return List {
       Section("Button Variants") {
-        PBButton(
-          title: "Button Primary",
-          action: {}
-        )
-        PBButton(
-          variant: .secondary,
-          title: "Button Secondary",
-          action: {}
-        )
-        PBButton(
-          variant: .link,
-          title: "Button Link",
-          action: {}
-        )
-        PBButton(
-          variant: .disabled,
-          title: "Button Disabled"
-        )
+        PBButtonStyle_Previews.previews
       }
-      .listRowSeparator(.hidden)
 
       Section("Button Icon Positions") {
         PBButton(
@@ -179,30 +161,7 @@ struct PBButton_Previews: PreviewProvider {
       .listRowSeparator(.hidden)
 
       Section("Circle Buttons") {
-        HStack {
-          PBButton(
-            shape: .circle,
-            icon: PBIcon.fontAwesome(.plus, size: .x1),
-            action: {}
-          )
-          PBButton(
-            variant: .secondary,
-            shape: .circle,
-            icon: PBIcon.fontAwesome(.pen, size: .x1),
-            action: {}
-          )
-          PBButton(
-            variant: .disabled,
-            shape: .circle,
-            icon: PBIcon.fontAwesome(.times, size: .x1)
-          )
-          PBButton(
-            variant: .link,
-            shape: .circle,
-            icon: PBIcon.fontAwesome(.user, size: .x1),
-            action: {}
-          )
-        }
+        PBCircleStyle_Previews.previews
       }
 
       Section("Button Sizes") {

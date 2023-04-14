@@ -24,10 +24,8 @@ public struct PBCircleButtonStyle: ButtonStyle {
         #if os(macOS)
           .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
           .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
-        #endif
-
-        #if os(iOS)
-        .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
+        #else
+          .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
         #endif
       )
       .foregroundColor(
@@ -45,26 +43,25 @@ public struct PBCircleButtonStyle: ButtonStyle {
     #endif
   }
 
-  // iOS-specific functions
-  private func mobilePressedBackgroundColor(_ variant: PBButtonVariant) -> Color {
+  // Color configuations
+  private func backgroundColor(_ variant: PBButtonVariant) -> Color {
     switch variant {
-    case .secondary: return .pbPrimary.opacity(0.3)
-    case .link: return .clear
-    default: return .pbPrimary
-    }
-  }
-
-  // macOS-specific functions
-  private func hoverBackgroundColor(_ variant: PBButtonVariant) -> Color {
-    switch variant {
-    case .secondary: return .pbPrimary.opacity(0.3)
+    case .secondary: return .pbPrimary.opacity(0.05)
     case .link: return .clear
     case .disabled: return .pbNeutral.opacity(0.5)
     default: return .pbPrimary
     }
   }
 
-  // General functions
+  private func foregroundColor(_ variant: PBButtonVariant) -> Color {
+    switch variant {
+    case .primary: return .white
+    case .disabled: return .pbTextDefault.opacity(0.5)
+    default: return .pbPrimary
+    }
+  }
+
+  // Animation functions
   private func backgroundForDevice(for configuration: Configuration) -> Color {
     let isPressed = configuration.isPressed
 
@@ -76,9 +73,7 @@ public struct PBCircleButtonStyle: ButtonStyle {
       } else {
         return backgroundColor(variant)
       }
-    #endif
-
-    #if os(iOS)
+    #else
       return isPressed
         ? mobilePressedBackgroundColor(variant)
         : backgroundColor(variant)
@@ -101,28 +96,28 @@ public struct PBCircleButtonStyle: ButtonStyle {
       } else {
         return foregroundColor(variant)
       }
-    #endif
-
-    #if os(iOS)
+    #else
       return isLinkVariant && isPressed
         ? .pbTextDefault
         : foregroundColor(variant)
     #endif
   }
 
-  private func backgroundColor(_ variant: PBButtonVariant) -> Color {
+  // iOS-specific animations
+  private func mobilePressedBackgroundColor(_ variant: PBButtonVariant) -> Color {
     switch variant {
-    case .secondary: return .pbPrimary.opacity(0.05)
+    case .secondary: return .pbPrimary.opacity(0.3)
     case .link: return .clear
-    case .disabled: return .pbNeutral.opacity(0.5)
     default: return .pbPrimary
     }
   }
 
-  private func foregroundColor(_ variant: PBButtonVariant) -> Color {
+  // macOS-specific animations
+  private func hoverBackgroundColor(_ variant: PBButtonVariant) -> Color {
     switch variant {
-    case .primary: return .white
-    case .disabled: return .pbTextDefault.opacity(0.5)
+    case .secondary: return .pbPrimary.opacity(0.3)
+    case .link: return .clear
+    case .disabled: return .pbNeutral.opacity(0.5)
     default: return .pbPrimary
     }
   }
@@ -133,33 +128,30 @@ struct PBCircleStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    return List {
-      Section("Circle Buttons") {
-        HStack {
-          PBButton(
-            shape: .circle,
-            icon: PBIcon.fontAwesome(.plus, size: .x1),
-            action: {}
-          )
-          PBButton(
-            variant: .secondary,
-            shape: .circle,
-            icon: PBIcon.fontAwesome(.pen, size: .x1),
-            action: {}
-          )
-          PBButton(
-            variant: .disabled,
-            shape: .circle,
-            icon: PBIcon.fontAwesome(.times, size: .x1)
-          )
-          PBButton(
-            variant: .link,
-            shape: .circle,
-            icon: PBIcon.fontAwesome(.user, size: .x1),
-            action: {}
-          )
-        }
-      }
+    return HStack {
+      PBButton(
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.plus, size: .x1),
+        action: {}
+      )
+      PBButton(
+        variant: .secondary,
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.pen, size: .x1),
+        action: {}
+      )
+      PBButton(
+        variant: .disabled,
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.times, size: .x1)
+      )
+      PBButton(
+        variant: .link,
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.user, size: .x1),
+        action: {}
+      )
     }
+    .previewDisplayName("Circle Button Variants")
   }
 }
