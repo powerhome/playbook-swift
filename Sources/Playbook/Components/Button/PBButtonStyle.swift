@@ -28,23 +28,18 @@ public struct PBButtonStyle: ButtonStyle {
           .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
         #endif
       )
-    #if os(macOS)
       .foregroundColor(
-        desktopForegroundColor(for: configuration)
+        foregroundForDevice(
+          for: configuration,
+          variant: variant,
+          isHovering: isHovering
+        )
       )
-    #endif
-    #if os(iOS)
-    .foregroundColor(
-      variant == .link && isPressed
-        ? .pbTextDefault
-        : foregroundColor(variant)
-    )
-    #endif
-    .cornerRadius(5)
-    .onHover(disabled: variant == .disabled ? true : false) { isHovering in
-      self.isHovering = isHovering
-    }
-    .pbFont(.buttonText(size.fontSize))
+      .cornerRadius(5)
+      .onHover(disabled: variant == .disabled ? true : false) { isHovering in
+        self.isHovering = isHovering
+      }
+      .pbFont(.buttonText(size.fontSize))
   }
 
   // iOS-specific functions
@@ -66,22 +61,12 @@ public struct PBButtonStyle: ButtonStyle {
     }
   }
 
-  private func desktopForegroundColor(for configuration: Configuration) -> Color {
-    let isLinkVariant = variant == .link
-
-    if isLinkVariant && configuration.isPressed {
-      return .pbPrimary
-    } else if isLinkVariant && isHovering {
-      return .pbTextDefault
-    } else {
-      return foregroundColor(variant)
-    }
-  }
-
   // General functions
   private func backgroundForDevice(for configuration: Configuration) -> Color {
+    let isPressed = configuration.isPressed
+
     #if os(macOS)
-      if configuration.isPressed {
+      if isPressed {
         return backgroundColor(variant)
       } else if isHovering {
         return hoverBackgroundColor(variant)
@@ -91,7 +76,34 @@ public struct PBButtonStyle: ButtonStyle {
     #endif
 
     #if os(iOS)
-      configuration.isPressed ? mobilePressedBackgroundColor(variant) : backgroundColor(variant)
+      isPressed
+        ? mobilePressedBackgroundColor(variant)
+        : backgroundColor(variant)
+    #endif
+  }
+
+  private func foregroundForDevice(
+    for configuration: Configuration,
+    variant: PBButtonVariant,
+    isHovering: Bool
+  ) -> Color {
+    let isLinkVariant = variant == .link
+    let isPressed = configuration.isPressed
+
+    #if os(macOS)
+      if isLinkVariant && isPressed {
+        return .pbPrimary
+      } else if isLinkVariant && isHovering {
+        return .pbTextDefault
+      } else {
+        return foregroundColor(variant)
+      }
+    #endif
+
+    #if os(iOS)
+      isLinkVariant && isPressed
+        ? .pbTextDefault
+        : foregroundColor(variant)
     #endif
   }
 
