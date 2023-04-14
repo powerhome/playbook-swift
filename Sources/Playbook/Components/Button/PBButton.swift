@@ -52,12 +52,10 @@ public struct PBButton: View {
         }
       }
     }
-    .buttonStyle(
-      PBButtonStyle(
-        variant: variant,
-        shape: shape,
-        size: size
-      )
+    .customButtonStyle(
+      variant: variant,
+      shape: shape,
+      size: size
     )
     .disabled(variant == .disabled ? true : false)
   }
@@ -68,6 +66,39 @@ public enum PBButtonVariant {
   case secondary
   case link
   case disabled
+}
+
+public enum PBButtonShape {
+  case primary
+  case circle
+}
+
+extension Button {
+  @ViewBuilder
+  func customButtonStyle(
+    variant: PBButtonVariant,
+    shape: PBButtonShape,
+    size: PBButtonSize
+  ) -> some View {
+    switch shape {
+    case .primary:
+      self.buttonStyle(
+        PBButtonStyle(
+          variant: variant,
+          shape: shape,
+          size: size
+        )
+      )
+    case .circle:
+      self.buttonStyle(
+        PBCircleButtonStyle(
+          variant: variant,
+          shape: shape,
+          size: size
+        )
+      )
+    }
+  }
 }
 
 public enum PBButtonSize {
@@ -99,99 +130,98 @@ public enum PBButtonSize {
   }
 }
 
-public enum PBButtonShape {
-  case primary
-  case circle
-}
-
 public enum PBIconPosition {
   case left
   case right
 }
 
-//@available(macOS 13.0, *)
-//struct PBButton_Previews: PreviewProvider {
-//  static var previews: some View {
-//    registerFonts()
-//
-//    return List {
-//      Section("Button Variants") {
-//        PBButton(
-//          title: "Button Primary",
-//          action: {}
-//        )
-//        PBButton(
-//          variant: .secondary,
-//          title: "Button Secondary",
-//          action: {})
-//        PBButton(
-//          variant: .link,
-//          title: "Button Link",
-//          action: {}
-//        )
-//        PBButton(disabled: true, title: "Button Disabled")
-//      }
-//      .listRowSeparator(.hidden)
-//
-//      Section("Button Icon Positions") {
-//        PBButton(
-//          title: "Button with Icon on Left",
-//          icon: PBIcon.fontAwesome(.user, size: .x1),
-//          action: {}
-//        )
-//        PBButton(
-//          title: "Button with Icon on Right",
-//          icon: PBIcon.fontAwesome(.user, size: .x1),
-//          iconPosition: .right,
-//          action: {}
-//        )
-//      }
-//      .listRowSeparator(.hidden)
-//
-//      Section("Circle Buttons") {
-//        HStack {
-//          PBButton(
-//            shape: .circle,
-//            icon: PBIcon.fontAwesome(.plus, size: .x1),
-//            action: {}
-//          )
-//          PBButton(
-//            variant: .secondary,
-//            shape: .circle,
-//            icon: PBIcon.fontAwesome(.pen, size: .x1),
-//            action: {}
-//          )
-//          PBButton(
-//            disabled: true,
-//            shape: .circle,
-//            icon: PBIcon.fontAwesome(.times, size: .x1)
-//          )
-//          PBButton(
-//            variant: .link,
-//            shape: .circle,
-//            icon: PBIcon.fontAwesome(.user, size: .x1),
-//            action: {}
-//          )
-//        }
-//      }
-//
-//      Section("Button Sizes") {
-//        PBButton(
-//          size: .small,
-//          title: "Button sm",
-//          action: {}
-//        )
-//        PBButton(
-//          title: "Button md",
-//          action: {}
-//        )
-//        PBButton(
-//          size: .large,
-//          title: "Button lg",
-//          action: {}
-//        )
-//      }
-//      .listRowSeparator(.hidden)
-//    }
-//  }
-//}
+@available(macOS 13.0, *)
+struct PBButton_Previews: PreviewProvider {
+  static var previews: some View {
+    registerFonts()
+
+    return List {
+      Section("Button Variants") {
+        PBButton(
+          title: "Button Primary",
+          action: {}
+        )
+        PBButton(
+          variant: .secondary,
+          title: "Button Secondary",
+          action: {}
+        )
+        PBButton(
+          variant: .link,
+          title: "Button Link",
+          action: {}
+        )
+        PBButton(
+          variant: .disabled,
+          title: "Button Disabled"
+        )
+      }
+      .listRowSeparator(.hidden)
+
+      Section("Button Icon Positions") {
+        PBButton(
+          title: "Button with Icon on Left",
+          icon: PBIcon.fontAwesome(.user, size: .x1),
+          action: {}
+        )
+        PBButton(
+          title: "Button with Icon on Right",
+          icon: PBIcon.fontAwesome(.user, size: .x1),
+          iconPosition: .right,
+          action: {}
+        )
+      }
+      .listRowSeparator(.hidden)
+
+      Section("Circle Buttons") {
+        HStack {
+          PBButton(
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.plus, size: .x1),
+            action: {}
+          )
+          PBButton(
+            variant: .secondary,
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.pen, size: .x1),
+            action: {}
+          )
+          PBButton(
+            variant: .disabled,
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.times, size: .x1)
+          )
+          PBButton(
+            variant: .link,
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.user, size: .x1),
+            action: {}
+          )
+        }
+      }
+
+      Section("Button Sizes") {
+        PBButton(
+          size: .small,
+          title: "Button sm",
+          action: {}
+        )
+        PBButton(
+          title: "Button md",
+          action: {}
+        )
+        PBButton(
+          size: .large,
+          title: "Button lg",
+          action: {}
+        )
+      }
+      .listRowSeparator(.hidden)
+    }
+  }
+}

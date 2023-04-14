@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct PBButtonStyle: ButtonStyle {
+public struct PBCircleButtonStyle: ButtonStyle {
   var variant: PBButtonVariant
   var shape: PBButtonShape
   var size: PBButtonSize
@@ -18,9 +18,7 @@ public struct PBButtonStyle: ButtonStyle {
     let isPrimaryVariant = variant == .primary
 
     configuration.label
-      .padding(.vertical, size.verticalPadding())
-      .padding(.horizontal, size.horizontalPadding())
-      .frame(minWidth: 0, minHeight: size.minHeight())
+      .frame(minWidth: 38, minHeight: 38)
       .background(
         backgroundForDevice(for: configuration)
         #if os(macOS)
@@ -39,13 +37,12 @@ public struct PBButtonStyle: ButtonStyle {
           isHovering: isHovering
         )
       )
-      .cornerRadius(5)
+      .clipShape(Circle())
     #if os(macOS)
       .onHover(disabled: variant == .disabled ? true : false) { isHovering in
         self.isHovering = isHovering
       }
     #endif
-      .pbFont(.buttonText(size.fontSize))
   }
 
   // iOS-specific functions
@@ -132,31 +129,37 @@ public struct PBButtonStyle: ButtonStyle {
 }
 
 @available(macOS 13.0, *)
-struct PBButtonStyle_Previews: PreviewProvider {
+struct PBCircleStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
     return List {
-      Section("Button Variants") {
-        PBButton(
-          title: "Button Primary",
-          action: {}
-        )
-        PBButton(
-          variant: .secondary,
-          title: "Button Secondary",
-          action: {})
-        PBButton(
-          variant: .link,
-          title: "Button Link",
-          action: {}
-        )
-        PBButton(
-          variant: .disabled,
-          title: "Button Disabled"
-        )
+      Section("Circle Buttons") {
+        HStack {
+          PBButton(
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.plus, size: .x1),
+            action: {}
+          )
+          PBButton(
+            variant: .secondary,
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.pen, size: .x1),
+            action: {}
+          )
+          PBButton(
+            variant: .disabled,
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.times, size: .x1)
+          )
+          PBButton(
+            variant: .link,
+            shape: .circle,
+            icon: PBIcon.fontAwesome(.user, size: .x1),
+            action: {}
+          )
+        }
       }
-      .listRowSeparator(.hidden)
     }
   }
 }
