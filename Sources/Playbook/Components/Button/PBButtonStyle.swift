@@ -145,7 +145,10 @@ struct PBButtonStyle_Previews: PreviewProvider {
           title: "Button Link",
           action: {}
         )
-        PBButton(title: "Button Disabled")
+        PBButton(
+          variant: .disabled,
+          title: "Button Disabled"
+        )
       }
 
 
