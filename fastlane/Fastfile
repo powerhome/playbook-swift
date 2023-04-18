@@ -74,7 +74,7 @@ lane :ship_ios_to_appcenter do |opts|
     owner_name: "powerhome",
     owner_type: "organization",
     app_name: "Playbook-Showcase",
-    file: "#{target_ios}.ipa",
+    file: "#{target_ios}.app",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
     destination_type: "group",
