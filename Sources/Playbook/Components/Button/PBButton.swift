@@ -148,7 +148,7 @@ public enum PBButtonVariant {
   }
 
   // Animation functions
-  public func backgroundForDevice(
+  public func backgroundAnimation(
     configuration: ButtonStyleConfiguration,
     variant: PBButtonVariant,
     isHovering: Bool
@@ -170,7 +170,7 @@ public enum PBButtonVariant {
     #endif
   }
 
-  public func foregroundForDevice(
+  public func foregroundAnimation(
     configuration: ButtonStyleConfiguration,
     variant: PBButtonVariant,
     isHovering: Bool

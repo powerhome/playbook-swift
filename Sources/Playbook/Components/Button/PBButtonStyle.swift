@@ -23,7 +23,7 @@ public struct PBButtonStyle: ButtonStyle {
       .frame(minWidth: 0, minHeight: size.minHeight())
       .background(
         variant
-          .backgroundForDevice(
+          .backgroundAnimation(
             configuration: configuration,
             variant: variant,
             isHovering: isHovering
@@ -35,7 +35,7 @@ public struct PBButtonStyle: ButtonStyle {
           )
       )
       .foregroundColor(
-        variant.foregroundForDevice(
+        variant.foregroundAnimation(
           configuration: configuration,
           variant: variant,
           isHovering: isHovering

@@ -21,7 +21,7 @@ public struct PBCircleButtonStyle: ButtonStyle {
       .frame(minWidth: 38, minHeight: 38)
       .background(
         variant
-          .backgroundForDevice(
+          .backgroundAnimation(
             configuration: configuration,
             variant: variant,
             isHovering: isHovering
@@ -33,7 +33,7 @@ public struct PBCircleButtonStyle: ButtonStyle {
           )
       )
       .foregroundColor(
-        variant.foregroundForDevice(
+        variant.foregroundAnimation(
           configuration: configuration,
           variant: variant,
           isHovering: isHovering
