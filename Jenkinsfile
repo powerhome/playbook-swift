@@ -15,7 +15,7 @@ def steps = [
   'iOS': {
     runNode {
       getReleaseNotes()
-      buildAndShipiOS(args)
+      buildAndShipiOS('')
     }
   // }, 'macOS': {
   //   runNode {
