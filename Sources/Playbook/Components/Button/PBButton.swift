@@ -95,15 +95,16 @@ extension View {
     isPressed: Bool,
     isHovering: Bool
   ) -> some View {
-    let isPrimaryPressed = isPrimaryVariant && isPressed
-    let isPrimaryHovered = isPrimaryVariant && isHovering
-
-    #if os(macOS)
-      return self.brightness(isPrimaryPressed ? 0 : -0.04)
-        .brightness(isPrimaryHovered ? -0.04 : 0)
-    #else
-      return self.brightness(isPrimaryPressed ? 0 : -0.04)
-    #endif
+    if isPrimaryVariant {
+      #if os(macOS)
+        return self.brightness(isPressed ? 0 : -0.04)
+          .brightness(isHovered ? -0.04 : 0)
+      #else
+        return self.brightness(isPressed ? 0 : -0.04)
+      #endif
+    } else {
+      return self.brightness(0)
+    }
   }
 }
 
@@ -131,7 +132,7 @@ public enum PBButtonVariant {
     }
   }
 
-  // iOS-specific animations
+  // iOS-specific colors
   public var mobilePressedBackgroundColor: Color {
     switch self {
     case .secondary: return .pbPrimary.opacity(0.3)
@@ -140,7 +141,7 @@ public enum PBButtonVariant {
     }
   }
 
-  // macOS-specific animations
+  // macOS-specific colors
   public var hoverBackgroundColor: Color {
     switch self {
     case .secondary: return .pbPrimary.opacity(0.3)
