@@ -13,6 +13,8 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+require 'httparty'
+
 default_platform(:ios)
 
 target_ios = 'PlaybookShowcase'
