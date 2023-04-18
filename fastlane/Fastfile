@@ -1,0 +1,49 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+target_ios = 'PlaybookShowcase'
+build_path = "BuildTemp/Archives"
+derived_data_path = "DerivedData"
+
+desc "Build iOS"
+lane :build_ios do |opts|
+
+  export_method = 'developer-id'
+
+  gym(
+    project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
+    scheme: target_ios,
+    skip_package_dependencies_resolution: false,
+    export_method: export_method,
+    output_name: "#{target_ios}.ipa",
+    build_path: build_path,
+    derived_data_path: derived_data_path,
+    xcargs: '-skipPackagePluginValidation'
+  )
+end
+
+desc "Install provisioning profiles"
+lane :install_prov_profiles do
+  sh 'cp -r ../git_prov_profiles ./git_prov_profiles'
+  Dir.glob("./git_prov_profiles/profiles/*.mobileprovision") do |item|
+    install_provisioning_profile(path: item)
+  end
+
+  Dir.glob("./git_prov_profiles/profiles_macos/*.provisionprofile") do |item|
+    install_provisioning_profile(path: item)
+  end
+end
