@@ -55,10 +55,6 @@ def runNode(block) {
   runNodeWith(defaultNode, block, false)
 }
 
-def runNodeNotSome(block) {
-  runNodeWith(defaultNode + ' && !worker7 && !worker6', block, false)
-}
-
 def runShortNode(block) {
   runNodeWith(defaultNode, block, true)
 }
