@@ -20,17 +20,17 @@ public struct PBCircleButtonStyle: ButtonStyle {
     configuration.label
       .frame(minWidth: 38, minHeight: 38)
       .background(
-        variant.backgroundForDevice(
-          configuration: configuration,
-          variant: variant,
-          isHovering: isHovering
-        )
-        #if os(macOS)
-        .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
-        .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
-        #else
-        .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
-        #endif
+        variant
+          .backgroundForDevice(
+            configuration: configuration,
+            variant: variant,
+            isHovering: isHovering
+          )
+          .primaryVariantBrightness(
+            isPrimaryVariant: isPrimaryVariant,
+            isPressed: isPressed,
+            isHovering: isHovering
+          )
       )
       .foregroundColor(
         variant.foregroundForDevice(

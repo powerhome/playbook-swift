@@ -89,6 +89,21 @@ extension Button {
   }
 }
 
+extension View {
+  func primaryVariantBrightness(
+    isPrimaryVariant: Bool,
+    isPressed: Bool,
+    isHovering: Bool
+  ) -> some View {
+    #if os(macOS)
+      return self.brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
+        .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
+    #else
+      return self.brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
+    #endif
+  }
+}
+
 public enum PBButtonVariant {
   case primary
   case secondary
