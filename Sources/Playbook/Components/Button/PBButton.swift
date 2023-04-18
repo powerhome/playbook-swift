@@ -97,8 +97,13 @@ extension View {
   ) -> some View {
     if isPrimaryVariant {
       #if os(macOS)
-        return self.brightness(isPressed ? 0 : -0.04)
-          .brightness(isHovered ? -0.04 : 0)
+        if isPressed {
+          return self.brightness(isPressed ? 0 : -0.04)
+        } else if isHovering {
+          return self.brightness(isHovering ? -0.04 : 0)
+        } else {
+          return self.brightness(0)
+        }
       #else
         return self.brightness(isPressed ? 0 : -0.04)
       #endif
