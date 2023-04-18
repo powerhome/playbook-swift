@@ -10,16 +10,12 @@ import SwiftUI
 public struct PBCardHeader<Content: View>: View {
   let content: Content
   let color: Color
-
-  public init(color: Color = .pbWindows, @ViewBuilder content: () -> Content) {
+  
+  public init(color: Color = .product(.product1, category: .highlight), @ViewBuilder content: () -> Content) {
     self.content = content()
-    if Color.pbProductColors.contains(color) || Color.pbCategoryColors.contains(color) {
-      self.color = color
-    } else {
-      self.color = .white
-    }
+    self.color = color
   }
-
+  
   public var body: some View {
     content
       .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -32,7 +28,7 @@ public struct PBCardHeader<Content: View>: View {
 struct PBCardHeader_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-
+    
     return PBCardHeader {
       Text("Header").pbFont(.caption)
     }

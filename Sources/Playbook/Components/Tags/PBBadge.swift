@@ -42,11 +42,11 @@ public extension PBBadge {
     func foregroundColor() -> Color {
       switch self {
       case .chat: return .white
-      case .error: return .pbError
-      case .info: return .pbInfo
-      case .neutral: return .pbNeutral
-      case .success: return .pbSuccess
-      case .warning: return .pbWarning
+      case .error: return .status(.error)
+      case .info: return .status(.info)
+      case .neutral: return .status(.neutral)
+      case .success: return .status(.success)
+      case .warning: return .status(.warning)
       default: return .pbPrimary
       }
     }

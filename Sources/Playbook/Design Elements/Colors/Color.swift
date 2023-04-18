@@ -15,16 +15,13 @@ public extension Color {
   static let shadow = Color("Shadow", bundle: .module)
   static let hover = Color("Hover", bundle: .module)
 
-  var subtle: Color {
-    self.opacity(0.1)
-  }
-
   static func text(_ variant: TextColor) -> Color {
     switch variant {
-    case .textDefault: return Color("TextDefault", bundle: .module)
+    case .default: return Color("TextDefault", bundle: .module)
     case .light: return Color("TextLight", bundle: .module)
     case .lighter: return Color("TextLighter", bundle: .module)
     case .white: return Color.white
+    case .successSmall: return Color("SuccessSmall", bundle: .module)
     }
   }
 
@@ -43,7 +40,7 @@ public extension Color {
     case .error: return Color("Error", bundle: .module).opacity(subtle ? 0.1 : 1)
     case .info: return Color("Info", bundle: .module).opacity(subtle ? 0.1 : 1)
     case .neutral: return Color("Neutral", bundle: .module).opacity(subtle ? 0.1 : 1)
-    case .primary: return Color("Primary", bundle: .module)
+    case .primary: return Color("Primary", bundle: .module).opacity(subtle ? 0.1 : 1)
     }
   }
 
@@ -61,7 +58,6 @@ public extension Color {
   }
 
   static func product(_ variant: ProductColor, category: ProductColor.Category) -> Color {
-    
     let productCategory = category == .background ? "Background" : "Highlight"
     switch variant {
     case .product1: return Color("Product1" + productCategory, bundle: .module)
@@ -89,25 +85,25 @@ public extension Color {
     case .category7: return Color("Category7", bundle: .module)
     case .category8: return Color("Category8", bundle: .module)
     case .category9: return Color("Category9", bundle: .module)
-    case .category10: return Color("Category10", bundle: .module)
-    case .category11: return Color("Category11", bundle: .module)
-    case .category12: return Color("Category12", bundle: .module)
-    case .category13: return Color("Category13", bundle: .module)
-    case .category14: return Color("Category14", bundle: .module)
-    case .category15: return Color("Category15", bundle: .module)
-    case .category16: return Color("Category16", bundle: .module)
-    case .category17: return Color("Category17", bundle: .module)
-    case .category18: return Color("Category18", bundle: .module)
-    case .category19: return Color("Category19", bundle: .module)
-    case .category20: return Color("Category20", bundle: .module)
-    case .category21: return Color("Category21", bundle: .module)
+//    case .category10: return Color("Category10", bundle: .module)
+//    case .category11: return Color("Category11", bundle: .module)
+//    case .category12: return Color("Category12", bundle: .module)
+//    case .category13: return Color("Category13", bundle: .module)
+//    case .category14: return Color("Category14", bundle: .module)
+//    case .category15: return Color("Category15", bundle: .module)
+//    case .category16: return Color("Category16", bundle: .module)
+//    case .category17: return Color("Category17", bundle: .module)
+//    case .category18: return Color("Category18", bundle: .module)
+//    case .category19: return Color("Category19", bundle: .module)
+//    case .category20: return Color("Category20", bundle: .module)
+//    case .category21: return Color("Category21", bundle: .module)
     }
   }
 }
 
 public extension Color {
   enum TextColor: String, CaseIterable {
-    case textDefault, light, lighter, white
+    case `default`, light, lighter, successSmall, white
   }
 
   enum BackgroundColor: String, CaseIterable {
@@ -122,7 +118,7 @@ public extension Color {
     case data1, data2, data3, data4, data5, data6, data7, data8
   }
 
-  enum ProductColor: String, CaseIterable {
+  enum ProductColor: String, CaseIterable, Hashable {
     case product1
     case product2
     case product3
@@ -139,7 +135,7 @@ public extension Color {
     }
   }
 
-  enum CategoryColor {
+  enum CategoryColor: String, CaseIterable {
     case category1
     case category2
     case category3
@@ -149,18 +145,18 @@ public extension Color {
     case category7
     case category8
     case category9
-    case category10
-    case category11
-    case category12
-    case category13
-    case category14
-    case category15
-    case category16
-    case category17
-    case category18
-    case category19
-    case category20
-    case category21
+//    case category10
+//    case category11
+//    case category12
+//    case category13
+//    case category14
+//    case category15
+//    case category16
+//    case category17
+//    case category18
+//    case category19
+//    case category20
+//    case category21
   }
 }
 

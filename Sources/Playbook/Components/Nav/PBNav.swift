@@ -105,7 +105,7 @@ public struct PBNav: View {
     VStack(alignment: .leading) {
       if let title = title {
         Text(title)
-          .foregroundColor(.pbTextLight)
+          .foregroundColor(.text(.light))
           .pbFont(.caption)
           .padding(.leading, .pbSmall)
       }
