@@ -95,11 +95,14 @@ extension View {
     isPressed: Bool,
     isHovering: Bool
   ) -> some View {
+    let isPrimaryPressed = isPrimaryVariant && isPressed
+    let isPrimaryHovered = isPrimaryVariant && isHovering
+
     #if os(macOS)
-      return self.brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
-        .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
+      return self.brightness(isPrimaryPressed ? 0 : -0.04)
+        .brightness(isPrimaryHovered ? -0.04 : 0)
     #else
-      return self.brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
+      return self.brightness(isPrimaryPressed ? 0 : -0.04)
     #endif
   }
 }
