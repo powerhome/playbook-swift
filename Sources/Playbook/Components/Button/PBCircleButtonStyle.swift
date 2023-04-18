@@ -20,7 +20,7 @@ public struct PBCircleButtonStyle: ButtonStyle {
     configuration.label
       .frame(minWidth: 38, minHeight: 38)
       .background(
-        backgroundForDevice(for: configuration)
+        backgroundForDevice(configuration: configuration, variant: variant)
         #if os(macOS)
           .brightness(isPrimaryVariant && isPressed ? 0 : -0.04)
           .brightness(isPrimaryVariant && isHovering ? -0.04 : 0)
@@ -43,40 +43,22 @@ public struct PBCircleButtonStyle: ButtonStyle {
     #endif
   }
 
-  // Color configuations
-  private func backgroundColor(_ variant: PBButtonVariant) -> Color {
-    switch variant {
-    case .secondary: return .pbPrimary.opacity(0.05)
-    case .link: return .clear
-    case .disabled: return .pbNeutral.opacity(0.5)
-    default: return .pbPrimary
-    }
-  }
-
-  private func foregroundColor(_ variant: PBButtonVariant) -> Color {
-    switch variant {
-    case .primary: return .white
-    case .disabled: return .pbTextDefault.opacity(0.5)
-    default: return .pbPrimary
-    }
-  }
-
   // Animation functions
-  private func backgroundForDevice(for configuration: Configuration) -> Color {
+  private func backgroundForDevice(configuration: Configuration, variant: PBButtonVariant) -> Color {
     let isPressed = configuration.isPressed
 
     #if os(macOS)
       if isPressed {
-        return backgroundColor(variant)
+        return variant.backgroundColor
       } else if isHovering {
-        return hoverBackgroundColor(variant)
+        return variant.hoverBackgroundColor
       } else {
-        return backgroundColor(variant)
+        return variant.backgroundColor
       }
     #else
       return isPressed
-        ? mobilePressedBackgroundColor(variant)
-        : backgroundColor(variant)
+        ? variant.mobilePressedBackgroundColor
+        : variant.backgroundColor
     #endif
   }
 
@@ -94,32 +76,13 @@ public struct PBCircleButtonStyle: ButtonStyle {
       } else if isLinkVariant && isHovering {
         return .pbTextDefault
       } else {
-        return foregroundColor(variant)
+        return variant.foregroundColor
       }
     #else
       return isLinkVariant && isPressed
         ? .pbTextDefault
-        : foregroundColor(variant)
+        : variant.foregroundColor
     #endif
-  }
-
-  // iOS-specific animations
-  private func mobilePressedBackgroundColor(_ variant: PBButtonVariant) -> Color {
-    switch variant {
-    case .secondary: return .pbPrimary.opacity(0.3)
-    case .link: return .clear
-    default: return .pbPrimary
-    }
-  }
-
-  // macOS-specific animations
-  private func hoverBackgroundColor(_ variant: PBButtonVariant) -> Color {
-    switch variant {
-    case .secondary: return .pbPrimary.opacity(0.3)
-    case .link: return .clear
-    case .disabled: return .pbNeutral.opacity(0.5)
-    default: return .pbPrimary
-    }
   }
 }
 

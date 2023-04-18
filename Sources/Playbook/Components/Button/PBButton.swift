@@ -61,18 +61,6 @@ public struct PBButton: View {
   }
 }
 
-public enum PBButtonVariant {
-  case primary
-  case secondary
-  case link
-  case disabled
-}
-
-public enum PBButtonShape {
-  case primary
-  case circle
-}
-
 extension Button {
   @ViewBuilder
   func customButtonStyle(
@@ -99,6 +87,55 @@ extension Button {
       )
     }
   }
+}
+
+public enum PBButtonVariant {
+  case primary
+  case secondary
+  case link
+  case disabled
+
+  // Color configuations
+  public var backgroundColor: Color {
+    switch self {
+    case .secondary: return .pbPrimary.opacity(0.05)
+    case .link: return .clear
+    case .disabled: return .pbNeutral.opacity(0.5)
+    default: return .pbPrimary
+    }
+  }
+
+  public var foregroundColor: Color {
+    switch self {
+    case .primary: return .white
+    case .disabled: return .pbTextDefault.opacity(0.5)
+    default: return .pbPrimary
+    }
+  }
+
+  // iOS-specific animations
+  public var mobilePressedBackgroundColor: Color {
+    switch self {
+    case .secondary: return .pbPrimary.opacity(0.3)
+    case .link: return .clear
+    default: return .pbPrimary
+    }
+  }
+
+  // macOS-specific animations
+  public var hoverBackgroundColor: Color {
+    switch self {
+    case .secondary: return .pbPrimary.opacity(0.3)
+    case .link: return .clear
+    case .disabled: return .pbNeutral.opacity(0.5)
+    default: return .pbPrimary
+    }
+  }
+}
+
+public enum PBButtonShape {
+  case primary
+  case circle
 }
 
 public enum PBButtonSize {
