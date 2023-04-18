@@ -38,7 +38,9 @@ end
 
 desc "Install provisioning profiles"
 lane :install_prov_profiles do
-  sh 'cp -r ../git_prov_profiles ./git_prov_profiles'
+  sh 'ls .'
+  sh 'ls ../'
+  sh 'cp -r ./../git_prov_profiles ./git_prov_profiles'
   Dir.glob("./git_prov_profiles/profiles/*.mobileprovision") do |item|
     install_provisioning_profile(path: item)
   end
@@ -46,4 +48,82 @@ lane :install_prov_profiles do
   Dir.glob("./git_prov_profiles/profiles_macos/*.provisionprofile") do |item|
     install_provisioning_profile(path: item)
   end
+end
+
+desc "Upload iOS build"
+lane :upload_ios do |opts|
+  keep_trying {
+    ship_ios_to_appcenter(opts)
+  }
+
+  upload_symbols_to_crashlytics(
+    dsym_path: "./#{target_ios}.app.dSYM.zip",
+    binary_path: "./upload-symbols"
+  )
+end
+
+desc "Ship iOS to App Center"
+lane :ship_ios_to_appcenter do |opts|
+  
+  opts[:os] = 'ios'
+  appcenter_upload(
+    api_token: "bf0ae509c985f2a1102c2ad53894b35a5fa5383e",
+    owner_name: "powerhome",
+    owner_type: "organization",
+    app_name: appcenter_app_name(opts),
+    file: "#{target_ios}.ipa",
+    release_notes: "#{opts[:release_notes]}",
+    destinations: "Rebels",
+    destination_type: "group",
+    upload_build_only: false
+  )
+end
+
+desc "Create Runway comment"
+lane :create_runway_comment do |opts|
+
+  runway_api_token = opts[:runway_api_token]
+  runway_backlog_item_id = opts[:runway_backlog_item_id]
+  github_pull_request_id = opts[:github_pull_request_id]
+  type = opts[:type]
+  build_number = opts[:build_number]
+
+  comment = <<~HEREDOC
+  RUNWAY COMMENT HERE
+  HEREDOC
+
+  UI.message(comment)
+
+  payload = {
+    backlog_item_id: runway_backlog_item_id,
+    comment: comment
+  }.to_json
+
+  response = HTTParty.post(
+    'https://nitro.powerhrg.com/engineering/webhooks/runway/' + runway_api_token,
+    body: payload,
+    headers: { 'Content-Type' => 'application/json' }
+  )
+end
+
+def keep_trying(ignore=[], interval=300, retry_counter=0, &block)
+  begin
+    block.call
+  rescue => ex
+    ignore.each do |val|
+      if ex.message.include?(val)
+        return
+      end
+    end
+    retry_counter +=1
+    if retry_counter <= 3
+      UI.error ex.message
+      UI.error "Retrying (#{retry_counter}) in #{interval/60} minutes..."
+      sleep interval
+      keep_trying(ignore, interval, retry_counter) { block.call }
+    else
+      raise ex
+    end
+  end
+  nil
 end

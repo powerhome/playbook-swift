@@ -62,7 +62,7 @@ if [ -n "$GITHUB_PULL_REQUEST_ID" ]; then
     echo "RUNWAY_BACKLOG_ITEM_ID = $RUNWAY_BACKLOG_ITEM_ID"
   elif [[ -z "$RUNWAY_BACKLOG_ITEM_ID" ]]; then
       echo "No backlog item ID found, setting ID to 000, this could be Renovate bot or wrong PR title."
-      RUNWAY_BACKLOG_ITEM_ID="ROGUE-000"
+      RUNWAY_BACKLOG_ITEM_ID="PBIOS-000"
   fi
 else
   echo "Not building a pull request - locating Runway Backlog Item ID in last commit message"
