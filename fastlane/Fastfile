@@ -38,8 +38,8 @@ end
 
 desc "Install provisioning profiles"
 lane :install_prov_profiles do
-  
-  install_provisioning_profile(path: './Playbook_In_House.mobileprovision')
+
+  install_provisioning_profile(path: './fastlane/Playbook_In_House.mobileprovision')
   
   sh 'cp -r ./../git_prov_profiles ./git_prov_profiles'
   Dir.glob("./git_prov_profiles/profiles/*.mobileprovision") do |item|
