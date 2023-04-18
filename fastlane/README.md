@@ -21,6 +21,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Build iOS
 
+### install_prov_profiles
+
+```sh
+[bundle exec] fastlane install_prov_profiles
+```
+
+Install provisioning profiles
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

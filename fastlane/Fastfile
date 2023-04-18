@@ -38,8 +38,12 @@ end
 
 desc "Install provisioning profiles"
 lane :install_prov_profiles do
-  sh 'cp -r ../git_prov_profiles ./git_prov_profiles'
+  sh 'pwd'
+  
+  sh 'cp -r ../../git_prov_profiles ./git_prov_profiles'
+  sh 'chmod -R +rx ./git_prov_profiles'
   Dir.glob("./git_prov_profiles/profiles/*.mobileprovision") do |item|
+    puts item.inspect
     install_provisioning_profile(path: item)
   end
 
