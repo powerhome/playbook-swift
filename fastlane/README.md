@@ -21,6 +21,38 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Build iOS
 
+### install_prov_profiles
+
+```sh
+[bundle exec] fastlane install_prov_profiles
+```
+
+Install provisioning profiles
+
+### upload_ios
+
+```sh
+[bundle exec] fastlane upload_ios
+```
+
+Upload iOS build
+
+### ship_ios_to_appcenter
+
+```sh
+[bundle exec] fastlane ship_ios_to_appcenter
+```
+
+Ship iOS to App Center
+
+### create_runway_comment
+
+```sh
+[bundle exec] fastlane create_runway_comment
+```
+
+Create Runway comment
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
