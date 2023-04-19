@@ -29,7 +29,7 @@ public extension Color {
     switch variant {
     case .light: return Color("BackgroundLight", bundle: .module)
     case .dark: return Color("BackgroundDark", bundle: .module)
-    case .`default`: return Color("Background", bundle: .module)
+    case .`default`: return Color("BackgroundDefault", bundle: .module)
     }
   }
 
@@ -71,7 +71,6 @@ public extension Color {
     case .product9: return Color("Product9" + productCategory, bundle: .module)
     case .product10: return Color("Product10" + productCategory, bundle: .module)
     }
-    
   }
 
   static func category(_ variant: CategoryColor) -> Color {
@@ -85,25 +84,25 @@ public extension Color {
     case .category7: return Color("Category7", bundle: .module)
     case .category8: return Color("Category8", bundle: .module)
     case .category9: return Color("Category9", bundle: .module)
-//    case .category10: return Color("Category10", bundle: .module)
-//    case .category11: return Color("Category11", bundle: .module)
-//    case .category12: return Color("Category12", bundle: .module)
-//    case .category13: return Color("Category13", bundle: .module)
-//    case .category14: return Color("Category14", bundle: .module)
-//    case .category15: return Color("Category15", bundle: .module)
-//    case .category16: return Color("Category16", bundle: .module)
-//    case .category17: return Color("Category17", bundle: .module)
-//    case .category18: return Color("Category18", bundle: .module)
-//    case .category19: return Color("Category19", bundle: .module)
-//    case .category20: return Color("Category20", bundle: .module)
-//    case .category21: return Color("Category21", bundle: .module)
+    case .category10: return Color("Category10", bundle: .module)
+    case .category11: return Color("Category11", bundle: .module)
+    case .category12: return Color("Category12", bundle: .module)
+    case .category13: return Color("Category13", bundle: .module)
+    case .category14: return Color("Category14", bundle: .module)
+    case .category15: return Color("Category15", bundle: .module)
+    case .category16: return Color("Category16", bundle: .module)
+    case .category17: return Color("Category17", bundle: .module)
+    case .category18: return Color("Category18", bundle: .module)
+    case .category19: return Color("Category19", bundle: .module)
+    case .category20: return Color("Category20", bundle: .module)
+    case .category21: return Color("Category21", bundle: .module)
     }
   }
 }
 
 public extension Color {
   enum TextColor: String, CaseIterable {
-    case `default`, light, lighter, successSmall, white
+    case `default`, light, lighter, white, successSmall
   }
 
   enum BackgroundColor: String, CaseIterable {
@@ -129,7 +128,7 @@ public extension Color {
     case product8
     case product9
     case product10
-    
+
     public enum Category {
       case highlight, background
     }
@@ -145,18 +144,18 @@ public extension Color {
     case category7
     case category8
     case category9
-//    case category10
-//    case category11
-//    case category12
-//    case category13
-//    case category14
-//    case category15
-//    case category16
-//    case category17
-//    case category18
-//    case category19
-//    case category20
-//    case category21
+    case category10
+    case category11
+    case category12
+    case category13
+    case category14
+    case category15
+    case category16
+    case category17
+    case category18
+    case category19
+    case category20
+    case category21
   }
 }
 

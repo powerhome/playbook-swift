@@ -12,22 +12,28 @@ struct ColorsCatalog: View {
   var body: some View {
     let shape = Circle().frame(width: 60).pbShadow(.deep)
     List {
-      Section("Main Colors") {
+      Section("Main") {
         shape.foregroundColor(.pbPrimary)
       }
-
-      Section("Text Colors") {
-        HStack {
+      
+      Section("Text") {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.TextColor.allCases, id: \.self) { color in
-            shape.foregroundColor(.text(color))
+            VStack {
+              shape.foregroundColor(Color.text(color))
+              Text(color.rawValue.uppercased()).pbFont(.buttonText(9), color: .text(.light))
+            }
           }
         }
       }
-
-      Section("Background Colors") {
-        HStack {
+      
+      Section("Background") {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.BackgroundColor.allCases, id: \.self) { color in
-            shape.foregroundColor(.background(color))
+            VStack {
+              shape.foregroundColor(.background(color))
+              Text(color.rawValue).pbFont(.caption, color: .text(.light))
+            }
           }
         }
       }
@@ -35,8 +41,8 @@ struct ColorsCatalog: View {
       Section("Cards") {
         shape.foregroundColor(.card)
       }
-
-      Section("Status Colors") {
+      
+      Section("Status") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.StatusColor.allCases, id: \.self) { color in
             VStack {
@@ -47,7 +53,7 @@ struct ColorsCatalog: View {
         }
       }
       
-      Section("Status Subtle Colors") {
+      Section("Status Subtle") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.StatusColor.allCases, id: \.self) { color in
             VStack {
@@ -57,8 +63,19 @@ struct ColorsCatalog: View {
           }
         }
       }
-
-      Section("Product Background Colors") {
+      
+      Section("Data") {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
+          ForEach(Color.DataColor.allCases, id: \.self) { color in
+            VStack {
+              shape.foregroundColor(.data(color))
+              Text(color.rawValue).pbFont(.caption, color: .text(.light))
+            }
+          }
+        }
+      }
+      
+      Section("Product Background") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.ProductColor.allCases, id: \.self) { color in
             VStack {
@@ -69,7 +86,7 @@ struct ColorsCatalog: View {
         }
       }
       
-      Section("Product Highlight Colors") {
+      Section("Product Highlight") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.ProductColor.allCases, id: \.self) { color in
             VStack {
@@ -80,12 +97,12 @@ struct ColorsCatalog: View {
         }
       }
       
-      Section("Category Colors") {
+      Section("Category") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.CategoryColor.allCases, id: \.self) { color in
             VStack {
               shape.foregroundColor(.category(color))
-              Text(color.rawValue.uppercased()).pbFont(.body(.smallest), color: .text(.light))
+              Text(color.rawValue.uppercased()).pbFont(.buttonText(10), color: .text(.light))
             }
           }
         }
