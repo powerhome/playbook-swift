@@ -1,28 +1,28 @@
 //
 //  ContentView.swift
-//  PlaybookShowcase
+//  PlaybookShowcase-iOS
 //
-//  Created by Isis Silva on 4/17/23.
+//  Created by Isis Silva on 4/19/23.
 //
 
 import SwiftUI
 import Playbook
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-                .pbFont(.title1, color: .pbSolar)
-        }
-        .padding()
+  var body: some View {
+    VStack {
+      Image(systemName: "globe")
+        .imageScale(.large)
+        .foregroundColor(.accentColor)
+      Text("Hello, world!")
+        .pbFont(.caption, color: .pbRed)
     }
+    .padding()
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+  static var previews: some View {
+    ContentView()
+  }
 }
