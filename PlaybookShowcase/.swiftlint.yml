@@ -2,6 +2,7 @@ disabled_rules: # rule identifiers to exclude from running
   - identifier_name
   - function_body_length
   - todo
+  - type_name
 
 opt_in_rules: # some rules are only opt-in
   - indentation_width
@@ -38,13 +39,3 @@ file_length:
 large_tuple: # warn user when using 3 values in tuple, give error if there are 4
    - 3
    - 4
-   
-# naming rules can set warnings/errors for min_length and max_length
-# additionally they can set excluded names
-type_name:
-  min_length: 4 # only warning
-  max_length: # warning and error
-    warning: 30
-    error: 35
-  excluded: iPhone # excluded via string
-reporter: "xcode"
