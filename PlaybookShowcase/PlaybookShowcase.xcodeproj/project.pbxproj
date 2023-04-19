@@ -11,12 +11,6 @@
 		F905151D29F03B0700F9B66D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151C29F03B0700F9B66D /* ContentView.swift */; };
 		F905151F29F03B0700F9B66D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F905152229F03B0700F9B66D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
-		F905152C29F03B0700F9B66D /* PlaybookShowcase_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905152B29F03B0700F9B66D /* PlaybookShowcase_iOSTests.swift */; };
-		F905153629F03B0800F9B66D /* PlaybookShowcase_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905153529F03B0800F9B66D /* PlaybookShowcase_iOSUITests.swift */; };
-		F905153829F03B0800F9B66D /* PlaybookShowcase_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905153729F03B0800F9B66D /* PlaybookShowcase_iOSUITestsLaunchTests.swift */; };
-		F905155B29F03B3C00F9B66D /* PlaybookShowcase_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905155A29F03B3C00F9B66D /* PlaybookShowcase_macOSTests.swift */; };
-		F905156529F03B3D00F9B66D /* PlaybookShowcase_macOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905156429F03B3D00F9B66D /* PlaybookShowcase_macOSUITests.swift */; };
-		F905156729F03B3D00F9B66D /* PlaybookShowcase_macOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905156629F03B3D00F9B66D /* PlaybookShowcase_macOSUITestsLaunchTests.swift */; };
 		F905157229F03B7600F9B66D /* Playbook in Frameworks */ = {isa = PBXBuildFile; productRef = F905157129F03B7600F9B66D /* Playbook */; };
 		F905157429F03B7E00F9B66D /* Playbook in Frameworks */ = {isa = PBXBuildFile; productRef = F905157329F03B7E00F9B66D /* Playbook */; };
 		F943570729F070580051C650 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151C29F03B0700F9B66D /* ContentView.swift */; };
@@ -63,17 +57,11 @@
 		F905151E29F03B0700F9B66D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F905152129F03B0700F9B66D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F905152729F03B0700F9B66D /* PlaybookShowcase-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaybookShowcase-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F905152B29F03B0700F9B66D /* PlaybookShowcase_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcase_iOSTests.swift; sourceTree = "<group>"; };
 		F905153129F03B0800F9B66D /* PlaybookShowcase-iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaybookShowcase-iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F905153529F03B0800F9B66D /* PlaybookShowcase_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcase_iOSUITests.swift; sourceTree = "<group>"; };
-		F905153729F03B0800F9B66D /* PlaybookShowcase_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcase_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaybookShowcase-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F905155129F03B3C00F9B66D /* PlaybookShowcase_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlaybookShowcase_macOS.entitlements; sourceTree = "<group>"; };
 		F905155629F03B3C00F9B66D /* PlaybookShowcase-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaybookShowcase-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F905155A29F03B3C00F9B66D /* PlaybookShowcase_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcase_macOSTests.swift; sourceTree = "<group>"; };
 		F905156029F03B3D00F9B66D /* PlaybookShowcase-macOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaybookShowcase-macOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F905156429F03B3D00F9B66D /* PlaybookShowcase_macOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcase_macOSUITests.swift; sourceTree = "<group>"; };
-		F905156629F03B3D00F9B66D /* PlaybookShowcase_macOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcase_macOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F937100229EDCC3700FFD0DF /* PlaybookSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PlaybookSwift; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -144,23 +132,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		F905152A29F03B0700F9B66D /* PlaybookShowcase-iOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				F905152B29F03B0700F9B66D /* PlaybookShowcase_iOSTests.swift */,
-			);
-			path = "PlaybookShowcase-iOSTests";
-			sourceTree = "<group>";
-		};
-		F905153429F03B0800F9B66D /* PlaybookShowcase-iOSUITests */ = {
-			isa = PBXGroup;
-			children = (
-				F905153529F03B0800F9B66D /* PlaybookShowcase_iOSUITests.swift */,
-				F905153729F03B0800F9B66D /* PlaybookShowcase_iOSUITestsLaunchTests.swift */,
-			);
-			path = "PlaybookShowcase-iOSUITests";
-			sourceTree = "<group>";
-		};
 		F905154729F03B3C00F9B66D /* PlaybookShowcase-macOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,33 +140,12 @@
 			path = "PlaybookShowcase-macOS";
 			sourceTree = "<group>";
 		};
-		F905155929F03B3C00F9B66D /* PlaybookShowcase-macOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				F905155A29F03B3C00F9B66D /* PlaybookShowcase_macOSTests.swift */,
-			);
-			path = "PlaybookShowcase-macOSTests";
-			sourceTree = "<group>";
-		};
-		F905156329F03B3D00F9B66D /* PlaybookShowcase-macOSUITests */ = {
-			isa = PBXGroup;
-			children = (
-				F905156429F03B3D00F9B66D /* PlaybookShowcase_macOSUITests.swift */,
-				F905156629F03B3D00F9B66D /* PlaybookShowcase_macOSUITestsLaunchTests.swift */,
-			);
-			path = "PlaybookShowcase-macOSUITests";
-			sourceTree = "<group>";
-		};
 		F9370FC929EDCC0100FFD0DF = {
 			isa = PBXGroup;
 			children = (
 				F937100029EDCC1900FFD0DF /* Packages */,
 				F905151929F03B0700F9B66D /* PlaybookShowcase */,
-				F905152A29F03B0700F9B66D /* PlaybookShowcase-iOSTests */,
-				F905153429F03B0800F9B66D /* PlaybookShowcase-iOSUITests */,
 				F905154729F03B3C00F9B66D /* PlaybookShowcase-macOS */,
-				F905155929F03B3C00F9B66D /* PlaybookShowcase-macOSTests */,
-				F905156329F03B3D00F9B66D /* PlaybookShowcase-macOSUITests */,
 				F9370FD329EDCC0100FFD0DF /* Products */,
 				F9DC74EE29EDCC91002D5393 /* Frameworks */,
 			);
@@ -489,7 +439,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F905152C29F03B0700F9B66D /* PlaybookShowcase_iOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,8 +446,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F905153829F03B0800F9B66D /* PlaybookShowcase_iOSUITestsLaunchTests.swift in Sources */,
-				F905153629F03B0800F9B66D /* PlaybookShowcase_iOSUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,7 +462,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F905155B29F03B3C00F9B66D /* PlaybookShowcase_macOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,8 +469,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F905156729F03B3D00F9B66D /* PlaybookShowcase_macOSUITestsLaunchTests.swift in Sources */,
-				F905156529F03B3D00F9B66D /* PlaybookShowcase_macOSUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,7 +664,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase-macOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
 				DEVELOPMENT_TEAM = EG5Q7XM634;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -749,7 +693,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase-macOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
 				DEVELOPMENT_TEAM = EG5Q7XM634;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
