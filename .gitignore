@@ -7,4 +7,4 @@ PlaybookDemo.xcodeproj
 /DerivedData
 PlaybookShowcase/PlaybookShowcase.xcodeproj/project.xcworkspace/xcuserdata
 PlaybookShowcase/PlaybookShowcase.xcodeproj/xcuserdata
-PlaybookShowcase.app
+fastlane/report.xml
