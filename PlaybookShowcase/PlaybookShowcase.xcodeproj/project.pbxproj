@@ -19,49 +19,14 @@
 		F943570A29F070F10051C650 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		F905152829F03B0700F9B66D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F9370FCA29EDCC0100FFD0DF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F905151729F03B0700F9B66D;
-			remoteInfo = "PlaybookShowcase-iOS";
-		};
-		F905153229F03B0800F9B66D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F9370FCA29EDCC0100FFD0DF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F905151729F03B0700F9B66D;
-			remoteInfo = "PlaybookShowcase-iOS";
-		};
-		F905155729F03B3C00F9B66D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F9370FCA29EDCC0100FFD0DF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F905154529F03B3C00F9B66D;
-			remoteInfo = "PlaybookShowcase-macOS";
-		};
-		F905156129F03B3D00F9B66D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F9370FCA29EDCC0100FFD0DF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F905154529F03B3C00F9B66D;
-			remoteInfo = "PlaybookShowcase-macOS";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		F905151829F03B0700F9B66D /* PlaybookShowcase-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaybookShowcase-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcaseApp.swift; sourceTree = "<group>"; };
 		F905151C29F03B0700F9B66D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F905151E29F03B0700F9B66D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F905152129F03B0700F9B66D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		F905152729F03B0700F9B66D /* PlaybookShowcase-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaybookShowcase-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F905153129F03B0800F9B66D /* PlaybookShowcase-iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaybookShowcase-iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaybookShowcase-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F905155129F03B3C00F9B66D /* PlaybookShowcase_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlaybookShowcase_macOS.entitlements; sourceTree = "<group>"; };
-		F905155629F03B3C00F9B66D /* PlaybookShowcase-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaybookShowcase-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F905156029F03B3D00F9B66D /* PlaybookShowcase-macOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaybookShowcase-macOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F937100229EDCC3700FFD0DF /* PlaybookSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PlaybookSwift; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,39 +39,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F905152429F03B0700F9B66D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F905152E29F03B0800F9B66D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F905154329F03B3C00F9B66D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F905157429F03B7E00F9B66D /* Playbook in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F905155329F03B3C00F9B66D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F905155D29F03B3C00F9B66D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,11 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				F905151829F03B0700F9B66D /* PlaybookShowcase-iOS.app */,
-				F905152729F03B0700F9B66D /* PlaybookShowcase-iOSTests.xctest */,
-				F905153129F03B0800F9B66D /* PlaybookShowcase-iOSUITests.xctest */,
 				F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */,
-				F905155629F03B3C00F9B66D /* PlaybookShowcase-macOSTests.xctest */,
-				F905156029F03B3D00F9B66D /* PlaybookShowcase-macOSUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -204,42 +137,6 @@
 			productReference = F905151829F03B0700F9B66D /* PlaybookShowcase-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F905152629F03B0700F9B66D /* PlaybookShowcase-iOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F905154029F03B0800F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-iOSTests" */;
-			buildPhases = (
-				F905152329F03B0700F9B66D /* Sources */,
-				F905152429F03B0700F9B66D /* Frameworks */,
-				F905152529F03B0700F9B66D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F905152929F03B0700F9B66D /* PBXTargetDependency */,
-			);
-			name = "PlaybookShowcase-iOSTests";
-			productName = "PlaybookShowcase-iOSTests";
-			productReference = F905152729F03B0700F9B66D /* PlaybookShowcase-iOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		F905153029F03B0800F9B66D /* PlaybookShowcase-iOSUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F905154129F03B0800F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-iOSUITests" */;
-			buildPhases = (
-				F905152D29F03B0800F9B66D /* Sources */,
-				F905152E29F03B0800F9B66D /* Frameworks */,
-				F905152F29F03B0800F9B66D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F905153329F03B0800F9B66D /* PBXTargetDependency */,
-			);
-			name = "PlaybookShowcase-iOSUITests";
-			productName = "PlaybookShowcase-iOSUITests";
-			productReference = F905153129F03B0800F9B66D /* PlaybookShowcase-iOSUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		F905154529F03B3C00F9B66D /* PlaybookShowcase-macOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F905156829F03B3D00F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-macOS" */;
@@ -260,42 +157,6 @@
 			productReference = F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F905155529F03B3C00F9B66D /* PlaybookShowcase-macOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F905156B29F03B3D00F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-macOSTests" */;
-			buildPhases = (
-				F905155229F03B3C00F9B66D /* Sources */,
-				F905155329F03B3C00F9B66D /* Frameworks */,
-				F905155429F03B3C00F9B66D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F905155829F03B3C00F9B66D /* PBXTargetDependency */,
-			);
-			name = "PlaybookShowcase-macOSTests";
-			productName = "PlaybookShowcase-macOSTests";
-			productReference = F905155629F03B3C00F9B66D /* PlaybookShowcase-macOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		F905155F29F03B3C00F9B66D /* PlaybookShowcase-macOSUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F905156E29F03B3D00F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-macOSUITests" */;
-			buildPhases = (
-				F905155C29F03B3C00F9B66D /* Sources */,
-				F905155D29F03B3C00F9B66D /* Frameworks */,
-				F905155E29F03B3C00F9B66D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F905156229F03B3D00F9B66D /* PBXTargetDependency */,
-			);
-			name = "PlaybookShowcase-macOSUITests";
-			productName = "PlaybookShowcase-macOSUITests";
-			productReference = F905156029F03B3D00F9B66D /* PlaybookShowcase-macOSUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -309,24 +170,8 @@
 					F905151729F03B0700F9B66D = {
 						CreatedOnToolsVersion = 14.3;
 					};
-					F905152629F03B0700F9B66D = {
-						CreatedOnToolsVersion = 14.3;
-						TestTargetID = F905151729F03B0700F9B66D;
-					};
-					F905153029F03B0800F9B66D = {
-						CreatedOnToolsVersion = 14.3;
-						TestTargetID = F905151729F03B0700F9B66D;
-					};
 					F905154529F03B3C00F9B66D = {
 						CreatedOnToolsVersion = 14.3;
-					};
-					F905155529F03B3C00F9B66D = {
-						CreatedOnToolsVersion = 14.3;
-						TestTargetID = F905154529F03B3C00F9B66D;
-					};
-					F905155F29F03B3C00F9B66D = {
-						CreatedOnToolsVersion = 14.3;
-						TestTargetID = F905154529F03B3C00F9B66D;
 					};
 				};
 			};
@@ -346,11 +191,7 @@
 			projectRoot = "";
 			targets = (
 				F905151729F03B0700F9B66D /* PlaybookShowcase-iOS */,
-				F905152629F03B0700F9B66D /* PlaybookShowcase-iOSTests */,
-				F905153029F03B0800F9B66D /* PlaybookShowcase-iOSUITests */,
 				F905154529F03B3C00F9B66D /* PlaybookShowcase-macOS */,
-				F905155529F03B3C00F9B66D /* PlaybookShowcase-macOSTests */,
-				F905155F29F03B3C00F9B66D /* PlaybookShowcase-macOSUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -365,40 +206,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F905152529F03B0700F9B66D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F905152F29F03B0800F9B66D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F905154429F03B3C00F9B66D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F943570A29F070F10051C650 /* Preview Assets.xcassets in Resources */,
 				F943570929F070E90051C650 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F905155429F03B3C00F9B66D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F905155E29F03B3C00F9B66D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,20 +248,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F905152329F03B0700F9B66D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F905152D29F03B0800F9B66D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F905154229F03B3C00F9B66D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -458,43 +257,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F905155229F03B3C00F9B66D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F905155C29F03B3C00F9B66D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F905152929F03B0700F9B66D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F905151729F03B0700F9B66D /* PlaybookShowcase-iOS */;
-			targetProxy = F905152829F03B0700F9B66D /* PBXContainerItemProxy */;
-		};
-		F905153329F03B0800F9B66D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F905151729F03B0700F9B66D /* PlaybookShowcase-iOS */;
-			targetProxy = F905153229F03B0800F9B66D /* PBXContainerItemProxy */;
-		};
-		F905155829F03B3C00F9B66D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F905154529F03B3C00F9B66D /* PlaybookShowcase-macOS */;
-			targetProxy = F905155729F03B3C00F9B66D /* PBXContainerItemProxy */;
-		};
-		F905156229F03B3D00F9B66D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F905154529F03B3C00F9B66D /* PlaybookShowcase-macOS */;
-			targetProxy = F905156129F03B3D00F9B66D /* PBXContainerItemProxy */;
-		};
 		F94356FB29F0474D0051C650 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = F94356FA29F0474D0051C650 /* SwiftLintPlugin */;
@@ -518,7 +283,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -554,7 +319,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -571,90 +336,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		F905153B29F03B0800F9B66D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-iOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaybookShowcase-iOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PlaybookShowcase-iOS";
-			};
-			name = Debug;
-		};
-		F905153C29F03B0800F9B66D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-iOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaybookShowcase-iOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PlaybookShowcase-iOS";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		F905153D29F03B0800F9B66D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-iOSUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "PlaybookShowcase-iOS";
-			};
-			name = Debug;
-		};
-		F905153E29F03B0800F9B66D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-iOSUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "PlaybookShowcase-iOS";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -678,7 +359,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -708,7 +389,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -716,84 +397,6 @@
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		F905156C29F03B3D00F9B66D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-macOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaybookShowcase-macOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PlaybookShowcase-macOS";
-			};
-			name = Debug;
-		};
-		F905156D29F03B3D00F9B66D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-macOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaybookShowcase-macOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PlaybookShowcase-macOS";
-			};
-			name = Release;
-		};
-		F905156F29F03B3D00F9B66D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-macOSUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "PlaybookShowcase-macOS";
-			};
-			name = Debug;
-		};
-		F905157029F03B3D00F9B66D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-macOSUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "PlaybookShowcase-macOS";
 			};
 			name = Release;
 		};
@@ -918,47 +521,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F905154029F03B0800F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-iOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F905153B29F03B0800F9B66D /* Debug */,
-				F905153C29F03B0800F9B66D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F905154129F03B0800F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-iOSUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F905153D29F03B0800F9B66D /* Debug */,
-				F905153E29F03B0800F9B66D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		F905156829F03B3D00F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F905156929F03B3D00F9B66D /* Debug */,
 				F905156A29F03B3D00F9B66D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F905156B29F03B3D00F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-macOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F905156C29F03B3D00F9B66D /* Debug */,
-				F905156D29F03B3D00F9B66D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F905156E29F03B3D00F9B66D /* Build configuration list for PBXNativeTarget "PlaybookShowcase-macOSUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F905156F29F03B3D00F9B66D /* Debug */,
-				F905157029F03B3D00F9B66D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
