@@ -21,7 +21,7 @@ struct ColorsCatalog: View {
           ForEach(Color.TextColor.allCases, id: \.self) { color in
             VStack {
               shape.foregroundColor(Color.text(color))
-              Text(color.rawValue.uppercased()).pbFont(.buttonText(9), color: .text(.light))
+              Text(color.rawValue.uppercased()).pbFont(.caption, color: .text(.light))
             }
           }
         }
