@@ -233,7 +233,14 @@ public enum PBButtonSize {
   }
 
   func minHeight() -> CGFloat {
-    return self == .small ? 36 : 40
+    switch self {
+    case .small:
+      return 30
+    case .medium:
+      return 40
+    case .large:
+      return 45
+    }
   }
 }
 

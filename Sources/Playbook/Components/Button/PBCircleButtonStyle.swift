@@ -18,7 +18,7 @@ public struct PBCircleButtonStyle: ButtonStyle {
     let isPrimaryVariant = variant == .primary
 
     configuration.label
-      .frame(minWidth: 38, minHeight: 38)
+      .frame(minWidth: 40, minHeight: 40)
       .background(
         variant
           .backgroundAnimation(
