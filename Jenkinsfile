@@ -38,6 +38,10 @@ runShortNode {
   }
 }
 
+unstashArtifacts()
+
+// Methods
+
 def setupEnvironment(block) {
   withCredentials([
     string(credentialsId: '62620542-b00d-4c1f-81dd-4d014369f07d', variable: 'GITHUB_API_TOKEN'),
@@ -292,16 +296,22 @@ def setupKeychain() {
   }
 }
 
-def publishLogIOS() {
-  stage('Publish artifact') {
+def stashLogIOS() {
+  stage('Stash iOS Artifact') {
     def artifactName = "iOS-${buildNumber}.log"
     def artifactPath = "~/Library/Logs/gym/PlaybookShowcase-iOS-PlaybookShowcase-iOS.log"
-    archiveArtifacts artifacts: artifactPath, onlyIfSuccessful: false
+    stash name: artifactName, includes: artifactPath
+  }
+}
+
+def unstashArtifacts() {
+  stage('Unstash Artifacts') {
+    unstash "iOS-${buildNumber}.log"
   }
 }
 
 def handleCleanup() {
-  try { publishLogIOS() } catch (e) { }
+  try { stashLogIOS() } catch (e) { }
   try { deleteKeychain() } catch (e) { }
   try { deleteDerivedData() } catch (e) { }
   try { deleteDir() } catch (e) { }
