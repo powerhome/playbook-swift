@@ -15,7 +15,7 @@ struct ColorsCatalog: View {
       Section("Main") {
         shape.foregroundColor(.pbPrimary)
       }
-      
+
       Section("Text") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.TextColor.allCases, id: \.self) { color in
@@ -26,7 +26,7 @@ struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Background") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.BackgroundColor.allCases, id: \.self) { color in
@@ -37,11 +37,11 @@ struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Cards") {
         shape.foregroundColor(.card)
       }
-      
+
       Section("Status") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.StatusColor.allCases, id: \.self) { color in
@@ -52,7 +52,7 @@ struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Status Subtle") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.StatusColor.allCases, id: \.self) { color in
@@ -63,7 +63,7 @@ struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Data") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.DataColor.allCases, id: \.self) { color in
@@ -74,7 +74,7 @@ struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Product Background") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.ProductColor.allCases, id: \.self) { color in
@@ -85,7 +85,7 @@ struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Product Highlight") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.ProductColor.allCases, id: \.self) { color in
@@ -96,7 +96,7 @@ struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Category") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.CategoryColor.allCases, id: \.self) { color in

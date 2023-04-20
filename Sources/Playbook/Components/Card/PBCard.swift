@@ -120,7 +120,7 @@ public extension PBCard {
     case xLarge = 12
     case rounded = 48
   }
-  
+
   enum Highlight {
     case none
     case side
@@ -133,7 +133,7 @@ public extension PBCard {
 struct PBCard_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-    
+
     let text = "Card Content"
     let loremIpsum =
       """
@@ -142,7 +142,7 @@ struct PBCard_Previews: PreviewProvider {
         Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
         Sed commodo posuere lectus, at porta nulla ornare a.
       """
-    
+
     return Group {
       VStack(alignment: .leading, spacing: 8) {
         Text("Default").pbFont(.caption)
@@ -150,7 +150,7 @@ struct PBCard_Previews: PreviewProvider {
           Text(text).pbFont(.body())
         }
         .padding(.bottom)
-        
+
         Text("Default with shadow deep").pbFont(.caption)
         PBCard(shadow: .deep) {
           Text(text).pbFont(.body())
@@ -158,7 +158,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Default")
-      
+
       VStack(alignment: .leading, spacing: 8) {
         Text("Highlight").pbFont(.caption)
         PBCard(highlight: .side) {
@@ -170,7 +170,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Highlight")
-      
+
       VStack(alignment: .leading, spacing: 8) {
         Text("Header cards").pbFont(.caption)
         PBCard(padding: .pbNone) {
@@ -188,7 +188,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Header cards")
-      
+
       VStack(alignment: .leading, spacing: nil) {
         Text("Default").pbFont(.caption)
         PBCard {
@@ -205,7 +205,7 @@ struct PBCard_Previews: PreviewProvider {
       }
       .padding()
       .previewDisplayName("Styles")
-      
+
       VStack(alignment: .leading) {
         Text("Padding size").pbFont(.caption)
         PBCard(padding: .pbNone) {
