@@ -31,14 +31,12 @@ waitUntil { success }
 
 runShortNode {
   stage('Runway Comment') {
-    writeRunwayComment()
+    // writeRunwayComment()
   }
   stage('Tag') {
     try { fastlane("tag_build build:${buildNumber}") } catch (e) { }
   }
 }
-
-unstashArtifacts()
 
 // Methods
 
@@ -296,24 +294,7 @@ def setupKeychain() {
   }
 }
 
-def stashLogIOS() {
-  stage('Stash iOS Artifact') {
-    def artifactName = "iOS-${buildNumber}.log"
-    def artifactPath = "~/Library/Logs/gym/PlaybookShowcase-iOS-PlaybookShowcase-iOS.log"
-    stash name: artifactName, includes: artifactPath
-  }
-}
-
-def unstashArtifacts() {
-  stage('Unstash Artifacts') {
-    unstash "iOS-${buildNumber}.log"
-  }
-
-  archiveArtifacts artifacts: '**/*.log', onlyIfSuccessful: false
-}
-
 def handleCleanup() {
-  try { stashLogIOS() } catch (e) { }
   try { deleteKeychain() } catch (e) { }
   try { deleteDerivedData() } catch (e) { }
   try { deleteDir() } catch (e) { }
