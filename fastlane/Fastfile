@@ -58,11 +58,6 @@ lane :upload_ios do |opts|
   keep_trying {
     ship_ios_to_appcenter(opts)
   }
-
-  upload_symbols_to_crashlytics(
-    dsym_path: "./#{target_ios}.app.dSYM.zip",
-    binary_path: "./upload-symbols"
-  )
 end
 
 desc "Ship iOS to App Center"
