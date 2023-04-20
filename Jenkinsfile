@@ -291,7 +291,17 @@ def setupKeychain() {
     }
   }
 }
+
+def publishLogIOS() {
+  stage('Publish artifact') {
+    def artifactName = "iOS-${buildNumber}.log"
+    def artifactPath = "~/Library/Logs/gym/PlaybookShowcase-iOS-PlaybookShowcase-iOS.log"
+    archiveArtifacts artifacts: artifactPath, onlyIfSuccessful: false
+  }
+}
+
 def handleCleanup() {
+  try { publishLogIOS() } catch (e) { }
   try { deleteKeychain() } catch (e) { }
   try { deleteDerivedData() } catch (e) { }
   try { deleteDir() } catch (e) { }
