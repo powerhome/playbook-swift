@@ -135,8 +135,8 @@ public extension PBCard {
 
 // MARK: Preview
 
-struct PBCard_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBCard_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     let text = "Card Content"

@@ -162,8 +162,8 @@ public enum PBButtonSize {
 }
 
 @available(macOS 13.0, *)
-struct PBButtonStyle_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBButtonStyle_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     return List {

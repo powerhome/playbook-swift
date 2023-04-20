@@ -123,7 +123,7 @@ public extension PBAvatar {
   }
 }
 
-struct PBAvatar_Previews: PreviewProvider {
+public struct PBAvatar_Previews: PreviewProvider {
   static var defaultAvatars: some View {
     VStack(alignment: .leading) {
       PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online)
@@ -146,7 +146,7 @@ struct PBAvatar_Previews: PreviewProvider {
     }
   }
 
-  static var previews: some View {
+  public static var previews: some View {
     registerFonts()
 
     return List {

@@ -65,8 +65,8 @@ public extension View {
   }
 }
 
-struct Typography_Previews: PreviewProvider {
-  static var previews: some View {
+public struct Typography_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     return List {

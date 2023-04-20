@@ -70,8 +70,8 @@ public extension PBIcon {
   }
 }
 
-struct PBIcon_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBIcon_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     return Group {
