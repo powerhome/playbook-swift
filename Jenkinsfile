@@ -308,6 +308,8 @@ def unstashArtifacts() {
   stage('Unstash Artifacts') {
     unstash "iOS-${buildNumber}.log"
   }
+
+  archiveArtifacts artifacts: '**/*.log', onlyIfSuccessful: false
 }
 
 def handleCleanup() {
