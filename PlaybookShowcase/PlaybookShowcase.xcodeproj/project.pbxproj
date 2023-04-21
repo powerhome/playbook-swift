@@ -27,7 +27,7 @@
 		F905152129F03B0700F9B66D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaybookShowcase-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F905155129F03B3C00F9B66D /* PlaybookShowcase_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlaybookShowcase_macOS.entitlements; sourceTree = "<group>"; };
-		F937100229EDCC3700FFD0DF /* PlaybookSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PlaybookSwift; path = ..; sourceTree = "<group>"; };
+		F99B09EA29F30368001723AF /* PlaybookSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PlaybookSwift; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +100,7 @@
 		F937100029EDCC1900FFD0DF /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				F937100229EDCC3700FFD0DF /* PlaybookSwift */,
+				F99B09EA29F30368001723AF /* PlaybookSwift */,
 			);
 			name = Packages;
 			sourceTree = "<group>";

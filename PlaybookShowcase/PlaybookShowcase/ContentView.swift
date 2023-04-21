@@ -35,7 +35,7 @@ struct ContentView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
   }
-  
+
   var bottomBar: some View {
     PBNav(
       selected: $selectedItem,
@@ -102,27 +102,31 @@ struct ContentView_Previews: PreviewProvider {
 enum DesignElements: String, CaseIterable {
   case color, shadows, typography, iconography, spacing
   static let title: String = "Design Elements"
+
+  @ViewBuilder
   var destination: some View {
     switch self {
-    case .color: return EmptyView()
-    case .shadows: return PBShadow_Previews.previews
-    case .typography: return Typography_Previews.previews
-    case .iconography: return PBIcon_Previews.previews
-    case .spacing: return EmptyView()
+    case .color: EmptyView()
+    case .shadows: PBShadow_Previews.previews
+    case .typography: Typography_Previews.previews
+    case .iconography: PBIcon_Previews.previews
+    case .spacing: EmptyView()
     }
   }
 }
 
 enum Componenets: String, CaseIterable {
   case avatar, button, card, collapsible
-  
+
   static let title: String = "Components"
+
+  @ViewBuilder
   var destination: some View {
     switch self {
-    case .avatar: return PBAvatar_Previews.previews
-    case .button: return PBButtonStyle_Previews.previews
-    case .card: return PBCard_Previews.previews
-    case .collapsible: return PBCollapsible_Previews.previews
+    case .avatar: PBAvatar_Previews.previews
+    case .button: PBButtonStyle_Previews.previews
+    case .card: PBCard_Previews.previews
+    case .collapsible: PBCollapsible_Previews.previews
     }
   }
 }
