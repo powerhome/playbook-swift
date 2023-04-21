@@ -122,6 +122,7 @@ public extension PBDialog {
     case small
     case medium
     case large
+    case statusSize
 
     var padding: CGFloat { 24 }
 
@@ -130,6 +131,7 @@ public extension PBDialog {
       case .small: return 300
       case .medium: return 500
       case .large: return 800
+      case .statusSize: return 375
       }
     }
   }
@@ -245,7 +247,8 @@ struct PBBDialog_Previews: PreviewProvider {
             isStacked: false,
             cancelButton: ("Cancel", foo),
             cancelButtonStyle: PBButtonStyle(variant: .secondary),
-            confirmButton: ("Okay", foo)
+            confirmButton: ("Okay", foo),
+            size: .statusSize
           )
           .frame(maxWidth: .infinity)
           .backgroundViewModifier(alpha: 0.2)

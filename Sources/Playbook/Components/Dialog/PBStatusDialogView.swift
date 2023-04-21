@@ -34,12 +34,12 @@ struct PBStatusDialogView: View {
     case `default`, caution, delete, information, error, success
     var icon: (PlaybookGenericIcon, Color) {
       switch self {
-      case .default: return (FontAwesome.exclamationCircle, .pbNeutral)
-      case .caution: return (FontAwesome.exclamationTriangle, .pbYellow)
-      case .delete: return (FontAwesome.trash, .pbRed)
-      case .information: return (FontAwesome.infoCircle, .pbNeutral)
-      case .error: return (FontAwesome.timesCircle, .pbRed)
-      case .success: return (FontAwesome.checkCircle, .pbGreen)
+      case .default: return (FontAwesome.exclamationCircle, .status(.neutral))
+      case .caution: return (FontAwesome.exclamationTriangle, .status(.warning))
+      case .delete: return (FontAwesome.trashAlt, .status(.error))
+      case .information: return (FontAwesome.infoCircle, .status(.neutral))
+      case .error: return (FontAwesome.timesCircle, .status(.error))
+      case .success: return (FontAwesome.checkCircle, .status(.success))
       }
     }
   }
