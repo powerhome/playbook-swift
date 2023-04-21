@@ -172,7 +172,7 @@ private struct PBNavHighlight: EnvironmentKey {
   static let defaultValue = true
 }
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
   var selected: Bool {
     get { self[PBNavSelection.self] }
     set { self[PBNavSelection.self] = newValue }

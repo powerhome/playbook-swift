@@ -43,9 +43,13 @@ struct ContentView: View {
       orientation: .horizontal
     ) {
       PBNavItem(DesignElements.title)
+        .environment(\.selected, selectedItem == 0 ? true : false)
+        .environment(\.hovering, selectedItem == 0 ? true : false)
       PBNavItem(Componenets.title)
+        .environment(\.selected, selectedItem == 1 ? true : false)
+        .environment(\.hovering, selectedItem == 1 ? true : false)
     }
-    .frame(maxWidth: .infinity)
+    .frame(maxWidth: .infinity, minHeight: 80)
     .background(Color.white)
   }
 
@@ -62,7 +66,7 @@ struct ContentView: View {
               } label: {
                 PBCard(padding: .pbXsmall, shadow: .deep) {
                   HStack {
-                    PBIcon.fontAwesome(.cog, size: .small).foregroundColor(.black)
+                    PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(.black)
                     Text(element.rawValue.capitalized).pbFont(.buttonText(16))
                   }
                 }
@@ -78,7 +82,6 @@ struct ContentView: View {
               } label: {
                 PBCard(padding: .pbXsmall, shadow: .deep) {
                   HStack {
-                    PBIcon.fontAwesome(.cog, size: .small).foregroundColor(.black)
                     Text(element.rawValue.capitalized).pbFont(.buttonText(16))
                   }
                 }
@@ -113,6 +116,17 @@ enum DesignElements: String, CaseIterable {
     case .spacing: EmptyView()
     }
   }
+  
+  var icon: FontAwesome {
+    switch self {
+    case .color: return .palette
+    case .shadows: return .cloud
+    case .typography: return .textHeight
+    case .iconography: return .icons
+    case .spacing: return .spaceShuttle
+    }
+  }
+
 }
 
 enum Componenets: String, CaseIterable {
