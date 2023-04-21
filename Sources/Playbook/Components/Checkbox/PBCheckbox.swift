@@ -13,7 +13,7 @@ public struct PBCheckboxButtonStyle: ButtonStyle {
   // MARK: - Computed properties
 
   private var borderColor: Color {
-    isSelected ? Color.pbPrimary : Color.pbBorder
+    isSelected ? .pbPrimary : .border
   }
 
   var backgroundColor: Color {
@@ -42,7 +42,7 @@ public struct PBCheckboxButtonStyle: ButtonStyle {
 
       VStack(alignment: .leading, spacing: 4) {
         configuration.label
-          .foregroundColor(.pbTextDefault)
+          .foregroundColor(.text(.default))
           .pbFont(.body())
           .frame(minHeight: 22)
       }
