@@ -87,7 +87,7 @@ public struct PBButtonStyle: ButtonStyle {
   private func linkForegroundColor(_ colorScheme: ColorScheme) -> Color {
     switch colorScheme {
     case .dark: return .white.opacity(0.5)
-    default: return .pbTextDefault
+    default: return .text(.default)
     }
   }
 }
@@ -98,7 +98,7 @@ public enum PBButtonVariant {
   case link
 
   func foregroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
-    if disabled { return Color.pbTextDefault.opacity(0.5) }
+    if disabled { return .text(.default).opacity(0.5) }
 
     switch self {
     case .primary:
@@ -117,7 +117,7 @@ public enum PBButtonVariant {
     switch self {
     case .primary:
       switch (disabled, colorScheme) {
-      case (true, _ ): return .pbNeutral.opacity(0.5)
+      case (true, _ ): return .status(.neutral).opacity(0.5)
       case (false, _): return .pbPrimary
       }
     case .secondary:

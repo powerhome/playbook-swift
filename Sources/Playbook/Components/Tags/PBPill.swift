@@ -37,12 +37,12 @@ public extension PBPill {
 
     func foregroundColor() -> Color {
       switch self {
-      case .error: return .pbError
-      case .info: return .pbInfo
+      case .error: return .status(.error)
+      case .info: return .status(.info)
       case .primary: return .pbPrimary
-      case .success: return .pbSuccess
-      case .warning: return .pbWarning
-      default: return .pbNeutral
+      case .success: return .status(.success)
+      case .warning: return .status(.warning)
+      default: return .status(.neutral)
       }
     }
 
@@ -67,7 +67,7 @@ struct PBPill_Previews: PreviewProvider {
     }
     .frame(maxWidth: .infinity, alignment: .leading)
     .padding(.leading, 20)
-    .background(Color.pbCard)
+    .background(Color.card)
     .previewDisplayName("Pills")
   }
 }
