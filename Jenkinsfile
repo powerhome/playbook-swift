@@ -31,12 +31,14 @@ waitUntil { success }
 
 runShortNode {
   stage('Runway Comment') {
-    writeRunwayComment()
+    // writeRunwayComment()
   }
   stage('Tag') {
     try { fastlane("tag_build build:${buildNumber}") } catch (e) { }
   }
 }
+
+// Methods
 
 def setupEnvironment(block) {
   withCredentials([
@@ -291,6 +293,7 @@ def setupKeychain() {
     }
   }
 }
+
 def handleCleanup() {
   try { deleteKeychain() } catch (e) { }
   try { deleteDerivedData() } catch (e) { }
