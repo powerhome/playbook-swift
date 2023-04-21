@@ -112,13 +112,13 @@ struct PBNavigationItem<Content: View>: View {
         if isHovering {
           return .pbPrimary
         }
-        return .pbTextDefault
+        return .text(.default)
       }
 
       if selected || isHovering {
         return .pbPrimary
       }
-      return .pbTextDefault
+      return .text(.default)
     }
 
     var font: PBFont {
