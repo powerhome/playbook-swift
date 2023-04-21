@@ -124,7 +124,7 @@ public enum PBButtonVariant {
     switch self {
     case .secondary: return .pbPrimary.opacity(0.05)
     case .link: return .clear
-    case .disabled: return .pbNeutral.opacity(0.5)
+    case .disabled: return .status(.neutral).opacity(0.5)
     default: return .pbPrimary
     }
   }
@@ -132,7 +132,7 @@ public enum PBButtonVariant {
   public var foregroundColor: Color {
     switch self {
     case .primary: return .white
-    case .disabled: return .pbTextDefault.opacity(0.5)
+    case .disabled: return .text(.default).opacity(0.5)
     default: return .pbPrimary
     }
   }
@@ -151,7 +151,7 @@ public enum PBButtonVariant {
     switch self {
     case .secondary: return .pbPrimary.opacity(0.3)
     case .link: return .clear
-    case .disabled: return .pbNeutral.opacity(0.5)
+    case .disabled: return .status(.neutral).opacity(0.5)
     default: return .pbPrimary
     }
   }
@@ -191,13 +191,13 @@ public enum PBButtonVariant {
       if isLinkVariant && isPressed {
         return .pbPrimary
       } else if isLinkVariant && isHovering {
-        return .pbTextDefault
+        return .text(.default)
       } else {
         return variant.foregroundColor
       }
     #else
       return isLinkVariant && isPressed
-        ? .pbTextDefault
+        ? .text(.default)
         : variant.foregroundColor
     #endif
   }
