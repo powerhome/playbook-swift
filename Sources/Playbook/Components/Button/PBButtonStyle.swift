@@ -11,11 +11,14 @@ public struct PBButtonStyle: ButtonStyle {
   var variant: PBButtonVariant = .primary
   var size: PBButtonSize = .medium
   var disabled: Bool = false
+  @State private var isHovering: Bool = false
+  @Environment(\.colorScheme) var colorScheme
 
   public init(
     variant: PBButtonVariant? = .primary,
     size: PBButtonSize? = .medium,
-    disabled: Bool? = false
+    disabled: Bool? = false,
+    isHovering: Bool? = false
   ) {
     self.variant = variant ?? self.variant
     self.disabled = disabled ?? self.disabled
@@ -23,25 +26,69 @@ public struct PBButtonStyle: ButtonStyle {
   }
 
   public func makeBody(configuration: Configuration) -> some View {
+    let isPressedOrHovered = (configuration.isPressed || isHovering) && !disabled
+    let primaryVariantPressedHovered = variant == .primary && isPressedOrHovered
+    let linkVariantPressedHovered = variant == .link && isPressedOrHovered
+
     configuration.label
-      .onHover { isHovering in
-        #if os(macOS)
-          guard !disabled else { return }
-          if isHovering {
-            NSCursor.pointingHand.push()
-          } else {
-            NSCursor.pop()
-          }
-        #endif
-      }
       .padding(.vertical, size.verticalPadding())
       .padding(.horizontal, size.horizontalPadding())
       .frame(minWidth: 0, minHeight: size.minHeight())
-      .background(variant.backgroundColor(disabled))
-      .foregroundColor(variant.foregroundColor(disabled))
+      .background(
+        backgroundColor(
+          configuration,
+          variant: variant,
+          disabled: disabled,
+          isHovering: isHovering
+        )
+      )
+      .brightness(primaryVariantPressedHovered ? -0.04 : 0)
+      .foregroundColor(
+        linkVariantPressedHovered
+          ? linkForegroundColor(colorScheme)
+          : variant.foregroundColor(disabled, colorScheme: colorScheme)
+      )
       .cornerRadius(5)
       .pbFont(.buttonText(size.fontSize))
-      .brightness(configuration.isPressed && !disabled ? 0.04 : 0.0)
+    #if os(macOS)
+      .opacity(configuration.isPressed && !disabled ? 0.8 : 1)
+      .onHover { hovering in
+        isHovering = hovering
+
+        switch (isHovering, disabled) {
+        case (true, true): NSCursor.operationNotAllowed.set()
+        case (true, false): NSCursor.pointingHand.set()
+        default: NSCursor.arrow.set()
+        }
+      }
+    #endif
+  }
+
+  private func backgroundColor(
+    _ configuration: Configuration,
+    variant: PBButtonVariant,
+    disabled: Bool,
+    isHovering: Bool
+  ) -> Color {
+    let isPressedOrHovered = (configuration.isPressed || isHovering) && !disabled
+
+    if isPressedOrHovered {
+      switch (variant, colorScheme) {
+      case (.secondary, .light): return .pbPrimary.opacity(0.3)
+      case (.secondary, .dark): return .pbPrimary.opacity(0.2)
+      case (.link, _): return .clear
+      default: return .pbPrimary
+      }
+    }
+
+    return variant.backgroundColor(disabled, colorScheme: colorScheme)
+  }
+
+  private func linkForegroundColor(_ colorScheme: ColorScheme) -> Color {
+    switch colorScheme {
+    case .dark: return .white.opacity(0.5)
+    default: return .text(.default)
+    }
   }
 }
 
@@ -50,21 +97,37 @@ public enum PBButtonVariant {
   case secondary
   case link
 
-  func foregroundColor(_ disabled: Bool) -> Color {
-    if disabled { return Color.pbTextDefault.opacity(0.5) }
+  func foregroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
+    if disabled { return .text(.default).opacity(0.5) }
+
     switch self {
-    case .primary: return .white
-    case .secondary: return .pbPrimary
-    case .link: return .pbPrimary
+    case .primary:
+      switch colorScheme {
+      default: return .white
+      }
+    case .secondary, .link:
+      switch colorScheme {
+      case .light: return .pbPrimary
+      default: return .white
+      }
     }
   }
 
-  func backgroundColor(_ disabled: Bool) -> Color {
-    switch (self, disabled) {
-    case (.primary, true): return Color.pbNeutral.opacity(0.4)
-    case (.primary, false): return .pbPrimary
-    case (.secondary, _): return Color.pbPrimary.opacity(0.05)
-    case (.link, _): return .clear
+  func backgroundColor(_ disabled: Bool, colorScheme: ColorScheme) -> Color {
+    switch self {
+    case .primary:
+      switch (disabled, colorScheme) {
+      case (true, _ ): return .status(.neutral).opacity(0.5)
+      case (false, _): return .pbPrimary
+      }
+    case .secondary:
+      switch (disabled, colorScheme) {
+      default: return .pbPrimary.opacity(0.05)
+      }
+    case .link:
+      switch (disabled, colorScheme) {
+      default: return .clear
+      }
     }
   }
 }
@@ -98,40 +161,41 @@ public enum PBButtonSize {
   }
 }
 
+@available(macOS 13.0, *)
 struct PBButtonStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    return Group {
-      VStack {
+    return List {
+      Section("Button Variants") {
         Button("Button Primary") {}
           .buttonStyle(PBButtonStyle())
-        Button("Button Primary Disabled") {}
-          .buttonStyle(PBButtonStyle(disabled: true))
+
         Button("Button Secondary") {}
           .buttonStyle(PBButtonStyle(variant: .secondary))
-        Button("Button Secondary Disabled") {}
-          .buttonStyle(PBButtonStyle(variant: .secondary, disabled: true))
+
+        Button("Button Disabled") {}
+          .buttonStyle(PBButtonStyle(disabled: true))
+
         Button("Button Link") {}
           .buttonStyle(PBButtonStyle(variant: .link))
+
         Button("Button Link Disabled") {}
           .buttonStyle(PBButtonStyle(variant: .link, disabled: true))
+      }
+      .listRowSeparator(.hidden)
 
-        HStack {
-          Button("Cancel") {}
-            .buttonStyle(PBButtonStyle(variant: .secondary, size: .small))
+      Section("Button Sizes") {
+        Button("Button sm size") {}
+          .buttonStyle(PBButtonStyle(variant: .primary, size: .small))
 
-          Button("Save") {}
-            .buttonStyle(PBButtonStyle(variant: .primary, size: .small))
-        }
-
-        Button("Button Primary Medium") {}
+        Button("Button md size") {}
           .buttonStyle(PBButtonStyle(variant: .primary, size: .medium))
 
-        Button("Button Primary Large") {}
+        Button("Button lg size") {}
           .buttonStyle(PBButtonStyle(variant: .primary, size: .large))
       }
-      .padding(.horizontal, 20)
+      .listRowSeparator(.hidden)
     }
   }
 }

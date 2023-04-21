@@ -19,7 +19,7 @@ public struct PBToggleStyle: ToggleStyle {
     VStack(alignment: .leading, spacing: 0) {
       if !labelsHidden { // Check if we can use the .labelsHidden() from the Toggle itself.
         configuration.label
-          .foregroundColor(.pbTextLight)
+          .foregroundColor(.text(.light))
           .pbFont(.caption)
       }
 
@@ -54,7 +54,7 @@ public struct PBToggleStyle: ToggleStyle {
 
 extension ToggleStyleConfiguration {
   func strokeColor(isHovering: Bool) -> Color {
-    isOn || isHovering ? .pbPrimary : .pbNeutral
+    isOn || isHovering ? .pbPrimary : .status(.neutral)
   }
 
   func circleColor(isHovering: Bool) -> Color {
@@ -64,7 +64,7 @@ extension ToggleStyleConfiguration {
     if isHovering {
       return .pbPrimary
     }
-    return .pbNeutral
+    return .status(.neutral)
   }
 
   var backgroundColor: Color {
