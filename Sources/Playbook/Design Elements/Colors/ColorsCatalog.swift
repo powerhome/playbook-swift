@@ -7,21 +7,16 @@
 
 import SwiftUI
 
-#if DEBUG
-struct ColorsCatalog: View {
-  var body: some View {
+public struct ColorsCatalog: View {
+  public var body: some View {
     let shape = Circle().frame(width: 60).pbShadow(.deep)
     List {
-      Section("Main") {
-        shape.foregroundColor(.pbPrimary)
-      }
-
       Section("Text") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.TextColor.allCases, id: \.self) { color in
             VStack {
               shape.foregroundColor(Color.text(color))
-              Text(color.rawValue.uppercased()).pbFont(.caption, color: .text(.light))
+              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
             }
           }
         }
@@ -32,14 +27,10 @@ struct ColorsCatalog: View {
           ForEach(Color.BackgroundColor.allCases, id: \.self) { color in
             VStack {
               shape.foregroundColor(.background(color))
-              Text(color.rawValue).pbFont(.caption, color: .text(.light))
+              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
             }
           }
         }
-      }
-
-      Section("Cards") {
-        shape.foregroundColor(.card)
       }
 
       Section("Status") {
@@ -47,7 +38,7 @@ struct ColorsCatalog: View {
           ForEach(Color.StatusColor.allCases, id: \.self) { color in
             VStack {
               shape.foregroundColor(.status(color))
-              Text(color.rawValue).pbFont(.caption, color: .text(.light))
+              Text(color.rawValue).pbFont(.subcaption, color: .text(.light))
             }
           }
         }
@@ -58,18 +49,7 @@ struct ColorsCatalog: View {
           ForEach(Color.StatusColor.allCases, id: \.self) { color in
             VStack {
               shape.foregroundColor(Color.status(color, subtle: true))
-              Text(color.rawValue).pbFont(.caption, color: .text(.light))
-            }
-          }
-        }
-      }
-
-      Section("Data") {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-          ForEach(Color.DataColor.allCases, id: \.self) { color in
-            VStack {
-              shape.foregroundColor(.data(color))
-              Text(color.rawValue).pbFont(.caption, color: .text(.light))
+              Text(color.rawValue).pbFont(.subcaption, color: .text(.light))
             }
           }
         }
@@ -80,7 +60,7 @@ struct ColorsCatalog: View {
           ForEach(Color.ProductColor.allCases, id: \.self) { color in
             VStack {
               shape.foregroundColor(.product(color, category: .background))
-              Text(color.rawValue.uppercased()).pbFont(.body(.smallest), color: .text(.light))
+              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
             }
           }
         }
@@ -91,7 +71,7 @@ struct ColorsCatalog: View {
           ForEach(Color.ProductColor.allCases, id: \.self) { color in
             VStack {
               shape.foregroundColor(.product(color, category: .highlight))
-              Text(color.rawValue.uppercased()).pbFont(.body(.smallest), color: .text(.light))
+              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
             }
           }
         }
@@ -102,7 +82,7 @@ struct ColorsCatalog: View {
           ForEach(Color.CategoryColor.allCases, id: \.self) { color in
             VStack {
               shape.foregroundColor(.category(color))
-              Text(color.rawValue.uppercased()).pbFont(.buttonText(10), color: .text(.light))
+              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
             }
           }
         }
@@ -111,9 +91,8 @@ struct ColorsCatalog: View {
   }
 }
 
-struct ColorsCatalog_Previews: PreviewProvider {
-  static var previews: some View {
+public struct ColorsCatalog_Previews: PreviewProvider {
+  public static var previews: some View {
     ColorsCatalog()
   }
 }
-#endif

@@ -20,7 +20,6 @@ public extension Color {
     case .default: return Color("TextDefault", bundle: .module)
     case .light: return Color("TextLight", bundle: .module)
     case .lighter: return Color("TextLighter", bundle: .module)
-    case .white: return Color.white
     case .successSmall: return Color("SuccessSmall", bundle: .module)
     }
   }
@@ -102,7 +101,7 @@ public extension Color {
 
 public extension Color {
   enum TextColor: String, CaseIterable {
-    case `default`, light, lighter, white, successSmall
+    case `default`, light, lighter, successSmall
   }
 
   enum BackgroundColor: String, CaseIterable {

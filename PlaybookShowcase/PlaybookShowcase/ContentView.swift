@@ -24,7 +24,7 @@ struct ContentView: View {
           }
         }
         .background {
-          Color.pbBackgroundLight
+          Color.background(.light)
         }
         .overlay {
           VStack {
@@ -49,6 +49,7 @@ struct ContentView: View {
         .environment(\.selected, selectedItem == 1 ? true : false)
         .environment(\.hovering, selectedItem == 1 ? true : false)
     }
+    .offset(y: -8)
     .frame(maxWidth: .infinity, minHeight: 80)
     .background(Color.white)
   }
@@ -108,14 +109,14 @@ enum DesignElements: String, CaseIterable {
   @ViewBuilder
   var destination: some View {
     switch self {
-    case .color: EmptyView()
+    case .color: ColorsCatalog_Previews.previews
     case .shadows: PBShadow_Previews.previews
     case .typography: Typography_Previews.previews
     case .iconography: PBIcon_Previews.previews
     case .spacing: EmptyView()
     }
   }
-  
+
   var icon: FontAwesome {
     switch self {
     case .color: return .palette
