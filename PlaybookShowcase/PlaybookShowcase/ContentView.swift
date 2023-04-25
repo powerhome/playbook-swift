@@ -55,7 +55,7 @@ struct ContentView: View {
 
   @ViewBuilder
   var contentView: some View {
-    ScrollView {
+    ScrollView(showsIndicators: false) {
       VStack(alignment: .leading) {
         if selectedItem == 0 {
           Text(DesignElements.title).pbFont(.title3)
@@ -75,7 +75,6 @@ struct ContentView: View {
           }
         } else {
           Text(Componenets.title).pbFont(.title3)
-          LazyVGrid(columns: columns) {
             ForEach(Componenets.allCases, id: \.self) { element in
               NavigationLink {
                 element.destination
@@ -87,11 +86,11 @@ struct ContentView: View {
                 }
               }
             }
-          }
         }
       }
+      .padding()
     }
-    .padding()
+    .frame(maxWidth: .infinity)
   }
 }
 
