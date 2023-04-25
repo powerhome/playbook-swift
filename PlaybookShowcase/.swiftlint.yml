@@ -30,6 +30,9 @@ line_length:
   ignores_comments: true
   ignores_interpolated_strings: true
   ignores_urls: true
+  
+cyclomatic_complexity:
+  ignores_case_statements: true
 
 # or they can set both explicitly
 file_length:

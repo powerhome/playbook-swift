@@ -64,7 +64,7 @@ public struct PBRadioButtonStyle: ButtonStyle {
   private let isSelected: Bool
 
   private var borderColor: Color {
-    isSelected ? Color.pbPrimary : Color.pbBorder
+    isSelected ? .pbPrimary : .border
   }
 
   private var lineWidth: CGFloat {
@@ -83,12 +83,12 @@ public struct PBRadioButtonStyle: ButtonStyle {
         .frame(width: 22, height: 22)
       VStack(alignment: .leading, spacing: 4) {
         configuration.label
-          .foregroundColor(.pbTextDefault)
+          .foregroundColor(.text(.default))
           .pbFont(.body())
           .frame(minHeight: 22)
         if !subtitle.isEmpty {
           Text(subtitle)
-            .foregroundColor(.pbTextLight)
+            .foregroundColor(.text(.light))
             .pbFont(.subcaption)
         }
       }

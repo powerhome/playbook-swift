@@ -17,7 +17,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
   public init(
     isCollapsed: Binding<Bool> = .constant(false),
     indicatorPosition: IndicatorPosition = .leading,
-    indicatorColor: Color = .pbTextLight,
+    indicatorColor: Color = .text(.light),
     @ViewBuilder header: @escaping () -> HeaderContent,
     @ViewBuilder content: @escaping () -> Content
   ) {

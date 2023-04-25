@@ -36,13 +36,13 @@ public struct PBNavItem: View {
       if isHovering {
         return .pbPrimary
       }
-      return .pbTextDefault
+      return .text(.default)
     }
 
     if isSelected || isHovering {
       return .pbPrimary
     }
-    return .pbTextLighter
+    return .text(.lighter)
   }
 
   var captionForegroundColor: Color {
@@ -50,13 +50,13 @@ public struct PBNavItem: View {
       if isHovering {
         return .pbPrimary
       }
-      return .pbTextDefault
+      return .text(.default)
     }
 
     if isSelected || isHovering {
       return .pbPrimary
     }
-    return .pbTextDefault
+    return .text(.default)
   }
 
   var font: PBFont {

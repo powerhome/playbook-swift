@@ -59,7 +59,7 @@ public extension View {
   func pbFont(
     _ font: PBFont,
     variant: Typography.Variant = .none,
-    color: Color = .pbTextDefault
+    color: Color = .text(.default)
   ) -> some View {
     self.modifier(Typography(font: font, variant: variant, color: color))
   }

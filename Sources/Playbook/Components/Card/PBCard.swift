@@ -13,11 +13,11 @@ public enum PBCardStyle {
   var color: Color {
     switch self {
     case .default:
-      return .pbBorder
+      return .border
     case .selected:
       return .pbPrimary
     case .error:
-      return .pbError
+      return .status(.error)
     }
   }
 
@@ -49,7 +49,7 @@ public struct PBCard<Content: View>: View {
     border: Bool = true,
     borderRadius: BorderRadius = .medium,
     highlight: Highlight = .none,
-    highlightColor: Color = .pbWindows,
+    highlightColor: Color = .product(.product1, category: .highlight),
     isHovering: Bool = false,
     padding: CGFloat = .pbMedium,
     style: PBCardStyle = .default,
@@ -67,13 +67,7 @@ public struct PBCard<Content: View>: View {
     self.style = style
     self.shadow = shadow
     self.width = width
-    if Color.pbStatusColors.contains(highlightColor) ||
-      Color.pbProductColors.contains(highlightColor) ||
-      Color.pbCategoryColors.contains(highlightColor) {
-      self.highlightColor = highlightColor
-    } else {
-      self.highlightColor = .white
-    }
+    self.highlightColor = highlightColor
   }
 
   public var body: some View {
@@ -85,16 +79,17 @@ public struct PBCard<Content: View>: View {
         content
           .padding(padding)
           .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
-          .background(RoundedRectangle(cornerRadius: borderRadius.rawValue)
-            .stroke(highlightColor, lineWidth: 10)
-            .padding(
-              .init(
-                top: highlight == .top ? 0 : -10,
-                leading: highlight == .side ? 0 : -10,
-                bottom: -10,
-                trailing: -10
+          .background(
+            RoundedRectangle(cornerRadius: borderRadius.rawValue)
+              .stroke(highlightColor, lineWidth: 10)
+              .padding(
+                .init(
+                  top: highlight == .top ? 0 : -10,
+                  leading: highlight == .side ? 0 : -10,
+                  bottom: -10,
+                  trailing: -10
+                )
               )
-            )
           )
       }
     }
@@ -102,7 +97,7 @@ public struct PBCard<Content: View>: View {
     .frame(minWidth: 0, maxWidth: width, alignment: alignment)
     .background(
       RoundedRectangle(cornerRadius: borderRadius.rawValue, style: .continuous)
-        .fill(Color.pbCard.opacity(isHovering ? 0.4 : 1))
+        .fill(Color.card.opacity(isHovering ? 0.4 : 1))
         .pbShadow(shadow ?? .none)
     )
     .overlay(
@@ -169,7 +164,7 @@ public struct PBCard_Previews: PreviewProvider {
         PBCard(highlight: .side) {
           Text(text).pbFont(.body())
         }
-        PBCard(highlight: .top, highlightColor: .pbWarning) {
+        PBCard(highlight: .top, highlightColor: .status(.warning)) {
           Text(text).pbFont(.body())
         }
       }
@@ -185,7 +180,7 @@ public struct PBCard_Previews: PreviewProvider {
           Text(text).pbFont(.body()).padding(.pbSmall)
         }
         PBCard(padding: .pbNone) {
-          PBCardHeader(color: .pbSiding) {
+          PBCardHeader(color: .product(.product2, category: .highlight)) {
             Text(text).pbFont(.body()).padding(.pbSmall)
           }
           Text(text).pbFont(.body()).padding(.pbSmall)
@@ -233,7 +228,7 @@ public struct PBCard_Previews: PreviewProvider {
         }
       }
       .padding()
-      .previewDisplayName("Padding size")
+      .previewDisplayName("Padding")
 
       VStack(alignment: .leading, spacing: 8) {
         Text("Separator & Content").pbFont(.caption)
@@ -276,21 +271,24 @@ public struct PBCard_Previews: PreviewProvider {
         }
       }
       .padding()
-      .previewDisplayName("No border & border radius")
+      .previewDisplayName("Border")
 
       VStack(alignment: .leading, spacing: 0) {
         PBCard(padding: .pbNone) {
-          PBCardHeader(color: .pbWindows) {
-            Text("Andrew").foregroundColor(.pbTextLighter).pbFont(.body()).padding(.pbSmall)
+          PBCardHeader(color: .product(.product1, category: .highlight)) {
+            Text("Andrew")
+              .pbFont(.body(), color: .text(.lighter))
+              .padding(.pbSmall)
           }
-          Image("andrew", bundle: .module).resizable().frame(height: 240)
+          Image("andrew", bundle: .module)
+            .resizable()
+            .frame(height: 240)
           Text(loremIpsum).pbFont(.caption).padding(.pbSmall)
           PBSectionSeparator()
           Text("A nice guy and great dev").pbFont(.body()).padding(.pbSmall)
         }
       }
       .frame(width: 240)
-      .previewDisplayName("Image")
     }
   }
 }
