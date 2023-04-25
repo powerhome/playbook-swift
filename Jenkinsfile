@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 success = true
-defaultNode = 'xcode-14'
+defaultNode = 'xcode-14 && !i386'
 
 stage('Build number') {
   node(defaultNode) {
