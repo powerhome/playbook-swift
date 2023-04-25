@@ -52,7 +52,7 @@ struct PBStatusDialogView_Previews: PreviewProvider {
         PBStatusDialogView(
           status: status,
           title: status.rawValue.capitalized,
-          description: "Some description Some description Some description Some description Some description "
+          description: "Some description Some description Some description Some description Some description"
         )
         .frame(maxWidth: .infinity)
       }

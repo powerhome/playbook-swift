@@ -141,7 +141,7 @@ struct PBBDialog_Previews: PreviewProvider {
     let infoMessage = "This is a message for informational purposes only and requires no action."
 
     func foo() {
-      print("alal")
+      print("Hello world!")
     }
 
     return Group {
@@ -165,9 +165,8 @@ struct PBBDialog_Previews: PreviewProvider {
               .multilineTextAlignment(.leading)
 
             TextField("", text: .constant("text"))
-              .textFieldStyle(PBTextInputStyle("default"))
+              .textFieldStyle(PBTextInputStyle("Default"))
               .padding()
-
           }
           .padding()
         }))

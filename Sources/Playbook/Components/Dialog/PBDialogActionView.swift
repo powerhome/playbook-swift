@@ -37,40 +37,34 @@ struct PBDialogActionView: View {
         }
 
         PBButton(
-          variant: .link,
+          variant: (isStacked ? .secondary : .link),
           title: cancelButton.0,
           action: cancelButton.1 ?? {}
         )
-        .padding(.top, -8)
+        .padding(.top, isStacked ? -8 : 0)
       }
     }
     .frame(maxWidth: .infinity)
   }
-
-//  @ViewBuilder
-//  func stackedLabel(_ text: String) -> String {
-//    if isStacked {
-//      Text(text).frame(maxWidth: .infinity)
-//    } else {
-//      Text(text)
-//    }
-//  }
 }
 
 struct PBDialogActionView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
+
     return List {
       PBDialogActionView(
         confirmButton: ("Okay", {}),
         cancelButton: ("Cancel", {})
       )
+      .listRowSeparator(.hidden)
 
       PBDialogActionView(
         isStacked: true,
         confirmButton: ("Yes, Action", {}),
         cancelButton: ("No, Cancel", {})
       )
+      .listRowSeparator(.hidden)
 
       PBDialogActionView(
         confirmButton: ("Okay", {})
