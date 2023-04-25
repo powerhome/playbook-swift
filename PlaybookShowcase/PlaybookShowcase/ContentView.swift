@@ -15,7 +15,7 @@ struct ContentView: View {
         .imageScale(.large)
         .foregroundColor(.accentColor)
       Text("Hello, world!")
-        .pbFont(.caption, color: .pbRed)
+        .pbFont(.caption, color: .status(.error))
     }
     .padding()
   }
