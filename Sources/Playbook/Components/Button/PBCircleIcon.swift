@@ -32,14 +32,14 @@ public extension PBCircleIcon {
     var backgroundColor: Color {
       switch self {
       case .secondary:
-        return .pbPrimaryAction.opacity(0.05)
+        return .active.opacity(0.05)
       }
     }
 
     var foregroundColor: Color {
       switch self {
       case .secondary:
-        return .pbPrimaryAction
+        return .active
       }
     }
   }
@@ -52,6 +52,6 @@ struct PBCircleIcon_Previews: PreviewProvider {
     return VStack {
       PBCircleIcon(icon: PBIcon(FontAwesome.plus, size: .small), variant: .secondary)
     }
-    .background(Color.pbBackground)
+    .background(Color.background(.default))
   }
 }

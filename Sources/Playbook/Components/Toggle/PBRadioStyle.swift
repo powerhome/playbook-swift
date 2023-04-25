@@ -37,8 +37,8 @@ public struct PBRadioStyle: ToggleStyle {
             .foregroundColor(configuration.isOn
               ? (colorScheme == .light
                 ? .white
-                : .pbTextDefault)
-              : .pbBackground)
+                : .text(.default))
+              : .background(.default))
             .opacity(configuration.isOn ? 1 : 0.05)
         }
         .buttonStyle(.borderless)
@@ -51,7 +51,7 @@ public struct PBRadioStyle: ToggleStyle {
 
       if !labelsHidden {
         configuration.label
-          .foregroundColor(.pbTextLight)
+          .foregroundColor(.text(.light))
           .pbFont(.body())
       }
     }

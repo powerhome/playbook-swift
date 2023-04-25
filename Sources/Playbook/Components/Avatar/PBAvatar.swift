@@ -51,12 +51,12 @@ public struct PBAvatar: View {
       }
       .foregroundColor(.white)
       .frame(width: size.diameter, height: size.diameter)
-      .background(Color.pbNeutral)
+      .background(Color.status(.neutral))
       .clipShape(Circle())
 
       if wrapped {
         Circle()
-          .strokeBorder(Color.pbBackground, lineWidth: 1)
+          .strokeBorder(Color.background(.default), lineWidth: 1)
           .frame(width: size.diameter + 1, height: size.diameter + 1)
       }
 
@@ -64,7 +64,7 @@ public struct PBAvatar: View {
         Circle()
           .foregroundColor(statusColor)
           .overlay(
-            Circle().stroke(Color.pbBackground, lineWidth: 2)
+            Circle().stroke(Color.background(.default), lineWidth: 2)
           )
           .frame(width: 10.0, height: 10.0)
           .offset(
@@ -115,9 +115,9 @@ public extension PBAvatar {
 
     var color: Color {
       switch self {
-      case .online: return .pbSuccess
-      case .away: return .pbWarning
-      case .offline: return .pbNeutral
+      case .online: return .status(.success)
+      case .away: return .status(.warning)
+      case .offline: return .status(.neutral)
       }
     }
   }
