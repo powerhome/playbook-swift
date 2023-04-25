@@ -15,9 +15,7 @@ public struct PBDialog<Content: View>: View {
   let variant: PBDialog.Variant
   let isStacked: Bool
   let cancelButton: (String, (() -> Void)?)?
-  let cancelButtonStyle: PBButtonStyle
   let confirmButton: (String, (() -> Void))?
-  let confirmButtonStyle: PBButtonStyle
   let onClose: (() -> Void)?
   let size: Size
   let shouldCloseOnOverlay: Bool
@@ -28,9 +26,7 @@ public struct PBDialog<Content: View>: View {
     variant: PBDialog.Variant = .default,
     isStacked: Bool = false,
     cancelButton: (String, (() -> Void)?)? = nil,
-    cancelButtonStyle: PBButtonStyle = PBButtonStyle(variant: .link),
     confirmButton: (String, (() -> Void))? = nil,
-    confirmButtonStyle: PBButtonStyle = PBButtonStyle(variant: .primary),
     onClose: (() -> Void)? = nil,
     size: Size = .medium,
     shouldCloseOnOverlay: Bool = true,
@@ -42,9 +38,7 @@ public struct PBDialog<Content: View>: View {
     self.variant = variant
     self.isStacked = isStacked
     self.cancelButton = cancelButton
-    self.cancelButtonStyle = cancelButtonStyle
     self.confirmButton = confirmButton
-    self.confirmButtonStyle = confirmButtonStyle
     self.onClose = onClose
     self.size = size
     self.shouldCloseOnOverlay = shouldCloseOnOverlay
@@ -91,9 +85,7 @@ public struct PBDialog<Content: View>: View {
         PBDialogActionView(
           isStacked: isStacked,
           confirmButton: confirmButton,
-          confirmButtonStyle: confirmButtonStyle,
-          cancelButton: cancelButtonAction(),
-          cancelButtonStyle: cancelButtonStyle
+          cancelButton: cancelButtonAction()
         )
         .padding()
       }
@@ -203,7 +195,6 @@ struct PBBDialog_Previews: PreviewProvider {
               variant: .status(.success),
               isStacked: true,
               cancelButton: ("Cancel", foo),
-              cancelButtonStyle: PBButtonStyle(variant: .secondary),
               confirmButton: ("Okay", foo),
               size: .small
             )
@@ -228,7 +219,6 @@ struct PBBDialog_Previews: PreviewProvider {
             variant: .status(.caution),
             isStacked: false,
             cancelButton: ("Cancel", foo),
-            cancelButtonStyle: PBButtonStyle(variant: .secondary),
             confirmButton: ("Okay", foo),
             size: .small
           )
@@ -246,7 +236,6 @@ struct PBBDialog_Previews: PreviewProvider {
             variant: .status(status),
             isStacked: false,
             cancelButton: ("Cancel", foo),
-            cancelButtonStyle: PBButtonStyle(variant: .secondary),
             confirmButton: ("Okay", foo),
             size: .statusSize
           )

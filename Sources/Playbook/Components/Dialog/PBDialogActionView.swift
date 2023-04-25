@@ -10,59 +10,51 @@ import SwiftUI
 struct PBDialogActionView: View {
   let isStacked: Bool
   let confirmButton: (String, (() -> Void))?
-  let confirmButtonStyle: PBButtonStyle
   let cancelButton: (String, (() -> Void)?)?
-  let cancelButtonStyle: PBButtonStyle
 
   public init(
     isStacked: Bool = false,
     confirmButton: (String, (() -> Void))? = nil,
-    confirmButtonStyle: PBButtonStyle = PBButtonStyle(variant: .primary),
-    cancelButton: (String, (() -> Void)?)? = nil,
-    cancelButtonStyle: PBButtonStyle = PBButtonStyle(variant: .link)
+    cancelButton: (String, (() -> Void)?)? = nil
   ) {
     self.isStacked = isStacked
     self.confirmButton = confirmButton
-    self.confirmButtonStyle = confirmButtonStyle
     self.cancelButton = cancelButton
-    self.cancelButtonStyle = cancelButtonStyle
   }
 
   var body: some View {
     AdaptiveStack(isStacked: isStacked) {
       if let confirmButton = confirmButton {
-        Button {
-          confirmButton.1()
-        } label: {
-          stackedLabel(confirmButton.0)
-        }
-        .buttonStyle(confirmButtonStyle)
+        PBButton(
+          title: confirmButton.0,
+          action: confirmButton.1
+        )
       }
 
       if let cancelButton = cancelButton {
         if !isStacked {
           Spacer()
         }
-        Button {
-          (cancelButton.1 ?? {})()
-        } label: {
-          stackedLabel(cancelButton.0)
-        }
-        .buttonStyle(cancelButtonStyle)
+
+        PBButton(
+          variant: .link,
+          title: cancelButton.0,
+          action: cancelButton.1 ?? {}
+        )
         .padding(.top, -8)
       }
     }
     .frame(maxWidth: .infinity)
   }
 
-  @ViewBuilder
-  func stackedLabel(_ text: String) -> some View {
-    if isStacked {
-      Text(text).frame(maxWidth: .infinity)
-    } else {
-      Text(text)
-    }
-  }
+//  @ViewBuilder
+//  func stackedLabel(_ text: String) -> String {
+//    if isStacked {
+//      Text(text).frame(maxWidth: .infinity)
+//    } else {
+//      Text(text)
+//    }
+//  }
 }
 
 struct PBDialogActionView_Previews: PreviewProvider {
@@ -71,22 +63,17 @@ struct PBDialogActionView_Previews: PreviewProvider {
     return List {
       PBDialogActionView(
         confirmButton: ("Okay", {}),
-        confirmButtonStyle: PBButtonStyle(variant: .primary),
-        cancelButton: ("Cancel", {}),
-        cancelButtonStyle: PBButtonStyle(variant: .link)
+        cancelButton: ("Cancel", {})
       )
 
       PBDialogActionView(
         isStacked: true,
         confirmButton: ("Yes, Action", {}),
-        confirmButtonStyle: PBButtonStyle(variant: .primary),
-        cancelButton: ("No, Cancel", {}),
-        cancelButtonStyle: PBButtonStyle(variant: .secondary)
+        cancelButton: ("No, Cancel", {})
       )
 
       PBDialogActionView(
-        confirmButton: ("Okay", {}),
-        confirmButtonStyle: PBButtonStyle(variant: .primary)
+        confirmButton: ("Okay", {})
       )
     }
   }
