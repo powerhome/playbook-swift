@@ -11,15 +11,18 @@ struct PBDialogActionView: View {
   let isStacked: Bool
   let confirmButton: (String, (() -> Void))?
   let cancelButton: (String, (() -> Void)?)?
+  let variant: DialogVariant?
 
   public init(
     isStacked: Bool = false,
     confirmButton: (String, (() -> Void))? = nil,
-    cancelButton: (String, (() -> Void)?)? = nil
+    cancelButton: (String, (() -> Void)?)? = nil,
+    variant: DialogVariant? = nil
   ) {
     self.isStacked = isStacked
     self.confirmButton = confirmButton
     self.cancelButton = cancelButton
+    self.variant = variant
   }
 
   var body: some View {
@@ -37,7 +40,7 @@ struct PBDialogActionView: View {
         }
 
         PBButton(
-          variant: (isStacked ? .secondary : .link),
+          variant: (isStacked || variant != .default ? .secondary : .link),
           title: cancelButton.0,
           action: cancelButton.1 ?? {}
         )

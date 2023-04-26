@@ -12,7 +12,7 @@ public struct PBDialog<Content: View>: View {
   let content: Content?
   let title: String?
   let message: String?
-  let variant: PBDialog.Variant
+  let variant: DialogVariant
   let isStacked: Bool
   let cancelButton: (String, (() -> Void)?)?
   let confirmButton: (String, (() -> Void))?
@@ -23,7 +23,7 @@ public struct PBDialog<Content: View>: View {
   public init(
     title: String? = nil,
     message: String? = nil,
-    variant: PBDialog.Variant = .default,
+    variant: DialogVariant = .default,
     isStacked: Bool = false,
     cancelButton: (String, (() -> Void)?)? = nil,
     confirmButton: (String, (() -> Void))? = nil,
@@ -85,7 +85,8 @@ public struct PBDialog<Content: View>: View {
         PBDialogActionView(
           isStacked: isStacked,
           confirmButton: confirmButton,
-          cancelButton: cancelButtonAction()
+          cancelButton: cancelButtonAction(),
+          variant: variant
         )
         .padding()
       }
@@ -127,11 +128,11 @@ public extension PBDialog {
       }
     }
   }
+}
 
-  enum Variant {
-    case `default`
-    case status(_ status: DialogStatus)
-  }
+public enum DialogVariant: Equatable {
+  case `default`
+  case status(_ status: DialogStatus)
 }
 
 struct PBBDialog_Previews: PreviewProvider {
