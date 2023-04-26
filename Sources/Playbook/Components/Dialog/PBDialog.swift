@@ -156,12 +156,12 @@ struct PBBDialog_Previews: PreviewProvider {
       .previewDisplayName("Simple")
 
       PBDialog(
-        title: "Header header",
+        title: "Header",
         cancelButton: ("Back", foo),
         confirmButton: ("Send My Issue", foo),
         content: ({
           ScrollView {
-            Text("Hello Complex Dialog!\nAnything can be placed here")
+            Text("Hello Complex Dialog!\nAnything can be placed here.")
               .pbFont(.title2)
               .multilineTextAlignment(.leading)
 
@@ -187,7 +187,7 @@ struct PBBDialog_Previews: PreviewProvider {
       .previewDisplayName("Size")
 
       List {
-        Section("stacked") {
+        Section("Stacked") {
           ScrollView(showsIndicators: false) {
             PBDialog(
               title: "Success!",
