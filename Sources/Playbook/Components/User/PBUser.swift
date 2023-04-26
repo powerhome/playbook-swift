@@ -59,24 +59,28 @@ public struct PBUser: View {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
-        VStack(alignment: .leading, spacing: 4, content: {
+
+        VStack(alignment: .leading, spacing: size == .large ? 8 : 6) {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
           bodyText.pbFont(.body())
             .foregroundColor(.text(.light))
-        })
+        }
       }
     } else {
-      VStack {
+      VStack(spacing: 8) {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
-        Text(name)
-          .font(titleStyle.font)
-          .foregroundColor(.text(.default))
-        bodyText.pbFont(.body())
-          .foregroundColor(.text(.light))
+
+        VStack(alignment: displayAvatar ? .center : .leading, spacing: 8) {
+          Text(name)
+            .font(titleStyle.font)
+            .foregroundColor(.text(.default))
+          bodyText.pbFont(.body())
+            .foregroundColor(.text(.light))
+        }
       }
     }
   }
@@ -92,7 +96,7 @@ public extension PBUser {
       switch self {
       case .small: return .small
       case .medium: return .medium
-      case .large: return .xLarge
+      case .large: return .large
       }
     }
   }
@@ -102,28 +106,19 @@ struct PBUser_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
     let img = Image("andrew", bundle: .module)
-    let name = "Andrew Kloecker"
+    let name = "Andrew K"
     let title = "Rebels Developer"
 
     return Group {
-      VStack(alignment: .leading, spacing: 20, content: {
-        Text("Horizontal Presentation")
-        Divider()
+      VStack(alignment: .leading, spacing: 20) {
         PBUser(
           name: name,
           image: img,
-          size: .large,
           territory: "PHL",
           title: title
         )
         PBUser(
           name: name,
-          image: img,
-          size: .medium
-        )
-        PBUser(
-          name: name,
-          size: .medium,
           territory: "PHL",
           title: title
         )
@@ -135,15 +130,14 @@ struct PBUser_Previews: PreviewProvider {
         )
         PBUser(
           name: name,
-          displayAvatar: false,
-          size: .small,
-          title: title
+          image: img,
+          size: .small
         )
-      }).padding(.horizontal, 20)
+      }
+      .padding(.horizontal, 20)
+      .previewDisplayName("Horizontal")
 
       VStack(alignment: .center, spacing: 20) {
-        Text("Vertical Presentation")
-        Divider()
         PBUser(
           name: name,
           image: img,
@@ -154,33 +148,57 @@ struct PBUser_Previews: PreviewProvider {
         )
         PBUser(
           name: name,
-          image: img,
           orientation: .vertical,
-          size: .medium
-        )
-        PBUser(
-          name: name,
-          orientation: .vertical,
-          size: .medium,
+          size: .large,
           territory: "PHL",
-          title: title
-        )
-        PBUser(
-          name: name,
-          image: img,
-          orientation: .vertical,
-          size: .small,
-          title: title
-        )
-        PBUser(
-          name: name,
-          displayAvatar: false,
-          orientation: .vertical,
-          size: .small,
           title: title
         )
       }
       .padding(.horizontal, 20)
+      .previewDisplayName("Vertical")
+
+      VStack(alignment: .center, spacing: 20) {
+        PBUser(
+          name: name,
+          displayAvatar: false,
+          size: .large,
+          territory: "PHL",
+          title: title
+        )
+        PBUser(
+          name: name,
+          displayAvatar: false,
+          territory: "PHL",
+          title: title
+        )
+      }
+      .padding(.horizontal, 20)
+      .previewDisplayName("Text Only")
+
+      VStack(alignment: .center, spacing: 20) {
+        PBUser(
+          name: name,
+          image: img,
+          size: .small,
+          territory: "PHL",
+          title: title
+        )
+        PBUser(
+          name: name,
+          image: img,
+          territory: "PHL",
+          title: title
+        )
+        PBUser(
+          name: name,
+          image: img,
+          size: .large,
+          territory: "PHL",
+          title: title
+        )
+      }
+      .padding(.horizontal, 20)
+      .previewDisplayName("Horizontal Sizes")
     }
   }
 }
