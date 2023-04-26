@@ -39,18 +39,13 @@ public struct PBButton: View {
       action?()
     } label: {
       HStack {
-        if let icon, iconPosition == .left {
-          icon
-        }
+        icon
 
         if let title = title, shape == .primary {
           Text(title)
         }
-
-        if let icon, iconPosition == .right {
-          icon
-        }
       }
+      .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
     }
     .customButtonStyle(
       variant: variant,
