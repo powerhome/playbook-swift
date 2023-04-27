@@ -41,7 +41,8 @@ public struct PBCircleButtonStyle: ButtonStyle {
       )
       .clipShape(Circle())
     #if os(macOS)
-      .onHover(disabled: variant == .disabled ? true : false) { self.isHovering = $0
+      .onHover(disabled: variant == .disabled ? true : false) {
+        self.isHovering = $0
       }
     #endif
   }
