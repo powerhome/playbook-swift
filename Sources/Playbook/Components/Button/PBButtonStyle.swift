@@ -13,6 +13,15 @@ public struct PBButtonStyle: ButtonStyle {
   var size: PBButtonSize
   @State private var isHovering = false
 
+  public init(
+    variant: PBButtonVariant,
+    shape: PBButtonShape,
+    size: PBButtonSize) {
+      self.variant = variant
+      self.shape = shape
+      self.size = size
+    }
+
   public func makeBody(configuration: Configuration) -> some View {
     let isPressed = configuration.isPressed
     let isPrimaryVariant = variant == .primary
