@@ -1,5 +1,5 @@
 //
-//  PBButtonStyle.swift
+//  PBCircleButtonStyle.swift
 //
 //
 //  Created by Gavin Huang on 4/11/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct PBButtonStyle: ButtonStyle {
+public struct PBCircleButtonStyle: ButtonStyle {
   var variant: PBButtonVariant
   var shape: PBButtonShape
   var size: PBButtonSize
@@ -18,9 +18,7 @@ public struct PBButtonStyle: ButtonStyle {
     let isPrimaryVariant = variant == .primary
 
     configuration.label
-      .padding(.vertical, size.verticalPadding())
-      .padding(.horizontal, size.horizontalPadding())
-      .frame(minWidth: 0, minHeight: size.minHeight())
+      .frame(minWidth: 40, minHeight: 40)
       .background(
         variant
           .backgroundAnimation(
@@ -41,41 +39,44 @@ public struct PBButtonStyle: ButtonStyle {
           isHovering: isHovering
         )
       )
-      .cornerRadius(5)
+      .clipShape(Circle())
     #if os(macOS)
       .onHover(disabled: variant == .disabled ? true : false) {
         self.isHovering = $0
       }
     #endif
-      .pbFont(.buttonText(size.fontSize))
   }
 }
 
 @available(macOS 13.0, *)
-public struct PBButtonStyle_Previews: PreviewProvider {
-  public static var previews: some View {
+struct PBCircleStyle_Previews: PreviewProvider {
+  static var previews: some View {
     registerFonts()
 
-    return VStack(alignment: .leading) {
+    return HStack {
       PBButton(
-        title: "Button Primary",
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.plus, size: .x1),
         action: {}
       )
       PBButton(
         variant: .secondary,
-        title: "Button Secondary",
-        action: {})
-      PBButton(
-        variant: .link,
-        title: "Button Link",
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.pen, size: .x1),
         action: {}
       )
       PBButton(
         variant: .disabled,
-        title: "Button Disabled"
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.times, size: .x1)
+      )
+      PBButton(
+        variant: .link,
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.user, size: .x1),
+        action: {}
       )
     }
-    .listRowSeparator(.hidden)
-    .previewDisplayName("Button Variants")
+    .previewDisplayName("Circle Button Variants")
   }
 }

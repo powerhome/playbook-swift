@@ -30,19 +30,19 @@ struct PBStatusDialogView: View {
   }
 }
 
-  public enum DialogStatus: String, CaseIterable {
-    case `default`, caution, delete, information, error, success
-    var icon: (PlaybookGenericIcon, Color) {
-      switch self {
-      case .default: return (FontAwesome.exclamationCircle, .status(.neutral))
-      case .caution: return (FontAwesome.exclamationTriangle, .status(.warning))
-      case .delete: return (FontAwesome.trashAlt, .status(.error))
-      case .information: return (FontAwesome.infoCircle, .status(.neutral))
-      case .error: return (FontAwesome.timesCircle, .status(.error))
-      case .success: return (FontAwesome.checkCircle, .status(.success))
-      }
+public enum DialogStatus: String, CaseIterable {
+  case `default`, caution, delete, information, error, success
+  var icon: (PlaybookGenericIcon, Color) {
+    switch self {
+    case .default: return (FontAwesome.exclamationCircle, .status(.neutral))
+    case .caution: return (FontAwesome.exclamationTriangle, .status(.warning))
+    case .delete: return (FontAwesome.trashAlt, .status(.error))
+    case .information: return (FontAwesome.infoCircle, .status(.neutral))
+    case .error: return (FontAwesome.timesCircle, .status(.error))
+    case .success: return (FontAwesome.checkCircle, .status(.success))
     }
   }
+}
 
 struct PBStatusDialogView_Previews: PreviewProvider {
   static var previews: some View {
@@ -52,7 +52,7 @@ struct PBStatusDialogView_Previews: PreviewProvider {
         PBStatusDialogView(
           status: status,
           title: status.rawValue.capitalized,
-          description: "Some description Some description Some description Some description Some description "
+          description: "Some description Some description Some description Some description Some description"
         )
         .frame(maxWidth: .infinity)
       }
