@@ -74,7 +74,7 @@ public struct PBUser: View {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
 
-        VStack(alignment: displayAvatar ? .center : .leading, spacing: 8) {
+        VStack(alignment: displayAvatar ? .center : .leading, spacing: 4) {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
@@ -142,15 +142,20 @@ struct PBUser_Previews: PreviewProvider {
           name: name,
           image: img,
           orientation: .vertical,
-          size: .large,
-          territory: "PHL",
+          size: .small,
           title: title
         )
         PBUser(
           name: name,
+          image: img,
+          orientation: .vertical,
+          title: title
+        )
+        PBUser(
+          name: name,
+          image: img,
           orientation: .vertical,
           size: .large,
-          territory: "PHL",
           title: title
         )
       }
