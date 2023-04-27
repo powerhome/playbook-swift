@@ -43,10 +43,10 @@ struct PBMultipleUsersStacked_Previews: PreviewProvider {
     let twoUsers = [andrew, picAndrew]
     let multipleUsers = [andrew, picAndrew, andrew, andrew]
 
-    return VStack {
+    return VStack(spacing: 15) {
       PBMultipleUsersStacked(users: oneUser)
-      PBMultipleUsersStacked(users: twoUsers).padding(4)
-      PBMultipleUsersStacked(users: multipleUsers).padding(4)
+      PBMultipleUsersStacked(users: twoUsers)
+      PBMultipleUsersStacked(users: multipleUsers)
     }
   }
 }
