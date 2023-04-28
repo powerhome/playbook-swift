@@ -64,9 +64,9 @@ public struct PBAvatar: View {
         Circle()
           .foregroundColor(statusColor)
           .overlay(
-            Circle().stroke(Color.background(.default), lineWidth: 2)
+            Circle().stroke(Color.text(.white), lineWidth: 2)
           )
-          .frame(width: 10.0, height: 10.0)
+          .frame(width: 8.0, height: 8.0)
           .offset(
             x: size.diameter/2 - size.diameter/9,
             y: (size.diameter/2 - size.diameter/6) * size.statusYModifier
