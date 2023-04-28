@@ -1,6 +1,6 @@
 //
 //  Button+Style.swift
-//  
+//
 //
 //  Created by Gavin Huang on 4/26/23.
 //
@@ -19,7 +19,6 @@ extension Button {
       self.buttonStyle(
         PBButtonStyle(
           variant: variant,
-          shape: shape,
           size: size
         )
       )
@@ -27,7 +26,6 @@ extension Button {
       self.buttonStyle(
         PBCircleButtonStyle(
           variant: variant,
-          shape: shape,
           size: size
         )
       )
