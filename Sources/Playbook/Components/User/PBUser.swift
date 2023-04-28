@@ -64,8 +64,7 @@ public struct PBUser: View {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
-          bodyText.pbFont(.body())
-            .foregroundColor(.text(.light))
+          bodyText.pbFont(.body(), color: .text(.light))
         }
       }
     } else {
@@ -74,12 +73,11 @@ public struct PBUser: View {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
 
-        VStack(alignment: displayAvatar ? .center : .leading, spacing: 4) {
+        VStack(alignment: displayAvatar ? .center : .leading, spacing: 6) {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
-          bodyText.pbFont(.body())
-            .foregroundColor(.text(.light))
+          bodyText.pbFont(.body(), color: .text(.light))
         }
       }
     }

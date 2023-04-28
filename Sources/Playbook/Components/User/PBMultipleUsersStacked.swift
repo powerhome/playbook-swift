@@ -19,12 +19,12 @@ public struct PBMultipleUsersStacked: View {
       PBAvatar(image: users[0].image, name: users[0].name, size: .xSmall)
     } else if users.count >= 2 {
       ZStack {
-        PBAvatar(image: users[0].image, name: users[0].name, size: .xxSmall)
+        PBAvatar(image: users[0].image, name: users[0].name, size: .multipleUsersStacked)
         if users.count == 2 {
-          PBAvatar(image: users[1].image, name: users[1].name, size: .xxSmall, wrapped: true)
+          PBAvatar(image: users[1].image, name: users[1].name, size: .multipleUsersStacked, wrapped: true)
             .offset(x: 10, y: 10)
         } else {
-          PBMultipleUsersIndicator(usersCount: users.count - 1, size: .xxSmall)
+          PBMultipleUsersIndicator(usersCount: users.count - 1, size: .multipleUsersStacked)
             .offset(x: 10, y: 10)
         }
       }
