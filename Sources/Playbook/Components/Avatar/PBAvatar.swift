@@ -68,7 +68,7 @@ public struct PBAvatar: View {
           )
           .frame(width: 8.0, height: 8.0)
           .offset(
-            x: size.diameter/2 - size.diameter/9,
+            x: (size.diameter/2 - size.diameter/9) * size.statusXModifier,
             y: (size.diameter/2 - size.diameter/6) * size.statusYModifier
           )
       }
@@ -100,9 +100,17 @@ public extension PBAvatar {
       return diameter * 0.38
     }
 
+    var statusXModifier: CGFloat {
+      switch self {
+      case .large, .xLarge: return 1.12
+      default: return 1
+      }
+    }
+
     var statusYModifier: CGFloat {
       switch self {
       case .xxSmall, .xSmall, .small: return -1
+      case .large, .xLarge: return 0.78
       default: return 1
       }
     }
