@@ -47,7 +47,7 @@ public struct PBDialog<Content: View>: View {
   public var body: some View {
     dialogView()
       .frame(maxWidth: size.width)
-      .padding(EdgeInsets(top: 0, leading: size.padding, bottom: 0, trailing: size.padding))
+      .padding(0)
       .onTapGesture {
         if shouldCloseOnOverlay {
           if let onClose = onClose {
