@@ -14,10 +14,8 @@ public struct PBButtonStyle: ButtonStyle {
 
   public init(
     variant: PBButtonVariant,
-    shape: PBButtonShape,
     size: PBButtonSize) {
       self.variant = variant
-      self.shape = shape
       self.size = size
     }
 
