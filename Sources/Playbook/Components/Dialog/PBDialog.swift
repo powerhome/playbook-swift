@@ -17,7 +17,7 @@ public struct PBDialog<Content: View>: View {
   let cancelButton: (String, (() -> Void)?)?
   let confirmButton: (String, (() -> Void))?
   let onClose: (() -> Void)?
-  let size: Size
+  let size: DialogSize
   let shouldCloseOnOverlay: Bool
 
   public init(
@@ -28,7 +28,7 @@ public struct PBDialog<Content: View>: View {
     cancelButton: (String, (() -> Void)?)? = nil,
     confirmButton: (String, (() -> Void))? = nil,
     onClose: (() -> Void)? = nil,
-    size: Size = .medium,
+    size: DialogSize = .medium,
     shouldCloseOnOverlay: Bool = true,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
@@ -46,8 +46,8 @@ public struct PBDialog<Content: View>: View {
 
   public var body: some View {
     dialogView()
-      .frame(maxWidth: size.width)
-      .padding(0)
+      .frame(maxWidth: variant.width(size))
+      .padding(padding)
       .onTapGesture {
         if shouldCloseOnOverlay {
           if let onClose = onClose {
@@ -78,7 +78,6 @@ public struct PBDialog<Content: View>: View {
 
       case .status(let status):
         PBStatusDialogView(status: status, title: title ?? "", description: message ?? "")
-          .frame(maxWidth: Size.medium.width)
       }
 
       if let confirmButton = confirmButton {
@@ -91,6 +90,7 @@ public struct PBDialog<Content: View>: View {
         .padding()
       }
     }
+    .frame(width: variant.width(size))
   }
 
   func cancelButtonAction() -> (String, (() -> Void))? {
@@ -105,34 +105,47 @@ public struct PBDialog<Content: View>: View {
     }
   }
 
+  var padding: EdgeInsets {
+  #if os(macOS)
+    return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+  #elseif os(iOS)
+    return EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
+  #endif
+  }
+
   func dismissDialog() {
     presentationMode.wrappedValue.dismiss()
   }
 }
 
-public extension PBDialog {
-  enum Size: String, CaseIterable {
-    case small
-    case medium
-    case large
-    case statusSize
+public enum DialogSize: String, CaseIterable {
+  case small
+  case medium
+  case large
 
-    var padding: CGFloat { 24 }
-
-    var width: CGFloat {
-      switch self {
-      case .small: return 300
-      case .medium: return 500
-      case .large: return 800
-      case .statusSize: return 375
-      }
+  var width: CGFloat {
+    #if os(macOS)
+    switch self {
+    case .small: return 300
+    case .medium: return 500
+    case .large: return 800
     }
+    #elseif os(iOS)
+    return 300
+    #endif
   }
 }
 
 public enum DialogVariant: Equatable {
   case `default`
   case status(_ status: DialogStatus)
+
+  public func width(_ size: DialogSize) -> CGFloat {
+    switch self {
+    case .default: return size.width
+    default: return 375
+    }
+  }
 }
 
 struct PBBDialog_Previews: PreviewProvider {
@@ -174,7 +187,7 @@ struct PBBDialog_Previews: PreviewProvider {
       .backgroundViewModifier(alpha: 0.2)
       .previewDisplayName("Complex")
 
-      List(PBDialog<EmptyView>.Size.allCases, id: \.self) { size in
+      List(DialogSize.allCases, id: \.self) { size in
         PBDialog(
           title: "\(size.rawValue.capitalized) Dialog",
           message: infoMessage,
@@ -236,8 +249,7 @@ struct PBBDialog_Previews: PreviewProvider {
             variant: .status(status),
             isStacked: false,
             cancelButton: ("Cancel", foo),
-            confirmButton: ("Okay", foo),
-            size: .statusSize
+            confirmButton: ("Okay", foo)
           )
           .frame(maxWidth: .infinity)
           .backgroundViewModifier(alpha: 0.2)
