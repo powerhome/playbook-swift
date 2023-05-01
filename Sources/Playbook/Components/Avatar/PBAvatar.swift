@@ -102,16 +102,23 @@ public extension PBAvatar {
 
     var statusXModifier: CGFloat {
       switch self {
-      case .large, .xLarge: return 1.12
-      default: return 1
+      case .xxSmall: return 1.3
+      case .xSmall: return 1.2
+      case .small: return 0.95
+      case .medium: return 1.05
+      case .large: return 1.12
+      case .xLarge: return 1.16
       }
     }
 
     var statusYModifier: CGFloat {
       switch self {
-      case .xxSmall, .xSmall, .small: return -1
-      case .large, .xLarge: return 0.78
-      default: return 1
+      case .xxSmall: return -0.8
+      case .xSmall: return -1
+      case .small: return -1.1
+      case .medium: return 1
+      case .large: return 0.78
+      case .xLarge: return 0.68
       }
     }
   }
