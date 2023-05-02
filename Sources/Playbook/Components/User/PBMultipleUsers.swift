@@ -9,13 +9,13 @@ import SwiftUI
 
 public struct PBMultipleUsers: View {
   var users: [PBUser]
-  var size: Size
+  var size: AvatarSize
   var reversed: Bool
   var maxDisplayedUsers: Int
 
   public init(
     users: [PBUser],
-    size: Size = .small,
+    size: AvatarSize = .small,
     reversed: Bool = false,
     maxDisplayedUsers: Int = 4
   ) {
@@ -69,7 +69,7 @@ public struct PBMultipleUsers: View {
 }
 
 public extension PBMultipleUsers {
-  enum Size {
+  enum AvatarSize {
     case xSmall
     case small
 
