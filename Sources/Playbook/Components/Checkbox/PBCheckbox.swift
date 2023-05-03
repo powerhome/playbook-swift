@@ -7,60 +7,25 @@
 
 import SwiftUI
 
-public struct PBCheckboxButtonStyle: ButtonStyle {
-  let isSelected: Bool
+public struct PBCheckbox: View {
+  @State var isChecked: Bool
 
-  // MARK: - Computed properties
-
-  private var borderColor: Color {
-    isSelected ? .pbPrimary : .border
-  }
-
-  var backgroundColor: Color {
-    isSelected ? Color.pbPrimary : Color.clear
-  }
-
-  // MARK: -
-
-  public init(isSelected: Bool) {
-    self.isSelected = isSelected
-  }
-
-  // MARK: -
-
-  public func makeBody(configuration: Configuration) -> some View {
-    HStack(alignment: .top) {
-      ZStack {
-        RoundedRectangle(cornerRadius: 4)
-          .strokeBorder(borderColor, lineWidth: 2)
-          .background(backgroundColor)
-          .clipShape(RoundedRectangle(cornerRadius: 4))
-          .frame(width: 22, height: 22)
-        PBIcon.fontAwesome(.check, size: .small)
-          .foregroundColor(Color.white)
+  public var body: some View {
+    VStack {
+      Toggle(isOn: $isChecked) {
+        Text("Test")
       }
-
-      VStack(alignment: .leading, spacing: 4) {
-        configuration.label
-          .foregroundColor(.text(.default))
-          .pbFont(.body())
-          .frame(minHeight: 22)
-      }
+      .toggleStyle(PBCheckboxToggleStyle())
     }
-    .frame(minWidth: 44, minHeight: 44)
-    .contentShape(Rectangle())
   }
 }
 
 struct PBCheckbox_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-    return VStack {
-      Button("Checkbox example") {}
-        .buttonStyle(PBCheckboxButtonStyle(isSelected: false))
 
-      Button("Marked example") {}
-        .buttonStyle(PBCheckboxButtonStyle(isSelected: true))
+    return VStack {
+      PBCheckbox(isChecked: false)
     }
   }
 }
