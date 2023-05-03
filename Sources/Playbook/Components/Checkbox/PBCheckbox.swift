@@ -26,20 +26,18 @@ public struct PBCheckbox: View {
   }
 
   public var body: some View {
-    HStack {
-      Toggle(isOn: $isChecked) {
-        if let title = title {
-          Text(title)
-        }
+    Toggle(isOn: $isChecked) {
+      if let title = title {
+        Text(title)
       }
-      .toggleStyle(
-        PBCheckboxToggleStyle(
-          isChecked: isChecked,
-          error: error,
-          action: action
-        )
-      )
     }
+    .toggleStyle(
+      PBCheckboxToggleStyle(
+        isChecked: isChecked,
+        error: error,
+        action: action
+      )
+    )
   }
 }
 
