@@ -44,9 +44,8 @@ public struct PBCheckboxToggleStyle: ToggleStyle {
       configuration.label
         .foregroundColor(error ? .status(.error) : .text(.default))
         .pbFont(.body())
-        .frame(minHeight: 22)
     }
-    .frame(minWidth: 44, minHeight: 44)
+    .frame(minHeight: 22)
     .contentShape(Rectangle())
     .onTapGesture {
       configuration.isOn.toggle()
