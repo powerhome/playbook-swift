@@ -7,51 +7,49 @@
 
 import SwiftUI
 
-struct PBCheckboxToggleStyle: ToggleStyle {
-  func makeBody(configuration: Configuration) -> some View {
-    Button {
-      configuration.isOn.toggle()
-    } label: {
-      HStack {
-        Image(systemName: configuration.isOn ? "checkmark.square" : "square")
+public struct PBCheckboxToggleStyle: ToggleStyle {
+  var isChecked: Bool
+  var error: Bool
+  let action: (() -> Void)?
 
-        configuration.label
+  public func makeBody(configuration: Configuration) -> some View {
+    var borderColor: Color {
+      if isChecked {
+        return .pbPrimary
+      } else if error {
+        return .status(.error)
+      } else {
+        return .border
       }
+    }
+
+    var backgroundColor: Color {
+      isChecked ? .pbPrimary : .clear
+    }
+
+    HStack {
+      ZStack {
+        RoundedRectangle(cornerRadius: 4)
+          .strokeBorder(borderColor, lineWidth: 2)
+          .background(backgroundColor)
+          .clipShape(RoundedRectangle(cornerRadius: 4))
+          .frame(width: 22, height: 22)
+
+        if isChecked {
+          PBIcon.fontAwesome(.check, size: .small)
+            .foregroundColor(.white)
+        }
+      }
+
+      configuration.label
+        .foregroundColor(error ? .status(.error) : .text(.default))
+        .pbFont(.body())
+        .frame(minHeight: 22)
+    }
+    .frame(minWidth: 44, minHeight: 44)
+    .contentShape(Rectangle())
+    .onTapGesture {
+      configuration.isOn.toggle()
     }
   }
 }
-
-//public struct PBCheckboxStyle: ButtonStyle {
-//  @State private var isChecked = false
-//
-//  private var borderColor: Color {
-//    isChecked ? .pbPrimary : .border
-//  }
-//
-//  var backgroundColor: Color {
-//    isChecked ? Color.pbPrimary : Color.clear
-//  }
-//
-//  public func makeBody(configuration: Configuration) -> some View {
-//    HStack(alignment: .top) {
-//      ZStack {
-//        RoundedRectangle(cornerRadius: 4)
-//          .strokeBorder(borderColor, lineWidth: 2)
-//          .background(backgroundColor)
-//          .clipShape(RoundedRectangle(cornerRadius: 4))
-//          .frame(width: 22, height: 22)
-//        PBIcon.fontAwesome(.check, size: .small)
-//          .foregroundColor(Color.white)
-//      }
-//
-//      VStack(alignment: .leading, spacing: 4) {
-//        configuration.label
-//          .foregroundColor(.text(.default))
-//          .pbFont(.body())
-//          .frame(minHeight: 22)
-//      }
-//    }
-//    .frame(minWidth: 44, minHeight: 44)
-//    .contentShape(Rectangle())
-//  }
-//}
