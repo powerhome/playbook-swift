@@ -52,8 +52,18 @@ struct PBCheckbox_Previews: PreviewProvider {
     return VStack {
       PBCheckbox(checked: false, text: "Unchecked", action: {})
       PBCheckbox(checked: true, text: "Checked", action: {})
-      PBCheckbox(checked: false, checkboxType: .error, text: "Error", action: {})
-      PBCheckbox(checked: true, checkboxType: .indeterminate, text: "Indeterminate", action: {})
+      PBCheckbox(
+        checked: false,
+        checkboxType: .error,
+        text: "Error",
+        action: {}
+      )
+      PBCheckbox(
+        checked: true,
+        checkboxType: .indeterminate,
+        text: "Indeterminate",
+        action: {}
+      )
     }
   }
 }

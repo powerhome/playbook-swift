@@ -21,13 +21,13 @@ public struct PBCheckboxStyle: ToggleStyle {
           .clipShape(RoundedRectangle(cornerRadius: 4))
           .frame(width: 22, height: 22)
 
-        if checked && checkboxType != .indeterminate {
-          PBIcon.fontAwesome(.check, size: .small)
-            .foregroundColor(.white)
-        }
-
-        if checkboxType == .indeterminate {
+        switch (checked, checkboxType) {
+        case (true, .indeterminate):
           PBIcon.fontAwesome(.minus, size: .small)
+            .foregroundColor(.white)
+        case (false, _): EmptyView()
+        default:
+          PBIcon.fontAwesome(.check, size: .small)
             .foregroundColor(.white)
         }
       }
@@ -44,12 +44,10 @@ public struct PBCheckboxStyle: ToggleStyle {
     }
 
     var borderColor: Color {
-      if checked {
-        return .pbPrimary
-      } else if checkboxType == .error {
-        return .status(.error)
-      } else {
-        return .border
+      switch (checkboxType, checked) {
+      case (.default, true), (.error, true), (.indeterminate, true): return .pbPrimary
+      case (.error, false): return .status(.error)
+      default: return .border
       }
     }
 
