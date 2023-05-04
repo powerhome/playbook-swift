@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-public struct PBCheckboxToggleStyle: ToggleStyle {
+public struct PBCheckboxStyle: ToggleStyle {
   @Binding var checked: Bool
-  var error: Bool
-  var indeterminate: Bool
+  var checkboxType: PBCheckbox.CheckboxType
   let action: (() -> Void)?
 
   public func makeBody(configuration: Configuration) -> some View {
@@ -22,19 +21,19 @@ public struct PBCheckboxToggleStyle: ToggleStyle {
           .clipShape(RoundedRectangle(cornerRadius: 4))
           .frame(width: 22, height: 22)
 
-        if checked && !indeterminate {
+        if checked && checkboxType != .indeterminate {
           PBIcon.fontAwesome(.check, size: .small)
             .foregroundColor(.white)
         }
 
-        if indeterminate {
+        if checkboxType == .indeterminate {
           PBIcon.fontAwesome(.minus, size: .small)
             .foregroundColor(.white)
         }
       }
 
       configuration.label
-        .foregroundColor(error ? .status(.error) : .text(.default))
+        .foregroundColor(checkboxType == .error ? .status(.error) : .text(.default))
         .pbFont(.body())
     }
     .frame(minHeight: 22)
@@ -47,7 +46,7 @@ public struct PBCheckboxToggleStyle: ToggleStyle {
     var borderColor: Color {
       if checked {
         return .pbPrimary
-      } else if error {
+      } else if checkboxType == .error {
         return .status(.error)
       } else {
         return .border

@@ -9,21 +9,18 @@ import SwiftUI
 
 public struct PBCheckbox: View {
   @State var checked: Bool
-  @State var error: Bool
-  @State var indeterminate: Bool
+  @State var checkboxType: CheckboxType
   var text: String?
   let action: (() -> Void)?
 
   public init(
     checked: Bool = false,
-    error: Bool = false,
-    indeterminate: Bool = false,
+    checkboxType: CheckboxType = .default,
     text: String? = nil,
     action: (() -> Void)? = {}
   ) {
     self.checked = checked
-    self.error = error
-    self.indeterminate = indeterminate
+    self.checkboxType = checkboxType
     self.text = text
     self.action = action
   }
@@ -35,13 +32,16 @@ public struct PBCheckbox: View {
       }
     }
     .toggleStyle(
-      PBCheckboxToggleStyle(
+      PBCheckboxStyle(
         checked: $checked,
-        error: error,
-        indeterminate: indeterminate,
+        checkboxType: checkboxType,
         action: action
       )
     )
+  }
+
+  public enum CheckboxType {
+    case `default`, error, indeterminate
   }
 }
 
@@ -52,8 +52,8 @@ struct PBCheckbox_Previews: PreviewProvider {
     return VStack {
       PBCheckbox(checked: false, text: "Unchecked", action: {})
       PBCheckbox(checked: true, text: "Checked", action: {})
-      PBCheckbox(checked: false, error: true, text: "Error", action: {})
-      PBCheckbox(checked: true, indeterminate: true, text: "Indeterminate", action: {})
+      PBCheckbox(checked: false, checkboxType: .error, text: "Error", action: {})
+      PBCheckbox(checked: true, checkboxType: .indeterminate, text: "Indeterminate", action: {})
     }
   }
 }
