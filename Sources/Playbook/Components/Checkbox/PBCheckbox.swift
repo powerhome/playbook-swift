@@ -36,7 +36,7 @@ public struct PBCheckbox: View {
     }
     .toggleStyle(
       PBCheckboxToggleStyle(
-        checked: checked,
+        checked: $checked,
         error: error,
         indeterminate: indeterminate,
         action: action

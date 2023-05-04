@@ -8,26 +8,12 @@
 import SwiftUI
 
 public struct PBCheckboxToggleStyle: ToggleStyle {
-  var checked: Bool
+  @Binding var checked: Bool
   var error: Bool
   var indeterminate: Bool
   let action: (() -> Void)?
 
   public func makeBody(configuration: Configuration) -> some View {
-    var borderColor: Color {
-      if checked {
-        return .pbPrimary
-      } else if error {
-        return .status(.error)
-      } else {
-        return .border
-      }
-    }
-
-    var backgroundColor: Color {
-      checked ? .pbPrimary : .clear
-    }
-
     HStack {
       ZStack {
         RoundedRectangle(cornerRadius: 4)
@@ -53,7 +39,22 @@ public struct PBCheckboxToggleStyle: ToggleStyle {
     }
     .frame(minHeight: 22)
     .onTapGesture {
-      configuration.isOn.toggle()
+      checked.toggle()
+      action?()
+    }
+
+    var borderColor: Color {
+      if checked {
+        return .pbPrimary
+      } else if error {
+        return .status(.error)
+      } else {
+        return .border
+      }
+    }
+
+    var backgroundColor: Color {
+      checked ? .pbPrimary : .clear
     }
   }
 }
