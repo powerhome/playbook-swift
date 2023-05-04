@@ -38,6 +38,7 @@ public struct PBCheckboxToggleStyle: ToggleStyle {
         .pbFont(.body())
     }
     .frame(minHeight: 22)
+    .contentShape(Rectangle())
     .onTapGesture {
       checked.toggle()
       action?()
