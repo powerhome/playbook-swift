@@ -13,7 +13,7 @@ public struct PBCheckboxStyle: ToggleStyle {
   let action: (() -> Void)?
 
   public func makeBody(configuration: Configuration) -> some View {
-    HStack {
+    HStack(spacing: 8) {
       ZStack {
         RoundedRectangle(cornerRadius: 4)
           .strokeBorder(borderColor, lineWidth: 2)
