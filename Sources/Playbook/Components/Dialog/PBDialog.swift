@@ -21,7 +21,7 @@ public struct PBDialog<Content: View>: View {
   let onClose: (() -> Void)?
   let size: Size
   let shouldCloseOnOverlay: Bool
-
+  
   public init(
     title: String? = nil,
     message: String? = nil,
@@ -49,7 +49,7 @@ public struct PBDialog<Content: View>: View {
     self.size = size
     self.shouldCloseOnOverlay = shouldCloseOnOverlay
   }
-
+  
   public var body: some View {
     dialogView()
       .frame(maxWidth: size.width)
@@ -64,7 +64,7 @@ public struct PBDialog<Content: View>: View {
         }
       }
   }
-
+  
   private func dialogView() -> some View {
     return PBCard(alignment: .center, padding: .pbNone) {
       switch variant {
@@ -73,20 +73,20 @@ public struct PBDialog<Content: View>: View {
           PBDialogHeaderView(title: title) { dismissDialog() }
           PBSectionSeparator()
         }
-
+        
         if let message = message {
           Text(message)
             .pbFont(.body())
             .padding()
         }
-
+        
         content
-
+        
       case .status(let status):
         PBStatusDialogView(status: status, title: title ?? "", description: message ?? "")
           .frame(maxWidth: Size.medium.width)
       }
-
+      
       if let confirmButton = confirmButton {
         PBDialogActionView(
           isStacked: isStacked,
@@ -99,7 +99,7 @@ public struct PBDialog<Content: View>: View {
       }
     }
   }
-
+  
   func cancelButtonAction() -> (String, (() -> Void))? {
     if let cancelButton = cancelButton {
       if let cancelButtonAction = cancelButton.1 {
@@ -111,7 +111,7 @@ public struct PBDialog<Content: View>: View {
       return nil
     }
   }
-
+  
   func dismissDialog() {
     presentationMode.wrappedValue.dismiss()
   }
@@ -123,9 +123,9 @@ public extension PBDialog {
     case medium
     case large
     case statusSize
-
+    
     var padding: CGFloat { 24 }
-
+    
     var width: CGFloat {
       switch self {
       case .small: return 300
@@ -135,7 +135,7 @@ public extension PBDialog {
       }
     }
   }
-
+  
   enum Variant {
     case `default`
     case status(_ status: DialogStatus)
@@ -145,101 +145,101 @@ public extension PBDialog {
 public struct PBDialog_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-
+    
     let infoMessage = "This is a message for informational purposes only and requires no action."
-
+    
     func foo() {
       print("alal")
     }
-
-    return Group {
-      PBDialog(
-        title: "This is some informative text",
-        message: infoMessage,
-        cancelButton: ("Cancel", foo),
-        confirmButton: ("Okay", foo)
-      )
-      .backgroundViewModifier(alpha: 0.2)
-      .previewDisplayName("Simple")
-
-      PBDialog(
-        title: "Header header",
-        cancelButton: ("Back", foo),
-        confirmButton: ("Send My Issue", foo),
-        content: ({
-          ScrollView {
-            Text("Hello Complex Dialog!\nAnything can be placed here")
-              .pbFont(.title2)
-              .multilineTextAlignment(.leading)
-
-            TextField("", text: .constant("text"))
-              .textFieldStyle(PBTextInputStyle("default"))
-              .padding()
-
-          }
-          .padding()
-        }))
-      .backgroundViewModifier(alpha: 0.2)
-      .previewDisplayName("Complex")
-
-      List(PBDialog<EmptyView>.Size.allCases, id: \.self) { size in
+    
+    return List {
+      Section("Simple") {
         PBDialog(
-          title: "\(size.rawValue.capitalized) Dialog",
+          title: "This is some informative text",
           message: infoMessage,
           cancelButton: ("Cancel", foo),
-          confirmButton: ("Okay", foo),
-          size: size
+          confirmButton: ("Okay", foo)
         )
         .backgroundViewModifier(alpha: 0.2)
       }
-      .previewDisplayName("Size")
-
-      List {
-        Section("stacked") {
-          ScrollView(showsIndicators: false) {
-            PBDialog(
-              title: "Success!",
-              message: infoMessage,
-              variant: .status(.success),
-              isStacked: true,
-              cancelButton: ("Cancel", foo),
-              cancelButtonStyle: PBButtonStyle(variant: .secondary),
-              confirmButton: ("Okay", foo),
-              size: .small
-            )
-
-            PBDialog(
-              title: "Error!",
-              message: infoMessage,
-              variant: .status(.error),
-              isStacked: true,
-              confirmButton: ("Okay", foo),
-              size: .small
-            )
-          }
-          .frame(maxWidth: .infinity)
+      
+      Section("Complex") {
+        PBDialog(
+          title: "Header header",
+          cancelButton: ("Back", foo),
+          confirmButton: ("Send My Issue", foo),
+          content: ({
+            ScrollView {
+              Text("Hello Complex Dialog!\nAnything can be placed here")
+                .pbFont(.title2)
+                .multilineTextAlignment(.leading)
+              
+              TextField("", text: .constant("text"))
+                .textFieldStyle(PBTextInputStyle("default"))
+                .padding()
+            }
+            .padding()
+          }))
+        .backgroundViewModifier(alpha: 0.2)
+      }
+      
+      Section("Size") {
+        ForEach(PBDialog<EmptyView>.Size.allCases, id: \.self) { size in
+          PBDialog(
+            title: "\(size.rawValue.capitalized) Dialog",
+            message: infoMessage,
+            cancelButton: ("Cancel", foo),
+            confirmButton: ("Okay", foo),
+            size: size
+          )
           .backgroundViewModifier(alpha: 0.2)
         }
-
-        Section("Default") {
+      }
+      
+      Section("Stacked") {
+        ScrollView(showsIndicators: false) {
           PBDialog(
-            title: "Caution!",
+            title: "Success!",
             message: infoMessage,
-            variant: .status(.caution),
-            isStacked: false,
+            variant: .status(.success),
+            isStacked: true,
             cancelButton: ("Cancel", foo),
             cancelButtonStyle: PBButtonStyle(variant: .secondary),
             confirmButton: ("Okay", foo),
             size: .small
           )
-          .backgroundViewModifier(alpha: 0.2)
-          .frame(maxWidth: .infinity)
+          
+          PBDialog(
+            title: "Error!",
+            message: infoMessage,
+            variant: .status(.error),
+            isStacked: true,
+            confirmButton: ("Okay", foo),
+            size: .small
+          )
         }
+        .frame(maxWidth: .infinity)
+        .backgroundViewModifier(alpha: 0.2)
       }
-      .previewDisplayName("Stacked")
-
-      List(DialogStatus.allCases, id: \.self) { status in
-        Section(status.rawValue) {
+      
+      Section("Default") {
+        PBDialog(
+          title: "Caution!",
+          message: infoMessage,
+          variant: .status(.caution),
+          isStacked: false,
+          cancelButton: ("Cancel", foo),
+          cancelButtonStyle: PBButtonStyle(variant: .secondary),
+          confirmButton: ("Okay", foo),
+          size: .small
+        )
+        .backgroundViewModifier(alpha: 0.2)
+        .frame(maxWidth: .infinity)
+      }
+      
+      Section("Status") {
+      ForEach(DialogStatus.allCases, id: \.self) { status in
+        Text(status.rawValue).pbFont(.caption)
           PBDialog(
             title: status.rawValue.capitalized,
             message: infoMessage,
@@ -251,10 +251,9 @@ public struct PBDialog_Previews: PreviewProvider {
             size: .statusSize
           )
           .frame(maxWidth: .infinity)
-          .backgroundViewModifier(alpha: 0.2)
+          .listRowSeparator(.hidden)
         }
       }
-      .previewDisplayName("Status")
     }
   }
 }

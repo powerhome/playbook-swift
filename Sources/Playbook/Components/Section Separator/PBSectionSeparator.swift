@@ -152,8 +152,10 @@ public struct PBSectionSeparator_Previews: PreviewProvider {
           loremIpsum
           PBSectionSeparator(orientation: .vertical)
           loremIpsum
-        }.frame(width: .infinity, height: 120, alignment: .center)
-      }.previewDisplayName("Vertical separator")
+        }
+        .frame(width: .infinity, height: 120, alignment: .center)
+      }
+      .previewDisplayName("Vertical separator")
     }
   }
 }
