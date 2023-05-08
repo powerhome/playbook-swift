@@ -38,8 +38,8 @@ public struct PBSelect: ButtonStyle {
   }
 }
 
-struct PBSelect_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBSelect_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
     return Group {
       Button("Burguers") {}

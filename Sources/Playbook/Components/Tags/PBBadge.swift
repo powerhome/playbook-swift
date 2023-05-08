@@ -61,8 +61,8 @@ public extension PBBadge {
   }
 }
 
-struct PBBadge_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBBadge_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     return VStack {

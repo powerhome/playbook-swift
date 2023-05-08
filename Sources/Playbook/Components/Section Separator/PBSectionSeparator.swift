@@ -116,8 +116,8 @@ public extension PBSectionSeparator {
   }
 }
 
-struct PBSectionSeparator_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBSectionSeparator_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     let loremIpsum = Text(

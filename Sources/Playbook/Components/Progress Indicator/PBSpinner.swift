@@ -55,10 +55,8 @@ public struct PBSpinner: View {
   }
 }
 
-// MARK: Preview
-
-struct SwiftUIView_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBSpinner_Previews: PreviewProvider {
+  public static var previews: some View {
     PBSpinner()
       .padding()
   }

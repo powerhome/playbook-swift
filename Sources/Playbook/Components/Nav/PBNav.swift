@@ -129,8 +129,8 @@ public extension PBNav {
   }
 }
 
-struct PBNav_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBNav_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     return Group {

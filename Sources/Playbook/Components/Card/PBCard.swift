@@ -9,7 +9,7 @@ import SwiftUI
 
 public enum PBCardStyle {
   case `default`, selected, error
-
+  
   var color: Color {
     switch self {
     case .default:
@@ -20,7 +20,7 @@ public enum PBCardStyle {
       return .status(.error)
     }
   }
-
+  
   var lineWidth: CGFloat {
     switch self {
     case .default, .error:
@@ -43,7 +43,7 @@ public struct PBCard<Content: View>: View {
   let style: PBCardStyle
   let shadow: Shadow?
   let width: CGFloat?
-
+  
   public init(
     alignment: Alignment = .leading,
     border: Bool = true,
@@ -69,7 +69,7 @@ public struct PBCard<Content: View>: View {
     self.width = width
     self.highlightColor = highlightColor
   }
-
+  
   public var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if highlight == .none {
@@ -120,7 +120,7 @@ public extension PBCard {
     case xLarge = 12
     case rounded = 48
   }
-
+  
   enum Highlight {
     case none
     case side
@@ -133,7 +133,7 @@ public extension PBCard {
 public struct PBCard_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-
+    
     let text = "Card Content"
     let loremIpsum =
       """
@@ -142,37 +142,35 @@ public struct PBCard_Previews: PreviewProvider {
         Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
         Sed commodo posuere lectus, at porta nulla ornare a.
       """
-
-    return Group {
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Default").pbFont(.caption)
-        PBCard {
-          Text(text).pbFont(.body())
-        }
-        .padding(.bottom)
-
-        Text("Default with shadow deep").pbFont(.caption)
-        PBCard(shadow: .deep) {
-          Text(text).pbFont(.body())
-        }
-      }
-      .padding()
-      .previewDisplayName("Default")
-
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Highlight").pbFont(.caption)
-        PBCard(highlight: .side) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(highlight: .top, highlightColor: .status(.warning)) {
-          Text(text).pbFont(.body())
+    
+    return List {
+      Section("Default") {
+        VStack(alignment: .leading, spacing: 8) {
+          Text("Default").pbFont(.caption)
+          PBCard {
+            Text(text).pbFont(.body())
+          }
+          .padding(.bottom)
+          
+          Text("Default with shadow deep").pbFont(.caption)
+          PBCard(shadow: .deep) {
+            Text(text).pbFont(.body())
+          }
         }
       }
-      .padding()
-      .previewDisplayName("Highlight")
-
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Header cards").pbFont(.caption)
+      
+      Section("Highlight") {
+        VStack(alignment: .leading, spacing: 8) {
+          PBCard(highlight: .side) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(highlight: .top, highlightColor: .status(.warning)) {
+            Text(text).pbFont(.body())
+          }
+        }
+      }
+      
+      Section("Header cards") {
         PBCard(padding: .pbNone) {
           PBCardHeader {
             Text(text).pbFont(.body()).padding(.pbSmall)
@@ -186,28 +184,25 @@ public struct PBCard_Previews: PreviewProvider {
           Text(text).pbFont(.body()).padding(.pbSmall)
         }
       }
-      .padding()
-      .previewDisplayName("Header cards")
-
-      VStack(alignment: .leading, spacing: nil) {
-        Text("Default").pbFont(.caption)
-        PBCard {
-          Text(text).pbFont(.body())
-        }
-        Text("Selected").pbFont(.caption)
-        PBCard(style: .selected) {
-          Text(text).pbFont(.body())
-        }
-        Text("Error").pbFont(.caption)
-        PBCard(style: .error) {
-          Text(text).pbFont(.body())
+      
+      Section("Styles") {
+        VStack(alignment: .leading, spacing: nil) {
+          Text("Default").pbFont(.caption)
+          PBCard {
+            Text(text).pbFont(.body())
+          }
+          Text("Selected").pbFont(.caption)
+          PBCard(style: .selected) {
+            Text(text).pbFont(.body())
+          }
+          Text("Error").pbFont(.caption)
+          PBCard(style: .error) {
+            Text(text).pbFont(.body())
+          }
         }
       }
-      .padding()
-      .previewDisplayName("Styles")
 
-      VStack(alignment: .leading) {
-        Text("Padding size").pbFont(.caption)
+      Section("Padding size") {
         PBCard(padding: .pbNone) {
           Text(text).pbFont(.body())
         }
@@ -227,11 +222,8 @@ public struct PBCard_Previews: PreviewProvider {
           Text(text).pbFont(.body())
         }
       }
-      .padding()
-      .previewDisplayName("Padding")
 
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Separator & Content").pbFont(.caption)
+      Section("Separator & Content") {
         PBCard(padding: .pbNone) {
           Text("Header").pbFont(.body()).padding(.pbSmall)
           PBSectionSeparator()
@@ -240,11 +232,8 @@ public struct PBCard_Previews: PreviewProvider {
           Text("Footer").pbFont(.body()).padding(.pbSmall)
         }
       }
-      .padding()
-      .previewDisplayName("Separator & Content")
-
-      VStack(alignment: .leading, spacing: 8) {
-        Text("No border & border radius").pbFont(.caption)
+      
+      Section("No border & border radius") {
         PBCard(border: false) {
           Text(text).pbFont(.body())
         }
@@ -270,10 +259,8 @@ public struct PBCard_Previews: PreviewProvider {
           Text(text).pbFont(.body())
         }
       }
-      .padding()
-      .previewDisplayName("Border")
 
-      VStack(alignment: .leading, spacing: 0) {
+      Section("Complex") {
         PBCard(padding: .pbNone) {
           PBCardHeader(color: .product(.product1, category: .highlight)) {
             Text("Andrew")
@@ -282,13 +269,13 @@ public struct PBCard_Previews: PreviewProvider {
           }
           Image("andrew", bundle: .module)
             .resizable()
-            .frame(height: 240)
+            .aspectRatio(contentMode: .fit)
+
           Text(loremIpsum).pbFont(.caption).padding(.pbSmall)
           PBSectionSeparator()
           Text("A nice guy and great dev").pbFont(.body()).padding(.pbSmall)
         }
       }
-      .frame(width: 240)
     }
   }
 }

@@ -7,13 +7,15 @@
 
 import SwiftUI
 import Playbook
+import UIKit
 
+@available(iOS 16.0, *)
 struct ContentView: View {
   @State var selectedItem: Int = 0
   let columns = Array(repeating: GridItem(.flexible()), count: 2)
   var body: some View {
     NavigationView {
-      contentView
+      contentView.padding(.bottom, 80)
         .toolbar {
           ToolbarItem(placement: .cancellationAction) {
             HStack {
@@ -23,6 +25,8 @@ struct ContentView: View {
             }
           }
         }
+        .toolbarBackground(.white)
+        .toolbarBackground(.visible, for: .navigationBar)
         .background {
           Color.background(.light)
         }
@@ -32,6 +36,7 @@ struct ContentView: View {
             bottomBar
           }
         }
+        .toolbar(.visible, for: .navigationBar)
         .edgesIgnoringSafeArea(.bottom)
     }
   }
@@ -95,6 +100,7 @@ struct ContentView: View {
   }
 }
 
+@available(iOS 16.0, *)
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
@@ -130,7 +136,7 @@ enum DesignElements: String, CaseIterable {
 }
 
 enum Componenets: String, CaseIterable {
-  case avatar, button, card, collapsible
+  case avatar, button, card, checkbox, collapsible, dialog, icon, image, label, message, nav, progressIndicator, radio, sectionSeparator, select, tags
 
   static let title: String = "Components"
 
@@ -140,7 +146,20 @@ enum Componenets: String, CaseIterable {
     case .avatar: PBAvatar_Previews.previews
     case .button: PBButtonStyle_Previews.previews
     case .card: PBCard_Previews.previews
+    case .checkbox: EmptyView()
     case .collapsible: PBCollapsible_Previews.previews
+    case .dialog: PBDialog_Previews.previews
+    case .icon: PBIconCircle_Previews.previews
+    case .image: PBImage_Previews.previews
+    case .label: PBLabelValue_Previews.previews
+    case .message: PBMessage_Previews.previews
+    case .nav: PBNav_Previews.previews
+    case .progressIndicator: PBSpinner_Previews.previews
+    case .radio: PBRadio_Previews.previews
+    case .sectionSeparator: PBSectionSeparator_Previews.previews
+    case .select: PBSelect_Previews.previews
+    case .tags:
+      PBBadge_Previews.previews
     }
   }
 }

@@ -142,8 +142,8 @@ public extension PBDialog {
   }
 }
 
-struct PBBDialog_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBDialog_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     let infoMessage = "This is a message for informational purposes only and requires no action."

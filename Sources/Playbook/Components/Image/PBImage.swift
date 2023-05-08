@@ -70,8 +70,8 @@ public extension PBImage {
   }
 }
 
-struct PBImage_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBImage_Previews: PreviewProvider {
+  public static var previews: some View {
     List {
       ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
         Section(size.name) {
