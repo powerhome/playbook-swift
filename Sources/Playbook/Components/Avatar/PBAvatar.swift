@@ -64,11 +64,11 @@ public struct PBAvatar: View {
         Circle()
           .foregroundColor(statusColor)
           .overlay(
-            Circle().stroke(Color.background(.default), lineWidth: 2)
+            Circle().stroke(Color.white, lineWidth: 2)
           )
-          .frame(width: 10.0, height: 10.0)
+          .frame(width: 8.0, height: 8.0)
           .offset(
-            x: size.diameter/2 - size.diameter/9,
+            x: (size.diameter/2 - size.diameter/9) * size.statusXModifier,
             y: (size.diameter/2 - size.diameter/6) * size.statusYModifier
           )
       }
@@ -100,10 +100,25 @@ public extension PBAvatar {
       return diameter * 0.38
     }
 
+    var statusXModifier: CGFloat {
+      switch self {
+      case .xxSmall: return 1.3
+      case .xSmall: return 1.2
+      case .small: return 0.95
+      case .medium: return 1.05
+      case .large: return 1.12
+      case .xLarge: return 1.16
+      }
+    }
+
     var statusYModifier: CGFloat {
       switch self {
-      case .xxSmall, .xSmall, .small: return -1
-      default: return 1
+      case .xxSmall: return -0.8
+      case .xSmall: return -1
+      case .small: return -1.1
+      case .medium: return 1
+      case .large: return 0.78
+      case .xLarge: return 0.68
       }
     }
   }

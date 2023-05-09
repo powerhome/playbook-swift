@@ -12,12 +12,10 @@ public struct PBDialog<Content: View>: View {
   let content: Content?
   let title: String?
   let message: String?
-  let variant: PBDialog.Variant
+  let variant: DialogVariant
   let isStacked: Bool
   let cancelButton: (String, (() -> Void)?)?
-  let cancelButtonStyle: PBButtonStyle
   let confirmButton: (String, (() -> Void))?
-  let confirmButtonStyle: PBButtonStyle
   let onClose: (() -> Void)?
   let size: Size
   let shouldCloseOnOverlay: Bool
@@ -25,12 +23,10 @@ public struct PBDialog<Content: View>: View {
   public init(
     title: String? = nil,
     message: String? = nil,
-    variant: PBDialog.Variant = .default,
+    variant: DialogVariant = .default,
     isStacked: Bool = false,
     cancelButton: (String, (() -> Void)?)? = nil,
-    cancelButtonStyle: PBButtonStyle = PBButtonStyle(variant: .link),
     confirmButton: (String, (() -> Void))? = nil,
-    confirmButtonStyle: PBButtonStyle = PBButtonStyle(variant: .primary),
     onClose: (() -> Void)? = nil,
     size: Size = .medium,
     shouldCloseOnOverlay: Bool = true,
@@ -42,9 +38,7 @@ public struct PBDialog<Content: View>: View {
     self.variant = variant
     self.isStacked = isStacked
     self.cancelButton = cancelButton
-    self.cancelButtonStyle = cancelButtonStyle
     self.confirmButton = confirmButton
-    self.confirmButtonStyle = confirmButtonStyle
     self.onClose = onClose
     self.size = size
     self.shouldCloseOnOverlay = shouldCloseOnOverlay
@@ -91,9 +85,8 @@ public struct PBDialog<Content: View>: View {
         PBDialogActionView(
           isStacked: isStacked,
           confirmButton: confirmButton,
-          confirmButtonStyle: confirmButtonStyle,
           cancelButton: cancelButtonAction(),
-          cancelButtonStyle: cancelButtonStyle
+          variant: variant
         )
         .padding()
       }
@@ -118,7 +111,9 @@ public struct PBDialog<Content: View>: View {
 }
 
 public extension PBDialog {
-  enum Size: String, CaseIterable {
+  enum Size: String, CaseIterable, Identifiable {
+    public var id: UUID { UUID() }
+    
     case small
     case medium
     case large
@@ -135,25 +130,59 @@ public extension PBDialog {
       }
     }
   }
-  
-  enum Variant {
-    case `default`
-    case status(_ status: DialogStatus)
-  }
 }
 
+public enum DialogVariant: Equatable {
+  case `default`
+  case status(_ status: DialogStatus)
+}
+
+@available(macOS 13.0, *)
 public struct PBDialog_Previews: PreviewProvider {
+  static let infoMessage = "This is a message for informational purposes only and requires no action."
+  
   public static var previews: some View {
     registerFonts()
     
-    let infoMessage = "This is a message for informational purposes only and requires no action."
-    
-    func foo() {
-      print("alal")
-    }
-    
     return List {
       Section("Simple") {
+        SimpleButton()
+      }
+      
+      Section("Complex") {
+        ComplexButton()
+      }
+      
+      Section("Size") {
+        SizeButtons()
+      }
+      .listRowSeparator(.hidden)
+      
+      Section("Stacked") {
+        StackedButton()
+      }
+      
+      Section("Status") {
+        StatusButtons()
+      }
+      .listRowSeparator(.hidden)
+    }
+    
+  }
+  
+  struct SimpleButton: View {
+    @State var presentDialog: Bool = false
+    
+    func foo() {
+      print("Hello World")
+    }
+    
+    var body: some View {
+      PBButton(title: "Simple") {
+        UIView.setAnimationsEnabled(false)
+        presentDialog.toggle()
+      }
+      .fullScreenCover(isPresented: $presentDialog) {
         PBDialog(
           title: "This is some informative text",
           message: infoMessage,
@@ -162,8 +191,22 @@ public struct PBDialog_Previews: PreviewProvider {
         )
         .backgroundViewModifier(alpha: 0.2)
       }
-      
-      Section("Complex") {
+    }
+  }
+  
+  struct ComplexButton: View {
+    @State var presentDialog: Bool = false
+    
+    func foo() {
+      presentDialog = false
+    }
+    
+    var body: some View {
+      PBButton(title: "Complex") {
+        UIView.setAnimationsEnabled(false)
+        presentDialog.toggle()
+      }
+      .fullScreenCover(isPresented: $presentDialog) {
         PBDialog(
           title: "Header header",
           cancelButton: ("Back", foo),
@@ -182,11 +225,25 @@ public struct PBDialog_Previews: PreviewProvider {
           }))
         .backgroundViewModifier(alpha: 0.2)
       }
-      
-      Section("Size") {
-        ForEach(PBDialog<EmptyView>.Size.allCases, id: \.self) { size in
+    }
+  }
+  
+  struct SizeButtons: View {
+    @State var presentDialog: PBDialog<EmptyView>.Size? = nil
+    
+    func foo() {
+      presentDialog = nil
+    }
+    
+    var body: some View {
+      ForEach(PBDialog<EmptyView>.Size.allCases, id: \.self) { size in
+        PBButton(title: size.rawValue.capitalized) {
+          UIView.setAnimationsEnabled(false)
+          presentDialog = size
+        }
+        .fullScreenCover(item: $presentDialog) { item in
           PBDialog(
-            title: "\(size.rawValue.capitalized) Dialog",
+            title: "\(item.rawValue.capitalized) Dialog",
             message: infoMessage,
             cancelButton: ("Cancel", foo),
             confirmButton: ("Okay", foo),
@@ -195,20 +252,42 @@ public struct PBDialog_Previews: PreviewProvider {
           .backgroundViewModifier(alpha: 0.2)
         }
       }
-      
-      Section("Stacked") {
-        ScrollView(showsIndicators: false) {
+    }
+  }
+  
+  struct StackedButton: View {
+    @State var presentDialog1: Bool = false
+    @State var presentDialog2: Bool = false
+    
+    func foo() {
+      presentDialog1 = false
+      presentDialog2 = false
+    }
+    
+    var body: some View {
+      HStack {
+        PBButton(title: "Stacked") {
+          UIView.setAnimationsEnabled(false)
+          presentDialog1.toggle()
+        }
+        .fullScreenCover(isPresented: $presentDialog1) {
           PBDialog(
             title: "Success!",
             message: infoMessage,
             variant: .status(.success),
             isStacked: true,
             cancelButton: ("Cancel", foo),
-            cancelButtonStyle: PBButtonStyle(variant: .secondary),
             confirmButton: ("Okay", foo),
             size: .small
           )
-          
+          .backgroundViewModifier(alpha: 0.2)
+        }
+        
+        PBButton(title: "Stacked Simple") {
+          UIView.setAnimationsEnabled(false)
+          presentDialog2.toggle()
+        }
+        .fullScreenCover(isPresented: $presentDialog2) {
           PBDialog(
             title: "Error!",
             message: infoMessage,
@@ -217,41 +296,36 @@ public struct PBDialog_Previews: PreviewProvider {
             confirmButton: ("Okay", foo),
             size: .small
           )
+          .backgroundViewModifier(alpha: 0.2)
         }
-        .frame(maxWidth: .infinity)
-        .backgroundViewModifier(alpha: 0.2)
       }
-      
-      Section("Default") {
-        PBDialog(
-          title: "Caution!",
-          message: infoMessage,
-          variant: .status(.caution),
-          isStacked: false,
-          cancelButton: ("Cancel", foo),
-          cancelButtonStyle: PBButtonStyle(variant: .secondary),
-          confirmButton: ("Okay", foo),
-          size: .small
-        )
-        .backgroundViewModifier(alpha: 0.2)
-        .frame(maxWidth: .infinity)
-      }
-      
-      Section("Status") {
+    }
+  }
+  
+  struct StatusButtons: View {
+    @State var presentDialog: DialogStatus? = nil
+    
+    func foo() {
+      presentDialog = nil
+    }
+    
+    var body: some View {
       ForEach(DialogStatus.allCases, id: \.self) { status in
-        Text(status.rawValue).pbFont(.caption)
+        PBButton(title: status.rawValue.capitalized) {
+          UIView.setAnimationsEnabled(false)
+          presentDialog = status
+        }
+        .fullScreenCover(item: $presentDialog) { item in
           PBDialog(
-            title: status.rawValue.capitalized,
+            title: item.rawValue.capitalized,
             message: infoMessage,
-            variant: .status(status),
+            variant: .status(item),
             isStacked: false,
             cancelButton: ("Cancel", foo),
-            cancelButtonStyle: PBButtonStyle(variant: .secondary),
             confirmButton: ("Okay", foo),
             size: .statusSize
           )
-          .frame(maxWidth: .infinity)
-          .listRowSeparator(.hidden)
+          .backgroundViewModifier(alpha: 0.2)
         }
       }
     }
