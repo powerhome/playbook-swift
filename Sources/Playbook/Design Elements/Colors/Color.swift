@@ -29,7 +29,7 @@ public extension Color {
     switch variant {
     case .light: return Color("BackgroundLight", bundle: .module)
     case .dark: return Color("BackgroundDark", bundle: .module)
-    case .`default`: return Color("BackgroundDefault", bundle: .module)
+    case .default: return Color("BackgroundDefault", bundle: .module)
     }
   }
 
