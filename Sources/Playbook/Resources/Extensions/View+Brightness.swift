@@ -14,7 +14,7 @@ extension View {
     isHovering: Bool
   ) -> some View {
     if isPrimaryVariant {
-  #if os(macOS)
+      #if os(macOS)
       if isPressed {
         return self.brightness(isPressed ? 0 : -0.04)
       } else if isHovering {
@@ -22,9 +22,9 @@ extension View {
       } else {
         return self.brightness(0)
       }
-  #else
+      #else
       return self.brightness(isPressed ? 0 : -0.04)
-  #endif
+      #endif
     } else {
       return self.brightness(0)
     }
