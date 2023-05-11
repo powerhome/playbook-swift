@@ -16,9 +16,7 @@ public enum Fontastic: String, PlaybookGenericIcon, CaseIterable {
     }
   }
 
-  public var fontFamily: String {
-    "untitled-font-1"
-  }
+  public var fontFamily: String { "untitled-font-1" }
 }
 
 public extension PBIcon {

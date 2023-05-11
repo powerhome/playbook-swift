@@ -78,8 +78,8 @@ struct PBMultipleUsers_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    let andrew = PBUser(name: "Andrew Kloecker")
-    let picAndrew = PBUser(name: "Andrew Kloecker", image: Image("andrew", bundle: .module))
+    let andrew = PBUser(name: "Andrew Black")
+    let picAndrew = PBUser(name: "Andrew Black", image: Image("andrew", bundle: .module))
     let twoUsers = [andrew, picAndrew]
     let multipleUsers = [andrew, picAndrew, andrew, andrew, andrew]
 

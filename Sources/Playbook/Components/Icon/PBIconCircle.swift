@@ -15,7 +15,7 @@ public struct PBIconCircle: View {
   public init(
     _ icon: PlaybookGenericIcon,
     size: PBIcon.Size = .medium,
-    color: Color = .pbDefault
+    color: Color = .status(.neutral)
   ) {
     self.icon = icon
     self.size = size
@@ -73,18 +73,8 @@ struct PBIconCircle_Previews: PreviewProvider {
       .listRowSeparator(.hidden)
 
       Section("Color") {
-        let pBIconColors = [
-          Color.pbRoyal,
-          Color.pbOrange,
-          Color.pbPurple,
-          Color.pbTeal,
-          Color.pbRed,
-          Color.pbYellow,
-          Color.pbGreen
-        ]
-
-        ForEach(pBIconColors, id: \.self) { color in
-          PBIconCircle(FontAwesome.rocket, size: .small, color: color)
+        ForEach(Color.DataColor.allCases, id: \.self) { color in
+          PBIconCircle(FontAwesome.rocket, size: .small, color: Color.data(color))
         }
       }
       .listRowSeparator(.hidden)

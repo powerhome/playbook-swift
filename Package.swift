@@ -17,11 +17,11 @@ let package = Package(
   dependencies: [
     // Dependencies declare other packages that this package depends on.
     .package(url: "https://github.com/realm/SwiftLint.git", from: "0.51.0"),
-    .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.51.2"),
+    .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.51.7"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
       from: "1.11.0"
-    ),
+    )
   ],
   targets: [
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -36,8 +36,8 @@ let package = Package(
       name: "SnapshotTests",
       dependencies: [
         "Playbook",
-        .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+        .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
       ]
-    ),
+    )
   ]
 )
