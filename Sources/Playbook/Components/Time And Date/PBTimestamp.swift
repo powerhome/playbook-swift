@@ -198,7 +198,7 @@ struct PBTimestamp_Previews: PreviewProvider {
           PBTimestamp(
             Date().addingTimeInterval(-12),
             showUser: true,
-            text: "Andrew Koeckler",
+            text: "Andrew Black",
             variant: .updated
           )
           .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
@@ -212,7 +212,7 @@ struct PBTimestamp_Previews: PreviewProvider {
           PBTimestamp(
             Date().addingTimeInterval(-10),
             showUser: true,
-            text: "Andrew Koeckler",
+            text: "Andrew Black",
             variant: .elapsed
           )
           .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)

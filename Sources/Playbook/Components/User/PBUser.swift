@@ -62,9 +62,9 @@ public struct PBUser: View {
         VStack(alignment: .leading, spacing: 4, content: {
           Text(name)
             .font(titleStyle.font)
-            .foregroundColor(.pbTextDefault)
+            .foregroundColor(.text(.default))
           bodyText.pbFont(.body())
-            .foregroundColor(.pbTextLight)
+            .foregroundColor(.text(.light))
         })
       }
     } else {
@@ -74,9 +74,9 @@ public struct PBUser: View {
         }
         Text(name)
           .font(titleStyle.font)
-          .foregroundColor(.pbTextDefault)
+          .foregroundColor(.text(.default))
         bodyText.pbFont(.body())
-          .foregroundColor(.pbTextLight)
+          .foregroundColor(.text(.light))
       }
     }
   }
@@ -102,7 +102,7 @@ struct PBUser_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
     let img = Image("andrew", bundle: .module)
-    let name = "Andrew Kloecker"
+    let name = "Andrew Black"
     let title = "Rebels Developer"
 
     return Group {
