@@ -9,6 +9,6 @@ repos:
     hooks:
     -   id: swiftformat
 -   repo: https://github.com/realm/SwiftLint
-    rev: 0.51.0
+    rev: 0.52.1
     hooks:
     -   id: swiftlint
