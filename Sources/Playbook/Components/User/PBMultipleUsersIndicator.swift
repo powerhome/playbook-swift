@@ -16,20 +16,16 @@ public struct PBMultipleUsersIndicator: View {
       Text("+\(count)")
         .tag("additionalUser")
         .pbFont(.buttonText(size.fontSize), color: .pbPrimary)
-        .frame(width: size.diameter)
-        .padding(6)
-        .frame(width: size.diameter)
+        .frame(width: size.diameter, height: size.diameter)
         .background(Color.shadow)
         .clipShape(Circle())
         .background {
           Circle()
             .foregroundColor(.white)
-            .frame(width: size.diameter)
         }
         .overlay {
           Circle()
-            .strokeBorder(.white, lineWidth: 1)
-            .frame(width: size.diameter)
+            .stroke(.white, lineWidth: 1)
         }
     }
   }
@@ -39,11 +35,11 @@ public struct PBMultipleUsersIndicator: View {
 struct PBMultipleUsersIndicator_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
+
     return List {
       Section("Multiple Users Indicator") {
-        ForEach(PBAvatar.Size.allCases, id: \.self) { size in
-          PBMultipleUsersIndicator(usersCount: 4, size: size)
-        }
+        PBMultipleUsersIndicator(usersCount: 4, size: .xxSmall)
+        PBMultipleUsersIndicator(usersCount: 4, size: .xSmall)
       }
       .listRowSeparator(.hidden)
     }

@@ -9,11 +9,9 @@ import SwiftUI
 
 public struct PBMultipleUsersStacked: View {
   var users: [PBUser]
-  var variant: Variant
 
-  public init(users: [PBUser], variant: Variant = .chat) {
+  public init(users: [PBUser]) {
     self.users = users
-    self.variant = variant
   }
 
   public var body: some View {
@@ -21,23 +19,17 @@ public struct PBMultipleUsersStacked: View {
       PBAvatar(image: users[0].image, name: users[0].name, size: .xSmall)
     } else if users.count >= 2 {
       ZStack {
-        PBAvatar(image: users[0].image, name: users[0].name, size: variant == .chat ? .xSmall : .xxSmall)
+        PBAvatar(image: users[0].image, name: users[0].name, size: .multipleUsersStacked)
         if users.count == 2 {
-          PBAvatar(image: users[1].image, name: users[1].name, size: .xxSmall, wrapped: true)
+          PBAvatar(image: users[1].image, name: users[1].name, size: .multipleUsersStacked, wrapped: true)
             .offset(x: 10, y: 10)
         } else {
-          PBMultipleUsersIndicator(usersCount: users.count - 1, size: .xxSmall)
+          PBMultipleUsersIndicator(usersCount: users.count - 1, size: .multipleUsersStacked)
             .offset(x: 10, y: 10)
         }
       }
+      .offset(x: -4)
     }
-  }
-}
-
-public extension PBMultipleUsersStacked {
-  enum Variant {
-    case chat
-    case playbook
   }
 }
 
@@ -51,10 +43,10 @@ struct PBMultipleUsersStacked_Previews: PreviewProvider {
     let twoUsers = [andrew, picAndrew]
     let multipleUsers = [andrew, picAndrew, andrew, andrew]
 
-    return VStack {
+    return VStack(spacing: 15) {
       PBMultipleUsersStacked(users: oneUser)
-      PBMultipleUsersStacked(users: twoUsers).padding(4)
-      PBMultipleUsersStacked(users: multipleUsers).padding(4)
+      PBMultipleUsersStacked(users: twoUsers)
+      PBMultipleUsersStacked(users: multipleUsers)
     }
   }
 }

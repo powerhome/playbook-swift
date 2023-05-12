@@ -78,6 +78,7 @@ public struct PBAvatar: View {
 
 public extension PBAvatar {
   enum Size: CaseIterable {
+    case multipleUsersStacked
     case xxSmall
     case xSmall
     case small
@@ -87,6 +88,7 @@ public extension PBAvatar {
 
     var diameter: CGFloat {
       switch self {
+      case .multipleUsersStacked: return 18
       case .xxSmall: return 20
       case .xSmall: return 28
       case .small: return 38
@@ -108,6 +110,7 @@ public extension PBAvatar {
       case .medium: return 1.05
       case .large: return 1.12
       case .xLarge: return 1.16
+      case .multipleUsersStacked: return 0
       }
     }
 
@@ -119,6 +122,7 @@ public extension PBAvatar {
       case .medium: return 1
       case .large: return 0.78
       case .xLarge: return 0.68
+      case .multipleUsersStacked: return 0
       }
     }
   }
