@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct PBCheckboxStyle: ToggleStyle {
   @Binding var checked: Bool
+  @State private var isHovering = false
   var checkboxType: PBCheckbox.CheckboxType
   let action: (() -> Void)?
 
@@ -18,6 +19,7 @@ public struct PBCheckboxStyle: ToggleStyle {
         RoundedRectangle(cornerRadius: 4)
           .strokeBorder(borderColor, lineWidth: 2)
           .background(backgroundColor)
+          .background(isHovering ? Color.hover : Color.clear)
           .clipShape(RoundedRectangle(cornerRadius: 4))
           .frame(width: 22, height: 22)
 
@@ -38,6 +40,7 @@ public struct PBCheckboxStyle: ToggleStyle {
     }
     .frame(minHeight: 22)
     .contentShape(Rectangle())
+    .onHover { isHovering = $0 }
     .onTapGesture {
       checked.toggle()
       action?()
