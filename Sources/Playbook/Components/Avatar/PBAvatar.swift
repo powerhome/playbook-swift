@@ -110,6 +110,7 @@ public extension PBAvatar {
       case .medium: return 1.05
       case .large: return 1.12
       case .xLarge: return 1.16
+      case .multipleUsersStacked: return 0
       }
     }
 
@@ -121,6 +122,7 @@ public extension PBAvatar {
       case .medium: return 1
       case .large: return 0.78
       case .xLarge: return 0.68
+      case .multipleUsersStacked: return 0
       }
     }
   }
