@@ -12,7 +12,7 @@ Built and maintained by the User Experience Team at [Power Home Remodeling](http
   3. In your Swift view file, `import Playbook`
   4. Use the kits
   5. Rebuild the project
-- Install [`pre-commit`](https://pre-commit.com/#install) via `brew install precommit`
+- Install [`pre-commit`](https://pre-commit.com/#install) via `brew install pre-commit`
   1. In the Playbook Swift root directory, run `pre-commit install` to set up the git hook scripts
 - For more detailed instructions, visit the Wiki
 
