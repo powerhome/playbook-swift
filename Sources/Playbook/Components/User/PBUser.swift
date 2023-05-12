@@ -102,7 +102,7 @@ struct PBUser_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
     let img = Image("andrew", bundle: .module)
-    let name = "Andrew Kloecker"
+    let name = "Andrew Black"
     let title = "Rebels Developer"
 
     return Group {
