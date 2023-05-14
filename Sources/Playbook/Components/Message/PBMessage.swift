@@ -44,8 +44,8 @@ public struct PBMessage<Content: View, Avatar: View>: View {
   }
 }
 
-struct PBMessage_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBMessage_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     return PBMessage(

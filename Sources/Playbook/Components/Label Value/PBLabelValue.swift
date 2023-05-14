@@ -28,8 +28,8 @@ public struct PBLabelValue: View {
   }
 }
 
-struct PBLabelValue_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBLabelValue_Previews: PreviewProvider {
+  public static var previews: some View {
     PBLabelValue("Room", "this is value")
       .preferredColorScheme(.light)
     PBLabelValue("label", "this is a value")

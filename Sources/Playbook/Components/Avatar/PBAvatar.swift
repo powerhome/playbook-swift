@@ -64,7 +64,7 @@ public struct PBAvatar: View {
         Circle()
           .foregroundColor(statusColor)
           .overlay(
-            Circle().stroke(Color.text(.white), lineWidth: 2)
+            Circle().stroke(Color.white, lineWidth: 2)
           )
           .frame(width: 8.0, height: 8.0)
           .offset(
@@ -142,7 +142,7 @@ public extension PBAvatar {
   }
 }
 
-struct PBAvatar_Previews: PreviewProvider {
+public struct PBAvatar_Previews: PreviewProvider {
   static var defaultAvatars: some View {
     VStack(alignment: .leading) {
       PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online)
@@ -165,7 +165,7 @@ struct PBAvatar_Previews: PreviewProvider {
     }
   }
 
-  static var previews: some View {
+  public static var previews: some View {
     registerFonts()
 
     return List {

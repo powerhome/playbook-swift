@@ -54,8 +54,8 @@ private extension View {
 }
 
 @available(macOS 13.0, *)
-struct PBIconCircle_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBIconCircle_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     return List {

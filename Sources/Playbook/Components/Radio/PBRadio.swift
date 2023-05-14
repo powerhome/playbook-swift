@@ -99,7 +99,7 @@ public struct PBRadioButtonStyle: ButtonStyle {
 
 // MARK: - Previews
 
-struct PBRadio_Previews: PreviewProvider {
+public struct PBRadio_Previews: PreviewProvider {
   struct PBContentView: View {
     var orientation: Orientation = .vertical
 
@@ -131,7 +131,7 @@ struct PBRadio_Previews: PreviewProvider {
     }
   }
 
-  static var previews: some View {
+  public static var previews: some View {
     PBContentView(orientation: .vertical)
     PBContentView(orientation: .horizontal)
   }

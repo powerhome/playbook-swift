@@ -130,8 +130,8 @@ public extension PBCard {
 
 // MARK: Preview
 
-struct PBCard_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBCard_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     let text = "Card Content"
@@ -143,36 +143,34 @@ struct PBCard_Previews: PreviewProvider {
         Sed commodo posuere lectus, at porta nulla ornare a.
       """
 
-    return Group {
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Default").pbFont(.caption)
-        PBCard {
-          Text(text).pbFont(.body())
-        }
-        .padding(.bottom)
+    return List {
+      Section("Default") {
+        VStack(alignment: .leading, spacing: 8) {
+          Text("Default").pbFont(.caption)
+          PBCard {
+            Text(text).pbFont(.body())
+          }
+          .padding(.bottom)
 
-        Text("Default with shadow deep").pbFont(.caption)
-        PBCard(shadow: .deep) {
-          Text(text).pbFont(.body())
+          Text("Default with shadow deep").pbFont(.caption)
+          PBCard(shadow: .deep) {
+            Text(text).pbFont(.body())
+          }
         }
       }
-      .padding()
-      .previewDisplayName("Default")
 
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Highlight").pbFont(.caption)
-        PBCard(highlight: .side) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(highlight: .top, highlightColor: .status(.warning)) {
-          Text(text).pbFont(.body())
+      Section("Highlight") {
+        VStack(alignment: .leading, spacing: 8) {
+          PBCard(highlight: .side) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(highlight: .top, highlightColor: .status(.warning)) {
+            Text(text).pbFont(.body())
+          }
         }
       }
-      .padding()
-      .previewDisplayName("Highlight")
 
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Header cards").pbFont(.caption)
+      Section("Header cards") {
         PBCard(padding: .pbNone) {
           PBCardHeader {
             Text(text).pbFont(.body()).padding(.pbSmall)
@@ -186,28 +184,25 @@ struct PBCard_Previews: PreviewProvider {
           Text(text).pbFont(.body()).padding(.pbSmall)
         }
       }
-      .padding()
-      .previewDisplayName("Header cards")
 
-      VStack(alignment: .leading, spacing: nil) {
-        Text("Default").pbFont(.caption)
-        PBCard {
-          Text(text).pbFont(.body())
-        }
-        Text("Selected").pbFont(.caption)
-        PBCard(style: .selected) {
-          Text(text).pbFont(.body())
-        }
-        Text("Error").pbFont(.caption)
-        PBCard(style: .error) {
-          Text(text).pbFont(.body())
+      Section("Styles") {
+        VStack(alignment: .leading, spacing: nil) {
+          Text("Default").pbFont(.caption)
+          PBCard {
+            Text(text).pbFont(.body())
+          }
+          Text("Selected").pbFont(.caption)
+          PBCard(style: .selected) {
+            Text(text).pbFont(.body())
+          }
+          Text("Error").pbFont(.caption)
+          PBCard(style: .error) {
+            Text(text).pbFont(.body())
+          }
         }
       }
-      .padding()
-      .previewDisplayName("Styles")
 
-      VStack(alignment: .leading) {
-        Text("Padding size").pbFont(.caption)
+      Section("Padding size") {
         PBCard(padding: .pbNone) {
           Text(text).pbFont(.body())
         }
@@ -227,11 +222,8 @@ struct PBCard_Previews: PreviewProvider {
           Text(text).pbFont(.body())
         }
       }
-      .padding()
-      .previewDisplayName("Padding")
 
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Separator & Content").pbFont(.caption)
+      Section("Separator & Content") {
         PBCard(padding: .pbNone) {
           Text("Header").pbFont(.body()).padding(.pbSmall)
           PBSectionSeparator()
@@ -240,11 +232,8 @@ struct PBCard_Previews: PreviewProvider {
           Text("Footer").pbFont(.body()).padding(.pbSmall)
         }
       }
-      .padding()
-      .previewDisplayName("Separator & Content")
 
-      VStack(alignment: .leading, spacing: 8) {
-        Text("No border & border radius").pbFont(.caption)
+      Section("No border & border radius") {
         PBCard(border: false) {
           Text(text).pbFont(.body())
         }
@@ -270,10 +259,8 @@ struct PBCard_Previews: PreviewProvider {
           Text(text).pbFont(.body())
         }
       }
-      .padding()
-      .previewDisplayName("Border")
 
-      VStack(alignment: .leading, spacing: 0) {
+      Section("Complex") {
         PBCard(padding: .pbNone) {
           PBCardHeader(color: .product(.product1, category: .highlight)) {
             Text("Andrew")
@@ -282,13 +269,13 @@ struct PBCard_Previews: PreviewProvider {
           }
           Image("andrew", bundle: .module)
             .resizable()
-            .frame(height: 240)
+            .aspectRatio(contentMode: .fit)
+
           Text(loremIpsum).pbFont(.caption).padding(.pbSmall)
           PBSectionSeparator()
           Text("A nice guy and great dev").pbFont(.body()).padding(.pbSmall)
         }
       }
-      .frame(width: 240)
     }
   }
 }
