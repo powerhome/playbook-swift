@@ -126,8 +126,8 @@ public struct PBSectionSeparator_Previews: PreviewProvider {
     .pbFont(.body())
     .padding()
 
-    return Group {
-      VStack(alignment: .leading, spacing: nil) {
+    return List {
+      Section("Horizontal separators") {
         Text("Line separator").pbFont(.caption).padding()
         PBSectionSeparator()
 
@@ -144,10 +144,10 @@ public struct PBSectionSeparator_Previews: PreviewProvider {
         PBSectionSeparator(variant: .background) {
           Text("Title separator").pbFont(.subcaption).padding(4)
         }
-      }.previewDisplayName("Horizontal separators")
+      }
+      .listRowSeparator(.hidden)
 
-      VStack {
-        Text("Vertical").pbFont(.caption).padding()
+      Section("Vertical separator") {
         HStack {
           loremIpsum
           PBSectionSeparator(orientation: .vertical)
@@ -155,8 +155,8 @@ public struct PBSectionSeparator_Previews: PreviewProvider {
         }
         .frame(maxWidth: .infinity)
         .frame(height: 120, alignment: .center)
+        .listRowSeparator(.hidden)
       }
-      .previewDisplayName("Vertical separator")
     }
   }
 }

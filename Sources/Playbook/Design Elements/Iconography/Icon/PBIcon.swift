@@ -14,9 +14,9 @@ public protocol PlaybookGenericIcon {
 
 public struct PBIcon: View {
   var icon: PlaybookGenericIcon
-  var size: Size
+  var size: IconSize
 
-  public init(_ icon: PlaybookGenericIcon, size: Size = .medium) {
+  public init(_ icon: PlaybookGenericIcon, size: IconSize = .medium) {
     self.size = size
     self.icon = icon
   }
@@ -28,14 +28,10 @@ public struct PBIcon: View {
 }
 
 public extension PBIcon {
-  enum Size {
-    /// 16
+  enum IconSize: String, CaseIterable {
     case small
-    /// 20
     case medium
-    /// 24
     case large
-
     case x1
     case x2
     case x3
@@ -73,30 +69,6 @@ public extension PBIcon {
 public struct PBIcon_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-
-    return Group {
-      VStack {
-        VStack {
-          PBIcon.fontastic(.smilePlus)
-          PBIcon.fontAwesome(.user)
-          PBIcon(FontAwesome.lock)
-          PBIcon.fontAwesome(.user, size: .large)
-        }
-        .padding(.bottom, 20)
-        VStack {
-          PBIcon.fontAwesome(.user, size: .x1)
-          PBIcon.fontAwesome(.user, size: .x2)
-          PBIcon.fontAwesome(.user, size: .x3)
-          PBIcon.fontAwesome(.user, size: .x4)
-          PBIcon.fontAwesome(.user, size: .x5)
-          PBIcon.fontAwesome(.user, size: .x6)
-          PBIcon.fontAwesome(.user, size: .x7)
-          PBIcon.fontAwesome(.user, size: .x8)
-          PBIcon.fontAwesome(.user, size: .x9)
-          PBIcon.fontAwesome(.user, size: .x10)
-        }
-      }
-      .previewDisplayName("Icons")
-    }
+    return IconCatalog()
   }
 }

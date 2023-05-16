@@ -81,17 +81,17 @@ struct ContentListView: View {
           }
         } else {
           Text(Componenets.title).pbFont(.title3)
-            ForEach(Componenets.allCases, id: \.self) { element in
-              NavigationLink {
-                element.destination
-              } label: {
-                PBCard(padding: .pbXsmall, shadow: .deep) {
-                  HStack {
-                    Text(element.rawValue.capitalized).pbFont(.buttonText(16))
-                  }
+          ForEach(Componenets.allCases, id: \.self) { element in
+            NavigationLink {
+              element.destination
+            } label: {
+              PBCard(padding: .pbXsmall, shadow: .deep) {
+                HStack {
+                  Text(element.rawValue.capitalized).pbFont(.buttonText(16))
                 }
               }
             }
+          }
         }
       }
       .padding()
@@ -105,75 +105,5 @@ struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
     return ContentListView()
-  }
-}
-
-enum DesignElements: String, CaseIterable {
-  case color, shadows, typography, iconography, spacing
-  static let title: String = "Design Elements"
-
-  @ViewBuilder
-  var destination: some View {
-    switch self {
-    case .color: ColorsCatalog_Previews.previews
-    case .shadows: PBShadow_Previews.previews
-    case .typography: Typography_Previews.previews
-    case .iconography: PBIcon_Previews.previews
-    case .spacing: EmptyView()
-    }
-  }
-
-  var icon: FontAwesome {
-    switch self {
-    case .color: return .palette
-    case .shadows: return .cloud
-    case .typography: return .textHeight
-    case .iconography: return .icons
-    case .spacing: return .spaceShuttle
-    }
-  }
-
-}
-
-enum Componenets: String, CaseIterable {
-  case avatar
-  case button
-  case card
-  case checkbox
-  case collapsible
-  case dialog
-  case icon
-  case image
-  case label
-  case message
-  case nav
-  case progressIndicator
-  case radio
-  case sectionSeparator
-  case select
-  case tags
-
-  static let title: String = "Components"
-
-  @ViewBuilder
-  var destination: some View {
-    switch self {
-    case .avatar: PBAvatar_Previews.previews
-    case .button: PBButtonStyle_Previews.previews
-    case .card: PBCard_Previews.previews
-    case .checkbox: EmptyView()
-    case .collapsible: PBCollapsible_Previews.previews
-    case .dialog: PBDialog_Previews.previews
-    case .icon: PBIconCircle_Previews.previews
-    case .image: PBImage_Previews.previews
-    case .label: PBLabelValue_Previews.previews
-    case .message: PBMessage_Previews.previews
-    case .nav: PBNav_Previews.previews
-    case .progressIndicator: PBSpinner_Previews.previews
-    case .radio: PBRadio_Previews.previews
-    case .sectionSeparator: PBSectionSeparator_Previews.previews
-    case .select: PBSelect_Previews.previews
-    case .tags: PBBadge_Previews.previews
-    }
   }
 }

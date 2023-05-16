@@ -30,9 +30,7 @@ public struct PBLabelValue: View {
 
 public struct PBLabelValue_Previews: PreviewProvider {
   public static var previews: some View {
-    PBLabelValue("Room", "this is value")
-      .preferredColorScheme(.light)
-    PBLabelValue("label", "this is a value")
-      .preferredColorScheme(.dark)
+    registerFonts()
+    return LabelValueCatalog()
   }
 }

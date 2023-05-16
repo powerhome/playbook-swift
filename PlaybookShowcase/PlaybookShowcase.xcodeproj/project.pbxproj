@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		639039872A13A496004576FF /* ContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639039862A13A496004576FF /* ContentListView.swift */; };
-		639039882A13A496004576FF /* ContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639039862A13A496004576FF /* ContentListView.swift */; };
 		F905151B29F03B0700F9B66D /* PlaybookShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */; };
 		F905151F29F03B0700F9B66D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F905152229F03B0700F9B66D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
@@ -253,7 +252,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F943570829F070960051C650 /* PlaybookShowcaseApp.swift in Sources */,
-				639039882A13A496004576FF /* ContentListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

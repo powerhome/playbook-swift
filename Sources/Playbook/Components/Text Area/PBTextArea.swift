@@ -33,8 +33,8 @@ public struct PBTextArea: View {
   }
 }
 
-struct PBTextArea_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBTextArea_Previews: PreviewProvider {
+  public static var previews: some View {
     PBTextArea("Title", text: .constant("Text"))
       .padding(16)
       .preferredColorScheme(.light)

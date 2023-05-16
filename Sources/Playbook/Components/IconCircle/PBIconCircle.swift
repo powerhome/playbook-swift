@@ -9,12 +9,12 @@ import SwiftUI
 
 public struct PBIconCircle: View {
   var icon: PlaybookGenericIcon
-  var size: PBIcon.Size
+  var size: PBIcon.IconSize
   var color: Color
 
   public init(
     _ icon: PlaybookGenericIcon,
-    size: PBIcon.Size = .medium,
+    size: PBIcon.IconSize = .medium,
     color: Color = .status(.neutral)
   ) {
     self.icon = icon
@@ -58,26 +58,6 @@ public struct PBIconCircle_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
 
-    return List {
-      Section("Default") {
-        PBIconCircle(FontAwesome.rocket)
-      }
-
-      Section("Size") {
-        let pBIconSizes = [PBIcon.Size.small, PBIcon.Size.medium, PBIcon.Size.large]
-
-        ForEach(pBIconSizes, id: \.self) { size in
-          PBIconCircle(FontAwesome.rocket, size: size)
-        }
-      }
-      .listRowSeparator(.hidden)
-
-      Section("Color") {
-        ForEach(Color.DataColor.allCases, id: \.self) { color in
-          PBIconCircle(FontAwesome.rocket, size: .small, color: Color.data(color))
-        }
-      }
-      .listRowSeparator(.hidden)
-    }
+    return IconCircleCatalog()
   }
 }

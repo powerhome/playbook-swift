@@ -14,7 +14,11 @@ struct PlaybookShowcaseApp: App {
   var body: some Scene {
     registerFonts()
     return WindowGroup {
+    #if os(iOS)
       ContentListView()
+    #elseif os(macOS)
+      EmptyView()
+    #endif
     }
   }
 }
