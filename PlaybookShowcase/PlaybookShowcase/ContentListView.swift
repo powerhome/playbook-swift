@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ContentListView.swift
 //  PlaybookShowcase-iOS
 //
 //  Created by Isis Silva on 4/19/23.
@@ -10,7 +10,7 @@ import Playbook
 import UIKit
 
 @available(iOS 16.0, *)
-struct ContentView: View {
+struct ContentListView: View {
   @State var selectedItem: Int = 0
   let columns = Array(repeating: GridItem(.flexible()), count: 2)
   var body: some View {
@@ -104,7 +104,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-    return ContentView()
+    return ContentListView()
   }
 }
 

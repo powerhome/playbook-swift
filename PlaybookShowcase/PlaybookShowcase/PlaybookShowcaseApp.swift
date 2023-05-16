@@ -14,7 +14,7 @@ struct PlaybookShowcaseApp: App {
   var body: some Scene {
     registerFonts()
     return WindowGroup {
-      ContentView()
+      ContentListView()
     }
   }
 }
