@@ -82,8 +82,8 @@ public extension PBMultipleUsers {
   }
 }
 
-struct PBMultipleUsers_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBMultipleUsers_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     let andrew = PBUser(name: "Andrew Black")

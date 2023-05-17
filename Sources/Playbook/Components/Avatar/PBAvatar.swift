@@ -64,7 +64,7 @@ public struct PBAvatar: View {
         Circle()
           .foregroundColor(statusColor)
           .overlay(
-            Circle().stroke(Color.text(.white), lineWidth: 2)
+            Circle().stroke(Color.white, lineWidth: 2)
           )
           .frame(width: 8.0, height: 8.0)
           .offset(
@@ -143,39 +143,8 @@ public extension PBAvatar {
 }
 
 struct PBAvatar_Previews: PreviewProvider {
-  static var defaultAvatars: some View {
-    VStack(alignment: .leading) {
-      PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .away)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .small, status: .online)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .large, status: .online)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .xLarge, status: .offline)
-    }
-  }
-
-  static var monograms: some View {
-    VStack(alignment: .leading) {
-      PBAvatar(name: "Tim Wenhold", size: .xxSmall, status: .online)
-      PBAvatar(name: "Tim Wenhold", size: .xSmall, status: .away)
-      PBAvatar(name: "Tim Wenhold", size: .small, status: .online)
-      PBAvatar(name: "Tim Wenhold", size: .medium, status: .away)
-      PBAvatar(name: "Tim Wenhold", size: .large, status: .online)
-      PBAvatar(name: "Tim Wenhold", size: .xLarge, status: .offline)
-    }
-  }
-
   static var previews: some View {
     registerFonts()
-
-    return List {
-      Section("Default") {
-        defaultAvatars
-      }
-
-      Section("Monogram") {
-        monograms
-      }
-    }
+    return AvatarCatalog()
   }
 }

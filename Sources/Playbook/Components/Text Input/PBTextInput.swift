@@ -36,8 +36,8 @@ public struct PBTextInputStyle: TextFieldStyle {
 
 // MARK: -
 
-struct PBTextInput_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBTextInput_Previews: PreviewProvider {
+  public static var previews: some View {
     VStack {
       TextField("", text: .constant("text"))
         .textFieldStyle(PBTextInputStyle("default"))

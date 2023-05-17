@@ -20,7 +20,7 @@ public enum Fontastic: String, PlaybookGenericIcon, CaseIterable {
 }
 
 public extension PBIcon {
-  static func fontastic(_ icon: Fontastic, size: Size = .medium) -> PBIcon {
+  static func fontastic(_ icon: Fontastic, size: IconSize = .medium) -> PBIcon {
     PBIcon(icon, size: size)
   }
 }

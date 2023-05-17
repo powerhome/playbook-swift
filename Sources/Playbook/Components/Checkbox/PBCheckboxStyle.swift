@@ -45,17 +45,17 @@ public struct PBCheckboxStyle: ToggleStyle {
       checked.toggle()
       action?()
     }
+  }
 
-    var borderColor: Color {
-      switch (checkboxType, checked) {
-      case (.default, true), (.error, true), (.indeterminate, true): return .pbPrimary
-      case (.error, false): return .status(.error)
-      default: return .border
-      }
+  var borderColor: Color {
+    switch (checkboxType, checked) {
+    case (.default, true), (.error, true), (.indeterminate, true): return .pbPrimary
+    case (.error, false): return .status(.error)
+    default: return .border
     }
+  }
 
-    var backgroundColor: Color {
-      checked ? .pbPrimary : .clear
-    }
+  var backgroundColor: Color {
+    checked ? .pbPrimary : .clear
   }
 }

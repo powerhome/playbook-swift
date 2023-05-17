@@ -45,25 +45,9 @@ public struct PBCheckbox: View {
   }
 }
 
-struct PBCheckbox_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBCheckbox_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
-
-    return VStack {
-      PBCheckbox(checked: false, text: "Unchecked", action: {})
-      PBCheckbox(checked: true, text: "Checked", action: {})
-      PBCheckbox(
-        checked: false,
-        checkboxType: .error,
-        text: "Error",
-        action: {}
-      )
-      PBCheckbox(
-        checked: true,
-        checkboxType: .indeterminate,
-        text: "Indeterminate",
-        action: {}
-      )
-    }
+    return CheckboxCatalog()
   }
 }

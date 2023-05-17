@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct PBNav: View {
-  @Binding private var currentSelection: Int?
+  @Binding private var selected: Int
   @State private var currentHover: Int?
   private let variant: Variant
   private let orientation: Orientation
@@ -18,7 +18,7 @@ public struct PBNav: View {
   private let views: [AnyView]
 
   public init<Views>(
-    selected: Binding<Int?> = .constant(nil),
+    selected: Binding<Int> = .constant(0),
     variant: Variant? = .normal,
     orientation: Orientation = .vertical,
     title: String? = nil,
@@ -32,11 +32,11 @@ public struct PBNav: View {
     self.title = title
     self.borders = borders
     self.highlight = highlight
-    _currentSelection = selected
+    self._selected = selected
   }
 
   func item(_ view: AnyView, _ index: Int) -> some View {
-    let isSelected = index == currentSelection
+    let isSelected = index == selected
     let isHovering = index == currentHover
 
     return view
@@ -49,7 +49,7 @@ public struct PBNav: View {
         }
       }
       .onTapGesture {
-        currentSelection = index
+        selected = index
       }
       .environment(\.selected, isSelected)
       .environment(\.hovering, isHovering)
@@ -74,18 +74,12 @@ public struct PBNav: View {
               .contentShape(Rectangle())
           }
         }
-        .zIndex(1)
-        Rectangle()
-          .frame(maxWidth: .infinity)
-          .frame(height: 3)
-          .foregroundColor(Color(hex: 0xE4E8F0))
-          .padding(.top, -3)
       }
     }
   }
 
   var verticalBody: some View {
-    VStack(spacing: variant.spacing) {
+    HStack(spacing: variant.spacing) {
       ForEach(views.indices, id: \.self) { index in
         VStack(alignment: .leading, spacing: 0) {
           item(views[index], index)
@@ -135,13 +129,12 @@ public extension PBNav {
   }
 }
 
-struct PBNav_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBNav_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     return Group {
       PBNav(
-        selected: .constant(0),
         variant: .subtle,
         orientation: .horizontal
       ) {
@@ -154,7 +147,6 @@ struct PBNav_Previews: PreviewProvider {
       .padding()
 
       PBNav(
-        selected: .constant(0),
         orientation: .horizontal
       ) {
         PBNavItem("Short")
@@ -165,7 +157,6 @@ struct PBNav_Previews: PreviewProvider {
       .padding()
 
       PBNav(
-        selected: .constant(0),
         variant: .subtle
       ) {
         PBNavItem("Rebels")
@@ -177,7 +168,6 @@ struct PBNav_Previews: PreviewProvider {
       .padding()
 
       PBNav(
-        selected: .constant(1),
         title: "Why is this a prop?"
       ) {
         PBNavItem(

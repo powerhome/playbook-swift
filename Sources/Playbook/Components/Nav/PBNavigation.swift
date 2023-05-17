@@ -226,76 +226,8 @@ public struct PBNavigation<Option: Equatable & Identifiable, Content: View>: Vie
 }
 
 struct PBNavigation_Previews: PreviewProvider {
-  enum NavOptions: String, Identifiable, CaseIterable {
-    var id: String { rawValue }
-
-    case op1 = "Option 1"
-    case op2 = "Option 2"
-    case op3 = "Option 3"
-  }
-
   static var previews: some View {
     registerFonts()
-
-    return Group {
-      VStack(spacing: 20) {
-        PBNavigation(
-          NavOptions.allCases,
-          selected: .constant(NavOptions.op1),
-          variant: .normal,
-          orientation: .horizontal
-        ) { option in
-          Label {
-            Text("\(option.rawValue)")
-          } icon: {
-            Image(systemName: "person")
-          }
-        }
-        PBNavigation(
-          NavOptions.allCases,
-          selected: .constant(NavOptions.op1),
-          variant: .normal,
-          orientation: .vertical
-        ) { option in
-          Label {
-            Text("\(option.rawValue)")
-          } icon: {
-            Image(systemName: "person")
-          }
-        }
-      }
-      .padding()
-      .previewDisplayName("Normal")
-
-      VStack(spacing: 20) {
-        PBNavigation(
-          NavOptions.allCases,
-          selected: .constant(NavOptions.op1),
-          variant: .subtle,
-          orientation: .horizontal
-        ) { option in
-          Label {
-            Text("\(option.rawValue)")
-          } icon: {
-            Image(systemName: "person")
-          }
-        }
-
-        PBNavigation(
-          NavOptions.allCases,
-          selected: .constant(NavOptions.op1),
-          variant: .subtle,
-          orientation: .vertical
-        ) { option in
-          Label {
-            Text("\(option.rawValue)")
-          } icon: {
-            Image(systemName: "person")
-          }
-        }
-      }
-      .padding()
-      .previewDisplayName("Subtle")
-    }
+    return NavigationCatalog()
   }
 }

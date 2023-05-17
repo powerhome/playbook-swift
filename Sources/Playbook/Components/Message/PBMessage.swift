@@ -44,16 +44,9 @@ public struct PBMessage<Content: View, Avatar: View>: View {
   }
 }
 
-struct PBMessage_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBMessage_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
-
-    return PBMessage(
-      avatar: PBAvatar(image: Image("andrew", bundle: .module)),
-      label: "Andrew Black", timestamp: PBTimestamp(Date(), showDate: false)
-    ) {
-      Text("This below ir our great friend (and amazing dev), aka me, Andrew:").pbFont(.body())
-      Image("andrew", bundle: .module).resizable().frame(width: 240, height: 240)
-    }
+    return MessageCatalog()
   }
 }

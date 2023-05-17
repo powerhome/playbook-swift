@@ -43,8 +43,8 @@ public enum Shadow: String, CaseIterable {
 }
 
 @available(macOS 13.0, *)
-struct PBShadow_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBShadow_Previews: PreviewProvider {
+  public static var previews: some View {
     let shape = RoundedRectangle(cornerRadius: 7)
 
     List(Shadow.allCases, id: \.hashValue) { shadow in

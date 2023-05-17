@@ -128,8 +128,8 @@ public extension PBTimestamp {
   }
 }
 
-struct PBTimestamp_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBTimestamp_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
     let timeInterval: TimeInterval = 31_536_000
     let minWidth: CGFloat = 0

@@ -30,7 +30,9 @@ struct PBStatusDialogView: View {
   }
 }
 
-public enum DialogStatus: String, CaseIterable {
+public enum DialogStatus: String, CaseIterable, Identifiable {
+  public var id: UUID { UUID() }
+
   case `default`, caution, delete, information, error, success
   var icon: (PlaybookGenericIcon, Color) {
     switch self {

@@ -116,8 +116,8 @@ public extension PBSectionSeparator {
   }
 }
 
-struct PBSectionSeparator_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBSectionSeparator_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
 
     let loremIpsum = Text(
@@ -126,8 +126,8 @@ struct PBSectionSeparator_Previews: PreviewProvider {
     .pbFont(.body())
     .padding()
 
-    return Group {
-      VStack(alignment: .leading, spacing: nil) {
+    return List {
+      Section("Horizontal separators") {
         Text("Line separator").pbFont(.caption).padding()
         PBSectionSeparator()
 
@@ -144,16 +144,19 @@ struct PBSectionSeparator_Previews: PreviewProvider {
         PBSectionSeparator(variant: .background) {
           Text("Title separator").pbFont(.subcaption).padding(4)
         }
-      }.previewDisplayName("Horizontal separators")
+      }
+      .listRowSeparator(.hidden)
 
-      VStack {
-        Text("Vertical").pbFont(.caption).padding()
+      Section("Vertical separator") {
         HStack {
           loremIpsum
           PBSectionSeparator(orientation: .vertical)
           loremIpsum
-        }.frame(width: .infinity, height: 120, alignment: .center)
-      }.previewDisplayName("Vertical separator")
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 120, alignment: .center)
+        .listRowSeparator(.hidden)
+      }
     }
   }
 }

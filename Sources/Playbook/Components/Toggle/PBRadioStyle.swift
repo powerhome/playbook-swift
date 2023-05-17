@@ -58,8 +58,8 @@ public struct PBRadioStyle: ToggleStyle {
   }
 }
 
-struct PBRadioStyle_Previews: PreviewProvider {
-  static var previews: some View {
+public struct PBRadioStyle_Previews: PreviewProvider {
+  public static var previews: some View {
     VStack(alignment: .leading, spacing: 10) {
       Toggle("Checked", isOn: .constant(true))
         .toggleStyle(PBRadioStyle())

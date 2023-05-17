@@ -46,8 +46,6 @@ public struct PBDialog<Content: View>: View {
 
   public var body: some View {
     dialogView()
-      .frame(maxWidth: variant.width(size))
-      .padding(padding)
       .onTapGesture {
         if shouldCloseOnOverlay {
           if let onClose = onClose {
@@ -90,7 +88,12 @@ public struct PBDialog<Content: View>: View {
         .padding()
       }
     }
+    #if os(macOS)
     .frame(width: variant.width(size))
+    #elseif os(iOS)
+    .frame(maxWidth: variant.width(size))
+    #endif
+    .padding(padding)
   }
 
   func cancelButtonAction() -> (String, (() -> Void))? {
@@ -118,7 +121,9 @@ public struct PBDialog<Content: View>: View {
   }
 }
 
-public enum DialogSize: String, CaseIterable {
+public enum DialogSize: String, CaseIterable, Identifiable {
+  public var id: UUID { UUID() }
+
   case small
   case medium
   case large
@@ -148,114 +153,10 @@ public enum DialogVariant: Equatable {
   }
 }
 
-struct PBBDialog_Previews: PreviewProvider {
-  static var previews: some View {
+@available(macOS 13.0, *)
+public struct PBDialog_Previews: PreviewProvider {
+  public static var previews: some View {
     registerFonts()
-
-    let infoMessage = "This is a message for informational purposes only and requires no action."
-
-    func foo() {
-      print("Hello world!")
-    }
-
-    return Group {
-      PBDialog(
-        title: "This is some informative text",
-        message: infoMessage,
-        cancelButton: ("Cancel", foo),
-        confirmButton: ("Okay", foo)
-      )
-      .backgroundViewModifier(alpha: 0.2)
-      .previewDisplayName("Simple")
-
-      PBDialog(
-        title: "Header",
-        cancelButton: ("Back", foo),
-        confirmButton: ("Send My Issue", foo),
-        content: ({
-          ScrollView {
-            Text("Hello Complex Dialog!\nAnything can be placed here.")
-              .pbFont(.title2)
-              .multilineTextAlignment(.leading)
-
-            TextField("", text: .constant("text"))
-              .textFieldStyle(PBTextInputStyle("Default"))
-              .padding()
-          }
-          .padding()
-        }))
-      .backgroundViewModifier(alpha: 0.2)
-      .previewDisplayName("Complex")
-
-      List(DialogSize.allCases, id: \.self) { size in
-        PBDialog(
-          title: "\(size.rawValue.capitalized) Dialog",
-          message: infoMessage,
-          cancelButton: ("Cancel", foo),
-          confirmButton: ("Okay", foo),
-          size: size
-        )
-        .backgroundViewModifier(alpha: 0.2)
-      }
-      .previewDisplayName("Size")
-
-      List {
-        Section("Stacked") {
-          ScrollView(showsIndicators: false) {
-            PBDialog(
-              title: "Success!",
-              message: infoMessage,
-              variant: .status(.success),
-              isStacked: true,
-              cancelButton: ("Cancel", foo),
-              confirmButton: ("Okay", foo),
-              size: .small
-            )
-
-            PBDialog(
-              title: "Error!",
-              message: infoMessage,
-              variant: .status(.error),
-              isStacked: true,
-              confirmButton: ("Okay", foo),
-              size: .small
-            )
-          }
-          .frame(maxWidth: .infinity)
-          .backgroundViewModifier(alpha: 0.2)
-        }
-
-        Section("Default") {
-          PBDialog(
-            title: "Caution!",
-            message: infoMessage,
-            variant: .status(.caution),
-            isStacked: false,
-            cancelButton: ("Cancel", foo),
-            confirmButton: ("Okay", foo),
-            size: .small
-          )
-          .backgroundViewModifier(alpha: 0.2)
-          .frame(maxWidth: .infinity)
-        }
-      }
-      .previewDisplayName("Stacked")
-
-      List(DialogStatus.allCases, id: \.self) { status in
-        Section(status.rawValue) {
-          PBDialog(
-            title: status.rawValue.capitalized,
-            message: infoMessage,
-            variant: .status(status),
-            isStacked: false,
-            cancelButton: ("Cancel", foo),
-            confirmButton: ("Okay", foo)
-          )
-          .frame(maxWidth: .infinity)
-          .backgroundViewModifier(alpha: 0.2)
-        }
-      }
-      .previewDisplayName("Status")
-    }
+    return DialogCatalog()
   }
 }

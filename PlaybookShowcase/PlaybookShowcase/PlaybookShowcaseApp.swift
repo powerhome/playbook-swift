@@ -6,12 +6,19 @@
 //
 
 import SwiftUI
+import Playbook
 
+@available(iOS 16.0, *)
 @main
 struct PlaybookShowcaseApp: App {
   var body: some Scene {
-    WindowGroup {
-      ContentView()
+    registerFonts()
+    return WindowGroup {
+    #if os(iOS)
+      ContentListView()
+    #elseif os(macOS)
+      EmptyView()
+    #endif
     }
   }
 }

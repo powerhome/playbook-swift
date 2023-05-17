@@ -99,40 +99,8 @@ public struct PBRadioButtonStyle: ButtonStyle {
 
 // MARK: - Previews
 
-struct PBRadio_Previews: PreviewProvider {
-  struct PBContentView: View {
-    var orientation: Orientation = .vertical
-
-    @State var selected: PBRadioItem? = PBRadioItem("Manor", subtitle: "This is a subtitle")
-
-    var body: some View {
-      VStack {
-        VStack {
-          Text("Radio example")
-            .font(Font.headline)
-            .padding()
-        }
-
-        PBRadio(
-          items: [
-            PBRadioItem("Manor", subtitle: "This is a subtitle"),
-            .init("Chalet"),
-            .init("Ranch"),
-            .init("Villa")
-          ],
-          orientation: orientation,
-          selected: $selected
-        )
-
-        if let selected = selected {
-          Text("You selected: \(selected.title)")
-        }
-      }
-    }
-  }
-
-  static var previews: some View {
-    PBContentView(orientation: .vertical)
-    PBContentView(orientation: .horizontal)
+public struct PBRadio_Previews: PreviewProvider {
+  public static var previews: some View {
+    RadioCatalog()
   }
 }
