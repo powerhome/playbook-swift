@@ -17,7 +17,7 @@ public struct PBSelect: ButtonStyle {
   }
 
   public func makeBody(configuration: Configuration) -> some View {
-    VStack(alignment: .leading, spacing: 4) {
+    VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       if let title = title {
         Text(title)
           .pbFont(.caption, color: .text(.light))
@@ -32,7 +32,7 @@ public struct PBSelect: ButtonStyle {
           PBIcon.fontAwesome(.chevronDown)
             .foregroundColor(.text(.default))
         }
-        .padding(.horizontal, .pbSmall)
+        .padding(.horizontal, Spacing.small)
       }
     }
   }

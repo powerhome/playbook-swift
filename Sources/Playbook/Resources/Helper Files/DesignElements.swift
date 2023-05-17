@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(macOS 13.0, *)
 public enum DesignElements: String, CaseIterable {
   case color, shadows, typography, iconography, spacing
   public static let title: String = "Design Elements"

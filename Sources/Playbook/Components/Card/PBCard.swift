@@ -35,7 +35,7 @@ public struct PBCard<Content: View>: View {
   let content: Content
   let alignment: Alignment
   let border: Bool
-  let borderRadius: BorderRadius
+  let borderRadius: CGFloat
   let highlight: Highlight
   let highlightColor: Color
   let isHovering: Bool
@@ -47,11 +47,11 @@ public struct PBCard<Content: View>: View {
   public init(
     alignment: Alignment = .leading,
     border: Bool = true,
-    borderRadius: BorderRadius = .medium,
+    borderRadius: CGFloat = BorderRadius.medium,
     highlight: Highlight = .none,
     highlightColor: Color = .product(.product1, category: .highlight),
     isHovering: Bool = false,
-    padding: CGFloat = .pbMedium,
+    padding: CGFloat = Spacing.medium,
     style: PBCardStyle = .default,
     shadow: Shadow? = nil,
     width: CGFloat? = .infinity,
@@ -71,7 +71,7 @@ public struct PBCard<Content: View>: View {
   }
 
   public var body: some View {
-    VStack(alignment: .leading, spacing: 0) {
+    VStack(alignment: .leading, spacing: Spacing.none) {
       if highlight == .none {
         content
           .padding(padding)
@@ -80,7 +80,7 @@ public struct PBCard<Content: View>: View {
           .padding(padding)
           .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
           .background(
-            RoundedRectangle(cornerRadius: borderRadius.rawValue)
+            RoundedRectangle(cornerRadius: borderRadius)
               .stroke(highlightColor, lineWidth: 10)
               .padding(
                 .init(
@@ -93,15 +93,15 @@ public struct PBCard<Content: View>: View {
           )
       }
     }
-    .cornerRadius(borderRadius.rawValue)
+    .cornerRadius(borderRadius)
     .frame(minWidth: 0, maxWidth: width, alignment: alignment)
     .background(
-      RoundedRectangle(cornerRadius: borderRadius.rawValue, style: .continuous)
+      RoundedRectangle(cornerRadius: borderRadius, style: .continuous)
         .fill(Color.card.opacity(isHovering ? 0.4 : 1))
         .pbShadow(shadow ?? .none)
     )
     .overlay(
-      RoundedRectangle(cornerRadius: borderRadius.rawValue)
+      RoundedRectangle(cornerRadius: borderRadius)
         .stroke(
           style.color,
           lineWidth: border ? style.lineWidth : 0
@@ -111,15 +111,7 @@ public struct PBCard<Content: View>: View {
 }
 
 public extension PBCard {
-  enum BorderRadius: CGFloat {
-    case none = 0
-    case xSmall = 2
-    case small = 4
-    case medium = 6
-    case large = 8
-    case xLarge = 12
-    case rounded = 48
-  }
+ 
 
   enum Highlight {
     case none

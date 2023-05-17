@@ -88,16 +88,16 @@ public struct PBNavItem: View {
     case .normal:
       return 0
     case .subtle:
-      return .pbXsmall
+      return BorderRadius.xSmall
     }
   }
 
   var padding: CGFloat {
     switch variant {
     case .normal:
-      return .pbSmall
+      return Spacing.small
     case .subtle:
-      return .pbSmall * 0.7
+      return Spacing.small * 0.7
     }
   }
 

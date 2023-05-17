@@ -70,7 +70,7 @@ struct ContentListView: View {
               NavigationLink {
                 element.destination
               } label: {
-                PBCard(padding: .pbXsmall, shadow: .deep) {
+                PBCard(padding: Spacing.xSmall, shadow: .deep) {
                   HStack {
                     PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(.black)
                     Text(element.rawValue.capitalized).pbFont(.buttonText(16))
@@ -85,7 +85,7 @@ struct ContentListView: View {
             NavigationLink {
               element.destination
             } label: {
-              PBCard(padding: .pbXsmall, shadow: .deep) {
+              PBCard(padding: Spacing.xSmall, shadow: .deep) {
                 HStack {
                   Text(element.rawValue.capitalized).pbFont(.buttonText(16))
                 }

@@ -73,7 +73,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
 
   public var body: some View {
     if orientation == .horizontal {
-      HStack(alignment: .center, spacing: 0, content: {
+      HStack(alignment: .center, spacing: Spacing.none, content: {
         divider
 
         if let text = text, !text.isEmpty {
@@ -116,6 +116,7 @@ public extension PBSectionSeparator {
   }
 }
 
+@available(macOS 13.0, *)
 public struct PBSectionSeparator_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()

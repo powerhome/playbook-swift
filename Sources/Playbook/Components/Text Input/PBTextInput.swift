@@ -17,7 +17,7 @@ public struct PBTextInputStyle: TextFieldStyle {
   }
 
   public func _body(configuration: TextField<Self._Label>) -> some View {
-    VStack(alignment: .leading, spacing: 4) {
+    VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       if let title = title {
         Text(title)
           .pbFont(.title4, color: .text(.light))
