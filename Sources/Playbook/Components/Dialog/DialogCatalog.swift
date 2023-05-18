@@ -9,34 +9,34 @@ import SwiftUI
 
 #if os(iOS)
 public struct DialogCatalog: View {
-  
+
   public init() {}
-  
+
   static let infoMessage = "This is a message for informational purposes only and requires no action."
 
   static func disableAnimation() {
     UIView.setAnimationsEnabled(false)
   }
-  
+
   public var body: some View {
     List {
       Section("Simple") {
         SimpleButton()
       }
-      
+
       Section("Complex") {
         ComplexButton()
       }
-      
+
       Section("Size") {
         SizeButtons()
       }
       .listRowSeparator(.hidden)
-      
+
       Section("Stacked") {
         StackedButton()
       }
-      
+
       Section("Status") {
         StatusButtons()
       }
@@ -44,14 +44,14 @@ public struct DialogCatalog: View {
     }
     .navigationTitle("Dialog")
   }
-  
+
   struct SimpleButton: View {
     @State var presentDialog: Bool = false
-    
+
     func foo() {
       print("Hello World")
     }
-    
+
     var body: some View {
       PBButton(title: "Simple") {
         disableAnimation()
@@ -68,14 +68,14 @@ public struct DialogCatalog: View {
       }
     }
   }
-  
+
   struct ComplexButton: View {
     @State var presentDialog: Bool = false
-    
+
     func foo() {
       presentDialog = false
     }
-    
+
     var body: some View {
       PBButton(title: "Complex") {
         disableAnimation()
@@ -91,7 +91,7 @@ public struct DialogCatalog: View {
               Text("Hello Complex Dialog!\nAnything can be placed here")
                 .pbFont(.title2)
                 .multilineTextAlignment(.leading)
-              
+
               TextField("", text: .constant("text"))
                 .textFieldStyle(PBTextInputStyle("default"))
                 .padding()
@@ -101,14 +101,14 @@ public struct DialogCatalog: View {
       }
     }
   }
-  
+
   struct SizeButtons: View {
     @State var presentDialog: DialogSize?
-    
+
     func foo() {
       presentDialog = nil
     }
-    
+
     var body: some View {
       ForEach(DialogSize.allCases, id: \.self) { size in
         PBButton(title: size.rawValue.capitalized) {
@@ -128,16 +128,16 @@ public struct DialogCatalog: View {
       }
     }
   }
-  
+
   struct StackedButton: View {
     @State var presentDialog1: Bool = false
     @State var presentDialog2: Bool = false
-    
+
     func foo() {
       presentDialog1 = false
       presentDialog2 = false
     }
-    
+
     var body: some View {
       HStack {
         PBButton(title: "Stacked") {
@@ -156,7 +156,7 @@ public struct DialogCatalog: View {
           )
           .backgroundViewModifier(alpha: 0.2)
         }
-        
+
         PBButton(title: "Stacked Simple") {
           disableAnimation()
           presentDialog2.toggle()
@@ -175,14 +175,14 @@ public struct DialogCatalog: View {
       }
     }
   }
-  
+
   struct StatusButtons: View {
     @State var presentDialog: DialogStatus?
-    
+
     func foo() {
       presentDialog = nil
     }
-    
+
     var body: some View {
       ForEach(DialogStatus.allCases, id: \.self) { status in
         PBButton(title: status.rawValue.capitalized) {

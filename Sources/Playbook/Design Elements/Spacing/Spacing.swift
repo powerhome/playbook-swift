@@ -15,7 +15,7 @@ public struct Spacing {
   public static let medium: CGFloat = 24
   public static let large: CGFloat = 32
   public static let xLarge: CGFloat = 40
-  
+
   public static let allCase = [
     (Spacing.none, "None"),
     (Spacing.xxSmall, "XX Small"),

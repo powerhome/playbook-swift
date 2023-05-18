@@ -58,13 +58,13 @@ public struct CollapsibleCatalog: View {
         } content: {
           content
         }
-        
+
         PBCollapsible(isCollapsed: $isCollapsedTrailing, indicatorPosition: .trailing) {
           textOnlyHeader
         } content: {
           content
         }
-        
+
         PBCollapsible(isCollapsed: $isCollapsedImage, indicatorPosition: .trailing) {
           imageHeader
         } content: {

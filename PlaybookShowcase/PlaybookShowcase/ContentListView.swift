@@ -9,8 +9,19 @@ import SwiftUI
 import Playbook
 import UIKit
 
-@available(iOS 16.0, *)
 struct ContentListView: View {
+
+  init() {
+    let appearance = UINavigationBarAppearance()
+    appearance.configureWithOpaqueBackground()
+    appearance.backgroundColor = .white
+    appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
+    appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
+    UINavigationBar.appearance().standardAppearance = appearance
+    UINavigationBar.appearance().compactAppearance = appearance
+    UINavigationBar.appearance().scrollEdgeAppearance = appearance
+  }
+
   @State var selectedItem: Int = 0
   let columns = Array(repeating: GridItem(.flexible()), count: 2)
   var body: some View {
@@ -25,8 +36,6 @@ struct ContentListView: View {
             }
           }
         }
-        .toolbarBackground(.white)
-        .toolbarBackground(.visible, for: .navigationBar)
         .background {
           Color.background(.light)
         }
@@ -36,7 +45,6 @@ struct ContentListView: View {
             bottomBar
           }
         }
-        .toolbar(.visible, for: .navigationBar)
         .edgesIgnoringSafeArea(.bottom)
     }
   }

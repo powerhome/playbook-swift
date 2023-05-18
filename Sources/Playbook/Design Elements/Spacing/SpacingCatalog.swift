@@ -8,9 +8,9 @@
 import SwiftUI
 
 public struct SpacingCatalog: View {
-  
+
   public init() {}
-  
+
   public var body: some View {
     VStack(alignment: .leading) {
       List(Spacing.allCase, id: \.self.0) { space in
@@ -23,7 +23,7 @@ public struct SpacingCatalog: View {
               .frame(width: space.0)
           }
           .frame(height: Spacing.large)
-          .border(Color.product(.product1, category: .background), width: 1)
+          .border(Color.border, width: 1)
         }
         .padding()
         .listRowBackground(Color.card)

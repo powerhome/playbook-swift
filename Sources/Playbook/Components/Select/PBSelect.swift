@@ -42,7 +42,7 @@ public struct PBSelect_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
     return Group {
-      Button("Burguers") {}
+      Button("Burgers") {}
         .buttonStyle(PBSelect("FAVORITE FOOD", style: .default))
         .preferredColorScheme(.light)
         .padding(24)
