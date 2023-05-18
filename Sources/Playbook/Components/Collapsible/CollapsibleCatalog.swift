@@ -73,5 +73,6 @@ public struct CollapsibleCatalog: View {
       }
       .padding()
     }
+    .navigationTitle("Collapsible")
   }
 }

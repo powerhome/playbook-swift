@@ -16,6 +16,7 @@ struct PlaybookShowcaseApp: App {
     return WindowGroup {
     #if os(iOS)
       ContentListView()
+        .environment(\.colorScheme, .light)
     #elseif os(macOS)
       EmptyView()
     #endif

@@ -47,39 +47,39 @@ public struct ColorsCatalog: View {
         }
       }
 
-//      Section("Status Subtle") {
-//        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-//          ForEach(Color.StatusColor.allCases, id: \.self) { color in
-//            VStack {
-//              shape.foregroundColor(Color.status(color, subtle: true))
-//              Text(color.rawValue).pbFont(.subcaption, color: .text(.light))
-//            }
-//          }
-//        }
-//      }
+      Section("Status Subtle") {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
+          ForEach(Color.StatusColor.allCases, id: \.self) { color in
+            VStack {
+              shape.foregroundColor(Color.status(color, subtle: true))
+              Text(color.rawValue).pbFont(.subcaption, color: .text(.light))
+            }
+          }
+        }
+      }
 
-//      Section("Product Background") {
-//        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-//          ForEach(Color.ProductColor.allCases, id: \.self) { color in
-//            VStack {
-//              shape.foregroundColor(.product(color, category: .background))
-//              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
-//            }
-//          }
-//        }
-//      }
-//
-//      Section("Product Highlight") {
-//        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-//          ForEach(Color.ProductColor.allCases, id: \.self) { color in
-//            VStack {
-//              shape.foregroundColor(.product(color, category: .highlight))
-//              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
-//            }
-//          }
-//        }
-//      }
-//
+      Section("Product Background") {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
+          ForEach(Color.ProductColor.allCases, id: \.self) { color in
+            VStack {
+              shape.foregroundColor(.product(color, category: .background))
+              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
+            }
+          }
+        }
+      }
+
+      Section("Product Highlight") {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
+          ForEach(Color.ProductColor.allCases, id: \.self) { color in
+            VStack {
+              shape.foregroundColor(.product(color, category: .highlight))
+              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
+            }
+          }
+        }
+      }
+
 //      Section("Category") {
 //        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
 //          ForEach(Color.CategoryColor.allCases, id: \.self) { color in
@@ -91,5 +91,6 @@ public struct ColorsCatalog: View {
 //        }
 //      }
     }
+    .navigationTitle("Colors")
   }
 }

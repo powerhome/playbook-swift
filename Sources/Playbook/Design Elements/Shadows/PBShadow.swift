@@ -60,6 +60,7 @@ public struct PBShadow_Previews: PreviewProvider {
           .padding(EdgeInsets(top: 10, leading: 10, bottom: 30, trailing: 10))
       }
       .listRowBackground(Color.clear)
+      .navigationTitle("Shadows")
     }
   }
 }

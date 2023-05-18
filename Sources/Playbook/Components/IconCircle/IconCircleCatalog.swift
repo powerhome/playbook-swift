@@ -34,5 +34,6 @@ public struct IconCircleCatalog: View {
       }
       .listRowSeparator(.hidden)
     }
+    .navigationTitle("Icon Circle")
   }
 }

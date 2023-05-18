@@ -16,12 +16,13 @@ public struct IconCatalog: View {
           PBIcon.fontAwesome(.user, size: size)
         }
       }
-      
+
       ForEach(FontAwesome.allCases, id: \.self) { icon in
         Section(icon.rawValue) {
           PBIcon.fontAwesome(icon, size: .small)
         }
       }
     }
+    .navigationTitle("Iconography")
   }
 }

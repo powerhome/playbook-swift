@@ -55,5 +55,6 @@ public struct ButtonsCatalog: View {
       }
       .listRowSeparator(.hidden)
     }
+    .navigationTitle("Buttons")
   }
 }

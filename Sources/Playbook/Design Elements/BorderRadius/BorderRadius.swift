@@ -15,4 +15,14 @@ public struct BorderRadius {
   public static let large: CGFloat = 8
   public static let xLarge: CGFloat = 16
   public static let rounded: CGFloat = 48
+  
+  public static let allCase = [
+    (BorderRadius.none, "None"),
+    (BorderRadius.xSmall, "X Small"),
+    (BorderRadius.small, "Small"),
+    (BorderRadius.medium, "Medium"),
+    (BorderRadius.large, "Large"),
+    (BorderRadius.xLarge, "X Large"),
+    (BorderRadius.rounded, "Rounded")
+  ]
 }

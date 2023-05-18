@@ -157,5 +157,6 @@ public struct CardCatalog: View {
           }
         }
       }
+      .navigationTitle("Card")
     }
 }
