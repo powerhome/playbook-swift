@@ -40,7 +40,7 @@ public extension PBPill {
       case .error: return .status(.error)
       case .info: return .status(.info)
       case .primary: return .pbPrimary
-      case .success: return .status(.success)
+      case .success: return .text(.successSmall)
       case .warning: return .status(.warning)
       default: return .status(.neutral)
       }
@@ -56,18 +56,7 @@ struct PBPill_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    return VStack(alignment: .leading) {
-      PBPill("default")
-      PBPill("success", variant: .success)
-      PBPill("error", variant: .error)
-      PBPill("warning", variant: .warning)
-      PBPill("info", variant: .info)
-      PBPill("neutral", variant: .neutral)
-      PBPill("primary", variant: .primary)
-    }
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(.leading, 20)
-    .background(Color.card)
-    .previewDisplayName("Pills")
+    return PillCatalog()
+      .background(Color.card)
   }
 }

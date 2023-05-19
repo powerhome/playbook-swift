@@ -1,6 +1,6 @@
 //
 //  AvatarCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -45,4 +45,3 @@ public struct AvatarCatalog: View {
     }
   }
 }
-
