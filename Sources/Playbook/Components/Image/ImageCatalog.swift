@@ -38,6 +38,6 @@ public struct ImageCatalog: View {
       }
       .listRowBackground(Color.clear)
     }
-    .navigationBarTitle("Image")
+    .navigationTitle("Image")
   }
 }
