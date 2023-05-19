@@ -40,7 +40,7 @@ public struct CollapsibleCatalog: View {
   }
 
   var content: some View {
-    Text(lorem)
+    Text(lorem).pbFont(.body())
   }
 
   var image: some View {
@@ -73,5 +73,6 @@ public struct CollapsibleCatalog: View {
       }
       .padding()
     }
+    .navigationTitle("Collapsible")
   }
 }

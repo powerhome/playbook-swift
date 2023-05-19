@@ -18,5 +18,6 @@ public struct LabelValueCatalog: View {
       PBLabelValue("label", "this is a value")
         .preferredColorScheme(.dark)
     }
+    .navigationTitle("Label Value")
   }
 }

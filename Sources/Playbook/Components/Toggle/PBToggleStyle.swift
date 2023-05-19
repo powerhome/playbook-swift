@@ -16,7 +16,7 @@ public struct PBToggleStyle: ToggleStyle {
   }
 
   public func makeBody(configuration: Configuration) -> some View {
-    VStack(alignment: .leading, spacing: 0) {
+    VStack(alignment: .leading, spacing: Spacing.none) {
       if !labelsHidden { // Check if we can use the .labelsHidden() from the Toggle itself.
         configuration.label
           .foregroundColor(.text(.light))

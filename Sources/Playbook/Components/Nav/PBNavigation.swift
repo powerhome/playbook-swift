@@ -43,14 +43,14 @@ struct PBNavigationItem<Content: View>: View {
         .fill(markerColor)
 
       if orientation == .horizontal {
-        VStack(spacing: 0) {
+        VStack(spacing: Spacing.none) {
           Spacer()
           marker
             .frame(height: 3)
             .frame(maxWidth: .infinity)
         }
       } else {
-        HStack(spacing: 0) {
+        HStack(spacing: Spacing.none) {
           marker
             .opacity(selected ? 1 : 0)
             .frame(width: 3)
@@ -187,8 +187,8 @@ public struct PBNavigation<Option: Equatable & Identifiable, Content: View>: Vie
   var renderOption: (Option) -> Content
 
   func item(_ option: Option) -> some View {
-    VStack(alignment: .leading, spacing: 0) {
-      HStack(spacing: 0) {
+    VStack(alignment: .leading, spacing: Spacing.none) {
+      HStack(spacing: Spacing.none) {
         PBNavigationItem(
           selected: selected.wrappedValue == option,
           variant: variant,
@@ -210,7 +210,7 @@ public struct PBNavigation<Option: Equatable & Identifiable, Content: View>: Vie
     }
   }
 
-  var spacing: CGFloat { return variant == .normal ? 0 : 2 }
+  var spacing: CGFloat { return variant == .normal ? Spacing.none : 2 }
 
   public var body: some View {
     if orientation == .horizontal {

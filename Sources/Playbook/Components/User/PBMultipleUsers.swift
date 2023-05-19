@@ -102,6 +102,6 @@ public struct PBMultipleUsers_Previews: PreviewProvider {
       PBMultipleUsers(users: multipleUsers, size: .small, reversed: true)
       PBMultipleUsers(users: twoUsers, size: .small, reversed: true)
     }
-    .padding(.leading, 4)
+    .padding(.leading, Spacing.xxSmall)
   }
 }

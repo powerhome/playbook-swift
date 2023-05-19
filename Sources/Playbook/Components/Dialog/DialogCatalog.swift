@@ -42,6 +42,7 @@ public struct DialogCatalog: View {
       }
       .listRowSeparator(.hidden)
     }
+    .navigationTitle("Dialog")
   }
 
   struct SimpleButton: View {

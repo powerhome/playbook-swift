@@ -30,7 +30,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
 
   var indicator: some View {
     PBIcon.fontAwesome(.chevronDown, size: .small)
-      .padding(.pbXxsmall)
+      .padding(Spacing.xxSmall)
       .rotationEffect(
         .degrees(isCollapsed ? 0 : 180)
       )
@@ -59,7 +59,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
       VStack {
         if !isCollapsed {
           contentView
-            .padding(.bottom, .pbXsmall)
+            .padding(.bottom, Spacing.xSmall)
         }
       }
       .frame(maxWidth: .infinity)

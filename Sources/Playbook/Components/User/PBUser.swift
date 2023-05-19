@@ -55,12 +55,12 @@ public struct PBUser: View {
 
   public var body: some View {
     if orientation == .horizontal {
-      HStack(spacing: .pbSmall) {
+      HStack(spacing: Spacing.small) {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
 
-        VStack(alignment: .leading, spacing: size == .large ? 8 : 6) {
+        VStack(alignment: .leading, spacing: size == .large ? Spacing.large : 6) {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
@@ -68,7 +68,7 @@ public struct PBUser: View {
         }
       }
     } else {
-      VStack(spacing: 8) {
+      VStack(spacing: Spacing.large) {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
