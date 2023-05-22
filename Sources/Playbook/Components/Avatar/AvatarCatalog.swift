@@ -21,6 +21,7 @@ public struct AvatarCatalog: View {
         monograms
       }
     }
+    .navigationTitle("Avatar")
   }
 
   var defaultAvatars: some View {
@@ -45,4 +46,3 @@ public struct AvatarCatalog: View {
     }
   }
 }
-

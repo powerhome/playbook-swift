@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(macOS 13.0, *)
 public enum Componenets: String, CaseIterable {
   case avatar
   case button
