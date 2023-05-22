@@ -15,9 +15,9 @@ public struct PBButtonStyle: ButtonStyle {
   public init(
     variant: PBButtonVariant,
     size: PBButtonSize) {
-      self.variant = variant
-      self.size = size
-    }
+    self.variant = variant
+    self.size = size
+  }
 
   public func makeBody(configuration: Configuration) -> some View {
     let isPressed = configuration.isPressed

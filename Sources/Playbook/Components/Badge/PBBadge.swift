@@ -25,7 +25,7 @@ public struct PBBadge: View {
       .foregroundColor(variant.foregroundColor())
       .background(variant.backgroundColor())
       .pbFont(.badgeText)
-      .cornerRadius(rounded ? 10 : 4)
+      .cornerRadius(rounded ? 9 : 4)
   }
 }
 

@@ -18,7 +18,7 @@ public struct PBPill: View {
 
   public var body: some View {
     Text(title)
-      .padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
+      .padding(EdgeInsets(top: 1.5, leading: 9, bottom: 1.5, trailing: 9))
       .foregroundColor(variant.foregroundColor())
       .pbFont(.title4)
       .background(variant.backgroundColor())
@@ -40,7 +40,7 @@ public extension PBPill {
       case .error: return .status(.error)
       case .info: return .status(.info)
       case .primary: return .pbPrimary
-      case .success: return .text(.successSmall)
+      case .success: return .status(.success)
       case .warning: return .status(.warning)
       default: return .status(.neutral)
       }
