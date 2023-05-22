@@ -1,6 +1,6 @@
 //
 //  CardCatalog.swift
-//
+//  
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -20,142 +20,143 @@ public struct CardCatalog: View {
 
   public init() {}
 
-  public var body: some View {
-    List {
-      Section("Default") {
-        VStack(alignment: .leading, spacing: 8) {
-          Text("Default").pbFont(.caption)
-          PBCard {
+    public var body: some View {
+      List {
+        Section("Default") {
+          VStack(alignment: .leading, spacing: Spacing.large) {
+            Text("Default").pbFont(.caption)
+            PBCard {
+              Text(text).pbFont(.body())
+            }
+            .padding(.bottom)
+
+            Text("Default with shadow deep").pbFont(.caption)
+            PBCard(shadow: .deep) {
+              Text(text).pbFont(.body())
+            }
+          }
+        }
+
+        Section("Highlight") {
+          VStack(alignment: .leading, spacing: Spacing.large) {
+            PBCard(highlight: .side) {
+              Text(text).pbFont(.body())
+            }
+            PBCard(highlight: .top, highlightColor: .status(.warning)) {
+              Text(text).pbFont(.body())
+            }
+          }
+        }
+
+        Section("Header cards") {
+          PBCard(padding: Spacing.none) {
+            PBCardHeader {
+              Text(text).pbFont(.body()).padding(Spacing.small)
+            }
+            Text(text).pbFont(.body()).padding(Spacing.small)
+          }
+          PBCard(padding: Spacing.none) {
+            PBCardHeader(color: .product(.product2, category: .highlight)) {
+              Text(text).pbFont(.body()).padding(Spacing.small)
+            }
+            Text(text).pbFont(.body()).padding(Spacing.small)
+          }
+        }
+
+        Section("Styles") {
+          VStack(alignment: .leading, spacing: nil) {
+            Text("Default").pbFont(.caption)
+            PBCard {
+              Text(text).pbFont(.body())
+            }
+            Text("Selected").pbFont(.caption)
+            PBCard(style: .selected) {
+              Text(text).pbFont(.body())
+            }
+            Text("Error").pbFont(.caption)
+            PBCard(style: .error) {
+              Text(text).pbFont(.body())
+            }
+          }
+        }
+
+        Section("Padding size") {
+          PBCard(padding: Spacing.none) {
             Text(text).pbFont(.body())
           }
-          .padding(.bottom)
-
-          Text("Default with shadow deep").pbFont(.caption)
-          PBCard(shadow: .deep) {
+          PBCard(padding: Spacing.xSmall) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(padding: Spacing.small) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(padding: Spacing.medium) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(padding: Spacing.large) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(padding: Spacing.xLarge) {
             Text(text).pbFont(.body())
           }
         }
-      }
+        .listRowSeparator(.hidden)
 
-      Section("Highlight") {
-        VStack(alignment: .leading, spacing: 8) {
-          PBCard(highlight: .side) {
-            Text(text).pbFont(.body())
-          }
-          PBCard(highlight: .top, highlightColor: .status(.warning)) {
-            Text(text).pbFont(.body())
+        Section("Separator & Content") {
+          PBCard(padding: Spacing.none) {
+            Text("Header").pbFont(.body()).padding(Spacing.small)
+            PBSectionSeparator()
+            Text(loremIpsum).pbFont(.body()).padding(Spacing.small)
+            PBSectionSeparator()
+            Text("Footer").pbFont(.body()).padding(Spacing.small)
           }
         }
-      }
 
-      Section("Header cards") {
-        PBCard(padding: .pbNone) {
-          PBCardHeader {
-            Text(text).pbFont(.body()).padding(.pbSmall)
-          }
-          Text(text).pbFont(.body()).padding(.pbSmall)
-        }
-        PBCard(padding: .pbNone) {
-          PBCardHeader(color: .product(.product2, category: .highlight)) {
-            Text(text).pbFont(.body()).padding(.pbSmall)
-          }
-          Text(text).pbFont(.body()).padding(.pbSmall)
-        }
-      }
-
-      Section("Styles") {
-        VStack(alignment: .leading, spacing: nil) {
-          Text("Default").pbFont(.caption)
-          PBCard {
+        Section("No border & border radius") {
+          PBCard(border: false) {
             Text(text).pbFont(.body())
           }
-          Text("Selected").pbFont(.caption)
-          PBCard(style: .selected) {
+          PBCard(borderRadius: BorderRadius.none) {
             Text(text).pbFont(.body())
           }
-          Text("Error").pbFont(.caption)
-          PBCard(style: .error) {
+          PBCard(borderRadius: BorderRadius.xSmall) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(borderRadius: BorderRadius.small) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(borderRadius: BorderRadius.medium) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(borderRadius: BorderRadius.large) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(borderRadius: BorderRadius.xLarge) {
+            Text(text).pbFont(.body())
+          }
+          PBCard(borderRadius: BorderRadius.rounded) {
             Text(text).pbFont(.body())
           }
         }
-      }
+        .listRowSeparator(.hidden)
 
-      Section("Padding size") {
-        PBCard(padding: .pbNone) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(padding: .pbXsmall) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(padding: .pbSmall) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(padding: .pbMedium) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(padding: .pbLarge) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(padding: .pbXlarge) {
-          Text(text).pbFont(.body())
-        }
-      }
-      .listRowSeparator(.hidden)
+        Section("Complex") {
+          PBCard(padding: Spacing.none) {
+            PBCardHeader(color: .product(.product1, category: .highlight)) {
+              Text("Andrew")
+                .pbFont(.body(), color: .text(.lighter))
+                .padding(Spacing.small)
+            }
+            Image("andrew", bundle: .module)
+              .resizable()
+              .aspectRatio(contentMode: .fit)
 
-      Section("Separator & Content") {
-        PBCard(padding: .pbNone) {
-          Text("Header").pbFont(.body()).padding(.pbSmall)
-          PBSectionSeparator()
-          Text(loremIpsum).pbFont(.body()).padding(.pbSmall)
-          PBSectionSeparator()
-          Text("Footer").pbFont(.body()).padding(.pbSmall)
-        }
-      }
-
-      Section("No border & border radius") {
-        PBCard(border: false) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(borderRadius: .none) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(borderRadius: .xSmall) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(borderRadius: .small) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(borderRadius: .medium) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(borderRadius: .large) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(borderRadius: .xLarge) {
-          Text(text).pbFont(.body())
-        }
-        PBCard(borderRadius: .rounded) {
-          Text(text).pbFont(.body())
-        }
-      }
-      .listRowSeparator(.hidden)
-
-      Section("Complex") {
-        PBCard(padding: .pbNone) {
-          PBCardHeader(color: .product(.product1, category: .highlight)) {
-            Text("Andrew")
-              .pbFont(.body(), color: .text(.lighter))
-              .padding(.pbSmall)
+            Text(loremIpsum).pbFont(.caption).padding(Spacing.small)
+            PBSectionSeparator()
+            Text("A nice guy and great dev").pbFont(.body()).padding(Spacing.small)
           }
-          Image("andrew", bundle: .module)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-
-          Text(loremIpsum).pbFont(.caption).padding(.pbSmall)
-          PBSectionSeparator()
-          Text("A nice guy and great dev").pbFont(.body()).padding(.pbSmall)
         }
       }
+      .navigationTitle("Card")
     }
-  }
 }

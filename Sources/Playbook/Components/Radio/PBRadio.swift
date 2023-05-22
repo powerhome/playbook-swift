@@ -34,7 +34,7 @@ public struct PBRadio: View {
   public var body: some View {
     switch orientation {
     case .vertical:
-      VStack(alignment: .leading, spacing: .pbMedium) {
+      VStack(alignment: .leading, spacing: Spacing.medium) {
         ForEach(items) { item in
           Button(item.title) {
             selectedItem = item
@@ -81,7 +81,7 @@ public struct PBRadioButtonStyle: ButtonStyle {
       Circle()
         .strokeBorder(borderColor, lineWidth: lineWidth)
         .frame(width: 22, height: 22)
-      VStack(alignment: .leading, spacing: 4) {
+      VStack(alignment: .leading, spacing: Spacing.xxSmall) {
         configuration.label
           .foregroundColor(.text(.default))
           .pbFont(.body())
