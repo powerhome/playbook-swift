@@ -12,10 +12,10 @@ public struct CardCatalog: View {
   let text = "Card Content"
   let loremIpsum =
     """
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec iaculis, risus a fringilla luctus, sapien eros sodales ex, quis molestie est nulla non turpis.
-      Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
-      Sed commodo posuere lectus, at porta nulla ornare a.
+     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+     Donec iaculis, risus a fringilla luctus, sapien eros sodales ex, quis molestie est nulla non turpis.
+     Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
+     Sed commodo posuere lectus, at porta nulla ornare a.
     """
 
   public init() {}
@@ -23,7 +23,7 @@ public struct CardCatalog: View {
   public var body: some View {
     List {
       Section("Default") {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.large) {
           Text("Default").pbFont(.caption)
           PBCard {
             Text(text).pbFont(.body())
@@ -38,7 +38,7 @@ public struct CardCatalog: View {
       }
 
       Section("Highlight") {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.large) {
           PBCard(highlight: .side) {
             Text(text).pbFont(.body())
           }
@@ -49,17 +49,17 @@ public struct CardCatalog: View {
       }
 
       Section("Header cards") {
-        PBCard(padding: .pbNone) {
+        PBCard(padding: Spacing.none) {
           PBCardHeader {
-            Text(text).pbFont(.body()).padding(.pbSmall)
+            Text(text).pbFont(.body()).padding(Spacing.small)
           }
-          Text(text).pbFont(.body()).padding(.pbSmall)
+          Text(text).pbFont(.body()).padding(Spacing.small)
         }
-        PBCard(padding: .pbNone) {
+        PBCard(padding: Spacing.none) {
           PBCardHeader(color: .product(.product2, category: .highlight)) {
-            Text(text).pbFont(.body()).padding(.pbSmall)
+            Text(text).pbFont(.body()).padding(Spacing.small)
           }
-          Text(text).pbFont(.body()).padding(.pbSmall)
+          Text(text).pbFont(.body()).padding(Spacing.small)
         }
       }
 
@@ -81,34 +81,34 @@ public struct CardCatalog: View {
       }
 
       Section("Padding size") {
-        PBCard(padding: .pbNone) {
+        PBCard(padding: Spacing.none) {
           Text(text).pbFont(.body())
         }
-        PBCard(padding: .pbXsmall) {
+        PBCard(padding: Spacing.xSmall) {
           Text(text).pbFont(.body())
         }
-        PBCard(padding: .pbSmall) {
+        PBCard(padding: Spacing.small) {
           Text(text).pbFont(.body())
         }
-        PBCard(padding: .pbMedium) {
+        PBCard(padding: Spacing.medium) {
           Text(text).pbFont(.body())
         }
-        PBCard(padding: .pbLarge) {
+        PBCard(padding: Spacing.large) {
           Text(text).pbFont(.body())
         }
-        PBCard(padding: .pbXlarge) {
+        PBCard(padding: Spacing.xLarge) {
           Text(text).pbFont(.body())
         }
       }
       .listRowSeparator(.hidden)
 
       Section("Separator & Content") {
-        PBCard(padding: .pbNone) {
-          Text("Header").pbFont(.body()).padding(.pbSmall)
+        PBCard(padding: Spacing.none) {
+          Text("Header").pbFont(.body()).padding(Spacing.small)
           PBSectionSeparator()
-          Text(loremIpsum).pbFont(.body()).padding(.pbSmall)
+          Text(loremIpsum).pbFont(.body()).padding(Spacing.small)
           PBSectionSeparator()
-          Text("Footer").pbFont(.body()).padding(.pbSmall)
+          Text("Footer").pbFont(.body()).padding(Spacing.small)
         }
       }
 
@@ -116,46 +116,47 @@ public struct CardCatalog: View {
         PBCard(border: false) {
           Text(text).pbFont(.body())
         }
-        PBCard(borderRadius: .none) {
+        PBCard(borderRadius: BorderRadius.none) {
           Text(text).pbFont(.body())
         }
-        PBCard(borderRadius: .xSmall) {
+        PBCard(borderRadius: BorderRadius.xSmall) {
           Text(text).pbFont(.body())
         }
-        PBCard(borderRadius: .small) {
+        PBCard(borderRadius: BorderRadius.small) {
           Text(text).pbFont(.body())
         }
-        PBCard(borderRadius: .medium) {
+        PBCard(borderRadius: BorderRadius.medium) {
           Text(text).pbFont(.body())
         }
-        PBCard(borderRadius: .large) {
+        PBCard(borderRadius: BorderRadius.large) {
           Text(text).pbFont(.body())
         }
-        PBCard(borderRadius: .xLarge) {
+        PBCard(borderRadius: BorderRadius.xLarge) {
           Text(text).pbFont(.body())
         }
-        PBCard(borderRadius: .rounded) {
+        PBCard(borderRadius: BorderRadius.rounded) {
           Text(text).pbFont(.body())
         }
       }
       .listRowSeparator(.hidden)
 
       Section("Complex") {
-        PBCard(padding: .pbNone) {
+        PBCard(padding: Spacing.none) {
           PBCardHeader(color: .product(.product1, category: .highlight)) {
             Text("Andrew")
               .pbFont(.body(), color: .text(.lighter))
-              .padding(.pbSmall)
+              .padding(Spacing.small)
           }
           Image("andrew", bundle: .module)
             .resizable()
             .aspectRatio(contentMode: .fit)
 
-          Text(loremIpsum).pbFont(.caption).padding(.pbSmall)
+          Text(loremIpsum).pbFont(.caption).padding(Spacing.small)
           PBSectionSeparator()
-          Text("A nice guy and great dev").pbFont(.body()).padding(.pbSmall)
+          Text("A nice guy and great dev").pbFont(.body()).padding(Spacing.small)
         }
       }
     }
+    .navigationTitle("Card")
   }
 }

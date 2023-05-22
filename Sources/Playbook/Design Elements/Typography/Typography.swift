@@ -110,5 +110,6 @@ public struct Typography_Previews: PreviewProvider {
           .pbFont(.subcaption, variant: .link)
       }
     }
+    .navigationTitle("Typography")
   }
 }

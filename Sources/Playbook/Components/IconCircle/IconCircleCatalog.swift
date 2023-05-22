@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(macOS 13.0, *)
 public struct IconCircleCatalog: View {
 
   public init() {}
@@ -33,5 +34,6 @@ public struct IconCircleCatalog: View {
       }
       .listRowSeparator(.hidden)
     }
+    .navigationTitle("Icon Circle")
   }
 }

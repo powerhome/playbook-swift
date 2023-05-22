@@ -58,7 +58,7 @@ public struct PBDialog<Content: View>: View {
   }
 
   private func dialogView() -> some View {
-    return PBCard(alignment: .center, padding: .pbNone) {
+    return PBCard(alignment: .center, padding: Spacing.none) {
       switch variant {
       case .default:
         if let title = title {

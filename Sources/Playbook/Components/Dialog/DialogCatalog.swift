@@ -42,6 +42,7 @@ import SwiftUI
         }
         .listRowSeparator(.hidden)
       }
+      .navigationTitle("Dialog")
     }
 
     struct SimpleButton: View {

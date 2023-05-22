@@ -18,7 +18,7 @@ public struct PBTextArea: View {
   }
 
   public var body: some View {
-    VStack(alignment: .leading, spacing: 4) {
+    VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       Text(title)
         .pbFont(.title4, color: .text(.light))
       PBCard(padding: 0) {

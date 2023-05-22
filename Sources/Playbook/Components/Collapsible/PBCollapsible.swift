@@ -30,7 +30,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
 
   var indicator: some View {
     PBIcon.fontAwesome(.chevronDown, size: .small)
-      .padding(.pbXxsmall)
+      .padding(Spacing.xxSmall)
       .rotationEffect(
         .degrees(isCollapsed ? 0 : 180)
       )
@@ -56,12 +56,16 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
       .tint(indicatorColor)
       .buttonStyle(BorderlessButtonStyle())
 
-      contentView
-        .fixedSize(horizontal: false, vertical: true)
-        .pbFont(.body())
-        .padding(.bottom, .pbXsmall)
-        .frame(height: isCollapsed ? 0 : .none, alignment: .top)
-        .clipped()
+      VStack {
+        if !isCollapsed {
+          contentView
+            .padding(.bottom, Spacing.xSmall)
+        }
+      }
+      .frame(maxWidth: .infinity)
+      .fixedSize(horizontal: false, vertical: true)
+      .frame(height: isCollapsed ? 0 : .none, alignment: .top)
+      .clipped()
     }
   }
 }

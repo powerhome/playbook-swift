@@ -19,7 +19,7 @@ struct PBDialogHeaderView: View {
   var body: some View {
     HStack {
       if let title = title {
-        Text(title).pbFont(.body()).padding(.pbSmall)
+        Text(title).pbFont(.body()).padding(Spacing.small)
       }
       Spacer()
       Button {
