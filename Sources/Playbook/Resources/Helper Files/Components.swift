@@ -26,7 +26,6 @@ public enum Componenets: String, CaseIterable {
   case radio
   case sectionSeparator
   case select
-  case tags
   case textArea
   case textInput
   case timeAndDate
@@ -55,7 +54,6 @@ public enum Componenets: String, CaseIterable {
     case .radio: PBRadio_Previews.previews
     case .sectionSeparator: PBSectionSeparator_Previews.previews
     case .select: PBSelect_Previews.previews
-    case .tags: PBBadge_Previews.previews
     case .textArea: PBTextArea_Previews.previews
     case .textInput: PBTextInput_Previews.previews
     case .timeAndDate: PBTimestamp_Previews.previews
