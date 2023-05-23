@@ -18,7 +18,7 @@ public struct PBPill: View {
 
   public var body: some View {
     Text(title)
-      .padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
+      .padding(EdgeInsets(top: 1.5, leading: 9, bottom: 1.5, trailing: 9))
       .foregroundColor(variant.foregroundColor())
       .pbFont(.title4)
       .background(variant.backgroundColor())
@@ -56,18 +56,7 @@ struct PBPill_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    return VStack(alignment: .leading) {
-      PBPill("default")
-      PBPill("success", variant: .success)
-      PBPill("error", variant: .error)
-      PBPill("warning", variant: .warning)
-      PBPill("info", variant: .info)
-      PBPill("neutral", variant: .neutral)
-      PBPill("primary", variant: .primary)
-    }
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(.leading, 20)
-    .background(Color.card)
-    .previewDisplayName("Pills")
+    return PillCatalog()
+      .background(Color.card)
   }
 }

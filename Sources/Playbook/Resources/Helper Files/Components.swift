@@ -1,6 +1,6 @@
 //
 //  Components.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -10,6 +10,7 @@ import SwiftUI
 @available(macOS 13.0, *)
 public enum Componenets: String, CaseIterable {
   case avatar
+  case badge
   case button
   case card
   case checkbox
@@ -20,6 +21,7 @@ public enum Componenets: String, CaseIterable {
   case label
   case message
   case nav
+  case pill
   case progressIndicator
   case radio
   case sectionSeparator
@@ -37,6 +39,7 @@ public enum Componenets: String, CaseIterable {
   public var destination: some View {
     switch self {
     case .avatar: AvatarCatalog()
+    case .badge: BadgeCatalog()
     case .button: ButtonsCatalog()
     case .card: CardCatalog()
     case .checkbox: CheckboxCatalog()
@@ -47,6 +50,7 @@ public enum Componenets: String, CaseIterable {
     case .label: PBLabelValue_Previews.previews
     case .message: PBMessage_Previews.previews
     case .nav: PBNav_Previews.previews
+    case .pill: PillCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
     case .radio: PBRadio_Previews.previews
     case .sectionSeparator: PBSectionSeparator_Previews.previews
