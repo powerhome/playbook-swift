@@ -1,6 +1,6 @@
 //
 //  ColorsCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 4/18/23.
 //
@@ -57,28 +57,28 @@ public struct ColorsCatalog: View {
           }
         }
       }
-
-      Section("Product Background") {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-          ForEach(Color.ProductColor.allCases, id: \.self) { color in
-            VStack {
-              shape.foregroundColor(.product(color, category: .background))
-              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
-            }
-          }
-        }
-      }
-
-      Section("Product Highlight") {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
-          ForEach(Color.ProductColor.allCases, id: \.self) { color in
-            VStack {
-              shape.foregroundColor(.product(color, category: .highlight))
-              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
-            }
-          }
-        }
-      }
+//
+//      Section("Product Background") {
+//        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
+//          ForEach(Color.ProductColor.allCases, id: \.self) { color in
+//            VStack {
+//              shape.foregroundColor(.product(color, category: .background))
+//              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
+//            }
+//          }
+//        }
+//      }
+//
+//      Section("Product Highlight") {
+//        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
+//          ForEach(Color.ProductColor.allCases, id: \.self) { color in
+//            VStack {
+//              shape.foregroundColor(.product(color, category: .highlight))
+//              Text(color.rawValue.capitalized).pbFont(.subcaption, color: .text(.light))
+//            }
+//          }
+//        }
+//      }
 
       //      Section("Category") {
       //        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
