@@ -40,15 +40,6 @@ define dependencies
 	@bash script_install_dependencies.sh
 endef
 
-define setup
-	@osascript -e 'quit app "Xcode"'
-	rm -rf Connect.xcodeproj
-	rm -rf Connect.xcworkspace
-	rm -rf Pods
-	xcodegen generate -s $(1).yml
-	asdf exec bundle exec pod install
-endef
-
 define runDockerAndFastlane
 	nohup caffeinate -ut 900 &
 	if $(MAKE) docker && asdf exec bundle exec fastlane $(1); then \
