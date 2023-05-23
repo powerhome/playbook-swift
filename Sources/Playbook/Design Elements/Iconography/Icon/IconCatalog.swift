@@ -1,6 +1,6 @@
 //
 //  IconCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -19,6 +19,7 @@ public struct IconCatalog: View {
           PBIcon.fontAwesome(.user, size: size)
         }
       }
+
       LazyVGrid(columns: columns) {
         ForEach(FontAwesome.allCases, id: \.self) { icon in
           VStack {

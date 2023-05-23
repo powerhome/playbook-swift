@@ -56,12 +56,16 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
       .tint(indicatorColor)
       .buttonStyle(BorderlessButtonStyle())
 
-      contentView
-        .fixedSize(horizontal: false, vertical: true)
-        .pbFont(.body())
-        .padding(.bottom, Spacing.xSmall)
-        .frame(height: isCollapsed ? 0 : .none, alignment: .top)
-        .clipped()
+      VStack {
+        if !isCollapsed {
+          contentView
+            .padding(.bottom, Spacing.xSmall)
+        }
+      }
+      .frame(maxWidth: .infinity)
+      .fixedSize(horizontal: false, vertical: true)
+      .frame(height: isCollapsed ? 0 : .none, alignment: .top)
+      .clipped()
     }
   }
 }
