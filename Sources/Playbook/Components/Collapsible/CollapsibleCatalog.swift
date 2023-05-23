@@ -8,9 +8,6 @@
 import SwiftUI
 
 public struct CollapsibleCatalog: View {
-
-  public init() {}
-
   @State var isCollapsed = false
   @State var isCollapsedTrailing = true
   @State var isCollapsedImage = true
