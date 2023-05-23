@@ -17,10 +17,10 @@ def steps = [
       getReleaseNotes()
       buildAndShipiOS('')
     }
-  // }, 'macOS': {
-  //   runNode {
-  //     buildAndShipMacOS(args)
-  //   }
+  }, 'macOS': {
+    runNode {
+      buildAndShipMacOS(args)
+    }
   }
 ]
 def map = steps
@@ -145,12 +145,18 @@ def writeRunwayComment() {
 def buildType() {
   if (isMainBuild() == true) {
     return 'production'
+  } else if (isDevelopmentBuild() == true) {
+    return 'development'
   }
   return 'beta'
 }
 
 def isMainBuild() {
   return env.BRANCH_NAME == 'main'
+}
+
+def isDevelopmentBuild() {
+  return env.BRANCH_NAME == 'development'
 }
 
 def clearProvisioningProfiles() {
