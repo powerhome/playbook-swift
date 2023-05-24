@@ -96,7 +96,7 @@ public enum PBFont: Equatable {
 
 public enum TextSize {
   enum Title: CGFloat, CaseIterable {
-    case title1 = 48
+    case title1 = 46
     case title2 = 34
     case title3 = 28
     case title4 = 16

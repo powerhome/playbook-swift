@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@available(macOS 13.0, *)
 public struct IconCircleCatalog: View {
   public var body: some View {
     List {

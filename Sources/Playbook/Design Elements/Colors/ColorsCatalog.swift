@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct ColorsCatalog: View {
-  
+
   public var body: some View {
     let shape = Circle().frame(width: 60).pbShadow(.deep)
     List {
@@ -22,7 +22,7 @@ public struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Background") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.BackgroundColor.allCases, id: \.self) { color in
@@ -33,7 +33,7 @@ public struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Status") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.StatusColor.allCases, id: \.self) { color in
@@ -44,7 +44,7 @@ public struct ColorsCatalog: View {
           }
         }
       }
-      
+
       Section("Status Subtle") {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
           ForEach(Color.StatusColor.allCases, id: \.self) { color in
@@ -55,7 +55,7 @@ public struct ColorsCatalog: View {
           }
         }
       }
-      
+
 //      Section("Product Background") {
 //        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4)) {
 //          ForEach(Color.ProductColor.allCases, id: \.self) { color in

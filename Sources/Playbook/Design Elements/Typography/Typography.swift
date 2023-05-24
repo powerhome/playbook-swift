@@ -10,6 +10,7 @@ import SwiftUI
 public struct Typography: ViewModifier {
   var font: PBFont
   var variant: Variant
+  var weight: Font.Weight
   var color: Color
 
   var foregroundColor: Color {
@@ -38,13 +39,31 @@ public struct Typography: ViewModifier {
     }
   }
 
+  var kerning: CGFloat {
+    switch font {
+    case .caption, .largeCaption: return 1.2
+    case .title4: return -0.3
+    default: return 0
+    }
+  }
+
   public func body(content: Content) -> some View {
-    content
-      .font(font.font)
-      .lineSpacing(spacing)
-      .padding(.vertical, spacing)
-      .textCase(casing)
-      .foregroundColor(foregroundColor)
+    if #available(iOS 16.0, *) {
+      content
+        .font(font.font)
+        .kerning(kerning)
+        .lineSpacing(spacing)
+        .padding(.vertical, spacing)
+        .textCase(casing)
+        .foregroundColor(foregroundColor)
+    } else {
+      content
+        .font(font.font)
+        .lineSpacing(spacing)
+        .padding(.vertical, spacing)
+        .textCase(casing)
+        .foregroundColor(foregroundColor)
+    }
   }
 }
 
@@ -59,57 +78,16 @@ public extension View {
   func pbFont(
     _ font: PBFont,
     variant: Typography.Variant = .none,
+    weight: Font.Weight = .regular,
     color: Color = .text(.default)
   ) -> some View {
-    self.modifier(Typography(font: font, variant: variant, color: color))
+    self.modifier(Typography(font: font, variant: variant, weight: weight, color: color))
   }
 }
 
 public struct Typography_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-
-    return List {
-      Section("Title") {
-        Text("Title 1\nTitle 1")
-          .pbFont(.title1)
-        Text("Title 2\nTitle 2")
-          .pbFont(.title2)
-        Text("Title 3\nTitle 3")
-          .pbFont(.title3)
-        Text("Title 4\nTitle 4")
-          .pbFont(.title4)
-        Text("Title 4 Link Variant")
-          .pbFont(.title4, variant: .link)
-      }
-
-      Section("Body") {
-        ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
-          Text("Body: Text size \(Int(size.rawValue)) px")
-            .pbFont(.body(size))
-            .padding(6)
-        }
-      }
-
-      Section("Components Text") {
-        Text("Button Text")
-          .pbFont(.buttonText())
-
-        Text("Badge Text")
-          .pbFont(.badgeText)
-      }
-
-      Section("Caption") {
-        Text("Large Caption")
-          .pbFont(.largeCaption)
-        Text("Caption")
-          .pbFont(.caption)
-        Text("Subcaption")
-          .pbFont(.subcaption)
-        Text("Subcaption Link Variant")
-          .pbFont(.subcaption, variant: .link)
-      }
-    }
-    .navigationTitle("Typography")
+    return TypographyCatalog()
   }
 }
