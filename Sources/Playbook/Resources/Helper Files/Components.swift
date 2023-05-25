@@ -20,6 +20,7 @@ public enum Componenets: String, CaseIterable {
   case image
   case label
   case message
+  case multipleUserStacked
   case nav
   case pill
   case progressIndicator
@@ -48,6 +49,7 @@ public enum Componenets: String, CaseIterable {
     case .image: PBImage_Previews.previews
     case .label: PBLabelValue_Previews.previews
     case .message: PBMessage_Previews.previews
+    case .multipleUserStacked: PBMultipleUsersStacked_Previews.previews
     case .nav: PBNav_Previews.previews
     case .pill: PillCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
