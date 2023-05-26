@@ -20,16 +20,16 @@ public enum Componenets: String, CaseIterable {
   case image
   case label
   case message
-  case multipleUserStacked
+  case multipleUserStacked = "Multiple User Stacked"
   case nav
   case pill
-  case progressIndicator
+  case progressIndicator = "Progress Indicator"
   case radio
-  case sectionSeparator
+  case sectionSeparator = "Section Separator"
   case select
-  case textArea
-  case textInput
-  case timeAndDate
+  case textArea = "Text Area"
+  case textInput = "Text Input"
+  case timeAndDate = "Time and Date"
   case toggle
   case user
 
@@ -49,7 +49,7 @@ public enum Componenets: String, CaseIterable {
     case .image: PBImage_Previews.previews
     case .label: PBLabelValue_Previews.previews
     case .message: PBMessage_Previews.previews
-    case .multipleUserStacked: PBMultipleUsersStacked_Previews.previews
+    case .multipleUserStacked: MultipleUsersStackedCatalog()
     case .nav: PBNav_Previews.previews
     case .pill: PillCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
