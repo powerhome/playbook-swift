@@ -33,6 +33,8 @@ public struct PBMultipleUsersStacked: View {
             .offset(x: offsetSize, y: offsetSize)
         }
       }
+      .frame(maxWidth: avatarSize.diameter, alignment: .leading)
+      .frame(maxHeight: avatarSize.diameter, alignment: .top)
     }
   }
 }
@@ -46,7 +48,7 @@ public extension PBMultipleUsersStacked {
     switch size {
     case .small: return .small
     case .xSmall: return .xSmall
-    case .default: return users.count == 1 ? .xSmall : .defaultStackedIndicator
+    case .default: return .xSmall
     }
   }
 
@@ -62,7 +64,7 @@ public extension PBMultipleUsersStacked {
     switch size {
     case .small: return 12
     case .xSmall: return 9
-    case .default: return 9
+    case .default: return 10
     }
   }
 }

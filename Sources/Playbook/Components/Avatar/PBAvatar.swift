@@ -56,7 +56,7 @@ public struct PBAvatar: View {
 
       if wrapped {
         Circle()
-          .strokeBorder(Color.background(.default), lineWidth: 1)
+          .strokeBorder(Color.white, lineWidth: 1)
           .frame(width: size.diameter + 1, height: size.diameter + 1)
       }
 

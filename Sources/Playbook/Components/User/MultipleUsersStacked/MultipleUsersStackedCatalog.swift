@@ -17,7 +17,7 @@ public struct MultipleUsersStackedCatalog: View {
           PBMultipleUsersStacked(users: multipleUsers)
         }
       }
-      
+
       Section("xSmall") {
         HStack(alignment: .top) {
           PBMultipleUsersStacked(users: oneUser, size: .xSmall)
@@ -25,7 +25,7 @@ public struct MultipleUsersStackedCatalog: View {
           PBMultipleUsersStacked(users: multipleUsers, size: .xSmall)
         }
       }
-      
+
       Section("Default") {
         HStack(alignment: .top) {
           PBMultipleUsersStacked(users: oneUser, size: .default)
