@@ -33,8 +33,8 @@ public struct RadioCatalog: View {
       Section("Orientation") {
         orientationView()
       }
-      Section("Alignment") {
-        alignmentView()
+      Section("Text Alignment") {
+        TextAlignmentView()
       }
       Section("Spacing") {
         spacingView()
@@ -106,7 +106,7 @@ public struct RadioCatalog: View {
     }
   }
 
-  func	alignmentView() -> some View {
+  func	TextAlignmentView() -> some View {
     VStack(alignment: .leading) {
       PBRadio(
         items: [
@@ -115,22 +115,42 @@ public struct RadioCatalog: View {
           .init("Google")
         ],
         orientation: .horizontal,
-        alignment: .vertical,
+        textAlignment: .vertical,
         selected: $selected
       )
     }
   }
 
   func	spacingView() -> some View {
-    VStack(alignment: .leading) {
+    HStack(alignment: .top) {
       PBRadio(
         items: [
-          PBRadioItem("Power"),
-          .init("Nitro"),
-          .init("Google")
+          PBRadioItem("Small"),
+          .init("Spacing"),
+          .init("Power")
+        ],
+        orientation: .vertical,
+        spacing: Spacing.small,
+        selected: $selected
+      )
+      PBRadio(
+        items: [
+          PBRadioItem("Medium"),
+          .init("Spacing"),
+          .init("Power")
         ],
         orientation: .vertical,
         spacing: Spacing.medium,
+        selected: $selected
+      )
+      PBRadio(
+        items: [
+          PBRadioItem("Large"),
+          .init("Spacing"),
+          .init("Power")
+        ],
+        orientation: .vertical,
+        spacing: Spacing.large,
         selected: $selected
       )
     }
@@ -140,12 +160,26 @@ public struct RadioCatalog: View {
     VStack(alignment: .leading) {
       PBRadio(
         items: [
-          PBRadioItem("Power"),
-          .init("Nitro"),
-          .init("Google")
+          PBRadioItem("Small")
+        ],
+        orientation: .vertical,
+        padding: Spacing.small,
+        selected: $selected
+      )
+      PBRadio(
+        items: [
+          PBRadioItem("Medium")
         ],
         orientation: .vertical,
         padding: Spacing.medium,
+        selected: $selected
+      )
+      PBRadio(
+        items: [
+          PBRadioItem("Large")
+        ],
+        orientation: .vertical,
+        padding: Spacing.large,
         selected: $selected
       )
     }

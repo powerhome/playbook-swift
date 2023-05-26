@@ -23,7 +23,7 @@ public struct PBRadioItem: Identifiable, Equatable {
 public struct PBRadio: View {
   let items: [PBRadioItem]
   let orientation: Orientation
-  let alignment: Orientation
+  let textAlignment: Orientation
   let spacing: CGFloat
   let padding: CGFloat
   let errorState: Bool
@@ -32,7 +32,7 @@ public struct PBRadio: View {
   public init(
     items: [PBRadioItem],
     orientation: Orientation = .vertical,
-    alignment: Orientation = .horizontal,
+    textAlignment: Orientation = .horizontal,
     spacing: CGFloat = Spacing.xSmall,
     padding: CGFloat = Spacing.xSmall,
     selected: Binding<PBRadioItem?>,
@@ -40,7 +40,7 @@ public struct PBRadio: View {
   ) {
     self.items = items
     self.orientation = orientation
-    self.alignment = alignment
+    self.textAlignment = textAlignment
     self.spacing = spacing
     self.padding = padding
     self.errorState = errorState
@@ -59,7 +59,7 @@ public struct PBRadio: View {
             PBRadioButtonStyle(
               subtitle: item.subtitle,
               isSelected: selectedItem?.id == item.id,
-              alignment: alignment,
+              textAlignment: textAlignment,
               padding: padding,
               errorState: errorState
             )
@@ -77,7 +77,7 @@ public struct PBRadio: View {
             PBRadioButtonStyle(
               subtitle: item.subtitle,
               isSelected: selectedItem?.id == item.id,
-              alignment: alignment,
+              textAlignment: textAlignment,
               padding: padding,
               errorState: errorState
             )
@@ -93,7 +93,7 @@ public struct PBRadio: View {
 public struct PBRadioButtonStyle: ButtonStyle {
   private let subtitle: String
   private let isSelected: Bool
-  private let alignment: Orientation
+  private let textAlignment: Orientation
   private let padding: CGFloat
   private let errorState: Bool
 
@@ -112,19 +112,19 @@ public struct PBRadioButtonStyle: ButtonStyle {
   public init(
     subtitle: String?,
     isSelected: Bool,
-    alignment: Orientation,
+    textAlignment: Orientation,
     padding: CGFloat,
     errorState: Bool
   ) {
     self.isSelected = isSelected
     self.subtitle = subtitle ?? ""
-    self.alignment = alignment
+    self.textAlignment = textAlignment
     self.padding = padding
     self.errorState = errorState
   }
 
   public func makeBody(configuration: Configuration) -> some View {
-    switch alignment {
+    switch textAlignment {
     case .horizontal:
       HStack(alignment: .top, spacing: padding) {
         Circle()
