@@ -25,7 +25,7 @@ public struct Typography: ViewModifier {
     case .title1: return 3
     case .title2: return -1
     case .title3, .title4: return 2
-    case .body, .badgeText: return 0
+    case .body, .badgeText, .buttonText: return 0
     case .monogram: return 2.5
     default: return 6
     }
