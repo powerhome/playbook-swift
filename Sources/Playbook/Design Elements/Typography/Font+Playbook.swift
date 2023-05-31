@@ -13,7 +13,7 @@ public enum PBFont: Equatable {
   case title3
   case title4
   case body(_ size: TextSize.Body? = .base)
-  case buttonText(_ size: CGFloat = PBButtonSize.medium.fontSize)
+  case buttonText(_ size: CGFloat = PBButton.Size.medium.fontSize)
   case largeCaption
   case caption
   case subcaption
@@ -92,6 +92,27 @@ public enum PBFont: Equatable {
       )
     }
   }
+}
+
+public struct FontWeight {  
+  static let lighter = Font.Weight.thin
+  static let light = Font.Weight.light
+  static let regular = Font.Weight.regular
+  static let bold = Font.Weight.semibold
+  static let bolder = Font.Weight.bold
+  static let boldest = Font.Weight.heavy
+  static let extraBold = Font.Weight.black
+}
+
+public enum LetterSpacing: CGFloat, CaseIterable {
+  case tightest = -0.1
+  case tighter = -0.07
+  case tight = -0.01
+  case normal = 0
+  case loose = 0.03
+  case looser = 0.07
+  case loosest = 0.1
+  case superLoosest = 0.2
 }
 
 public enum TextSize {
