@@ -67,7 +67,7 @@ public struct PBNav: View {
         }
       }
     } else {
-      VStack(alignment: .leading, spacing: 0) {
+      VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: variant.spacing) {
           ForEach(views.indices, id: \.self) { index in
             item(views[index], index)
@@ -81,7 +81,7 @@ public struct PBNav: View {
   var verticalBody: some View {
     HStack(spacing: variant.spacing) {
       ForEach(views.indices, id: \.self) { index in
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: Spacing.none) {
           item(views[index], index)
 
           if
@@ -101,7 +101,7 @@ public struct PBNav: View {
         Text(title)
           .foregroundColor(.text(.light))
           .pbFont(.caption)
-          .padding(.leading, .pbSmall)
+          .padding(.leading, Spacing.small)
       }
 
       if orientation == .vertical {

@@ -28,5 +28,6 @@ public struct MessageCatalog: View {
         Text("This below ir our great friend (and amazing dev), aka me, Andrew:").pbFont(.body())
       }
     }
+    .navigationTitle("Message")
   }
 }

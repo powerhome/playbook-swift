@@ -1,6 +1,6 @@
 //
 //  ButtonsCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -9,15 +9,15 @@ import SwiftUI
 
 @available(macOS 13.0, *)
 public struct ButtonsCatalog: View {
-  
+
   public init() {}
-  
+
   public var body: some View {
     List {
       Section("Button Variants") {
         PBButtonStyle_Previews.previews
       }
-      
+
       Section("Button Icon Positions") {
         PBButton(
           title: "Button with Icon on Left",
@@ -32,11 +32,11 @@ public struct ButtonsCatalog: View {
         )
       }
       .listRowSeparator(.hidden)
-      
+
       Section("Circle Buttons") {
         PBCircleStyle_Previews.previews
       }
-      
+
       Section("Button Sizes") {
         PBButton(
           size: .small,
@@ -55,5 +55,6 @@ public struct ButtonsCatalog: View {
       }
       .listRowSeparator(.hidden)
     }
+    .navigationTitle("Buttons")
   }
 }

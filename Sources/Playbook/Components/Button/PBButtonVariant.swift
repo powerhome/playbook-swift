@@ -1,6 +1,6 @@
 //
 //  PBButtonVariant.swift
-//  
+//
 //
 //  Created by Gavin Huang on 4/26/23.
 //
@@ -58,19 +58,19 @@ public enum PBButtonVariant {
   ) -> Color {
     let isPressed = configuration.isPressed
 
-  #if os(macOS)
-    if isPressed {
-      return variant.backgroundColor
-    } else if isHovering {
-      return variant.hoverBackgroundColor
-    } else {
-      return variant.backgroundColor
-    }
-  #else
-    return isPressed
-    ? variant.mobilePressedBackgroundColor
-    : variant.backgroundColor
-  #endif
+    #if os(macOS)
+      if isPressed {
+        return variant.backgroundColor
+      } else if isHovering {
+        return variant.hoverBackgroundColor
+      } else {
+        return variant.backgroundColor
+      }
+    #else
+      return isPressed
+        ? variant.mobilePressedBackgroundColor
+        : variant.backgroundColor
+    #endif
   }
 
   public func foregroundAnimation(
@@ -81,18 +81,18 @@ public enum PBButtonVariant {
     let isLinkVariant = variant == .link
     let isPressed = configuration.isPressed
 
-  #if os(macOS)
-    if isLinkVariant && isPressed {
-      return .pbPrimary
-    } else if isLinkVariant && isHovering {
-      return .text(.default)
-    } else {
-      return variant.foregroundColor
-    }
-  #else
-    return isLinkVariant && isPressed
-    ? .text(.default)
-    : variant.foregroundColor
-  #endif
+    #if os(macOS)
+      if isLinkVariant && isPressed {
+        return .pbPrimary
+      } else if isLinkVariant && isHovering {
+        return .text(.default)
+      } else {
+        return variant.foregroundColor
+      }
+    #else
+      return isLinkVariant && isPressed
+        ? .text(.default)
+        : variant.foregroundColor
+    #endif
   }
 }

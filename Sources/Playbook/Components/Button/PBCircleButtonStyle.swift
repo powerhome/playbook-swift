@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct PBCircleButtonStyle: ButtonStyle {
   var variant: PBButtonVariant
-  var size: PBButtonSize
+  var size: PBButton.Size
   @State private var isHovering = false
 
   public func makeBody(configuration: Configuration) -> some View {

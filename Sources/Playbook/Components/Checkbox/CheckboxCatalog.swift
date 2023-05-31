@@ -28,5 +28,6 @@ public struct CheckboxCatalog: View {
         action: {}
       )
     }
+    .navigationTitle("Checkbox")
   }
 }

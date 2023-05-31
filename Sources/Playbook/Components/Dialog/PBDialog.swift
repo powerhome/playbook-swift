@@ -58,7 +58,7 @@ public struct PBDialog<Content: View>: View {
   }
 
   private func dialogView() -> some View {
-    return PBCard(alignment: .center, padding: .pbNone) {
+    return PBCard(alignment: .center, padding: Spacing.none) {
       switch variant {
       case .default:
         if let title = title {
@@ -109,11 +109,11 @@ public struct PBDialog<Content: View>: View {
   }
 
   var padding: EdgeInsets {
-  #if os(macOS)
-    return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-  #elseif os(iOS)
-    return EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
-  #endif
+    #if os(macOS)
+      return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+    #elseif os(iOS)
+      return EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
+    #endif
   }
 
   func dismissDialog() {
@@ -130,13 +130,13 @@ public enum DialogSize: String, CaseIterable, Identifiable {
 
   var width: CGFloat {
     #if os(macOS)
-    switch self {
-    case .small: return 300
-    case .medium: return 500
-    case .large: return 800
-    }
+      switch self {
+      case .small: return 300
+      case .medium: return 500
+      case .large: return 800
+      }
     #elseif os(iOS)
-    return 300
+      return 300
     #endif
   }
 }

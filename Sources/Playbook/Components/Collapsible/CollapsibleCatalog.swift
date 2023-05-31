@@ -1,6 +1,6 @@
 //
 //  CollapsibleCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -40,7 +40,7 @@ public struct CollapsibleCatalog: View {
   }
 
   var content: some View {
-    Text(lorem)
+    Text(lorem).pbFont(.body())
   }
 
   var image: some View {
@@ -58,13 +58,13 @@ public struct CollapsibleCatalog: View {
         } content: {
           content
         }
-        
+
         PBCollapsible(isCollapsed: $isCollapsedTrailing, indicatorPosition: .trailing) {
           textOnlyHeader
         } content: {
           content
         }
-        
+
         PBCollapsible(isCollapsed: $isCollapsedImage, indicatorPosition: .trailing) {
           imageHeader
         } content: {
@@ -73,5 +73,6 @@ public struct CollapsibleCatalog: View {
       }
       .padding()
     }
+    .navigationTitle("Collapsible")
   }
 }

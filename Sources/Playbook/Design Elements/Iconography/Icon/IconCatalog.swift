@@ -1,6 +1,6 @@
 //
 //  IconCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -8,7 +8,10 @@
 import SwiftUI
 
 public struct IconCatalog: View {
+  let columns = Array(repeating: GridItem(.adaptive(minimum: 100)), count: 3)
+
   public init() {}
+
   public var body: some View {
     List {
       ForEach(PBIcon.IconSize.allCases, id: \.fontSize) { size in
@@ -16,12 +19,16 @@ public struct IconCatalog: View {
           PBIcon.fontAwesome(.user, size: size)
         }
       }
-      
-      ForEach(FontAwesome.allCases, id: \.self) { icon in
-        Section(icon.rawValue) {
-          PBIcon.fontAwesome(icon, size: .small)
+
+      LazyVGrid(columns: columns) {
+        ForEach(FontAwesome.allCases, id: \.self) { icon in
+          VStack {
+            PBIcon.fontAwesome(icon, size: .medium)
+            Text(icon.rawValue).pbFont(.subcaption)
+          }
         }
       }
     }
+    .navigationTitle("Iconography")
   }
 }
