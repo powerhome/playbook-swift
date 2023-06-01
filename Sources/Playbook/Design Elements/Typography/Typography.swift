@@ -16,11 +16,11 @@ public struct Typography: ViewModifier {
     if let color = color {
       return color
     } else {
-      if font == .caption || font == .largeCaption || font == .subcaption {
-        return .text(.light)
+      if variant == .link {
+        return .pbPrimary
       } else {
-        if variant == .link {
-          return .pbPrimary
+        if font == .caption || font == .largeCaption || font == .subcaption {
+          return .text(.light)
         } else {
           return .text(.default)
         }
@@ -59,6 +59,7 @@ public struct Typography: ViewModifier {
     case .title3: return FontWeight.light
     case .title4, .buttonText, .badgeText: return FontWeight.bolder
     case .caption: return FontWeight.bold
+    case .body: return .regular
     default: return FontWeight.regular
     }
   }
