@@ -94,7 +94,7 @@ public enum PBFont: Equatable {
   }
 }
 
-public struct FontWeight {  
+public struct FontWeight {
   static let lighter = Font.Weight.thin
   static let light = Font.Weight.light
   static let regular = Font.Weight.regular
@@ -102,17 +102,6 @@ public struct FontWeight {
   static let bolder = Font.Weight.bold
   static let boldest = Font.Weight.heavy
   static let extraBold = Font.Weight.black
-}
-
-public enum LetterSpacing: CGFloat, CaseIterable {
-  case tightest = -0.1
-  case tighter = -0.07
-  case tight = -0.01
-  case normal = 0
-  case loose = 0.03
-  case looser = 0.07
-  case loosest = 0.1
-  case superLoosest = 0.2
 }
 
 public enum TextSize {

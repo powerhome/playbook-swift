@@ -10,6 +10,7 @@ import SwiftUI
 public struct Typography: ViewModifier {
   var font: PBFont
   var variant: Variant
+  var letterSpace: LetterSpacing?
   var color: Color?
 
   var foregroundColor: Color {
@@ -45,11 +46,15 @@ public struct Typography: ViewModifier {
     }
   }
 
-  var kerning: CGFloat {
-    switch font {
-    case .caption, .largeCaption: return 1.2
-    case .title4: return -0.3
-    default: return 0
+  var letterSpacing: CGFloat {
+    if let space = letterSpace {
+      return space.rawValue
+    } else {
+      switch font {
+      case .caption, .largeCaption: return 1.2
+      case .title4: return -0.3
+      default: return 0
+      }
     }
   }
 
@@ -59,7 +64,6 @@ public struct Typography: ViewModifier {
     case .title3: return FontWeight.light
     case .title4, .buttonText, .badgeText: return FontWeight.bolder
     case .caption: return FontWeight.bold
-    case .body: return .regular
     default: return FontWeight.regular
     }
   }
@@ -68,7 +72,7 @@ public struct Typography: ViewModifier {
     if #available(iOS 16.0, *) {
       content
         .font(font.font)
-        .kerning(kerning)
+        .tracking(letterSpacing)
         .fontWeight(fontWeight)
         .lineSpacing(spacing)
         .textCase(casing)
@@ -90,15 +94,34 @@ public extension Typography {
     case bold
     case light
   }
+
+  enum LetterSpacing: CGFloat, CaseIterable {
+    case tightest = -1.6
+    case tighter = -1.12
+    case tight = -0.48
+    case normal = 0
+    case loose = 0.48
+    case looser = 1.12
+    case loosest = 1.6
+    case superLoosest = 3.2
+  }
 }
 
 public extension View {
   func pbFont(
     _ font: PBFont,
     variant: Typography.Variant = .none,
+    letterSpace: Typography.LetterSpacing? = nil,
     color: Color? = nil
   ) -> some View {
-    self.modifier(Typography(font: font, variant: variant, color: color))
+    self.modifier(
+      Typography(
+        font: font,
+        variant: variant,
+        letterSpace: letterSpace,
+        color: color
+      )
+    )
   }
 }
 
