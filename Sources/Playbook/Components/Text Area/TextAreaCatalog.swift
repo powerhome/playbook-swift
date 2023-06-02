@@ -9,9 +9,15 @@ import SwiftUI
 
 public struct TextAreaCatalog: View {
 
-  @State var text = ""
-  @State var maxBlockerText = ""
+  @State var defaultText = ""
+  @State var placeholderText = ""
   @State var customText = "Default value text"
+  @State var errorText = ""
+  @State var countText = ""
+  @State var maxCharacterText = ""
+  @State var maxBlockerText = ""
+  @State var maxBlockerErrorText = ""
+  @State var inlineText = ""
 
   public init() {}
 
@@ -40,22 +46,45 @@ public struct TextAreaCatalog: View {
 
   func defaultView() -> some View {
     VStack(alignment: .leading) {
-      PBTextArea("Label", text: $text)
-      PBTextArea("Label", text: $text, placeholder: "Placeholder with text")
-      PBTextArea("Label", text: $customText)
+      PBTextArea(
+        "Label",
+        text: $defaultText
+      )
+      PBTextArea(
+        "Label",
+        text: $placeholderText,
+        placeholder: "Placeholder with text"
+      )
+      PBTextArea(
+        "Label",
+        text: $customText
+      )
     }
   }
 
   func errorView() -> some View {
     VStack(alignment: .leading) {
-      PBTextArea("Label", text: $text, error: "this field has an error!")
+      PBTextArea(
+        "Label",
+        text: $errorText,
+        error: "this field has an error!"
+      )
     }
   }
 
   func characterCountView() -> some View {
     VStack(alignment: .leading) {
-      PBTextArea("Count Only", text: $text, characterCount: true)
-      PBTextArea("Max Characters", text: $text, characterCount: true, maxCharacterCount: 10)
+      PBTextArea(
+        "Count Only",
+        text: $countText,
+        characterCount: true
+      )
+      PBTextArea(
+        "Max Characters",
+        text: $maxCharacterText,
+        characterCount: true,
+        maxCharacterCount: 10
+      )
       PBTextArea(
         "Max Characters W/ Blocker",
         text: $maxBlockerText,
@@ -63,13 +92,21 @@ public struct TextAreaCatalog: View {
         maxCharacterCount: 20,
         maxCharacterBlock: true
       )
-      PBTextArea("Max Characters W/ Error", text: $text, characterCount: true, maxCharacterCount: 75)
+      PBTextArea(
+        "Max Characters W/ Error",
+        text: $maxBlockerErrorText,
+        characterCount: true,
+        maxCharacterCount: 75
+      )
     }
   }
 
   func inlineView() -> some View {
     VStack(alignment: .leading) {
-      PBTextArea("Label", text: $text)
+      PBTextArea(
+        "Label",
+        text: $inlineText
+      )
     }
   }
 

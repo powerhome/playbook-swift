@@ -7,17 +7,6 @@
 
 import SwiftUI
 
-// extension View {
-//	@ViewBuilder
-//	func ifLet<V>(_ value: V?, transform: (Self, V) -> Self) -> some View {
-//		if let value = value {
-//			transform(self, value)
-//		} else {
-//			self
-//		}
-//	}
-// }
-
 public struct PBTextArea: View {
   var characterCount: Bool?
   var error: String?
@@ -54,30 +43,39 @@ public struct PBTextArea: View {
         PBCard(padding: 0, style: .error) {
           if let placeholder = placeholder {
             ZStack(alignment: .leading) {
-              TextEditor(text: $text)
+              if let blockCount = maxCharacterBlock, blockCount,
+                 let count = maxCharacterCount,
+                 let showCharacterCount = characterCount,
+                 showCharacterCount {
+                TextEditor(text: $text.max(count))
+                  .padding(.top, 4)
+                  .padding(.horizontal, 12)
+                  .frame(height: 88)
+                  .foregroundColor(.text(.default))
+                  .pbFont(.body())
+                  .focused($isNoteFocused)
+              } else {
+                placeHolderTextEditorView($text)
+              }
+              if !isNoteFocused && text.isEmpty {
+                placeHolderTextView(placeholder)
+              }
+            }
+          } else {
+            if let blockCount = maxCharacterBlock, blockCount,
+               let count = maxCharacterCount,
+               let showCharacterCount = characterCount,
+               showCharacterCount {
+              TextEditor(text: $text.max(count))
                 .padding(.top, 4)
                 .padding(.horizontal, 12)
                 .frame(height: 88)
                 .foregroundColor(.text(.default))
                 .pbFont(.body())
                 .focused($isNoteFocused)
-              //								.disabled(text.count == maxCharacterCount)
-              if !isNoteFocused && text.isEmpty {
-                Text(placeholder)
-                  .padding(.top, -32)
-                  .padding(.horizontal, 16)
-                  .foregroundColor(Color(uiColor: .placeholderText))
-                  .pbFont(.body())
-                  .allowsHitTesting(false)
-              }
+            } else {
+              textEditorView($text)
             }
-          } else {
-            TextEditor(text: $text)
-              .padding(.top, 4)
-              .padding(.horizontal, 12)
-              .frame(height: 88)
-              .foregroundColor(.text(.default))
-              .pbFont(.body())
           }
         }
         HStack {
@@ -99,24 +97,25 @@ public struct PBTextArea: View {
           }
         }
       } else {
-        PBCard(padding: 0) {
+        PBCard(padding: 0, style: isNoteFocused ? .selected : .default) {
           if let placeholder = placeholder {
             ZStack(alignment: .leading) {
-              TextEditor(text: $text)
-                .padding(.top, 4)
-                .padding(.horizontal, 12)
-                .frame(height: 88)
-                .foregroundColor(.text(.default))
-                .pbFont(.body())
-                .focused($isNoteFocused)
-              //								.disabled(text.count == maxCharacterCount)
-              if !isNoteFocused && text.isEmpty {
-                Text(placeholder)
-                  .padding(.top, -32)
-                  .padding(.horizontal, 16)
-                  .foregroundColor(Color(uiColor: .placeholderText))
+              if let blockCount = maxCharacterBlock, blockCount,
+                 let count = maxCharacterCount,
+                 let showCharacterCount = characterCount,
+                 showCharacterCount {
+                TextEditor(text: $text.max(count))
+                  .padding(.top, 4)
+                  .padding(.horizontal, 12)
+                  .frame(height: 88)
+                  .foregroundColor(.text(.default))
                   .pbFont(.body())
-                  .allowsHitTesting(false)
+                  .focused($isNoteFocused)
+              } else {
+                placeHolderTextEditorView($text)
+              }
+              if !isNoteFocused && text.isEmpty {
+                placeHolderTextView(placeholder)
               }
             }
           } else {
@@ -130,13 +129,9 @@ public struct PBTextArea: View {
                 .frame(height: 88)
                 .foregroundColor(.text(.default))
                 .pbFont(.body())
+                .focused($isNoteFocused)
             } else {
-              TextEditor(text: $text)
-                .padding(.top, 4)
-                .padding(.horizontal, 12)
-                .frame(height: 88)
-                .foregroundColor(.text(.default))
-                .pbFont(.body())
+              textEditorView($text)
             }
           }
         }
@@ -157,17 +152,37 @@ public struct PBTextArea: View {
       }
     }
   }
-  // struct DisableModifier: ViewModifier {
-  //	let maxCharacterCount: Int
-  //	let text: String
-  //
-  //	func body(content: Content) -> some View {
-  //		if maxCharacterCount == $text.count {
-  //			return AnyView(content)
-  //		} else {
-  //			return AnyView(content.border(Color.red))
-  //		}
-  //	}
+
+  func placeHolderTextView(_ placeholder: String) -> some View {
+    Text(placeholder)
+      .padding(.top, -32)
+      .padding(.horizontal, 16)
+      .foregroundColor(Color(uiColor: .placeholderText))
+      .pbFont(.body())
+      .allowsHitTesting(false)
+      .focused($isNoteFocused)
+  }
+
+  func placeHolderTextEditorView(_ text: Binding<String>) -> some View {
+    TextEditor(text: text)
+      .padding(.top, 4)
+      .padding(.horizontal, 12)
+      .frame(height: 88)
+      .foregroundColor(.text(.default))
+      .pbFont(.body())
+      .focused($isNoteFocused)
+      .focused($isNoteFocused)
+  }
+
+  func textEditorView(_ text: Binding<String>) -> some View {
+    TextEditor(text: $text)
+      .padding(.top, 4)
+      .padding(.horizontal, 12)
+      .frame(height: 88)
+      .foregroundColor(.text(.default))
+      .pbFont(.body())
+      .focused($isNoteFocused)
+  }
 }
 
 struct PBTextArea_Previews: PreviewProvider {
