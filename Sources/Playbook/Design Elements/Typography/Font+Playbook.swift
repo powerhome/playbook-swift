@@ -63,14 +63,14 @@ public enum PBFont: Equatable {
     case .largeCaption:
       return Font.custom(
         ProximaNova.regular.rawValue,
-        size: TextSize.Body.small.rawValue,
-        relativeTo: .caption
+        size: TextSize.Body.large.rawValue,
+        relativeTo: .caption2
       )
     case .caption:
       return Font.custom(
         ProximaNova.semibold.rawValue,
         size: TextSize.Body.smaller.rawValue,
-        relativeTo: .caption2
+        relativeTo: .caption
       )
     case .subcaption:
       return Font.custom(

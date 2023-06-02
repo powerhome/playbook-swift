@@ -51,9 +51,9 @@ public struct Typography: ViewModifier {
       return space.rawValue
     } else {
       switch font {
-      case .caption, .largeCaption: return 1.2
-      case .title4: return -0.3
-      default: return 0
+      case .caption, .largeCaption: return LetterSpacing.looser.rawValue
+      case .title4: return LetterSpacing.tight.rawValue
+      default: return LetterSpacing.normal.rawValue
       }
     }
   }
