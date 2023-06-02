@@ -171,7 +171,6 @@ public struct PBTextArea: View {
       .foregroundColor(.text(.default))
       .pbFont(.body())
       .focused($isNoteFocused)
-      .focused($isNoteFocused)
   }
 
   func textEditorView(_ text: Binding<String>) -> some View {

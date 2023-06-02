@@ -96,7 +96,7 @@ public struct TextAreaCatalog: View {
         "Max Characters W/ Error",
         text: $maxBlockerErrorText,
         characterCount: true,
-        maxCharacterCount: 75
+        maxCharacterCount: 20
       )
     }
   }
