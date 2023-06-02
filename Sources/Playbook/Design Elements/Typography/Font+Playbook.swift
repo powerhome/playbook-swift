@@ -13,7 +13,7 @@ public enum PBFont: Equatable {
   case title3
   case title4
   case body(_ size: TextSize.Body? = .base)
-  case buttonText(_ size: CGFloat = PBButtonSize.medium.fontSize)
+  case buttonText(_ size: CGFloat = PBButton.Size.medium.fontSize)
   case largeCaption
   case caption
   case subcaption
