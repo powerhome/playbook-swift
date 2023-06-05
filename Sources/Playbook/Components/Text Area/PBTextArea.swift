@@ -14,7 +14,6 @@ public struct PBTextArea: View {
   var placeholder: String?
   var maxCharacterBlock: Bool?
   var maxCharacterCount: Int?
-  var maxCharacterError: Bool?
 
   @FocusState private var isNoteFocused: Bool
   @Binding var text: String
@@ -26,8 +25,7 @@ public struct PBTextArea: View {
     error: String? = nil,
     characterCount: Bool? = false,
     maxCharacterCount: Int? = nil,
-    maxCharacterBlock: Bool? = false,
-    maxCharacterError: Bool? = false
+    maxCharacterBlock: Bool? = false
   ) {
     self.label = label
     _text = text
@@ -36,13 +34,12 @@ public struct PBTextArea: View {
     self.characterCount = characterCount
     self.maxCharacterCount = maxCharacterCount
     self.maxCharacterBlock = maxCharacterBlock
-    self.maxCharacterError = maxCharacterError
   }
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       Text(label)
         .pbFont(.caption)
-      if let error = error, !error.isEmpty {
+      if let error = error, !error.isEmpty, maxCharacterCount == nil {
         PBCard(padding: 0, style: .error) {
           if let placeholder = placeholder {
             ZStack(alignment: .leading) {
@@ -86,6 +83,66 @@ public struct PBTextArea: View {
             .foregroundColor(.status(.error))
             .pbFont(.body())
             .padding(.top, 4)
+          Spacer()
+          if let showCount = characterCount, showCount {
+            if let maxCharacterCount = maxCharacterCount {
+              Text("\(text.count)/\(maxCharacterCount)")
+                .pbFont(.subcaption)
+                .padding(.top, 4)
+            } else {
+              Text("\(text.count)")
+                .pbFont(.subcaption)
+                .padding(.top, 4)
+            }
+          }
+        }
+      } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
+        PBCard(padding: 0,
+               style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .default) {
+          if let placeholder = placeholder {
+            ZStack(alignment: .leading) {
+              if let blockCount = maxCharacterBlock, blockCount,
+                 let count = maxCharacterCount,
+                 let showCharacterCount = characterCount,
+                 showCharacterCount {
+                TextEditor(text: $text.max(count))
+                  .padding(.top, 4)
+                  .padding(.horizontal, 12)
+                  .frame(height: 88)
+                  .foregroundColor(.text(.default))
+                  .pbFont(.body())
+                  .focused($isNoteFocused)
+              } else {
+                placeHolderTextEditorView($text)
+              }
+              if !isNoteFocused && text.isEmpty {
+                placeHolderTextView(placeholder)
+              }
+            }
+          } else {
+            if let blockCount = maxCharacterBlock, blockCount,
+               let count = maxCharacterCount,
+               let showCharacterCount = characterCount,
+               showCharacterCount {
+              TextEditor(text: $text.max(count))
+                .padding(.top, 4)
+                .padding(.horizontal, 12)
+                .frame(height: 88)
+                .foregroundColor(.text(.default))
+                .pbFont(.body())
+                .focused($isNoteFocused)
+            } else {
+              textEditorView($text)
+            }
+          }
+        }
+        HStack {
+          if error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount! {
+            Text(error)
+              .foregroundColor(.status(.error))
+              .pbFont(.body())
+              .padding(.top, 4)
+          }
           Spacer()
           if let showCount = characterCount, showCount {
             if let maxCharacterCount = maxCharacterCount {

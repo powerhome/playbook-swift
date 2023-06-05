@@ -14,9 +14,9 @@ public struct TextAreaCatalog: View {
   @State var customText = "Default value text"
   @State var errorText = ""
   @State var countText = ""
-  @State var maxCharacterText = ""
-  @State var maxBlockerText = ""
-  @State var maxBlockerErrorText = ""
+  @State var maxCharacterText = "Counting characters!"
+  @State var maxBlockerText = "This counter prevents the user from exceeding the maximum number of allowed characters. Just try it!"
+  @State var maxBlockerErrorText = "This counter alerts the user that they have exceeded the maximum number of allowed characters."
   @State var inlineText = ""
 
   public init() {}
@@ -83,20 +83,21 @@ public struct TextAreaCatalog: View {
         "Max Characters",
         text: $maxCharacterText,
         characterCount: true,
-        maxCharacterCount: 10
+        maxCharacterCount: 100
       )
       PBTextArea(
         "Max Characters W/ Blocker",
         text: $maxBlockerText,
         characterCount: true,
-        maxCharacterCount: 20,
+        maxCharacterCount: 100,
         maxCharacterBlock: true
       )
       PBTextArea(
         "Max Characters W/ Error",
         text: $maxBlockerErrorText,
+        error: "Too many characters!",
         characterCount: true,
-        maxCharacterCount: 20
+        maxCharacterCount: 90
       )
     }
   }
