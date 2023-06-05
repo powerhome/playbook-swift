@@ -98,11 +98,11 @@ public struct PBRadioButtonStyle: ButtonStyle {
   private let errorState: Bool
 
   private var borderColor: Color {
-    isSelected ? .pbPrimary : .border
-  }
-
-  private var erroBorderColor: Color {
-    isSelected ? .pbPrimary : .red
+    if errorState {
+      return isSelected ? .pbPrimary : .red
+    } else {
+      return isSelected ? .pbPrimary : .border
+    }
   }
 
   private var lineWidth: CGFloat {
@@ -128,7 +128,7 @@ public struct PBRadioButtonStyle: ButtonStyle {
     case .horizontal:
       HStack(alignment: .top, spacing: padding) {
         Circle()
-          .strokeBorder(errorState == true ? erroBorderColor : borderColor, lineWidth: lineWidth)
+          .strokeBorder(borderColor, lineWidth: lineWidth)
           .frame(width: 22, height: 22)
         VStack(alignment: .leading, spacing: Spacing.xxSmall) {
           configuration.label
@@ -146,7 +146,7 @@ public struct PBRadioButtonStyle: ButtonStyle {
     case .vertical:
       VStack {
         Circle()
-          .strokeBorder(errorState == true ? erroBorderColor :  borderColor, lineWidth: lineWidth)
+          .strokeBorder(borderColor, lineWidth: lineWidth)
           .frame(width: 22, height: 22)
         VStack(alignment: .leading, spacing: Spacing.xxSmall) {
           configuration.label
