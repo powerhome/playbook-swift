@@ -14,6 +14,7 @@ public struct PBTextArea: View {
   var placeholder: String?
   var maxCharacterBlock: Bool?
   var maxCharacterCount: Int?
+  var maxCharacterError: Bool?
 
   @FocusState private var isNoteFocused: Bool
   @Binding var text: String
@@ -25,7 +26,8 @@ public struct PBTextArea: View {
     error: String? = nil,
     characterCount: Bool? = false,
     maxCharacterCount: Int? = nil,
-    maxCharacterBlock: Bool? = false
+    maxCharacterBlock: Bool? = false,
+    maxCharacterError: Bool? = false
   ) {
     self.label = label
     _text = text
@@ -34,6 +36,7 @@ public struct PBTextArea: View {
     self.characterCount = characterCount
     self.maxCharacterCount = maxCharacterCount
     self.maxCharacterBlock = maxCharacterBlock
+    self.maxCharacterError = maxCharacterError
   }
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
