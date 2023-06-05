@@ -12,7 +12,7 @@ public struct PBUser: View {
   var displayAvatar: Bool = true
   var image: Image?
   var orientation: Orientation = .horizontal
-  var size: AvatarSize = .medium
+  var size: UserAvatarSize = .medium
   var territory: String?
   var title: String?
 
@@ -40,7 +40,7 @@ public struct PBUser: View {
     displayAvatar: Bool = true,
     image: Image? = nil,
     orientation: Orientation = .horizontal,
-    size: AvatarSize = .medium,
+    size: UserAvatarSize = .medium,
     territory: String? = nil,
     title: String? = nil
   ) {
@@ -85,7 +85,7 @@ public struct PBUser: View {
 }
 
 public extension PBUser {
-  enum AvatarSize {
+  enum UserAvatarSize {
     case small
     case medium
     case large

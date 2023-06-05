@@ -11,8 +11,8 @@ extension Button {
   @ViewBuilder
   func customButtonStyle(
     variant: PBButtonVariant,
-    shape: PBButtonShape,
-    size: PBButtonSize
+    shape: PBButton.Shape,
+    size: PBButton.Size
   ) -> some View {
     switch shape {
     case .primary:

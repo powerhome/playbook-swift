@@ -9,12 +9,12 @@ import SwiftUI
 
 public struct PBButtonStyle: ButtonStyle {
   var variant: PBButtonVariant
-  var size: PBButtonSize
+  var size: PBButton.Size
   @State private var isHovering = false
 
   public init(
     variant: PBButtonVariant,
-    size: PBButtonSize) {
+    size: PBButton.Size) {
     self.variant = variant
     self.size = size
   }
@@ -24,9 +24,9 @@ public struct PBButtonStyle: ButtonStyle {
     let isPrimaryVariant = variant == .primary
 
     configuration.label
-      .padding(.vertical, size.verticalPadding())
-      .padding(.horizontal, size.horizontalPadding())
-      .frame(minWidth: 0, minHeight: size.minHeight())
+      .padding(.vertical, size.verticalPadding(variant))
+      .padding(.horizontal, size.horizontalPadding(variant))
+      .frame(minWidth: 0, minHeight: size.minHeight(variant))
       .background(
         variant
           .backgroundAnimation(

@@ -9,20 +9,20 @@ import SwiftUI
 
 public struct PBButton: View {
   var variant: PBButtonVariant
-  var size: PBButtonSize
-  var shape: PBButtonShape
+  var size: Size
+  var shape: Shape
   var title: String?
   var icon: PBIcon?
-  var iconPosition: PBIconPosition?
+  var iconPosition: IconPosition?
   let action: (() -> Void)?
 
   public init(
     variant: PBButtonVariant = .primary,
-    size: PBButtonSize = .medium,
-    shape: PBButtonShape = .primary,
+    size: Size = .medium,
+    shape: Shape = .primary,
     title: String? = nil,
     icon: PBIcon? = nil,
-    iconPosition: PBIconPosition? = .left,
+    iconPosition: IconPosition? = .left,
     action: (() -> Void)? = {}
   ) {
     self.variant = variant
@@ -56,50 +56,56 @@ public struct PBButton: View {
   }
 }
 
-public enum PBButtonShape {
-  case primary
-  case circle
-}
+public extension PBButton {
+  enum Shape {
+    case primary
+    case circle
+  }
 
-public enum PBButtonSize {
-  case small
-  case medium
-  case large
+  enum Size {
+    case small
+    case medium
+    case large
 
-  public var fontSize: CGFloat {
-    switch self {
-    case .small:
-      return 12
-    case .medium:
-      return 14
-    case .large:
-      return 18
+    public var fontSize: CGFloat {
+      switch self {
+      case .small:
+        return 12
+      case .medium:
+        return 14
+      case .large:
+        return 18
+      }
+    }
+
+    func verticalPadding(_ variant: PBButtonVariant) -> CGFloat {
+      return variant == .link ? 0 : fontSize / 2
+    }
+
+    func horizontalPadding(_ variant: PBButtonVariant) -> CGFloat {
+      return variant == .link ? 0 : fontSize * 2.42
+    }
+
+    func minHeight(_ variant: PBButtonVariant) -> CGFloat {
+      if variant != .link {
+        switch self {
+        case .small:
+          return 30
+        case .medium:
+          return 40
+        case .large:
+          return 45
+        }
+      } else {
+        return 0
+      }
     }
   }
 
-  func verticalPadding() -> CGFloat {
-    return fontSize / 2
+  enum IconPosition {
+    case left
+    case right
   }
-
-  func horizontalPadding() -> CGFloat {
-    return fontSize * 2.42
-  }
-
-  func minHeight() -> CGFloat {
-    switch self {
-    case .small:
-      return 30
-    case .medium:
-      return 40
-    case .large:
-      return 45
-    }
-  }
-}
-
-public enum PBIconPosition {
-  case left
-  case right
 }
 
 @available(macOS 13.0, *)
