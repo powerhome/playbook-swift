@@ -10,6 +10,7 @@ import SwiftUI
 public struct PBTextArea: View {
   var characterCount: Bool?
   var error: String?
+  var inline: Bool?
   var label: String
   var placeholder: String?
   var maxCharacterBlock: Bool?
@@ -23,6 +24,7 @@ public struct PBTextArea: View {
     text: Binding<String>,
     placeholder: String? = nil,
     error: String? = nil,
+    inline: Bool? = false,
     characterCount: Bool? = false,
     maxCharacterCount: Int? = nil,
     maxCharacterBlock: Bool? = false
@@ -31,76 +33,50 @@ public struct PBTextArea: View {
     _text = text
     self.placeholder = placeholder
     self.error = error
+    self.inline = inline
     self.characterCount = characterCount
     self.maxCharacterCount = maxCharacterCount
     self.maxCharacterBlock = maxCharacterBlock
   }
   public var body: some View {
-    VStack(alignment: .leading, spacing: Spacing.xxSmall) {
-      Text(label)
-        .pbFont(.caption)
-      if let error = error, !error.isEmpty, maxCharacterCount == nil {
-        PBCard(padding: 0, style: .error) {
-          if let placeholder = placeholder {
-            ZStack(alignment: .leading) {
-              if let blockCount = maxCharacterBlock, blockCount,
-                 let count = maxCharacterCount,
-                 let showCharacterCount = characterCount,
-                 showCharacterCount {
-                TextEditor(text: $text.max(count))
-                  .padding(.top, 4)
-                  .padding(.horizontal, 12)
-                  .frame(height: 88)
-                  .foregroundColor(.text(.default))
-                  .pbFont(.body())
-                  .focused($isNoteFocused)
-              } else {
-                placeHolderTextEditorView($text)
-              }
-              if !isNoteFocused && text.isEmpty {
-                placeHolderTextView(placeholder)
-              }
-            }
-          } else {
-            if let blockCount = maxCharacterBlock, blockCount,
-               let count = maxCharacterCount,
-               let showCharacterCount = characterCount,
-               showCharacterCount {
-              TextEditor(text: $text.max(count))
-                .padding(.top, 4)
-                .padding(.horizontal, 12)
-                .frame(height: 88)
-                .foregroundColor(.text(.default))
-                .pbFont(.body())
-                .focused($isNoteFocused)
-            } else {
-              textEditorView($text)
-            }
-          }
-        }
-        HStack {
-          Text(error)
-            .foregroundColor(.status(.error))
+    if let inline = inline {
+      VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+        Text(label)
+          .pbFont(.caption)
+        PBCard(border: isNoteFocused ? true : false, padding: 0, style: isNoteFocused ? .selected : .default) {
+          TextEditor(text: $text)
+            .foregroundColor(.text(.default))
             .pbFont(.body())
-            .padding(.top, 4)
-          Spacer()
-          if let showCount = characterCount, showCount {
-            if let maxCharacterCount = maxCharacterCount {
-              Text("\(text.count)/\(maxCharacterCount)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
-            } else {
-              Text("\(text.count)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
-            }
-          }
+            .focused($isNoteFocused)
         }
-      } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
-        PBCard(padding: 0,
-               style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .default) {
-          if let placeholder = placeholder {
-            ZStack(alignment: .leading) {
+      }
+    } else {
+      VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+        Text(label)
+          .pbFont(.caption)
+        if let error = error, !error.isEmpty, maxCharacterCount == nil {
+          PBCard(padding: 0, style: .error) {
+            if let placeholder = placeholder {
+              ZStack(alignment: .leading) {
+                if let blockCount = maxCharacterBlock, blockCount,
+                   let count = maxCharacterCount,
+                   let showCharacterCount = characterCount,
+                   showCharacterCount {
+                  TextEditor(text: $text.max(count))
+                    .padding(.top, 4)
+                    .padding(.horizontal, 12)
+                    .frame(height: 88)
+                    .foregroundColor(.text(.default))
+                    .pbFont(.body())
+                    .focused($isNoteFocused)
+                } else {
+                  placeHolderTextEditorView($text)
+                }
+                if !isNoteFocused && text.isEmpty {
+                  placeHolderTextView(placeholder)
+                }
+              }
+            } else {
               if let blockCount = maxCharacterBlock, blockCount,
                  let count = maxCharacterCount,
                  let showCharacterCount = characterCount,
@@ -113,53 +89,52 @@ public struct PBTextArea: View {
                   .pbFont(.body())
                   .focused($isNoteFocused)
               } else {
-                placeHolderTextEditorView($text)
+                textEditorView($text)
               }
-              if !isNoteFocused && text.isEmpty {
-                placeHolderTextView(placeholder)
-              }
-            }
-          } else {
-            if let blockCount = maxCharacterBlock, blockCount,
-               let count = maxCharacterCount,
-               let showCharacterCount = characterCount,
-               showCharacterCount {
-              TextEditor(text: $text.max(count))
-                .padding(.top, 4)
-                .padding(.horizontal, 12)
-                .frame(height: 88)
-                .foregroundColor(.text(.default))
-                .pbFont(.body())
-                .focused($isNoteFocused)
-            } else {
-              textEditorView($text)
             }
           }
-        }
-        HStack {
-          if error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount! {
+          HStack {
             Text(error)
               .foregroundColor(.status(.error))
               .pbFont(.body())
               .padding(.top, 4)
-          }
-          Spacer()
-          if let showCount = characterCount, showCount {
-            if let maxCharacterCount = maxCharacterCount {
-              Text("\(text.count)/\(maxCharacterCount)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
-            } else {
-              Text("\(text.count)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
+            Spacer()
+            if let showCount = characterCount, showCount {
+              if let maxCharacterCount = maxCharacterCount {
+                Text("\(text.count)/\(maxCharacterCount)")
+                  .pbFont(.subcaption)
+                  .padding(.top, 4)
+              } else {
+                Text("\(text.count)")
+                  .pbFont(.subcaption)
+                  .padding(.top, 4)
+              }
             }
           }
-        }
-      } else {
-        PBCard(padding: 0, style: isNoteFocused ? .selected : .default) {
-          if let placeholder = placeholder {
-            ZStack(alignment: .leading) {
+        } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
+          PBCard(padding: 0,
+                 style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .default) {
+            if let placeholder = placeholder {
+              ZStack(alignment: .leading) {
+                if let blockCount = maxCharacterBlock, blockCount,
+                   let count = maxCharacterCount,
+                   let showCharacterCount = characterCount,
+                   showCharacterCount {
+                  TextEditor(text: $text.max(count))
+                    .padding(.top, 4)
+                    .padding(.horizontal, 12)
+                    .frame(height: 88)
+                    .foregroundColor(.text(.default))
+                    .pbFont(.body())
+                    .focused($isNoteFocused)
+                } else {
+                  placeHolderTextEditorView($text)
+                }
+                if !isNoteFocused && text.isEmpty {
+                  placeHolderTextView(placeholder)
+                }
+              }
+            } else {
               if let blockCount = maxCharacterBlock, blockCount,
                  let count = maxCharacterCount,
                  let showCharacterCount = characterCount,
@@ -172,40 +147,81 @@ public struct PBTextArea: View {
                   .pbFont(.body())
                   .focused($isNoteFocused)
               } else {
-                placeHolderTextEditorView($text)
+                textEditorView($text)
               }
-              if !isNoteFocused && text.isEmpty {
-                placeHolderTextView(placeholder)
-              }
-            }
-          } else {
-            if let blockCount = maxCharacterBlock, blockCount,
-               let count = maxCharacterCount,
-               let showCharacterCount = characterCount,
-               showCharacterCount {
-              TextEditor(text: $text.max(count))
-                .padding(.top, 4)
-                .padding(.horizontal, 12)
-                .frame(height: 88)
-                .foregroundColor(.text(.default))
-                .pbFont(.body())
-                .focused($isNoteFocused)
-            } else {
-              textEditorView($text)
             }
           }
-        }
-        HStack {
-          Spacer()
-          if let showCount = characterCount, showCount {
-            if let maxCharacterCount = maxCharacterCount {
-              Text("\(text.count)/\(maxCharacterCount)")
-                .pbFont(.subcaption)
+          HStack {
+            if error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount! {
+              Text(error)
+                .foregroundColor(.status(.error))
+                .pbFont(.body())
                 .padding(.top, 4)
+            }
+            Spacer()
+            if let showCount = characterCount, showCount {
+              if let maxCharacterCount = maxCharacterCount {
+                Text("\(text.count)/\(maxCharacterCount)")
+                  .pbFont(.subcaption)
+                  .padding(.top, 4)
+              } else {
+                Text("\(text.count)")
+                  .pbFont(.subcaption)
+                  .padding(.top, 4)
+              }
+            }
+          }
+        } else {
+          PBCard(padding: 0, style: isNoteFocused ? .selected : .default) {
+            if let placeholder = placeholder {
+              ZStack(alignment: .leading) {
+                if let blockCount = maxCharacterBlock, blockCount,
+                   let count = maxCharacterCount,
+                   let showCharacterCount = characterCount,
+                   showCharacterCount {
+                  TextEditor(text: $text.max(count))
+                    .padding(.top, 4)
+                    .padding(.horizontal, 12)
+                    .frame(height: 88)
+                    .foregroundColor(.text(.default))
+                    .pbFont(.body())
+                    .focused($isNoteFocused)
+                } else {
+                  placeHolderTextEditorView($text)
+                }
+                if !isNoteFocused && text.isEmpty {
+                  placeHolderTextView(placeholder)
+                }
+              }
             } else {
-              Text("\(text.count)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
+              if let blockCount = maxCharacterBlock, blockCount,
+                 let count = maxCharacterCount,
+                 let showCharacterCount = characterCount,
+                 showCharacterCount {
+                TextEditor(text: $text.max(count))
+                  .padding(.top, 4)
+                  .padding(.horizontal, 12)
+                  .frame(height: 88)
+                  .foregroundColor(.text(.default))
+                  .pbFont(.body())
+                  .focused($isNoteFocused)
+              } else {
+                textEditorView($text)
+              }
+            }
+          }
+          HStack {
+            Spacer()
+            if let showCount = characterCount, showCount {
+              if let maxCharacterCount = maxCharacterCount {
+                Text("\(text.count)/\(maxCharacterCount)")
+                  .pbFont(.subcaption)
+                  .padding(.top, 4)
+              } else {
+                Text("\(text.count)")
+                  .pbFont(.subcaption)
+                  .padding(.top, 4)
+              }
             }
           }
         }
