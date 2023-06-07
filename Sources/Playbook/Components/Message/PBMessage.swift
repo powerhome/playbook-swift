@@ -47,31 +47,26 @@ public struct PBMessage<Content: View>: View {
       if let avatar = avatar {
         avatar
       }
-      
       VStack(alignment: .leading, spacing: Spacing.xxSmall) {
-       
-        HStack(alignment: .firstTextBaseline, spacing: Spacing.xSmall) {
-          Text(label).pbFont(.title4)
-          
+        HStack(spacing: Spacing.xSmall) {
+          Text(label).font(.messageTitleFont)
           if timestampAlignment == .trailing {
             Spacer()
           }
-
-            PBTimestamp(
-              timestamp,
-              showUser: false,
-              variant: timestampVariant
-            )
+          PBTimestamp(
+            timestamp,
+            showUser: false,
+            variant: timestampVariant
+          )
           
         }
+        .frame(maxWidth: .infinity, alignment: .topLeading)
 
         if let message = message {
-          Text(message).pbFont(.body())
+          Text(message).font(.messageBodyFont)
         }
-
         content
       }
-   
       .onHover { hover in
         if changeTimeStampOnHover {
           timestampVariant =  hover ? .standard : .elapsed
@@ -82,18 +77,18 @@ public struct PBMessage<Content: View>: View {
     .padding(.vertical, verticalPadding)
     .padding(.horizontal, horizontalPadding)
     .background(hoverColor)
-    .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
+    .frame(maxWidth: .infinity, alignment: .topLeading)
   }
 }
 
 public extension PBMessage {
   enum TimestampAlignment {
-    case leading, trailing 
+    case leading, trailing
   }
 }
 
-public struct PBMessage_Previews: PreviewProvider {
-  public static var previews: some View {
+struct PBMessage_Previews: PreviewProvider {
+  static var previews: some View {
     registerFonts()
     return MessageCatalog()
   }

@@ -10,33 +10,79 @@ import SwiftUI
 public struct MessageCatalog: View {
   public var body: some View {
     List {
-
-      PBMessage(avatar: avatarXSmallStatus, label: userName, message: message, timestamp: Date())
+      Section("Default") {
+        PBMessage(
+          avatar: avatarXSmallStatus,
+          label: userName,
+          message: message,
+          timestamp: Date()
+        )
         .padding(.vertical)
 
-        PBMessage(avatar: avatarXSmall, label: userName, message: message, timestamp: Date())
+        PBMessage(
+          avatar: avatarXSmall,
+          label: userName,
+          message: message,
+          timestamp: Date(),
+          timestampAlignment: .leading
+        )
         .padding(.vertical)
 
-        PBMessage(avatar: avatarXSmall, label: userName, message: message, timestamp: Date())
+        PBMessage(
+          avatar: avatarXSmall,
+          label: userName,
+          message: message,
+          timestamp: Date()
+        )
         .padding(.vertical)
 
-        PBMessage(label: userName, message: message, timestamp: Date())
+        PBMessage(
+          label: userName,
+          message: message,
+          timestamp: Date()
+        )
         .padding(.vertical)
 
-        PBMessage(label: userName, timestamp: Date()) {
+        PBMessage(
+          label: userName,
+          timestamp: Date()
+        ) {
           Image("Forest", bundle: .module).resizable().frame(width: 240, height: 240)
-
         }
         .padding(.vertical)
 
-        PBMessage(label: userName, message: message, timestamp: Date()) {
+        PBMessage(
+          label: userName,
+          message: message,
+          timestamp: Date()
+        ) {
           Image("Forest", bundle: .module).resizable().frame(width: 240, height: 240)
         }
         .padding(.vertical)
+      }
 
+      Section("With timestamp hover") {
+        PBMessage(
+          avatar: avatarXSmall,
+          label: userName,
+          message: message,
+          timestamp: Date(),
+          timestampAlignment: .leading,
+          changeTimeStampOnHover: true
+        )
+        .padding(.vertical)
+
+        PBMessage(
+          avatar: avatarXSmall,
+          label: userName,
+          message: message,
+          timestamp: Date(),
+          timestampAlignment: .trailing,
+          changeTimeStampOnHover: true
+        )
+        .padding(.vertical)
+      }
     }
-    
-
     .navigationTitle("Message")
   }
 }
