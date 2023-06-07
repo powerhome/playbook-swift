@@ -39,14 +39,8 @@ public struct PBTextArea: View {
     self.maxCharacterCount = maxCharacterCount
     self.maxCharacterBlock = maxCharacterBlock
     _isNoteFocused = isNoteFocused
-
-    // add another prop that is set to active when texteditor is tapped. this will be used to style the card like so style: isTapped ? .selected : .default and isNoteFocued can be used for showing inline variant
   }
   public var body: some View {
-    //		VStack(alignment: .leading, spacing: Spacing.xxSmall) {
-    //			Text(label)
-    //				.pbFont(.caption)
-    //		} else {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       Text(label)
         .pbFont(.caption)
@@ -117,123 +111,121 @@ public struct PBTextArea: View {
             }
           }
         }
+
+      } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
+        PBCard(padding: 0,
+               style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .default) {
+          if let placeholder = placeholder {
+            ZStack(alignment: .leading) {
+              if let blockCount = maxCharacterBlock, blockCount,
+                 let count = maxCharacterCount,
+                 let showCharacterCount = characterCount,
+                 showCharacterCount {
+                TextEditor(text: $text.max(count))
+                  .padding(.top, 4)
+                  .padding(.horizontal, 12)
+                  .frame(height: 88)
+                  .foregroundColor(.text(.default))
+                  .pbFont(.body())
+                  .focused($isNoteFocused, equals: true)
+              } else {
+                placeHolderTextEditorView($text)
+              }
+              if let isNoteFocused = isNoteFocused, !isNoteFocused && text.isEmpty {
+                placeHolderTextView(placeholder)
+              }
+            }
+          } else {
+            if let blockCount = maxCharacterBlock, blockCount,
+               let count = maxCharacterCount,
+               let showCharacterCount = characterCount,
+               showCharacterCount {
+              TextEditor(text: $text.max(count))
+                .padding(.top, 4)
+                .padding(.horizontal, 12)
+                .frame(height: 88)
+                .foregroundColor(.text(.default))
+                .pbFont(.body())
+                .focused($isNoteFocused, equals: true)
+            } else {
+              textEditorView($text)
+            }
+          }
+        }
+        HStack {
+          if error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount! {
+            Text(error)
+              .foregroundColor(.status(.error))
+              .pbFont(.body())
+              .padding(.top, 4)
+          }
+          Spacer()
+          if let showCount = characterCount, showCount {
+            if let maxCharacterCount = maxCharacterCount {
+              Text("\(text.count) / \(maxCharacterCount)")
+                .pbFont(.subcaption)
+                .padding(.top, 4)
+            } else {
+              Text("\(text.count)")
+                .pbFont(.subcaption)
+                .padding(.top, 4)
+            }
+          }
+        }
+      } else {
+        PBCard(padding: 0, style: isNoteFocused ?? false ? .selected : .default) {
+          if let placeholder = placeholder {
+            ZStack(alignment: .leading) {
+              if let blockCount = maxCharacterBlock, blockCount,
+                 let count = maxCharacterCount,
+                 let showCharacterCount = characterCount,
+                 showCharacterCount {
+                TextEditor(text: $text.max(count))
+                  .padding(.top, 4)
+                  .padding(.horizontal, 12)
+                  .frame(height: 88)
+                  .foregroundColor(.text(.default))
+                  .pbFont(.body())
+                  .focused($isNoteFocused, equals: true)
+              } else {
+                placeHolderTextEditorView($text)
+              }
+              if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+                placeHolderTextView(placeholder)
+              }
+            }
+          } else {
+            if let blockCount = maxCharacterBlock, blockCount,
+               let count = maxCharacterCount,
+               let showCharacterCount = characterCount,
+               showCharacterCount {
+              TextEditor(text: $text.max(count))
+                .padding(.top, 4)
+                .padding(.horizontal, 12)
+                .frame(height: 88)
+                .foregroundColor(.text(.default))
+                .pbFont(.body())
+                .focused($isNoteFocused, equals: true)
+            } else {
+              textEditorView($text)
+            }
+          }
+        }
+        HStack {
+          Spacer()
+          if let showCount = characterCount, showCount {
+            if let maxCharacterCount = maxCharacterCount {
+              Text("\(text.count) / \(maxCharacterCount)")
+                .pbFont(.subcaption)
+                .padding(.top, 4)
+            } else {
+              Text("\(text.count)")
+                .pbFont(.subcaption)
+                .padding(.top, 4)
+            }
+          }
+        }
       }
-      //        } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
-      //          PBCard(padding: 0,
-      //                 style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .default) {
-      //            if let placeholder = placeholder {
-      //              ZStack(alignment: .leading) {
-      //                if let blockCount = maxCharacterBlock, blockCount,
-      //                   let count = maxCharacterCount,
-      //                   let showCharacterCount = characterCount,
-      //                   showCharacterCount {
-      //                  TextEditor(text: $text.max(count))
-      //                    .padding(.top, 4)
-      //                    .padding(.horizontal, 12)
-      //                    .frame(height: 88)
-      //                    .foregroundColor(.text(.default))
-      //                    .pbFont(.body())
-      //                    .focused($isNoteFocused)
-      //                } else {
-      //                  placeHolderTextEditorView($text)
-      //                }
-      //                if !isNoteFocused && text.isEmpty {
-      //                  placeHolderTextView(placeholder)
-      //                }
-      //              }
-      //            } else {
-      //              if let blockCount = maxCharacterBlock, blockCount,
-      //                 let count = maxCharacterCount,
-      //                 let showCharacterCount = characterCount,
-      //                 showCharacterCount {
-      //                TextEditor(text: $text.max(count))
-      //                  .padding(.top, 4)
-      //                  .padding(.horizontal, 12)
-      //                  .frame(height: 88)
-      //                  .foregroundColor(.text(.default))
-      //                  .pbFont(.body())
-      //                  .focused($isNoteFocused)
-      //              } else {
-      //                textEditorView($text)
-      //              }
-      //            }
-      //          }
-      //          HStack {
-      //            if error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount! {
-      //              Text(error)
-      //                .foregroundColor(.status(.error))
-      //                .pbFont(.body())
-      //                .padding(.top, 4)
-      //            }
-      //            Spacer()
-      //            if let showCount = characterCount, showCount {
-      //              if let maxCharacterCount = maxCharacterCount {
-      //                Text("\(text.count) / \(maxCharacterCount)")
-      //                  .pbFont(.subcaption)
-      //                  .padding(.top, 4)
-      //              } else {
-      //                Text("\(text.count)")
-      //                  .pbFont(.subcaption)
-      //                  .padding(.top, 4)
-      //              }
-      //            }
-      //          }
-      //        } else {
-      //          PBCard(padding: 0, style: isNoteFocused ? .selected : .default) {
-      //            if let placeholder = placeholder {
-      //              ZStack(alignment: .leading) {
-      //                if let blockCount = maxCharacterBlock, blockCount,
-      //                   let count = maxCharacterCount,
-      //                   let showCharacterCount = characterCount,
-      //                   showCharacterCount {
-      //                  TextEditor(text: $text.max(count))
-      //                    .padding(.top, 4)
-      //                    .padding(.horizontal, 12)
-      //                    .frame(height: 88)
-      //                    .foregroundColor(.text(.default))
-      //                    .pbFont(.body())
-      //                    .focused($isNoteFocused)
-      //                } else {
-      //                  placeHolderTextEditorView($text)
-      //                }
-      //                if !isNoteFocused && text.isEmpty {
-      //                  placeHolderTextView(placeholder)
-      //                }
-      //              }
-      //            } else {
-      //              if let blockCount = maxCharacterBlock, blockCount,
-      //                 let count = maxCharacterCount,
-      //                 let showCharacterCount = characterCount,
-      //                 showCharacterCount {
-      //                TextEditor(text: $text.max(count))
-      //                  .padding(.top, 4)
-      //                  .padding(.horizontal, 12)
-      //                  .frame(height: 88)
-      //                  .foregroundColor(.text(.default))
-      //                  .pbFont(.body())
-      //                  .focused($isNoteFocused)
-      //              } else {
-      //                textEditorView($text)
-      //              }
-      //            }
-      //          }
-      //          HStack {
-      //            Spacer()
-      //            if let showCount = characterCount, showCount {
-      //              if let maxCharacterCount = maxCharacterCount {
-      //                Text("\(text.count) / \(maxCharacterCount)")
-      //                  .pbFont(.subcaption)
-      //                  .padding(.top, 4)
-      //              } else {
-      //                Text("\(text.count)")
-      //                  .pbFont(.subcaption)
-      //                  .padding(.top, 4)
-      //              }
-      //            }
-      //          }
-      //        }
-      //      }
-      //    }
     }
   }
 
