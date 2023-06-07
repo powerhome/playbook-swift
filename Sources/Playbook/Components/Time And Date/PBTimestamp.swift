@@ -38,13 +38,12 @@ public struct PBTimestamp: View {
   }
 
   var editedTimestamp: String {
-    var text = " "
     switch variant {
-    case .elapsed: text = "\(userDisplay)\(formattedElapsed)"
-    case .updated: text = "Last updated \(userDisplay)on \(formattedUpdated)"
-    default: text = formattedDefault
+    case .elapsed: return "Last updated \(userDisplay)\(formattedElapsed)"
+    case .updated: return "Last updated \(userDisplay)on \(formattedUpdated)"
+    case .message: return "\(userDisplay)\(formattedElapsed)"
+    default: return formattedDefault
     }
-    return text
   }
 
   var formattedDefault: String {
@@ -125,6 +124,7 @@ public extension PBTimestamp {
     case elapsed
     case standard
     case updated
+    case message
   }
 }
 
