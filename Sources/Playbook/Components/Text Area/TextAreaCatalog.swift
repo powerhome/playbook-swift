@@ -88,7 +88,7 @@ public struct TextAreaCatalog: View {
       PBTextArea(
         "Max Characters W/ Blocker",
         text: $maxBlockerText,
-        characterCount: true,
+        placeholder: "Placeholder with text",
         maxCharacterCount: 100,
         maxCharacterBlock: true
       )
@@ -96,7 +96,6 @@ public struct TextAreaCatalog: View {
         "Max Characters W/ Error",
         text: $maxBlockerErrorText,
         error: "Too many characters!",
-        characterCount: true,
         maxCharacterCount: 90
       )
     }

@@ -72,7 +72,7 @@ public struct PBTextArea: View {
               } else {
                 placeHolderTextEditorView($text)
               }
-              if let isNoteFocused = isNoteFocused, !isNoteFocused && text.isEmpty {
+              if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
                 placeHolderTextView(placeholder)
               }
             }
@@ -111,45 +111,21 @@ public struct PBTextArea: View {
             }
           }
         }
-
       } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
+        // this else if let statment will display textEditors with the maxCharacterCount and Error props working together to create a textEditor that has an error state when character count is greater than maxCharacterCount
         PBCard(padding: 0,
                style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .default) {
+          // this will display the maxCharacterCount W/ Error textEditor with a placeholder
           if let placeholder = placeholder {
             ZStack(alignment: .leading) {
-              if let blockCount = maxCharacterBlock, blockCount,
-                 let count = maxCharacterCount,
-                 let showCharacterCount = characterCount,
-                 showCharacterCount {
-                TextEditor(text: $text.max(count))
-                  .padding(.top, 4)
-                  .padding(.horizontal, 12)
-                  .frame(height: 88)
-                  .foregroundColor(.text(.default))
-                  .pbFont(.body())
-                  .focused($isNoteFocused, equals: true)
-              } else {
-                placeHolderTextEditorView($text)
-              }
-              if let isNoteFocused = isNoteFocused, !isNoteFocused && text.isEmpty {
+              placeHolderTextEditorView($text)
+              if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
                 placeHolderTextView(placeholder)
               }
             }
           } else {
-            if let blockCount = maxCharacterBlock, blockCount,
-               let count = maxCharacterCount,
-               let showCharacterCount = characterCount,
-               showCharacterCount {
-              TextEditor(text: $text.max(count))
-                .padding(.top, 4)
-                .padding(.horizontal, 12)
-                .frame(height: 88)
-                .foregroundColor(.text(.default))
-                .pbFont(.body())
-                .focused($isNoteFocused, equals: true)
-            } else {
-              textEditorView($text)
-            }
+            // this will display the maxCharacterCount W/ Error textEditor without a placeholder
+            textEditorView($text)
           }
         }
         HStack {
@@ -160,26 +136,20 @@ public struct PBTextArea: View {
               .padding(.top, 4)
           }
           Spacer()
-          if let showCount = characterCount, showCount {
-            if let maxCharacterCount = maxCharacterCount {
-              Text("\(text.count) / \(maxCharacterCount)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
-            } else {
-              Text("\(text.count)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
-            }
+          if let maxCharacterCount = maxCharacterCount {
+            Text("\(text.count) / \(maxCharacterCount)")
+              .pbFont(.subcaption)
+              .padding(.top, 4)
           }
         }
       } else {
+        // this else if let statment will display textEditors with the maxCharacterCount, characterCount and default textEditors with and without placeholders
         PBCard(padding: 0, style: isNoteFocused ?? false ? .selected : .default) {
+          // this block will display maxCharacterBlocker textEditor with a placeholder
           if let placeholder = placeholder {
             ZStack(alignment: .leading) {
               if let blockCount = maxCharacterBlock, blockCount,
-                 let count = maxCharacterCount,
-                 let showCharacterCount = characterCount,
-                 showCharacterCount {
+                 let count = maxCharacterCount {
                 TextEditor(text: $text.max(count))
                   .padding(.top, 4)
                   .padding(.horizontal, 12)
@@ -188,6 +158,7 @@ public struct PBTextArea: View {
                   .pbFont(.body())
                   .focused($isNoteFocused, equals: true)
               } else {
+                // this block will display default textEditor with a placeholder
                 placeHolderTextEditorView($text)
               }
               if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
@@ -195,10 +166,9 @@ public struct PBTextArea: View {
               }
             }
           } else {
+            // this block will display maxCharacterBlocker without a placeholder
             if let blockCount = maxCharacterBlock, blockCount,
-               let count = maxCharacterCount,
-               let showCharacterCount = characterCount,
-               showCharacterCount {
+               let count = maxCharacterCount {
               TextEditor(text: $text.max(count))
                 .padding(.top, 4)
                 .padding(.horizontal, 12)
@@ -207,6 +177,7 @@ public struct PBTextArea: View {
                 .pbFont(.body())
                 .focused($isNoteFocused, equals: true)
             } else {
+              // this block will display default textEditors and ones with characterCount without placeholder
               textEditorView($text)
             }
           }
@@ -214,15 +185,14 @@ public struct PBTextArea: View {
         HStack {
           Spacer()
           if let showCount = characterCount, showCount {
-            if let maxCharacterCount = maxCharacterCount {
-              Text("\(text.count) / \(maxCharacterCount)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
-            } else {
-              Text("\(text.count)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
-            }
+            Text("\(text.count)")
+              .pbFont(.subcaption)
+              .padding(.top, 4)
+          } else if let maxCharacterCount = maxCharacterCount {
+            Text("\(text.count) / \(maxCharacterCount)")
+              .pbFont(.subcaption)
+              .padding(.top, 4)
+
           }
         }
       }
