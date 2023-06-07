@@ -40,7 +40,7 @@ public struct PBTimestamp: View {
   var editedTimestamp: String {
     var text = " "
     switch variant {
-    case .elapsed: text = "Last updated \(userDisplay)\(formattedElapsed)"
+    case .elapsed: text = "\(userDisplay)\(formattedElapsed)"
     case .updated: text = "Last updated \(userDisplay)on \(formattedUpdated)"
     default: text = formattedDefault
     }
