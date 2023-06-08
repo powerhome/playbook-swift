@@ -82,7 +82,6 @@ public struct TextAreaCatalog: View {
       PBTextArea(
         "Max Characters",
         text: $maxCharacterText,
-        characterCount: true,
         maxCharacterCount: 100
       )
       PBTextArea(

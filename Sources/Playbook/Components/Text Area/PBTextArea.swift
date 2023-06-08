@@ -55,42 +55,18 @@ public struct PBTextArea: View {
             }
         }
       } else if let error = error, !error.isEmpty, maxCharacterCount == nil {
+        // This else if let statment will display textEditors that have an error string passed in but no maxCharacterCount
         PBCard(padding: 0, style: .error) {
+          // displays placeholder
           if let placeholder = placeholder {
             ZStack(alignment: .leading) {
-              if let blockCount = maxCharacterBlock, blockCount,
-                 let count = maxCharacterCount,
-                 let showCharacterCount = characterCount,
-                 showCharacterCount {
-                TextEditor(text: $text.max(count))
-                  .padding(.top, 4)
-                  .padding(.horizontal, 12)
-                  .frame(height: 88)
-                  .foregroundColor(.text(.default))
-                  .pbFont(.body())
-                  .focused($isNoteFocused, equals: true)
-              } else {
-                placeHolderTextEditorView($text)
-              }
+              placeHolderTextEditorView($text)
               if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
                 placeHolderTextView(placeholder)
               }
             }
           } else {
-            if let blockCount = maxCharacterBlock, blockCount,
-               let count = maxCharacterCount,
-               let showCharacterCount = characterCount,
-               showCharacterCount {
-              TextEditor(text: $text.max(count))
-                .padding(.top, 4)
-                .padding(.horizontal, 12)
-                .frame(height: 88)
-                .foregroundColor(.text(.default))
-                .pbFont(.body())
-                .focused($isNoteFocused, equals: true)
-            } else {
-              textEditorView($text)
-            }
+            textEditorView($text)
           }
         }
         HStack {
@@ -100,15 +76,9 @@ public struct PBTextArea: View {
             .padding(.top, 4)
           Spacer()
           if let showCount = characterCount, showCount {
-            if let maxCharacterCount = maxCharacterCount {
-              Text("\(text.count) / \(maxCharacterCount)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
-            } else {
-              Text("\(text.count)")
-                .pbFont(.subcaption)
-                .padding(.top, 4)
-            }
+            Text("\(text.count)")
+              .pbFont(.subcaption)
+              .padding(.top, 4)
           }
         }
       } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
