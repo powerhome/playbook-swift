@@ -45,98 +45,213 @@ public struct PBTextArea: View {
       Text(label)
         .pbFont(.caption)
       if let inline = inline {
-        PBCard(border: isNoteFocused != nil, padding: 0, style: isNoteFocused != nil ? .selected : .default) {
-          TextEditor(text: $text)
-            .foregroundColor(.text(.default))
-            .pbFont(.body())
-            .focused($isNoteFocused, equals: true)
-            .onTapGesture {
-              isNoteFocused = true
-            }
+        if let error = error, !error.isEmpty, maxCharacterCount == nil {
+          inlineErrorWithOutMaxCharCountView(error)
+        } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
+          inlineErrorWithMaxCharCountView(error)
+        } else {
+          inlineDefaultAndMaxCharCountView()
         }
       } else if let error = error, !error.isEmpty, maxCharacterCount == nil {
-        // This else if let statment will display textEditors that have an error string passed in but no maxCharacterCount
-        PBCard(padding: 0, style: .error) {
-          // displays placeholder
-          if let placeholder = placeholder {
-            ZStack(alignment: .leading) {
-              placeHolderTextEditorView($text)
-              if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
-                placeHolderTextView(placeholder)
-              }
+        errorWithOutMaxCharCountView(error)
+      } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
+        errorWithMaxCharCountView(error)
+      } else {
+        defaultAndMaxCharCountView()
+      }
+    }
+  }
+
+  func inlineErrorWithOutMaxCharCountView(_ error: String) -> some View {
+    // This else if let statement will display inline textEditors that have an error string passed in but no maxCharacterCount
+    return VStack {
+      PBCard(border: true, padding: 0, style: isNoteFocused != nil ? .selected : .error) {
+        if let placeholder = placeholder {
+          ZStack(alignment: .leading) {
+            inlineTextEditorView($text)
+            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+              inlinePlaceHolderTextView(placeholder)
             }
-          } else {
-            textEditorView($text)
+          }
+        } else {
+          ZStack(alignment: .leading) {
+            inlineTextEditorView($text)
           }
         }
-        HStack {
+      }
+      HStack {
+        Text(error)
+          .foregroundColor(.status(.error))
+          .pbFont(.body())
+          .padding(.top, 4)
+        Spacer()
+        if let showCount = characterCount, showCount {
+          Text("\(text.count)")
+            .pbFont(.subcaption)
+            .padding(.top, 4)
+        }
+      }
+    }
+  }
+
+  func inlineErrorWithMaxCharCountView(_ error: String) -> some View {
+    // this else if let statment will display inline textEditors with the maxCharacterCount and Error props working together to create a textEditor that has an error state when character count is greater than maxCharacterCount
+    return VStack {
+      PBCard(border: isNoteFocused != nil, padding: 0,
+             style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .selected) {
+        if let placeholder = placeholder {
+          ZStack(alignment: .leading) {
+            inlineTextEditorView($text)
+            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+              inlinePlaceHolderTextView(placeholder)
+            }
+          }
+        } else {
+          inlineTextEditorView($text)
+        }
+      }
+      HStack {
+        if error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount! {
           Text(error)
             .foregroundColor(.status(.error))
             .pbFont(.body())
             .padding(.top, 4)
-          Spacer()
-          if let showCount = characterCount, showCount {
-            Text("\(text.count)")
-              .pbFont(.subcaption)
-              .padding(.top, 4)
-          }
         }
-      } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
-        // this else if let statment will display textEditors with the maxCharacterCount and Error props working together to create a textEditor that has an error state when character count is greater than maxCharacterCount
-        PBCard(padding: 0,
-               style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .default) {
-          // this will display the maxCharacterCount W/ Error textEditor with a placeholder
-          if let placeholder = placeholder {
-            ZStack(alignment: .leading) {
-              placeHolderTextEditorView($text)
-              if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
-                placeHolderTextView(placeholder)
-              }
+        Spacer()
+        if let maxCharacterCount = maxCharacterCount {
+          Text("\(text.count) / \(maxCharacterCount)")
+            .pbFont(.subcaption)
+            .padding(.top, 4)
+        }
+      }
+    }
+  }
+
+  func inlineDefaultAndMaxCharCountView() -> some View {
+    // this else if let statment will display textEditors with the maxCharacterCount, characterCount and default textEditors with and without placeholders
+    return VStack {
+      PBCard(border: isNoteFocused != nil, padding: 0, style: isNoteFocused != nil ? .selected : .default) {
+        if let placeholder = placeholder {
+          ZStack(alignment: .leading) {
+            if let blockCount = maxCharacterBlock, blockCount,
+               let count = maxCharacterCount {
+              TextEditor(text: $text.max(count))
+                .padding(.top, 10)
+                .padding(.horizontal, 12)
+                .foregroundColor(.text(.default))
+                .pbFont(.body())
+                .focused($isNoteFocused, equals: true)
+                .onTapGesture {
+                  isNoteFocused = true
+                }
+            } else {
+              inlineTextEditorView($text)
             }
-          } else {
-            // this will display the maxCharacterCount W/ Error textEditor without a placeholder
-            textEditorView($text)
+            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+              inlinePlaceHolderTextView(placeholder)
+            }
           }
-        }
-        HStack {
-          if error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount! {
-            Text(error)
-              .foregroundColor(.status(.error))
+        } else {
+          if let blockCount = maxCharacterBlock, blockCount,
+             let count = maxCharacterCount {
+            TextEditor(text: $text.max(count))
+              .padding(.top, 10)
+              .padding(.horizontal, 12)
+              .foregroundColor(.text(.default))
               .pbFont(.body())
-              .padding(.top, 4)
-          }
-          Spacer()
-          if let maxCharacterCount = maxCharacterCount {
-            Text("\(text.count) / \(maxCharacterCount)")
-              .pbFont(.subcaption)
-              .padding(.top, 4)
+              .focused($isNoteFocused, equals: true)
+              .onTapGesture {
+                isNoteFocused = true
+              }
+          } else {
+            inlineTextEditorView($text)
           }
         }
-      } else {
-        // this else if let statment will display textEditors with the maxCharacterCount, characterCount and default textEditors with and without placeholders
-        PBCard(padding: 0, style: isNoteFocused ?? false ? .selected : .default) {
-          // this block will display maxCharacterBlocker textEditor with a placeholder
-          if let placeholder = placeholder {
-            ZStack(alignment: .leading) {
-              if let blockCount = maxCharacterBlock, blockCount,
-                 let count = maxCharacterCount {
-                TextEditor(text: $text.max(count))
-                  .padding(.top, 4)
-                  .padding(.horizontal, 12)
-                  .frame(height: 88)
-                  .foregroundColor(.text(.default))
-                  .pbFont(.body())
-                  .focused($isNoteFocused, equals: true)
-              } else {
-                // this block will display default textEditor with a placeholder
-                placeHolderTextEditorView($text)
-              }
-              if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
-                placeHolderTextView(placeholder)
-              }
+      }
+      HStack {
+        Spacer()
+        if let showCount = characterCount, showCount {
+          Text("\(text.count)")
+            .pbFont(.subcaption)
+            .padding(.top, 4)
+        } else if let maxCharacterCount = maxCharacterCount {
+          Text("\(text.count) / \(maxCharacterCount)")
+            .pbFont(.subcaption)
+            .padding(.top, 4)
+        }
+      }
+    }
+  }
+
+  func errorWithOutMaxCharCountView(_ error: String) -> some View {
+    // This else if let statement will display textEditors that have an error string passed in but no maxCharacterCount
+    return VStack {
+      PBCard(padding: 0, style: isNoteFocused != nil ? .selected : .error) {
+        if let placeholder = placeholder {
+          ZStack(alignment: .leading) {
+            textEditorView($text)
+            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+              placeHolderTextView(placeholder)
             }
-          } else {
-            // this block will display maxCharacterBlocker without a placeholder
+          }
+        } else {
+          textEditorView($text)
+        }
+      }
+      HStack {
+        Text(error)
+          .foregroundColor(.status(.error))
+          .pbFont(.body())
+          .padding(.top, 4)
+        Spacer()
+        if let showCount = characterCount, showCount {
+          Text("\(text.count)")
+            .pbFont(.subcaption)
+            .padding(.top, 4)
+        }
+      }
+    }
+  }
+
+  func errorWithMaxCharCountView(_ error: String) -> some View {
+    // this else if let statment will display textEditors with the maxCharacterCount and Error props working together to create a textEditor that has an error state when character count is greater than maxCharacterCount
+    return VStack {
+      PBCard(padding: 0,
+             style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .default) {
+        if let placeholder = placeholder {
+          ZStack(alignment: .leading) {
+            textEditorView($text)
+            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+              placeHolderTextView(placeholder)
+            }
+          }
+        } else {
+          textEditorView($text)
+        }
+      }
+      HStack {
+        if error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount! {
+          Text(error)
+            .foregroundColor(.status(.error))
+            .pbFont(.body())
+            .padding(.top, 4)
+        }
+        Spacer()
+        if let maxCharacterCount = maxCharacterCount {
+          Text("\(text.count) / \(maxCharacterCount)")
+            .pbFont(.subcaption)
+            .padding(.top, 4)
+        }
+      }
+    }
+  }
+
+  func defaultAndMaxCharCountView() -> some View {
+    // this else if let statment will display textEditors with the maxCharacterCount, characterCount and default textEditors with and without placeholders
+    return VStack {
+      PBCard(padding: 0, style: isNoteFocused ?? false ? .selected : .default) {
+        if let placeholder = placeholder {
+          ZStack(alignment: .leading) {
             if let blockCount = maxCharacterBlock, blockCount,
                let count = maxCharacterCount {
               TextEditor(text: $text.max(count))
@@ -147,23 +262,37 @@ public struct PBTextArea: View {
                 .pbFont(.body())
                 .focused($isNoteFocused, equals: true)
             } else {
-              // this block will display default textEditors and ones with characterCount without placeholder
               textEditorView($text)
             }
+            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+              placeHolderTextView(placeholder)
+            }
+          }
+        } else {
+          if let blockCount = maxCharacterBlock, blockCount,
+             let count = maxCharacterCount {
+            TextEditor(text: $text.max(count))
+              .padding(.top, 4)
+              .padding(.horizontal, 12)
+              .frame(height: 88)
+              .foregroundColor(.text(.default))
+              .pbFont(.body())
+              .focused($isNoteFocused, equals: true)
+          } else {
+            textEditorView($text)
           }
         }
-        HStack {
-          Spacer()
-          if let showCount = characterCount, showCount {
-            Text("\(text.count)")
-              .pbFont(.subcaption)
-              .padding(.top, 4)
-          } else if let maxCharacterCount = maxCharacterCount {
-            Text("\(text.count) / \(maxCharacterCount)")
-              .pbFont(.subcaption)
-              .padding(.top, 4)
-
-          }
+      }
+      HStack {
+        Spacer()
+        if let showCount = characterCount, showCount {
+          Text("\(text.count)")
+            .pbFont(.subcaption)
+            .padding(.top, 4)
+        } else if let maxCharacterCount = maxCharacterCount {
+          Text("\(text.count) / \(maxCharacterCount)")
+            .pbFont(.subcaption)
+            .padding(.top, 4)
         }
       }
     }
@@ -179,7 +308,16 @@ public struct PBTextArea: View {
       .focused($isNoteFocused, equals: true)
   }
 
-  func placeHolderTextEditorView(_ text: Binding<String>) -> some View {
+  func inlinePlaceHolderTextView(_ placeholder: String) -> some View {
+    Text(placeholder)
+      .padding(.horizontal, 12)
+      .foregroundColor(Color(uiColor: .placeholderText))
+      .pbFont(.body())
+      .allowsHitTesting(false)
+      .focused($isNoteFocused, equals: true)
+  }
+
+  func textEditorView(_ text: Binding<String>) -> some View {
     TextEditor(text: text)
       .padding(.top, 4)
       .padding(.horizontal, 12)
@@ -189,16 +327,17 @@ public struct PBTextArea: View {
       .focused($isNoteFocused, equals: true)
   }
 
-  func textEditorView(_ text: Binding<String>) -> some View {
+  func inlineTextEditorView(_ text: Binding<String>) -> some View {
     TextEditor(text: $text)
-      .padding(.top, 4)
+      .padding(.top, 10)
       .padding(.horizontal, 12)
-      .frame(height: 88)
       .foregroundColor(.text(.default))
       .pbFont(.body())
       .focused($isNoteFocused, equals: true)
+      .onTapGesture {
+        isNoteFocused = true
+      }
   }
-
 }
 
 struct PBTextArea_Previews: PreviewProvider {
