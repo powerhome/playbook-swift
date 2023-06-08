@@ -16,7 +16,7 @@ public struct PBTextArea: View {
   var maxCharacterBlock: Bool?
   var maxCharacterCount: Int?
 
-  @FocusState private var isNoteFocused: Bool?
+  @FocusState private var isTextAreaFocused: Bool?
   @Binding var text: String
 
   public init(
@@ -28,7 +28,7 @@ public struct PBTextArea: View {
     characterCount: Bool? = false,
     maxCharacterCount: Int? = nil,
     maxCharacterBlock: Bool? = false,
-    isNoteFocused: FocusState<Bool?> = .init()
+    isTextAreaFocused: FocusState<Bool?> = .init()
   ) {
     self.label = label
     _text = text
@@ -38,7 +38,7 @@ public struct PBTextArea: View {
     self.characterCount = characterCount
     self.maxCharacterCount = maxCharacterCount
     self.maxCharacterBlock = maxCharacterBlock
-    _isNoteFocused = isNoteFocused
+    _isTextAreaFocused = isTextAreaFocused
   }
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
@@ -65,11 +65,11 @@ public struct PBTextArea: View {
   func inlineErrorWithOutMaxCharCountView(_ error: String) -> some View {
     // This else if let statement will display inline textEditors that have an error string passed in but no maxCharacterCount
     return VStack {
-      PBCard(border: true, padding: 0, style: isNoteFocused != nil ? .selected : .error) {
+      PBCard(border: true, padding: 0, style: isTextAreaFocused != nil ? .selected : .error) {
         if let placeholder = placeholder {
           ZStack(alignment: .leading) {
             inlineTextEditorView($text)
-            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+            if isTextAreaFocused == nil && text.isEmpty || (isTextAreaFocused == false && text.isEmpty) {
               inlinePlaceHolderTextView(placeholder)
             }
           }
@@ -97,12 +97,12 @@ public struct PBTextArea: View {
   func inlineErrorWithMaxCharCountView(_ error: String) -> some View {
     // this else if let statment will display inline textEditors with the maxCharacterCount and Error props working together to create a textEditor that has an error state when character count is greater than maxCharacterCount
     return VStack {
-      PBCard(border: isNoteFocused != nil, padding: 0,
+      PBCard(border: isTextAreaFocused != nil, padding: 0,
              style: (error != nil && !error.isEmpty && maxCharacterCount != nil && text.count >= maxCharacterCount!) ? .error : .selected) {
         if let placeholder = placeholder {
           ZStack(alignment: .leading) {
             inlineTextEditorView($text)
-            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+            if isTextAreaFocused == nil && text.isEmpty || (isTextAreaFocused == false && text.isEmpty) {
               inlinePlaceHolderTextView(placeholder)
             }
           }
@@ -130,7 +130,7 @@ public struct PBTextArea: View {
   func inlineDefaultAndMaxCharCountView() -> some View {
     // this else if let statment will display textEditors with the maxCharacterCount, characterCount and default textEditors with and without placeholders
     return VStack {
-      PBCard(border: isNoteFocused != nil, padding: 0, style: isNoteFocused != nil ? .selected : .default) {
+      PBCard(border: isTextAreaFocused != nil, padding: 0, style: isTextAreaFocused != nil ? .selected : .default) {
         if let placeholder = placeholder {
           ZStack(alignment: .leading) {
             if let blockCount = maxCharacterBlock, blockCount,
@@ -140,14 +140,14 @@ public struct PBTextArea: View {
                 .padding(.horizontal, 12)
                 .foregroundColor(.text(.default))
                 .pbFont(.body())
-                .focused($isNoteFocused, equals: true)
+                .focused($isTextAreaFocused, equals: true)
                 .onTapGesture {
-                  isNoteFocused = true
+                  isTextAreaFocused = true
                 }
             } else {
               inlineTextEditorView($text)
             }
-            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+            if isTextAreaFocused == nil && text.isEmpty || (isTextAreaFocused == false && text.isEmpty) {
               inlinePlaceHolderTextView(placeholder)
             }
           }
@@ -159,9 +159,9 @@ public struct PBTextArea: View {
               .padding(.horizontal, 12)
               .foregroundColor(.text(.default))
               .pbFont(.body())
-              .focused($isNoteFocused, equals: true)
+              .focused($isTextAreaFocused, equals: true)
               .onTapGesture {
-                isNoteFocused = true
+                isTextAreaFocused = true
               }
           } else {
             inlineTextEditorView($text)
@@ -186,11 +186,11 @@ public struct PBTextArea: View {
   func errorWithOutMaxCharCountView(_ error: String) -> some View {
     // This else if let statement will display textEditors that have an error string passed in but no maxCharacterCount
     return VStack {
-      PBCard(padding: 0, style: isNoteFocused != nil ? .selected : .error) {
+      PBCard(padding: 0, style: isTextAreaFocused != nil ? .selected : .error) {
         if let placeholder = placeholder {
           ZStack(alignment: .leading) {
             textEditorView($text)
-            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+            if isTextAreaFocused == nil && text.isEmpty || (isTextAreaFocused == false && text.isEmpty) {
               placeHolderTextView(placeholder)
             }
           }
@@ -221,7 +221,7 @@ public struct PBTextArea: View {
         if let placeholder = placeholder {
           ZStack(alignment: .leading) {
             textEditorView($text)
-            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+            if isTextAreaFocused == nil && text.isEmpty || (isTextAreaFocused == false && text.isEmpty) {
               placeHolderTextView(placeholder)
             }
           }
@@ -249,7 +249,7 @@ public struct PBTextArea: View {
   func defaultAndMaxCharCountView() -> some View {
     // this else if let statment will display textEditors with the maxCharacterCount, characterCount and default textEditors with and without placeholders
     return VStack {
-      PBCard(padding: 0, style: isNoteFocused ?? false ? .selected : .default) {
+      PBCard(padding: 0, style: isTextAreaFocused ?? false ? .selected : .default) {
         if let placeholder = placeholder {
           ZStack(alignment: .leading) {
             if let blockCount = maxCharacterBlock, blockCount,
@@ -260,11 +260,11 @@ public struct PBTextArea: View {
                 .frame(height: 88)
                 .foregroundColor(.text(.default))
                 .pbFont(.body())
-                .focused($isNoteFocused, equals: true)
+                .focused($isTextAreaFocused, equals: true)
             } else {
               textEditorView($text)
             }
-            if isNoteFocused == nil && text.isEmpty || (isNoteFocused == false && text.isEmpty) {
+            if isTextAreaFocused == nil && text.isEmpty || (isTextAreaFocused == false && text.isEmpty) {
               placeHolderTextView(placeholder)
             }
           }
@@ -277,7 +277,7 @@ public struct PBTextArea: View {
               .frame(height: 88)
               .foregroundColor(.text(.default))
               .pbFont(.body())
-              .focused($isNoteFocused, equals: true)
+              .focused($isTextAreaFocused, equals: true)
           } else {
             textEditorView($text)
           }
@@ -305,7 +305,7 @@ public struct PBTextArea: View {
       .foregroundColor(Color(uiColor: .placeholderText))
       .pbFont(.body())
       .allowsHitTesting(false)
-      .focused($isNoteFocused, equals: true)
+      .focused($isTextAreaFocused, equals: true)
   }
 
   func inlinePlaceHolderTextView(_ placeholder: String) -> some View {
@@ -314,7 +314,7 @@ public struct PBTextArea: View {
       .foregroundColor(Color(uiColor: .placeholderText))
       .pbFont(.body())
       .allowsHitTesting(false)
-      .focused($isNoteFocused, equals: true)
+      .focused($isTextAreaFocused, equals: true)
   }
 
   func textEditorView(_ text: Binding<String>) -> some View {
@@ -324,7 +324,7 @@ public struct PBTextArea: View {
       .frame(height: 88)
       .foregroundColor(.text(.default))
       .pbFont(.body())
-      .focused($isNoteFocused, equals: true)
+      .focused($isTextAreaFocused, equals: true)
   }
 
   func inlineTextEditorView(_ text: Binding<String>) -> some View {
@@ -333,9 +333,9 @@ public struct PBTextArea: View {
       .padding(.horizontal, 12)
       .foregroundColor(.text(.default))
       .pbFont(.body())
-      .focused($isNoteFocused, equals: true)
+      .focused($isTextAreaFocused, equals: true)
       .onTapGesture {
-        isNoteFocused = true
+        isTextAreaFocused = true
       }
   }
 }
