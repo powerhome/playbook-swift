@@ -8,9 +8,6 @@
 import SwiftUI
 
 public struct CheckboxCatalog: View {
-
-  public init() {}
-
   public var body: some View {
     VStack(alignment: .leading) {
       PBCheckbox(checked: false, text: "Unchecked", action: {})
