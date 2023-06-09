@@ -89,7 +89,6 @@ public struct TextAreaCatalog: View {
       PBTextArea(
         "Max Characters W/ Blocker",
         text: $maxBlockerText,
-        placeholder: "Placeholder with text",
         characterCount: .maxCharacterCountBlock(100)
       )
       PBTextArea(
@@ -106,7 +105,8 @@ public struct TextAreaCatalog: View {
       PBTextArea(
         "Inline",
         text: $inlineText,
-        inline: true
+        inline: true,
+        characterCount: .count
       )
     }
   }

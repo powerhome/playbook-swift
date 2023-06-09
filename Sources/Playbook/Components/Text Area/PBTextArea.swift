@@ -37,6 +37,18 @@ public extension PBTextArea {
       .focused($isTextAreaFocused, equals: true)
   }
 
+  var inlineTextEditorView: some View {
+    TextEditor(text: editorText)
+      .padding(.top, 10)
+      .padding(.horizontal, 12)
+      .foregroundColor(.text(.default))
+      .pbFont(.body())
+      .focused($isTextAreaFocused, equals: true)
+      .onTapGesture {
+        isTextAreaFocused = true
+      }
+  }
+
   func style(_ isTextAreaFocused: Bool) -> PBCardStyle {
     if let error = error {
       return .error
@@ -85,7 +97,7 @@ public extension PBTextArea {
 public struct PBTextArea: View {
   var characterCount: CharacterCount
   var error: String?
-  var inline: Bool?
+  var inline: Bool
   var label: String
   var placeholder: String?
   //  var maxCharacterBlock: Bool?
@@ -99,7 +111,7 @@ public struct PBTextArea: View {
     text: Binding<String>,
     placeholder: String? = nil,
     error: String? = nil,
-    inline: Bool? = nil,
+    inline: Bool = false,
     characterCount: CharacterCount = .noCount
     //    maxCharacterCount: Int? = nil,
     //    maxCharacterBlock: Bool? = false,
@@ -136,17 +148,26 @@ public struct PBTextArea: View {
       //      }
       //			else {
       //			return VStack {
-      PBCard(padding: 0, style: style(isTextAreaFocused)) {
-        ZStack(alignment: .leading) {
-          textEditorView
+      if inline {
+        PBCard(border: isTextAreaFocused, padding: 0, style: isTextAreaFocused ? .selected : .default) {
+          inlineTextEditorView
           if let placeholder = placeholder, (isTextAreaFocused == false && text.isEmpty) {
             placeHolderTextView(placeholder)
           }
         }
+      } else {
+        PBCard(padding: 0, style: style(isTextAreaFocused)) {
+          ZStack(alignment: .leading) {
+            textEditorView
+            if let placeholder = placeholder, (isTextAreaFocused == false && text.isEmpty) {
+              placeHolderTextView(placeholder)
+            }
+          }
+        }
+        countView
+        //			}
+        //			}
       }
-      countView
-      //			}
-      //			}
     }
   }
 
