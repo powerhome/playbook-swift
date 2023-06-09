@@ -79,24 +79,24 @@ public struct TextAreaCatalog: View {
       PBTextArea(
         "Count Only",
         text: $countText,
-        characterCount: true
+        characterCount: .count
       )
       PBTextArea(
         "Max Characters",
         text: $maxCharacterText,
-        maxCharacterCount: 100
+        characterCount: .maxCharacterCount(100)
       )
       PBTextArea(
         "Max Characters W/ Blocker",
         text: $maxBlockerText,
-        maxCharacterCount: 100,
-        maxCharacterBlock: true
+        placeholder: "Placeholder with text",
+        characterCount: .maxCharacterCountBlock(100)
       )
       PBTextArea(
         "Max Characters W/ Error",
         text: $maxBlockerErrorText,
         error: "Too many characters!",
-        maxCharacterCount: 90
+        characterCount: .maxCharacterCountBlock(90)
       )
     }
   }
