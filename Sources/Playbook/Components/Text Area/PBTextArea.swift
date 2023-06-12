@@ -23,6 +23,8 @@ public extension PBTextArea {
     switch characterCount {
     case .maxCharacterCountBlock(let maxCount):
       return $text.max(maxCount)
+    case .maxCharacterCountError(let maxCount):
+      return $text
     default: return $text
     }
   }
@@ -59,7 +61,11 @@ public extension PBTextArea {
 
   var errorText: String {
     if let error = error {
-      return error
+      if case let .maxCharacterCountError(_, message) = characterCount {
+        return message
+      } else {
+        return error
+      }
     } else {
       return ""
     }
@@ -67,44 +73,44 @@ public extension PBTextArea {
 
   var countView: some View {
     HStack {
-      Text(errorText)
-        .foregroundColor(.status(.error))
-        .pbFont(.body())
-        .padding(.top, 4)
+      if error != nil || characterCount != .noCount {
+        Text(errorText)
+          .foregroundColor(.status(.error))
+          .pbFont(.body())
+          .padding(.top, 4)
+        Spacer()
+        Text(textCount(text.count))
+          .pbFont(.subcaption)
+          .padding(.top, 4)
+      }
+    }
+  }
 
-      Spacer()
-      Text(characterCount.textCount(text.count))
-        .pbFont(.subcaption)
-        .padding(.top, 4)
+  func textCount(_ count: Int) -> String {
+    switch characterCount {
+    case .noCount: return ""
+    case .count: return "\(count)"
+    case .maxCharacterCount(let maxCount): return "\(count) / \(maxCount)"
+    case .maxCharacterCountBlock(let maxCount): return "\(count) / \(maxCount)"
+    case .maxCharacterCountError(let maxCount, let errorMessage): return "\(count) / \(maxCount)"
     }
   }
 
   enum CharacterCount: Equatable {
-    case noCount, count, maxCharacterCount(Int), maxCharacterCountBlock(Int)
-
-    func textCount(_ count: Int) -> String {
-      switch self {
-      case .noCount: return ""
-      case .count: return "\(count)"
-      case .maxCharacterCount(let maxCount): return "\(count) / \(maxCount)"
-      case .maxCharacterCountBlock(let maxCount): return "\(count) / \(maxCount)"
-      }
-    }
+    case noCount, count, maxCharacterCount(Int), maxCharacterCountBlock(Int), maxCharacterCountError(Int, String)
   }
 
 }
 
 public struct PBTextArea: View {
   var characterCount: CharacterCount
-  var error: String?
   var inline: Bool
   var label: String
   var placeholder: String?
-  //  var maxCharacterBlock: Bool?
-  //  var maxCharacterCount: Int?
 
   @FocusState private var isTextAreaFocused: Bool
   @Binding var text: String
+  @State var error: String?
 
   public init(
     _ label: String,
@@ -113,9 +119,6 @@ public struct PBTextArea: View {
     error: String? = nil,
     inline: Bool = false,
     characterCount: CharacterCount = .noCount
-    //    maxCharacterCount: Int? = nil,
-    //    maxCharacterBlock: Bool? = false,
-    //    isTextAreaFocused: FocusState<Bool?> = .init()
   ) {
     self.label = label
     _text = text
@@ -123,31 +126,11 @@ public struct PBTextArea: View {
     self.error = error
     self.inline = inline
     self.characterCount = characterCount
-    //    self.maxCharacterCount = maxCharacterCount
-    //    self.maxCharacterBlock = maxCharacterBlock
-    //    _isTextAreaFocused = isTextAreaFocused
   }
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       Text(label)
         .pbFont(.caption)
-      //      if let inline = inline {
-      //        if let error = error, !error.isEmpty, maxCharacterCount == nil {
-      //          inlineErrorWithOutMaxCharCountView(error)
-      //        } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
-      //          inlineErrorWithMaxCharCountView(error)
-      //        } else {
-      //          inlineDefaultAndMaxCharCountView()
-      //        }
-      //      } else
-      //			if let error = error, !error.isEmpty {
-      //				errorWithOutMaxCharCountView(error)
-      //			}
-      //			else if let error = error, !error.isEmpty {
-      //        errorWithMaxCharCountView(error)
-      //      }
-      //			else {
-      //			return VStack {
       if inline {
         PBCard(border: isTextAreaFocused, padding: 0, style: isTextAreaFocused ? .selected : .default) {
           inlineTextEditorView
@@ -164,12 +147,38 @@ public struct PBTextArea: View {
             }
           }
         }
-        countView
-        //			}
-        //			}
+      }
+      countView
+    }
+    .onAppear {
+      if case let .maxCharacterCountError(maxCount, message) = characterCount {
+        error = text.count >= maxCount ? message : nil
+      }
+    }
+    .onChange(of: text) { text in
+      if case let .maxCharacterCountError(maxCount, message) = characterCount {
+        error = text.count >= maxCount ? message : nil
       }
     }
   }
+
+  //      if let inline = inline {
+  //        if let error = error, !error.isEmpty, maxCharacterCount == nil {
+  //          inlineErrorWithOutMaxCharCountView(error)
+  //        } else if let error = error, !error.isEmpty, maxCharacterCount != nil {
+  //          inlineErrorWithMaxCharCountView(error)
+  //        } else {
+  //          inlineDefaultAndMaxCharCountView()
+  //        }
+  //      } else
+  //			if let error = error, !error.isEmpty {
+  //				errorWithOutMaxCharCountView(error)
+  //			}
+  //			else if let error = error, !error.isEmpty {
+  //        errorWithMaxCharCountView(error)
+  //      }
+  //			else {
+  //			return VStack {
 
   //  func inlineErrorWithOutMaxCharCountView(_ error: String) -> some View {
   //    // This else if let statement will display inline textEditors that have an error string passed in but no maxCharacterCount
