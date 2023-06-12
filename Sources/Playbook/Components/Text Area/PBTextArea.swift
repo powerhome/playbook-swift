@@ -36,6 +36,7 @@ public extension PBTextArea {
       .frame(height: 88)
       .foregroundColor(.text(.default))
       .pbFont(.body())
+      .accentColor(.text(.default))
       .focused($isTextAreaFocused, equals: true)
   }
 
@@ -46,6 +47,7 @@ public extension PBTextArea {
       .foregroundColor(.text(.default))
       .pbFont(.body())
       .focused($isTextAreaFocused, equals: true)
+      .accentColor(.text(.default))
       .onTapGesture {
         isTextAreaFocused = true
       }
@@ -76,14 +78,13 @@ public extension PBTextArea {
       if error != nil || characterCount != .noCount {
         Text(errorText)
           .foregroundColor(.status(.error))
-          .pbFont(.body())
-          .padding(.top, 4)
         Spacer()
+          .pbFont(.body())
         Text(textCount(text.count))
           .pbFont(.subcaption)
-          .padding(.top, 4)
       }
     }
+    .padding(.top, 4)
   }
 
   func textCount(_ count: Int) -> String {
@@ -131,6 +132,7 @@ public struct PBTextArea: View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       Text(label)
         .pbFont(.caption)
+        .padding(.bottom, 8)
       if inline {
         PBCard(border: isTextAreaFocused, padding: 0, style: style(isTextAreaFocused)) {
           inlineTextEditorView
