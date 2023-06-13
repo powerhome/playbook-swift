@@ -12,7 +12,7 @@ public extension PBTextArea {
   func placeHolderTextView(_ placeholder: String, topPadding: CGFloat) -> some View {
     Text(placeholder)
       .padding(.top, topPadding)
-      .padding(.horizontal, 16)
+      .padding(.horizontal, Spacing.small)
       .foregroundColor(Color(uiColor: .placeholderText))
       .pbFont(.body())
       .allowsHitTesting(false)
@@ -31,7 +31,7 @@ public extension PBTextArea {
 
   var textEditorView: some View {
     TextEditor(text: editorText)
-      .padding(.top, 4)
+      .padding(.top, Spacing.xxSmall)
       .padding(.horizontal, 12)
       .frame(height: 88)
       .foregroundColor(.text(.default))
@@ -78,13 +78,14 @@ public extension PBTextArea {
       if error != nil || characterCount != .noCount {
         Text(errorText)
           .foregroundColor(.status(.error))
+          .padding(.top, Spacing.xxSmall)
         Spacer()
           .pbFont(.body())
         Text(textCount(text.count))
           .pbFont(.subcaption)
+          .padding(.top, Spacing.xxSmall)
       }
     }
-    .padding(.top, 4)
   }
 
   func textCount(_ count: Int) -> String {
@@ -132,7 +133,7 @@ public struct PBTextArea: View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       Text(label)
         .pbFont(.caption)
-        .padding(.bottom, 8)
+        .padding(.bottom, Spacing.xSmall)
       if inline {
         PBCard(border: isTextAreaFocused, padding: 0, style: style(isTextAreaFocused)) {
           inlineTextEditorView

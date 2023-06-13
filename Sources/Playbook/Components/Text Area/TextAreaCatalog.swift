@@ -51,11 +51,13 @@ public struct TextAreaCatalog: View {
         "Label",
         text: $defaultText
       )
+      .padding(.bottom, Spacing.small)
       PBTextArea(
         "Label",
         text: $placeholderText,
         placeholder: "Placeholder with text"
       )
+      .padding(.bottom, Spacing.small)
       PBTextArea(
         "Label",
         text: $customText
@@ -80,16 +82,19 @@ public struct TextAreaCatalog: View {
         text: $countText,
         characterCount: .count
       )
+      .padding(.bottom, Spacing.small)
       PBTextArea(
         "Max Characters",
         text: $maxCharacterText,
         characterCount: .maxCharacterCount(100)
       )
+      .padding(.bottom, Spacing.small)
       PBTextArea(
         "Max Characters W/ Blocker",
         text: $maxBlockerText,
         characterCount: .maxCharacterCountBlock(100)
       )
+      .padding(.bottom, Spacing.small)
       PBTextArea(
         "Max Characters W/ Error",
         text: $maxBlockerErrorText,
