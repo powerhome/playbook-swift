@@ -42,10 +42,8 @@ public struct PBAvatar: View {
           image
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .tag("userImage")
         } else if let initials = initials {
           Text(initials)
-            .tag("monogram")
             .pbFont(.monogram(size.fontSize), color: .white)
         }
       }
@@ -56,7 +54,7 @@ public struct PBAvatar: View {
 
       if wrapped {
         Circle()
-          .strokeBorder(Color.background(.default), lineWidth: 1)
+          .strokeBorder(Color.white, lineWidth: 1)
           .frame(width: size.diameter + 1, height: size.diameter + 1)
       }
 
@@ -78,23 +76,29 @@ public struct PBAvatar: View {
 
 public extension PBAvatar {
   enum Size: CaseIterable {
-    case multipleUsersStacked
     case xxSmall
     case xSmall
     case small
     case medium
     case large
     case xLarge
+    case defaultStacked
+    case defaultStackedIndicator
+    case smallStacked
+    case smallStackedIndicator
 
     var diameter: CGFloat {
       switch self {
-      case .multipleUsersStacked: return 18
       case .xxSmall: return 20
       case .xSmall: return 28
       case .small: return 38
       case .medium: return 60
       case .large: return 80
       case .xLarge: return 100
+      case .defaultStacked: return 34
+      case .defaultStackedIndicator: return 18
+      case .smallStacked: return 22
+      case .smallStackedIndicator: return 16
       }
     }
 
@@ -110,7 +114,7 @@ public extension PBAvatar {
       case .medium: return 1.05
       case .large: return 1.12
       case .xLarge: return 1.16
-      case .multipleUsersStacked: return 0
+      default: return 0
       }
     }
 
@@ -122,8 +126,12 @@ public extension PBAvatar {
       case .medium: return 1
       case .large: return 0.78
       case .xLarge: return 0.68
-      case .multipleUsersStacked: return 0
+      default: return 0
       }
+    }
+
+    var avatarCases: [Size] {
+      [.xLarge, .large, .medium, .small, .xSmall, .xxSmall]
     }
   }
 

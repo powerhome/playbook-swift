@@ -20,7 +20,7 @@ public enum DesignElements: String, CaseIterable {
     case .iconography: IconCatalog()
     case .spacing: SpacingCatalog()
     case .shadows: PBShadow_Previews.previews
-    case .typography: Typography_Previews.previews
+    case .typography: TypographyCatalog()
     }
   }
 

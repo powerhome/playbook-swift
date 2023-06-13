@@ -16,7 +16,7 @@ public struct PBMultipleUsersIndicator: View {
       Text("+\(count)")
         .tag("additionalUser")
         .pbFont(.buttonText(size.fontSize), color: .pbPrimary)
-        .frame(width: size.diameter, height: size.diameter)
+        .frame(width: size.diameter-1, height: size.diameter-1)
         .background(Color.shadow)
         .clipShape(Circle())
         .background {

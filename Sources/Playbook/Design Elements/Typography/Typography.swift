@@ -10,24 +10,32 @@ import SwiftUI
 public struct Typography: ViewModifier {
   var font: PBFont
   var variant: Variant
-  var color: Color
+  var letterSpace: LetterSpacing?
+  var color: Color?
 
   var foregroundColor: Color {
-    switch variant {
-    case .link:
-      return .pbPrimary
-    default: return color
+    if let color = color {
+      return color
+    } else {
+      if variant == .link {
+        return .pbPrimary
+      } else {
+        if font == .caption || font == .largeCaption || font == .subcaption {
+          return .text(.light)
+        } else {
+          return .text(.default)
+        }
+      }
     }
   }
 
   var spacing: CGFloat {
     switch font {
-    case .title1: return 3
-    case .title2: return -1
-    case .title3, .title4: return 2
-    case .body, .badgeText: return 0
-    case .monogram: return 2.5
-    default: return 6
+    case .title1: return 4.6
+    case .title2: return 3.4
+    case .title3: return 2.8
+    case .title4, .body: return 1.6
+    default: return 0
     }
   }
 
@@ -38,13 +46,44 @@ public struct Typography: ViewModifier {
     }
   }
 
+  var letterSpacing: CGFloat {
+    if let space = letterSpace {
+      return space.rawValue
+    } else {
+      switch font {
+      case .caption, .largeCaption: return LetterSpacing.looser.rawValue
+      case .title4: return LetterSpacing.tight.rawValue
+      default: return LetterSpacing.normal.rawValue
+      }
+    }
+  }
+
+  var fontWeight: Font.Weight {
+    switch font {
+    case .title1, .title2: return variant == .light ? FontWeight.light : FontWeight.bolder
+    case .title3: return FontWeight.light
+    case .title4, .buttonText, .badgeText: return FontWeight.bolder
+    case .caption: return FontWeight.bold
+    default: return FontWeight.regular
+    }
+  }
+
   public func body(content: Content) -> some View {
-    content
-      .font(font.font)
-      .lineSpacing(spacing)
-      .padding(.vertical, spacing)
-      .textCase(casing)
-      .foregroundColor(foregroundColor)
+    if #available(iOS 16.0, *) {
+      content
+        .font(font.font)
+        .tracking(letterSpacing)
+        .fontWeight(fontWeight)
+        .lineSpacing(spacing)
+        .textCase(casing)
+        .foregroundColor(foregroundColor)
+    } else {
+      content
+        .font(font.font)
+        .lineSpacing(spacing)
+        .textCase(casing)
+        .foregroundColor(foregroundColor)
+    }
   }
 }
 
@@ -52,6 +91,19 @@ public extension Typography {
   enum Variant {
     case none
     case link
+    case bold
+    case light
+  }
+
+  enum LetterSpacing: CGFloat, CaseIterable {
+    case tightest = -1.6
+    case tighter = -1.12
+    case tight = -0.48
+    case normal = 0
+    case loose = 0.48
+    case looser = 1.12
+    case loosest = 1.6
+    case superLoosest = 3.2
   }
 }
 
@@ -59,57 +111,23 @@ public extension View {
   func pbFont(
     _ font: PBFont,
     variant: Typography.Variant = .none,
-    color: Color = .text(.default)
+    letterSpace: Typography.LetterSpacing? = nil,
+    color: Color? = nil
   ) -> some View {
-    self.modifier(Typography(font: font, variant: variant, color: color))
+    self.modifier(
+      Typography(
+        font: font,
+        variant: variant,
+        letterSpace: letterSpace,
+        color: color
+      )
+    )
   }
 }
 
 public struct Typography_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-
-    return List {
-      Section("Title") {
-        Text("Title 1\nTitle 1")
-          .pbFont(.title1)
-        Text("Title 2\nTitle 2")
-          .pbFont(.title2)
-        Text("Title 3\nTitle 3")
-          .pbFont(.title3)
-        Text("Title 4\nTitle 4")
-          .pbFont(.title4)
-        Text("Title 4 Link Variant")
-          .pbFont(.title4, variant: .link)
-      }
-
-      Section("Body") {
-        ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
-          Text("Body: Text size \(Int(size.rawValue)) px")
-            .pbFont(.body(size))
-            .padding(6)
-        }
-      }
-
-      Section("Components Text") {
-        Text("Button Text")
-          .pbFont(.buttonText())
-
-        Text("Badge Text")
-          .pbFont(.badgeText)
-      }
-
-      Section("Caption") {
-        Text("Large Caption")
-          .pbFont(.largeCaption)
-        Text("Caption")
-          .pbFont(.caption)
-        Text("Subcaption")
-          .pbFont(.subcaption)
-        Text("Subcaption Link Variant")
-          .pbFont(.subcaption, variant: .link)
-      }
-    }
-    .navigationTitle("Typography")
+    return TypographyCatalog()
   }
 }

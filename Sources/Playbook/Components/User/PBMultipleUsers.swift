@@ -85,12 +85,6 @@ public extension PBMultipleUsers {
 public struct PBMultipleUsers_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-
-    let andrew = PBUser(name: "Andrew Black")
-    let picAndrew = PBUser(name: "Andrew Black", image: Image("andrew", bundle: .module))
-    let twoUsers = [andrew, picAndrew]
-    let multipleUsers = [andrew, picAndrew, andrew, andrew, andrew]
-
     return VStack(alignment: .leading) {
       Text("xSmall").pbFont(.title4)
       PBMultipleUsers(users: twoUsers, size: .xSmall)
