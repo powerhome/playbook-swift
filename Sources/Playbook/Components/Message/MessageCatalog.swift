@@ -8,9 +8,6 @@
 import SwiftUI
 
 public struct MessageCatalog: View {
-
-  public init() {}
-
   public var body: some View {
     List {
       PBMessage(

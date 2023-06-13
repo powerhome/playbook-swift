@@ -18,8 +18,6 @@ public struct CardCatalog: View {
     Sed commodo posuere lectus, at porta nulla ornare a.
     """
 
-  public init() {}
-
   public var body: some View {
     List {
       Section("Default") {
