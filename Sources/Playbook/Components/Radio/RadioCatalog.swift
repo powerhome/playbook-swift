@@ -8,14 +8,35 @@
 import SwiftUI
 
 public struct RadioCatalog: View {
-  @State var selected: PBRadioItem? = PBRadioItem("Power")
+  @State var selectedDefault: PBRadioItem? = PBRadioItem("Power")
+  @State var selectedCustom: PBRadioItem? = PBRadioItem("Custom Power")
+  @State var selectedError: PBRadioItem? = PBRadioItem("Power")
+  @State var selectedOrientation: PBRadioItem? = PBRadioItem("Power")
+  @State var selectedAlignment: PBRadioItem? = PBRadioItem("Power")
+  @State var selectedSpacing: PBRadioItem? = PBRadioItem("Small")
+  @State var selectedPadding: PBRadioItem? = PBRadioItem("Small")
+  @State var selectedSubtitle: PBRadioItem? = PBRadioItem("Power")
   var orientation: Orientation = .vertical
 
   public init(
-    selected: PBRadioItem? = nil,
+    selectedDefault: PBRadioItem? = nil,
+    selectedCustom: PBRadioItem? = nil,
+    selectedError: PBRadioItem? = nil,
+    selectedOrientation: PBRadioItem? = nil,
+    selectedAlignment: PBRadioItem? = nil,
+    selectedSpacing: PBRadioItem? = nil,
+    selectedPadding: PBRadioItem? = nil,
+    selectedSubtitle: PBRadioItem? = nil,
     orientation: Orientation = .vertical
   ) {
-    self.selected = selected
+    self.selectedDefault = selectedDefault
+    self.selectedCustom = selectedCustom
+    self.selectedError = selectedError
+    self.selectedOrientation = selectedOrientation
+    self.selectedAlignment = selectedAlignment
+    self.selectedSpacing = selectedSpacing
+    self.selectedPadding = selectedPadding
+    self.selectedSubtitle = selectedSubtitle
     self.orientation = orientation
   }
 
@@ -57,15 +78,15 @@ public struct RadioCatalog: View {
           .init("Google")
         ],
         orientation: .vertical,
-        selected: $selected
+        selected: $selectedDefault
       )
     }
   }
 
   func	customView() -> some View {
     VStack(alignment: .leading) {
-      if let selected = selected {
-        Text("Your choice is: \(selected.title)")
+      if let selectedCustom = selectedCustom {
+        Text("Your choice is: \(selectedCustom.title)")
       }
       PBRadio(
         items: [
@@ -74,7 +95,7 @@ public struct RadioCatalog: View {
           .init("Custom Google")
         ],
         orientation: .vertical,
-        selected: $selected
+        selected: $selectedCustom
       )
     }
   }
@@ -86,7 +107,7 @@ public struct RadioCatalog: View {
           PBRadioItem("Power")
         ],
         orientation: .vertical,
-        selected: $selected,
+        selected: $selectedError,
         errorState: true
       )
     }
@@ -101,7 +122,7 @@ public struct RadioCatalog: View {
           .init("Google")
         ],
         orientation: .horizontal,
-        selected: $selected
+        selected: $selectedOrientation
       )
     }
   }
@@ -116,7 +137,7 @@ public struct RadioCatalog: View {
         ],
         orientation: .horizontal,
         textAlignment: .vertical,
-        selected: $selected
+        selected: $selectedAlignment
       )
     }
   }
@@ -126,32 +147,32 @@ public struct RadioCatalog: View {
       PBRadio(
         items: [
           PBRadioItem("Small"),
-          .init("Spacing"),
-          .init("Power")
+          .init("Small Spacing"),
+          .init("Small Power")
         ],
         orientation: .vertical,
         spacing: Spacing.small,
-        selected: $selected
+        selected: $selectedSpacing
       )
       PBRadio(
         items: [
           PBRadioItem("Medium"),
-          .init("Spacing"),
-          .init("Power")
+          .init("Medium Spacing"),
+          .init("Medium Power")
         ],
         orientation: .vertical,
         spacing: Spacing.medium,
-        selected: $selected
+        selected: $selectedSpacing
       )
       PBRadio(
         items: [
           PBRadioItem("Large"),
-          .init("Spacing"),
-          .init("Power")
+          .init("Large Spacing"),
+          .init("Large Power")
         ],
         orientation: .vertical,
         spacing: Spacing.large,
-        selected: $selected
+        selected: $selectedSpacing
       )
     }
   }
@@ -164,7 +185,7 @@ public struct RadioCatalog: View {
         ],
         orientation: .vertical,
         padding: Spacing.small,
-        selected: $selected
+        selected: $selectedPadding
       )
       PBRadio(
         items: [
@@ -172,7 +193,7 @@ public struct RadioCatalog: View {
         ],
         orientation: .vertical,
         padding: Spacing.medium,
-        selected: $selected
+        selected: $selectedPadding
       )
       PBRadio(
         items: [
@@ -180,7 +201,7 @@ public struct RadioCatalog: View {
         ],
         orientation: .vertical,
         padding: Spacing.large,
-        selected: $selected
+        selected: $selectedPadding
       )
     }
   }
@@ -191,7 +212,7 @@ public struct RadioCatalog: View {
         items: [
           PBRadioItem("Power", subtitle: "subtitle")
         ],
-        selected: $selected
+        selected: $selectedSubtitle
       )
     }
   }
