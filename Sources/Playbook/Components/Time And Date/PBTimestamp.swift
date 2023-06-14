@@ -64,6 +64,7 @@ public struct PBTimestamp: View {
     }
 
     if let timeZone = timeZone, showTimeZone {
+      //			formatter.timeZone = TimeZone(abbreviation: "UTC")
       formatter.timeZone = TimeZone(identifier: timeZone)
       formatter.dateFormat.append(" z")
     }
