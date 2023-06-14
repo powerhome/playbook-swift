@@ -223,7 +223,7 @@ public struct TimeStampCatalog: View {
 
       PBTimestamp(
         Date().addingTimeInterval(-36000),
-        variant: .hideUpdated
+        variant: .hideUserElapsed
       )
       .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
