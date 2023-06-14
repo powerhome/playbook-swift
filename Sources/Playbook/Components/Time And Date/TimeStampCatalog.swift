@@ -11,7 +11,9 @@ public struct TimeStampCatalog: View {
 
   public init() {}
 
-  let timeInterval: TimeInterval = 31_536_000
+  let addThreeYear: TimeInterval = 126_230_400
+  let subOneYear: TimeInterval = -31_536_000
+
   let minWidth: CGFloat = 0
   public var body: some View {
     List {
@@ -51,7 +53,12 @@ public struct TimeStampCatalog: View {
       .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
       PBTimestamp(
-        Date().addingTimeInterval(timeInterval)
+        Date().addingTimeInterval(addThreeYear)
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+      PBTimestamp(
+        Date().addingTimeInterval(subOneYear)
       )
       .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
     }
@@ -59,100 +66,124 @@ public struct TimeStampCatalog: View {
 
   func alginmentView() -> some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBTimestamp(
-        Date(),
-        showDate: false
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-      PBTimestamp(
-        Date()
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+        PBTimestamp(Date())
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-      PBTimestamp(
-        Date().addingTimeInterval(timeInterval)
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+        PBTimestamp(Date().addingTimeInterval(addThreeYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-      PBTimestamp(
-        Date(),
-        showDate: false
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+        PBTimestamp(Date().addingTimeInterval(subOneYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+      }
 
-      PBTimestamp(
-        Date()
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
 
-      PBTimestamp(
-        Date().addingTimeInterval(timeInterval)
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+        PBTimestamp(Date())
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
 
-      PBTimestamp(
-        Date(),
-        showDate: false
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+        PBTimestamp(Date().addingTimeInterval(addThreeYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
 
-      PBTimestamp(
-        Date()
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+        PBTimestamp(Date().addingTimeInterval(subOneYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+      }
 
-      PBTimestamp(
-        Date().addingTimeInterval(timeInterval)
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+
+        PBTimestamp(Date())
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+
+        PBTimestamp(Date().addingTimeInterval(addThreeYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+
+        PBTimestamp(Date().addingTimeInterval(subOneYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+      }
     }
   }
 
   func timeZoneView() -> some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBTimestamp(
-        Date(),
-        showDate: false,
-        showTimeZone: true,
-        timeZone: "America/New_York"
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-      PBTimestamp(
-        Date(),
-        showTimeZone: true,
-        timeZone: "America/New_York"
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-
-      PBTimestamp(
-        Date().addingTimeInterval(timeInterval),
-        showTimeZone: true,
-        timeZone: "America/New_York"
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-
-      PBTimestamp(
-        Date(),
-        showDate: false,
-        showTimeZone: true,
-        timeZone: "Africa/Harare")
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false,
+          showTimeZone: true,
+          timeZone: "America/New_York"
+        )
         .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-      PBTimestamp(
-        Date(),
-        showTimeZone: true,
-        timeZone: "Asia/Hong_Kong"
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+        PBTimestamp(
+          Date(),
+          showTimeZone: true,
+          timeZone: "America/New_York"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-      PBTimestamp(
-        Date().addingTimeInterval(timeInterval),
-        showTimeZone: true,
-        timeZone: "Asia/Hong_Kong"
-      )
-      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+        PBTimestamp(
+          Date().addingTimeInterval(addThreeYear),
+          showTimeZone: true,
+          timeZone: "America/New_York"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date().addingTimeInterval(subOneYear),
+          showTimeZone: true,
+          timeZone: "America/New_York"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+      }
+
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false,
+          showTimeZone: true,
+          timeZone: "Asia/Hong_Kong"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date(),
+          showTimeZone: true,
+          timeZone: "Asia/Hong_Kong"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date().addingTimeInterval(addThreeYear),
+          showTimeZone: true,
+          timeZone: "Asia/Hong_Kong"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date().addingTimeInterval(subOneYear),
+          showTimeZone: true,
+          timeZone: "Asia/Hong_Kong"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+      }
+
     }
   }
 
@@ -177,20 +208,25 @@ public struct TimeStampCatalog: View {
   func timeAgoView() -> some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBTimestamp(
-        Date(),
-        showDate: false
+        Date().addingTimeInterval(-10),
+        showUser: true,
+        text: "Maricris Nanota",
+        variant: .elapsed
       )
       .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
       PBTimestamp(
-        Date()
+        Date().addingTimeInterval(-36000),
+        variant: .elapsed
       )
       .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
       PBTimestamp(
-        Date().addingTimeInterval(timeInterval)
+        Date().addingTimeInterval(-36000),
+        variant: .hideUpdated
       )
       .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
     }
   }
 
