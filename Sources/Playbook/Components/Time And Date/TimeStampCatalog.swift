@@ -37,6 +37,7 @@ public struct TimeStampCatalog: View {
         timeAgoView()
       }
     }
+    .navigationTitle("TimeStamp")
   }
 
   func defaultView() -> some View {
