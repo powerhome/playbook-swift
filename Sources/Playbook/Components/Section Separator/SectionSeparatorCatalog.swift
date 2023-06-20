@@ -30,8 +30,8 @@ public struct SectionSeparatorCatalog: View {
         bubbleView()
       }
 
-      Section("Content separator") {
-        contentView()
+      Section("Children separator") {
+        childrenView()
       }
 
       Section("Vertical separator") {
@@ -56,9 +56,9 @@ public struct SectionSeparatorCatalog: View {
     PBSectionSeparator("Title separator", variant: .bubble)
   }
 
-  func contentView() -> some View {
+  func childrenView() -> some View {
     PBSectionSeparator(variant: .background) {
-      Text("Title separator").pbFont(.subcaption)
+      PBPill("Children", variant: .primary)
     }
   }
 

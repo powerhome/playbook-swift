@@ -89,6 +89,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
         } else if let content = content() {
           content
             .tag("Content")
+            .padding(textPadding)
             .background(backgroundVariant)
             .layoutPriority(1)
 
