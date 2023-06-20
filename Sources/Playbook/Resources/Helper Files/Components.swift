@@ -54,7 +54,7 @@ public enum Componenets: String, CaseIterable {
     case .pill: PillCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
     case .radio: PBRadio_Previews.previews
-    case .sectionSeparator: PBSectionSeparator_Previews.previews
+    case .sectionSeparator: SectionSeparatorCatalog()
     case .select: PBSelect_Previews.previews
     case .textArea: PBTextArea_Previews.previews
     case .textInput: PBTextInput_Previews.previews
