@@ -70,7 +70,7 @@ public struct TextAreaCatalog: View {
       PBTextArea(
         "Label",
         text: $errorText,
-        error: "this field has an error!"
+        error: "This field has an error!"
       )
     }
   }
