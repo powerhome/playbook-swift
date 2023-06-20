@@ -8,45 +8,74 @@
 import SwiftUI
 
 public struct SectionSeparatorCatalog: View {
+
+  public init() {}
+
   public var body: some View {
 
-    let loremIpsum = Text(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
-    )
-    .pbFont(.body())
-    .padding()
-
     List {
-      Section("Horizontal separators") {
-        Text("Line separator").pbFont(.caption).padding()
-        PBSectionSeparator()
-
-        Text("Text separator").pbFont(.caption).padding()
-        PBSectionSeparator("Title separator")
-
-        Text("Background variant").pbFont(.caption).padding()
-        PBSectionSeparator("Title separator", variant: .background)
-
-        Text("Bubble variant").pbFont(.caption).padding()
-        PBSectionSeparator("Title separator", variant: .bubble)
-
-        Text("Content variant").pbFont(.caption).padding()
-        PBSectionSeparator(variant: .background) {
-          Text("Title separator").pbFont(.subcaption).padding(4)
-        }
+      Section("Text separator") {
+        textView()
       }
-      .listRowSeparator(.hidden)
+
+      Section("Line separator") {
+        lineView()
+      }
+
+      Section("Background separator") {
+        backGroundView()
+      }
+
+      Section("Bubble separator") {
+        bubbleView()
+      }
+
+      Section("Content separator") {
+        contentView()
+      }
 
       Section("Vertical separator") {
-        HStack {
-          loremIpsum
-          PBSectionSeparator(orientation: .vertical)
-          loremIpsum
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: 120, alignment: .center)
-        .listRowSeparator(.hidden)
+        verticalView()
       }
     }
+
   }
+  func textView() -> some View {
+    PBSectionSeparator("Title separator")
+  }
+
+  func lineView() -> some View {
+    PBSectionSeparator()
+      .padding(.top, 6)
+  }
+
+  func backGroundView() -> some View {
+    PBSectionSeparator("Title separator", variant: .background)
+  }
+  func bubbleView() -> some View {
+    PBSectionSeparator("Title separator", variant: .bubble)
+  }
+
+  func contentView() -> some View {
+    PBSectionSeparator(variant: .background) {
+      Text("Title separator").pbFont(.subcaption)
+    }
+  }
+
+  func verticalView() -> some View {
+    HStack {
+      loremIpsum
+      PBSectionSeparator(orientation: .vertical)
+      loremIpsum
+    }
+    .frame(maxWidth: .infinity)
+    .frame(height: 120, alignment: .center)
+    .listRowSeparator(.hidden)
+  }
+
+  let loremIpsum: some View = Text(
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
+  )
+  .pbFont(.body())
+  .padding()
 }
