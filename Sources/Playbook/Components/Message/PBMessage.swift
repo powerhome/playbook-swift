@@ -49,7 +49,9 @@ public struct PBMessage<Content: View>: View {
       }
       VStack(alignment: .leading, spacing: Spacing.xxSmall) {
         HStack(spacing: Spacing.xSmall) {
-          Text(label).font(.messageTitleFont)
+          Text(label)
+            .font(.messageTitleFont)
+            .lineSpacing(Typography.LetterSpacing.loose.rawValue)
           if timestampAlignment == .trailing {
             Spacer()
           }
@@ -65,6 +67,7 @@ public struct PBMessage<Content: View>: View {
           Text(message)
             .font(.messageBodyFont)
             .fontWeight(FontWeight.regular)
+            .lineSpacing(Typography.LetterSpacing.loose.rawValue)
         }
         content
       }

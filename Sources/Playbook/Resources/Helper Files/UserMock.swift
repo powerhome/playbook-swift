@@ -17,3 +17,6 @@ let avatarXSmallStatus = PBAvatar(image: Image("andrew", bundle: .module), size:
 let userName = "Andrew Black"
 let message = "How can we assist you today?"
 let timestamp =  PBTimestamp(Date(), showDate: false)
+let picAnna = PBAvatar(image: Image("Anna", bundle: .module), size: .xSmall, status: .online)
+let picPatric = PBAvatar(image: Image("Pat", bundle: .module), size: .xSmall)
+let picLuccile = PBAvatar(image: Image("Lu", bundle: .module), size: .xSmall)
