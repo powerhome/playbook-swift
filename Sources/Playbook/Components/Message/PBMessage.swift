@@ -62,7 +62,9 @@ public struct PBMessage<Content: View>: View {
         .frame(maxWidth: .infinity, alignment: .topLeading)
 
         if let message = message {
-          Text(message).font(.messageBodyFont)
+          Text(message)
+            .font(.messageBodyFont)
+            .fontWeight(FontWeight.regular)
         }
         content
       }
