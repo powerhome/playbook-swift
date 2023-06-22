@@ -62,9 +62,7 @@ public struct SectionSeparatorCatalog: View {
 
   func childrenView() -> some View {
     PBSectionSeparator(variant: .background) {
-      PBIcon.fontAwesome(.arrowDown, size: .small)
-      Text("Title")
-        .pbFont(.title4)
+      PBPill("children", variant: .primary)
     }
   }
 
