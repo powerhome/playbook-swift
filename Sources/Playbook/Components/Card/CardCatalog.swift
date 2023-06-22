@@ -66,7 +66,7 @@ public struct CardCatalog: View {
         Text("Side Position & Category 2 Color").pbFont(.body())
       }
     }
-      .listRowSeparator(.hidden)
+    .listRowSeparator(.hidden)
 
     let headers = Section("Header cards") {
       ForEach(Color.DataColor.allCases, id: \.self) { color in
@@ -103,7 +103,7 @@ public struct CardCatalog: View {
         }
       }
     }
-      .listRowSeparator(.hidden)
+    .listRowSeparator(.hidden)
 
     let separator = Section("Separator & Content") {
       PBCard(padding: Spacing.none) {
@@ -122,7 +122,7 @@ public struct CardCatalog: View {
         }
       }
     }
-      .listRowSeparator(.hidden)
+    .listRowSeparator(.hidden)
 
     let noborder = Section("No border") {
       PBCard(border: false) {
@@ -137,7 +137,7 @@ public struct CardCatalog: View {
         }
       }
     }
-      .listRowSeparator(.hidden)
+    .listRowSeparator(.hidden)
 
     return List {
       defaultSection
