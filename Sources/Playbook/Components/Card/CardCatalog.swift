@@ -131,7 +131,6 @@ public struct CardCatalog: View {
     }
 
     let border = Section("Border radius") {
-
       ForEach(BorderRadius.allCase, id: \.1) { border in
         PBCard(borderRadius: border.0) {
           Text(border.1).pbFont(.body())
