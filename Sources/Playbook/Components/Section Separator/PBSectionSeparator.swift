@@ -61,7 +61,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
 
   private var textPadding: EdgeInsets {
     switch variant {
-    case .bubble: return EdgeInsets(.init(top: 0, leading: 12, bottom: 0, trailing: 12))
+    case .bubble: return EdgeInsets(.init(top: 4, leading: 12, bottom: 4, trailing: 12))
     default: return EdgeInsets(.init(top: 0, leading: 6, bottom: 0, trailing: 6))
     }
   }
@@ -89,7 +89,6 @@ public struct PBSectionSeparator<Content>: View where Content: View {
         } else if let content = content() {
           content
             .tag("Content")
-            .padding(textPadding)
             .background(backgroundVariant)
             .layoutPriority(1)
 

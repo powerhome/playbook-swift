@@ -14,21 +14,21 @@ public struct SectionSeparatorCatalog: View {
   public var body: some View {
 
     List {
-      Section("Text separator") {
-        textView()
-      }
-
       Section("Line separator") {
+        textView()
         lineView()
       }
+      .listRowSeparator(.hidden)
 
       Section("Background separator") {
         backGroundView()
       }
 
       Section("Bubble separator") {
+        bubbleTextView()
         bubbleView()
       }
+      .listRowSeparator(.hidden)
 
       Section("Children separator") {
         childrenView()
@@ -46,19 +46,25 @@ public struct SectionSeparatorCatalog: View {
 
   func lineView() -> some View {
     PBSectionSeparator()
-      .padding(.top, 6)
   }
 
   func backGroundView() -> some View {
     PBSectionSeparator("Title separator", variant: .background)
   }
-  func bubbleView() -> some View {
+
+  func bubbleTextView() -> some View {
     PBSectionSeparator("Title separator", variant: .bubble)
+  }
+
+  func bubbleView() -> some View {
+    PBSectionSeparator(variant: .bubble)
   }
 
   func childrenView() -> some View {
     PBSectionSeparator(variant: .background) {
-      PBPill("Children", variant: .primary)
+      PBIcon.fontAwesome(.arrowDown, size: .small)
+      Text("Title")
+        .pbFont(.title4)
     }
   }
 
