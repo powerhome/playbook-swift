@@ -38,23 +38,32 @@ public struct CardCatalog: View {
         Text("Product Colors")
           .pbFont(.caption)
           .padding(.vertical)
-        ForEach(Color.ProductColor.allCases, id: \.self) { color in
-          PBCard(backgroundColor: .product(color, category: .background)) {
-            Text(color.rawValue.capitalized).pbFont(.body(), color: .white)
-          }
+
+        PBCard(backgroundColor: .product(.product1, category: .background)) {
+          Text("Product 1 Background").pbFont(.body(), color: .white)
+        }
+
+        PBCard(backgroundColor: .product(.product7, category: .highlight)) {
+          Text("Product 7 Highlight").pbFont(.body(), color: .white)
+        }
+
+        PBCard(backgroundColor: .product(.product2, category: .highlight)) {
+          Text("Product 2 Highlight").pbFont(.body(), color: .white)
         }
       }
     }
 
     let highlights = Section("Highlight") {
-      ForEach(Color.DataColor.allCases, id: \.self) { color in
-        PBCard(highlight: .side(.data(color))) {
-          Text(text).pbFont(.body())
-        }
+      PBCard(highlight: .side(.product(.product6, category: .highlight))) {
+        Text("Side Position & Product 6 Highlight Color").pbFont(.body())
+      }
 
-        PBCard(highlight: .top(.data(color))) {
-          Text(color.rawValue.capitalized).pbFont(.body())
-        }
+      PBCard(highlight: .top(.status(.warning))) {
+        Text("Top Position & Warning Color").pbFont(.body())
+      }
+
+      PBCard(highlight: .side(.category(.category2))) {
+        Text("Side Position & Category 2 Color").pbFont(.body())
       }
     }
       .listRowSeparator(.hidden)
@@ -115,7 +124,14 @@ public struct CardCatalog: View {
     }
       .listRowSeparator(.hidden)
 
-    let border = Section("No border & border radius") {
+    let noborder = Section("No border") {
+      PBCard(border: false) {
+        Text(text).pbFont(.body())
+      }
+    }
+
+    let border = Section("Border radius") {
+
       ForEach(BorderRadius.allCase, id: \.1) { border in
         PBCard(borderRadius: border.0) {
           Text(border.1).pbFont(.body())
@@ -133,6 +149,7 @@ public struct CardCatalog: View {
       padding
       shadow
       separator
+      noborder
       border
     }
     .navigationTitle("Card")
