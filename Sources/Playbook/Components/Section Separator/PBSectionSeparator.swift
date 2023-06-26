@@ -13,12 +13,14 @@ public struct PBSectionSeparator<Content>: View where Content: View {
   var variant: Variant
   var dividerOpacity: CGFloat
   var content: () -> Content?
+  var margin: CGFloat
 
   public init(
     _ text: String? = nil,
     orientation: Orientation = .horizontal,
     variant: Variant = .card,
     dividerOpacity: CGFloat? = 1,
+    margin: CGFloat = Spacing.xSmall,
     @ViewBuilder content: @escaping () -> Content? = { nil }
   ) {
     self.text = text
@@ -26,6 +28,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     self.variant = variant
     self.dividerOpacity = dividerOpacity ?? 1
     self.content = content
+    self.margin = margin
   }
 
   @ViewBuilder
@@ -54,6 +57,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
         .tag("Dashed divider")
     default:
       Divider()
+        .frame(height: 1)
         .background(Color.border)
         .tag("Divider")
     }
@@ -62,7 +66,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
   private var textPadding: EdgeInsets {
     switch variant {
     case .bubble: return EdgeInsets(.init(top: 4, leading: 12, bottom: 4, trailing: 12))
-    default: return EdgeInsets(.init(top: 0, leading: 6, bottom: 0, trailing: 6))
+    default: return EdgeInsets(.init(top: 0, leading: Spacing.xSmall, bottom: 0, trailing: Spacing.xSmall))
     }
   }
 
@@ -97,7 +101,10 @@ public struct PBSectionSeparator<Content>: View where Content: View {
       }).frame(maxWidth: .infinity)
 
     } else {
-      Divider().background(Color.border)
+      Divider()
+        .background(Color.border)
+        .frame(width: 1)
+        .padding(.horizontal, margin)
     }
   }
 }
