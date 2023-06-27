@@ -38,12 +38,14 @@ public struct PBTimestamp: View {
   }
 
   var editedTimestamp: String {
+    var text = " "
     switch variant {
-    case .elapsed: return "Last updated \(userDisplay)\(formattedElapsed)"
-    case .updated: return "Last updated \(userDisplay)on \(formattedUpdated)"
-    case .message: return "\(userDisplay)\(formattedElapsed)"
-    default: return formattedDefault
+    case .elapsed: text = "Last updated \(userDisplay)\(formattedElapsed)"
+    case .updated: text = "Last updated \(userDisplay)on \(formattedUpdated)"
+    case .hideUserElapsed: text = "\(formattedElapsed)"
+    default: text = formattedDefault
     }
+    return text
   }
 
   var formattedDefault: String {
@@ -53,7 +55,9 @@ public struct PBTimestamp: View {
       let inputDate = Calendar.current.dateComponents([.year], from: timestamp)
       let currentDate = Calendar.current.dateComponents([.year], from: Date())
 
-      if let inputYear = inputDate.year, let currentYear = currentDate.year, inputYear > currentYear {
+      if let inputYear = inputDate.year,
+         let currentYear = currentDate.year,
+         inputYear > currentYear || inputYear < currentYear {
         formatter.dateFormat = "MMM d, YYYY \u{00b7} h:mma"
       } else {
         formatter.dateFormat = "MMM d \u{00b7} h:mma"
@@ -67,8 +71,8 @@ public struct PBTimestamp: View {
       formatter.dateFormat.append(" z")
     }
 
+    formatter.amSymbol = "a"
     if amPmStyle == .short {
-      formatter.amSymbol = "a"
       formatter.pmSymbol = "p"
     } else {
       formatter.amSymbol = "am"
@@ -124,102 +128,14 @@ public extension PBTimestamp {
     case elapsed
     case standard
     case updated
-    case message
+    case hideUserElapsed
   }
 }
 
 public struct PBTimestamp_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-    let timeInterval: TimeInterval = 31_536_000
-    let minWidth: CGFloat = 0
 
-    return List {
-      Section("Default") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(Date(), showDate: false)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date())
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(timeInterval))
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-        }
-      }
-
-      Section("Alignments") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(Date(), showDate: false)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date())
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(timeInterval))
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-
-          PBTimestamp(Date(), showDate: false)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
-          PBTimestamp(Date())
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
-          PBTimestamp(Date().addingTimeInterval(timeInterval))
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
-
-          PBTimestamp(Date(), showDate: false)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
-          PBTimestamp(Date())
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
-          PBTimestamp(Date().addingTimeInterval(timeInterval))
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
-        }
-      }
-
-      Section("Timezones") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(Date(), showDate: false, showTimeZone: true, timeZone: "America/New_York")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date(), showTimeZone: true, timeZone: "America/New_York")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(
-            Date().addingTimeInterval(timeInterval),
-            showTimeZone: true,
-            timeZone: "America/New_York"
-          )
-          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-
-          PBTimestamp(Date(), showDate: false, showTimeZone: true, timeZone: "Asia/Hong_Kong")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date(), showTimeZone: true, timeZone: "Asia/Hong_Kong")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(timeInterval), showTimeZone: true, timeZone: "Asia/Hong_Kong")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-        }
-      }
-
-      Section("Last Updated By") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(
-            Date().addingTimeInterval(-12),
-            showUser: true,
-            text: "Andrew Black",
-            variant: .updated
-          )
-          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(-12), variant: .updated)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-        }
-      }
-
-      Section("Time Ago") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(
-            Date().addingTimeInterval(-10),
-            showUser: true,
-            text: "Andrew Black",
-            variant: .elapsed
-          )
-          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(-88000), variant: .elapsed)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-        }
-      }
-    }
+    return TimeStampCatalog()
   }
 }

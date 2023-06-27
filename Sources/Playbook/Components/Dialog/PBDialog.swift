@@ -77,6 +77,7 @@ public struct PBDialog<Content: View>: View {
 
       case .status(let status):
         PBStatusDialogView(status: status, title: title ?? "", description: message ?? "")
+          .frame(maxWidth: .infinity)
       }
 
       if let confirmButton = confirmButton {
@@ -95,6 +96,7 @@ public struct PBDialog<Content: View>: View {
     .frame(maxWidth: variant.width(size))
     #endif
     .padding(padding)
+    .preferredColorScheme(.light)
   }
 
   func cancelButtonAction() -> (String, (() -> Void))? {
