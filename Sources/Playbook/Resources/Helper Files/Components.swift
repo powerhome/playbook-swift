@@ -53,12 +53,12 @@ public enum Componenets: String, CaseIterable {
     case .nav: PBNav_Previews.previews
     case .pill: PillCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
-    case .radio: PBRadio_Previews.previews
+    case .radio: RadioCatalog()
     case .sectionSeparator: PBSectionSeparator_Previews.previews
     case .select: PBSelect_Previews.previews
     case .textArea: PBTextArea_Previews.previews
     case .textInput: PBTextInput_Previews.previews
-    case .timeAndDate: PBTimestamp_Previews.previews
+    case .timeAndDate: TimeStampCatalog()
     case .toggle: PBRadio_Previews.previews
     case .user: PBMultipleUsers_Previews.previews
     }

@@ -8,9 +8,6 @@
 import SwiftUI
 
 public struct SpacingCatalog: View {
-
-  public init() {}
-
   public var body: some View {
     VStack(alignment: .leading) {
       List(Spacing.allCase, id: \.self.0) { space in
