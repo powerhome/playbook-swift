@@ -23,77 +23,59 @@ public struct PBRadioItem: Identifiable, Equatable {
 public struct PBRadio: View {
   let items: [PBRadioItem]
   let orientation: Orientation
+  let textAlignment: Orientation
+  let spacing: CGFloat
+  let padding: CGFloat
+  let errorState: Bool
   @Binding var selectedItem: PBRadioItem?
 
-  public init(items: [PBRadioItem], orientation: Orientation = .vertical, selected: Binding<PBRadioItem?>) {
+  public init(
+    items: [PBRadioItem],
+    orientation: Orientation = .vertical,
+    textAlignment: Orientation = .horizontal,
+    spacing: CGFloat = Spacing.xSmall,
+    padding: CGFloat = Spacing.xSmall,
+    selected: Binding<PBRadioItem?>,
+    errorState: Bool = false
+  ) {
     self.items = items
     self.orientation = orientation
+    self.textAlignment = textAlignment
+    self.spacing = spacing
+    self.padding = padding
+    self.errorState = errorState
     _selectedItem = selected
   }
 
   public var body: some View {
     switch orientation {
     case .vertical:
-      VStack(alignment: .leading, spacing: Spacing.medium) {
-        ForEach(items) { item in
-          Button(item.title) {
-            selectedItem = item
-          }
-          .buttonStyle(PBRadioButtonStyle(subtitle: item.subtitle, isSelected: selectedItem?.id == item.id))
-        }
+      VStack(alignment: .leading, spacing: spacing) {
+        itemView
       }
 
     case .horizontal:
-      HStack {
-        ForEach(items) { item in
-          Button(item.title) {
-            selectedItem = item
-          }
-          .buttonStyle(PBRadioButtonStyle(subtitle: item.subtitle, isSelected: selectedItem?.id == item.id))
-        }
-      }
-      .padding()
-    }
-  }
-}
-
-// MARK: - PBRadioButtonStyle
-
-public struct PBRadioButtonStyle: ButtonStyle {
-  private let subtitle: String
-  private let isSelected: Bool
-
-  private var borderColor: Color {
-    isSelected ? .pbPrimary : .border
-  }
-
-  private var lineWidth: CGFloat {
-    isSelected ? 6 : 2
-  }
-
-  public init(subtitle: String?, isSelected: Bool) {
-    self.isSelected = isSelected
-    self.subtitle = subtitle ?? ""
-  }
-
-  public func makeBody(configuration: Configuration) -> some View {
-    HStack(alignment: .top) {
-      Circle()
-        .strokeBorder(borderColor, lineWidth: lineWidth)
-        .frame(width: 22, height: 22)
-      VStack(alignment: .leading, spacing: Spacing.xxSmall) {
-        configuration.label
-          .foregroundColor(.text(.default))
-          .pbFont(.body())
-          .frame(minHeight: 22)
-        if !subtitle.isEmpty {
-          Text(subtitle)
-            .foregroundColor(.text(.light))
-            .pbFont(.subcaption)
-        }
+      HStack(spacing: spacing) {
+        itemView
       }
     }
-    .contentShape(Rectangle())
+  }
+
+  var itemView: some View {
+    ForEach(items) { item in
+      Button(item.title) {
+        selectedItem = item
+      }
+      .buttonStyle(
+        PBRadioButtonStyle(
+          subtitle: item.subtitle,
+          isSelected: selectedItem?.id == item.id,
+          textAlignment: textAlignment,
+          padding: padding,
+          errorState: errorState
+        )
+      )
+    }
   }
 }
 

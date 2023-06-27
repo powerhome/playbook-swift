@@ -9,9 +9,6 @@ import SwiftUI
 
 #if os(iOS)
   public struct DialogCatalog: View {
-
-    public init() {}
-
     static let infoMessage = "This is a message for informational purposes only and requires no action."
 
     static func disableAnimation() {
@@ -209,7 +206,6 @@ import SwiftUI
     @State var presentSmallDialog: Bool = false
     @State var presentMediumDialog: Bool = false
     @State var presentLargeDialog: Bool = false
-    public init() {}
 
     let infoMessage = "This is a message for informational purposes only and requires no action."
 
