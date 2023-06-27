@@ -17,7 +17,7 @@ public struct PBMessage<Content: View>: View {
   let verticalPadding: CGFloat
   let horizontalPadding: CGFloat
   let content: Content?
-  @State private var timestampVariant: PBTimestamp.Variant = .message
+  @State private var timestampVariant: PBTimestamp.Variant = .hideUserElapsed
   @State private var hoverColor: Color = .clear
 
   public init(
@@ -74,7 +74,7 @@ public struct PBMessage<Content: View>: View {
       }
       .onHover { hover in
         if changeTimeStampOnHover {
-          timestampVariant =  hover ? .standard : .message
+          timestampVariant =  hover ? .standard : .hideUserElapsed
         }
         hoverColor = hover ? .hover : .clear
       }
