@@ -12,7 +12,6 @@ public struct ColorsCatalog: View {
     let shape = Circle().frame(width: 60).pbShadow(.deep)
     let grid = [GridItem(.adaptive(minimum: 80), spacing: 16)]
     let textSection = Section("Text") {
-
       LazyVGrid(columns: grid) {
         ForEach(Color.TextColor.allCases, id: \.self) { color in
           VStack {
