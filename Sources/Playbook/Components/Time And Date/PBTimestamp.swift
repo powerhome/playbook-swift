@@ -42,6 +42,7 @@ public struct PBTimestamp: View {
     switch variant {
     case .elapsed: text = "Last updated \(userDisplay)\(formattedElapsed)"
     case .updated: text = "Last updated \(userDisplay)on \(formattedUpdated)"
+    case .hideUserElapsed: text = "\(formattedElapsed)"
     default: text = formattedDefault
     }
     return text
@@ -54,7 +55,9 @@ public struct PBTimestamp: View {
       let inputDate = Calendar.current.dateComponents([.year], from: timestamp)
       let currentDate = Calendar.current.dateComponents([.year], from: Date())
 
-      if let inputYear = inputDate.year, let currentYear = currentDate.year, inputYear > currentYear {
+      if let inputYear = inputDate.year,
+         let currentYear = currentDate.year,
+         inputYear > currentYear || inputYear < currentYear {
         formatter.dateFormat = "MMM d, YYYY \u{00b7} h:mma"
       } else {
         formatter.dateFormat = "MMM d \u{00b7} h:mma"
@@ -125,6 +128,7 @@ public extension PBTimestamp {
     case elapsed
     case standard
     case updated
+    case hideUserElapsed
   }
 }
 
