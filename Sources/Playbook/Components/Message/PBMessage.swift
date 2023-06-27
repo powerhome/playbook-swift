@@ -52,6 +52,7 @@ public struct PBMessage<Content: View>: View {
           Text(label)
             .font(.messageTitleFont)
             .lineSpacing(Typography.LetterSpacing.loose.rawValue)
+            .padding(.bottom, 2.2)
           if timestampAlignment == .trailing {
             Spacer()
           }
