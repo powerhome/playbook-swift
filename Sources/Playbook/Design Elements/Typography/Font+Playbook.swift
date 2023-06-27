@@ -63,14 +63,14 @@ public enum PBFont: Equatable {
     case .largeCaption:
       return Font.custom(
         ProximaNova.regular.rawValue,
-        size: TextSize.Body.small.rawValue,
-        relativeTo: .caption
+        size: TextSize.Body.large.rawValue,
+        relativeTo: .caption2
       )
     case .caption:
       return Font.custom(
         ProximaNova.semibold.rawValue,
         size: TextSize.Body.smaller.rawValue,
-        relativeTo: .caption2
+        relativeTo: .caption
       )
     case .subcaption:
       return Font.custom(
@@ -94,9 +94,19 @@ public enum PBFont: Equatable {
   }
 }
 
+public struct FontWeight {
+  static let lighter = Font.Weight.thin
+  static let light = Font.Weight.light
+  static let regular = Font.Weight.regular
+  static let bold = Font.Weight.semibold
+  static let bolder = Font.Weight.bold
+  static let boldest = Font.Weight.heavy
+  static let extraBold = Font.Weight.black
+}
+
 public enum TextSize {
   enum Title: CGFloat, CaseIterable {
-    case title1 = 48
+    case title1 = 46
     case title2 = 34
     case title3 = 28
     case title4 = 16

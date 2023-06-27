@@ -8,9 +8,6 @@
 import SwiftUI
 
 public struct ImageCatalog: View {
-
-  public init() {}
-
   public var body: some View {
     List {
       ForEach(PBImage.Size.allCases, id: \.rawValue) { size in

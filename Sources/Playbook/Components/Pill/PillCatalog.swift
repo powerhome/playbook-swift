@@ -8,9 +8,6 @@
 import SwiftUI
 
 public struct PillCatalog: View {
-
-  public init() {}
-
   public var body: some View {
     List {
       Section("Default") {
