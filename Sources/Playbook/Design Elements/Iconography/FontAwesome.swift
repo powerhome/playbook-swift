@@ -54,20 +54,11 @@ public extension PBIcon {
 // An enumaration of FontAwesome icon names.
 // swiftlint:disable file_length type_body_length
 public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
-  case fiveHundredPixels = "fa-500px"
-  case accessibleIcon = "fa-accessible-icon"
-  case accusoft = "fa-accusoft"
-  case acquisitionsIncorporated = "fa-acquisitions-incorporated"
   case ad = "fa-ad"
   case addressBook = "fa-address-book"
   case addressCard = "fa-address-card"
   case adjust = "fa-adjust"
-  case adn = "fa-adn"
-  case adversal = "fa-adversal"
-  case affiliatetheme = "fa-affiliatetheme"
   case airFreshener = "fa-air-freshener"
-  case airbnb = "fa-airbnb"
-  case algolia = "fa-algolia"
   case alignCenter = "fa-align-center"
   case alignJustify = "fa-align-justify"
   case alignLeft = "fa-align-left"
@@ -1523,20 +1514,11 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
   /// An unicode code of FontAwesome icon
   public var unicodeString: String {
     switch self {
-    case .fiveHundredPixels: return "\u{f26e}"
-    case .accessibleIcon: return "\u{f368}"
-    case .accusoft: return "\u{f369}"
-    case .acquisitionsIncorporated: return "\u{f6af}"
     case .ad: return "\u{f641}"
     case .addressBook: return "\u{f2b9}"
     case .addressCard: return "\u{f2bb}"
     case .adjust: return "\u{f042}"
-    case .adn: return "\u{f170}"
-    case .adversal: return "\u{f36a}"
-    case .affiliatetheme: return "\u{f36b}"
     case .airFreshener: return "\u{f5d0}"
-    case .airbnb: return "\u{f834}"
-    case .algolia: return "\u{f36c}"
     case .alignCenter: return "\u{f037}"
     case .alignJustify: return "\u{f039}"
     case .alignLeft: return "\u{f036}"

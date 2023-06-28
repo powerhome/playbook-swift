@@ -12,17 +12,50 @@ public struct IconCatalog: View {
 
   public var body: some View {
     List {
-      ForEach(PBIcon.IconSize.allCases, id: \.fontSize) { size in
-        Section(size.rawValue) {
-          PBIcon.fontAwesome(.user, size: size)
+
+      Section("Default") {
+        PBIcon.fontAwesome(.user, size: .medium)
+      }
+
+      Section("Rotate") {
+        HStack {
+          PBIcon(FontAwesome.user, rotation: .right)
+          PBIcon(FontAwesome.user, rotation: .zero)
+          PBIcon(FontAwesome.user, rotation: .obtuse)
         }
       }
 
-      LazyVGrid(columns: columns) {
-        ForEach(FontAwesome.allCases, id: \.self) { icon in
-          VStack {
-            PBIcon.fontAwesome(icon, size: .medium)
-            Text(icon.rawValue).pbFont(.subcaption)
+      Section("Flipped") {
+        HStack {
+          PBIcon(FontAwesome.questionCircle, flipped: [.horizontal])
+          PBIcon(FontAwesome.questionCircle, flipped: [.vertical])
+          PBIcon(FontAwesome.questionCircle, flipped: [.horizontal, .vertical])
+        }
+      }
+
+      Section("Border") {
+        HStack {
+          PBIcon(FontAwesome.user, border: true)
+        }
+      }
+
+      Section("Size") {
+        ForEach(PBIcon.IconSize.allCases, id: \.fontSize) { size in
+          HStack {
+            PBIcon.fontAwesome(.atlas, size: size)
+            Text(size.rawValue)
+          }
+        }
+        .listRowSeparator(.hidden)
+      }
+
+      Section("FontAwesome Icons") { 
+        LazyVGrid(columns: columns) {
+          ForEach(FontAwesome.allCases, id: \.self) { icon in
+            VStack {
+              PBIcon.fontAwesome(icon, size: .medium)
+              Text(icon.rawValue).pbFont(.subcaption)
+            }
           }
         }
       }

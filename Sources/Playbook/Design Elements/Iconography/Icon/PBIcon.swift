@@ -15,15 +15,33 @@ public protocol PlaybookGenericIcon {
 public struct PBIcon: View {
   var icon: PlaybookGenericIcon
   var size: IconSize
+  var rotation: IconRotation
+  var border: Bool
+  var flipped: [Axis]?
 
-  public init(_ icon: PlaybookGenericIcon, size: IconSize = .medium) {
+  public init(
+    _ icon: PlaybookGenericIcon,
+    size: IconSize = .medium,
+    rotation: IconRotation = .zero,
+    border: Bool = false,
+    flipped: [Axis]? = nil
+  ) {
     self.size = size
     self.icon = icon
+    self.rotation = rotation
+    self.border = border
+    self.flipped = flipped
   }
 
   public var body: some View {
     Text(icon.unicodeString)
       .font(Font.custom(icon.fontFamily, size: size.fontSize))
+      .rotationEffect(rotation.angle)
+      .padding(.horizontal, border ? 11 : 0)
+      .padding(.top, border ? 6.4 : 0)
+      .padding(.bottom, border ? 4.8 : 0)
+      .border(border ? Color.border : .clear, width: 2.5)
+      .flipped(flipped)
   }
 }
 
@@ -64,11 +82,42 @@ public extension PBIcon {
       }
     }
   }
+
+  enum IconRotation {
+    case zero
+    case right
+    case straight
+    case obtuse
+
+    var angle: Angle {
+      switch self {
+      case .zero: return Angle(degrees: 0)
+      case .right: return Angle(degrees: 90)
+      case .straight: return Angle(degrees: 180)
+      case .obtuse: return Angle(degrees: 270)
+      }
+    }
+  }
 }
 
 public struct PBIcon_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
     return IconCatalog()
+  }
+}
+
+extension View {
+  func flipped(_ axis: [Axis]? = nil) -> some View {
+
+    switch axis {
+    case [.horizontal]:
+      return scaleEffect(CGSize(width: -1, height: 1), anchor: .center)
+    case [.vertical]:
+      return scaleEffect(CGSize(width: 1, height: -1), anchor: .center)
+    case [.horizontal, .vertical], [.vertical, .horizontal]:
+      return scaleEffect(CGSize(width: -1, height: -1), anchor: .center)
+    default: return scaleEffect(CGSize(width: 1, height: 1), anchor: .center)
+    }
   }
 }
