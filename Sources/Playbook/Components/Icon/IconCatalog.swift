@@ -8,11 +8,8 @@
 import SwiftUI
 
 public struct IconCatalog: View {
-  let columns = Array(repeating: GridItem(.adaptive(minimum: 100)), count: 3)
-
   public var body: some View {
     List {
-
       Section("Default") {
         PBIcon.fontAwesome(.user, size: .medium)
       }
@@ -48,18 +45,7 @@ public struct IconCatalog: View {
         }
         .listRowSeparator(.hidden)
       }
-
-      Section("FontAwesome Icons") { 
-        LazyVGrid(columns: columns) {
-          ForEach(FontAwesome.allCases, id: \.self) { icon in
-            VStack {
-              PBIcon.fontAwesome(icon, size: .medium)
-              Text(icon.rawValue).pbFont(.subcaption)
-            }
-          }
-        }
-      }
     }
-    .navigationTitle("Iconography")
+    .navigationTitle("Icon")
   }
 }
