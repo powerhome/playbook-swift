@@ -37,7 +37,7 @@ public struct MessageCatalog: View {
         .padding(.vertical)
 
         PBMessage(
-          avatar: PBAvatar(name: "Tuany Worker", size: .xSmall),
+          avatar: PBAvatar(name: "Beverly Reyes", size: .xSmall),
           label: "Beverly Reyes",
           message: "We are so sorry you had a bad experience!",
           timestamp: Date().addingTimeInterval(-200000)
