@@ -55,6 +55,7 @@ public struct PBDialog<Content: View>: View {
           }
         }
       }
+      .environment(\.colorScheme, .light)
   }
 
   private func dialogView() -> some View {

@@ -7,45 +7,91 @@
 
 import SwiftUI
 
-public struct PBMessage<Content: View, Avatar: View>: View {
-  let content: Content
-  var avatar: Avatar
-  let label: String?
-  let timestamp: PBTimestamp?
+public struct PBMessage<Content: View>: View {
+  let avatar: PBAvatar?
+  let label: String
+  let message: String?
+  let timestamp: Date
+  let timestampAlignment: TimestampAlignment?
+  let changeTimeStampOnHover: Bool
+  let verticalPadding: CGFloat
+  let horizontalPadding: CGFloat
+  let content: Content?
+  @State private var timestampVariant: PBTimestamp.Variant = .hideUserElapsed
+  @State private var hoverColor: Color = .clear
 
   public init(
-    avatar: Avatar,
-    label: String? = nil,
-    timestamp: PBTimestamp? = nil,
-    @ViewBuilder content: () -> Content
+    avatar: PBAvatar? = nil,
+    label: String,
+    message: String? = nil,
+    timestamp: Date,
+    timestampAlignment: TimestampAlignment? = .trailing,
+    changeTimeStampOnHover: Bool = false,
+    verticalPadding: CGFloat = Spacing.xSmall,
+    horizontalPadding: CGFloat = Spacing.xSmall,
+    @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
-    self.content = content()
     self.avatar = avatar
     self.label = label
+    self.message = message
     self.timestamp = timestamp
+    self.timestampAlignment = timestampAlignment
+    self.changeTimeStampOnHover = changeTimeStampOnHover
+    self.verticalPadding = verticalPadding
+    self.horizontalPadding = horizontalPadding
+    self.content = content()
   }
 
   public var body: some View {
     HStack(alignment: .top, spacing: nil) {
-      avatar
-      VStack(alignment: .leading, spacing: nil) {
-        HStack(alignment: .firstTextBaseline, spacing: 2) {
-          if let label = label, !label.isEmpty {
-            Text(label).pbFont(.title4)
+      if let avatar = avatar {
+        avatar
+      }
+      VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+        HStack(spacing: Spacing.xSmall) {
+          Text(label)
+            .font(.messageTitleFont)
+          if timestampAlignment == .trailing {
+            Spacer()
           }
-          if let timestamp = timestamp {
-            timestamp.padding(.leading, 8)
-          }
+          PBTimestamp(
+            timestamp,
+            showUser: false,
+            variant: timestampVariant
+          )
+        }
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+
+        if let message = message {
+          Text(message)
+            .font(.messageBodyFont)
+            .fontWeight(FontWeight.regular)
+            .lineSpacing(6)
         }
         content
       }
+      .onHover { hover in
+        if changeTimeStampOnHover {
+          timestampVariant =  hover ? .standard : .hideUserElapsed
+        }
+        hoverColor = hover ? .hover : .clear
+      }
     }
-    .frame(minWidth: 0, maxWidth: .infinity, alignment: .topLeading)
+    .padding(.vertical, verticalPadding)
+    .padding(.horizontal, horizontalPadding)
+    .background(hoverColor)
+    .frame(maxWidth: .infinity, alignment: .topLeading)
   }
 }
 
-public struct PBMessage_Previews: PreviewProvider {
-  public static var previews: some View {
+public extension PBMessage {
+  enum TimestampAlignment {
+    case leading, trailing
+  }
+}
+
+struct PBMessage_Previews: PreviewProvider {
+  static var previews: some View {
     registerFonts()
     return MessageCatalog()
   }
