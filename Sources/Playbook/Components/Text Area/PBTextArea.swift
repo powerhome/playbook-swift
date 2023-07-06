@@ -13,7 +13,9 @@ public extension PBTextArea {
     Text(placeholder)
       .padding(.top, topPadding)
       .padding(.horizontal, Spacing.small)
+      #if os(iOS)
       .foregroundColor(Color(uiColor: .placeholderText))
+      #endif
       .pbFont(.body())
       .allowsHitTesting(false)
       .focused($isTextAreaFocused, equals: true)
