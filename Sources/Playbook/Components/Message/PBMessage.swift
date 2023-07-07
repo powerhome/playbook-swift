@@ -11,7 +11,7 @@ public struct PBMessage<Content: View>: View {
   let avatar: PBAvatar?
   let label: String
   let message: String?
-  let timestamp: Date
+  let timestamp: Date?
   let timestampAlignment: TimestampAlignment?
   let changeTimeStampOnHover: Bool
   let verticalPadding: CGFloat
@@ -54,11 +54,13 @@ public struct PBMessage<Content: View>: View {
           if timestampAlignment == .trailing {
             Spacer()
           }
-          PBTimestamp(
-            timestamp,
-            showUser: false,
-            variant: timestampVariant
-          )
+          if let timestamp = timestamp {
+            PBTimestamp(
+              timestamp,
+              showUser: false,
+              variant: timestampVariant
+            )
+          }
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
 
