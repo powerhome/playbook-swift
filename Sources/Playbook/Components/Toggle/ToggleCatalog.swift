@@ -9,8 +9,6 @@ import SwiftUI
 
 public struct ToggleCatalog: View {
 
-  public init() {}
-
   public var body: some View {
     List {
       Section("Default") {
@@ -22,6 +20,7 @@ public struct ToggleCatalog: View {
         PBToggle(label: "bike", checked: false)
       }
     }
+    .navigationTitle("Toggle")
 
   }
 
