@@ -22,9 +22,9 @@ public struct PBMessage<Content: View>: View {
 
   public init(
     avatar: PBAvatar? = nil,
-    label: String,
+    label: String = "",
     message: String? = nil,
-    timestamp: Date,
+    timestamp: Date? = nil,
     timestampAlignment: TimestampAlignment? = .trailing,
     changeTimeStampOnHover: Bool = false,
     verticalPadding: CGFloat = Spacing.xSmall,
