@@ -23,7 +23,10 @@ public struct PBToggle: View {
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.none) {
       if label != nil {
-        Text(label!).foregroundColor(.text(.light)).padding(.trailing).pbFont(.caption)
+        Text(label!)
+          .foregroundColor(.text(.light))
+          .padding(.trailing)
+          .pbFont(.caption)
       }
       ZStack {
         RoundedRectangle(cornerRadius: 22)
