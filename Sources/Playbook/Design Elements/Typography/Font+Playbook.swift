@@ -53,7 +53,7 @@ public enum PBFont: Equatable {
         PBFont.proximaNovaLight,
         size: size?.rawValue ?? TextSize.Body.base.rawValue,
         relativeTo: .body
-      )
+      ).weight(Font.Weight.regular)
     case let .buttonText(size):
       return Font.custom(
         ProximaNova.bold.rawValue,
@@ -95,7 +95,7 @@ public enum PBFont: Equatable {
 }
 
 public struct FontWeight {
-  static let lighter = Font.Weight.thin
+  static let lighter = Font.Weight.ultraLight
   static let light = Font.Weight.light
   static let regular = Font.Weight.regular
   static let bold = Font.Weight.semibold
