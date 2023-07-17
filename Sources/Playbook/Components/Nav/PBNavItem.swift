@@ -10,7 +10,7 @@ import SwiftUI
 public enum NavigationIcon {
   case pbIcon(PBIcon)
   case custom(AnyView)
-  
+
   var iconView: AnyView {
     switch self {
     case .pbIcon(let icon):
@@ -31,7 +31,7 @@ public struct PBNavItem<Content: View>: View {
   var icon: NavigationIcon?
   var accessory: PBIcon?
   var content: Content?
-  
+
   public init(
     _ label: String? = nil,
     icon: NavigationIcon? = nil,
@@ -43,21 +43,21 @@ public struct PBNavItem<Content: View>: View {
     self.accessory = accessory
     self.content = content()
   }
-  
+
   public var body: some View {
     HStack {
       if let label = label {
         icon?.iconView
           .frame(width: 30)
           .foregroundColor(iconColor)
-        
+
         Text(label)
           .pbFont(font, color: captionForegroundColor)
-        
+
         if orientation == .vertical {
           Spacer()
         }
-        
+
         accessory
           .foregroundColor(iconForegroundColor)
           .frame(width: 30)
@@ -81,21 +81,21 @@ extension PBNavItem {
   var iconColor: Color {
     ((isSelected && variant == .normal) || isHovering) ? .pbPrimary : .text(.lighter)
   }
-  
+
   var hoverBackgroundColor: Color {
     if variant == .normal && orientation == .horizontal {
       return .clear
     }
     return .pbPrimary
   }
-  
+
   var selectionIndicatorAlignment: Alignment {
     if orientation == .vertical {
       return .leading
     }
     return .bottom
   }
-  
+
   var iconForegroundColor: Color {
     if variant == .normal && orientation == .horizontal {
       if isHovering {
@@ -103,13 +103,13 @@ extension PBNavItem {
       }
       return .text(.default)
     }
-    
+
     if isSelected || isHovering {
       return .pbPrimary
     }
     return .text(.lighter)
   }
-  
+
   var captionForegroundColor: Color {
     if variant != .bold {
       if variant == .normal && orientation == .horizontal {
@@ -118,7 +118,7 @@ extension PBNavItem {
         }
         return .text(.default)
       }
-      
+
       if isSelected || isHovering {
         return .pbPrimary
       }
@@ -129,7 +129,7 @@ extension PBNavItem {
     }
     return .text(.default)
   }
-  
+
   var font: PBFont {
     if variant == .normal, orientation == .horizontal {
       return selectedFont
@@ -139,11 +139,11 @@ extension PBNavItem {
     }
     return .body(.base)
   }
-  
+
   var selectedFont: PBFont {
     return .title4
   }
-  
+
   var backgroundColor: Color {
     if variant != .bold {
       if isSelected, isHovering, highlight {
@@ -162,7 +162,7 @@ extension PBNavItem {
     }
     return .clear
   }
-  
+
   var cornerRadius: CGFloat {
     switch variant {
     case .normal:
@@ -171,7 +171,7 @@ extension PBNavItem {
       return BorderRadius.medium
     }
   }
-  
+
   var padding: CGFloat {
     switch variant {
     case .normal:
@@ -180,7 +180,7 @@ extension PBNavItem {
       return Spacing.small * 0.7
     }
   }
-  
+
   var selectionIndicator: some View {
     Group {
       if orientation == .vertical {
@@ -199,12 +199,12 @@ extension PBNavItem {
 struct PBNavItem_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-    
+
     let item = PBNavItem(
       "Users Item",
       icon: .pbIcon(.fontAwesome(.addressCard))
     )
-    
+
     let allItemCombinations = Group {
       item
         .environment(\.selected, false)
@@ -219,13 +219,13 @@ struct PBNavItem_Previews: PreviewProvider {
         .environment(\.selected, true)
         .environment(\.hovering, true)
     }
-    
+
     return List {
       Section("Normal Variant Horizontal") {
         HStack { allItemCombinations }
           .environment(\.orientation, .horizontal)
       }
-      
+
       Section("Normal Variant Vertical") {
         VStack { allItemCombinations }
       }
