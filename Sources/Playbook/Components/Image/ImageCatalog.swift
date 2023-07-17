@@ -1,6 +1,6 @@
 //
 //  ImageCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -8,36 +8,38 @@
 import SwiftUI
 
 public struct ImageCatalog: View {
-
-  public init() {}
-
   public var body: some View {
     List {
-      ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-        Section(size.name) {
-          HStack {
-            PBImage(
-              image: nil,
-              placeholder: Image("Forest", bundle: .module),
-              size: size,
-              cornerRadius: .rounded
-            )
-            Spacer()
-            PBImage(
-              image: Image("Forest", bundle: .module),
-              size: size,
-              cornerRadius: .sharp
-            )
-          }
+      Section("Default") {
+        ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+          PBImage(
+            image: nil,
+            placeholder: Image("Forest", bundle: .module),
+            size: size,
+            rounded: false
+          )
+        }
+
+        PBImage(image: Image("Forest", bundle: .module), rounded: false)
+      }
+      .listRowSeparator(.hidden)
+      Section("Rounded") {
+        ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+          PBImage(
+            image: Image("Forest", bundle: .module),
+            size: size,
+            rounded: true
+          )
         }
       }
-      .listRowBackground(Color.clear)
-
-      Section("No size") {
-        PBImage(image: Image("Forest", bundle: .module))
-      }
-      .listRowBackground(Color.clear)
+      .listRowSeparator(.hidden)
     }
     .navigationTitle("Image")
+  }
+}
+
+public struct ImageCatalog_Previews: PreviewProvider {
+  public static var previews: some View {
+    ImageCatalog()
   }
 }
