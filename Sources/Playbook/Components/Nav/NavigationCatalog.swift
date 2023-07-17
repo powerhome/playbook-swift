@@ -8,8 +8,7 @@
 import SwiftUI
 
 public struct NavigationCatalog: View {
-
-  public init () {}
+  @State private var selected: NavOptions = .op1
 
   enum NavOptions: String, Identifiable, CaseIterable {
     var id: String { rawValue }
@@ -21,61 +20,80 @@ public struct NavigationCatalog: View {
 
   public var body: some View {
     List {
-      Section("Normal") {
-        VStack(spacing: 20) {
-          PBNavigation(
-            NavOptions.allCases,
-            selected: .constant(NavOptions.op1),
-            variant: .normal,
-            orientation: .horizontal
-          ) { option in
-            Label {
-              Text("\(option.rawValue)")
-            } icon: {
-              Image(systemName: "person")
-            }
+
+      Section("Default ") {
+        PBNavigation(
+          NavOptions.allCases,
+          selected: $selected,
+          variant: .normal,
+          orientation: .vertical
+        ) { option in
+          Label {
+            Text("\(option.rawValue)")
+          } icon: {
+            Image(systemName: "person")
           }
-          PBNavigation(
-            NavOptions.allCases,
-            selected: .constant(NavOptions.op1),
-            variant: .normal,
-            orientation: .vertical
-          ) { option in
-            Label {
-              Text("\(option.rawValue)")
-            } icon: {
-              Image(systemName: "person")
-            }
+        }
+      }
+
+      Section("Default with icons") {
+        PBNavigation(
+          NavOptions.allCases,
+          selected: $selected,
+          variant: .normal,
+          orientation: .vertical
+        ) { option in
+          Label {
+            Text("\(option.rawValue)")
+          } icon: {
+            Image(systemName: "person")
+          }
+        }
+      }
+
+      Section("Default") {
+
+        PBNavigation(
+          NavOptions.allCases,
+          selected: $selected,
+          variant: .normal,
+          orientation: .horizontal
+        ) { option in
+          Label {
+            Text("\(option.rawValue)")
+          } icon: {
+            Image(systemName: "person")
           }
         }
       }
 
       Section("Subtle") {
-        VStack(spacing: 20) {
-          PBNavigation(
-            NavOptions.allCases,
-            selected: .constant(NavOptions.op1),
-            variant: .subtle,
-            orientation: .horizontal
-          ) { option in
-            Label {
-              Text("\(option.rawValue)")
-            } icon: {
-              Image(systemName: "person")
-            }
-          }
 
-          PBNavigation(
-            NavOptions.allCases,
-            selected: .constant(NavOptions.op1),
-            variant: .subtle,
-            orientation: .vertical
-          ) { option in
-            Label {
-              Text("\(option.rawValue)")
-            } icon: {
-              Image(systemName: "person")
-            }
+        PBNavigation(
+          NavOptions.allCases,
+          selected: $selected,
+          variant: .subtle,
+          orientation: .horizontal
+        ) { option in
+          Label {
+            Text("\(option.rawValue)")
+          } icon: {
+            Image(systemName: "person")
+          }
+        }
+      }
+
+      Section("Subtle") {
+        PBNavigation(
+          NavOptions.allCases,
+          selected: $selected,
+          variant: .subtle,
+          orientation: .vertical
+        ) { option in
+          Label {
+            Text("\(option.rawValue)")
+          } icon: {
+            Image(systemName: "person")
           }
         }
       }
