@@ -19,6 +19,7 @@ public enum PBFont: Equatable {
   case subcaption
   case monogram(_ size: CGFloat)
   case badgeText
+  case detail
 
   static let proximaNovaLight = ProximaNova.light.rawValue
 
@@ -88,6 +89,12 @@ public enum PBFont: Equatable {
       return Font.custom(
         ProximaNova.bold.rawValue,
         size: TextSize.Body.smallest.rawValue,
+        relativeTo: .body
+      )
+    case .detail:
+      return Font.custom(
+        PBFont.proximaNovaLight,
+        size: TextSize.Body.small.rawValue,
         relativeTo: .body
       )
     }

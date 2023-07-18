@@ -1,6 +1,6 @@
 //
 //  TypographyCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 23/05/23.
 //
@@ -59,6 +59,12 @@ public struct TypographyCatalog: View {
         .pbFont(.subcaption, variant: .link)
     }
 
+    let detail = Section("Detail") {
+      Text("I am a detail kit")
+        .pbFont(.detail)
+
+    }
+
     return List {
       title
       body
@@ -67,7 +73,7 @@ public struct TypographyCatalog: View {
       }
       componentsText
       caption
-
+      detail
     }
     .navigationTitle("Typography")
   }
