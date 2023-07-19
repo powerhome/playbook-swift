@@ -20,7 +20,7 @@ public struct Typography: ViewModifier {
       if variant == .link {
         return .pbPrimary
       } else {
-        if font == .caption || font == .largeCaption || font == .subcaption {
+        if font == .caption || font == .largeCaption || font == .subcaption || font == .detail {
           return .text(.light)
         } else {
           return .text(.default)
