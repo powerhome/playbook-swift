@@ -46,8 +46,7 @@ public struct CollapsibleCatalog: View {
   var image: some View {
     PBImage(
       image: Image("Forest", bundle: .module),
-      size: .none,
-      rounded: false
+      size: .none
     )
   }
 

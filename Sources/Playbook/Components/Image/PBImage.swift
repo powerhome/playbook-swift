@@ -11,13 +11,13 @@ public struct PBImage: View {
   let image: Image?
   let placeholder: Image?
   let size: Size?
-  @State var rounded: Bool
+  let rounded: ImageCornerRadius
 
   public init(
     image: Image?,
     placeholder: Image? = nil,
     size: Size? = nil,
-    rounded: Bool
+    rounded: ImageCornerRadius = .sharp
   ) {
     self.image = image
     self.placeholder = placeholder
@@ -28,7 +28,7 @@ public struct PBImage: View {
   public var body: some View {
     if let size = size {
       imageView
-        .cornerRadius(rounded ? 7 : 0)
+        .cornerRadius(rounded.rawValue)
         .frame(width: size.rawValue, height: size.rawValue)
     } else {
       imageView
@@ -55,7 +55,7 @@ public extension PBImage {
 
     var name: String {
       switch self {
-      case .xxSmall: return "xx3Small"
+      case .xxSmall: return "xxSmall"
       case .xSmall: return "xSmall"
       case .small: return "small"
       case .medium: return "medium"

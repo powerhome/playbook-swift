@@ -12,24 +12,30 @@ public struct ImageCatalog: View {
     List {
       Section("Default") {
         ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-          PBImage(
-            image: nil,
-            placeholder: Image("Forest", bundle: .module),
-            size: size,
-            rounded: false
-          )
+          VStack(alignment: .leading, spacing: 0) {
+            Text(size.name).pbFont(.caption)
+            PBImage(
+              image: nil,
+              placeholder: Image("Forest", bundle: .module),
+              size: size,
+              rounded: .sharp
+            )
+          }
         }
 
-        PBImage(image: Image("Forest", bundle: .module), rounded: false)
+        PBImage(image: Image("Forest", bundle: .module))
       }
       .listRowSeparator(.hidden)
       Section("Rounded") {
         ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-          PBImage(
-            image: Image("Forest", bundle: .module),
-            size: size,
-            rounded: true
-          )
+          VStack(alignment: .leading, spacing: 0) {
+            Text(size.name).pbFont(.caption)
+            PBImage(
+              image: Image("Forest", bundle: .module),
+              size: size,
+              rounded: .rounded
+            )
+          }
         }
       }
       .listRowSeparator(.hidden)
