@@ -8,9 +8,6 @@
 import SwiftUI
 
 public struct BadgeCatalog: View {
-
-  public init() {}
-
   public var body: some View {
     List {
       Section("Rectangle") {

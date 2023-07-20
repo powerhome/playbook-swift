@@ -9,9 +9,6 @@ import SwiftUI
 
 @available(macOS 13.0, *)
 public struct ButtonsCatalog: View {
-
-  public init() {}
-
   public var body: some View {
     List {
       Section("Button Variants") {
