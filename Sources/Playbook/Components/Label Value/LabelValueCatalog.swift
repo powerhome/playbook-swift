@@ -9,11 +9,9 @@ import SwiftUI
 
 public struct LabelValueCatalog: View {
   public var body: some View {
-    VStack(alignment: .leading) {
-      PBLabelValue("Room", "this is value")
-        .preferredColorScheme(.light)
-      PBLabelValue("label", "this is a value")
-        .preferredColorScheme(.dark)
+    Section("Default") {
+      PBLabelValue("Role", "Administrator, Moderator")
+      PBLabelValue("EMail", "anna.black@powerhrg.com")
     }
     .navigationTitle("Label Value")
   }
