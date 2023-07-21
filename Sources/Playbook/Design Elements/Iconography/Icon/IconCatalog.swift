@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct IconCatalog: View {
   let columns = Array(repeating: GridItem(.adaptive(minimum: 100)), count: 3)
+
   public var body: some View {
     List {
       ForEach(PBIcon.IconSize.allCases, id: \.fontSize) { size in
