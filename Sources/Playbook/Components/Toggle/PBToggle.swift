@@ -36,12 +36,12 @@ public struct PBToggle: View {
             RoundedRectangle(cornerRadius: 22)
               .foregroundColor(backgroundColor)
           )
-          .frame(width: 55, height: 30, alignment: .center)
+          .frame(width: 50, height: 28, alignment: .center)
 
         Circle()
           .foregroundColor(circleColor(isHovering: isHovering))
-          .frame(width: 20, height: 20, alignment: .center)
-          .offset(x: checked ? 12 : -12, y: 0)
+          .frame(width: 18, height: 18, alignment: .center)
+          .offset(x: checked ? 11 : -11, y: 0)
       }
       .onHover { hovering in
         withAnimation {
@@ -59,7 +59,7 @@ public struct PBToggle: View {
 
 public extension PBToggle {
   func strokeColor(isHovering: Bool) -> Color {
-    checked || isHovering ? .pbPrimary : .status(.neutral)
+    checked || isHovering ? .pbPrimary : .border
   }
 
   func circleColor(isHovering: Bool) -> Color {
@@ -69,7 +69,7 @@ public extension PBToggle {
     if isHovering {
       return .pbPrimary
     }
-    return .status(.neutral)
+    return .border
   }
 
   var backgroundColor: Color {
