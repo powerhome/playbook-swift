@@ -32,40 +32,22 @@ public struct PBSectionSeparator<Content>: View where Content: View {
   }
 
   @ViewBuilder
-  private var backgroundVariant: some View {
-    switch variant {
-    case .background: Color.background(.default)
-    case .bubble:
-      RoundedRectangle(cornerRadius: 12)
-        .fill(Color.card)
-        .overlay(
-          RoundedRectangle(cornerRadius: 12)
-            .stroke(Color.border, lineWidth: 1)
-        )
-        .tag("Border")
-    default: Color.clear
-    }
-  }
-
-  @ViewBuilder
   private var dividerView: some View {
     switch variant {
-    case .bubble:
+    case .dashed:
       PBLine()
         .stroke(Color.border, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
         .frame(height: 1)
-        .tag("Dashed divider")
     default:
-      Divider()
+      PBLine()
         .frame(height: 1)
         .background(Color.border)
-        .tag("Divider")
     }
   }
 
   private var textPadding: EdgeInsets {
     switch variant {
-    case .bubble: return EdgeInsets(.init(top: 4, leading: 12, bottom: 4, trailing: 12))
+    case .dashed: return EdgeInsets(.init(top: 4, leading: Spacing.xSmall, bottom: 4, trailing: Spacing.xSmall))
     default: return EdgeInsets(.init(top: 0, leading: Spacing.xSmall, bottom: 0, trailing: Spacing.xSmall))
     }
   }
@@ -82,18 +64,15 @@ public struct PBSectionSeparator<Content>: View where Content: View {
 
         if let text = text, !text.isEmpty {
           Text(text)
-            .tag("Title")
             .pbFont(.caption)
             .padding(textPadding)
-            .background(backgroundVariant)
+            .background(Color.clear)
             .layoutPriority(1)
             .lineLimit(1)
 
           divider
         } else if let content = content() {
           content
-            .tag("Content")
-            .background(backgroundVariant)
             .layoutPriority(1)
 
           divider
@@ -117,8 +96,7 @@ public extension PBSectionSeparator where Content == EmptyView {
 
 public extension PBSectionSeparator {
   enum Variant {
-    case background
-    case bubble
+    case dashed
     case card
   }
 }

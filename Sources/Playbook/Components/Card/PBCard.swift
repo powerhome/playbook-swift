@@ -75,6 +75,7 @@ public struct PBCard<Content: View>: View {
       if highlight == .none {
         content
           .padding(padding)
+          .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
       } else {
         content
           .padding(padding)

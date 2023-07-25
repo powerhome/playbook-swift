@@ -19,15 +19,11 @@ public struct SectionSeparatorCatalog: View {
         lineView()
       }
       .listRowSeparator(.hidden)
-
-      Section("Background separator") {
-        backGroundView()
+      Section("Dashed separator") {
+        dashedView()
+        dashedTextView()
       }
 
-      Section("Bubble separator") {
-        bubbleTextView()
-        bubbleView()
-      }
       .listRowSeparator(.hidden)
 
       Section("Children separator") {
@@ -38,8 +34,8 @@ public struct SectionSeparatorCatalog: View {
         verticalView()
       }
     }
-
   }
+
   func textView() -> some View {
     PBSectionSeparator("Title separator")
   }
@@ -48,26 +44,26 @@ public struct SectionSeparatorCatalog: View {
     PBSectionSeparator()
   }
 
-  func backGroundView() -> some View {
-    PBSectionSeparator("Title separator", variant: .background)
+  func dashedTextView() -> some View {
+    PBSectionSeparator("Title separator", variant: .dashed)
   }
 
-  func bubbleTextView() -> some View {
-    PBSectionSeparator("Title separator", variant: .bubble)
-  }
-
-  func bubbleView() -> some View {
-    PBSectionSeparator(variant: .bubble)
+  func dashedView() -> some View {
+    PBSectionSeparator(variant: .dashed)
   }
 
   func childrenView() -> some View {
-    PBSectionSeparator(variant: .background) {
-      PBPill("children", variant: .primary)
+    PBSectionSeparator(variant: .dashed) {
+      PBCard(alignment: .center, borderRadius: BorderRadius.rounded, padding: Spacing.xxSmall, width: 70) {
+        Text("Today")
+          .pbFont(.caption)
+          .frame(maxWidth: .infinity, alignment: .center)
+      }
     }
   }
 
   func verticalView() -> some View {
-    HStack {
+    HStack(spacing: 0) {
       loremIpsum
       PBSectionSeparator(orientation: .vertical)
       loremIpsum
@@ -81,5 +77,4 @@ public struct SectionSeparatorCatalog: View {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
   )
   .pbFont(.body())
-  .padding()
 }
