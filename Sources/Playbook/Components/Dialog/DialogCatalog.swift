@@ -89,12 +89,11 @@ import SwiftUI
                   .pbFont(.title2)
                   .multilineTextAlignment(.leading)
 
-                TextField("", text: .constant("text"))
-                  .textFieldStyle(PBTextInputStyle("default"))
+                PBTextInput("text")
                   .padding()
               }
             }))
-            .backgroundViewModifier(alpha: 0.2)
+          .backgroundViewModifier(alpha: 0.2)
         }
       }
     }

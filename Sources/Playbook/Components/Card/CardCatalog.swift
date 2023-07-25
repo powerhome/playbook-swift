@@ -107,7 +107,7 @@ public struct CardCatalog: View {
           Text(text).pbFont(.body())
         }
         Text("Selected").pbFont(.caption)
-        PBCard(style: .selected) {
+        PBCard(style: .selected()) {
           Text(text).pbFont(.body())
         }
         Text("Error").pbFont(.caption)

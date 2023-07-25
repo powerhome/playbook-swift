@@ -8,7 +8,7 @@
 import SwiftUI
 
 public enum PBCardStyle {
-  case `default`, selected, error
+  case `default`, selected(type: SelectedType = .card), error
 
   var color: Color {
     switch self {
@@ -25,8 +25,12 @@ public enum PBCardStyle {
     switch self {
     case .default, .error:
       return 1
-    case .selected:
-      return 1.6
+    case .selected(let type):
+      return type == .card ? 1.6 : 1
     }
+  }
+
+  public enum SelectedType {
+    case card, textInput
   }
 }
