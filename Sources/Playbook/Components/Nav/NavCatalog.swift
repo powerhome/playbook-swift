@@ -1,6 +1,6 @@
 //
 //  NavCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 12/07/23.
 //
@@ -67,7 +67,7 @@ struct NavCatalog: View {
         orientation: .vertical,
         title: "Browse"
       ) {
-        PBNavItem("News Feed", icon: .pbIcon(.fontAwesome(.newspaper)))
+        PBNavItem("News Feed", icon: .pbIcon(.fontAwesome(.newspaper)), accessory: .chevronDown)
         PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.snapchatSquare)))
         PBNavItem("Events", icon: .pbIcon(.fontAwesome(.calendarCheck)))
         PBNavItem("Friends", icon: .pbIcon(.fontAwesome(.peopleCarry)))
@@ -88,7 +88,9 @@ struct NavCatalog: View {
         )
         PBNavItem(
           "Messages",
-          icon: .custom(AnyView(Image(systemName: "message")))
+          icon: .custom(AnyView(
+            Image("andrew", bundle: .module).frame(width: 34)
+          ))
         )
         PBNavItem(
           "Events",

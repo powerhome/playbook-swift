@@ -29,13 +29,13 @@ public struct PBNavItem<Content: View>: View {
   @Environment(\.highlight) var highlight: Bool
   var label: String?
   var icon: NavigationIcon?
-  var accessory: PBIcon?
+  var accessory: FontAwesome?
   var content: Content?
 
   public init(
     _ label: String? = nil,
     icon: NavigationIcon? = nil,
-    accessory: PBIcon? = nil,
+    accessory: FontAwesome? = nil,
     @ViewBuilder content: @escaping () -> Content = { EmptyView() }
   ) {
     self.label = label
@@ -45,10 +45,10 @@ public struct PBNavItem<Content: View>: View {
   }
 
   public var body: some View {
-    HStack {
+    HStack(spacing: Spacing.xSmall) {
       if let label = label {
         icon?.iconView
-          .frame(width: 30)
+          .frame(width: 25)
           .foregroundColor(iconColor)
 
         Text(label)
@@ -58,9 +58,11 @@ public struct PBNavItem<Content: View>: View {
           Spacer()
         }
 
-        accessory
-          .foregroundColor(iconForegroundColor)
-          .frame(width: 30)
+        if let accessory = accessory {
+          PBIcon( accessory, size: .small)
+            .foregroundColor(captionForegroundColor)
+            .frame(width: 25)
+        }
       } else {
         content
           .frame(maxWidth: .infinity, alignment: .leading)
@@ -177,7 +179,7 @@ extension PBNavItem {
     case .normal:
       return Spacing.small
     case .subtle, .bold:
-      return Spacing.small * 0.7
+      return Spacing.xSmall
     }
   }
 
