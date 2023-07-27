@@ -1,6 +1,6 @@
 //
 //  ImageCatalog.swift
-//
+//  
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -11,42 +11,46 @@ public struct ImageCatalog: View {
   public var body: some View {
     List {
       Section("Default") {
-        ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-          VStack(alignment: .leading, spacing: 0) {
-            Text(size.name).pbFont(.caption)
-            PBImage(
-              image: nil,
-              placeholder: Image("Forest", bundle: .module),
-              size: size,
-              rounded: .sharp
-            )
+        VStack(alignment: .leading, spacing: Spacing.xSmall) {
+          ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+            VStack(alignment: .leading, spacing: Spacing.xSmall) {
+              Text(size.name).pbFont(.caption)
+              PBImage(
+                image: nil,
+                placeholder: Image("Forest", bundle: .module),
+                size: size,
+                rounded: .sharp
+              )
+            }
+            .padding(.bottom)
           }
+          Text("None")
+            .pbFont(.caption)
+          PBImage(image: Image("Forest", bundle: .module))
         }
-
-        PBImage(image: Image("Forest", bundle: .module))
+        .padding(.vertical)
       }
       .listRowSeparator(.hidden)
+
       Section("Rounded") {
-        ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-          VStack(alignment: .leading, spacing: 0) {
-            Text(size.name).pbFont(.caption)
-            PBImage(
-              image: Image("Forest", bundle: .module),
-              size: size,
-              rounded: .rounded
-            )
+        VStack(alignment: .leading, spacing: Spacing.xSmall) {
+          ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+            VStack(alignment: .leading, spacing: Spacing.xSmall) {
+              Text(size.name).pbFont(.caption)
+              PBImage(
+                image: nil,
+                placeholder: Image("Forest", bundle: .module),
+                size: size,
+                rounded: .rounded
+              )
+            }
+            .padding(.bottom)
           }
         }
+        .padding(.top)
       }
       .listRowSeparator(.hidden)
     }
     .navigationTitle("Image")
-  }
-}
-
-public struct ImageCatalog_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts() 
-    return ImageCatalog()
   }
 }

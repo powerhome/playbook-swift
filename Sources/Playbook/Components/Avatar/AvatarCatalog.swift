@@ -8,9 +8,6 @@
 import SwiftUI
 
 public struct AvatarCatalog: View {
-
-  public init() {}
-
   public var body: some View {
     List {
       Section("Default") {
@@ -42,7 +39,7 @@ public struct AvatarCatalog: View {
       PBAvatar(name: "Tim Wenhold", size: .small, status: .online)
       PBAvatar(name: "Tim Wenhold", size: .medium, status: .away)
       PBAvatar(name: "Tim Wenhold", size: .large, status: .online)
-      PBAvatar(name: "Tim Wenhold", size: .xLarge, status: .offline)
+      PBAvatar(name: "Tim", size: .xLarge, status: .offline)
     }
   }
 }

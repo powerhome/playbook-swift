@@ -29,7 +29,7 @@ public enum Componenets: String, CaseIterable {
   case select
   case textArea = "Text Area"
   case textInput = "Text Input"
-  case timeAndDate = "Time and Date"
+  case timeStamp = "TimeStamp"
   case toggle
   case user
 
@@ -53,12 +53,12 @@ public enum Componenets: String, CaseIterable {
     case .nav: PBNav_Previews.previews
     case .pill: PillCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
-    case .radio: PBRadio_Previews.previews
+    case .radio: RadioCatalog()
     case .sectionSeparator: PBSectionSeparator_Previews.previews
     case .select: PBSelect_Previews.previews
-    case .textArea: PBTextArea_Previews.previews
+    case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
-    case .timeAndDate: PBTimestamp_Previews.previews
+    case .timeStamp: TimeStampCatalog()
     case .toggle: PBRadio_Previews.previews
     case .user: PBMultipleUsers_Previews.previews
     }

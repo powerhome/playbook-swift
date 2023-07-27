@@ -72,6 +72,7 @@ public extension PBImage {
 
 public struct PBImage_Previews: PreviewProvider {
   public static var previews: some View {
-    ImageCatalog()
+    registerFonts()
+    return ImageCatalog()
   }
 }
