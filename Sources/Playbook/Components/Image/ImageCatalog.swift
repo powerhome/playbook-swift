@@ -46,6 +46,7 @@ public struct ImageCatalog: View {
 
 public struct ImageCatalog_Previews: PreviewProvider {
   public static var previews: some View {
-    ImageCatalog()
+    registerFonts() 
+    return ImageCatalog()
   }
 }

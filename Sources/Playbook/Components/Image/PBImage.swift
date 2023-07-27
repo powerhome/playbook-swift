@@ -47,19 +47,19 @@ public struct PBImage: View {
 
 public extension PBImage {
   enum Size: CGFloat, CaseIterable {
-    case xxSmall = 60
-    case xSmall = 80
-    case small = 100
-    case medium = 120
-    case large = 140
+    case xSmall = 60
+    case small = 80
+    case medium = 100
+    case large = 120
+    case xLarge = 140
 
     var name: String {
       switch self {
-      case .xxSmall: return "xxSmall"
       case .xSmall: return "xSmall"
       case .small: return "small"
       case .medium: return "medium"
       case .large: return "large"
+      case .xLarge: return "xLarge"
       }
     }
   }
