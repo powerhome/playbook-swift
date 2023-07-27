@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct ToggleCatalog: View {
-
   public var body: some View {
     List {
       Section("Default") {
@@ -20,10 +19,9 @@ public struct ToggleCatalog: View {
         PBToggle(label: "bike", checked: false)
       }
     }
+    .background(Color.card)
     .navigationTitle("Toggle")
-
   }
-
 }
 
 struct SwiftUIView_Previews: PreviewProvider {

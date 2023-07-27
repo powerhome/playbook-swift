@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  PBToggle.swift
 //
 //
 //  Created by Nick Amantia on 7/6/23.
@@ -80,9 +80,8 @@ public extension PBToggle {
   }
 }
 
-struct PBToggleStyle_Previews: PreviewProvider {
+struct PBToggle_Previews: PreviewProvider {
   static var previews: some View {
     return ToggleCatalog()
-      .background(Color.card)
   }
 }
