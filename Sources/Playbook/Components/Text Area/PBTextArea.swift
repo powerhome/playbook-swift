@@ -25,8 +25,6 @@ public extension PBTextArea {
     switch characterCount {
     case .maxCharacterCountBlock(let maxCount):
       return $text.max(maxCount)
-    case .maxCharacterCountError(let maxCount):
-      return $text
     default: return $text
     }
   }
@@ -56,7 +54,7 @@ public extension PBTextArea {
   }
 
   func style(_ isTextAreaFocused: Bool) -> PBCardStyle {
-    if let error = error {
+    if error != nil {
       return .error
     } else {
       return isTextAreaFocused ? .selected : .`default`
