@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct TextAreaCatalog: View {
-
   @State var defaultText = ""
   @State var placeholderText = ""
   @State var customText = "Default value text"
@@ -110,11 +109,7 @@ public struct TextAreaCatalog: View {
 
   func inlineView() -> some View {
     VStack(alignment: .leading) {
-      PBTextArea(
-        "Inline",
-        text: $inlineText,
-        inline: true
-      )
+      PBTextArea(text: $inlineText, inline: true)
     }
   }
 
