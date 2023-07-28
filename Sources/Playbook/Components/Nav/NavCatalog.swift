@@ -88,9 +88,7 @@ struct NavCatalog: View {
         )
         PBNavItem(
           "Messages",
-          icon: .custom(AnyView(
-            Image("andrew", bundle: .module).frame(width: 34)
-          ))
+          icon: .image(PBImage(image: Image("andrew", bundle: .module)))
         )
         PBNavItem(
           "Events",

@@ -10,6 +10,7 @@ import SwiftUI
 public enum NavigationIcon {
   case pbIcon(PBIcon)
   case custom(AnyView)
+  case image(PBImage)
 
   var iconView: AnyView {
     switch self {
@@ -17,6 +18,12 @@ public enum NavigationIcon {
       return AnyView(icon)
     case .custom(let view):
       return AnyView(view)
+    case .image(let image):
+      return AnyView(
+        image.image?
+          .resizable()
+          .frame(width: 24, height: 24)
+        )
     }
   }
 }
