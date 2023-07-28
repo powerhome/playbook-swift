@@ -16,7 +16,7 @@ public enum Componenets: String, CaseIterable {
   case checkbox
   case collapsible
   case dialog
-  case iconCircle
+  case iconCircle = "Icon Circle"
   case image
   case label
   case message
@@ -27,7 +27,7 @@ public enum Componenets: String, CaseIterable {
   case radio
   case sectionSeparator = "Section Separator"
   case select
-  case textArea = "Text Area"
+  case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
   case toggle

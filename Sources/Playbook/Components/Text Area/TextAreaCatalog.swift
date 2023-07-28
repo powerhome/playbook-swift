@@ -106,7 +106,7 @@ public struct TextAreaCatalog: View {
   func inlineView() -> some View {
     VStack(alignment: .leading) {
       PBTextArea(
-        "Inline",
+        "",
         text: $inlineText,
         inline: true
       )
