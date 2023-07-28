@@ -15,13 +15,12 @@ public struct TextAreaCatalog: View {
   @State var countText = ""
   @State var maxCharacterText = "Counting characters!"
   @State var maxBlockerText = """
-  This counter prevents the user from exceeding the maximum number of allowed characters.
-  Just try it!
-  """
+    This counter prevents the user from exceeding the maximum number of allowed characters.
+    Just try it!
+    """
   @State var maxBlockerErrorText = """
-  This counter alerts the user that they have exceeded
-  the maximum number of allowed characters.
-  """
+    This counter alerts the user that they have exceeded the maximum number of allowed characters.
+    """
   @State var inlineText = "Try clicking into this text."
 
   public init() {}
@@ -110,11 +109,7 @@ public struct TextAreaCatalog: View {
 
   func inlineView() -> some View {
     VStack(alignment: .leading) {
-      PBTextArea(
-        "Inline",
-        text: $inlineText,
-        inline: true
-      )
+      PBTextArea(text: $inlineText, inline: true)
     }
   }
 
