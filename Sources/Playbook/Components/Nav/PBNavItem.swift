@@ -69,7 +69,8 @@ public struct PBNavItem<Content: View>: View {
       }
     }
     .foregroundColor(captionForegroundColor)
-    .padding(padding)
+    .padding(.horizontal, horizontalPadding)
+    .padding(.vertical, verticalPadding)
     .background(backgroundColor)
     .cornerRadius(cornerRadius)
     .overlay(
@@ -174,12 +175,26 @@ extension PBNavItem {
     }
   }
 
-  var padding: CGFloat {
+  var horizontalPadding: CGFloat {
     switch variant {
     case .normal:
-      return Spacing.small
+      switch orientation {
+      case .horizontal: return Spacing.medium
+      case .vertical: return Spacing.small
+      }
+
     case .subtle, .bold:
-      return Spacing.xSmall
+      switch orientation {
+      case .horizontal: return 14
+      case .vertical: return Spacing.small
+      }
+    }
+  }
+
+  var verticalPadding: CGFloat {
+    switch variant {
+    case .normal: return Spacing.small
+    case .subtle, .bold: return Spacing.xSmall
     }
   }
 

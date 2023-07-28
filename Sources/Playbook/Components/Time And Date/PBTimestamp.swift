@@ -54,7 +54,7 @@ public struct PBTimestamp: View {
     if showDate {
       let inputDate = Calendar.current.dateComponents([.year], from: timestamp)
       let currentDate = Calendar.current.dateComponents([.year], from: Date())
-      
+
       if let inputYear = inputDate.year,
          let currentYear = currentDate.year,
          inputYear > currentYear || inputYear < currentYear {
@@ -65,7 +65,7 @@ public struct PBTimestamp: View {
     } else {
       formatter.dateFormat = "h:mma"
     }
-    
+
     if let timeZone = timeZone, showTimeZone {
       formatter.timeZone = TimeZone(identifier: timeZone)
       formatter.dateFormat.append(" z")

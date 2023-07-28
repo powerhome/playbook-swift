@@ -207,15 +207,17 @@ struct NavCatalog: View {
 
   var horizontalListView: some View {
     let navDefault = Section("Default") {
-      PBNav(
-        selected: $selectedHDefault,
-        variant: .normal,
-        orientation: .horizontal
-      ) {
-        PBNavItem("Photos")
-        PBNavItem("Music")
-        PBNavItem("Video")
-        PBNavItem("Files")
+      ScrollView(.horizontal, showsIndicators: false) {
+        PBNav(
+          selected: $selectedHDefault,
+          variant: .normal,
+          orientation: .horizontal
+        ) {
+          PBNavItem("Photos")
+          PBNavItem("Music")
+          PBNavItem("Video")
+          PBNavItem("Files")
+        }
       }
     }
 
