@@ -7,102 +7,57 @@
 
 import SwiftUI
 
-public enum PBCardStyle {
-  case `default`, selected, error
-
-  var color: Color {
-    switch self {
-    case .default:
-      return .border
-    case .selected:
-      return .pbPrimary
-    case .error:
-      return .status(.error)
-    }
-  }
-
-  var lineWidth: CGFloat {
-    switch self {
-    case .default, .error:
-      return 1
-    case .selected:
-      return 1.6
-    }
-  }
-}
-
 public struct PBCard<Content: View>: View {
-  let content: Content
   let alignment: Alignment
+  let backgroundColor: Color
   let border: Bool
   let borderRadius: CGFloat
   let highlight: Highlight
-  let highlightColor: Color
-  let isHovering: Bool
   let padding: CGFloat
   let style: PBCardStyle
   let shadow: Shadow?
   let width: CGFloat?
+  let content: Content
 
   public init(
     alignment: Alignment = .leading,
+    backgroundColor: Color = .card,
     border: Bool = true,
     borderRadius: CGFloat = BorderRadius.medium,
     highlight: Highlight = .none,
-    highlightColor: Color = .product(.product1, category: .highlight),
-    isHovering: Bool = false,
     padding: CGFloat = Spacing.medium,
     style: PBCardStyle = .default,
     shadow: Shadow? = nil,
     width: CGFloat? = .infinity,
     @ViewBuilder content: () -> Content
   ) {
-    self.content = content()
     self.alignment = alignment
+    self.backgroundColor = backgroundColor
     self.border = border
     self.borderRadius = borderRadius
     self.highlight = highlight
-    self.isHovering = isHovering
     self.padding = padding
     self.style = style
     self.shadow = shadow
     self.width = width
-    self.highlightColor = highlightColor
+    self.content = content()
   }
 
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.none) {
-      if highlight == .none {
-        content
-          .padding(padding)
-          .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
-      } else {
-        content
-          .padding(padding)
-          .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
-          .background(
-            RoundedRectangle(cornerRadius: borderRadius)
-              .stroke(highlightColor, lineWidth: 10)
-              .padding(
-                .init(
-                  top: highlight == .top ? 0 : -10,
-                  leading: highlight == .side ? 0 : -10,
-                  bottom: -10,
-                  trailing: -10
-                )
-              )
-          )
-      }
+      content
+        .padding(padding)
     }
+    .frame(maxWidth: width, alignment: alignment)
+    .border(width: 5, edges: highlight.edge, color: highlight.color)
     .cornerRadius(borderRadius)
-    .frame(minWidth: 0, maxWidth: width, alignment: alignment)
     .background(
-      RoundedRectangle(cornerRadius: borderRadius, style: .continuous)
-        .fill(Color.card.opacity(isHovering ? 0.4 : 1))
+      RoundedRectangle(cornerRadius: borderRadius, style: .circular)
+        .fill(backgroundColor)
         .pbShadow(shadow ?? .none)
     )
     .overlay(
-      RoundedRectangle(cornerRadius: borderRadius)
+      RoundedRectangle(cornerRadius: borderRadius, style: .circular)
         .stroke(
           style.color,
           lineWidth: border ? style.lineWidth : 0
@@ -112,15 +67,29 @@ public struct PBCard<Content: View>: View {
 }
 
 public extension PBCard {
-
   enum Highlight {
     case none
-    case side
-    case top
+    case side(Color)
+    case top(Color)
+
+    var edge: [Edge] {
+      switch self {
+      case .side: return [.leading]
+      case .top: return [.top]
+      default: return []
+      }
+    }
+
+    var color: Color {
+      switch self {
+      case .side(let color): return color
+      case .top(let color): return color
+      case .none: return .clear
+      }
+    }
   }
 }
 
-@available(macOS 13.0, *)
 struct PBCard_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
