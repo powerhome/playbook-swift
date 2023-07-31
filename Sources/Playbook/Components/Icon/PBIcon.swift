@@ -37,7 +37,7 @@ public struct PBIcon: View {
     Text(icon.unicodeString)
       .font(Font.custom(icon.fontFamily, size: size.fontSize))
       .rotationEffect(rotation.angle)
-      .padding(.horizontal, border ? 11 : 0)
+      .padding(.horizontal, border ? 10.5 : 0)
       .padding(.top, border ? 6.4 : 0)
       .padding(.bottom, border ? 4.8 : 0)
       .border(border ? Color.border : .clear, width: 2.5)
