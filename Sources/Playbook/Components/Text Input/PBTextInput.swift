@@ -47,8 +47,21 @@ public struct PBTextInput: View {
             .focused($selected, equals: true)
             .tint(.text(.default))
             .background(backgroundColor)
+            .overlay { 
+              if style == .leftIcon(withDivider: false) {
+                RoundedRectangle(cornerRadius: BorderRadius.medium)
+                  .stroke(lineWidth: 2)
+                  .clipShape(Rectangle().offset(x: BorderRadius.medium, y: 0))
+//                  .overlay { 
+//                    Rectangle()
+//                      .stroke(lineWidth: 2)
+//                      .clipShape(Rectangle().offset(x: -BorderRadius.medium, y: 0))
+//                  }
+                  .foregroundColor(borderColor)
+              }
+            }
 
-            .border(width: 2, edges: borders, color: borderColor)
+            
 
           if style == .rightIcon(withDivider: true) {
             Divider()
@@ -65,6 +78,8 @@ public struct PBTextInput: View {
 
       }
       .frame(height: 44)
+     
+
       .onTapGesture {
         selected = true
       }
