@@ -18,7 +18,7 @@ public enum Componenets: String, CaseIterable {
   case dialog
   case iconCircle = "Icon Circle"
   case image
-  case label
+  case label = "Label Value"
   case message
   case multipleUserStacked = "Multiple User Stacked"
   case nav
