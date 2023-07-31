@@ -21,7 +21,7 @@ public struct PBIcon: View {
 
   public init(
     _ icon: PlaybookGenericIcon,
-    size: IconSize = .medium,
+    size: IconSize = .x1,
     rotation: IconRotation = .zero,
     border: Bool = false,
     flipped: [Axis]? = nil
@@ -47,8 +47,8 @@ public struct PBIcon: View {
 
 public extension PBIcon {
   enum IconSize: String, CaseIterable {
+    case xSmall
     case small
-    case medium
     case large
     case x1
     case x2
@@ -62,12 +62,12 @@ public extension PBIcon {
     case x10
 
     var fontSize: CGFloat {
-      let emToPt: CGFloat = 11.955168
+      let emToPt: CGFloat = 16
 
       switch self {
-      case .small: return 16
-      case .medium: return 20
-      case .large: return 24
+      case .xSmall: return 12
+      case .small: return 14
+      case .large: return 20
 
       case .x1: return 1 * emToPt
       case .x2: return 2 * emToPt

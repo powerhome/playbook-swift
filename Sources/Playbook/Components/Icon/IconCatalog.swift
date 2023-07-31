@@ -11,7 +11,7 @@ public struct IconCatalog: View {
   public var body: some View {
     List {
       Section("Default") {
-        PBIcon.fontAwesome(.user, size: .medium)
+        PBIcon.fontAwesome(.user, size: .x1)
       }
 
       Section("Rotate") {

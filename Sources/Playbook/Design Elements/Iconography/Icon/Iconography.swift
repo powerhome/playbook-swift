@@ -20,7 +20,7 @@ public struct Iconography: View {
           LazyVGrid(columns: columns) {
             ForEach(FontAwesome.allCases, id: \.unicodeString) { icon in
               VStack {
-                PBIcon.fontAwesome(icon, size: .medium)
+                PBIcon.fontAwesome(icon, size: .x1)
                   .padding(2)
                 Text(icon.rawValue).pbFont(.subcaption)
               }

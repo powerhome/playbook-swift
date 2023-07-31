@@ -7,7 +7,7 @@
 import SwiftUI
 
 public extension PBIcon {
-  static func fontAwesome(_ icon: FontAwesome, size: IconSize = .medium) -> PBIcon {
+  static func fontAwesome(_ icon: FontAwesome, size: IconSize = .x1) -> PBIcon {
     PBIcon(icon, size: size)
   }
 

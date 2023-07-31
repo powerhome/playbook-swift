@@ -33,7 +33,7 @@ public struct PBRadioStyle: ToggleStyle {
             configuration.isOn.toggle()
           }
         } label: {
-          PBIcon.fontAwesome(.check, size: .medium)
+          PBIcon.fontAwesome(.check, size: .x1)
             .foregroundColor(configuration.isOn
               ? (colorScheme == .light
                 ? .white
