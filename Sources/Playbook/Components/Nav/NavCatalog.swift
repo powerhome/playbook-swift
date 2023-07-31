@@ -31,7 +31,7 @@ struct NavCatalog: View {
     VStack {
       Picker("Select", selection: $navContent) {
         Text("Vertical").tag(NavContent.vertical)
-        Text("Orizontal").tag(NavContent.horizontal)
+        Text("Horizontal").tag(NavContent.horizontal)
         Text("Custom").tag(NavContent.custom)
       }
       .pickerStyle(.segmented)

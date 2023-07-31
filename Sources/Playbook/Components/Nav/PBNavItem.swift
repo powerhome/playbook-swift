@@ -193,7 +193,7 @@ extension PBNavItem {
     case .subtle, .bold:
       switch orientation {
       case .horizontal: return 14
-      case .vertical: return Spacing.small
+      case .vertical: return 14
       }
     }
   }
