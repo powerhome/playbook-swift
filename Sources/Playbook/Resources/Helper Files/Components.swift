@@ -57,7 +57,7 @@ public enum Componenets: String, CaseIterable {
     case .sectionSeparator: PBSectionSeparator_Previews.previews
     case .select: PBSelect_Previews.previews
     case .textArea: TextAreaCatalog()
-    case .textInput: PBTextInput_Previews.previews
+    case .textInput: EmptyView() // PBTextInput_Previews.previews
     case .timeStamp: TimeStampCatalog()
     case .toggle: PBRadio_Previews.previews
     case .user: PBMultipleUsers_Previews.previews

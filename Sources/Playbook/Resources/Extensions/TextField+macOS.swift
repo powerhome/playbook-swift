@@ -10,7 +10,7 @@ import SwiftUI
 #if os(macOS)
 struct MacOSTextField: NSViewRepresentable {
   @Binding var text: String
-  let prompt: String 
+  let prompt: String
 
   func makeNSView(context: Context) -> NSTextField {
     let textField = NSTextField()
@@ -33,7 +33,7 @@ struct MacOSTextField: NSViewRepresentable {
 
   class Coordinator: NSObject, NSTextFieldDelegate {
     @Binding var text: String
-    let prompt: String 
+    let prompt: String
 
     init(text: Binding<String>, placeholder: String) {
       _text = text

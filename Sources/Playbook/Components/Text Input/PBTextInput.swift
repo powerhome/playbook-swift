@@ -7,26 +7,11 @@
 
 import SwiftUI
 
-public extension PBTextInput {
-#if os(iOS)
-  public init(
-    _ title: String? = nil,
-    placeholder: String = "",
-    error: Bool? = nil,
-    keyboardType: UIKeyboardType = .default
-  ) {
-    self.title = title
-    self.placeholder = placeholder
-    self.error = error
-    self.keyboardType = keyboardType
-  }
-#endif
-}
-
 public struct PBTextInput: View {
   public let title: String?
   public let placeholder: String
   public let error: Bool?
+  public let style: Style
 #if os(iOS)
   public let keyboardType: UIKeyboardType
 #endif
@@ -34,33 +19,24 @@ public struct PBTextInput: View {
   @State private var text: String = ""
   @State private var isHovering: Bool = false
 
-#if os(macOS)
-  public init(
-    _ title: String? = nil,
-    placeholder: String = "",
-    error: Bool? = nil
-  ) {
-    self.title = title
-    self.placeholder = placeholder
-    self.error = error
-  }
-#endif
-
   public var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       if let title = title {
         Text(title)
           .pbFont(.caption)
       }
-      PBCard(padding: 0, style: style(selected)) {
+      PBCard(padding: Spacing.none, style: borderStyle) {
         HStack(alignment: .center, spacing: Spacing.none) {
-          PBIcon.fontAwesome(.pen)
-            .padding(.horizontal)
-            .foregroundColor(.border)
+          if style == .leftIcon(withDivider: true) {
+            leftIcon
+            Divider()
+              .frame(width: 1)
+              .overlay(borderColor)
+          }
 
-          Divider()
-            .frame(width: 1)
-            .overlay(selected ? Color.pbPrimary : Color.border)
+          if style == .leftIcon(withDivider: false) {
+            leftIcon
+          }
 
           pbTextField
             .textFieldStyle(.plain)
@@ -70,16 +46,25 @@ public struct PBTextInput: View {
             .pbFont(.body())
             .focused($selected, equals: true)
             .tint(.text(.default))
+            .background(backgroundColor)
 
-          Button {
+            .border(width: 2, edges: borders, color: borderColor)
 
-          } label: {
-            PBIcon.fontAwesome(.pen)
+          if style == .rightIcon(withDivider: true) {
+            Divider()
+              .frame(width: 1)
+              .overlay(borderColor)
+
+            rightIcon
           }
-          .padding(.trailing, Spacing.small)
+
+          if style == .rightIcon(withDivider: false) {
+            rightIcon
+          }
         }
-          .background(backgroundColor)
+
       }
+      .frame(height: 44)
       .onTapGesture {
         selected = true
       }
@@ -89,12 +74,53 @@ public struct PBTextInput: View {
     }
   }
 
-  func style(_ isSelected: Bool) -> PBCardStyle {
+  var borders: [Edge] {
+    switch style {
+    case .leftIcon: return [.top, .bottom, .trailing]
+    case .rightIcon: return [.top, .bottom, .leading]
+    default: return [.top, .bottom, .leading, .trailing]
+    }
+  }
+
+  var roundedCorners: UIRectCorner {
+    switch style {
+    case .leftIcon: return [.bottomRight, .topRight]
+    case .rightIcon: return [.bottomLeft, .topLeft]
+    default: return [.allCorners]
+    }
+  }
+
+  var rightIcon: some View {
+    Button {
+
+    } label: {
+      PBIcon.fontAwesome(.pen)
+    }
+    .padding(.horizontal, Spacing.small)
+    .buttonStyle(.plain)
+    .foregroundColor(.border)
+  }
+
+  var leftIcon: some View {
+    PBIcon.fontAwesome(.pen)
+      .padding(.horizontal)
+      .foregroundColor(.border)
+  }
+
+  var borderStyle: PBCardStyle {
     if error != nil {
       return .error
     } else {
-      return selected ? .selected(type: .textInput) : .`default`
+      if style == .default {
+        return selected ? .selected(type: .textInput) : .`default`
+      } else {
+        return .`default`
+      }
     }
+  }
+
+  var borderColor: Color {
+    selected ? Color.pbPrimary : Color.border
   }
 
   var placeHolder: Text {
@@ -122,6 +148,46 @@ public struct PBTextInput: View {
   }
 }
 
+public extension PBTextInput {
+#if os(iOS)
+  init(
+    _ title: String? = nil,
+    placeholder: String = "",
+    error: Bool? = nil,
+    style: Style = .default,
+    keyboardType: UIKeyboardType = .default
+  ) {
+    self.title = title
+    self.placeholder = placeholder
+    self.error = error
+    self.style = style
+    self.keyboardType = keyboardType
+  }
+#elseif os(macOS)
+  init(
+    _ title: String? = nil,
+    placeholder: String = "",
+    error: Bool? = nil,
+    style: Style = .default
+  ) {
+    self.title = title
+    self.placeholder = placeholder
+    self.error = error
+    self.style = style
+  }
+#endif
+}
+
+public extension PBTextInput {
+  enum Style: Equatable {
+    case `default`
+    case rightIcon(withDivider: Bool)
+    case leftIcon(withDivider: Bool)
+    case inline
+    case disabled
+  }
+}
+
 public struct PBTextInput_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
@@ -129,7 +195,10 @@ public struct PBTextInput_Previews: PreviewProvider {
       Section("Default") {
         PBTextInput("First name", placeholder: "Enter first name")
         PBTextInput("", placeholder: "Enter zip code")
-        PBTextInput("")
+        PBTextInput("", style: .leftIcon(withDivider: true))
+        PBTextInput("", style: .rightIcon(withDivider: true))
+        PBTextInput("", style: .leftIcon(withDivider: false))
+        PBTextInput("", style: .rightIcon(withDivider: false))
       }
     }
   }
