@@ -10,7 +10,7 @@ import SwiftUI
 public enum RightIcon {
   case pbIcon(FontAwesome)
   case custom(AnyView)
-  
+
   var iconView: AnyView {
     switch self {
     case .custom(let view): return view
@@ -31,65 +31,41 @@ public struct PBTextInput: View {
   @FocusState private var selected: Bool
   @State private var text: String = ""
   @State private var isHovering: Bool = false
+  @State private var isIconHovering: Bool = false
 
   public var body: some View {
-    VStack(alignment: .leading, spacing: 12) {
+    VStack(alignment: .leading, spacing: Spacing.none) {
       if let title = title {
         Text(title)
           .pbFont(.caption)
+          .padding(.bottom, Spacing.xSmall)
       }
 
       PBCard(padding: Spacing.none, style: borderStyle) {
         HStack(alignment: .center, spacing: Spacing.none) {
-          if style == .leftIcon(true) {
-            leftIcon
-            Divider()
-              .frame(width: 1)
-              .overlay(borderColor)
-          }
-
-          if style == .leftIcon(false) {
-            leftIcon
-          }
-
+          leftView
           pbTextField
             .textFieldStyle(.plain)
-            .padding(.leading, 16)
-            .frame(height: 44)
-            .foregroundColor(.text(.default))
-            .pbFont(.body())
-            .focused($selected, equals: true)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .pbFont(.body(), color: .text(.default))
             .tint(.text(.default))
             .background(backgroundColor)
+            .focused($selected, equals: true)
             .overlay {
-              if let rightActionIcon = rightActionIcon {   
+              if let rightActionIcon = rightActionIcon {
                 rightActionIndicator
-                  
                   .frame(maxWidth: .infinity, alignment: .trailing)
               }
             }
             .overlay {
-             borderShapes
+              borderShapes
             }
-          
-         
-
-          if style == .rightIcon(true) {
-            Divider()
-              .frame(width: 1)
-              .overlay(borderColor)
-
-            rightIcon
-          }
-
-          if style == .rightIcon(false) {
-            rightIcon
-          }
-          
-       
+            .disabled(style == .disabled)
+            
+          rightView
         }
         
-
       }
       .frame(height: 44)
       .onTapGesture {
@@ -98,24 +74,18 @@ public struct PBTextInput: View {
       .onHover { isHovering in
         self.isHovering = isHovering
       }
+      
+      Text("Some text")
+        .padding(.top, Spacing.xxSmall)
     }
   }
-//
-//  var borders: [Edge] {
-//    switch style {
-//    case .leftIcon: return [.top, .bottom, .trailing]
-//    case .rightIcon: return [.top, .bottom, .leading]
-//    default: return [.top, .bottom, .leading, .trailing]
-//    }
-//  }
 
-//  var roundedCorners: UIRectCorner {
-//    switch style {
-//    case .leftIcon: return [.bottomRight, .topRight]
-//    case .rightIcon: return [.bottomLeft, .topLeft]
-//    default: return [.allCorners]
-//    }
-//  }
+  var divider: some View {
+    Divider()
+      .frame(width: 1)
+      .overlay(borderColor)
+      .opacity(selected ? 0 : 1)
+  }
 
   var rightActionIndicator: some View {
     Button {
@@ -125,17 +95,47 @@ public struct PBTextInput: View {
     }
     .padding(.horizontal, Spacing.small)
     .buttonStyle(.plain)
-    .foregroundColor(selected ? .black : .clear)
+    .foregroundColor(rightActionIndicatorColor)
+    .onHover { isHovering in
+      isIconHovering = isHovering
+    }
+    .onTapGesture {
+      isIconHovering = true
+    }
   }
-  
+
+  @ViewBuilder
+  var leftView: some View {
+    if style == .leftIcon(true) {
+      leftIcon
+      divider
+    }
+    if style == .leftIcon(false) {
+      leftIcon
+    }
+  }
+
+  @ViewBuilder
+  var rightView: some View {
+    if style == .rightIcon(true) {
+      divider
+      rightIcon
+    }
+    if style == .rightIcon(false) {
+      rightIcon
+    }
+  }
+
+  var rightActionIndicatorColor: Color {
+    let activeColor = isIconHovering ? Color.active : Color.text(.default)
+    return selected ? activeColor : .clear
+  }
+
   var rightIcon: some View {
     Button {
-
+      print("some action here")
     } label: {
-      HStack(spacing: Spacing.xxSmall) {
-        PBIcon.fontAwesome(.userCircle, size: .x1)
-        PBIcon.fontAwesome(.chevronDown, size: .x1)
-      } 
+      PBIcon.fontAwesome(.userAstronaut, size: .x1)
     }
     .padding(.horizontal, Spacing.small)
     .buttonStyle(.plain)
@@ -180,21 +180,23 @@ public struct PBTextInput: View {
   }
 
   var backgroundColor: Color {
-    (selected || isHovering) ? .active : .card
+    switch style {
+    case .disabled: return .border.opacity(0.3)
+    default: return(selected || isHovering) ? .active : .card
+    }
   }
 
   var pbTextField: some View {
-  #if os(iOS)
+#if os(iOS)
     TextField("", text: $text, prompt: placeHolder)
       .keyboardType(keyboardType)
-  #elseif os(macOS)
+#elseif os(macOS)
     MacOSTextField(text: $text, prompt: placeholder)
-  #endif
+#endif
   }
 
   @ViewBuilder
   var borderShapes: some View {
-    
     let leftIconShape = HStack(spacing: -12) {
       Rectangle()
         .stroke(lineWidth: 1)
@@ -210,9 +212,9 @@ public struct PBTextInput: View {
           Rectangle()
             .offset(x: BorderRadius.medium, y: 0)
         )
-        .foregroundColor(borderColor)
     }
-    
+      .foregroundColor(borderColor)
+
     let rightIconShape = HStack(spacing: -12) {
       RoundedRectangle(cornerRadius: BorderRadius.medium)
         .stroke(lineWidth: 2)
@@ -230,22 +232,16 @@ public struct PBTextInput: View {
         )
         .foregroundColor(dividerBorderColor)
     }
-    
-    
+      .foregroundColor(borderColor)
+
     switch style {
-    case .leftIcon(_):
-        leftIconShape
-    case .rightIcon(_):
-     rightIconShape
-    case .default:
+    case .leftIcon:
+      leftIconShape
+    case .rightIcon:
+      rightIconShape
+    default:
       RoundedRectangle(cornerRadius: BorderRadius.medium)
-        .stroke(lineWidth: 2)
-    case .inline:
-      RoundedRectangle(cornerRadius: BorderRadius.medium)
-        .stroke(lineWidth: 2)
-    case .disabled:
-      RoundedRectangle(cornerRadius: BorderRadius.medium)
-        .stroke(lineWidth: 2)
+        .stroke(lineWidth: 1)
     }
   }
 }
@@ -297,21 +293,29 @@ public extension PBTextInput {
 public struct PBTextInput_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
+    
+    let rightIcon =  AnyView(
+      HStack(spacing: Spacing.xxSmall) {
+        PBIcon.fontAwesome(.userCircle, size: .x1)
+        PBIcon.fontAwesome(.chevronDown, size: .x1)
+      }
+    )
     return List {
       Section("Default") {
-        PBTextInput("First name", placeholder: "Enter first name", rightActionIcon: .custom( 
-          AnyView(
-            HStack(spacing: Spacing.xxSmall) {
-            PBIcon.fontAwesome(.userCircle, size: .x1)
-            PBIcon.fontAwesome(.chevronDown, size: .x1)
-          }
-        ))
-        )
+        PBTextInput("First name", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
+        PBTextInput("Last name", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
+        PBTextInput("Phone number", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
+        PBTextInput("Email", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
+        PBTextInput("Zip code", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
+      }
+      
+      Section("Event handler") {
         PBTextInput("", placeholder: "Enter zip code")
         PBTextInput("", style: .leftIcon(true))
-        PBTextInput("", style: .rightIcon(true))
-        PBTextInput("", style: .leftIcon(false))
-        PBTextInput("", style: .rightIcon(false))
+//        PBTextInput("", style: .rightIcon(true))
+//        PBTextInput("", style: .leftIcon(false))
+//        PBTextInput("", style: .rightIcon(false))
+//        PBTextInput("", style: .disabled)
       }
     }
   }
