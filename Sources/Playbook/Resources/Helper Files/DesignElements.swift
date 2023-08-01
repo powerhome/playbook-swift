@@ -17,7 +17,7 @@ public enum DesignElements: String, CaseIterable {
     switch self {
     case .borderRadius: BorderRadiusCatalog()
     case .color: ColorsCatalog()
-    case .iconography: IconCatalog()
+    case .iconography: Iconography()
     case .spacing: SpacingCatalog()
     case .shadows: PBShadow_Previews.previews
     case .typography: TypographyCatalog()

@@ -16,6 +16,7 @@ public enum Componenets: String, CaseIterable {
   case checkbox
   case collapsible
   case dialog
+  case icon
   case iconCircle
   case image
   case label
@@ -45,6 +46,7 @@ public enum Componenets: String, CaseIterable {
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
     case .dialog: DialogCatalog()
+    case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
     case .image: PBImage_Previews.previews
     case .label: PBLabelValue_Previews.previews
