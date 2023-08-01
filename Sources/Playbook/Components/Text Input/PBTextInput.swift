@@ -7,11 +7,24 @@
 
 import SwiftUI
 
+public enum RightIcon {
+  case pbIcon(FontAwesome)
+  case custom(AnyView)
+  
+  var iconView: AnyView {
+    switch self {
+    case .custom(let view): return view
+    case .pbIcon(let icon): return AnyView(PBIcon.fontAwesome(icon, size: .x1))
+    }
+  }
+}
+
 public struct PBTextInput: View {
   public let title: String?
   public let placeholder: String
   public let error: Bool?
   public let style: Style
+  public let rightActionIcon: RightIcon?
 #if os(iOS)
   public let keyboardType: UIKeyboardType
 #endif
@@ -49,8 +62,17 @@ public struct PBTextInput: View {
             .tint(.text(.default))
             .background(backgroundColor)
             .overlay {
+              if let rightActionIcon = rightActionIcon {   
+                rightActionIndicator
+                  
+                  .frame(maxWidth: .infinity, alignment: .trailing)
+              }
+            }
+            .overlay {
              borderShapes
             }
+          
+         
 
           if style == .rightIcon(true) {
             Divider()
@@ -63,7 +85,10 @@ public struct PBTextInput: View {
           if style == .rightIcon(false) {
             rightIcon
           }
+          
+       
         }
+        
 
       }
       .frame(height: 44)
@@ -92,11 +117,25 @@ public struct PBTextInput: View {
 //    }
 //  }
 
+  var rightActionIndicator: some View {
+    Button {
+      print("Some action here")
+    } label: {
+      rightActionIcon?.iconView
+    }
+    .padding(.horizontal, Spacing.small)
+    .buttonStyle(.plain)
+    .foregroundColor(selected ? .black : .clear)
+  }
+  
   var rightIcon: some View {
     Button {
 
     } label: {
-      PBIcon.fontAwesome(.arrowAltCircleDown)
+      HStack(spacing: Spacing.xxSmall) {
+        PBIcon.fontAwesome(.userCircle, size: .x1)
+        PBIcon.fontAwesome(.chevronDown, size: .x1)
+      } 
     }
     .padding(.horizontal, Spacing.small)
     .buttonStyle(.plain)
@@ -218,25 +257,29 @@ public extension PBTextInput {
     placeholder: String = "",
     error: Bool? = nil,
     style: Style = .default,
-    keyboardType: UIKeyboardType = .default
+    keyboardType: UIKeyboardType = .default,
+    rightActionIcon: RightIcon? = nil
   ) {
     self.title = title
     self.placeholder = placeholder
     self.error = error
     self.style = style
     self.keyboardType = keyboardType
+    self.rightActionIcon = rightActionIcon
   }
 #elseif os(macOS)
   init(
     _ title: String? = nil,
     placeholder: String = "",
     error: Bool? = nil,
-    style: Style = .default
+    style: Style = .default,
+    rightActionIcon: RightIcon? = nil
   ) {
     self.title = title
     self.placeholder = placeholder
     self.error = error
     self.style = style
+    self.rightActionIcon = rightActionIcon
   }
 #endif
 }
@@ -256,7 +299,14 @@ public struct PBTextInput_Previews: PreviewProvider {
     registerFonts()
     return List {
       Section("Default") {
-        PBTextInput("First name", placeholder: "Enter first name")
+        PBTextInput("First name", placeholder: "Enter first name", rightActionIcon: .custom( 
+          AnyView(
+            HStack(spacing: Spacing.xxSmall) {
+            PBIcon.fontAwesome(.userCircle, size: .x1)
+            PBIcon.fontAwesome(.chevronDown, size: .x1)
+          }
+        ))
+        )
         PBTextInput("", placeholder: "Enter zip code")
         PBTextInput("", style: .leftIcon(true))
         PBTextInput("", style: .rightIcon(true))
