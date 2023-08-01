@@ -13,12 +13,14 @@ public struct PBSectionSeparator<Content>: View where Content: View {
   var variant: Variant
   var dividerOpacity: CGFloat
   var content: () -> Content?
+  var margin: CGFloat
 
   public init(
     _ text: String? = nil,
     orientation: Orientation = .horizontal,
     variant: Variant = .card,
     dividerOpacity: CGFloat? = 1,
+    margin: CGFloat = Spacing.xSmall,
     @ViewBuilder content: @escaping () -> Content? = { nil }
   ) {
     self.text = text
@@ -26,43 +28,27 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     self.variant = variant
     self.dividerOpacity = dividerOpacity ?? 1
     self.content = content
-  }
-
-  @ViewBuilder
-  private var backgroundVariant: some View {
-    switch variant {
-    case .background: Color.background(.default)
-    case .bubble:
-      RoundedRectangle(cornerRadius: 12)
-        .fill(Color.card)
-        .overlay(
-          RoundedRectangle(cornerRadius: 12)
-            .stroke(Color.border, lineWidth: 1)
-        )
-        .tag("Border")
-    default: Color.clear
-    }
+    self.margin = margin
   }
 
   @ViewBuilder
   private var dividerView: some View {
     switch variant {
-    case .bubble:
+    case .dashed:
       PBLine()
         .stroke(Color.border, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
         .frame(height: 1)
-        .tag("Dashed divider")
     default:
-      Divider()
+      PBLine()
+        .frame(height: 1)
         .background(Color.border)
-        .tag("Divider")
     }
   }
 
   private var textPadding: EdgeInsets {
     switch variant {
-    case .bubble: return EdgeInsets(.init(top: 0, leading: 12, bottom: 0, trailing: 12))
-    default: return EdgeInsets(.init(top: 0, leading: 6, bottom: 0, trailing: 6))
+    case .dashed: return EdgeInsets(.init(top: 4, leading: Spacing.xSmall, bottom: 4, trailing: Spacing.xSmall))
+    default: return EdgeInsets(.init(top: 0, leading: Spacing.xSmall, bottom: 0, trailing: Spacing.xSmall))
     }
   }
 
@@ -78,18 +64,15 @@ public struct PBSectionSeparator<Content>: View where Content: View {
 
         if let text = text, !text.isEmpty {
           Text(text)
-            .tag("Title")
             .pbFont(.caption)
             .padding(textPadding)
-            .background(backgroundVariant)
+            .background(Color.clear)
             .layoutPriority(1)
             .lineLimit(1)
 
           divider
         } else if let content = content() {
           content
-            .tag("Content")
-            .background(backgroundVariant)
             .layoutPriority(1)
 
           divider
@@ -97,7 +80,10 @@ public struct PBSectionSeparator<Content>: View where Content: View {
       }).frame(maxWidth: .infinity)
 
     } else {
-      Divider().background(Color.border)
+      Divider()
+        .background(Color.border)
+        .frame(width: 1)
+        .padding(.horizontal, margin)
     }
   }
 }
@@ -110,8 +96,7 @@ public extension PBSectionSeparator where Content == EmptyView {
 
 public extension PBSectionSeparator {
   enum Variant {
-    case background
-    case bubble
+    case dashed
     case card
   }
 }
@@ -121,43 +106,6 @@ public struct PBSectionSeparator_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
 
-    let loremIpsum = Text(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
-    )
-    .pbFont(.body())
-    .padding()
-
-    return List {
-      Section("Horizontal separators") {
-        Text("Line separator").pbFont(.caption).padding()
-        PBSectionSeparator()
-
-        Text("Text separator").pbFont(.caption).padding()
-        PBSectionSeparator("Title separator")
-
-        Text("Background variant").pbFont(.caption).padding()
-        PBSectionSeparator("Title separator", variant: .background)
-
-        Text("Bubble variant").pbFont(.caption).padding()
-        PBSectionSeparator("Title separator", variant: .bubble)
-
-        Text("Content variant").pbFont(.caption).padding()
-        PBSectionSeparator(variant: .background) {
-          Text("Title separator").pbFont(.subcaption).padding(4)
-        }
-      }
-      .listRowSeparator(.hidden)
-
-      Section("Vertical separator") {
-        HStack {
-          loremIpsum
-          PBSectionSeparator(orientation: .vertical)
-          loremIpsum
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: 120, alignment: .center)
-        .listRowSeparator(.hidden)
-      }
-    }
+    return SectionSeparatorCatalog()
   }
 }

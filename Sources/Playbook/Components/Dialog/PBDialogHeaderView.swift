@@ -25,7 +25,7 @@ struct PBDialogHeaderView: View {
       Button {
         dismissAction()
       } label: {
-        PBIcon(FontAwesome.times, size: .medium)
+        PBIcon(FontAwesome.times, size: .x1)
           .foregroundColor(.text(.default))
       }
       .buttonStyle(.borderless)
