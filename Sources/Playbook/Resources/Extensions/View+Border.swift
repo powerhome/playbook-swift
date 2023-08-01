@@ -70,8 +70,6 @@ struct RoundedCorner: Shape {
     }
 }
 
-import SwiftUI
-
 struct MyShape: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()

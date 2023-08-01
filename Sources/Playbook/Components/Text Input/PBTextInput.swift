@@ -25,16 +25,17 @@ public struct PBTextInput: View {
         Text(title)
           .pbFont(.caption)
       }
+
       PBCard(padding: Spacing.none, style: borderStyle) {
         HStack(alignment: .center, spacing: Spacing.none) {
-          if style == .leftIcon(withDivider: true) {
+          if style == .leftIcon(true) {
             leftIcon
             Divider()
               .frame(width: 1)
               .overlay(borderColor)
           }
 
-          if style == .leftIcon(withDivider: false) {
+          if style == .leftIcon(false) {
             leftIcon
           }
 
@@ -47,23 +48,11 @@ public struct PBTextInput: View {
             .focused($selected, equals: true)
             .tint(.text(.default))
             .background(backgroundColor)
-            .overlay { 
-              if style == .leftIcon(withDivider: false) {
-                RoundedRectangle(cornerRadius: BorderRadius.medium)
-                  .stroke(lineWidth: 2)
-                  .clipShape(Rectangle().offset(x: BorderRadius.medium, y: 0))
-//                  .overlay { 
-//                    Rectangle()
-//                      .stroke(lineWidth: 2)
-//                      .clipShape(Rectangle().offset(x: -BorderRadius.medium, y: 0))
-//                  }
-                  .foregroundColor(borderColor)
-              }
+            .overlay {
+             borderShapes
             }
 
-            
-
-          if style == .rightIcon(withDivider: true) {
+          if style == .rightIcon(true) {
             Divider()
               .frame(width: 1)
               .overlay(borderColor)
@@ -71,15 +60,13 @@ public struct PBTextInput: View {
             rightIcon
           }
 
-          if style == .rightIcon(withDivider: false) {
+          if style == .rightIcon(false) {
             rightIcon
           }
         }
 
       }
       .frame(height: 44)
-     
-
       .onTapGesture {
         selected = true
       }
@@ -88,28 +75,28 @@ public struct PBTextInput: View {
       }
     }
   }
+//
+//  var borders: [Edge] {
+//    switch style {
+//    case .leftIcon: return [.top, .bottom, .trailing]
+//    case .rightIcon: return [.top, .bottom, .leading]
+//    default: return [.top, .bottom, .leading, .trailing]
+//    }
+//  }
 
-  var borders: [Edge] {
-    switch style {
-    case .leftIcon: return [.top, .bottom, .trailing]
-    case .rightIcon: return [.top, .bottom, .leading]
-    default: return [.top, .bottom, .leading, .trailing]
-    }
-  }
-
-  var roundedCorners: UIRectCorner {
-    switch style {
-    case .leftIcon: return [.bottomRight, .topRight]
-    case .rightIcon: return [.bottomLeft, .topLeft]
-    default: return [.allCorners]
-    }
-  }
+//  var roundedCorners: UIRectCorner {
+//    switch style {
+//    case .leftIcon: return [.bottomRight, .topRight]
+//    case .rightIcon: return [.bottomLeft, .topLeft]
+//    default: return [.allCorners]
+//    }
+//  }
 
   var rightIcon: some View {
     Button {
 
     } label: {
-      PBIcon.fontAwesome(.pen)
+      PBIcon.fontAwesome(.arrowAltCircleDown)
     }
     .padding(.horizontal, Spacing.small)
     .buttonStyle(.plain)
@@ -138,6 +125,10 @@ public struct PBTextInput: View {
     selected ? Color.pbPrimary : Color.border
   }
 
+  var dividerBorderColor: Color {
+    selected ? Color.pbPrimary : Color.clear
+  }
+
   var placeHolder: Text {
     Text(placeholder)
       .foregroundColor(.text(.light))
@@ -160,6 +151,63 @@ public struct PBTextInput: View {
   #elseif os(macOS)
     MacOSTextField(text: $text, prompt: placeholder)
   #endif
+  }
+
+  @ViewBuilder
+  var borderShapes: some View {
+    
+    let leftIconShape = HStack(spacing: -12) {
+      Rectangle()
+        .stroke(lineWidth: 1)
+        .frame(width: BorderRadius.medium)
+        .clipShape(
+          Rectangle()
+            .offset(x: -1, y: 0)
+        )
+        .foregroundColor(dividerBorderColor)
+      RoundedRectangle(cornerRadius: BorderRadius.medium)
+        .stroke(lineWidth: 2)
+        .clipShape(
+          Rectangle()
+            .offset(x: BorderRadius.medium, y: 0)
+        )
+        .foregroundColor(borderColor)
+    }
+    
+    let rightIconShape = HStack(spacing: -12) {
+      RoundedRectangle(cornerRadius: BorderRadius.medium)
+        .stroke(lineWidth: 2)
+        .clipShape(
+          Rectangle()
+            .offset(x: -BorderRadius.medium, y: 0)
+        )
+        .foregroundColor(borderColor)
+      Rectangle()
+        .stroke(lineWidth: 1)
+        .frame(width: BorderRadius.medium)
+        .clipShape(
+          Rectangle()
+            .offset(x: 1, y: 0)
+        )
+        .foregroundColor(dividerBorderColor)
+    }
+    
+    
+    switch style {
+    case .leftIcon(_):
+        leftIconShape
+    case .rightIcon(_):
+     rightIconShape
+    case .default:
+      RoundedRectangle(cornerRadius: BorderRadius.medium)
+        .stroke(lineWidth: 2)
+    case .inline:
+      RoundedRectangle(cornerRadius: BorderRadius.medium)
+        .stroke(lineWidth: 2)
+    case .disabled:
+      RoundedRectangle(cornerRadius: BorderRadius.medium)
+        .stroke(lineWidth: 2)
+    }
   }
 }
 
@@ -196,8 +244,8 @@ public extension PBTextInput {
 public extension PBTextInput {
   enum Style: Equatable {
     case `default`
-    case rightIcon(withDivider: Bool)
-    case leftIcon(withDivider: Bool)
+    case rightIcon(_ withDivider: Bool)
+    case leftIcon(_ withDivider: Bool)
     case inline
     case disabled
   }
@@ -210,10 +258,10 @@ public struct PBTextInput_Previews: PreviewProvider {
       Section("Default") {
         PBTextInput("First name", placeholder: "Enter first name")
         PBTextInput("", placeholder: "Enter zip code")
-        PBTextInput("", style: .leftIcon(withDivider: true))
-        PBTextInput("", style: .rightIcon(withDivider: true))
-        PBTextInput("", style: .leftIcon(withDivider: false))
-        PBTextInput("", style: .rightIcon(withDivider: false))
+        PBTextInput("", style: .leftIcon(true))
+        PBTextInput("", style: .rightIcon(true))
+        PBTextInput("", style: .leftIcon(false))
+        PBTextInput("", style: .rightIcon(false))
       }
     }
   }
