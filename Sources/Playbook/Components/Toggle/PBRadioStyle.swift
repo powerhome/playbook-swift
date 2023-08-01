@@ -20,11 +20,11 @@ public struct PBRadioStyle: ToggleStyle {
     HStack(alignment: .center, spacing: 10) {
       ZStack {
         RoundedRectangle(cornerRadius: 4)
-          .strokeBorder(configuration.strokeColor(isHovering: isHovering), lineWidth: 3)
-          .foregroundColor(configuration.backgroundColor)
+          .strokeBorder(configuration.isOn || isHovering ? Color.pbPrimary : Color.border, lineWidth: 3)
+          .foregroundColor(configuration.isOn ? .pbPrimary : .clear)
           .background(
             RoundedRectangle(cornerRadius: 4)
-              .foregroundColor(configuration.backgroundColor)
+              .foregroundColor(configuration.isOn ? .pbPrimary : .clear)
           )
           .frame(width: 30, height: 30, alignment: .center)
 
