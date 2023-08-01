@@ -1,6 +1,6 @@
 //
 //  MessageCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -49,7 +49,7 @@ public struct MessageCatalog: View {
           message: "Please hold for one moment, I will check with my manager.",
           timestamp: Date().addingTimeInterval(-200000)
         ) {}
-        .padding(.vertical)
+          .padding(.vertical)
 
         PBMessage(
           label: "Keith Craig",
@@ -71,27 +71,27 @@ public struct MessageCatalog: View {
       .listRowSeparator(.hidden)
 
       #if os(macOS)
-      Section("With timestamp hover") {
-        PBMessage(
-          avatar: avatarXSmall,
-          label: userName,
-          message: message,
-          timestamp: Date(),
-          timestampAlignment: .leading,
-          changeTimeStampOnHover: true
-        )
-        .padding(.vertical)
+        Section("With timestamp hover") {
+          PBMessage(
+            avatar: avatarXSmall,
+            label: userName,
+            message: message,
+            timestamp: Date(),
+            timestampAlignment: .leading,
+            changeTimeStampOnHover: true
+          )
+          .padding(.vertical)
 
-        PBMessage(
-          avatar: avatarXSmall,
-          label: userName,
-          message: message,
-          timestamp: Date(),
-          timestampAlignment: .trailing,
-          changeTimeStampOnHover: true
-        )
-        .padding(.vertical)
-      }
+          PBMessage(
+            avatar: avatarXSmall,
+            label: userName,
+            message: message,
+            timestamp: Date(),
+            timestampAlignment: .trailing,
+            changeTimeStampOnHover: true
+          )
+          .padding(.vertical)
+        }
       #endif
     }
     .navigationTitle("Message")
