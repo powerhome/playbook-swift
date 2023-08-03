@@ -61,7 +61,10 @@ public struct TypographyCatalog: View {
 
     let detail = Section("Detail") {
       Text("I am a detail kit")
-        .pbFont(.detail)
+        .pbFont(.detail(false))
+      
+      Text("I am a detail kit")
+        .pbFont(.detail(true))
 
     }
 
