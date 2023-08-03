@@ -7,24 +7,13 @@
 
 import SwiftUI
 
-public enum RightIcon {
-  case pbIcon(FontAwesome)
-  case custom(AnyView)
-
-  var iconView: AnyView {
-    switch self {
-    case .custom(let view): return view
-    case .pbIcon(let icon): return AnyView(PBIcon.fontAwesome(icon, size: .x1))
-    }
-  }
-}
-
 public struct PBTextInput: View {
   public let title: String?
   public let placeholder: String
-  public let error: Bool?
+  public let error: (Bool, String)?
   public let style: Style
   public let rightActionIcon: RightIcon?
+  public var onChange: Bool?
 #if os(iOS)
   public let keyboardType: UIKeyboardType
 #endif
@@ -62,10 +51,10 @@ public struct PBTextInput: View {
               borderShapes
             }
             .disabled(style == .disabled)
-            
+
           rightView
         }
-        
+
       }
       .frame(height: 44)
       .onTapGesture {
@@ -74,9 +63,18 @@ public struct PBTextInput: View {
       .onHover { isHovering in
         self.isHovering = isHovering
       }
-      
-      Text("Some text")
-        .padding(.top, Spacing.xxSmall)
+
+      if let error, error.0 {
+        Text(error.1)
+          .padding(.top, Spacing.xxSmall)
+          .foregroundColor(.status(.error))
+      }
+
+      if let onChange = onChange {
+        Text(text)
+          .padding(.top, Spacing.xxSmall)
+          .foregroundColor(.text(.default))
+      }
     }
   }
 
@@ -187,12 +185,12 @@ public struct PBTextInput: View {
   }
 
   var pbTextField: some View {
-#if os(iOS)
+    #if os(iOS)
     TextField("", text: $text, prompt: placeHolder)
       .keyboardType(keyboardType)
-#elseif os(macOS)
+    #elseif os(macOS)
     MacOSTextField(text: $text, prompt: placeholder)
-#endif
+    #endif
   }
 
   @ViewBuilder
@@ -251,10 +249,11 @@ public extension PBTextInput {
   init(
     _ title: String? = nil,
     placeholder: String = "",
-    error: Bool? = nil,
+    error: (Bool, String)? = nil,
     style: Style = .default,
     keyboardType: UIKeyboardType = .default,
-    rightActionIcon: RightIcon? = nil
+    rightActionIcon: RightIcon? = nil,
+    onChange: Bool? = nil
   ) {
     self.title = title
     self.placeholder = placeholder
@@ -262,20 +261,23 @@ public extension PBTextInput {
     self.style = style
     self.keyboardType = keyboardType
     self.rightActionIcon = rightActionIcon
+    self.onChange = onChange
   }
 #elseif os(macOS)
   init(
     _ title: String? = nil,
     placeholder: String = "",
-    error: Bool? = nil,
+    error: (Bool, String)? = nil,
     style: Style = .default,
-    rightActionIcon: RightIcon? = nil
+    rightActionIcon: RightIcon? = nil,
+    onChange: Bool? = nil
   ) {
     self.title = title
     self.placeholder = placeholder
     self.error = error
     self.style = style
     self.rightActionIcon = rightActionIcon
+    self.onChange = onChange
   }
 #endif
 }
@@ -290,33 +292,20 @@ public extension PBTextInput {
   }
 }
 
+public enum RightIcon {
+  case pbIcon(FontAwesome)
+  case custom(AnyView)
+
+  var iconView: AnyView {
+    switch self {
+    case .custom(let view): return view
+    case .pbIcon(let icon): return AnyView(PBIcon.fontAwesome(icon, size: .x1))
+    }
+  }
+}
+
 public struct PBTextInput_Previews: PreviewProvider {
   public static var previews: some View {
-    registerFonts()
-    
-    let rightIcon =  AnyView(
-      HStack(spacing: Spacing.xxSmall) {
-        PBIcon.fontAwesome(.userCircle, size: .x1)
-        PBIcon.fontAwesome(.chevronDown, size: .x1)
-      }
-    )
-    return List {
-      Section("Default") {
-        PBTextInput("First name", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
-        PBTextInput("Last name", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
-        PBTextInput("Phone number", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
-        PBTextInput("Email", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
-        PBTextInput("Zip code", placeholder: "Enter first name", rightActionIcon: .custom(rightIcon))
-      }
-      
-      Section("Event handler") {
-        PBTextInput("", placeholder: "Enter zip code")
-        PBTextInput("", style: .leftIcon(true))
-//        PBTextInput("", style: .rightIcon(true))
-//        PBTextInput("", style: .leftIcon(false))
-//        PBTextInput("", style: .rightIcon(false))
-//        PBTextInput("", style: .disabled)
-      }
-    }
+    TextInputCatalog()
   }
 }
