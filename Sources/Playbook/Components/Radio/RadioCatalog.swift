@@ -8,35 +8,19 @@
 import SwiftUI
 
 public struct RadioCatalog: View {
-  @State var selectedDefault: PBRadioItem? = PBRadioItem("Power")
-  @State var selectedCustom: PBRadioItem? = PBRadioItem("Custom Power")
-  @State var selectedError: PBRadioItem? = PBRadioItem("Power")
-  @State var selectedOrientation: PBRadioItem? = PBRadioItem("Power")
-  @State var selectedAlignment: PBRadioItem? = PBRadioItem("Power")
-  @State var selectedSpacing: PBRadioItem? = PBRadioItem("Small")
-  @State var selectedPadding: PBRadioItem? = PBRadioItem("Small")
-  @State var selectedSubtitle: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedDefault: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedCustom: PBRadioItem? = PBRadioItem("Custom Power")
+  @State private var selectedError: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedOrientation: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedAlignment: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedSpacing: PBRadioItem? = PBRadioItem("Small")
+  @State private var selectedPadding: PBRadioItem? = PBRadioItem("Small")
+  @State private var selectedSubtitle: PBRadioItem? = PBRadioItem("Power")
   var orientation: Orientation = .vertical
 
   public init(
-    selectedDefault: PBRadioItem? = nil,
-    selectedCustom: PBRadioItem? = nil,
-    selectedError: PBRadioItem? = nil,
-    selectedOrientation: PBRadioItem? = nil,
-    selectedAlignment: PBRadioItem? = nil,
-    selectedSpacing: PBRadioItem? = nil,
-    selectedPadding: PBRadioItem? = nil,
-    selectedSubtitle: PBRadioItem? = nil,
     orientation: Orientation = .vertical
   ) {
-    self.selectedDefault = selectedDefault
-    self.selectedCustom = selectedCustom
-    self.selectedError = selectedError
-    self.selectedOrientation = selectedOrientation
-    self.selectedAlignment = selectedAlignment
-    self.selectedSpacing = selectedSpacing
-    self.selectedPadding = selectedPadding
-    self.selectedSubtitle = selectedSubtitle
     self.orientation = orientation
   }
 
