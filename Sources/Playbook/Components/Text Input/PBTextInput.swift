@@ -70,7 +70,7 @@ public struct PBTextInput: View {
           .foregroundColor(.status(.error))
       }
 
-      if let onChange = onChange {
+      if onChange != nil {
         Text(text)
           .padding(.top, Spacing.xxSmall)
           .foregroundColor(.text(.default))
@@ -81,7 +81,7 @@ public struct PBTextInput: View {
   var divider: some View {
     Divider()
       .frame(width: 1)
-      .overlay(borderColor)
+      .overlay(dividerBorderColor)
       .opacity(selected ? 0 : 1)
   }
 
@@ -159,11 +159,19 @@ public struct PBTextInput: View {
   }
 
   var borderColor: Color {
-    selected ? Color.pbPrimary : Color.border
+    if error != nil {
+      return .status(.error)
+    } else {
+      return selected ? Color.pbPrimary : Color.border
+    }
   }
 
   var dividerBorderColor: Color {
-    selected ? Color.pbPrimary : Color.clear
+    if error != nil {
+      return .status(.error)
+    } else {
+      return selected ? Color.pbPrimary : Color.clear
+    }
   }
 
   var placeHolder: Text {

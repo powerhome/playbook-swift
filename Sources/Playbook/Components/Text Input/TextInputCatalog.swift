@@ -58,7 +58,7 @@ struct TextInputCatalog: View {
 
         Section("Event handler") {
           PBTextInput(
-            "First name",
+            "On change",
             placeholder: "Enter first name",
             onChange: true
           )
