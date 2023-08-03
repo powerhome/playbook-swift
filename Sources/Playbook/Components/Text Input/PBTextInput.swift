@@ -47,14 +47,20 @@ public struct PBTextInput: View {
                   .frame(maxWidth: .infinity, alignment: .trailing)
               }
             }
-            .overlay {
-              borderShapes
-            }
             .disabled(style == .disabled)
 
           rightView
         }
 
+      }
+      .overlay {
+        RoundedRectangle(cornerRadius: BorderRadius.medium)
+          .stroke(lineWidth: 1)
+          .clipShape(
+            Rectangle()
+              .offset(x: offset, y: 0)
+          )
+          .foregroundColor(borderColor) 
       }
       .frame(height: 44)
       .onTapGesture {
@@ -81,8 +87,15 @@ public struct PBTextInput: View {
   var divider: some View {
     Divider()
       .frame(width: 1)
-      .overlay(dividerBorderColor)
-      .opacity(selected ? 0 : 1)
+      .overlay(borderColor)
+  }
+  
+  var offset: CGFloat {
+    switch style {
+    case .leftIcon: return 44
+    case .rightIcon: return -44
+    default: return 0
+    }
   }
 
   var rightActionIndicator: some View {
@@ -166,14 +179,6 @@ public struct PBTextInput: View {
     }
   }
 
-  var dividerBorderColor: Color {
-    if error != nil {
-      return .status(.error)
-    } else {
-      return selected ? Color.pbPrimary : Color.clear
-    }
-  }
-
   var placeHolder: Text {
     Text(placeholder)
       .foregroundColor(.text(.light))
@@ -199,56 +204,6 @@ public struct PBTextInput: View {
     #elseif os(macOS)
     MacOSTextField(text: $text, prompt: placeholder)
     #endif
-  }
-
-  @ViewBuilder
-  var borderShapes: some View {
-    let leftIconShape = HStack(spacing: -12) {
-      Rectangle()
-        .stroke(lineWidth: 1)
-        .frame(width: BorderRadius.medium)
-        .clipShape(
-          Rectangle()
-            .offset(x: -1, y: 0)
-        )
-        .foregroundColor(dividerBorderColor)
-      RoundedRectangle(cornerRadius: BorderRadius.medium)
-        .stroke(lineWidth: 2)
-        .clipShape(
-          Rectangle()
-            .offset(x: BorderRadius.medium, y: 0)
-        )
-    }
-      .foregroundColor(borderColor)
-
-    let rightIconShape = HStack(spacing: -12) {
-      RoundedRectangle(cornerRadius: BorderRadius.medium)
-        .stroke(lineWidth: 2)
-        .clipShape(
-          Rectangle()
-            .offset(x: -BorderRadius.medium, y: 0)
-        )
-        .foregroundColor(borderColor)
-      Rectangle()
-        .stroke(lineWidth: 1)
-        .frame(width: BorderRadius.medium)
-        .clipShape(
-          Rectangle()
-            .offset(x: 1, y: 0)
-        )
-        .foregroundColor(dividerBorderColor)
-    }
-      .foregroundColor(borderColor)
-
-    switch style {
-    case .leftIcon:
-      leftIconShape
-    case .rightIcon:
-      rightIconShape
-    default:
-      RoundedRectangle(cornerRadius: BorderRadius.medium)
-        .stroke(lineWidth: 1)
-    }
   }
 }
 
