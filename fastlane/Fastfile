@@ -24,10 +24,7 @@ derived_data_path = "DerivedData"
 desc "Build iOS"
 lane :build_ios do |opts|
 
-  export_method = 'ad-hoc'
-  if opts[:type] == 'production'
-    export_method = 'enterprise'
-  end
+  export_method = 'enterprise'
 
   gym(
     project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
