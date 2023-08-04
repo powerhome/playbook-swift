@@ -15,7 +15,8 @@ def steps = [
   'iOS': {
     runNode {
       getReleaseNotes()
-      buildAndShipiOS('')
+      def args = prepareToBuild(buildType())
+      buildAndShipiOS(args)
     }
   // }, 'macOS': {
   //   runNode {
@@ -113,14 +114,11 @@ def runNodeWith(label, block, isShort) {
   }
 }
 
-def prepareToBuild(String buildType, String flavor) {
+def prepareToBuild(String buildType) {
   def fastlaneOpts = ''
   stage('Prepare') {
-    sh "make ${flavor}-${buildType} && sleep 1"
-    fastlaneOpts = "build_number:${buildNumber} type:${buildType} flavor:${flavor}"
-    fastlane("setup_before_build ${fastlaneOpts}")
+    fastlaneOpts = "build_number:${buildNumber} type:${buildType}"
   }
-  checkForFailedParallelJob()
   return fastlaneOpts
 }
 
