@@ -30,9 +30,16 @@ public struct PBAvatar: View {
   var initials: String? {
     guard let name = name else { return nil }
     let names = name.split(separator: " ")
-    let firstNameInitial = String(names.first ?? " ").first
-    let lastNameInitial = String(names.last ?? " ").first
-    return "\(firstNameInitial!.uppercased())\(lastNameInitial!.uppercased())"
+
+    if let firstNameInitial = String(names.first ?? " ").first {
+      if names.count == 1 {
+        return "\(firstNameInitial.uppercased())"
+      } else if let lastNameInitial = String(names.last ?? " ").first {
+        return "\(firstNameInitial.uppercased())\(lastNameInitial.uppercased())"
+      }
+    }
+
+    return nil
   }
 
   public var body: some View {

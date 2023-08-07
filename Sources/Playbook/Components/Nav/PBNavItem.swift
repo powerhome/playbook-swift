@@ -7,15 +7,90 @@
 
 import SwiftUI
 
-public struct PBNavItem: View {
+public enum NavigationIcon {
+  case pbIcon(PBIcon)
+  case custom(AnyView)
+  case image(PBImage)
+
+  var iconView: AnyView {
+    switch self {
+    case .pbIcon(let icon):
+      return AnyView(icon)
+    case .custom(let view):
+      return AnyView(view)
+    case .image(let image):
+      return AnyView(
+        image.image?
+          .resizable()
+          .frame(width: 24, height: 24)
+        )
+    }
+  }
+}
+
+public struct PBNavItem<Content: View>: View {
   @Environment(\.selected) var isSelected: Bool
   @Environment(\.hovering) var isHovering: Bool
   @Environment(\.variant) var variant: PBNav.Variant
   @Environment(\.orientation) var orientation: Orientation
   @Environment(\.highlight) var highlight: Bool
-  var name: String
-  var icon: PBIcon?
-  var accessory: PBIcon?
+  var label: String?
+  var icon: NavigationIcon?
+  var accessory: FontAwesome?
+  var content: Content?
+
+  public init(
+    _ label: String? = nil,
+    icon: NavigationIcon? = nil,
+    accessory: FontAwesome? = nil,
+    @ViewBuilder content: @escaping () -> Content = { EmptyView() }
+  ) {
+    self.label = label
+    self.icon = icon
+    self.accessory = accessory
+    self.content = content()
+  }
+
+  public var body: some View {
+    HStack(spacing: Spacing.xSmall) {
+      if let label = label {
+        icon?.iconView
+          .frame(width: 25)
+          .foregroundColor(iconColor)
+
+        Text(label)
+          .pbFont(font, color: captionForegroundColor)
+
+        if orientation == .vertical {
+          Spacer()
+        }
+
+        if let accessory = accessory {
+          PBIcon( accessory, size: .small)
+            .foregroundColor(captionForegroundColor)
+            .frame(width: 25)
+        }
+      } else {
+        content
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }
+    }
+    .foregroundColor(captionForegroundColor)
+    .padding(.horizontal, horizontalPadding)
+    .padding(.vertical, verticalPadding)
+    .background(backgroundColor)
+    .cornerRadius(cornerRadius)
+    .overlay(
+      selectionIndicator,
+      alignment: selectionIndicatorAlignment
+    )
+  }
+}
+
+extension PBNavItem {
+  var iconColor: Color {
+    ((isSelected && variant == .normal) || isHovering) ? .pbPrimary : .text(.lighter)
+  }
 
   var hoverBackgroundColor: Color {
     if variant == .normal && orientation == .horizontal {
@@ -46,15 +121,21 @@ public struct PBNavItem: View {
   }
 
   var captionForegroundColor: Color {
-    if variant == .normal && orientation == .horizontal {
-      if isHovering {
+    if variant != .bold {
+      if variant == .normal && orientation == .horizontal {
+        if isHovering {
+          return .pbPrimary
+        }
+        return .text(.default)
+      }
+
+      if isSelected || isHovering {
         return .pbPrimary
       }
-      return .text(.default)
-    }
-
-    if isSelected || isHovering {
-      return .pbPrimary
+    } else {
+      if isSelected {
+        return .white
+      }
     }
     return .text(.default)
   }
@@ -63,7 +144,7 @@ public struct PBNavItem: View {
     if variant == .normal, orientation == .horizontal {
       return selectedFont
     }
-    if isSelected, variant == .normal {
+    if isSelected, variant != .subtle {
       return selectedFont
     }
     return .body
@@ -74,11 +155,20 @@ public struct PBNavItem: View {
   }
 
   var backgroundColor: Color {
-    if isSelected, isHovering, highlight {
-      return hoverBackgroundColor.opacity(0.08)
-    }
-    if (isSelected && orientation == .vertical) || isHovering {
-      return hoverBackgroundColor.opacity(0.03)
+    if variant != .bold {
+      if isSelected, isHovering, highlight {
+        return hoverBackgroundColor.opacity(0.08)
+      }
+      if isSelected || isHovering, highlight {
+        return hoverBackgroundColor.opacity(0.03)
+      }
+    } else {
+      if isSelected {
+        return .pbPrimary
+      }
+      if isHovering {
+        return .hover
+      }
     }
     return .clear
   }
@@ -87,115 +177,46 @@ public struct PBNavItem: View {
     switch variant {
     case .normal:
       return 0
-    case .subtle:
-      return BorderRadius.xSmall
+    case .subtle, .bold:
+      return BorderRadius.medium
     }
   }
 
-  var padding: CGFloat {
+  var horizontalPadding: CGFloat {
     switch variant {
     case .normal:
-      return Spacing.small
-    case .subtle:
-      return Spacing.small * 0.7
+      switch orientation {
+      case .horizontal: return Spacing.medium
+      case .vertical: return Spacing.small
+      }
+
+    case .subtle, .bold:
+      switch orientation {
+      case .horizontal: return 14
+      case .vertical: return 14
+      }
     }
   }
 
-  public init(
-    _ name: String,
-    icon: PBIcon? = nil,
-    accessory: PBIcon? = nil
-  ) {
-    self.name = name
-    self.icon = icon
-    self.accessory = accessory
+  var verticalPadding: CGFloat {
+    switch variant {
+    case .normal: return Spacing.small
+    case .subtle, .bold: return Spacing.xSmall
+    }
   }
 
   var selectionIndicator: some View {
     Group {
       if orientation == .vertical {
         Rectangle()
-          .frame(width: variant == .normal ? 3 : 0)
+          .frame(maxWidth: variant == .normal ? 3 : 0)
           .foregroundColor(isSelected ? .pbPrimary : .clear)
       } else {
         Rectangle()
           .frame(height: variant == .normal ? 3 : 0)
-          .foregroundColor(isSelected ? .pbPrimary : .clear)
+          .foregroundColor(isSelected ? .pbPrimary : .shadow)
       }
     }
-  }
-
-  public var body: some View {
-    HStack {
-      icon
-        .foregroundColor(iconForegroundColor)
-        .frame(width: 30)
-      Text(name)
-        .foregroundColor(captionForegroundColor)
-        .pbFont(font)
-
-      if orientation == .vertical {
-        Spacer()
-      }
-
-      accessory
-        .foregroundColor(iconForegroundColor)
-        .frame(width: 30)
-    }
-    .padding(padding)
-    .background(backgroundColor)
-    .cornerRadius(cornerRadius)
-    .overlay(
-      selectionIndicator,
-      alignment: selectionIndicatorAlignment
-    )
-  }
-}
-
-private struct PBNavSelection: EnvironmentKey {
-  static let defaultValue = false
-}
-
-private struct PBNavHovering: EnvironmentKey {
-  static let defaultValue = false
-}
-
-private struct PBNavVariant: EnvironmentKey {
-  static let defaultValue = PBNav.Variant.normal
-}
-
-private struct PBNavOrientation: EnvironmentKey {
-  static let defaultValue = Orientation.vertical
-}
-
-private struct PBNavHighlight: EnvironmentKey {
-  static let defaultValue = true
-}
-
-public extension EnvironmentValues {
-  var selected: Bool {
-    get { self[PBNavSelection.self] }
-    set { self[PBNavSelection.self] = newValue }
-  }
-
-  var hovering: Bool {
-    get { self[PBNavHovering.self] }
-    set { self[PBNavHovering.self] = newValue }
-  }
-
-  var variant: PBNav.Variant {
-    get { self[PBNavVariant.self] }
-    set { self[PBNavVariant.self] = newValue }
-  }
-
-  var orientation: Orientation {
-    get { self[PBNavOrientation.self] }
-    set { self[PBNavOrientation.self] = newValue }
-  }
-
-  var highlight: Bool {
-    get { self[PBNavHighlight.self] }
-    set { self[PBNavHighlight.self] = newValue }
   }
 }
 
@@ -205,7 +226,7 @@ struct PBNavItem_Previews: PreviewProvider {
 
     let item = PBNavItem(
       "Users Item",
-      icon: PBIcon.fontAwesome(.users)
+      icon: .pbIcon(.fontAwesome(.addressCard))
     )
 
     let allItemCombinations = Group {
@@ -223,27 +244,15 @@ struct PBNavItem_Previews: PreviewProvider {
         .environment(\.hovering, true)
     }
 
-    return Group {
-      HStack { allItemCombinations }
-        .environment(\.variant, .normal)
-        .environment(\.orientation, .horizontal)
-        .previewDisplayName("Normal Variant Horizontal")
+    return List {
+      Section("Normal Variant Horizontal") {
+        HStack { allItemCombinations }
+          .environment(\.orientation, .horizontal)
+      }
 
-      HStack { allItemCombinations }
-        .environment(\.variant, .subtle)
-        .environment(\.orientation, .horizontal)
-        .previewDisplayName("Subtle Variant Horizontal")
-
-      VStack { allItemCombinations }
-        .environment(\.variant, .normal)
-        .previewDisplayName("Normal Variant")
-
-      VStack { allItemCombinations }
-        .environment(\.variant, .subtle)
-        .previewDisplayName("Subtle Variant")
+      Section("Normal Variant Vertical") {
+        VStack { allItemCombinations }
+      }
     }
-    .frame(width: 500)
-    .preferredColorScheme(.light)
-    .background(Color.white)
   }
 }

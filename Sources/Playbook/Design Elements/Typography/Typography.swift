@@ -19,7 +19,7 @@ public struct Typography: ViewModifier {
       if variant == .link {
         return .pbPrimary
       } else {
-        if font == .caption || font == .largeCaption || font == .subcaption {
+        if font == .caption || font == .largeCaption || font == .subcaption || font == .detail(true) || font == .detail(false) {
           return .text(.light)
         } else {
           return .text(.default)
@@ -32,7 +32,7 @@ public struct Typography: ViewModifier {
     switch font {
     case .title1: return 4.6
     case .title2: return 3.4
-    case .title3: return 2.8
+    case .title3, .detail: return 2.8
     case .title4, .body: return 1.6
     default: return 0
     }
@@ -66,6 +66,7 @@ public struct Typography: ViewModifier {
     case .title3: return FontWeight.bolder
     case .title4, .buttonText, .badgeText: return FontWeight.bolder
     case .caption: return FontWeight.bold
+    case .detail(true): return FontWeight.bold
     default: return FontWeight.regular
     }
   }
