@@ -127,7 +127,7 @@ struct PBNavigationItem<Content: View>: View {
         orientation == .horizontal || selected {
         return .title4
       }
-      return .body(.base)
+      return .body
     }
 
     func makeBody(configuration: Configuration) -> some View {

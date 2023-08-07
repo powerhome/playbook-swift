@@ -50,7 +50,7 @@ public struct PBRadioButtonStyle: ButtonStyle {
         VStack(alignment: .leading, spacing: Spacing.xxSmall) {
           configuration.label
             .foregroundColor(errorState == true ? .status(.error) : .text(.default))
-            .pbFont(.body())
+            .pbFont(.body)
             .frame(minHeight: 22)
           if !subtitle.isEmpty {
             Text(subtitle)
@@ -68,7 +68,7 @@ public struct PBRadioButtonStyle: ButtonStyle {
         VStack(alignment: .leading, spacing: Spacing.xxSmall) {
           configuration.label
             .foregroundColor(errorState == true ? .status(.error) :  .text(.default))
-            .pbFont(.body())
+            .pbFont(.body)
             .frame(minHeight: 22)
         }
       }

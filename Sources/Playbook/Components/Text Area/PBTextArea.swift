@@ -16,7 +16,7 @@ public extension PBTextArea {
       #if os(iOS)
       .foregroundColor(Color(uiColor: .placeholderText))
       #endif
-      .pbFont(.body())
+      .pbFont(.body)
       .allowsHitTesting(false)
       .focused($isTextAreaFocused, equals: true)
   }
@@ -37,7 +37,7 @@ public extension PBTextArea {
       .padding(.horizontal, 12)
       .frame(height: 88)
       .foregroundColor(.text(.default))
-      .pbFont(.body())
+      .pbFont(.body)
       .accentColor(.text(.default))
       .focused($isTextAreaFocused, equals: true)
   }
@@ -47,7 +47,7 @@ public extension PBTextArea {
       .padding(.top, 10)
       .padding(.horizontal, 12)
       .foregroundColor(.text(.default))
-      .pbFont(.body())
+      .pbFont(.body)
       .focused($isTextAreaFocused, equals: true)
       .accentColor(.text(.default))
       .onTapGesture {
@@ -82,7 +82,7 @@ public extension PBTextArea {
           .foregroundColor(.status(.error))
           .padding(.top, Spacing.xxSmall)
         Spacer()
-          .pbFont(.body())
+          .pbFont(.body)
         Text(textCount(text.count))
           .pbFont(.subcaption)
           .padding(.top, Spacing.xxSmall)

@@ -64,7 +64,7 @@ public struct PBUser: View {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
-          bodyText.pbFont(.body(), color: .text(.light))
+          bodyText.pbFont(.body, color: .text(.light))
         }
       }
     } else {
@@ -77,7 +77,7 @@ public struct PBUser: View {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
-          bodyText.pbFont(.body(), color: .text(.light))
+          bodyText.pbFont(.body, color: .text(.light))
         }
       }
     }

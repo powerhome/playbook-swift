@@ -124,7 +124,7 @@ public struct PBSectionSeparator_Previews: PreviewProvider {
     let loremIpsum = Text(
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
     )
-    .pbFont(.body())
+    .pbFont(.body)
     .padding()
 
     return List {

@@ -69,7 +69,7 @@ public struct PBDialog<Content: View>: View {
 
         if let message = message {
           Text(message)
-            .pbFont(.body())
+            .pbFont(.body)
             .padding()
         }
 

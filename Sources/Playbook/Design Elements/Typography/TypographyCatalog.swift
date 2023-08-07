@@ -12,6 +12,8 @@ public struct TypographyCatalog: View {
     let title = Section("Title") {
       Text("Title 1\nTitle 1")
         .pbFont(.title1)
+      Text("Title 1\nTitle 1")
+        .pbFont(.title1)
       Text("Title 2\nTitle 2")
         .pbFont(.title2)
       Text("Title 3\nTitle 3")
@@ -22,22 +24,17 @@ public struct TypographyCatalog: View {
         .pbFont(.title4, variant: .link)
     }
 
-    let body = Section("Body") {
+    let body = Section("Text size") {
       ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
-        Text("Body: Text size \(Int(size.rawValue)) px")
-          .pbFont(.body(size))
+        Text("Text size \(Int(size.rawValue)) px")
+          .pbFont(.monogram(size.rawValue))
           .padding(6)
       }
     }
 
     let letterSpacing = Section("Letter spacing") {
-      ForEach(Typography.LetterSpacing.allCases, id: \.rawValue) { space in
-        HStack {
-          Text("Letter spacing")
-          Spacer()
-          Text(String(format: "%.2f", space.rawValue) + " px")
-        }
-        .pbFont(.body(), letterSpace: space)
+      ForEach(LetterSpacing.allCases, id: \.rawValue) { space in
+        Text(space.rawValue).tracking(PBFont.body.space(space, font: .body))
       }
     }
 

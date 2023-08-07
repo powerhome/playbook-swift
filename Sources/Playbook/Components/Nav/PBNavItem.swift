@@ -66,7 +66,7 @@ public struct PBNavItem: View {
     if isSelected, variant == .normal {
       return selectedFont
     }
-    return .body(.base)
+    return .body
   }
 
   var selectedFont: PBFont {
