@@ -16,7 +16,7 @@ public struct IconCircleCatalog: View {
       }
 
       Section("Size") {
-        let pBIconSizes = [PBIcon.IconSize.small, PBIcon.IconSize.medium, PBIcon.IconSize.large]
+        let pBIconSizes = [PBIcon.IconSize.small, PBIcon.IconSize.x1, PBIcon.IconSize.large]
 
         ForEach(pBIconSizes, id: \.self) { size in
           PBIconCircle(FontAwesome.rocket, size: size)

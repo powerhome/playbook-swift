@@ -24,9 +24,6 @@ public struct PillCatalog: View {
       }
       .listRowSeparator(.hidden)
 
-      Section("Example") {
-        PBPill("primary", variant: .primary)
-      }
     }
   }
 }
