@@ -10,7 +10,7 @@ import SwiftUI
 public struct PBTextArea: View {
   var characterCount: CharacterCount
   var inline: Bool
-  var label: String
+  var label: String?
   var placeholder: String?
 
   @FocusState private var isTextAreaFocused: Bool
@@ -18,7 +18,7 @@ public struct PBTextArea: View {
   @State var error: String?
 
   public init(
-    _ label: String,
+    _ label: String? = nil,
     text: Binding<String>,
     placeholder: String? = nil,
     error: String? = nil,
@@ -32,11 +32,14 @@ public struct PBTextArea: View {
     self.inline = inline
     self.characterCount = characterCount
   }
+
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
-      Text(label)
-        .pbFont(.caption)
-        .padding(.bottom, Spacing.xSmall)
+      if let label = label {
+        Text(label)
+          .pbFont(.caption)
+          .padding(.bottom, Spacing.xSmall)
+      }
       if inline {
         PBCard(border: isTextAreaFocused, padding: 0, style: style(isTextAreaFocused)) {
           inlineTextEditorView
@@ -74,9 +77,9 @@ public extension PBTextArea {
     Text(placeholder)
       .padding(.top, topPadding)
       .padding(.horizontal, Spacing.small)
-      #if os(iOS)
+    #if os(iOS)
       .foregroundColor(Color(uiColor: .placeholderText))
-      #endif
+    #endif
       .pbFont(.body())
       .allowsHitTesting(false)
       .focused($isTextAreaFocused, equals: true)
@@ -86,8 +89,6 @@ public extension PBTextArea {
     switch characterCount {
     case .maxCharacterCountBlock(let maxCount):
       return $text.max(maxCount)
-    case .maxCharacterCountError(let maxCount):
-      return $text
     default: return $text
     }
   }
@@ -105,22 +106,23 @@ public extension PBTextArea {
 
   var inlineTextEditorView: some View {
     TextEditor(text: editorText)
-      .padding(.top, 10)
-      .padding(.horizontal, 12)
       .foregroundColor(.text(.default))
       .pbFont(.body())
+      .padding(.horizontal, 12)
+      .frame(minWidth: 44)
       .focused($isTextAreaFocused, equals: true)
       .accentColor(.text(.default))
       .onTapGesture {
         isTextAreaFocused = true
       }
+      .frame(height: 44)
   }
 
   func style(_ isTextAreaFocused: Bool) -> PBCardStyle {
-    if let error = error {
+    if error != nil {
       return .error
     } else {
-      return isTextAreaFocused ? .selected() : .`default`
+      return isTextAreaFocused ? .selected : .`default`
     }
   }
 
@@ -169,8 +171,6 @@ public extension PBTextArea {
 struct PBTextArea_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-
     return TextAreaCatalog()
-      .background(Color.card)
   }
 }

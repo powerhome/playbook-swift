@@ -40,9 +40,6 @@ end
 
 desc "Install provisioning profiles"
 lane :install_prov_profiles do
-
-  install_provisioning_profile(path: './fastlane/Playbook_In_House.mobileprovision')
-  
   sh 'cp -r ./../git_prov_profiles ./git_prov_profiles'
   Dir.glob("./git_prov_profiles/profiles/*.mobileprovision") do |item|
     install_provisioning_profile(path: item)
@@ -63,12 +60,17 @@ end
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
   
+  app_name = "Playbook-Showcase-Beta"
+  if opts[:type] == 'production'
+    app_name = "Playbook-Showcase"
+  end
+
   opts[:os] = 'ios'
   appcenter_upload(
     api_token: "bf0ae509c985f2a1102c2ad53894b35a5fa5383e",
     owner_name: "powerhome",
     owner_type: "organization",
-    app_name: "Playbook-Showcase",
+    app_name: app_name,
     file: "#{target_ios}.ipa",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",

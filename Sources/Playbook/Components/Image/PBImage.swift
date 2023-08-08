@@ -11,24 +11,24 @@ public struct PBImage: View {
   let image: Image?
   let placeholder: Image?
   let size: Size?
-  let cornerRadius: ImageCornerRadius
+  let rounded: ImageCornerRadius
 
   public init(
     image: Image?,
     placeholder: Image? = nil,
     size: Size? = nil,
-    cornerRadius: ImageCornerRadius = .sharp
+    rounded: ImageCornerRadius = .sharp
   ) {
     self.image = image
     self.placeholder = placeholder
     self.size = size
-    self.cornerRadius = cornerRadius
+    self.rounded = rounded
   }
 
   public var body: some View {
     if let size = size {
       imageView
-        .cornerRadius(cornerRadius.rawValue)
+        .cornerRadius(rounded.rawValue)
         .frame(width: size.rawValue, height: size.rawValue)
     } else {
       imageView
@@ -47,19 +47,19 @@ public struct PBImage: View {
 
 public extension PBImage {
   enum Size: CGFloat, CaseIterable {
-    case xxSmall = 60
-    case xSmall = 80
-    case small = 100
-    case medium = 120
-    case large = 140
+    case xSmall = 60
+    case small = 80
+    case medium = 100
+    case large = 120
+    case xLarge = 140
 
     var name: String {
       switch self {
-      case .xxSmall: return "xxSmall"
       case .xSmall: return "xSmall"
       case .small: return "small"
       case .medium: return "medium"
       case .large: return "large"
+      case .xLarge: return "xLarge"
       }
     }
   }
@@ -72,6 +72,7 @@ public extension PBImage {
 
 public struct PBImage_Previews: PreviewProvider {
   public static var previews: some View {
-    ImageCatalog()
+    registerFonts()
+    return ImageCatalog()
   }
 }

@@ -18,7 +18,7 @@ public enum PBCardStyle {
       return .pbPrimary
     case .error:
       return .status(.error)
-    case .inline: 
+    case .inline:
       return .clear
     }
   }
@@ -29,7 +29,7 @@ public enum PBCardStyle {
       return 1
     case .selected(let type):
       return type == .card ? 1.6 : 1
-    case .inline: 
+    case .inline:
       return 0
     }
   }

@@ -153,7 +153,7 @@ struct TextInputCatalog: View {
           PBTextInput(
             "Zip code",
             placeholder: "Enter first name",
-      
+
             rightActionIcon: .custom(rightIcon, action: { print("Hello") })
           )
             }
