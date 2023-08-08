@@ -164,6 +164,7 @@ public struct PBTextInput: View {
     } else {
       switch style {
       case .default: return selected ? .selected(type: .textInput) : .`default`
+      case .inline: return selected ? .selected(type: .textInput) : .inline
       default: return .`default`
       }
     }
@@ -173,7 +174,10 @@ public struct PBTextInput: View {
     if error != nil {
       return .status(.error)
     } else {
-      return selected ? Color.pbPrimary : Color.border
+      switch style {
+      case .inline: return selected ? Color.pbPrimary : .clear
+      default: return selected ? Color.pbPrimary : Color.border
+      }
     }
   }
 

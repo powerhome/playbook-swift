@@ -8,7 +8,7 @@
 import SwiftUI
 
 public enum PBCardStyle {
-  case `default`, selected(type: SelectedType = .card), error
+  case `default`, selected(type: SelectedType = .card), error, inline
 
   var color: Color {
     switch self {
@@ -18,6 +18,8 @@ public enum PBCardStyle {
       return .pbPrimary
     case .error:
       return .status(.error)
+    case .inline: 
+      return .clear
     }
   }
 
@@ -27,6 +29,8 @@ public enum PBCardStyle {
       return 1
     case .selected(let type):
       return type == .card ? 1.6 : 1
+    case .inline: 
+      return 0
     }
   }
 
