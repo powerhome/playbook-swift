@@ -12,11 +12,12 @@ public struct PBTextInput: View {
   public let placeholder: String
   public let error: (Bool, String)?
   public let style: Style
-  public let rightActionIcon: RightIcon?
+  public let rightActionIcon: RightActionIcon?
   public var onChange: Bool?
 #if os(iOS)
   public let keyboardType: UIKeyboardType
 #endif
+
   @FocusState private var selected: Bool
   @State private var text: String = ""
   @State private var isHovering: Bool = false
@@ -47,22 +48,20 @@ public struct PBTextInput: View {
                   .frame(maxWidth: .infinity, alignment: .trailing)
               }
             }
-            .disabled(style == .disabled)
-
+//            .disabled(style == .disabled)
           rightView
         }
-
       }
       .overlay {
         RoundedRectangle(cornerRadius: BorderRadius.medium)
-          .stroke(lineWidth: 1)
+          .stroke(lineWidth: 1.2)
           .clipShape(
             Rectangle()
               .offset(x: offset, y: 0)
           )
-          .foregroundColor(borderColor) 
+          .foregroundColor(borderColor)
       }
-      .frame(height: 44)
+      .frame(height: 45)
       .onTapGesture {
         selected = true
       }
@@ -89,7 +88,7 @@ public struct PBTextInput: View {
       .frame(width: 1)
       .overlay(borderColor)
   }
-  
+
   var offset: CGFloat {
     switch style {
     case .leftIcon: return 44
@@ -117,23 +116,29 @@ public struct PBTextInput: View {
 
   @ViewBuilder
   var leftView: some View {
-    if style == .leftIcon(true) {
-      leftIcon
-      divider
-    }
-    if style == .leftIcon(false) {
-      leftIcon
+    switch style {
+    case .leftIcon(let icon, divider: let withDivider):
+      if withDivider {
+        customIcon(icon.0, action: icon.1)
+        divider
+      } else {
+        customIcon(icon.0, action: icon.1)
+      }
+    default: EmptyView()
     }
   }
 
   @ViewBuilder
   var rightView: some View {
-    if style == .rightIcon(true) {
-      divider
-      rightIcon
-    }
-    if style == .rightIcon(false) {
-      rightIcon
+    switch style {
+    case .rightIcon(let icon, divider: let withDivider):
+      if withDivider {
+        divider
+        customIcon(icon.0, action: icon.1)
+      } else {
+        customIcon(icon.0, action: icon.1)
+      }
+    default: EmptyView()
     }
   }
 
@@ -142,31 +147,24 @@ public struct PBTextInput: View {
     return selected ? activeColor : .clear
   }
 
-  var rightIcon: some View {
+  func customIcon(_ icon: FontAwesome, action: @escaping (() -> Void)) -> some View {
     Button {
-      print("some action here")
+      action()
     } label: {
-      PBIcon.fontAwesome(.userAstronaut, size: .x1)
+      PBIcon.fontAwesome(icon, size: .medium)
     }
-    .padding(.horizontal, Spacing.small)
+    .padding(.horizontal, 13)
     .buttonStyle(.plain)
     .foregroundColor(.border)
-  }
-
-  var leftIcon: some View {
-    PBIcon.fontAwesome(.pen)
-      .padding(.horizontal)
-      .foregroundColor(.border)
   }
 
   var borderStyle: PBCardStyle {
     if error != nil {
       return .error
     } else {
-      if style == .default {
-        return selected ? .selected(type: .textInput) : .`default`
-      } else {
-        return .`default`
+      switch style {
+      case .default: return selected ? .selected(type: .textInput) : .`default`
+      default: return .`default`
       }
     }
   }
@@ -215,7 +213,7 @@ public extension PBTextInput {
     error: (Bool, String)? = nil,
     style: Style = .default,
     keyboardType: UIKeyboardType = .default,
-    rightActionIcon: RightIcon? = nil,
+    rightActionIcon: RightActionIcon? = nil,
     onChange: Bool? = nil
   ) {
     self.title = title
@@ -232,7 +230,7 @@ public extension PBTextInput {
     placeholder: String = "",
     error: (Bool, String)? = nil,
     style: Style = .default,
-    rightActionIcon: RightIcon? = nil,
+    rightActionIcon: RightActionIcon? = nil,
     onChange: Bool? = nil
   ) {
     self.title = title
@@ -246,23 +244,23 @@ public extension PBTextInput {
 }
 
 public extension PBTextInput {
-  enum Style: Equatable {
+  enum Style {
     case `default`
-    case rightIcon(_ withDivider: Bool)
-    case leftIcon(_ withDivider: Bool)
+    case rightIcon(_ actionIcon: (FontAwesome, (() -> Void)), divider: Bool)
+    case leftIcon(_ actionIcon: (FontAwesome, (() -> Void)), divider: Bool)
     case inline
     case disabled
   }
 }
 
-public enum RightIcon {
-  case pbIcon(FontAwesome)
-  case custom(AnyView)
+public enum RightActionIcon {
+  case pbIcon(FontAwesome, action: (() -> Void))
+  case custom(AnyView, action: (() -> Void))
 
   var iconView: AnyView {
     switch self {
-    case .custom(let view): return view
-    case .pbIcon(let icon): return AnyView(PBIcon.fontAwesome(icon, size: .x1))
+    case .custom(let view, _): return view
+    case .pbIcon(let icon, _): return AnyView(PBIcon.fontAwesome(icon, size: .x1))
     }
   }
 }
