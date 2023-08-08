@@ -164,7 +164,14 @@ public struct PBTextInput: View {
     } else {
       switch style {
       case .default: return selected ? .selected(type: .textInput) : .`default`
-      case .inline: return selected ? .selected(type: .textInput) : .inline
+      case .inline:
+        if selected {
+          return .selected(type: .textInput)
+        } else if isHovering {
+          return .`default`
+        } else {
+          return .inline
+        }
       default: return .`default`
       }
     }
@@ -175,7 +182,14 @@ public struct PBTextInput: View {
       return .status(.error)
     } else {
       switch style {
-      case .inline: return selected ? Color.pbPrimary : .clear
+      case .inline:
+        if selected {
+          return Color.pbPrimary
+        } else if isHovering {
+          return .border
+        } else {
+          return .clear
+        }
       default: return selected ? Color.pbPrimary : Color.border
       }
     }

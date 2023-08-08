@@ -153,7 +153,7 @@ struct TextInputCatalog: View {
           PBTextInput(
             "Zip code",
             placeholder: "Enter first name",
-      //          keyboardType: .numberPad,
+      
             rightActionIcon: .custom(rightIcon, action: { print("Hello") })
           )
             }
@@ -169,13 +169,13 @@ struct TextInputCatalog: View {
             "Email address",
             placeholder: "Enter email address",
             error: (true, "Insert a valid email"),
-            style: .leftIcon((.user, { print("Hello") }), true)
+            style: .leftIcon((.user, { print("Hello") }), divider: true)
           )
 
           PBTextInput(
             "Confirm email address",
             placeholder: "Confirm email address",
-            style: .leftIcon((.user, { print("Hello") }), true)
+            style: .leftIcon((.user, { print("Hello") }), divider: true)
           )
         }
 
@@ -190,23 +190,23 @@ struct TextInputCatalog: View {
         Section("Add on") {
           PBTextInput(
             "ADD ON WITH DEFAULTS",
-            style: .leftIcon((.user, { print("Hello") }), true)
+            style: .leftIcon((.user, { print("Hello") }), divider: true)
           )
           PBTextInput(
             "RIGHT-ALIGNED ADD ON WITH BORDER",
-            style: .leftIcon((.user, { print("Hello") }), true)
+            style: .leftIcon((.user, { print("Hello") }), divider: true)
           )
           PBTextInput(
             "RIGHT-ALIGNED ADD ON WITH NO BORDER",
-            style: .rightIcon((.user, { print("Hello") }), false)
+            style: .rightIcon((.user, { print("Hello") }), divider: false)
           )
           PBTextInput(
             "LEFT-ALIGNED ADD ON WITH NO BORDER",
-            style: .leftIcon((.user, { print("Hello") }), false)
+            style: .leftIcon((.user, { print("Hello") }), divider: false)
           )
           PBTextInput(
             "LEFT-ALIGNED ADD ON WITH NO BORDER",
-            style: .leftIcon((.user, { print("Hello") }), true)
+            style: .leftIcon((.user, { print("Hello") }), divider: true)
           )
         }
 
