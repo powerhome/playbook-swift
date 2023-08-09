@@ -37,7 +37,7 @@ public struct CollapsibleCatalog: View {
   }
 
   var content: some View {
-    Text(lorem).pbFont(.body())
+    Text(lorem).pbFont(.body)
   }
 
   var image: some View {
