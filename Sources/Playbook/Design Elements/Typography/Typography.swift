@@ -55,7 +55,7 @@ public struct Typography: ViewModifier {
     case .title1: return font.space(.tight, font: .title1)
     case .title2: return font.space(.tight, font: .title2)
     case .title3: return font.space(.tight, font: .title3)
-    case .title4: return font.space(.tight, font: .title4)
+    case .title4: return TextSize.Title.title4.rawValue * -0.03
     default: return font.space(.normal, font: .body)
     }
   }
