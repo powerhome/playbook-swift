@@ -12,7 +12,7 @@ public struct MessageCatalog: View {
     List {
       Section("Default") {
         PBMessage(
-          avatar: picAnna,
+          avatar: AnyView(picAnna),
           label: "Anna Black",
           message: "How can we assist you today?",
           timestamp: Date().addingTimeInterval(-20)
@@ -20,7 +20,7 @@ public struct MessageCatalog: View {
         .padding(.vertical)
 
         PBMessage(
-          avatar: picPatric,
+          avatar: AnyView(picPatric),
           label: "Patrick Welch",
           message: "We will escalate this issue to a Senior Support agent.",
           timestamp: Date().addingTimeInterval(-540),
@@ -29,7 +29,7 @@ public struct MessageCatalog: View {
         .padding(.vertical)
 
         PBMessage(
-          avatar: picLuccile,
+          avatar: AnyView(picLuccile),
           label: "Lucille Sanchez",
           message: "Application for Kate Smith is waiting for your approval",
           timestamp: Date().addingTimeInterval(-200000)
@@ -37,7 +37,7 @@ public struct MessageCatalog: View {
         .padding(.vertical)
 
         PBMessage(
-          avatar: PBAvatar(name: "Beverly Reyes", size: .xSmall),
+          avatar: AnyView(PBAvatar(name: "Beverly Reyes", size: .xSmall)),
           label: "Beverly Reyes",
           message: "We are so sorry you had a bad experience!",
           timestamp: Date().addingTimeInterval(-200000)
@@ -73,7 +73,7 @@ public struct MessageCatalog: View {
       #if os(macOS)
         Section("With timestamp hover") {
           PBMessage(
-            avatar: avatarXSmall,
+            avatar: AnyView(avatarXSmall),
             label: userName,
             message: message,
             timestamp: Date(),
@@ -83,7 +83,7 @@ public struct MessageCatalog: View {
           .padding(.vertical)
 
           PBMessage(
-            avatar: avatarXSmall,
+            avatar: AnyView(avatarXSmall),
             label: userName,
             message: message,
             timestamp: Date(),
