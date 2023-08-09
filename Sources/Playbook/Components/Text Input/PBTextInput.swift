@@ -16,9 +16,8 @@ public struct PBTextInput: View {
   #if os(iOS)
   public let keyboardType: UIKeyboardType
   #endif
-
+  @Binding public var text: String
   @FocusState private var selected: Bool
-  @State public var text: String = ""
   @State private var isHovering: Bool = false
   @State private var isIconHovering: Bool = false
 
@@ -203,6 +202,7 @@ public extension PBTextInput {
 #if os(iOS)
   init(
     _ title: String? = nil,
+    text: Binding<String>,
     placeholder: String = "",
     error: (Bool, String)? = nil,
     style: Style = .default,
@@ -210,6 +210,7 @@ public extension PBTextInput {
     onChange: Bool? = nil
   ) {
     self.title = title
+    self._text = text
     self.placeholder = placeholder
     self.error = error
     self.style = style
@@ -219,12 +220,14 @@ public extension PBTextInput {
 #elseif os(macOS)
   init(
     _ title: String? = nil,
+    text: Binding<String>,
     placeholder: String = "",
     error: (Bool, String)? = nil,
     style: Style = .default,
     onChange: Bool? = nil
   ) {
     self.title = title
+    self._text = text
     self.placeholder = placeholder
     self.error = error
     self.style = style

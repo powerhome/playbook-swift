@@ -89,7 +89,7 @@ import SwiftUI
                   .pbFont(.title2)
                   .multilineTextAlignment(.leading)
 
-                PBTextInput("text")
+                PBTextInput("text", text: .constant("Some text"))
                   .padding()
               }
             }))
