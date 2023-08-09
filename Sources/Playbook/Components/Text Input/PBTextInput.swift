@@ -12,14 +12,13 @@ public struct PBTextInput: View {
   public let placeholder: String
   public let error: (Bool, String)?
   public let style: Style
-  public let rightActionIcon: RightActionIcon?
   public var onChange: Bool?
-#if os(iOS)
+  #if os(iOS)
   public let keyboardType: UIKeyboardType
-#endif
+  #endif
 
   @FocusState private var selected: Bool
-  @State private var text: String = ""
+  @State public var text: String = ""
   @State private var isHovering: Bool = false
   @State private var isIconHovering: Bool = false
 
@@ -42,13 +41,7 @@ public struct PBTextInput: View {
             .tint(.text(.default))
             .background(backgroundColor)
             .focused($selected, equals: true)
-            .overlay {
-              if let rightActionIcon = rightActionIcon {
-                rightActionIndicator
-                  .frame(maxWidth: .infinity, alignment: .trailing)
-              }
-            }
-//            .disabled(style == .disabled)
+            .disabled(style == .disabled)
           rightView
         }
       }
@@ -71,12 +64,14 @@ public struct PBTextInput: View {
 
       if let error, error.0 {
         Text(error.1)
+          .pbFont(.body())
           .padding(.top, Spacing.xxSmall)
           .foregroundColor(.status(.error))
       }
 
       if onChange != nil {
         Text(text)
+          .pbFont(.body())
           .padding(.top, Spacing.xxSmall)
           .foregroundColor(.text(.default))
       }
@@ -91,26 +86,9 @@ public struct PBTextInput: View {
 
   var offset: CGFloat {
     switch style {
-    case .leftIcon: return 44
-    case .rightIcon: return -44
+    case .leftIcon: return 45
+    case .rightIcon: return -45
     default: return 0
-    }
-  }
-
-  var rightActionIndicator: some View {
-    Button {
-      print("Some action here")
-    } label: {
-      rightActionIcon?.iconView
-    }
-    .padding(.horizontal, Spacing.small)
-    .buttonStyle(.plain)
-    .foregroundColor(rightActionIndicatorColor)
-    .onHover { isHovering in
-      isIconHovering = isHovering
-    }
-    .onTapGesture {
-      isIconHovering = true
     }
   }
 
@@ -119,10 +97,10 @@ public struct PBTextInput: View {
     switch style {
     case .leftIcon(let icon, divider: let withDivider):
       if withDivider {
-        customIcon(icon.0, action: icon.1)
+        customIcon(icon)
         divider
       } else {
-        customIcon(icon.0, action: icon.1)
+        customIcon(icon)
       }
     default: EmptyView()
     }
@@ -134,28 +112,18 @@ public struct PBTextInput: View {
     case .rightIcon(let icon, divider: let withDivider):
       if withDivider {
         divider
-        customIcon(icon.0, action: icon.1)
+        customIcon(icon)
       } else {
-        customIcon(icon.0, action: icon.1)
+        customIcon(icon)
       }
     default: EmptyView()
     }
   }
 
-  var rightActionIndicatorColor: Color {
-    let activeColor = isIconHovering ? Color.active : Color.text(.default)
-    return selected ? activeColor : .clear
-  }
-
-  func customIcon(_ icon: FontAwesome, action: @escaping (() -> Void)) -> some View {
-    Button {
-      action()
-    } label: {
-      PBIcon.fontAwesome(icon, size: .medium)
-    }
-    .padding(.horizontal, 13)
-    .buttonStyle(.plain)
-    .foregroundColor(.border)
+  func customIcon(_ icon: FontAwesome) -> some View {
+    PBIcon.fontAwesome(icon, size: .x1)
+      .foregroundColor(.text(.lighter))
+      .frame(width: 45)
   }
 
   var borderStyle: PBCardStyle {
@@ -190,6 +158,7 @@ public struct PBTextInput: View {
         } else {
           return .clear
         }
+      case .disabled: return Color.border.opacity(0.5)
       default: return selected ? Color.pbPrimary : Color.border
       }
     }
@@ -197,7 +166,7 @@ public struct PBTextInput: View {
 
   var placeHolder: Text {
     Text(placeholder)
-      .foregroundColor(.text(.light))
+      .foregroundColor(placeHolderColor)
       .font(
         Font.custom(
           ProximaNova.light.rawValue,
@@ -206,9 +175,16 @@ public struct PBTextInput: View {
       )
   }
 
+  var placeHolderColor: Color {
+    switch style {
+    case .disabled: return .text(.light).opacity(0.5)
+    default: return .text(.light)
+    }
+  }
+
   var backgroundColor: Color {
     switch style {
-    case .disabled: return .border.opacity(0.3)
+    case .disabled: return Color(hex: "#f4f4f6").opacity(0.5)
     default: return(selected || isHovering) ? .active : .card
     }
   }
@@ -231,7 +207,6 @@ public extension PBTextInput {
     error: (Bool, String)? = nil,
     style: Style = .default,
     keyboardType: UIKeyboardType = .default,
-    rightActionIcon: RightActionIcon? = nil,
     onChange: Bool? = nil
   ) {
     self.title = title
@@ -239,7 +214,6 @@ public extension PBTextInput {
     self.error = error
     self.style = style
     self.keyboardType = keyboardType
-    self.rightActionIcon = rightActionIcon
     self.onChange = onChange
   }
 #elseif os(macOS)
@@ -248,38 +222,24 @@ public extension PBTextInput {
     placeholder: String = "",
     error: (Bool, String)? = nil,
     style: Style = .default,
-    rightActionIcon: RightActionIcon? = nil,
     onChange: Bool? = nil
   ) {
     self.title = title
     self.placeholder = placeholder
     self.error = error
     self.style = style
-    self.rightActionIcon = rightActionIcon
     self.onChange = onChange
   }
 #endif
 }
 
 public extension PBTextInput {
-  enum Style {
+  enum Style: Equatable {
     case `default`
-    case rightIcon(_ actionIcon: (FontAwesome, (() -> Void)), divider: Bool)
-    case leftIcon(_ actionIcon: (FontAwesome, (() -> Void)), divider: Bool)
+    case rightIcon(_ icon: FontAwesome, divider: Bool)
+    case leftIcon(_ icon: FontAwesome, divider: Bool)
     case inline
     case disabled
-  }
-}
-
-public enum RightActionIcon {
-  case pbIcon(FontAwesome, action: (() -> Void))
-  case custom(AnyView, action: (() -> Void))
-
-  var iconView: AnyView {
-    switch self {
-    case .custom(let view, _): return view
-    case .pbIcon(let icon, _): return AnyView(PBIcon.fontAwesome(icon, size: .x1))
-    }
   }
 }
 
