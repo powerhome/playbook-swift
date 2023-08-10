@@ -27,7 +27,7 @@ public struct PBTextInputStyle: TextFieldStyle {
           .padding(.leading, 16)
           .frame(height: 44)
           .foregroundColor(.text(.default))
-          .pbFont(.body())
+          .pbFont(.body)
           .textFieldStyle(PlainTextFieldStyle())
       }
     }

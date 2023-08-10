@@ -76,5 +76,5 @@ public struct SectionSeparatorCatalog: View {
   let loremIpsum: some View = Text(
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
   )
-  .pbFont(.body())
+  .pbFont(.body)
 }

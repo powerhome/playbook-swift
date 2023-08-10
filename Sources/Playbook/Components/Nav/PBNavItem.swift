@@ -147,7 +147,7 @@ extension PBNavItem {
     if isSelected, variant != .subtle {
       return selectedFont
     }
-    return .body(.base)
+    return .body
   }
 
   var selectedFont: PBFont {
