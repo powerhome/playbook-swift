@@ -18,40 +18,11 @@ import SwiftUI
     public var body: some View {
       ScrollView {
         VStack(spacing: Spacing.medium) {
-          PBCard(border: false, borderRadius: BorderRadius.large, padding: Spacing.small, shadow: Shadow.deep) {
-            VStack(alignment: .leading, spacing: Spacing.none) {
-              Text("Simple").pbFont(.caption).padding(.bottom, Spacing.small)
-              SimpleButton()
-            }
-          }
-
-          PBCard(border: false, padding: Spacing.small, shadow: Shadow.deep) {
-            VStack(alignment: .leading, spacing: Spacing.none) {
-              Text("Complex").pbFont(.caption).padding(.bottom, Spacing.small)
-              ComplexButton()
-            }
-          }
-
-          PBCard(border: false, padding: Spacing.small, shadow: Shadow.deep) {
-            VStack(alignment: .leading, spacing: Spacing.none) {
-              Text("Size").pbFont(.caption).padding(.bottom, Spacing.small)
-              SizeButtons()
-            }
-          }
-
-          PBCard(border: false, padding: Spacing.small, shadow: Shadow.deep) {
-            VStack(alignment: .leading, spacing: Spacing.none) {
-              Text("Stacked").pbFont(.caption).padding(.bottom, Spacing.small)
-              StackedButton()
-            }
-          }
-
-          PBCard(border: false, padding: Spacing.small, shadow: Shadow.deep) {
-            VStack(alignment: .leading, spacing: Spacing.none) {
-              Text("Status").pbFont(.caption).padding(.bottom, Spacing.small)
-              StatusButtons()
-            }
-          }
+          PBDoc(title: "Simple") { SimpleButton() }
+          PBDoc(title: "Complex") { ComplexButton() }
+          PBDoc(title: "Size") { SizeButtons() }
+          PBDoc(title: "Stacked") { StackedButton() }
+          PBDoc(title: "Status") { StatusButtons() }
         }
         .padding(Spacing.medium)
       }
@@ -116,63 +87,42 @@ import SwiftUI
       }
     }
 
-    struct SizeButtons: View {
-      @State var presentDialogSmall: DialogSize?
-      @State var presentDialogMedium: DialogSize?
-      @State var presentDialogLarge: DialogSize?
+    struct DialogButtonSize: View {
+      let title: String
+      let size: DialogSize
+      @State private var dialogState: DialogSize? = nil
 
-      func foo() {
-        presentDialogSmall = nil
-        presentDialogMedium = nil
-        presentDialogLarge = nil
+      public init(
+        title: String,
+        size: DialogSize
+      ) {
+        self.title = title
+        self.size = size
       }
+      var body: some View {
+        PBButton(title: title) {
+          disableAnimation()
+          dialogState = size
+        }
+        .fullScreenCover(item: .constant(dialogState)) { item in
+          PBDialog(
+            title: "\(item.rawValue.capitalized) Dialog",
+            message: infoMessage,
+            cancelButton: ("Cancel", { dialogState = nil }),
+            confirmButton: ("Okay", { dialogState = nil }),
+            size: size
+          )
+          .backgroundViewModifier(alpha: 0.2)
+        }
+      }
+    }
 
+    struct SizeButtons: View {
       var body: some View {
         VStack(alignment: .leading, spacing: Spacing.small) {
-          PBButton(title: "Small") {
-            disableAnimation()
-            presentDialogSmall = .small
-          }
-          .fullScreenCover(item: $presentDialogSmall) { item in
-            PBDialog(
-              title: "\(item.rawValue.capitalized) Dialog",
-              message: infoMessage,
-              cancelButton: ("Cancel", foo),
-              confirmButton: ("Okay", foo),
-              size: .small
-            )
-            .backgroundViewModifier(alpha: 0.2)
-          }
-
-          PBButton(title: "Medium") {
-            disableAnimation()
-            presentDialogMedium = .medium
-          }
-          .fullScreenCover(item: $presentDialogMedium) { item in
-            PBDialog(
-              title: "\(item.rawValue.capitalized) Dialog",
-              message: infoMessage,
-              cancelButton: ("Cancel", foo),
-              confirmButton: ("Okay", foo),
-              size: .medium
-            )
-            .backgroundViewModifier(alpha: 0.2)
-          }
-
-          PBButton(title: "Large") {
-            disableAnimation()
-            presentDialogLarge = .large
-          }
-          .fullScreenCover(item: $presentDialogLarge) { item in
-            PBDialog(
-              title: "\(item.rawValue.capitalized) Dialog",
-              message: infoMessage,
-              cancelButton: ("Cancel", foo),
-              confirmButton: ("Okay", foo),
-              size: .large
-            )
-            .backgroundViewModifier(alpha: 0.2)
-          }
+          DialogButtonSize(title: "Small", size: .small)
+          DialogButtonSize(title: "Medium", size: .medium)
+          DialogButtonSize(title: "Large", size: .large)
         }
       }
     }
