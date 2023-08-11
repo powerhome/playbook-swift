@@ -10,48 +10,60 @@ import SwiftUI
 @available(macOS 13.0, *)
 public struct ButtonsCatalog: View {
   public var body: some View {
-    List {
-      Section("Button Variants") {
-        PBButtonStyle_Previews.previews
-      }
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        Section("Button Variants") {
+          PBButtonStyle_Previews.previews
+        }
 
-      Section("Button Icon Positions") {
-        PBButton(
-          title: "Button with Icon on Left",
-          icon: PBIcon.fontAwesome(.user, size: .x1),
-          action: {}
-        )
-        PBButton(
-          title: "Button with Icon on Right",
-          icon: PBIcon.fontAwesome(.user, size: .x1),
-          iconPosition: .right,
-          action: {}
-        )
-      }
-      .listRowSeparator(.hidden)
+        Section("Full Width") {
+          PBButton(
+            fullWidth: true,
+            title: "Full Width",
+            action: {}
+          )
+        }
 
-      Section("Circle Buttons") {
-        PBCircleStyle_Previews.previews
-      }
+        Section("Button Icon Positions") {
+          PBButton(
+            title: "Button with Icon on Left",
+            icon: PBIcon.fontAwesome(.user, size: .x1),
+            action: {}
+          )
+          PBButton(
+            title: "Button with Icon on Right",
+            icon: PBIcon.fontAwesome(.user, size: .x1),
+            iconPosition: .right,
+            action: {}
+          )
+        }
+        .listRowSeparator(.hidden)
 
-      Section("Button Sizes") {
-        PBButton(
-          size: .small,
-          title: "Button sm",
-          action: {}
-        )
-        PBButton(
-          title: "Button md",
-          action: {}
-        )
-        PBButton(
-          size: .large,
-          title: "Button lg",
-          action: {}
-        )
+        Section("Circle Buttons") {
+          PBCircleStyle_Previews.previews
+        }
+
+        Section("Button Sizes") {
+          PBButton(
+            size: .small,
+            title: "Button sm",
+            action: {}
+          )
+          PBButton(
+            title: "Button md",
+            action: {}
+          )
+          PBButton(
+            size: .large,
+            title: "Button lg",
+            action: {}
+          )
+        }
+        .listRowSeparator(.hidden)
       }
-      .listRowSeparator(.hidden)
+      .padding(Spacing.medium)
     }
-    .navigationTitle("Buttons")
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Button")
   }
 }
