@@ -16,29 +16,46 @@ import SwiftUI
     }
 
     public var body: some View {
-      List {
-        Section("Simple") {
-          SimpleButton()
-        }
+      ScrollView {
+        VStack(spacing: Spacing.medium) {
+          PBCard(border: false, borderRadius: BorderRadius.large, padding: Spacing.small, shadow: Shadow.deep) {
+            VStack(alignment: .leading, spacing: Spacing.none) {
+              Text("Simple").pbFont(.caption).padding(.bottom, Spacing.small)
+              SimpleButton()
+            }
+          }
 
-        Section("Complex") {
-          ComplexButton()
-        }
+          PBCard(border: false, padding: Spacing.small, shadow: Shadow.deep) {
+            VStack(alignment: .leading, spacing: Spacing.none) {
+              Text("Complex").pbFont(.caption).padding(.bottom, Spacing.small)
+              ComplexButton()
+            }
+          }
 
-        Section("Size") {
-          SizeButtons()
-        }
-        .listRowSeparator(.hidden)
+          PBCard(border: false, padding: Spacing.small, shadow: Shadow.deep) {
+            VStack(alignment: .leading, spacing: Spacing.none) {
+              Text("Size").pbFont(.caption).padding(.bottom, Spacing.small)
+              SizeButtons()
+            }
+          }
 
-        Section("Stacked") {
-          StackedButton()
-        }
+          PBCard(border: false, padding: Spacing.small, shadow: Shadow.deep) {
+            VStack(alignment: .leading, spacing: Spacing.none) {
+              Text("Stacked").pbFont(.caption).padding(.bottom, Spacing.small)
+              StackedButton()
+            }
+          }
 
-        Section("Status") {
-          StatusButtons()
+          PBCard(border: false, padding: Spacing.small, shadow: Shadow.deep) {
+            VStack(alignment: .leading, spacing: Spacing.none) {
+              Text("Status").pbFont(.caption).padding(.bottom, Spacing.small)
+              StatusButtons()
+            }
+          }
         }
-        .listRowSeparator(.hidden)
+        .padding(Spacing.medium)
       }
+      .background(Color.background(Color.BackgroundColor.light))
       .navigationTitle("Dialog")
     }
 
@@ -100,25 +117,59 @@ import SwiftUI
     }
 
     struct SizeButtons: View {
-      @State var presentDialog: DialogSize?
+      @State var presentDialogSmall: DialogSize?
+      @State var presentDialogMedium: DialogSize?
+      @State var presentDialogLarge: DialogSize?
 
       func foo() {
-        presentDialog = nil
+        presentDialogSmall = nil
+        presentDialogMedium = nil
+        presentDialogLarge = nil
       }
 
       var body: some View {
-        ForEach(DialogSize.allCases, id: \.self) { size in
-          PBButton(title: size.rawValue.capitalized) {
+        VStack(alignment: .leading, spacing: Spacing.small) {
+          PBButton(title: "Small") {
             disableAnimation()
-            presentDialog = size
+            presentDialogSmall = .small
           }
-          .fullScreenCover(item: $presentDialog) { item in
+          .fullScreenCover(item: $presentDialogSmall) { item in
             PBDialog(
               title: "\(item.rawValue.capitalized) Dialog",
               message: infoMessage,
               cancelButton: ("Cancel", foo),
               confirmButton: ("Okay", foo),
-              size: size
+              size: .small
+            )
+            .backgroundViewModifier(alpha: 0.2)
+          }
+
+          PBButton(title: "Medium") {
+            disableAnimation()
+            presentDialogMedium = .medium
+          }
+          .fullScreenCover(item: $presentDialogMedium) { item in
+            PBDialog(
+              title: "\(item.rawValue.capitalized) Dialog",
+              message: infoMessage,
+              cancelButton: ("Cancel", foo),
+              confirmButton: ("Okay", foo),
+              size: .medium
+            )
+            .backgroundViewModifier(alpha: 0.2)
+          }
+
+          PBButton(title: "Large") {
+            disableAnimation()
+            presentDialogLarge = .large
+          }
+          .fullScreenCover(item: $presentDialogLarge) { item in
+            PBDialog(
+              title: "\(item.rawValue.capitalized) Dialog",
+              message: infoMessage,
+              cancelButton: ("Cancel", foo),
+              confirmButton: ("Okay", foo),
+              size: .large
             )
             .backgroundViewModifier(alpha: 0.2)
           }
@@ -136,7 +187,7 @@ import SwiftUI
       }
 
       var body: some View {
-        HStack {
+        HStack(spacing: Spacing.small) {
           PBButton(title: "Stacked") {
             disableAnimation()
             presentDialog1.toggle()
@@ -181,21 +232,23 @@ import SwiftUI
       }
 
       var body: some View {
-        ForEach(DialogStatus.allCases, id: \.self) { status in
-          PBButton(title: status.rawValue.capitalized) {
-            disableAnimation()
-            presentDialog = status
-          }
-          .fullScreenCover(item: $presentDialog) { item in
-            PBDialog(
-              title: item.rawValue.capitalized,
-              message: infoMessage,
-              variant: .status(item),
-              isStacked: false,
-              cancelButton: ("Cancel", foo),
-              confirmButton: ("Okay", foo)
-            )
-            .backgroundViewModifier(alpha: 0.2)
+        VStack(alignment: .leading, spacing: Spacing.small) {
+          ForEach(DialogStatus.allCases, id: \.self) { status in
+            PBButton(title: status.rawValue.capitalized) {
+              disableAnimation()
+              presentDialog = status
+            }
+            .fullScreenCover(item: $presentDialog) { item in
+              PBDialog(
+                title: item.rawValue.capitalized,
+                message: infoMessage,
+                variant: .status(item),
+                isStacked: false,
+                cancelButton: ("Cancel", foo),
+                confirmButton: ("Okay", foo)
+              )
+              .backgroundViewModifier(alpha: 0.2)
+            }
           }
         }
       }
