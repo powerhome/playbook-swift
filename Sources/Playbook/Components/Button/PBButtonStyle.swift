@@ -62,7 +62,7 @@ public struct PBButtonStyle_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
 
-    return VStack(alignment: .leading) {
+    return VStack(alignment: .leading, spacing: Spacing.small) {
       PBButton(
         title: "Button Primary",
         action: {}
