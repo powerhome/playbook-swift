@@ -1,6 +1,6 @@
 //
 //  CheckboxCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -9,22 +9,34 @@ import SwiftUI
 
 public struct CheckboxCatalog: View {
   public var body: some View {
-    VStack(alignment: .leading) {
-      PBCheckbox(checked: false, text: "Unchecked", action: {})
-      PBCheckbox(checked: true, text: "Checked", action: {})
-      PBCheckbox(
-        checked: false,
-        checkboxType: .error,
-        text: "Error",
-        action: {}
-      )
-      PBCheckbox(
-        checked: true,
-        checkboxType: .indeterminate,
-        text: "Indeterminate",
-        action: {}
-      )
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          PBCheckbox(checked: false, text: "Unchecked", action: {})
+            .padding(.bottom, Spacing.small)
+
+          PBCheckbox(checked: true, text: "Checked", action: {})
+            .padding(.bottom, Spacing.small)
+
+          PBCheckbox(
+            checked: false,
+            checkboxType: .error,
+            text: "Error",
+            action: {}
+          )
+          .padding(.bottom, Spacing.small)
+
+          PBCheckbox(
+            checked: true,
+            checkboxType: .indeterminate,
+            text: "Indeterminate",
+            action: {}
+          )
+        }
+      }
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Checkbox")
   }
 }
