@@ -34,7 +34,7 @@ import SwiftUI
       @State var presentDialog: Bool = false
 
       func foo() {
-        print("Hello World")
+        presentDialog = false
       }
 
       var body: some View {
@@ -56,6 +56,7 @@ import SwiftUI
 
     struct ComplexButton: View {
       @State var presentDialog: Bool = false
+      @State var message = ""
 
       func foo() {
         presentDialog = false
@@ -68,18 +69,24 @@ import SwiftUI
         }
         .fullScreenCover(isPresented: $presentDialog) {
           PBDialog(
-            title: "Header header",
-            cancelButton: ("Back", foo),
-            confirmButton: ("Send My Issue", foo),
+            title: "Send us your thoughts!",
+            cancelButton: ("Cancel", foo),
+            confirmButton: ("Submit", foo),
             content: ({
               ScrollView {
-                Text("Hello Complex Dialog!\nAnything can be placed here")
-                  .pbFont(.title2)
-                  .multilineTextAlignment(.leading)
+                VStack(spacing: Spacing.medium) {
+                  TextField("", text: .constant("Name"))
+                    .textFieldStyle(PBTextInputStyle("Name"))
 
-                TextField("", text: .constant("text"))
-                  .textFieldStyle(PBTextInputStyle("default"))
-                  .padding()
+                  TextField("", text: .constant("Email"))
+                    .textFieldStyle(PBTextInputStyle("Email"))
+
+                  PBTextArea(
+                    "Message",
+                    text: $message
+                  )
+                }
+                .padding(Spacing.small)
               }
             }))
             .backgroundViewModifier(alpha: 0.2)
@@ -90,7 +97,11 @@ import SwiftUI
     struct DialogButtonSize: View {
       let title: String
       let size: DialogSize
-      @State private var dialogState: DialogSize? = nil
+      @State var presentDialog: Bool = false
+
+      func foo() {
+        presentDialog = false
+      }
 
       public init(
         title: String,
@@ -102,14 +113,14 @@ import SwiftUI
       var body: some View {
         PBButton(title: title) {
           disableAnimation()
-          dialogState = size
+          presentDialog.toggle()
         }
-        .fullScreenCover(item: .constant(dialogState)) { item in
+        .fullScreenCover(isPresented: $presentDialog) {
           PBDialog(
-            title: "\(item.rawValue.capitalized) Dialog",
+            title: "\(title) Dialog",
             message: infoMessage,
-            cancelButton: ("Cancel", { dialogState = nil }),
-            confirmButton: ("Okay", { dialogState = nil }),
+            cancelButton: ("Cancel", foo),
+            confirmButton: ("Okay", foo),
             size: size
           )
           .backgroundViewModifier(alpha: 0.2)
@@ -137,7 +148,7 @@ import SwiftUI
       }
 
       var body: some View {
-        HStack(spacing: Spacing.small) {
+        VStack(alignment: .leading, spacing: Spacing.small) {
           PBButton(title: "Stacked") {
             disableAnimation()
             presentDialog1.toggle()
