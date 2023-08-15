@@ -82,7 +82,7 @@ struct ContentListView: View {
                     PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(.black)
                     Text(element.rawValue.capitalized).pbFont(.buttonText(16))
                     PBIcon.fontAwesome(.chevronRight, size: .small)
-                      .foregroundColor(Color.text(.default))
+                      .foregroundColor(.text(.default))
                       .frame(maxWidth: .infinity, alignment: .trailing)
                   }
                 }
@@ -99,7 +99,7 @@ struct ContentListView: View {
                 HStack {
                   Text(element.rawValue.capitalized).pbFont(.buttonText(16))
                   PBIcon.fontAwesome(.chevronRight, size: .small)
-                    .foregroundColor(Color.text(.default))
+                    .foregroundColor(.text(.default))
                     .frame(maxWidth: .infinity, alignment: .trailing)
                 }
               }
