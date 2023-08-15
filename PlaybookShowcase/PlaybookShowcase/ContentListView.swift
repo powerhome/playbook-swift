@@ -23,7 +23,6 @@ struct ContentListView: View {
   }
 
   @State var selectedItem: Int = 0
-  let columns = Array(repeating: GridItem(.flexible()), count: 2)
   var body: some View {
     NavigationView {
       contentView.padding(.bottom, 80)
@@ -73,15 +72,18 @@ struct ContentListView: View {
       VStack(alignment: .leading) {
         if selectedItem == 0 {
           Text(DesignElements.title).pbFont(.title3)
-          LazyVGrid(columns: columns) {
+          VStack {
             ForEach(DesignElements.allCases, id: \.self) { element in
               NavigationLink {
                 element.destination
               } label: {
-                PBCard(padding: Spacing.xSmall, shadow: .deep) {
+                PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
                   HStack {
                     PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(.black)
                     Text(element.rawValue.capitalized).pbFont(.buttonText(16))
+                    PBIcon.fontAwesome(.chevronRight, size: .small)
+                      .foregroundColor(Color.text(.default))
+                      .frame(maxWidth: .infinity, alignment: .trailing)
                   }
                 }
               }
@@ -93,9 +95,12 @@ struct ContentListView: View {
             NavigationLink {
               element.destination
             } label: {
-              PBCard(padding: Spacing.xSmall, shadow: .deep) {
+              PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
                 HStack {
                   Text(element.rawValue.capitalized).pbFont(.buttonText(16))
+                  PBIcon.fontAwesome(.chevronRight, size: .small)
+                    .foregroundColor(Color.text(.default))
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
               }
             }
