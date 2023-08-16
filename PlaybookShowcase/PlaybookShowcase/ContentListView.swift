@@ -15,7 +15,7 @@ struct ContentListView: View {
     let appearance = UINavigationBarAppearance()
     appearance.configureWithOpaqueBackground()
     appearance.backgroundColor = .white
-    appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
+    appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.text(.default))]
     appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
     UINavigationBar.appearance().standardAppearance = appearance
     UINavigationBar.appearance().compactAppearance = appearance
