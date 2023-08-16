@@ -40,7 +40,7 @@ public struct PBTextInput: View {
             .tint(.text(.default))
             .background(backgroundColor)
             .focused($selected, equals: true)
-            .disabled(style == .disabled)
+            .disabled(isDisabled)
           rightView
         }
       }
@@ -90,6 +90,13 @@ public struct PBTextInput: View {
     default: return 0
     }
   }
+  
+  var isDisabled: Bool {
+    switch style {
+    case .disabled: return true
+    default: return false
+    }
+  }
 
   @ViewBuilder
   var leftView: some View {
@@ -101,6 +108,7 @@ public struct PBTextInput: View {
       } else {
         customIcon(icon)
       }
+    case .typeahead(let view): view
     default: EmptyView()
     }
   }
@@ -237,12 +245,13 @@ public extension PBTextInput {
 }
 
 public extension PBTextInput {
-  enum Style: Equatable {
+  enum Style {
     case `default`
     case rightIcon(_ icon: FontAwesome, divider: Bool)
     case leftIcon(_ icon: FontAwesome, divider: Bool)
     case inline
     case disabled
+    case typeahead(AnyView)
   }
 }
 
