@@ -16,16 +16,18 @@ public struct CheckboxCatalog: View {
             .padding(.bottom, Spacing.small)
 
           PBCheckbox(checked: true, text: "Checked", action: {})
-            .padding(.bottom, Spacing.small)
+        }
 
+        PBDoc(title: "Error") {
           PBCheckbox(
             checked: false,
             checkboxType: .error,
             text: "Error",
             action: {}
           )
-          .padding(.bottom, Spacing.small)
+        }
 
+        PBDoc(title: "Indeterminate") {
           PBCheckbox(
             checked: true,
             checkboxType: .indeterminate,
