@@ -25,7 +25,7 @@ public struct CardCatalog: View {
     let cardBackgrounds = VStack(alignment: .leading) {
       VStack(alignment: .leading, spacing: Spacing.small) {
         Text("Background Colors")
-          .pbFont(.detail(true))
+          .pbFont(.detail(true), color: .text(.default))
 
         ForEach(Color.BackgroundColor.allCases, id: \.self) { color in
           PBCard(backgroundColor: .background(color)) {
@@ -33,10 +33,8 @@ public struct CardCatalog: View {
           }
         }
 
-        PBSectionSeparator()
-
         Text("Product Colors")
-          .pbFont(.detail(true))
+          .pbFont(.detail(true), color: .text(.default))
 
         PBCard(backgroundColor: .product(.product1, category: .background)) {
           Text("Product 1 Background").pbFont(.body, color: .white)
@@ -97,15 +95,15 @@ public struct CardCatalog: View {
     }
 
     let styles = VStack(alignment: .leading, spacing: Spacing.small) {
-      Text("Default").pbFont(.detail(true))
+      Text("Default").pbFont(.detail(true), color: .text(.default))
       PBCard {
         Text(text).pbFont(.body)
       }
-      Text("Selected").pbFont(.detail(true))
+      Text("Selected").pbFont(.detail(true), color: .text(.default))
       PBCard(style: .selected) {
         Text(text).pbFont(.body)
       }
-      Text("Error").pbFont(.detail(true))
+      Text("Error").pbFont(.detail(true), color: .text(.default))
       PBCard(style: .error) {
         Text(text).pbFont(.body)
       }

@@ -72,7 +72,7 @@ struct ContentListView: View {
       VStack(alignment: .leading) {
         if selectedItem == 0 {
           Text(DesignElements.title).pbFont(.title3)
-          VStack {
+          VStack(spacing: Spacing.small) {
             ForEach(DesignElements.allCases, id: \.self) { element in
               NavigationLink {
                 element.destination
@@ -81,6 +81,7 @@ struct ContentListView: View {
                   HStack {
                     PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(.black)
                     Text(element.rawValue.capitalized).pbFont(.buttonText(16))
+                      .multilineTextAlignment(.leading)
                     PBIcon.fontAwesome(.chevronRight, size: .small)
                       .foregroundColor(.text(.default))
                       .frame(maxWidth: .infinity, alignment: .trailing)
@@ -91,16 +92,19 @@ struct ContentListView: View {
           }
         } else {
           Text(Componenets.title).pbFont(.title3)
-          ForEach(Componenets.allCases, id: \.self) { element in
-            NavigationLink {
-              element.destination
-            } label: {
-              PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
-                HStack {
-                  Text(element.rawValue.capitalized).pbFont(.buttonText(16))
-                  PBIcon.fontAwesome(.chevronRight, size: .small)
-                    .foregroundColor(.text(.default))
-                    .frame(maxWidth: .infinity, alignment: .trailing)
+          VStack(spacing: Spacing.small) {
+            ForEach(Componenets.allCases, id: \.self) { element in
+              NavigationLink {
+                element.destination
+              } label: {
+                PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
+                  HStack {
+                    Text(element.rawValue.capitalized).pbFont(.buttonText(16))
+                      .multilineTextAlignment(.leading)
+                    PBIcon.fontAwesome(.chevronRight, size: .small)
+                      .foregroundColor(.text(.default))
+                      .frame(maxWidth: .infinity, alignment: .trailing)
+                  }
                 }
               }
             }
