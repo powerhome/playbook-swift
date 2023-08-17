@@ -13,23 +13,30 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
   var indicatorColor: Color
   var headerView: HeaderContent
   var contentView: Content
+  var iconSize: PBIcon.IconSize
+  var iconColor: IconColor
 
   public init(
     isCollapsed: Binding<Bool> = .constant(false),
-    indicatorPosition: IndicatorPosition = .leading,
+    indicatorPosition: IndicatorPosition = .trailing,
     indicatorColor: Color = .text(.light),
     @ViewBuilder header: @escaping () -> HeaderContent,
-    @ViewBuilder content: @escaping () -> Content
+    @ViewBuilder content: @escaping () -> Content,
+    iconSize: PBIcon.IconSize = .small,
+    iconColor: IconColor = .default
   ) {
     _isCollapsed = isCollapsed
     self.indicatorPosition = indicatorPosition
     self.indicatorColor = indicatorColor
     headerView = header()
     contentView = content()
+    self.iconSize = iconSize
+    self.iconColor = iconColor
   }
 
   var indicator: some View {
-    PBIcon.fontAwesome(.chevronDown, size: .small)
+    PBIcon.fontAwesome(.chevronDown, size: iconSize)
+      .foregroundColor(.text(.default))
       .padding(Spacing.xxSmall)
       .rotationEffect(
         .degrees(isCollapsed ? 0 : 180)
@@ -45,10 +52,10 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
       } label: {
         if indicatorPosition == .leading {
           indicator
-          headerView.pbFont(.title4)
+          headerView
           Spacer()
         } else {
-          headerView.pbFont(.title4)
+          headerView
           Spacer()
           indicator
         }
@@ -59,7 +66,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
       VStack {
         if !isCollapsed {
           contentView
-            .padding(.bottom, Spacing.xSmall)
+            .padding(.top, Spacing.small)
         }
       }
       .frame(maxWidth: .infinity)
@@ -76,6 +83,15 @@ public extension PBCollapsible {
   enum IndicatorPosition {
     case leading
     case trailing
+  }
+
+  enum IconColor {
+    case `default`
+    case light
+    case lighter
+    case link
+    case error
+    case success
   }
 }
 

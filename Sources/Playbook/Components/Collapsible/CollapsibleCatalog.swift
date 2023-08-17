@@ -8,68 +8,68 @@
 import SwiftUI
 
 public struct CollapsibleCatalog: View {
-  @State var isCollapsed = false
-  @State var isCollapsedTrailing = true
-  @State var isCollapsedImage = true
+  struct CollapsibleDoc: View {
+    let text: String
+    @State var isCollapsed = true
 
-  let lorem =
-    """
-    Group members... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel erat sed purus hendrerit vive.
+    var content: some View {
+      Text(lorem).pbFont(.body)
+    }
 
-    Etiam nunc massa, pharetra vel quam id, posuere rhoncus quam. Quisque imperdiet arcu enim, nec aliquet justo.
+    let lorem =
+      """
+      Group members... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel erat sed purus hendrerit vive.
 
-    Praesent lorem arcu. Vivamus suscipit, libero eu fringilla egestas, orci urna commodo arcu, vel gravida turpis.
-    """
+      Etiam nunc massa, pharetra vel quam id, posuere rhoncus quam. Quisque imperdiet arcu enim, nec aliquet justo.
 
-  var header: some View {
-    Label(
-      title: { Text("Title with Icon, Chevron Left") },
-      icon: { PBIcon.fontAwesome(.users) }
-    )
-  }
+      Praesent lorem arcu. Vivamus suscipit, libero eu fringilla egestas, orci urna commodo arcu, vel gravida turpis.
+      """
 
-  var textOnlyHeader: some View {
-    Text("Title with Only Text, Chevron Right")
-  }
+    public init(
+      text: String
+    ) {
+      self.text = text
+    }
 
-  var imageHeader: some View {
-    Text("Image")
-  }
-
-  var content: some View {
-    Text(lorem).pbFont(.body)
-  }
-
-  var image: some View {
-    PBImage(
-      image: Image("Forest", bundle: .module),
-      size: .none
-    )
+    var body: some View {
+      PBCollapsible(isCollapsed: $isCollapsed) {
+        Text(text).pbFont(.body)
+      } content: {
+        content
+      }
+    }
   }
 
   public var body: some View {
-    GeometryReader { _ in
-      VStack {
-        PBCollapsible(isCollapsed: $isCollapsed) {
-          header
-        } content: {
-          content
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          CollapsibleDoc(text: "Main Section")
         }
 
-        PBCollapsible(isCollapsed: $isCollapsedTrailing, indicatorPosition: .trailing) {
-          textOnlyHeader
-        } content: {
-          content
+        PBDoc(title: "Size") {
+          VStack(spacing: Spacing.medium) {
+            CollapsibleDoc(text: "Extra Small Section")
+            CollapsibleDoc(text: "Small Section")
+            CollapsibleDoc(text: "Default Section")
+            CollapsibleDoc(text: "Large Section")
+          }
         }
 
-        PBCollapsible(isCollapsed: $isCollapsedImage, indicatorPosition: .trailing) {
-          imageHeader
-        } content: {
-          image
+        PBDoc(title: "Color") {
+          VStack(spacing: Spacing.medium) {
+            CollapsibleDoc(text: "Default Section")
+            CollapsibleDoc(text: "Light Section")
+            CollapsibleDoc(text: "Lighter Section")
+            CollapsibleDoc(text: "Link Section")
+            CollapsibleDoc(text: "Error Section")
+            CollapsibleDoc(text: "Success Section")
+          }
         }
       }
-      .padding()
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Collapsible")
   }
 }
