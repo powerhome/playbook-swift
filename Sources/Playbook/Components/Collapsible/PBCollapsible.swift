@@ -14,16 +14,16 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
   var headerView: HeaderContent
   var contentView: Content
   var iconSize: PBIcon.IconSize
-  var iconColor: IconColor
+  var iconColor: CollapsibleIconColor
 
   public init(
     isCollapsed: Binding<Bool> = .constant(false),
     indicatorPosition: IndicatorPosition = .trailing,
     indicatorColor: Color = .text(.light),
-    @ViewBuilder header: @escaping () -> HeaderContent,
-    @ViewBuilder content: @escaping () -> Content,
     iconSize: PBIcon.IconSize = .small,
-    iconColor: IconColor = .default
+    iconColor: CollapsibleIconColor = .default,
+    @ViewBuilder header: @escaping () -> HeaderContent,
+    @ViewBuilder content: @escaping () -> Content
   ) {
     _isCollapsed = isCollapsed
     self.indicatorPosition = indicatorPosition
@@ -36,7 +36,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
 
   var indicator: some View {
     PBIcon.fontAwesome(.chevronDown, size: iconSize)
-      .foregroundColor(.text(.default))
+      .foregroundColor(iconColor.iconColor)
       .padding(Spacing.xxSmall)
       .rotationEffect(
         .degrees(isCollapsed ? 0 : 180)
@@ -84,14 +84,25 @@ public extension PBCollapsible {
     case leading
     case trailing
   }
+}
 
-  enum IconColor {
-    case `default`
-    case light
-    case lighter
-    case link
-    case error
-    case success
+public enum CollapsibleIconColor {
+  case `default`
+  case light
+  case lighter
+  case link
+  case error
+  case success
+
+  var iconColor: Color {
+    switch self {
+    case .`default`: return .text(.default)
+    case .light: return .text(.light)
+    case .lighter: return .text(.lighter)
+    case .link: return .pbPrimary
+    case .error: return .status(.error)
+    case .success: return .status(.success)
+    }
   }
 }
 

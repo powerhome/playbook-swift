@@ -9,8 +9,10 @@ import SwiftUI
 
 public struct CollapsibleCatalog: View {
   struct CollapsibleDoc: View {
+    let iconSize: PBIcon.IconSize
+    let iconColor: CollapsibleIconColor
     let text: String
-    @State var isCollapsed = true
+    @State private var isCollapsed = true
 
     var content: some View {
       Text(lorem).pbFont(.body)
@@ -26,13 +28,17 @@ public struct CollapsibleCatalog: View {
       """
 
     public init(
+      iconSize: PBIcon.IconSize = .small,
+      iconColor: CollapsibleIconColor = .default,
       text: String
     ) {
+      self.iconSize = iconSize
+      self.iconColor = iconColor
       self.text = text
     }
 
     var body: some View {
-      PBCollapsible(isCollapsed: $isCollapsed) {
+      PBCollapsible(isCollapsed: $isCollapsed, iconSize: iconSize, iconColor: iconColor) {
         Text(text).pbFont(.body)
       } content: {
         content
@@ -49,21 +55,21 @@ public struct CollapsibleCatalog: View {
 
         PBDoc(title: "Size") {
           VStack(spacing: Spacing.medium) {
-            CollapsibleDoc(text: "Extra Small Section")
-            CollapsibleDoc(text: "Small Section")
+            CollapsibleDoc(iconSize: .xSmall, text: "Extra Small Section")
+            CollapsibleDoc(iconSize: .small, text: "Small Section")
             CollapsibleDoc(text: "Default Section")
-            CollapsibleDoc(text: "Large Section")
+            CollapsibleDoc(iconSize: .large, text: "Large Section")
           }
         }
 
         PBDoc(title: "Color") {
           VStack(spacing: Spacing.medium) {
-            CollapsibleDoc(text: "Default Section")
-            CollapsibleDoc(text: "Light Section")
-            CollapsibleDoc(text: "Lighter Section")
-            CollapsibleDoc(text: "Link Section")
-            CollapsibleDoc(text: "Error Section")
-            CollapsibleDoc(text: "Success Section")
+            CollapsibleDoc(iconColor: .default, text: "Default Section")
+            CollapsibleDoc(iconColor: .light, text: "Light Section")
+            CollapsibleDoc(iconColor: .lighter, text: "Lighter Section")
+            CollapsibleDoc(iconColor: .link, text: "Link Section")
+            CollapsibleDoc(iconColor: .error, text: "Error Section")
+            CollapsibleDoc(iconColor: .success, text: "Success Section")
           }
         }
       }
