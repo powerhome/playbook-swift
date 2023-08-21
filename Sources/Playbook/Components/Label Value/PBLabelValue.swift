@@ -19,11 +19,11 @@ public struct PBLabelValue: View {
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       Text(label)
-        .foregroundColor(.text(.light))
-        .pbFont(.title4)
+        .padding(.bottom, 5.3)
+        .pbFont(.caption)
       Text(value)
         .foregroundColor(.text(.default))
-        .pbFont(.body())
+        .pbFont(.body)
     }
   }
 }

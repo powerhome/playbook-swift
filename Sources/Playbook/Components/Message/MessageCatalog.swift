@@ -1,6 +1,6 @@
 //
 //  MessageCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -12,7 +12,7 @@ public struct MessageCatalog: View {
     List {
       Section("Default") {
         PBMessage(
-          avatar: picAnna,
+          avatar: AnyView(picAnna),
           label: "Anna Black",
           message: "How can we assist you today?",
           timestamp: Date().addingTimeInterval(-20)
@@ -20,7 +20,7 @@ public struct MessageCatalog: View {
         .padding(.vertical)
 
         PBMessage(
-          avatar: picPatric,
+          avatar: AnyView(picPatric),
           label: "Patrick Welch",
           message: "We will escalate this issue to a Senior Support agent.",
           timestamp: Date().addingTimeInterval(-540),
@@ -29,7 +29,7 @@ public struct MessageCatalog: View {
         .padding(.vertical)
 
         PBMessage(
-          avatar: picLuccile,
+          avatar: AnyView(picLuccile),
           label: "Lucille Sanchez",
           message: "Application for Kate Smith is waiting for your approval",
           timestamp: Date().addingTimeInterval(-200000)
@@ -37,7 +37,7 @@ public struct MessageCatalog: View {
         .padding(.vertical)
 
         PBMessage(
-          avatar: PBAvatar(name: "Beverly Reyes", size: .xSmall),
+          avatar: AnyView(PBAvatar(name: "Beverly Reyes", size: .xSmall)),
           label: "Beverly Reyes",
           message: "We are so sorry you had a bad experience!",
           timestamp: Date().addingTimeInterval(-200000)
@@ -49,7 +49,7 @@ public struct MessageCatalog: View {
           message: "Please hold for one moment, I will check with my manager.",
           timestamp: Date().addingTimeInterval(-200000)
         ) {}
-        .padding(.vertical)
+          .padding(.vertical)
 
         PBMessage(
           label: "Keith Craig",
@@ -71,27 +71,27 @@ public struct MessageCatalog: View {
       .listRowSeparator(.hidden)
 
       #if os(macOS)
-      Section("With timestamp hover") {
-        PBMessage(
-          avatar: avatarXSmall,
-          label: userName,
-          message: message,
-          timestamp: Date(),
-          timestampAlignment: .leading,
-          changeTimeStampOnHover: true
-        )
-        .padding(.vertical)
+        Section("With timestamp hover") {
+          PBMessage(
+            avatar: AnyView(avatarXSmall),
+            label: userName,
+            message: message,
+            timestamp: Date(),
+            timestampAlignment: .leading,
+            changeTimeStampOnHover: true
+          )
+          .padding(.vertical)
 
-        PBMessage(
-          avatar: avatarXSmall,
-          label: userName,
-          message: message,
-          timestamp: Date(),
-          timestampAlignment: .trailing,
-          changeTimeStampOnHover: true
-        )
-        .padding(.vertical)
-      }
+          PBMessage(
+            avatar: AnyView(avatarXSmall),
+            label: userName,
+            message: message,
+            timestamp: Date(),
+            timestampAlignment: .trailing,
+            changeTimeStampOnHover: true
+          )
+          .padding(.vertical)
+        }
       #endif
     }
     .navigationTitle("Message")
