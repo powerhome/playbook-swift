@@ -28,7 +28,7 @@ public enum Componenets: String, CaseIterable {
   case radio
   case sectionSeparator = "Section Separator"
   case select
-  case textArea = "Text Area"
+  case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
   case toggle
