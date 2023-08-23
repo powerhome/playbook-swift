@@ -63,7 +63,7 @@ public struct PBTextInput: View {
 
       if let error, error.0 {
         Text(error.1)
-          .pbFont(.body())
+          .pbFont(.body(), color: .status(.error))
           .padding(.top, Spacing.xxSmall)
           .foregroundColor(.status(.error))
       }
