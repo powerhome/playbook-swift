@@ -9,17 +9,25 @@ import SwiftUI
 
 public struct ToggleCatalog: View {
   public var body: some View {
-    List {
-      Section("Default") {
-        PBToggle(checked: true)
-        PBToggle(checked: false)
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          VStack(spacing: Spacing.small) {
+            PBToggle(checked: true)
+            PBToggle(checked: false)
+          }
+        }
+
+        PBDoc(title: "Name") {
+          VStack(spacing: Spacing.small) {
+            PBToggle(label: "car", checked: false)
+            PBToggle(label: "bike", checked: false)
+          }
+        }
       }
-      Section("Name") {
-        PBToggle(label: "car", checked: false)
-        PBToggle(label: "bike", checked: false)
-      }
+      .padding(Spacing.medium)
     }
-    .background(Color.card)
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Toggle")
   }
 }
