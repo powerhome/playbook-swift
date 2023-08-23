@@ -44,9 +44,10 @@ public struct PBTextInput: View {
           rightView
         }
       }
-      .overlay {
+      .overlay(alignment: .center) {
         RoundedRectangle(cornerRadius: BorderRadius.medium)
-          .stroke(lineWidth: 1.2)
+          .stroke(lineWidth: 1)
+          .padding(.vertical, 0.2)
           .clipShape(
             Rectangle()
               .offset(x: offset, y: 0)
@@ -81,6 +82,7 @@ public struct PBTextInput: View {
     Divider()
       .frame(width: 1)
       .overlay(borderColor)
+      .opacity(dividerOpacity)
   }
 
   var offset: CGFloat {
@@ -94,13 +96,9 @@ public struct PBTextInput: View {
   @ViewBuilder
   var leftView: some View {
     switch style {
-    case .leftIcon(let icon, divider: let withDivider):
-      if withDivider {
-        customIcon(icon)
-        divider
-      } else {
-        customIcon(icon)
-      }
+    case .leftIcon(let icon, divider: _):
+      customIcon(icon)
+      divider
     default: EmptyView()
     }
   }
@@ -108,13 +106,9 @@ public struct PBTextInput: View {
   @ViewBuilder
   var rightView: some View {
     switch style {
-    case .rightIcon(let icon, divider: let withDivider):
-      if withDivider {
-        divider
-        customIcon(icon)
-      } else {
-        customIcon(icon)
-      }
+    case .rightIcon(let icon, divider: _):
+      divider
+      customIcon(icon)
     default: EmptyView()
     }
   }
@@ -160,6 +154,14 @@ public struct PBTextInput: View {
       case .disabled: return Color.border.opacity(0.5)
       default: return selected ? Color.pbPrimary : Color.border
       }
+    }
+  }
+
+  var dividerOpacity: Double {
+    switch style {
+    case .leftIcon(_, divider: false): return 0
+    case .rightIcon(_, divider: false): return 0
+    default: return 1
     }
   }
 

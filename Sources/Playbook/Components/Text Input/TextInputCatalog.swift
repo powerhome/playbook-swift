@@ -18,22 +18,22 @@ struct TextInputCatalog: View {
   @State private var textConfirmError: String = ""
   @State private var textAddOn: String = ""
   @State private var textAddOnRight: String = ""
-  @State private var textAddOnRightNoBorder : String = ""
+  @State private var textAddOnRightNoBorder: String = ""
   @State private var textAddOnLeft: String = ""
   @State private var textAddOnLeftNoBorder: String = ""
   @State private var textInline: String = ""
   @State private var textDisabled: String = ""
-  
+
   var body: some View {
     registerFonts()
-    
+
     let rightIcon =  AnyView(
       HStack(spacing: Spacing.xxSmall) {
         PBIcon.fontAwesome(.userCircle, size: .x1)
         PBIcon.fontAwesome(.chevronDown, size: .x1)
       }
     )
-    
+
     #if os(iOS)
     let pbTextInputView = List {
       Section("Default") {
@@ -42,27 +42,27 @@ struct TextInputCatalog: View {
           text: $textFirstName,
           placeholder: "Enter first name"
         )
-        
+
         PBTextInput(
           "Last name",
           text: $textLastName,
           placeholder: "Enter last name"
         )
-        
+
         PBTextInput(
           "Phone number",
           text: $textPhone,
           placeholder: "Enter phone number",
           keyboardType: .phonePad
         )
-        
+
         PBTextInput(
           "Email",
           text: $textEmail,
           placeholder: "Enter email address",
           keyboardType: .emailAddress
         )
-        
+
         PBTextInput(
           "Zip code",
           text: $textZip,
@@ -71,7 +71,7 @@ struct TextInputCatalog: View {
         )
       }
       .listRowSeparator(.hidden)
-      
+
       Section("Event handler") {
         PBTextInput(
           "On change",
@@ -80,7 +80,7 @@ struct TextInputCatalog: View {
           onChange: true
         )
       }
-      
+
       Section("With error") {
         PBTextInput(
           "Email address",
@@ -89,7 +89,7 @@ struct TextInputCatalog: View {
           error: (true, "Insert a valid email"),
           style: .leftIcon(.user, divider: true)
         )
-        
+
         PBTextInput(
           "Confirm email address",
           text: $textConfirmError,
@@ -98,7 +98,7 @@ struct TextInputCatalog: View {
         )
       }
       .listRowSeparator(.hidden)
-      
+
       Section("Disabled") {
         PBTextInput(
           "Last name",
@@ -107,7 +107,7 @@ struct TextInputCatalog: View {
           style: .disabled
         )
       }
-      
+
       Section("Add on") {
         PBTextInput(
           "ADD ON WITH DEFAULTS",
@@ -136,7 +136,7 @@ struct TextInputCatalog: View {
         )
       }
       .listRowSeparator(.hidden)
-      
+
       Section("Inline") {
         PBTextInput(
           "HOVER OVER TEXT BELOW",
@@ -146,7 +146,7 @@ struct TextInputCatalog: View {
         )
       }
     }
-    
+
     #elseif os(macOS)
     let pbTextInputView = ScrollView {
       Section("Default") {
@@ -155,39 +155,39 @@ struct TextInputCatalog: View {
           text: $textFirstName,
           placeholder: "Enter first name"
         )
-        
+
         PBTextInput(
           "Last name",
           text: $textLastName,
           placeholder: "Enter first name"
         )
-        
+
         PBTextInput(
           "Phone number",
           text: $textPhone,
           placeholder: "Enter first name"
         )
-        
+
         PBTextInput(
           "Email",
           text: $textEmail,
           placeholder: "Enter first name"
         )
-        
+
         PBTextInput(
           "Zip code",
           text: $textZip,
           placeholder: "Enter first name"
         )
       }
-      
+
       Section("Event handler") {
         PBTextInput(
           "First name",
           text: $textOnChange,
           placeholder: "Enter first name")
       }
-      
+
       Section("With error") {
         PBTextInput(
           "Email address",
@@ -196,7 +196,7 @@ struct TextInputCatalog: View {
           error: (true, "Insert a valid email"),
           style: .leftIcon(.user, divider: true)
         )
-        
+
         PBTextInput(
           "Confirm email address",
           text: $textConfirmError,
@@ -204,7 +204,7 @@ struct TextInputCatalog: View {
           style: .leftIcon(.user, divider: true)
         )
       }
-      
+
       Section("Disabled") {
         PBTextInput(
           "Last name",
@@ -213,7 +213,7 @@ struct TextInputCatalog: View {
           style: .disabled
         )
       }
-      
+
       Section("Add on") {
         PBTextInput(
           "ADD ON WITH DEFAULTS",
