@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct PBMessage<Content: View>: View {
-  let avatar: PBAvatar?
+  let avatar: AnyView?
   let label: String
   let message: String?
   let timestamp: Date?
@@ -21,7 +21,7 @@ public struct PBMessage<Content: View>: View {
   @State private var hoverColor: Color = .clear
 
   public init(
-    avatar: PBAvatar? = nil,
+    avatar: AnyView? = nil,
     label: String = "",
     message: String? = nil,
     timestamp: Date? = nil,

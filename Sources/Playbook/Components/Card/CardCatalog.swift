@@ -18,160 +18,149 @@ public struct CardCatalog: View {
     """
 
   public var body: some View {
-    let defaultSection =  Section("Default") {
-      PBCard {
-        Text(text).pbFont(.body())
-      }
+    let defaultSection =  PBCard {
+      Text(text).pbFont(.body)
     }
 
-    let cardBackgrounds = Section("Card Backgrounds") {
-      VStack(alignment: .leading) {
+    let cardBackgrounds = VStack(alignment: .leading) {
+      VStack(alignment: .leading, spacing: Spacing.small) {
         Text("Background Colors")
-          .pbFont(.caption)
-          .padding(.vertical)
+          .pbFont(.detail(true), color: .text(.default))
+
         ForEach(Color.BackgroundColor.allCases, id: \.self) { color in
           PBCard(backgroundColor: .background(color)) {
-            Text(color.rawValue.capitalized).pbFont(.body(), color: .text(.light))
+            Text(color.rawValue.capitalized).pbFont(.body, color: .text(.light))
           }
         }
-        PBSectionSeparator()
+
         Text("Product Colors")
-          .pbFont(.caption)
-          .padding(.vertical)
+          .pbFont(.detail(true), color: .text(.default))
 
         PBCard(backgroundColor: .product(.product1, category: .background)) {
-          Text("Product 1 Background").pbFont(.body(), color: .white)
+          Text("Product 1 Background").pbFont(.body, color: .white)
         }
 
         PBCard(backgroundColor: .product(.product7, category: .highlight)) {
-          Text("Product 7 Highlight").pbFont(.body(), color: .white)
+          Text("Product 7 Highlight").pbFont(.body, color: .white)
         }
 
         PBCard(backgroundColor: .product(.product2, category: .highlight)) {
-          Text("Product 2 Highlight").pbFont(.body(), color: .white)
+          Text("Product 2 Highlight").pbFont(.body, color: .white)
         }
       }
     }
 
-    let highlights = Section("Highlight") {
+    let highlights = VStack(spacing: Spacing.small) {
       PBCard(highlight: .side(.product(.product6, category: .highlight))) {
-        Text("Side Position & Product 6 Highlight Color").pbFont(.body())
+        Text("Side Position & Product 6 Highlight Color").pbFont(.body)
       }
 
       PBCard(highlight: .top(.status(.warning))) {
-        Text("Top Position & Warning Color").pbFont(.body())
+        Text("Top Position & Warning Color").pbFont(.body)
       }
 
       PBCard(highlight: .side(.category(.category2))) {
-        Text("Side Position & Category 2 Color").pbFont(.body())
-      }
-    }
-    .listRowSeparator(.hidden)
-
-    let headers = Section("Header cards") {
-      VStack {
-        PBCard(padding: Spacing.none) {
-          PBCardHeader(color: .category(.category1)) {
-            Text("Category 1").pbFont(.body(), color: .white).padding(Spacing.small)
-          }
-          Text("Body").pbFont(.body(), color: .text(.default)).padding(Spacing.small)
-        }
-
-        PBCard(padding: Spacing.none) {
-          PBCardHeader(color: .category(.category3)) {
-            Text("Category 3").pbFont(.body(), color: .black).padding(Spacing.small)
-          }
-          Text("Body").pbFont(.body(), color: .text(.default)).padding(Spacing.small)
-        }
-
-        PBCard(padding: Spacing.none) {
-          PBCardHeader(color: .product(.product2, category: .background)) {
-            Text("Product 2 Background").pbFont(.body(), color: .white).padding(Spacing.small)
-          }
-          Text("Body").pbFont(.body(), color: .text(.default)).padding(Spacing.small)
-        }
-
-        PBCard(padding: Spacing.none) {
-          PBCardHeader(color: .product(.product6, category: .background)) {
-            Text("Product 6 Background").pbFont(.body(), color: .white).padding(Spacing.small)
-          }
-          Text("Body").pbFont(.body(), color: .text(.default)).padding(Spacing.small)
-        }
+        Text("Side Position & Category 2 Color").pbFont(.body)
       }
     }
 
-    let styles = Section("Styles") {
-      VStack(alignment: .leading, spacing: nil) {
-        Text("Default").pbFont(.caption)
-        PBCard {
-          Text(text).pbFont(.body())
+    let headers = VStack(spacing: Spacing.small) {
+      PBCard(padding: Spacing.none) {
+        PBCardHeader(color: .category(.category1)) {
+          Text("Category 1").pbFont(.body, color: .white).padding(Spacing.small)
         }
-        Text("Selected").pbFont(.caption)
-        PBCard(style: .selected()) {
-          Text(text).pbFont(.body())
+        Text("Body").pbFont(.body, color: .text(.default)).padding(Spacing.small)
+      }
+
+      PBCard(padding: Spacing.none) {
+        PBCardHeader(color: .category(.category3)) {
+          Text("Category 3").pbFont(.body, color: .black).padding(Spacing.small)
         }
-        Text("Error").pbFont(.caption)
-        PBCard(style: .error) {
-          Text(text).pbFont(.body())
+        Text("Body").pbFont(.body, color: .text(.default)).padding(Spacing.small)
+      }
+
+      PBCard(padding: Spacing.none) {
+        PBCardHeader(color: .product(.product2, category: .background)) {
+          Text("Product 2 Background").pbFont(.body, color: .white).padding(Spacing.small)
         }
+        Text("Body").pbFont(.body, color: .text(.default)).padding(Spacing.small)
+      }
+
+      PBCard(padding: Spacing.none) {
+        PBCardHeader(color: .product(.product6, category: .background)) {
+          Text("Product 6 Background").pbFont(.body, color: .white).padding(Spacing.small)
+        }
+        Text("Body").pbFont(.body, color: .text(.default)).padding(Spacing.small)
       }
     }
 
-    let padding =  Section("Padding size") {
+    let styles = VStack(alignment: .leading, spacing: Spacing.small) {
+      Text("Default").pbFont(.detail(true), color: .text(.default))
+      PBCard {
+        Text(text).pbFont(.body)
+      }
+      Text("Selected").pbFont(.detail(true), color: .text(.default))
+      PBCard(style: .selected()) {
+        Text(text).pbFont(.body)
+      }
+      Text("Error").pbFont(.detail(true), color: .text(.default))
+      PBCard(style: .error) {
+        Text(text).pbFont(.body)
+      }
+    }
+
+    let padding =  VStack(spacing: Spacing.small) {
       ForEach(Spacing.allCase, id: \.0) { space in
         PBCard(padding: space.0) {
-          Text(space.1).pbFont(.body())
+          Text(space.1).pbFont(.body)
         }
       }
     }
-    .listRowSeparator(.hidden)
 
-    let separator = Section("Separator & Content") {
-      PBCard(padding: Spacing.none) {
-        Text("Header").pbFont(.body()).padding(Spacing.small)
-        PBSectionSeparator()
-        Text(loremIpsum).pbFont(.body()).padding(Spacing.small)
-        PBSectionSeparator()
-        Text("Footer").pbFont(.body()).padding(Spacing.small)
-      }
-    }
-
-    let shadow = Section("Shadow") {
+    let shadow = VStack(spacing: Spacing.small) {
       ForEach(Shadow.allCases, id: \.self) { shadow in
         PBCard(shadow: shadow) {
-          Text(shadow.rawValue.capitalized).pbFont(.body())
+          Text(shadow.rawValue.capitalized).pbFont(.body)
         }
       }
     }
-    .listRowSeparator(.hidden)
 
-    let noborder = Section("No border") {
-      PBCard(border: false) {
-        Text(text).pbFont(.body())
-      }
+    let separator = PBCard(padding: Spacing.none) {
+      Text("Header").pbFont(.body).padding(Spacing.small)
+      PBSectionSeparator()
+      Text(loremIpsum).pbFont(.body).padding(Spacing.small)
+      PBSectionSeparator()
+      Text("Footer").pbFont(.body).padding(Spacing.small)
     }
 
-    let border = Section("Border radius") {
+    let noborder = PBCard(border: false) {
+      Text(text).pbFont(.body)
+    }
+
+    let border = VStack(spacing: Spacing.small) {
       ForEach(BorderRadius.allCase, id: \.1) { border in
         PBCard(borderRadius: border.0) {
-          Text(border.1).pbFont(.body())
+          Text(border.1).pbFont(.body)
         }
       }
     }
-    .listRowSeparator(.hidden)
 
-    return List {
-      defaultSection
-      cardBackgrounds
-      highlights
-      headers
-      styles
-      padding
-      shadow
-      separator
-      noborder
-      border
+    return ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") { defaultSection }
+        PBDoc(title: "Card Backgrounds") { cardBackgrounds }
+        PBDoc(title: "Highlight") { highlights }
+        PBDoc(title: "Header Cards") { headers }
+        PBDoc(title: "Styles") { styles }
+        PBDoc(title: "Padding Size") { padding }
+        PBDoc(title: "Shadow") { shadow }
+        PBDoc(title: "Separator & Content") { separator }
+        PBDoc(title: "No Border") { noborder }
+        PBDoc(title: "Border Radius") { border }
+      }
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Card")
   }
 }

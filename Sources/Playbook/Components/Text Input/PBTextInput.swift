@@ -36,7 +36,7 @@ public struct PBTextInput: View {
             .textFieldStyle(.plain)
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-            .pbFont(.body(), color: .text(.default))
+            .pbFont(.body, color: .text(.default))
             .tint(.text(.default))
             .background(backgroundColor)
             .focused($selected, equals: true)
@@ -63,14 +63,14 @@ public struct PBTextInput: View {
 
       if let error, error.0 {
         Text(error.1)
-          .pbFont(.body(), color: .status(.error))
+          .pbFont(.body, color: .status(.error))
           .padding(.top, Spacing.xxSmall)
           .foregroundColor(.status(.error))
       }
 
       if onChange != nil {
         Text(text)
-          .pbFont(.body())
+          .pbFont(.body)
           .padding(.top, Spacing.xxSmall)
           .foregroundColor(.text(.default))
       }

@@ -29,7 +29,7 @@ public struct PBDialog<Content: View>: View {
     confirmButton: (String, (() -> Void))? = nil,
     onClose: (() -> Void)? = nil,
     size: DialogSize = .medium,
-    shouldCloseOnOverlay: Bool = true,
+    shouldCloseOnOverlay: Bool = false,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.content = content()
@@ -69,7 +69,7 @@ public struct PBDialog<Content: View>: View {
 
         if let message = message {
           Text(message)
-            .pbFont(.body())
+            .pbFont(.body)
             .padding()
         }
 
@@ -90,11 +90,7 @@ public struct PBDialog<Content: View>: View {
         .padding()
       }
     }
-    #if os(macOS)
-    .frame(width: variant.width(size))
-    #elseif os(iOS)
     .frame(maxWidth: variant.width(size))
-    #endif
     .padding(padding)
     .preferredColorScheme(.light)
   }
@@ -115,7 +111,7 @@ public struct PBDialog<Content: View>: View {
     #if os(macOS)
       return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
     #elseif os(iOS)
-      return EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
+      return EdgeInsets(top: 0, leading: Spacing.medium, bottom: 0, trailing: Spacing.medium)
     #endif
   }
 
@@ -132,15 +128,11 @@ public enum DialogSize: String, CaseIterable, Identifiable {
   case large
 
   var width: CGFloat {
-    #if os(macOS)
-      switch self {
-      case .small: return 300
-      case .medium: return 500
-      case .large: return 800
-      }
-    #elseif os(iOS)
-      return 300
-    #endif
+    switch self {
+    case .small: return 300
+    case .medium: return 500
+    case .large: return 800
+    }
   }
 }
 
@@ -150,8 +142,8 @@ public enum DialogVariant: Equatable {
 
   public func width(_ size: DialogSize) -> CGFloat {
     switch self {
-    case .default: return size.width
-    default: return 375
+    case .status: return 375
+    default: return size.width
     }
   }
 }
