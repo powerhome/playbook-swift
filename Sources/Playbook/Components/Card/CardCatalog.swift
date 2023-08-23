@@ -54,15 +54,15 @@ public struct CardCatalog: View {
       VStack(alignment: .leading, spacing: nil) {
         Text("Default").pbFont(.caption)
         PBCard {
-          Text(text).pbFont(.body())
+          Text(text).pbFont(.body)
         }
         Text("Selected").pbFont(.caption)
         PBCard(style: .selected()) {
-          Text(text).pbFont(.body())
+          Text(text).pbFont(.body)
         }
         Text("Error").pbFont(.caption)
         PBCard(style: .error) {
-          Text(text).pbFont(.body())
+          Text(text).pbFont(.body)
         }
       }
     }
@@ -70,7 +70,7 @@ public struct CardCatalog: View {
     let padding =  Section("Padding size") {
       ForEach(Spacing.allCase, id: \.0) { space in
         PBCard(padding: space.0) {
-          Text(space.1).pbFont(.body())
+          Text(space.1).pbFont(.body)
         }
       }
     }
@@ -78,18 +78,18 @@ public struct CardCatalog: View {
 
     let separator = Section("Separator & Content") {
       PBCard(padding: Spacing.none) {
-        Text("Header").pbFont(.body()).padding(Spacing.small)
+        Text("Header").pbFont(.body).padding(Spacing.small)
         PBSectionSeparator()
-        Text(loremIpsum).pbFont(.body()).padding(Spacing.small)
+        Text(loremIpsum).pbFont(.body).padding(Spacing.small)
         PBSectionSeparator()
-        Text("Footer").pbFont(.body()).padding(Spacing.small)
+        Text("Footer").pbFont(.body).padding(Spacing.small)
       }
     }
 
     let shadow = Section("Shadow") {
       ForEach(Shadow.allCases, id: \.self) { shadow in
         PBCard(shadow: shadow) {
-          Text(shadow.rawValue.capitalized).pbFont(.body())
+          Text(shadow.rawValue.capitalized).pbFont(.body)
         }
       }
     }
@@ -97,14 +97,14 @@ public struct CardCatalog: View {
 
     let noborder = Section("No border") {
       PBCard(border: false) {
-        Text(text).pbFont(.body())
+        Text(text).pbFont(.body)
       }
     }
 
     let border = Section("Border radius") {
       ForEach(BorderRadius.allCase, id: \.1) { border in
         PBCard(borderRadius: border.0) {
-          Text(border.1).pbFont(.body())
+          Text(border.1).pbFont(.body)
         }
       }
     }

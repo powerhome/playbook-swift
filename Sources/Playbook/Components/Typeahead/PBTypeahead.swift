@@ -80,11 +80,11 @@ extension PBTypeahead {
                 }
             case .text:
               Text(element)
-                .pbFont(.body())
+                .pbFont(.body)
                 .padding(.horizontal, 4)
             case .other:
               Text(element)
-                .pbFont(.body())
+                .pbFont(.body)
                 .padding(.horizontal, 4)
             }
           }
