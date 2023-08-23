@@ -90,7 +90,7 @@ public struct PBTextInput: View {
     default: return 0
     }
   }
-  
+
   var isDisabled: Bool {
     switch style {
     case .disabled: return true

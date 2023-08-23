@@ -11,8 +11,9 @@ struct PBTypeahead: View {
   @State private var searchText = ""
   @State private var suggestions: [String] = ["Apple", "Banana", "Cherry", "Grapes", "Orange"]
   @State private var selectedElement: [String] = []
-  @State private var isFocused: Bool = false
-  
+  @FocusState private var isFocused
+  var variant: Variant
+
   var body: some View {
     VStack {
       PBTextInput(
@@ -21,72 +22,74 @@ struct PBTypeahead: View {
           leftView
         )
       )
-      
-      PBCard {
+      .focused($isFocused, equals: true)
+      .onChange(of: searchText) { _ in
+        searchResults
+      }
+
+      PBCard(border: true, padding: Spacing.none) {
         ForEach(searchResults, id: \.self) { suggestion in
-          Text(suggestion)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .onTapGesture {
-              selectedElement.append(suggestion)
-              if let index = suggestions.firstIndex(of: suggestion) {
-                suggestions.remove(at: index)
-              }
-              searchText = ""
-              
+          VStack {
+            Text(suggestion)
+              .frame(maxWidth: .infinity, alignment: .leading)
+          }
+          .onTapGesture {
+            selectedElement.append(suggestion)
+            if let index = suggestions.firstIndex(of: suggestion) {
+              suggestions.remove(at: index)
             }
-//            .background(selectedElement.contains(suggestion) ? Color.red : Color.blue)
+            searchText = ""
+            isFocused = false
+          }
         }
       }
     }
-    .frame(maxHeight: .infinity)
     .padding()
   }
-  
-  
+}
+
+extension PBTypeahead {
   private var leftView: AnyView {
     if !selectedElement.isEmpty {
       return AnyView(
-        LazyHGrid(rows: [GridItem(.flexible())]) {
-        ForEach(selectedElement, id: \.self) { element in
-          PBPill(element, variant: .primary)
-            .padding()
-            .onTapGesture {
-              if let index = selectedElement.firstIndex(of: element) {
-                selectedElement.remove(at: index)
-                suggestions.append(element)
+        LazyHGrid(rows: [GridItem(.adaptive(minimum: 54))], spacing: 0) {
+          ForEach(selectedElement, id: \.self) { element in
+
+            PBPill(element, variant: .primary)
+              .padding(.horizontal, 4)
+              .onTapGesture {
+                if let index = selectedElement.firstIndex(of: element) {
+                  selectedElement.remove(at: index)
+                  suggestions.append(element)
+                }
               }
-            }
+          }
         }
-        .searchable(text: $searchText)
-      }
-        )
+      )
     } else {
       return AnyView(EmptyView())
     }
   }
-  
-  var searchResults: [String] {
-        if searchText.isEmpty {
-            return suggestions
-        } else {
-            return suggestions.filter { $0.contains(searchText) }
-        }
-    }
-  
+
   private func updateSuggestions() {
-    suggestions = searchText.isEmpty ? [] : ["Apple", "Banana", "Cherry", "Grapes", "Orange"].filter {
+    suggestions = searchText.isEmpty ? [] : suggestions.filter {
+      $0.localizedCaseInsensitiveContains(searchText)
+    }
+  }
+
+  var searchResults: [String] {
+    return (searchText.isEmpty && isFocused) ? suggestions : suggestions.filter {
       $0.localizedCaseInsensitiveContains(searchText)
     }
   }
   
-  func style(_ isTextFocused: Bool) -> PBCardStyle {
-    return isTextFocused ? .selected() : .default
+  enum Variant {
+    case text, pill, other
   }
 }
-
 struct PBTypeahead_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-    return PBTypeahead()
+    return TypeaheadCatalog()
   }
 }

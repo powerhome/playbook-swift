@@ -31,6 +31,7 @@ public enum Componenets: String, CaseIterable {
   case textArea = "Text Area"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
+  case typeahead
   case toggle
   case user
 
@@ -61,6 +62,7 @@ public enum Componenets: String, CaseIterable {
     case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
     case .timeStamp: TimeStampCatalog()
+    case .typeahead: TypeaheadCatalog()
     case .toggle: ToggleCatalog()
     case .user: PBMultipleUsers_Previews.previews
     }

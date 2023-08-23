@@ -7,14 +7,12 @@
 
 import SwiftUI
 
-struct TypeaheadCatalog: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct TypeaheadCatalog_Previews: PreviewProvider {
-    static var previews: some View {
-        TypeaheadCatalog()
+public struct TypeaheadCatalog: View {
+    public var body: some View {
+      List {
+        PBTypeahead(variant: .text)
+        PBTypeahead(variant: .pill)
+        PBTypeahead(variant: .other)
+      }
     }
 }
