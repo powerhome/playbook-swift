@@ -8,11 +8,11 @@
 import SwiftUI
 
 public struct TypeaheadCatalog: View {
-    public var body: some View {
-      List {
-        PBTypeahead(variant: .text)
-        PBTypeahead(variant: .pill)
-        PBTypeahead(variant: .other)
-      }
+  public var body: some View {
+    List {
+      PBTypeahead(title: "Colors", variant: .text)
+      PBTypeahead(title: "Users", variant: .pill)
+      PBTypeahead(title: "Colors", variant: .other)
     }
+  }
 }

@@ -20,10 +20,10 @@ public struct Typography: ViewModifier {
       if variant == .link {
         return .pbPrimary
       } else {
-        if font == .caption || font == .largeCaption || font == .subcaption || font == .detail(true) || font == .detail(false) {
+        switch font {
+        case .caption, .largeCaption, .subcaption, .detail:
           return .text(.light)
-        } else {
-          return .text(.default)
+        default: return .text(.default)
         }
       }
     }
