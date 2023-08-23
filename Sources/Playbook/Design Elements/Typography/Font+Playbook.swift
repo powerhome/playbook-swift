@@ -97,12 +97,6 @@ public enum PBFont: Equatable {
         size: TextSize.Body.small.rawValue,
         relativeTo: .body
       )
-    case .detail:
-      return Font.custom(
-        PBFont.proximaNovaLight,
-        size: TextSize.Body.small.rawValue,
-        relativeTo: .body
-      )
     }
   }
 
