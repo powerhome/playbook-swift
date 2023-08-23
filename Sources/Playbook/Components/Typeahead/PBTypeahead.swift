@@ -41,7 +41,7 @@ struct PBTypeahead: View {
         ForEach(searchResults, id: \.self) { suggestion in
           VStack {
             Text(suggestion)
-              .pbFont(.body())
+              .pbFont(.body)
               .padding(.horizontal)
               .padding(.vertical, 8)
               .frame(maxWidth: .infinity, alignment: .leading)

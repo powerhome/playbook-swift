@@ -36,7 +36,7 @@ public struct PBCheckboxStyle: ToggleStyle {
 
       configuration.label
         .foregroundColor(checkboxType == .error ? .status(.error) : .text(.default))
-        .pbFont(.body())
+        .pbFont(.body)
     }
     .frame(minHeight: 22)
     .contentShape(Rectangle())

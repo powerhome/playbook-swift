@@ -12,7 +12,7 @@ public enum PBFont: Equatable {
   case title2
   case title3
   case title4
-  case body(_ size: TextSize.Body? = .base)
+  case body
   case buttonText(_ size: CGFloat = PBButton.Size.medium.fontSize)
   case largeCaption
   case caption
@@ -28,67 +28,73 @@ public enum PBFont: Equatable {
     case .title1:
       return Font.custom(
         PBFont.proximaNovaLight,
-        size: TextSize.Title.title1.rawValue,
+        size: size,
         relativeTo: .largeTitle
       )
     case .title2:
       return Font.custom(
         PBFont.proximaNovaLight,
-        size: TextSize.Title.title2.rawValue,
+        size: size,
         relativeTo: .title
       )
     case .title3:
       return Font.custom(
         PBFont.proximaNovaLight,
-        size: TextSize.Title.title3.rawValue,
+        size: size,
         relativeTo: .title2
       )
     case .title4:
       return Font.custom(
         ProximaNova.bold.rawValue,
-        size: TextSize.Title.title4.rawValue,
+        size: size,
         relativeTo: .title3
       )
-    case let .body(size):
+    case .body:
       return Font.custom(
         PBFont.proximaNovaLight,
-        size: size?.rawValue ?? TextSize.Body.base.rawValue,
+        size: size,
         relativeTo: .body
-      )
-    case let .buttonText(size):
+      ).weight(Font.Weight.regular)
+    case let .buttonText(fontSize):
       return Font.custom(
         ProximaNova.bold.rawValue,
-        size: size,
+        size: fontSize,
         relativeTo: .body
       )
     case .largeCaption:
       return Font.custom(
         ProximaNova.regular.rawValue,
-        size: TextSize.Body.large.rawValue,
+        size: size,
         relativeTo: .caption2
       )
     case .caption:
       return Font.custom(
         ProximaNova.semibold.rawValue,
-        size: TextSize.Body.smaller.rawValue,
+        size: size,
         relativeTo: .caption
       )
     case .subcaption:
       return Font.custom(
         ProximaNova.regular.rawValue,
-        size: TextSize.Body.smaller.rawValue,
+        size: size,
         relativeTo: .caption2
       )
-    case let .monogram(size):
+    case let .monogram(fontSize):
       return Font.custom(
         PBFont.proximaNovaLight,
-        size: size,
+        size: fontSize,
         relativeTo: .body
       )
     case .badgeText:
       return Font.custom(
         ProximaNova.bold.rawValue,
-        size: TextSize.Body.smallest.rawValue,
+        size: size,
+        relativeTo: .body
+      )
+    case .detail:
+      return Font.custom(
+        PBFont.proximaNovaLight,
+        size: TextSize.Body.small.rawValue,
         relativeTo: .body
       )
     case .detail:
@@ -99,10 +105,51 @@ public enum PBFont: Equatable {
       )
     }
   }
+
+  var size: CGFloat {
+    switch self {
+    case .title1: return 46
+    case .title2: return 34
+    case .title3: return 28
+    case .title4: return 16
+    case .body: return 16
+    case .detail: return 14
+    case .largeCaption: return 20
+    case .caption: return 12
+    case .subcaption: return 12
+    case .monogram(let size): return size
+    case .badgeText: return 11
+    case .buttonText(let size): return size
+    }
+  }
+
+  func space(_ space: LetterSpacing, font: PBFont) -> CGFloat {
+    switch space {
+    case .tightest: return font.size * -0.1
+    case .tighter: return font.size * -0.07
+    case .tight: return font.size * -0.01
+    case .normal: return font.size * 0
+    case .loose: return font.size * 0.01
+    case .looser: return font.size * 0.07
+    case .loosest: return font.size * 0.1
+    case .superLoosest: return font.size * 0.2
+    }
+  }
+}
+
+enum LetterSpacing: String, CaseIterable {
+  case tightest
+  case tighter
+  case tight
+  case normal
+  case loose
+  case looser
+  case loosest
+  case superLoosest
 }
 
 public struct FontWeight {
-  static let lighter = Font.Weight.thin
+  static let lighter = Font.Weight.ultraLight
   static let light = Font.Weight.light
   static let regular = Font.Weight.regular
   static let bold = Font.Weight.semibold

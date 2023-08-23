@@ -15,7 +15,7 @@ struct ContentListView: View {
     let appearance = UINavigationBarAppearance()
     appearance.configureWithOpaqueBackground()
     appearance.backgroundColor = .white
-    appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
+    appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.text(.default))]
     appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
     UINavigationBar.appearance().standardAppearance = appearance
     UINavigationBar.appearance().compactAppearance = appearance
@@ -23,7 +23,6 @@ struct ContentListView: View {
   }
 
   @State var selectedItem: Int = 0
-  let columns = Array(repeating: GridItem(.flexible()), count: 2)
   var body: some View {
     NavigationView {
       contentView.padding(.bottom, 80)
@@ -73,15 +72,19 @@ struct ContentListView: View {
       VStack(alignment: .leading) {
         if selectedItem == 0 {
           Text(DesignElements.title).pbFont(.title3)
-          LazyVGrid(columns: columns) {
+          VStack(spacing: Spacing.small) {
             ForEach(DesignElements.allCases, id: \.self) { element in
               NavigationLink {
                 element.destination
               } label: {
-                PBCard(padding: Spacing.xSmall, shadow: .deep) {
+                PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
                   HStack {
                     PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(.black)
                     Text(element.rawValue.capitalized).pbFont(.buttonText(16))
+                      .multilineTextAlignment(.leading)
+                    PBIcon.fontAwesome(.chevronRight, size: .small)
+                      .foregroundColor(.text(.default))
+                      .frame(maxWidth: .infinity, alignment: .trailing)
                   }
                 }
               }
@@ -89,13 +92,19 @@ struct ContentListView: View {
           }
         } else {
           Text(Componenets.title).pbFont(.title3)
-          ForEach(Componenets.allCases, id: \.self) { element in
-            NavigationLink {
-              element.destination
-            } label: {
-              PBCard(padding: Spacing.xSmall, shadow: .deep) {
-                HStack {
-                  Text(element.rawValue.capitalized).pbFont(.buttonText(16))
+          VStack(spacing: Spacing.small) {
+            ForEach(Componenets.allCases, id: \.self) { element in
+              NavigationLink {
+                element.destination
+              } label: {
+                PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
+                  HStack {
+                    Text(element.rawValue.capitalized).pbFont(.buttonText(16))
+                      .multilineTextAlignment(.leading)
+                    PBIcon.fontAwesome(.chevronRight, size: .small)
+                      .foregroundColor(.text(.default))
+                      .frame(maxWidth: .infinity, alignment: .trailing)
+                  }
                 }
               }
             }

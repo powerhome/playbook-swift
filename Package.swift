@@ -20,7 +20,7 @@ let package = Package(
     .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.51.12"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
-      from: "1.11.0"
+      from: "1.11.1"
     )
   ],
   targets: [

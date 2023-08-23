@@ -10,7 +10,6 @@ import SwiftUI
 public struct Typography: ViewModifier {
   var font: PBFont
   var variant: Variant
-  var letterSpace: LetterSpacing?
   var color: Color?
 
   var foregroundColor: Color {
@@ -47,21 +46,24 @@ public struct Typography: ViewModifier {
   }
 
   var letterSpacing: CGFloat {
-    if let space = letterSpace {
-      return space.rawValue
-    } else {
-      switch font {
-      case .caption, .largeCaption: return LetterSpacing.looser.rawValue
-      case .title4: return LetterSpacing.tight.rawValue
-      default: return LetterSpacing.normal.rawValue
-      }
+    switch font {
+    case .subcaption: return font.space(.looser, font: .subcaption)
+    case .caption: return font.space(.looser, font: .caption)
+    case .largeCaption: return font.space(.looser, font: .largeCaption)
+    case .body: return font.space(.normal, font: .body)
+    case .badgeText: return font.space(.normal, font: .badgeText)
+    case .title1: return font.space(.tight, font: .title1)
+    case .title2: return font.space(.tight, font: .title2)
+    case .title3: return font.space(.tight, font: .title3)
+    case .title4: return TextSize.Title.title4.rawValue * -0.03
+    default: return font.space(.normal, font: .body)
     }
   }
 
   var fontWeight: Font.Weight {
     switch font {
     case .title1, .title2: return variant == .light ? FontWeight.light : FontWeight.bolder
-    case .title3: return FontWeight.light
+    case .title3: return FontWeight.bolder
     case .title4, .buttonText, .badgeText: return FontWeight.bolder
     case .caption: return FontWeight.bold
     case .detail(true): return FontWeight.bold
@@ -95,31 +97,18 @@ public extension Typography {
     case bold
     case light
   }
-
-  enum LetterSpacing: CGFloat, CaseIterable {
-    case tightest = -1.6
-    case tighter = -1.12
-    case tight = -0.48
-    case normal = 0
-    case loose = 0.48
-    case looser = 1.12
-    case loosest = 1.6
-    case superLoosest = 3.2
-  }
 }
 
 public extension View {
   func pbFont(
     _ font: PBFont,
     variant: Typography.Variant = .none,
-    letterSpace: Typography.LetterSpacing? = nil,
     color: Color? = nil
   ) -> some View {
     self.modifier(
       Typography(
         font: font,
         variant: variant,
-        letterSpace: letterSpace,
         color: color
       )
     )
