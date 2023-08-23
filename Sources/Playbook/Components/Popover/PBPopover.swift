@@ -7,35 +7,50 @@
 
 import SwiftUI
 
-public struct PBPopover<Content: View>: View {
+public struct PBPopover<Content: View, Label: View>: View {
   @Environment(\.presentationMode) var presentationMode
-  let content: Content?
+  let content: Content
+  let label: Label
   let onClose: (() -> Void)?
   let shouldCloseOnOverlay: Bool
+
+  @State private var presentPopover: Bool = false
 
   public init(
     onClose: (() -> Void)? = nil,
     shouldCloseOnOverlay: Bool = true,
-    @ViewBuilder content: (() -> Content) = { EmptyView() }
+    @ViewBuilder content: (() -> Content) = { EmptyView() },
+    @ViewBuilder label: (() -> Label) = { EmptyView() }
   ) {
     self.content = content()
+    self.label = label()
     self.onClose = onClose
     self.shouldCloseOnOverlay = shouldCloseOnOverlay
   }
 
   public var body: some View {
-    popoverView()
-      .onTapGesture {
-        if shouldCloseOnOverlay {
-          if let onClose = onClose {
-            onClose()
-          } else {
-            dismissDialog()
-          }
-        }
+    VStack {
+      label
+        .gesture(TapGesture().onEnded {
+          print("Hello Isis")
+          presentPopover.toggle()
+        })
+      if presentPopover {
+        popoverView()
       }
-      .environment(\.colorScheme, .light)
+      //        .onTapGesture {
+      //          if shouldCloseOnOverlay {
+      //            if let onClose = onClose {
+      //              onClose()
+      //            } else {
+      //              dismissDialog()
+      //            }
+      //          }
+      //        }
+    }
+    .frame(height: 500)
   }
+
 
   private func popoverView() -> some View {
     return PBCard(alignment: .center, padding: Spacing.none) {

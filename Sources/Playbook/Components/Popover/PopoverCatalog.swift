@@ -24,34 +24,18 @@ import SwiftUI
         }
 
         var body: some View {
-          //GeometryReader { geo in
-          PBButton(title: "Simple") {
-            disableAnimation()
-            presentPopover.toggle()
-//              print("\(viewFrames.width)")
-//              print("\(geo.frame(in: .global))")
-          }
-          .background {
-            GeometryReader { geometry in
-              let frame = geometry.frame(in: .global)
-              //Color.black.onAppear {
-              //viewFrames = frame.minX
-              //viewFramesY = frame.minY
-              //print("\(frame.minX), \(frame.minY), \(frame.size.width), \(frame.size.height)")
+          PBPopover(
+            content: ({
+              Text("Testando o Popover. Vamo!!!!").pbFont(.body, color: .text(.light))
+            }),
+            label: ({
+              Text("Simple")
+              //{
+//                disableAnimation()
+//                presentPopover.toggle()
               //}
-            }
-          }
-          .fullScreenCover(isPresented: $presentPopover) {
-            PBPopover(
-              content: ({
-                Text("Testando o Popover. Vamo!!!!").pbFont(.body, color: .text(.light))
-              })
-            )
-            .frame(width: 266)
-            .offset(x: -50, y: -250)
-            .backgroundViewModifier(alpha: 0.2)
-          }
-          //}
+            })
+          )
         }
       }
 
