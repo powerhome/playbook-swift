@@ -14,7 +14,7 @@ targets:
   PlaybookShowcase-iOS:
     type: application
     platform: iOS
-    sources: [Playbook]
+    sources: [PlaybookShowcase]
     dependencies:
       - package: Playbook
     settings:
@@ -27,7 +27,7 @@ targets:
   PlaybookShowcase-macOS:
     type: application
     platform: macOS
-    sources: [Playbook]
+    sources: [PlaybookShowcase-macOS]
     scheme: {}
     dependencies:
       - package: Playbook
