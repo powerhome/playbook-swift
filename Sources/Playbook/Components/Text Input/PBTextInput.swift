@@ -29,13 +29,13 @@ public struct PBTextInput: View {
           .padding(.bottom, Spacing.xSmall)
       }
 
-      PBCard(padding: Spacing.none, style: borderStyle) {
+      PBCard(padding: Spacing.none) {
         HStack(alignment: .center, spacing: Spacing.none) {
           leftView
           pbTextField
             .textFieldStyle(.plain)
             .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .frame(maxHeight: .infinity)
             .pbFont(.body, color: .text(.default))
             .tint(.text(.default))
             .background(backgroundColor)
@@ -46,13 +46,14 @@ public struct PBTextInput: View {
       }
       .overlay(alignment: .center) {
         RoundedRectangle(cornerRadius: BorderRadius.medium)
-          .stroke(lineWidth: 1)
-          .padding(.vertical, 0.2)
+          .stroke(lineWidth: lineWidth)
+          .frame(maxHeight: .infinity)
           .clipShape(
             Rectangle()
               .offset(x: offset, y: 0)
           )
           .foregroundColor(borderColor)
+
       }
       .frame(height: 45)
       .onTapGesture {
@@ -76,6 +77,14 @@ public struct PBTextInput: View {
           .foregroundColor(.text(.default))
       }
     }
+  }
+
+  var lineWidth: CGFloat {
+    #if os(iOS)
+    return 1.4
+    #elseif os(macOS)
+    return 2
+    #endif
   }
 
   var divider: some View {
@@ -201,7 +210,7 @@ public struct PBTextInput: View {
 }
 
 public extension PBTextInput {
-#if os(iOS)
+  #if os(iOS)
   init(
     _ title: String? = nil,
     text: Binding<String>,
@@ -219,7 +228,7 @@ public extension PBTextInput {
     self.keyboardType = keyboardType
     self.onChange = onChange
   }
-#elseif os(macOS)
+  #elseif os(macOS)
   init(
     _ title: String? = nil,
     text: Binding<String>,
@@ -235,7 +244,7 @@ public extension PBTextInput {
     self.style = style
     self.onChange = onChange
   }
-#endif
+  #endif
 }
 
 public extension PBTextInput {
