@@ -1,5 +1,5 @@
 # This is the base yml for project.yml and project_production.yml
-name: PlaybookDemo
+name: PlaybookShowcase
 options:
   indentWidth: 2
   groupOrdering:
@@ -20,7 +20,7 @@ targets:
     settings:
       base:
         GENERATE_INFOPLIST_FILE: true
-        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.playbookdemo
+        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 1
   Playbook-macOS:
@@ -33,6 +33,6 @@ targets:
     settings:
       base:
         GENERATE_INFOPLIST_FILE: true
-        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.playbookdemo
+        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 1
