@@ -23,17 +23,3 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 1
-  
-  PlaybookShowcase-macOS:
-    type: application
-    platform: macOS
-    sources: [PlaybookShowcase-macOS]
-    scheme: {}
-    dependencies:
-      - package: Playbook
-    settings:
-      base:
-        GENERATE_INFOPLIST_FILE: true
-        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
-        CURRENT_PROJECT_VERSION: 1
-        MARKETING_VERSION: 1
