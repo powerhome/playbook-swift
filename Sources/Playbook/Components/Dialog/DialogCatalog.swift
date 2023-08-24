@@ -74,19 +74,12 @@ import SwiftUI
             confirmButton: ("Submit", closeDialog),
             content: ({
               ScrollView {
-                VStack(spacing: Spacing.medium) {
-                  TextField("", text: .constant("Name"))
-                    .textFieldStyle(PBTextInputStyle("Name"))
+                Text("Hello Complex Dialog!\nAnything can be placed here")
+                  .pbFont(.title2)
+                  .multilineTextAlignment(.leading)
 
-                  TextField("", text: .constant("Email"))
-                    .textFieldStyle(PBTextInputStyle("Email"))
-
-                  PBTextArea(
-                    "Message",
-                    text: $message
-                  )
-                }
-                .padding(Spacing.small)
+                PBTextInput("text", text: .constant("Some text"))
+                  .padding()
               }
             }))
             .backgroundViewModifier(alpha: 0.2)
