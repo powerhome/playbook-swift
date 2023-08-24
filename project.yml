@@ -11,10 +11,23 @@ packages:
   Playbook:
     path: ./
 targets:
-  Playbook-iOS:
+  PlaybookShowcase-iOS:
     type: application
     platform: iOS
-    sources: [Shared]
+    sources: [Playbook]
+    dependencies:
+      - package: Playbook
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: 1
+    PlaybookShowcase-macOS:
+    type: application
+    platform: macOS
+    sources: [Playbook]
+    scheme: {}
     dependencies:
       - package: Playbook
     settings:
