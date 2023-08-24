@@ -61,7 +61,6 @@ desc "Set up build. build_number:1"
 lane :setup_before_build do |opts|
   # sets the build number
   increment_build_number(build_number: "#{opts[:build_number]}")
-  insert_appcenter_key
 end
 
 desc "Ship iOS to App Center"
@@ -84,18 +83,6 @@ lane :ship_ios_to_appcenter do |opts|
     destination_type: "group",
     upload_build_only: false
   )
-end
-
-desc "Insert App Center key"
-lane :insert_appcenter_key do |opts|
-  app_secret = '8853374d-fe92-47b6-95c3-ce6a1ce66d41'
-  update_info_plist(
-      plist_path: ios_plist,
-      block: proc do |plist|
-        urlScheme = plist["CFBundleURLTypes"].find{|scheme| scheme["CFBundleURLName"] == "$(PRODUCT_BUNDLE_IDENTIFIER).appcenter"}
-        urlScheme[:CFBundleURLSchemes] = ["appcenter-#{app_secret}"]
-      end
-    )
 end
 
 desc "Create Runway comment"
