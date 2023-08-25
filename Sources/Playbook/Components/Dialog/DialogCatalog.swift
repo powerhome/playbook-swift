@@ -90,7 +90,7 @@ import SwiftUI
     struct DialogButtonSize: View {
       let title: String
       let size: DialogSize
-      @State private var dialogState: DialogSize? = nil
+      @State private var dialogState: DialogSize?
 
       public init(
         title: String,

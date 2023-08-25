@@ -7,50 +7,66 @@
 
 import SwiftUI
 
-#if os(iOS)
-  public struct PopoverCatalog: View {
-    public var body: some View {
-      func disableAnimation() {
-        UIView.setAnimationsEnabled(false)
-      }
+public struct PopoverCatalog: View {
+  public var body: some View {
 
-      struct SimplePopover: View {
-        @State private var viewFrames: CGFloat = .zero
-        @State private var viewFramesY: CGFloat = .zero
-        @State private var presentPopover: Bool = false
+    struct SimplePopover: View {
 
-        func closePopover() {
-          presentPopover = false
-        }
-
-        var body: some View {
+      var body: some View {
+        HStack {
+          Text("Click info for more details")
+            .pbFont(.body, color: .text(.default))
           PBPopover(
-            content: ({
-              Text("Testando o Popover. Vamo!!!!").pbFont(.body, color: .text(.light))
-            }),
-            label: ({
-              Text("Simple")
-              //{
-//                disableAnimation()
-//                presentPopover.toggle()
-              //}
-            })
+            content: {
+              
+                Text("Testando o Popover. Vamo!!!!")
+                  .pbFont(.body, color: .text(.light))
+            
+            },
+            label: {
+              PBButton(variant: .secondary, shape: .circle, icon: .fontAwesome(.info))
+            },
+            onClose: {
+              print("ISs")
+            }
           )
         }
       }
-
-      return ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Simple") { SimplePopover() }
-        }
-        .padding(Spacing.medium)
-      }
-      .background(Color.background(Color.BackgroundColor.light))
-      .navigationTitle("Popover")
     }
-  }
-#elseif os(macOS)
-  public struct PopoverCatalog: View {
 
+    struct ComplexPopover: View {
+      var body: some View {
+        HStack {
+          Text("Click info for more details")
+            .pbFont(.body, color: .text(.default))
+          PBPopover(
+            content: {
+              PBCard {
+                Text("Testando o Popover. Vamo!!!!")
+                  .pbFont(.body, color: .text(.light))
+              }
+            },
+            label: {
+              PBButton(variant: .secondary, shape: .circle, icon: .fontAwesome(.info))
+            },
+            onClose: {
+              print("ISs")
+            }
+          )
+        }
+      }
+    }
+
+    return ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") { SimplePopover() }
+        PBDoc(title: "Dropdrown") { ComplexPopover() }
+        PBDoc(title: "Close options") { SimplePopover() }
+        PBDoc(title: "Scroll") { ComplexPopover() }
+      }
+      .padding(Spacing.medium)
+    }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Popover")
   }
-#endif
+}

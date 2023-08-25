@@ -8,68 +8,55 @@
 import SwiftUI
 
 public struct PBPopover<Content: View, Label: View>: View {
-  @Environment(\.presentationMode) var presentationMode
   let content: Content
   let label: Label
   let onClose: (() -> Void)?
-  let shouldCloseOnOverlay: Bool
 
   @State private var presentPopover: Bool = false
+  @State private var popoverPosition: CGRect = .zero
+  @State private var popoverSize: CGSize = .zero
 
   public init(
-    onClose: (() -> Void)? = nil,
-    shouldCloseOnOverlay: Bool = true,
     @ViewBuilder content: (() -> Content) = { EmptyView() },
-    @ViewBuilder label: (() -> Label) = { EmptyView() }
+    @ViewBuilder label: (() -> Label) = { EmptyView() },
+    onClose: (() -> Void)? = nil
   ) {
     self.content = content()
     self.label = label()
     self.onClose = onClose
-    self.shouldCloseOnOverlay = shouldCloseOnOverlay
   }
 
   public var body: some View {
-    VStack {
-      label
-        .gesture(TapGesture().onEnded {
-          print("Hello Isis")
-          presentPopover.toggle()
-        })
-      if presentPopover {
-        popoverView()
+    label
+      .disabled(true)
+      .onTapGesture {
+        UIView.setAnimationsEnabled(false)
+        presentPopover.toggle()
       }
-      //        .onTapGesture {
-      //          if shouldCloseOnOverlay {
-      //            if let onClose = onClose {
-      //              onClose()
-      //            } else {
-      //              dismissDialog()
-      //            }
-      //          }
-      //        }
-    }
-    .frame(height: 500)
-  }
-
-
-  private func popoverView() -> some View {
-    return PBCard(alignment: .center, padding: Spacing.none) {
-      content
-    }
-    .padding(padding)
-    .preferredColorScheme(.light)
-  }
-
-  var padding: EdgeInsets {
-    #if os(macOS)
-      return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-    #elseif os(iOS)
-      return EdgeInsets(top: 0, leading: Spacing.medium, bottom: 0, trailing: Spacing.medium)
-    #endif
-  }
-
-  func dismissDialog() {
-    presentationMode.wrappedValue.dismiss()
+      .background(GeometryReader { proxy in
+        Color.clear
+          .onAppear {
+            popoverPosition = proxy.frame(in: .global)
+          }
+      })
+      .fullScreenCover(isPresented: $presentPopover) {
+        PBCard(padding: Spacing.small) {
+          content
+        }
+        .background(GeometryReader { proxy in
+          Color.clear.onAppear {
+            popoverSize = proxy.size
+          }
+        })
+        .position(x: popoverPosition.maxX + popoverSize.width/2, y: popoverPosition.minY - popoverPosition.height/2)
+        .backgroundViewModifier(alpha: 0)
+        .onTapGesture {
+          if let onClose {
+            onClose()
+          }
+          presentPopover.toggle()
+        }
+      }
   }
 }
 
