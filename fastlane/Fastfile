@@ -20,6 +20,7 @@ default_platform(:ios)
 target_ios = 'PlaybookShowcase-iOS'
 build_path = "Build"
 derived_data_path = "DerivedData"
+ios_plist = "PlaybookShowcase/PlaybookShowcase/Info.plist"
 
 desc "Build iOS"
 lane :build_ios do |opts|
