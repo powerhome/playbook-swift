@@ -20,6 +20,7 @@ default_platform(:ios)
 target_ios = 'PlaybookShowcase-iOS'
 build_path = "BuildTemp/Archives"
 derived_data_path = "DerivedData"
+ios_plist = "PlaybookShowcase/PlaybookShowcase/Info.plist"
 
 desc "Build iOS"
 lane :build_ios do |opts|
@@ -82,6 +83,19 @@ lane :ship_ios_to_appcenter do |opts|
     destination_type: "group",
     upload_build_only: false
   )
+end
+
+desc "Insert App Center key"
+lane :insert_appcenter_key do |opts|
+  app_secret = opts[:type] == 'production' ? '8853374d-fe92-47b6-95c3-ce6a1ce66d41' : 'c919a21e-0c50-4299-b974-18c54920e809'
+  
+  update_info_plist(
+      plist_path: ios_plist,
+      block: proc do |plist|
+        urlScheme = plist["CFBundleURLTypes"].find{|scheme| scheme["CFBundleURLName"] == "$(PRODUCT_BUNDLE_IDENTIFIER).appcenter"}
+        urlScheme[:CFBundleURLSchemes] = ["appcenter-#{app_secret}"]
+      end
+    )
 end
 
 desc "Create Runway comment"
