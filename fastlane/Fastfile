@@ -94,8 +94,7 @@ lane :insert_appcenter_key do |opts|
   update_info_plist(
       plist_path: ios_plist,
       block: proc do |plist|
-        urlScheme = plist["CFBundleURLTypes"].find{|scheme| scheme["CFBundleURLName"] == "$(PRODUCT_BUNDLE_IDENTIFIER).appcenter"}
-        urlScheme[:CFBundleURLSchemes] = ["appcenter-#{app_secret}"]
+        urlScheme = plist["CFBundleURLTypes"][0]["CFBundleURLSchemes"] = ["appcenter-#{app_secret}"]
       end
     )
 end
