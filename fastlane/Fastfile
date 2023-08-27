@@ -89,6 +89,11 @@ lane :create_runway_comment do |opts|
   build_number = opts[:build_number]
   release_notes = "#{opts[:release_notes]}"
 
+  app_name = "Playbook-Showcase-Beta"
+  if type == 'production'
+    app_name = "Playbook-Showcase"
+  end
+
   merged_comment = ''
   if type == 'production'
     merged_comment = "✅ MERGED ✅\n\n"
