@@ -87,9 +87,18 @@ lane :create_runway_comment do |opts|
   github_pull_request_id = opts[:github_pull_request_id]
   type = opts[:type]
   build_number = opts[:build_number]
+  release_notes = "#{opts[:release_notes]}"
+
+  merged_comment = ''
+  if type == 'production'
+    merged_comment = "✅ MERGED ✅\n\n"
+  end
 
   comment = <<~HEREDOC
-  RUNWAY COMMENT HERE
+  <p><b>#{merged_comment}#{type} build #{build_number}</b></p>
+  <ul>
+    <li>PlaybookShowcase-iOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{app_name}"}>iOS</a></li>
+  </ul>
   HEREDOC
 
   UI.message(comment)
@@ -104,6 +113,8 @@ lane :create_runway_comment do |opts|
     body: payload,
     headers: { 'Content-Type' => 'application/json' }
   )
+
+  UI.message("Runway response code: #{response.code}")
 end
 
 def keep_trying(ignore=[], interval=300, retry_counter=0, &block)
