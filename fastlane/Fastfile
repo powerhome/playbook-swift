@@ -57,6 +57,12 @@ lane :upload_ios do |opts|
   }
 end
 
+desc "Set up build. build_number:1"
+lane :setup_before_build do |opts|
+  # sets the build number
+  increment_build_number(build_number: "#{opts[:build_number]}")
+end
+
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
   
