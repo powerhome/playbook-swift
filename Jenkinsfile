@@ -114,11 +114,11 @@ def runNodeWith(label, block, isShort) {
   }
 }
 
-def prepareToBuild(String buildType, String flavor) {
+def prepareToBuild() {
   def fastlaneOpts = ''
   stage('Prepare') {
-    sh "make ${flavor}-${buildType} && sleep 1"
-    fastlaneOpts = "build_number:${buildNumber} type:${buildType} flavor:${flavor}"
+    sh "make playbook-ios && sleep 1"
+    fastlaneOpts = "build_number:${buildNumber} type:${buildType()}"
     fastlane("setup_before_build ${fastlaneOpts}")
   }
   checkForFailedParallelJob()
