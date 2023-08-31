@@ -109,6 +109,7 @@ public struct PopoverCatalog: View {
       .padding(Spacing.medium)
     }
     .background(Color.background(Color.BackgroundColor.light))
+    .preferredColorScheme(.light)
     .navigationTitle("Popover")
   }
 }

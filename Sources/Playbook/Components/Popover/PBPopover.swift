@@ -68,6 +68,7 @@ public struct PBPopover<Content: View, Label: View>: View {
             ) {
               content
             }
+            .environment(\.colorScheme, .light)
             .onTapGesture {
               switch dismissOptions {
               case .inside, .anywhere:

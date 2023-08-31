@@ -24,6 +24,7 @@ public enum Componenets: String, CaseIterable {
   case multipleUserStacked = "Multiple User Stacked"
   case nav
   case pill
+  case popover
   case progressIndicator = "Progress Indicator"
   case radio
   case sectionSeparator = "Section Separator"
@@ -54,6 +55,7 @@ public enum Componenets: String, CaseIterable {
     case .multipleUserStacked: MultipleUsersStackedCatalog()
     case .nav: PBNav_Previews.previews
     case .pill: PillCatalog()
+    case .popover: PopoverCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
     case .radio: RadioCatalog()
     case .sectionSeparator: PBSectionSeparator_Previews.previews
