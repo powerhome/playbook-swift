@@ -14,7 +14,7 @@ public struct LabelValueCatalog: View {
         PBDoc(title: "Default") {
           VStack(alignment: .leading, spacing: Spacing.small) {
             PBLabelValue("Role", "Administrator, Moderator")
-            PBLabelValue("EMail", "anna.black@powerhrg.com")
+            PBLabelValue("Email", "anna.black@powerhrg.com")
             PBLabelValue("Bio", "Proin pulvinar feugiat massa in luctus. Donec urna nulla, elementum sit amet tincidunt")
           }
         }
