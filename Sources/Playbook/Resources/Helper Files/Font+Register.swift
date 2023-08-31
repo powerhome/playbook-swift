@@ -52,11 +52,7 @@ private func registerFont(bundle: Bundle, fontName: String, fontExtension: Strin
 
   var error: Unmanaged<CFError>?
   let success = CTFontManagerRegisterGraphicsFont(font, &error)
-  guard success else {
-//    print("Error registering font: maybe it was already registered.")
-    return false
-  }
-
+  guard success else { return false }
   return true
 }
 
