@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+#if os(iOS)
 import Popovers
+#endif
 
 public struct PBPopover<Content: View, Label: View>: View {
   let position: PopoverPosition
@@ -44,6 +46,7 @@ public struct PBPopover<Content: View, Label: View>: View {
         .onTapGesture {
           presentPopover.toggle()
         }
+      #if os(iOS)
         .popover(
           present: $presentPopover,
           attributes: {
@@ -60,27 +63,33 @@ public struct PBPopover<Content: View, Label: View>: View {
             case .inside:
               $0.dismissal.mode = .none
             }
-          }) {
-            PBCard(
-              padding: padding,
-              shadow: .deeper,
-              width: popoverWidth
-            ) {
-              content
-            }
-            .environment(\.colorScheme, .light)
-            .onTapGesture {
-              switch dismissOptions {
-              case .inside, .anywhere:
-                presentPopover.toggle()
-              case .outside:
-                break
-              }
-            }
-            .backgroundViewModifier(alpha: backgroundAlpha)
           }
+        ) { popoverView }
+      #elseif os(macOS)
+        .popover(isPresented: $presentPopover) { popoverView }
+      #endif
     }
   }
+
+var popoverView: some View {
+  PBCard(
+    padding: padding,
+    shadow: .deeper,
+    width: popoverWidth
+  ) {
+    content
+  }
+  .environment(\.colorScheme, .light)
+  .onTapGesture {
+    switch dismissOptions {
+    case .inside, .anywhere:
+      presentPopover.toggle()
+    case .outside:
+      break
+    }
+  }
+  .backgroundViewModifier(alpha: backgroundAlpha)  
+}
 
   public enum DismissOptions {
     case inside, outside, anywhere
@@ -89,7 +98,7 @@ public struct PBPopover<Content: View, Label: View>: View {
 
 public enum PopoverPosition {
   case top, bottom, right, left, center
-
+#if os(iOS)
   var position: Popover.Attributes.Position {
     switch self {
     case .top:
@@ -119,6 +128,7 @@ public enum PopoverPosition {
       )
     }
   }
+  #endif
 }
 
 public struct PBPopover_Previews: PreviewProvider {
