@@ -11,7 +11,7 @@ help:
 	@echo
 	@echo "  dependencies              Install project dependencies."
 	@echo
-	@echo "  proj                   	 Runs nitro and opens Xcode."
+	@echo "  proj                      Runs nitro and opens Xcode."
 	@echo "  playbook-ios              Playbook-iOS Showcase App."
 	@echo
 	@echo "  test                      Run all tests."
@@ -27,8 +27,8 @@ endef
 
 define setup
 	@osascript -e 'quit app "Xcode"'
-	rm -rf PlaybookShowcase.xcodeproj
-	xcodegen generate -s $(1).yml
+	rm -rf ./PlaybookShowcase/PlaybookShowcase.xcodeproj
+	xcodegen generate -s $(1).yml --project ./PlaybookShowcase/
 endef
 
 define runDockerAndFastlane
