@@ -6,7 +6,7 @@ options:
     - order: []
   deploymentTarget:
     iOS: 15.0
-    macOS: 12.0
+    macOS: 13.0
 packages:
   Playbook:
     path: ./
