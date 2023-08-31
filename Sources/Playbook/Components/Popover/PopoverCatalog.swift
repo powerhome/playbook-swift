@@ -9,60 +9,116 @@ import SwiftUI
 
 public struct PopoverCatalog: View {
   public var body: some View {
-
-    struct SimplePopover: View {
-
-      var body: some View {
-        HStack {
-          Text("Click info for more details")
-            .pbFont(.body, color: .text(.default))
-          PBPopover(
-            content: {
-              
-                Text("Testando o Popover. Vamo!!!!")
-                  .pbFont(.body, color: .text(.light))
-            
-            },
-            label: {
-              PBButton(variant: .secondary, shape: .circle, icon: .fontAwesome(.info))
-            },
-            onClose: {
-              print("ISs")
-            }
-          )
+    let defaultPopover = HStack {
+      Text("Click info for more details")
+        .pbFont(.body, color: .text(.default))
+      PBPopover(
+        content: {
+          Text("Testando o Popover. Vamo!!!!")
+            .pbFont(.body, color: .text(.light))
+        },
+        label: {
+          PBButton(variant: .secondary, shape: .circle, icon: .fontAwesome(.info))
+        },
+        onClose: {
+          print("Close action")
         }
-      }
+      )
     }
 
-    struct ComplexPopover: View {
-      var body: some View {
-        HStack {
-          Text("Click info for more details")
-            .pbFont(.body, color: .text(.default))
-          PBPopover(
-            content: {
-              PBCard {
-                Text("Testando o Popover. Vamo!!!!")
-                  .pbFont(.body, color: .text(.light))
-              }
-            },
-            label: {
-              PBButton(variant: .secondary, shape: .circle, icon: .fontAwesome(.info))
-            },
-            onClose: {
-              print("ISs")
-            }
-          )
-        }
+    let dropdownPopover = PBPopover(padding: Spacing.none, content: {
+      List {
+        Text("Testando o Popover. Vamo!!!!")
+
+        Text("Testando o Popover. Vamo!!!!")
+
+        Text("Testando o Popover. Vamo!!!!")
+
       }
+      .frame(width: 200, height: 100)
+      .listStyle(.plain)
+      .pbFont(.body, color: .text(.light))
+    },
+                                    label: {
+      PBButton(
+        variant: .secondary,
+        title: "Filter By",
+        icon: .fontAwesome(.chevronDown),
+        iconPosition: .right
+      )
+    }, onClose: {
+      print("Close action")
     }
+    )
+
+    let withBAckgroudPopover = PBPopover(backgroundAlpha: 0.2, content: {
+      Text("Testando o Popover. Vamo!!!!")
+        .pbFont(.body, color: .text(.light))
+    }, label: {
+      PBButton(
+        variant: .secondary,
+        title: "Click Me"
+      )
+    }, onClose: {
+      print("Close action")
+    }
+    )
+
+    let closePopover = VStack(spacing: Spacing.medium) {
+      PBPopover(position: .bottom,
+        content: {
+          Text("Testando o Popover. Vamo!!!!")
+            .pbFont(.body, color: .text(.light))
+        }, label: {
+          PBButton(variant: .secondary, title: "Click Inside")
+        },
+        onClose: {
+          print("Close action")
+        }
+      )
+
+      PBPopover(position: .top,
+        content: {
+          Text("Testando o Popover. Vamo!!!!")
+            .pbFont(.body, color: .text(.light))
+        }, label: {
+          PBButton(variant: .secondary, title: "Click Outside")
+        }, onClose: {
+          print("Close action")
+        }
+      )
+
+      PBPopover(position: .right, content: {
+          Text("Testando o Popover. Vamo!!!!")
+            .pbFont(.body, color: .text(.light))
+        }, label: {
+          PBButton(variant: .secondary, title: "Click Anywhere")
+        }, onClose: {
+          print("Close action")
+        }
+      )
+    }
+
+    let scrollPopover = PBPopover( content: {
+        ScrollView {
+          Text("Testando o Popover. Vamo!!!!")
+            .pbFont(.body, color: .text(.light))
+        }
+        .frame(height: 100)
+      }, label: {
+        PBButton(variant: .secondary, title: "Click Me")
+      }, onClose: {
+        print("Close action")
+      }
+    )
 
     return ScrollView {
       VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") { SimplePopover() }
-        PBDoc(title: "Dropdrown") { ComplexPopover() }
-        PBDoc(title: "Close options") { SimplePopover() }
-        PBDoc(title: "Scroll") { ComplexPopover() }
+        PBDoc(title: "Default") { defaultPopover }
+        PBDoc(title: "Dropdrown") { dropdownPopover }
+        PBDoc(title: "With Background") { withBAckgroudPopover }
+        PBDoc(title: "Close options") { closePopover }
+        PBDoc(title: "Scroll") { scrollPopover }
       }
       .padding(Spacing.medium)
     }

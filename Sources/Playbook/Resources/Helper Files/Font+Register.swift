@@ -26,22 +26,6 @@ public func registerFonts() {
   _ = registerFont(bundle: .module, fontName: "ProximaNova-Thin", fontExtension: "otf")
   _ = registerFont(bundle: .module, fontName: "ProximaNova-ThinIt", fontExtension: "otf")
 
-  // Fonts
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Black", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-BlackIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Bold", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-BoldIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Extrabld", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-ExtrabldIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Light", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-LightIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Regular", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-RegularIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Semibold", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-SemiboldIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Thin", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-ThinIt", fontExtension: "otf")
-
   // Icons
   _ = registerFont(bundle: .module, fontName: "Fontastic", fontExtension: "ttf")
   _ = registerFont(bundle: .module, fontName: "Font Awesome 6 Brands-Regular-400", fontExtension: "otf")
@@ -69,7 +53,7 @@ private func registerFont(bundle: Bundle, fontName: String, fontExtension: Strin
   var error: Unmanaged<CFError>?
   let success = CTFontManagerRegisterGraphicsFont(font, &error)
   guard success else {
-    print("Error registering font: maybe it was already registered.")
+//    print("Error registering font: maybe it was already registered.")
     return false
   }
 
