@@ -9,21 +9,26 @@ import SwiftUI
 
 public struct PillCatalog: View {
   public var body: some View {
-    List {
-      Section("Default") {
-        PBPill("default")
-      }
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          PBPill("default")
+        }
 
-      Section("Variants") {
-        PBPill("success", variant: .success)
-        PBPill("error", variant: .error)
-        PBPill("warning", variant: .warning)
-        PBPill("info", variant: .info)
-        PBPill("neutral", variant: .neutral)
-        PBPill("primary", variant: .primary)
+        PBDoc(title: "Variants") {
+          VStack(alignment: .leading, spacing: Spacing.small) {
+            PBPill("success", variant: .success)
+            PBPill("error", variant: .error)
+            PBPill("warning", variant: .warning)
+            PBPill("info", variant: .info)
+            PBPill("neutral", variant: .neutral)
+            PBPill("primary", variant: .primary)
+          }
+        }
       }
-      .listRowSeparator(.hidden)
-
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Pill")
   }
 }

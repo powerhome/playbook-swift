@@ -46,7 +46,7 @@ struct NavCatalog: View {
   }
 
   var verticalListView: some View {
-    let navDefault = Section("Default") {
+    let navDefault = PBDoc(title: "Default") {
       PBNav(
         selected: $selectedVDefault,
         variant: .normal,
@@ -60,7 +60,7 @@ struct NavCatalog: View {
       }
     }
 
-    let defaultWithIcons = Section("With Icons") {
+    let defaultWithIcons = PBDoc(title: "With Icons") {
       PBNav(
         selected: $selectedVIcon,
         variant: .normal,
@@ -75,7 +75,7 @@ struct NavCatalog: View {
       }
     }
 
-    let defaultWithCustomIcons = Section("With Custom Icon") {
+    let defaultWithCustomIcons = PBDoc(title: "With Custom Icon") {
       PBNav(
         selected: $selectedVCustomIcon,
         variant: .normal,
@@ -105,7 +105,7 @@ struct NavCatalog: View {
       }
     }
 
-    let defaultWithNoHighlights = Section("No Highlight") {
+    let defaultWithNoHighlights = PBDoc(title: "No Highlight") {
       PBNav(
         selected: $selectedVNoHighlight,
         variant: .normal,
@@ -119,7 +119,7 @@ struct NavCatalog: View {
       }
     }
 
-    let defaultWithNoBorders = Section("No borders") {
+    let defaultWithNoBorders = PBDoc(title: "No borders") {
       PBNav(
         selected: $selectedNoBorders,
         variant: .normal,
@@ -133,7 +133,7 @@ struct NavCatalog: View {
       }
     }
 
-    let subtle = Section("Subtle Variant") {
+    let subtle = PBDoc(title: "Subtle Variant") {
       PBNav(
         selected: $selectedVSubtle,
         variant: .subtle,
@@ -147,7 +147,7 @@ struct NavCatalog: View {
       }
     }
 
-    let subtleWithIcons = Section("Subtle With Icons") {
+    let subtleWithIcons = PBDoc(title: "Subtle With Icons") {
       PBNav(
         selected: $selectedVSubtleWithIcon,
         variant: .subtle,
@@ -161,7 +161,7 @@ struct NavCatalog: View {
       }
     }
 
-    let subtleWithNoHighlights = Section("Subtle No Highlight") {
+    let subtleWithNoHighlights = PBDoc(title: "Subtle No Highlight") {
       PBNav(
         selected: $selectedVSubtleNoHighlight,
         variant: .subtle,
@@ -176,7 +176,7 @@ struct NavCatalog: View {
       }
     }
 
-    let boldVariant = Section("Bold Variant") {
+    let boldVariant = PBDoc(title: "Bold Variant") {
       PBNav(
         selected: $selectedVBold,
         variant: .bold,
@@ -190,21 +190,26 @@ struct NavCatalog: View {
       }
     }
 
-    return List {
-      navDefault
-      defaultWithIcons
-      defaultWithCustomIcons
-      defaultWithNoHighlights
-      defaultWithNoBorders
-      subtle
-      subtleWithIcons
-      subtleWithNoHighlights
-      boldVariant
+    return ScrollView {
+      VStack(spacing: Spacing.medium) {
+        navDefault
+        defaultWithIcons
+        defaultWithCustomIcons
+        defaultWithNoHighlights
+        defaultWithNoBorders
+        subtle
+        subtleWithIcons
+        subtleWithNoHighlights
+        boldVariant
+      }
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Nav")
   }
 
   var horizontalListView: some View {
-    let navDefault = Section("Default") {
+    let navDefault = PBDoc(title: "Default") {
       ScrollView(.horizontal, showsIndicators: false) {
         PBNav(
           selected: $selectedHDefault,
@@ -219,7 +224,7 @@ struct NavCatalog: View {
       }
     }
 
-    let subtle = Section("Subtle Horizontal Nav") {
+    let subtle = PBDoc(title: "Subtle Horizontal Nav") {
       PBNav(
         selected: $selectedHSubtle,
         variant: .subtle,
@@ -233,7 +238,7 @@ struct NavCatalog: View {
       }
     }
 
-    let subtleNoHighlights = Section("Subtle Horizontal No Hilight") {
+    let subtleNoHighlights = PBDoc(title: "Subtle Horizontal No Hilight") {
       PBNav(
         selected: $selectedHSubtleNoHighlight,
         variant: .subtle,
@@ -248,7 +253,7 @@ struct NavCatalog: View {
       }
     }
 
-    let boldVariant = Section("Bold Horizontal Nav") {
+    let boldVariant = PBDoc(title: "Bold Horizontal Nav") {
       PBNav(
         selected: $selectedHBold,
         variant: .bold,
@@ -262,16 +267,21 @@ struct NavCatalog: View {
       }
     }
 
-    return List {
-      navDefault
-      subtle
-      subtleNoHighlights
-      boldVariant
+    return ScrollView {
+      VStack(spacing: Spacing.medium) {
+        navDefault
+        subtle
+        subtleNoHighlights
+        boldVariant
+      }
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Nav")
   }
 
   var customListView: some View {
-    let navUsers = Section("Block") {
+    let navUsers = PBDoc(title: "Block") {
       PBNav(
         selected: $selectedCustom,
         variant: .normal,
@@ -304,8 +314,14 @@ struct NavCatalog: View {
         }
       }
     }
-    return List {
-      navUsers
+
+    return ScrollView {
+      VStack(spacing: Spacing.medium) {
+        navUsers
+      }
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Nav")
   }
 }

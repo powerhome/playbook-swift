@@ -16,27 +16,31 @@ public struct TimeStampCatalog: View {
 
   let minWidth: CGFloat = 0
   public var body: some View {
-    List {
-      Section("Default") {
-        defaultView()
-      }
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          defaultView()
+        }
 
-      Section("Alignments") {
-        alginmentView()
-      }
+        PBDoc(title: "Alignments") {
+          alginmentView()
+        }
 
-      Section("Timezones") {
-        timeZoneView()
-      }
+        PBDoc(title: "Timezones") {
+          timeZoneView()
+        }
 
-      Section("Last Updated By") {
-        lastUpdatedView()
-      }
+        PBDoc(title: "Last Updated By") {
+          lastUpdatedView()
+        }
 
-      Section("Time Ago") {
-        timeAgoView()
+        PBDoc(title: "Time Ago") {
+          timeAgoView()
+        }
       }
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("TimeStamp")
   }
 
@@ -122,7 +126,6 @@ public struct TimeStampCatalog: View {
 
   func timeZoneView() -> some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-
       Group {
         PBTimestamp(
           Date(),
@@ -184,7 +187,6 @@ public struct TimeStampCatalog: View {
         )
         .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
       }
-
     }
   }
 
@@ -227,8 +229,6 @@ public struct TimeStampCatalog: View {
         variant: .hideUserElapsed
       )
       .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-
     }
   }
-
 }
