@@ -8,11 +8,14 @@
 import SwiftUI
 
 public struct PopoverCatalog: View {
+  @State private var scrollPosition: CGPoint = .zero
+
   public var body: some View {
     let defaultPopover = HStack {
       Text("Click info for more details")
         .pbFont(.body, color: .text(.default))
       PBPopover(
+        scrollOffset: $scrollPosition,
         content: {
           Text("I'm a popover. I can show content of any size.")
             .pbFont(.body, color: .text(.light))
@@ -26,6 +29,7 @@ public struct PopoverCatalog: View {
       position: .center,
       padding: Spacing.none,
       popoverWidth: 140,
+      scrollOffset: $scrollPosition,
       content: {
         List {
           PBButton(variant: .link, title: "Popularity")
@@ -50,6 +54,7 @@ public struct PopoverCatalog: View {
       PBPopover(
         position: .bottom,
         dismissOptions: .inside,
+        scrollOffset: $scrollPosition,
         content: {
           Text("Click on me!")
             .pbFont(.body, color: .text(.light))
@@ -60,6 +65,7 @@ public struct PopoverCatalog: View {
       PBPopover(
         position: .top,
         dismissOptions: .outside,
+        scrollOffset: $scrollPosition,
         content: {
           Text("Click anywhere but me!")
             .pbFont(.body, color: .text(.light))
@@ -70,6 +76,7 @@ public struct PopoverCatalog: View {
       PBPopover(
         position: .right,
         dismissOptions: .anywhere,
+        scrollOffset: $scrollPosition,  
         content: {
           Text("Click anything!")
             .pbFont(.body, color: .text(.light))
@@ -78,9 +85,12 @@ public struct PopoverCatalog: View {
         })
     }
 
-    let scrollPopover = PBPopover(popoverWidth: 250, content: {
-      ScrollView {
-        Text(
+    let scrollPopover = PBPopover(
+      popoverWidth: 250, 
+      scrollOffset: $scrollPosition,   
+      content: {
+        ScrollView {
+          Text(
           """
           So many people live within unhappy circumstances and yet will not take
           the initiative to change their situation
@@ -105,11 +115,33 @@ public struct PopoverCatalog: View {
         //      PBDoc(title: "With Background") { withBackgroudPopover }
         PBDoc(title: "Close options") { closePopover }
         PBDoc(title: "Scroll") { scrollPopover }
+        PBDoc(title: "Default") { defaultPopover }
+        PBDoc(title: "Dropdrown") { dropdownPopover }
+        //      PBDoc(title: "With Background") { withBackgroudPopover }
+        PBDoc(title: "Close options") { closePopover }
+        PBDoc(title: "Scroll") { scrollPopover }
       }
       .padding(Spacing.medium)
-    }
+      .background(GeometryReader { geometry in
+          Color.clear
+              .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
+      })
+      .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+          self.scrollPosition = value
+          print("Scroll offset: \(scrollPosition.y)")
+      }
+  }
+  .coordinateSpace(name: "scroll")
     .background(Color.background(Color.BackgroundColor.light))
     .preferredColorScheme(.light)
     .navigationTitle("Popover")
   }
+}
+
+
+struct ScrollOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGPoint = .zero
+
+    static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {
+    }
 }

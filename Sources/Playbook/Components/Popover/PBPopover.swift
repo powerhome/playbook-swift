@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-#if os(iOS)
-import Popovers
-#endif
 
 public struct PBPopover<Content: View, Label: View>: View {
   let position: PopoverPosition
@@ -20,6 +17,9 @@ public struct PBPopover<Content: View, Label: View>: View {
   let label: Label
 
   @State private var presentPopover: Bool = false
+  @State private var popoverPosition: CGRect = .zero
+  @State private var popoverSize: CGSize = .zero
+  @Binding var scrollOffset: CGPoint
 
   public init(
     position: PopoverPosition = .bottom,
@@ -27,6 +27,7 @@ public struct PBPopover<Content: View, Label: View>: View {
     backgroundAlpha: CGFloat = 0,
     popoverWidth: CGFloat? = nil,
     dismissOptions: DismissOptions = .anywhere,
+    scrollOffset: Binding<CGPoint>,
     @ViewBuilder content: (() -> Content) = { EmptyView() },
     @ViewBuilder label: (() -> Label) = { EmptyView() }
   ) {
@@ -35,6 +36,7 @@ public struct PBPopover<Content: View, Label: View>: View {
     self.backgroundAlpha = backgroundAlpha
     self.popoverWidth = popoverWidth
     self.dismissOptions = dismissOptions
+    self._scrollOffset = scrollOffset
     self.content = content()
     self.label = label()
   }
@@ -44,91 +46,43 @@ public struct PBPopover<Content: View, Label: View>: View {
       label
         .disabled(true)
         .onTapGesture {
+          UIView.setAnimationsEnabled(false)
           presentPopover.toggle()
         }
-      #if os(iOS)
-        .popover(
-          present: $presentPopover,
-          attributes: {
-            $0.position = position.position
-            $0.sourceFrameInset.horizontal = -16
-            $0.sourceFrameInset.vertical = -16
-            if position == .center {
-              $0.sourceFrameInset.bottom = -32
+        .background(GeometryReader { proxy in
+          Color.clear
+            .onAppear {
+              popoverPosition = proxy.frame(in: .global)
             }
-            $0.rubberBandingMode = .none
-            switch dismissOptions {
-            case .outside, .anywhere:
-              $0.dismissal.mode = .tapOutside
-            case .inside:
-              $0.dismissal.mode = .none
-            }
+        })
+        .fullScreenCover(isPresented: $presentPopover) {
+          PBCard(padding: Spacing.small) {
+            content
           }
-        ) { popoverView }
-      #elseif os(macOS)
-        .popover(isPresented: $presentPopover) { popoverView }
-      #endif
+          .background(GeometryReader { proxy in
+            Color.clear.onAppear {
+              popoverSize = proxy.size
+            }
+          })
+          .position(
+            x: popoverPosition.maxX + popoverSize.width/2 + 6, 
+            y: popoverPosition.minY - popoverPosition.height/2 + scrollOffset.y
+          )
+          .backgroundViewModifier(alpha: 0)
+          .onTapGesture {
+            presentPopover.toggle()
+          }
+        }
     }
   }
-
-var popoverView: some View {
-  PBCard(
-    padding: padding,
-    shadow: .deeper,
-    width: popoverWidth
-  ) {
-    content
-  }
-  .environment(\.colorScheme, .light)
-  .onTapGesture {
-    switch dismissOptions {
-    case .inside, .anywhere:
-      presentPopover.toggle()
-    case .outside:
-      break
-    }
-  }
-  .backgroundViewModifier(alpha: backgroundAlpha)  
 }
 
-  public enum DismissOptions {
-    case inside, outside, anywhere
-  }
+public enum DismissOptions {
+  case inside, outside, anywhere
 }
 
 public enum PopoverPosition {
-  case top, bottom, right, left, center
-#if os(iOS)
-  var position: Popover.Attributes.Position {
-    switch self {
-    case .top:
-      return .absolute(
-        originAnchor: .top,
-        popoverAnchor: .bottom
-      )
-    case .bottom:
-      return .absolute(
-        originAnchor: .bottom,
-        popoverAnchor: .top
-      )
-    case .right:
-      return .absolute(
-        originAnchor: .right,
-        popoverAnchor: .left
-      )
-    case .left:
-      return .absolute(
-        originAnchor: .left,
-        popoverAnchor: .right
-      )
-    case .center:
-      return .absolute(
-        originAnchor: .center,
-        popoverAnchor: .top
-      )
-    }
-  }
-  #endif
+  case top, bottom, left, right, center
 }
 
 public struct PBPopover_Previews: PreviewProvider {
