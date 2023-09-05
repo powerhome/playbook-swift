@@ -26,7 +26,7 @@ public struct PopoverCatalog: View {
     }
 
     let dropdownPopover = PBPopover(
-      position: .center,
+      position: .center((0, 0)),
       padding: Spacing.none,
       popoverWidth: 140,
       scrollOffset: $scrollPosition,
@@ -52,7 +52,6 @@ public struct PopoverCatalog: View {
 
     let closePopover = VStack(spacing: Spacing.medium) {
       PBPopover(
-        position: .bottom,
         dismissOptions: .inside,
         scrollOffset: $scrollPosition,
         content: {
@@ -63,7 +62,7 @@ public struct PopoverCatalog: View {
         })
 
       PBPopover(
-        position: .top,
+        position: .top((0, 0)),
         dismissOptions: .outside,
         scrollOffset: $scrollPosition,
         content: {
@@ -74,9 +73,9 @@ public struct PopoverCatalog: View {
       })
 
       PBPopover(
-        position: .right,
+        position: .right((0, 0)),
         dismissOptions: .anywhere,
-        scrollOffset: $scrollPosition,  
+        scrollOffset: $scrollPosition,
         content: {
           Text("Click anything!")
             .pbFont(.body, color: .text(.light))
@@ -86,8 +85,9 @@ public struct PopoverCatalog: View {
     }
 
     let scrollPopover = PBPopover(
-      popoverWidth: 250, 
-      scrollOffset: $scrollPosition,   
+      position: .right((0, 130)),
+      popoverWidth: 250,
+      scrollOffset: $scrollPosition,
       content: {
         ScrollView {
           Text(
@@ -112,36 +112,22 @@ public struct PopoverCatalog: View {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") { defaultPopover }
         PBDoc(title: "Dropdrown") { dropdownPopover }
-        //      PBDoc(title: "With Background") { withBackgroudPopover }
-        PBDoc(title: "Close options") { closePopover }
-        PBDoc(title: "Scroll") { scrollPopover }
-        PBDoc(title: "Default") { defaultPopover }
-        PBDoc(title: "Dropdrown") { dropdownPopover }
-        //      PBDoc(title: "With Background") { withBackgroudPopover }
         PBDoc(title: "Close options") { closePopover }
         PBDoc(title: "Scroll") { scrollPopover }
       }
       .padding(Spacing.medium)
       .background(GeometryReader { geometry in
-          Color.clear
-              .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
+        Color.clear
+          .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
       })
       .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-          self.scrollPosition = value
-          print("Scroll offset: \(scrollPosition.y)")
+        self.scrollPosition = value
+        print("Scroll offset: \(scrollPosition.y)")
       }
-  }
-  .coordinateSpace(name: "scroll")
+    }
+    .coordinateSpace(name: "scroll")
     .background(Color.background(Color.BackgroundColor.light))
     .preferredColorScheme(.light)
     .navigationTitle("Popover")
   }
-}
-
-
-struct ScrollOffsetPreferenceKey: PreferenceKey {
-    static var defaultValue: CGPoint = .zero
-
-    static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {
-    }
 }
