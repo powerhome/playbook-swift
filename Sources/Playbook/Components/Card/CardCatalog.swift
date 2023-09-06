@@ -100,7 +100,7 @@ public struct CardCatalog: View {
         Text(text).pbFont(.body)
       }
       Text("Selected").pbFont(.detail(true), color: .text(.default))
-      PBCard(style: .selected) {
+      PBCard(style: .selected()) {
         Text(text).pbFont(.body)
       }
       Text("Error").pbFont(.detail(true), color: .text(.default))
