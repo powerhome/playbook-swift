@@ -7,10 +7,13 @@
 
 import SwiftUI
 import Playbook
+#if os(iOS)
 import UIKit
+#endif
 
 struct ContentListView: View {
 
+#if os(iOS)
   init() {
     let appearance = UINavigationBarAppearance()
     appearance.configureWithOpaqueBackground()
@@ -21,6 +24,7 @@ struct ContentListView: View {
     UINavigationBar.appearance().compactAppearance = appearance
     UINavigationBar.appearance().scrollEdgeAppearance = appearance
   }
+#endif
 
   @State var selectedItem: Int = 0
   var body: some View {
@@ -46,6 +50,7 @@ struct ContentListView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
     }
+    .navigationViewStyle(.stack)
   }
 
   var bottomBar: some View {
@@ -55,11 +60,7 @@ struct ContentListView: View {
       orientation: .horizontal
     ) {
       PBNavItem(DesignElements.title)
-        .environment(\.selected, selectedItem == 0 ? true : false)
-        .environment(\.hovering, selectedItem == 0 ? true : false)
       PBNavItem(Componenets.title)
-        .environment(\.selected, selectedItem == 1 ? true : false)
-        .environment(\.hovering, selectedItem == 1 ? true : false)
     }
     .offset(y: -8)
     .frame(maxWidth: .infinity, minHeight: 80)
