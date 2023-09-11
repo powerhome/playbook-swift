@@ -10,22 +10,28 @@ import SwiftUI
 @available(iOS 16.4, *)
 struct Popup<T: View>: ViewModifier {
   let popup: T
+  let position: PopoverPosition
   let dismissOptions: DismissOptions
   let alignment: Alignment
+
   @State var isPresented: Bool = false
-  @State var position: CGRect = .zero
-  @State var size: CGFloat = .zero
-  
+  @State var heightOffset: CGFloat = .zero
+  @State var midY: CGFloat = .zero
+  @State var yOffset: CGFloat = .zero
+  @State var xOffset: CGFloat = .zero
+
   init(
-    dismissOptions: DismissOptions,
-    alignment: Alignment, 
+    position: PopoverPosition,
+    dismissOptions: DismissOptions = .outside,
+    alignment: Alignment,
     @ViewBuilder content: () -> T
   ) {
+    self.position = position
     self.dismissOptions = dismissOptions
     self.alignment = alignment
     popup = content()
   }
-  
+
   func body(content: Content) -> some View {
     content
       .disabled(true)
@@ -34,56 +40,125 @@ struct Popup<T: View>: ViewModifier {
           Color.clear
             .fullScreenCover(isPresented: $isPresented) {
               popupContent(geometry.frame(in: .global))
-                .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + size)
-                .onTapGesture {
-                  switch dismissOptions {
-                  case .outside, .anywhere:
-                    isPresented.toggle()
-                  case .inside:
-                    break
-                  }
-                }
+                .position(
+                  x: geometry.frame(in: .global).midX + xOffset,
+                  y: (geometry.frame(in: .global).midY) + heightOffset + yOffset
+                )
                 .backgroundViewModifier(alpha: 0)
             }
         }
       }
       .onTapGesture {
-        isPresented.toggle()
         UIView.setAnimationsEnabled(false)
+          isPresented.toggle()
       }
   }
-  
+
   @ViewBuilder
-  private func popupContent(_ p: CGRect) -> some View {   
-    PBCard(padding: 10, width: nil) { 
-      popup    
+  private func popupContent(_ p: CGRect) -> some View {
+    PBCard(padding: 10, width: nil) {
+      popup
+    }
+    .onTapGesture {
+      switch dismissOptions {
+      case .inside, .anywhere:
+        isPresented.toggle()
+      case .outside:
+        break
+      }
     }
     .background(GeometryReader { geo in
-      Color.orange.onAppear { //size = geo.size.height 
-        print("size \( geo.size.height )")
-        print("size p \( p.height )")
-        print("MID p \( (p.midY - geo.frame(in: .global).midY))")
-        size = p.midY - geo.frame(in: .global).midY
+      Color.orange.onAppear {
+        print("pop height \( geo.size.height )")
+        print("height label p \( p.height )")
+        
+        midY = p.midY - geo.frame(in: .global).midY + position.coordinates(popover: geo.size).y
+        print("MID p \(midY)")
+        print(position.coordinates(popover: geo.size).y)
+//        yOffset = position.coordinates(popover: geo.size).y
+        xOffset = position.coordinates(popover: geo.size).x
       }
-    })   
+      .onChange(of: midY) { newValue in
+        print("size change \(midY)")
+        print("newValue \(newValue)")
+        if midY != 0 {
+          heightOffset = newValue
+          print("heightOffset \(heightOffset)")
+        }
+      }
+    })
     .preferredColorScheme(.light)
-    .offset(x: 0, y: 0)
   }
 }
 
 @available(iOS 16.4, *)
 extension View {
   func popup<T: View>(
+    position: PopoverPosition,
     dismissOptions: DismissOptions = .anywhere,
     alignment: Alignment = .trailing,
     @ViewBuilder content: () -> T
   ) -> some View {
     return modifier(
       Popup(
+        position: position,
         dismissOptions: dismissOptions,
         alignment: alignment,
         content: content)
     )
+  }
+}
+
+public enum DismissOptions {
+  case inside, outside, anywhere
+}
+
+public enum PopoverPosition {
+  case top(_ spacing: CGFloat = Spacing.xSmall)
+  case bottom(_ spacing: CGFloat = Spacing.xSmall)
+  case left(_ spacing: CGFloat = Spacing.xSmall)
+  case right(_ spacing: CGFloat = Spacing.xSmall)
+  case center(_ spacing: CGFloat = Spacing.xSmall)
+
+  func coordinates(popover frame: CGSize) -> CGPoint {
+    switch self {
+    case .top(let offset):
+      return CGPoint(
+        x: 0,
+        y: -frame.height - offset
+      )
+    case .bottom(let offset):
+      return CGPoint(
+        x: 0,
+        y: frame.height + offset
+      )
+    case .right(let offset):
+      return CGPoint(
+        x: frame.width + offset,
+        y: 0
+      )
+    case .left(let offset):
+      return CGPoint(
+        x: -frame.width - offset,
+        y: 0
+      )
+    case .center(let offset):
+      return CGPoint(
+        x: 0,
+        y: 0
+      )
+    }
+  }
+}
+
+public struct PBPopover_Previews: PreviewProvider {
+  public static var previews: some View {
+    registerFonts()
+    if #available(iOS 16.4, *) {
+      return PopoverCatalog()
+    } else {
+      return EmptyView()
+    }
   }
 }
 
@@ -158,59 +233,3 @@ extension View {
 //    }
 //  }
 // }
-
-public enum DismissOptions {
-  case inside, outside, anywhere
-}
-
-public enum PopoverPosition {
-  case top((CGFloat, CGFloat))
-  case bottom((CGFloat, CGFloat))
-  case left((CGFloat, CGFloat))
-  case right((CGFloat, CGFloat))
-  case center((CGFloat, CGFloat))
-  
-  func coordinates(_ labelFrame: CGRect, popoverFrame: CGRect, scrollOffset: CGPoint) -> CGPoint {
-    let space: CGFloat = 8
-    let popoverHeight = popoverFrame.height
-    
-    switch self {
-    case .top((let offsetX, let offsetY)):
-      return CGPoint(
-        x: labelFrame.midX + offsetX,
-        y: labelFrame.midY + offsetY
-      )
-    case .bottom((let offsetX, let offsetY)):
-      return CGPoint(
-        x: labelFrame.midX + offsetX,
-        y: labelFrame.midY + offsetY
-      )
-    case .right((let offsetX, let offsetY)): return
-      CGPoint(
-        x: labelFrame.maxX + popoverFrame.width/2 + space + offsetX,
-        y: labelFrame.midY + offsetY
-      )
-    case .left((let offsetX, let offsetY)): return
-      CGPoint(
-        x: labelFrame.minX - popoverFrame.width/2 - space - offsetX,
-        y: labelFrame.midY + offsetY
-      )
-    case .center((let offsetX, let offsetY)): return
-      CGPoint(
-        x: labelFrame.midX + offsetX,
-        y: labelFrame.midY + offsetY
-      )
-    }
-  }
-}
-
-public struct PBPopover_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    if #available(iOS 16.4, *) {
-      return PopoverCatalog()
-    } else {
-      return EmptyView()
-    }
-  }
-}

@@ -19,7 +19,8 @@ public struct PopoverCatalog: View {
       Text("Click info for more details")
         .pbFont(.body, color: .text(.default))
 
-      PBButton(variant: .secondary, shape: .circle, icon: .fontAwesome(.info)).popup {
+      PBButton(variant: .secondary, shape: .circle, icon: .fontAwesome(.info))
+        .popup(position: .bottom()) {
         Text("I'm a popover. I can show content of any size.")
           .pbFont(.body, color: .text(.light))
       }
@@ -30,7 +31,7 @@ public struct PopoverCatalog: View {
           title: "Filter By",
           icon: .fontAwesome(.chevronDown),
           iconPosition: .right
-        ).popup {
+    ).popup(position: .center()) {
           List {
             PBButton(variant: .link, title: "Popularity")
             PBButton(variant: .link, title: "Title")
@@ -39,26 +40,30 @@ public struct PopoverCatalog: View {
             PBButton(variant: .link, title: "Date Ended")
           }
           .listStyle(.plain)
-          .frame(height: 220)
+          .frame(width: 100, height: 200)
           .pbFont(.body, color: .text(.light))
         }
 
     let closePopover = VStack(spacing: Spacing.medium) {
 
-      PBButton(variant: .secondary, title: "Click Inside").popup {
+      PBButton(variant: .secondary, title: "Click Inside")
+        .popup(position: .bottom()) {
         Text("Click on me!").pbFont(.body, color: .text(.light))
       }
 
-      PBButton(variant: .secondary, title: "Click Outside").popup {
+      PBButton(variant: .secondary, title: "Click Outside")
+        .popup(position: .top()) {
         Text("Click anywhere but me!").pbFont(.body, color: .text(.light))
       }
 
-      PBButton(variant: .secondary, title: "Click Anywhere").popup {
+      PBButton(variant: .secondary, title: "Click Anywhere")
+        .popup(position: .right()) {
         Text("Click anything!")
       }
     }
 
-    let scrollPopover = PBButton(variant: .secondary, title: "Click Me").popup {
+    let scrollPopover = PBButton(variant: .secondary, title: "Click Me")
+      .popup(position: .right()) {
       ScrollView {
         Text(
         """
@@ -73,7 +78,7 @@ public struct PopoverCatalog: View {
         .multilineTextAlignment(.leading)
         .pbFont(.body, color: .text(.default))
       }
-      .frame(height: 150)
+      .frame(width: 200, height: 150)
     }
 
     return ScrollView {
