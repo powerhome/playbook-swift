@@ -7,29 +7,31 @@
 
 import SwiftUI
 
-@available(iOS 16.4, *)
-struct Popup<T: View>: ViewModifier {
-  let popup: T
+struct PBPopover<T: View>: ViewModifier {
+  let popover: T
   let position: PopoverPosition
   let dismissOptions: DismissOptions
-  let backgroundAlpha: CGFloat 
+  let cardPadding: CGFloat
+  let backgroundAlpha: CGFloat
 
   @State var isPresented: Bool = false
-  @State var heightOffset: CGFloat = .zero
-  @State var midY: CGFloat = .zero
   @State var yOffset: CGFloat = .zero
+  @State var midY: CGFloat = .zero
+  @State var midX: CGFloat = .zero
   @State var xOffset: CGFloat = .zero
 
   init(
     position: PopoverPosition,
     dismissOptions: DismissOptions = .outside,
+    cardPadding: CGFloat,
     backgroundAlpha: CGFloat = 0,
-    @ViewBuilder content: () -> T
+    @ViewBuilder popover: () -> T
   ) {
     self.position = position
     self.dismissOptions = dismissOptions
+    self.cardPadding = cardPadding
     self.backgroundAlpha = backgroundAlpha
-    popup = content()
+    self.popover = popover()
   }
 
   func body(content: Content) -> some View {
@@ -38,12 +40,15 @@ struct Popup<T: View>: ViewModifier {
       .background {
         GeometryReader { geometry in
           let frame = geometry.frame(in: .global)
+          let positionX = frame.midX + xOffset
+          let positionY = frame.midY + yOffset
+
           Color.clear
             .fullScreenCover(isPresented: $isPresented) {
               popoverView(frame)
                 .position(
-                  x: frame.midX + xOffset,
-                  y: frame.midY + heightOffset + yOffset
+                  x: positionX,
+                  y: positionY
                 )
                 .backgroundViewModifier(alpha: backgroundAlpha)
             }
@@ -51,14 +56,14 @@ struct Popup<T: View>: ViewModifier {
       }
       .onTapGesture {
         UIView.setAnimationsEnabled(false)
-          isPresented.toggle()
+        isPresented.toggle()
       }
   }
 
   @ViewBuilder
   private func popoverView(_ p: CGRect) -> some View {
-    PBCard(padding: 10, width: nil) {
-      popup
+    PBCard(padding: Spacing.xSmall, width: nil) {
+      popover
     }
     .onTapGesture {
       switch dismissOptions {
@@ -70,13 +75,21 @@ struct Popup<T: View>: ViewModifier {
     }
     .background(GeometryReader { geo in
       Color.clear.onAppear {
-        let offset = position.offset(labelFrame: p.size, popoverFrame: geo.size)
+        let offset = position.offset(
+          labelFrame: p.size,
+          popoverFrame: geo.frame(in: .global)
+        )
         midY = p.midY - geo.frame(in: .global).midY + offset.y
-        xOffset = offset.x
+        midX = offset.x
       }
       .onChange(of: midY) { newValue in
         if midY != 0 {
-          heightOffset = newValue
+          yOffset = newValue
+        }
+      }
+      .onChange(of: midX) { newValue in
+        if midX != 0 {
+          xOffset = newValue
         }
       }
     })
@@ -84,20 +97,21 @@ struct Popup<T: View>: ViewModifier {
   }
 }
 
-@available(iOS 16.4, *)
 extension View {
-  func popup<T: View>(
+  func pbPopover<Content: View>(
     position: PopoverPosition = .bottom(),
     dismissOptions: DismissOptions = .anywhere,
+    cardPadding: CGFloat = Spacing.xSmall,
     backgroundAlpha: CGFloat = 0,
-    @ViewBuilder content: () -> T
+    @ViewBuilder popover: () -> Content
   ) -> some View {
     return modifier(
-      Popup(
+      PBPopover(
         position: position,
-        dismissOptions: dismissOptions,
+        dismissOptions: dismissOptions, 
+        cardPadding: cardPadding,
         backgroundAlpha: backgroundAlpha,
-        content: content)
+        popover: popover)
     )
   }
 }
@@ -107,55 +121,66 @@ public enum DismissOptions {
 }
 
 public enum PopoverPosition {
-  case top(_ spacing: CGFloat = Spacing.xSmall)
-  case bottom(_ spacing: CGFloat = Spacing.xSmall)
+  case top(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
+  case bottom(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
   case left(_ spacing: CGFloat = Spacing.xSmall)
   case right(_ spacing: CGFloat = Spacing.xSmall)
   case center(_ spacing: CGFloat = Spacing.xSmall)
 
-  func offset(labelFrame: CGSize, popoverFrame: CGSize) -> CGPoint {
+  func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
     let labelHeight = labelFrame.height
     let labelWidth = labelFrame.width
     let popHeight = popoverFrame.height
     let popWidth = popoverFrame.width
 
     switch self {
-    case .top(let offset):
+    case .top(let space, let padding):
       return CGPoint(
-        x: 0,
-        y: -(labelHeight/2 + popHeight/2) - offset
+        x: horizontalOffset(popoverFrame, padding),
+        y: -(labelHeight/2 + popHeight/2) - space
       )
-    case .bottom(let offset):
+    case .bottom(let space, let padding):
       return CGPoint(
-        x: 0,
-        y: (labelHeight/2 + popHeight/2) + offset
+        x: horizontalOffset(popoverFrame, padding),
+        y: (labelHeight/2 + popHeight/2) + space
       )
-    case .right(let offset):
+    case .right(let space):
       return CGPoint(
-        x: (labelWidth/2 + popWidth/2) + offset,
+        x: (labelWidth/2 + popWidth/2) + space,
         y: 0
       )
-    case .left(let offset):
+    case .left(let space):
       return CGPoint(
-        x: -(labelWidth/2 + popWidth/2) - offset,
+        x: -(labelWidth/2 + popWidth/2) - space,
         y: 0
       )
-    case .center(let offset):
+    case .center:
       return CGPoint(
         x: 0,
         y: 0
       )
     }
   }
+
+  func horizontalOffset(_ frame: CGRect, _ padding: CGFloat) -> CGFloat {
+    let view = UIScreen.main.bounds
+    var space: CGFloat = 0
+    let frameMax = frame.maxX + padding
+    let frameMin = frame.minX
+
+    if frameMin.isLess(than: view.minX) {
+      space = -frame.minX + padding
+    }
+    if view.maxX.isLess(than: frameMax - 1) {
+      space = -(frameMax - view.maxX) - padding
+    }
+    return space
+  }
 }
 
 public struct PBPopover_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-    if #available(iOS 16.4, *) {
-      return PopoverCatalog()
-    } else {
-      return EmptyView()
-    }
+    return PopoverCatalog()
   }
 }
