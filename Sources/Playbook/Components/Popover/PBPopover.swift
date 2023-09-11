@@ -12,7 +12,7 @@ struct Popup<T: View>: ViewModifier {
   let popup: T
   let position: PopoverPosition
   let dismissOptions: DismissOptions
-  let alignment: Alignment
+  let backgroundAlpha: CGFloat 
 
   @State var isPresented: Bool = false
   @State var heightOffset: CGFloat = .zero
@@ -23,12 +23,12 @@ struct Popup<T: View>: ViewModifier {
   init(
     position: PopoverPosition,
     dismissOptions: DismissOptions = .outside,
-    alignment: Alignment,
+    backgroundAlpha: CGFloat = 0,
     @ViewBuilder content: () -> T
   ) {
     self.position = position
     self.dismissOptions = dismissOptions
-    self.alignment = alignment
+    self.backgroundAlpha = backgroundAlpha
     popup = content()
   }
 
@@ -37,14 +37,15 @@ struct Popup<T: View>: ViewModifier {
       .disabled(true)
       .background {
         GeometryReader { geometry in
+          let frame = geometry.frame(in: .global)
           Color.clear
             .fullScreenCover(isPresented: $isPresented) {
-              popupContent(geometry.frame(in: .global))
+              popoverView(frame)
                 .position(
-                  x: geometry.frame(in: .global).midX + xOffset,
-                  y: (geometry.frame(in: .global).midY) + heightOffset + yOffset
+                  x: frame.midX + xOffset,
+                  y: frame.midY + heightOffset + yOffset
                 )
-                .backgroundViewModifier(alpha: 0)
+                .backgroundViewModifier(alpha: backgroundAlpha)
             }
         }
       }
@@ -55,7 +56,7 @@ struct Popup<T: View>: ViewModifier {
   }
 
   @ViewBuilder
-  private func popupContent(_ p: CGRect) -> some View {
+  private func popoverView(_ p: CGRect) -> some View {
     PBCard(padding: 10, width: nil) {
       popup
     }
@@ -68,22 +69,14 @@ struct Popup<T: View>: ViewModifier {
       }
     }
     .background(GeometryReader { geo in
-      Color.orange.onAppear {
-        print("pop height \( geo.size.height )")
-        print("height label p \( p.height )")
-        
-        midY = p.midY - geo.frame(in: .global).midY + position.coordinates(popover: geo.size).y
-        print("MID p \(midY)")
-        print(position.coordinates(popover: geo.size).y)
-//        yOffset = position.coordinates(popover: geo.size).y
-        xOffset = position.coordinates(popover: geo.size).x
+      Color.clear.onAppear {
+        let offset = position.offset(labelFrame: p.size, popoverFrame: geo.size)
+        midY = p.midY - geo.frame(in: .global).midY + offset.y
+        xOffset = offset.x
       }
       .onChange(of: midY) { newValue in
-        print("size change \(midY)")
-        print("newValue \(newValue)")
         if midY != 0 {
           heightOffset = newValue
-          print("heightOffset \(heightOffset)")
         }
       }
     })
@@ -94,16 +87,16 @@ struct Popup<T: View>: ViewModifier {
 @available(iOS 16.4, *)
 extension View {
   func popup<T: View>(
-    position: PopoverPosition,
+    position: PopoverPosition = .bottom(),
     dismissOptions: DismissOptions = .anywhere,
-    alignment: Alignment = .trailing,
+    backgroundAlpha: CGFloat = 0,
     @ViewBuilder content: () -> T
   ) -> some View {
     return modifier(
       Popup(
         position: position,
         dismissOptions: dismissOptions,
-        alignment: alignment,
+        backgroundAlpha: backgroundAlpha,
         content: content)
     )
   }
@@ -120,26 +113,31 @@ public enum PopoverPosition {
   case right(_ spacing: CGFloat = Spacing.xSmall)
   case center(_ spacing: CGFloat = Spacing.xSmall)
 
-  func coordinates(popover frame: CGSize) -> CGPoint {
+  func offset(labelFrame: CGSize, popoverFrame: CGSize) -> CGPoint {
+    let labelHeight = labelFrame.height
+    let labelWidth = labelFrame.width
+    let popHeight = popoverFrame.height
+    let popWidth = popoverFrame.width
+
     switch self {
     case .top(let offset):
       return CGPoint(
         x: 0,
-        y: -frame.height - offset
+        y: -(labelHeight/2 + popHeight/2) - offset
       )
     case .bottom(let offset):
       return CGPoint(
         x: 0,
-        y: frame.height + offset
+        y: (labelHeight/2 + popHeight/2) + offset
       )
     case .right(let offset):
       return CGPoint(
-        x: frame.width + offset,
+        x: (labelWidth/2 + popWidth/2) + offset,
         y: 0
       )
     case .left(let offset):
       return CGPoint(
-        x: -frame.width - offset,
+        x: -(labelWidth/2 + popWidth/2) - offset,
         y: 0
       )
     case .center(let offset):
@@ -161,75 +159,3 @@ public struct PBPopover_Previews: PreviewProvider {
     }
   }
 }
-
-// public struct PBPopover<Content: View, Label: View>: View {
-//  let position: PopoverPosition
-//  let padding: CGFloat
-//  let backgroundAlpha: CGFloat
-//  let popoverWidth: CGFloat?
-//  let dismissOptions: DismissOptions
-//  let content: Content
-//  let label: Label
-//
-//  @State private var presentPopover: Bool = false
-//  @State private var labelFrame: CGRect = .zero
-//  @State private var popoverSize: CGRect = .zero
-//  @Binding var scrollOffset: CGPoint
-//
-//  public init(
-//    position: PopoverPosition = .bottom((0, 0)),
-//    padding: CGFloat = Spacing.small,
-//    backgroundAlpha: CGFloat = 0,
-//    popoverWidth: CGFloat? = nil,
-//    dismissOptions: DismissOptions = .anywhere,
-//    scrollOffset: Binding<CGPoint>,
-//    @ViewBuilder content: (() -> Content) = { EmptyView() },
-//    @ViewBuilder label: (() -> Label) = { EmptyView() }
-//  ) {
-//    self.position = position
-//    self.padding = padding
-//    self.backgroundAlpha = backgroundAlpha
-//    self.popoverWidth = popoverWidth
-//    self.dismissOptions = dismissOptions
-//    self._scrollOffset = scrollOffset
-//    self.content = content()
-//    self.label = label()
-//  }
-//
-//  public var body: some View {
-//    ZStack {}
-//  }
-//
-//  var popoverView: some View {
-//    PBCard(padding: padding, width: popoverWidth) {
-//      content
-//    }
-//    .preferredColorScheme(.light)
-//    .onTapGesture {
-//      switch dismissOptions {
-//      case .inside, .anywhere:
-//        presentPopover.toggle()
-//      case .outside:
-//        break
-//      }
-//    }
-// #if os(iOS)
-//    .position(
-//      position.coordinates(
-//        labelFrame,
-//        popoverFrame: popoverSize,
-//        scrollOffset: scrollOffset
-//      )
-//    )
-// #endif
-//    .backgroundViewModifier(alpha: 0)
-//    .onTapGesture {
-//      switch dismissOptions {
-//      case .outside, .anywhere:
-//        presentPopover.toggle()
-//      case .inside:
-//        break
-//      }
-//    }
-//  }
-// }

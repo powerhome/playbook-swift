@@ -31,7 +31,7 @@ public struct PopoverCatalog: View {
           title: "Filter By",
           icon: .fontAwesome(.chevronDown),
           iconPosition: .right
-    ).popup(position: .center()) {
+    ).popup(position: .bottom()) {
           List {
             PBButton(variant: .link, title: "Popularity")
             PBButton(variant: .link, title: "Title")
