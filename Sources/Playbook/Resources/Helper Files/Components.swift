@@ -55,12 +55,7 @@ public enum Componenets: String, CaseIterable {
     case .multipleUserStacked: MultipleUsersStackedCatalog()
     case .nav: PBNav_Previews.previews
     case .pill: PillCatalog()
-    case .popover:
-      if #available(iOS 16.4, *) {
-       PopoverCatalog()
-    } else {
-       EmptyView()
-    }
+    case .popover: PopoverCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
     case .radio: RadioCatalog()
     case .sectionSeparator: PBSectionSeparator_Previews.previews

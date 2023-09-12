@@ -34,17 +34,18 @@ struct PBPopover<T: View>: ViewModifier {
     self.popover = popover()
   }
 
+  @ViewBuilder
   func body(content: Content) -> some View {
-    content
-      .disabled(true)
-      .background {
-        GeometryReader { geometry in
-          let frame = geometry.frame(in: .global)
-          let positionX = frame.midX + xOffset
-          let positionY = frame.midY + yOffset
-
-          Color.clear
-            .fullScreenCover(isPresented: $isPresented) {
+    VStack {
+      content
+        .disabled(true)
+        .background {
+          GeometryReader { geometry in
+            let frame = geometry.frame(in: .global)
+            #if os(iOS)
+            let positionX = frame.midX + xOffset
+            let positionY = frame.midY + yOffset
+            Color.clear.fullScreenCover(isPresented: $isPresented) {
               popoverView(frame)
                 .position(
                   x: positionX,
@@ -52,17 +53,25 @@ struct PBPopover<T: View>: ViewModifier {
                 )
                 .backgroundViewModifier(alpha: backgroundAlpha)
             }
+            #elseif os(macOS)
+            BackgroundView(isVisible: $isPresented, frame: frame) {
+              popoverView(frame)
+            }
+            #endif
+          }
         }
-      }
-      .onTapGesture {
-        UIView.setAnimationsEnabled(false)
-        isPresented.toggle()
-      }
+        .onTapGesture {
+          #if os(iOS)
+          UIView.setAnimationsEnabled(false)
+          #endif
+          isPresented.toggle()
+        }
+    }
   }
-
+  
   @ViewBuilder
   private func popoverView(_ p: CGRect) -> some View {
-    PBCard(padding: Spacing.xSmall, width: nil) {
+    PBCard(padding: cardPadding, width: nil) {
       popover
     }
     .onTapGesture {
@@ -108,7 +117,7 @@ extension View {
     return modifier(
       PBPopover(
         position: position,
-        dismissOptions: dismissOptions, 
+        dismissOptions: dismissOptions,
         cardPadding: cardPadding,
         backgroundAlpha: backgroundAlpha,
         popover: popover)
@@ -163,8 +172,9 @@ public enum PopoverPosition {
   }
 
   func horizontalOffset(_ frame: CGRect, _ padding: CGFloat) -> CGFloat {
-    let view = UIScreen.main.bounds
     var space: CGFloat = 0
+    #if os(iOS)
+    let view = UIScreen.main.bounds
     let frameMax = frame.maxX + padding
     let frameMin = frame.minX
 
@@ -174,6 +184,7 @@ public enum PopoverPosition {
     if view.maxX.isLess(than: frameMax - 1) {
       space = -(frameMax - view.maxX) - padding
     }
+    #endif
     return space
   }
 }
@@ -184,3 +195,35 @@ public struct PBPopover_Previews: PreviewProvider {
     return PopoverCatalog()
   }
 }
+
+#if os(macOS)
+struct BackgroundView<T: View>: NSViewRepresentable {
+  @Binding var isVisible: Bool
+  let frame: CGRect
+  let content: T
+
+  init(isVisible: Binding<Bool>, frame: CGRect, @ViewBuilder content: () -> T) {
+    self._isVisible = isVisible
+    self.frame = frame
+    self.content = content()
+  }
+
+  func makeNSView(context: Context) -> NSView {
+    let view = NSView()
+    return view
+  }
+
+  func updateNSView(_ nsView: NSView, context: Context) {
+    if isVisible {
+      let popover = NSPopover()
+      let content = NSHostingController(rootView: content)
+      popover.contentViewController = content
+      popover.setValue(true, forKeyPath: "shouldHideAnchor")
+      popover.animates = false
+      popover.behavior = .semitransient
+      let rect = NSRect(x: nsView.bounds.width/2, y: 0, width: nsView.bounds.width, height: nsView.bounds.height)
+      popover.show(relativeTo: rect, of: nsView, preferredEdge: .minY)
+    }
+  }
+}
+#endif

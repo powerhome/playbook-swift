@@ -225,7 +225,7 @@ import SwiftUI
             isStacked: false,
             cancelButton: ("Cancel", {}),
             confirmButton: ("Okay", {}),
-            midY: .small
+            size: .small
           )
         }
 

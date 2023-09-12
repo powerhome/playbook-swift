@@ -50,7 +50,9 @@ struct ContentListView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
     }
+    #if os(iOS)
     .navigationViewStyle(.stack)
+    #endif
   }
 
   var bottomBar: some View {
