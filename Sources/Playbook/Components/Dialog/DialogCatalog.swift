@@ -31,10 +31,10 @@ import SwiftUI
     }
 
     struct SimpleButton: View {
-      @State var presentDialog: Bool = false
+      @State private var presentDialog: Bool = false
 
-      func foo() {
-        print("Hello World")
+      func closeDialog() {
+        presentDialog = false
       }
 
       var body: some View {
@@ -46,8 +46,8 @@ import SwiftUI
           PBDialog(
             title: "This is some informative text",
             message: infoMessage,
-            cancelButton: ("Cancel", foo),
-            confirmButton: ("Okay", foo)
+            cancelButton: ("Cancel", closeDialog),
+            confirmButton: ("Okay", closeDialog)
           )
           .backgroundViewModifier(alpha: 0.2)
         }
@@ -55,9 +55,10 @@ import SwiftUI
     }
 
     struct ComplexButton: View {
-      @State var presentDialog: Bool = false
+      @State private var presentDialog: Bool = false
+      @State private var message = ""
 
-      func foo() {
+      func closeDialog() {
         presentDialog = false
       }
 
@@ -68,17 +69,16 @@ import SwiftUI
         }
         .fullScreenCover(isPresented: $presentDialog) {
           PBDialog(
-            title: "Header header",
-            cancelButton: ("Back", foo),
-            confirmButton: ("Send My Issue", foo),
+            title: "Send us your thoughts!",
+            cancelButton: ("Cancel", closeDialog),
+            confirmButton: ("Submit", closeDialog),
             content: ({
               ScrollView {
                 Text("Hello Complex Dialog!\nAnything can be placed here")
                   .pbFont(.title2)
                   .multilineTextAlignment(.leading)
 
-                TextField("", text: .constant("text"))
-                  .textFieldStyle(PBTextInputStyle("default"))
+                PBTextInput("text", text: .constant("Some text"))
                   .padding()
               }
             }))
@@ -90,7 +90,11 @@ import SwiftUI
     struct DialogButtonSize: View {
       let title: String
       let size: DialogSize
-      @State private var dialogState: DialogSize?
+      @State private var presentDialog: Bool = false
+
+      func closeDialog() {
+        presentDialog = false
+      }
 
       public init(
         title: String,
@@ -102,14 +106,14 @@ import SwiftUI
       var body: some View {
         PBButton(title: title) {
           disableAnimation()
-          dialogState = size
+          presentDialog.toggle()
         }
-        .fullScreenCover(item: .constant(dialogState)) { item in
+        .fullScreenCover(isPresented: $presentDialog) {
           PBDialog(
-            title: "\(item.rawValue.capitalized) Dialog",
+            title: "\(title) Dialog",
             message: infoMessage,
-            cancelButton: ("Cancel", { dialogState = nil }),
-            confirmButton: ("Okay", { dialogState = nil }),
+            cancelButton: ("Cancel", closeDialog),
+            confirmButton: ("Okay", closeDialog),
             size: size
           )
           .backgroundViewModifier(alpha: 0.2)
@@ -128,16 +132,16 @@ import SwiftUI
     }
 
     struct StackedButton: View {
-      @State var presentDialog1: Bool = false
-      @State var presentDialog2: Bool = false
+      @State private var presentDialog1: Bool = false
+      @State private var presentDialog2: Bool = false
 
-      func foo() {
+      func closeDialog() {
         presentDialog1 = false
         presentDialog2 = false
       }
 
       var body: some View {
-        HStack(spacing: Spacing.small) {
+        VStack(alignment: .leading, spacing: Spacing.small) {
           PBButton(title: "Stacked") {
             disableAnimation()
             presentDialog1.toggle()
@@ -148,8 +152,8 @@ import SwiftUI
               message: infoMessage,
               variant: .status(.success),
               isStacked: true,
-              cancelButton: ("Cancel", foo),
-              confirmButton: ("Okay", foo),
+              cancelButton: ("Cancel", closeDialog),
+              confirmButton: ("Okay", closeDialog),
               size: .small
             )
             .backgroundViewModifier(alpha: 0.2)
@@ -165,7 +169,7 @@ import SwiftUI
               message: infoMessage,
               variant: .status(.error),
               isStacked: true,
-              confirmButton: ("Okay", foo),
+              confirmButton: ("Okay", closeDialog),
               size: .small
             )
             .backgroundViewModifier(alpha: 0.2)
@@ -175,9 +179,9 @@ import SwiftUI
     }
 
     struct StatusButtons: View {
-      @State var presentDialog: DialogStatus?
+      @State private var presentDialog: DialogStatus?
 
-      func foo() {
+      func closeDialog() {
         presentDialog = nil
       }
 
@@ -194,8 +198,8 @@ import SwiftUI
                 message: infoMessage,
                 variant: .status(item),
                 isStacked: false,
-                cancelButton: ("Cancel", foo),
-                confirmButton: ("Okay", foo)
+                cancelButton: ("Cancel", closeDialog),
+                confirmButton: ("Okay", closeDialog)
               )
               .backgroundViewModifier(alpha: 0.2)
             }
@@ -206,9 +210,9 @@ import SwiftUI
   }
 #elseif os(macOS)
   public struct DialogCatalog: View {
-    @State var presentSmallDialog: Bool = false
-    @State var presentMediumDialog: Bool = false
-    @State var presentLargeDialog: Bool = false
+    @State private var presentSmallDialog: Bool = false
+    @State private var presentMediumDialog: Bool = false
+    @State private var presentLargeDialog: Bool = false
 
     let infoMessage = "This is a message for informational purposes only and requires no action."
 

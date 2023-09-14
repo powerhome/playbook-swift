@@ -52,7 +52,7 @@ struct PBCircleStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    return HStack {
+    return HStack(spacing: Spacing.small) {
       PBButton(
         shape: .circle,
         icon: PBIcon.fontAwesome(.plus, size: .x1),

@@ -32,7 +32,7 @@ waitUntil { success }
 
 runShortNode {
   stage('Runway Comment') {
-    // writeRunwayComment()
+    writeRunwayComment()
   }
   stage('Tag') {
     try { fastlane("tag_build build:${buildNumber}") } catch (e) { }

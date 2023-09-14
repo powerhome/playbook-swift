@@ -7,45 +7,258 @@
 
 import SwiftUI
 
-public struct PBTextInputStyle: TextFieldStyle {
+public struct PBTextInput: View {
   public let title: String?
-  public let style: PBCardStyle
+  public let placeholder: String
+  public let error: (Bool, String)?
+  public let style: Style
+  public var onChange: Bool?
+  #if os(iOS)
+  public let keyboardType: UIKeyboardType
+  #endif
+  @Binding public var text: String
+  @FocusState private var selected: Bool
+  @State private var isHovering: Bool = false
+  @State private var isIconHovering: Bool = false
 
-  public init(_ title: String? = nil, style: PBCardStyle = .default) {
-    self.title = title
-    self.style = style
-  }
-
-  public func _body(configuration: TextField<Self._Label>) -> some View {
-    VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+  public var body: some View {
+    VStack(alignment: .leading, spacing: Spacing.none) {
       if let title = title {
         Text(title)
-          .pbFont(.title4, color: .text(.light))
+          .pbFont(.caption)
+          .padding(.bottom, Spacing.xSmall)
       }
-      PBCard(padding: 0, style: style) {
-        configuration
-          .padding(.leading, 16)
-          .frame(height: 44)
-          .foregroundColor(.text(.default))
+
+      PBCard(padding: Spacing.none) {
+        HStack(alignment: .center, spacing: Spacing.none) {
+          leftView
+          pbTextField
+            .textFieldStyle(.plain)
+            .padding(.horizontal, 16)
+            .frame(maxHeight: .infinity)
+            .pbFont(.body, color: .text(.default))
+            .tint(.text(.default))
+            .background(backgroundColor)
+            .focused($selected, equals: true)
+            .disabled(style == .disabled)
+          rightView
+        }
+      }
+      .overlay(alignment: .center) {
+        RoundedRectangle(cornerRadius: BorderRadius.medium)
+          .stroke(lineWidth: lineWidth)
+          .frame(maxHeight: .infinity)
+          .clipShape(
+            Rectangle()
+              .offset(x: offset, y: 0)
+          )
+          .foregroundColor(borderColor)
+
+      }
+      .frame(height: 45)
+      .onTapGesture {
+        selected = true
+      }
+      .onHover { isHovering in
+        self.isHovering = isHovering
+      }
+
+      if let error, error.0 {
+        Text(error.1)
+          .pbFont(.body, color: .status(.error))
+          .padding(.top, Spacing.xxSmall)
+          .foregroundColor(.status(.error))
+      }
+
+      if onChange != nil {
+        Text(text)
           .pbFont(.body)
-          .textFieldStyle(PlainTextFieldStyle())
+          .padding(.top, Spacing.xxSmall)
+          .foregroundColor(.text(.default))
       }
     }
+  }
+
+  var lineWidth: CGFloat {
+    #if os(iOS)
+    return 1.4
+    #elseif os(macOS)
+    return 2
+    #endif
+  }
+
+  var divider: some View {
+    Divider()
+      .frame(width: 1)
+      .overlay(borderColor)
+      .opacity(dividerOpacity)
+  }
+
+  var offset: CGFloat {
+    switch style {
+    case .leftIcon: return 45
+    case .rightIcon: return -45
+    default: return 0
+    }
+  }
+
+  @ViewBuilder
+  var leftView: some View {
+    switch style {
+    case .leftIcon(let icon, divider: _):
+      customIcon(icon)
+      divider
+    default: EmptyView()
+    }
+  }
+
+  @ViewBuilder
+  var rightView: some View {
+    switch style {
+    case .rightIcon(let icon, divider: _):
+      divider
+      customIcon(icon)
+    default: EmptyView()
+    }
+  }
+
+  func customIcon(_ icon: FontAwesome) -> some View {
+    PBIcon.fontAwesome(icon, size: .x1)
+      .foregroundColor(.text(.lighter))
+      .frame(width: 45)
+  }
+
+  var borderStyle: PBCardStyle {
+    if error != nil {
+      return .error
+    } else {
+      switch style {
+      case .default: return selected ? .selected(type: .textInput) : .`default`
+      case .inline:
+        if selected {
+          return .selected(type: .textInput)
+        } else if isHovering {
+          return .`default`
+        } else {
+          return .inline
+        }
+      default: return .`default`
+      }
+    }
+  }
+
+  var borderColor: Color {
+    if error != nil {
+      return .status(.error)
+    } else {
+      switch style {
+      case .inline:
+        if selected {
+          return Color.pbPrimary
+        } else if isHovering {
+          return .border
+        } else {
+          return .clear
+        }
+      case .disabled: return Color.border.opacity(0.5)
+      default: return selected ? Color.pbPrimary : Color.border
+      }
+    }
+  }
+
+  var dividerOpacity: Double {
+    switch style {
+    case .leftIcon(_, divider: false): return 0
+    case .rightIcon(_, divider: false): return 0
+    default: return 1
+    }
+  }
+
+  var placeHolder: Text {
+    Text(placeholder)
+      .foregroundColor(placeHolderColor)
+      .font(
+        Font.custom(
+          ProximaNova.light.rawValue,
+          size: TextSize.Body.base.rawValue
+        )
+      )
+  }
+
+  var placeHolderColor: Color {
+    switch style {
+    case .disabled: return .text(.light).opacity(0.5)
+    default: return .text(.light)
+    }
+  }
+
+  var backgroundColor: Color {
+    switch style {
+    case .disabled: return Color(hex: "#f4f4f6").opacity(0.5)
+    default: return(selected || isHovering) ? .active : .card
+    }
+  }
+
+  var pbTextField: some View {
+    #if os(iOS)
+    TextField("", text: $text, prompt: placeHolder)
+      .keyboardType(keyboardType)
+    #elseif os(macOS)
+    MacOSTextField(text: $text, prompt: placeholder)
+    #endif
   }
 }
 
-// MARK: -
+public extension PBTextInput {
+  #if os(iOS)
+  init(
+    _ title: String? = nil,
+    text: Binding<String>,
+    placeholder: String = "",
+    error: (Bool, String)? = nil,
+    style: Style = .default,
+    keyboardType: UIKeyboardType = .default,
+    onChange: Bool? = nil
+  ) {
+    self.title = title
+    self._text = text
+    self.placeholder = placeholder
+    self.error = error
+    self.style = style
+    self.keyboardType = keyboardType
+    self.onChange = onChange
+  }
+  #elseif os(macOS)
+  init(
+    _ title: String? = nil,
+    text: Binding<String>,
+    placeholder: String = "",
+    error: (Bool, String)? = nil,
+    style: Style = .default,
+    onChange: Bool? = nil
+  ) {
+    self.title = title
+    self._text = text
+    self.placeholder = placeholder
+    self.error = error
+    self.style = style
+    self.onChange = onChange
+  }
+  #endif
+}
+
+public extension PBTextInput {
+  enum Style: Equatable {
+    case `default`
+    case rightIcon(_ icon: FontAwesome, divider: Bool)
+    case leftIcon(_ icon: FontAwesome, divider: Bool)
+    case inline
+    case disabled
+  }
+}
 
 public struct PBTextInput_Previews: PreviewProvider {
   public static var previews: some View {
-    VStack {
-      TextField("", text: .constant("text"))
-        .textFieldStyle(PBTextInputStyle("default"))
-      TextField("", text: .constant("text"))
-        .textFieldStyle(PBTextInputStyle("selected", style: .selected))
-      TextField("", text: .constant("text"))
-        .textFieldStyle(PBTextInputStyle("error", style: .error))
-    }
-    .padding(24)
+    TextInputCatalog()
   }
 }

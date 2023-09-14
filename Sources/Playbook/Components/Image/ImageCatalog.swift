@@ -1,6 +1,6 @@
 //
 //  ImageCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -9,48 +9,47 @@ import SwiftUI
 
 public struct ImageCatalog: View {
   public var body: some View {
-    List {
-      Section("Default") {
-        VStack(alignment: .leading, spacing: Spacing.xSmall) {
-          ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-            VStack(alignment: .leading, spacing: Spacing.xSmall) {
-              Text(size.name).pbFont(.caption)
-              PBImage(
-                image: nil,
-                placeholder: Image("Forest", bundle: .module),
-                size: size,
-                rounded: .sharp
-              )
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          VStack(alignment: .leading, spacing: Spacing.small) {
+            ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+              VStack(alignment: .leading) {
+                Text(size.name).pbFont(.detail(true), color: .text(.default))
+                PBImage(
+                  image: nil,
+                  placeholder: Image("Forest", bundle: .module),
+                  size: size,
+                  rounded: .sharp
+                )
+              }
             }
-            .padding(.bottom)
+            VStack(alignment: .leading) {
+              Text("None").pbFont(.detail(true), color: .text(.default))
+              PBImage(image: Image("Forest", bundle: .module))
+            }
           }
-          Text("None")
-            .pbFont(.caption)
-          PBImage(image: Image("Forest", bundle: .module))
         }
-        .padding(.vertical)
-      }
-      .listRowSeparator(.hidden)
 
-      Section("Rounded") {
-        VStack(alignment: .leading, spacing: Spacing.xSmall) {
-          ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-            VStack(alignment: .leading, spacing: Spacing.xSmall) {
-              Text(size.name).pbFont(.caption)
-              PBImage(
-                image: nil,
-                placeholder: Image("Forest", bundle: .module),
-                size: size,
-                rounded: .rounded
-              )
+        PBDoc(title: "Rounded") {
+          VStack(alignment: .leading, spacing: Spacing.small) {
+            ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+              VStack(alignment: .leading) {
+                Text(size.name).pbFont(.detail(true), color: .text(.default))
+                PBImage(
+                  image: nil,
+                  placeholder: Image("Forest", bundle: .module),
+                  size: size,
+                  rounded: .rounded
+                )
+              }
             }
-            .padding(.bottom)
           }
         }
-        .padding(.top)
       }
-      .listRowSeparator(.hidden)
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Image")
   }
 }

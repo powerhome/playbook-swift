@@ -8,6 +8,7 @@
 import SwiftUI
 
 public struct PBButton: View {
+  var fullWidth: Bool
   var variant: PBButtonVariant
   var size: Size
   var shape: Shape
@@ -17,6 +18,7 @@ public struct PBButton: View {
   let action: (() -> Void)?
 
   public init(
+    fullWidth: Bool = false,
     variant: PBButtonVariant = .primary,
     size: Size = .medium,
     shape: Shape = .primary,
@@ -25,6 +27,7 @@ public struct PBButton: View {
     iconPosition: IconPosition? = .left,
     action: (() -> Void)? = {}
   ) {
+    self.fullWidth = fullWidth
     self.variant = variant
     self.size = size
     self.shape = shape
@@ -46,6 +49,7 @@ public struct PBButton: View {
         }
       }
       .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
+      .frame(maxWidth: fullWidth ? .infinity : nil)
     }
     .customButtonStyle(
       variant: variant,
