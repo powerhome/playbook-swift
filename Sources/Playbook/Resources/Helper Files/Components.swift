@@ -21,6 +21,8 @@ public enum Componenets: String, CaseIterable {
   case image
   case label = "Label Value"
   case message
+  case multipleUser = "Multiple User"
+  case multipleUsersIndicator = "Multiple User Indicator"
   case multipleUserStacked = "Multiple User Stacked"
   case nav
   case pill
@@ -51,6 +53,8 @@ public enum Componenets: String, CaseIterable {
     case .image: PBImage_Previews.previews
     case .label: PBLabelValue_Previews.previews
     case .message: PBMessage_Previews.previews
+    case .multipleUser: MultipleUsersCatalog()
+    case .multipleUsersIndicator: MultipleUsersIndicatorCatalog()
     case .multipleUserStacked: MultipleUsersStackedCatalog()
     case .nav: PBNav_Previews.previews
     case .pill: PillCatalog()
@@ -62,7 +66,7 @@ public enum Componenets: String, CaseIterable {
     case .textInput: PBTextInput_Previews.previews
     case .timeStamp: TimeStampCatalog()
     case .toggle: ToggleCatalog()
-    case .user: PBMultipleUsers_Previews.previews
+    case .user: UserCatalog()
     }
   }
 }
