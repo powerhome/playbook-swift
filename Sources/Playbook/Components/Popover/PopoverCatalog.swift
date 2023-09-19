@@ -18,11 +18,15 @@ public struct PopoverCatalog: View {
       Text("Click info for more details")
         .pbFont(.body, color: .text(.default))
 
-      PBButton(variant: .secondary, shape: .circle, icon: .fontAwesome(.info))
-        .pbPopover(position: .bottom()) {
-          Text("I'm a popover. I can show content of any size.")
-            .pbFont(.body, color: .text(.light))
-        }
+      PBButton(
+        variant: .secondary,
+        shape: .circle,
+        icon: .fontAwesome(.info)
+      )
+      .pbPopover(position: .bottom()) {
+        Text("I'm a popover. I can show content of any size.")
+          .pbFont(.body, color: .text(.default))
+      }
     }
 
     let dropdownPopover = PBButton(
@@ -31,7 +35,7 @@ public struct PopoverCatalog: View {
       icon: .fontAwesome(.chevronDown),
       iconPosition: .right
     )
-      .pbPopover(position: .bottom()) {
+      .pbPopover(position: .bottom(), cardPadding: Spacing.none) {
         List {
           PBButton(variant: .link, title: "Popularity")
           PBButton(variant: .link, title: "Title")
@@ -40,29 +44,52 @@ public struct PopoverCatalog: View {
           PBButton(variant: .link, title: "Date Ended")
         }
         .listStyle(.plain)
-        .frame(width: 100, height: 200)
+        .frame(width: 150, height: 200)
         .pbFont(.body, color: .text(.light))
       }
 
     let closePopover = VStack(spacing: Spacing.medium) {
-      PBButton(variant: .secondary, title: "Click Inside")
-        .pbPopover(position: .bottom()) {
-          Text("Click on me!")
-            .pbFont(.body, color: .text(.light))
-        }
+      PBButton(
+        variant: .secondary,
+        title: "Click Inside"
+      )
+      .pbPopover(
+        position: .bottom(),
+        shouldClosePopover: .inside
+      ) {
+        Text("Click on me!")
+          .pbFont(.body, color: .text(.default))
+      }
 
-      PBButton(variant: .secondary, title: "Click Outside")
-        .pbPopover(position: .top()) {
-          Text("Click anywhere but me!").pbFont(.body, color: .text(.light))
-        }
+      PBButton(
+        variant: .secondary,
+        title: "Click Outside"
+      )
+      .pbPopover(
+        position: .top(),
+        shouldClosePopover: .outside
+      ) {
+        Text("Click anywhere but me!")
+          .pbFont(.body, color: .text(.default))
+      }
 
-      PBButton(variant: .secondary, title: "Click Anywhere")
-        .pbPopover(position: .right()) {
-          Text("Click anything!")
-        }
+      PBButton(
+        variant: .secondary,
+        title: "Click Anywhere"
+      )
+      .pbPopover(
+        position: .right(),
+        shouldClosePopover: .anywhere
+      ) {
+        Text("Click anything!")
+          .pbFont(.body, color: .text(.default))
+      }
     }
 
-    let scrollPopover = PBButton(variant: .secondary, title: "Click Me")
+    let scrollPopover = PBButton(
+      variant: .secondary,
+      title: "Click Me"
+    )
       .pbPopover(position: .right()) {
         ScrollView {
           Text(
