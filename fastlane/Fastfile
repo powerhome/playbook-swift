@@ -21,6 +21,16 @@ target_ios = 'PlaybookShowcase-iOS'
 build_path = "BuildTemp/Archives"
 derived_data_path = "DerivedData"
 
+desc "Tag build"
+lane :tag_build do |opts|
+  begin
+    add_git_tag(tag: "builds/#{opts[:build]}")
+    push_git_tags(remote: "git@github.com:powerhome/PlaybookSwift.git")
+  rescue => ex
+    UI.error(ex)
+  end
+end
+
 desc "Build iOS"
 lane :build_ios do |opts|
 
