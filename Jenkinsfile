@@ -262,7 +262,7 @@ def buildAndShipiOS(String fastlaneOpts) {
   }
   checkForFailedParallelJob()
   stage('Upload iOS') {
-    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\"")
+    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
   }
 }
 
