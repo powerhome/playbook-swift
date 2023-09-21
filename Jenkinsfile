@@ -44,7 +44,8 @@ runShortNode {
 def setupEnvironment(block) {
   withCredentials([
     string(credentialsId: '62620542-b00d-4c1f-81dd-4d014369f07d', variable: 'GITHUB_API_TOKEN'),
-    string(credentialsId: 'nitro-runway-api-token-tps-40', variable: 'RUNWAY_API_TOKEN')
+    string(credentialsId: 'nitro-runway-api-token-tps-40', variable: 'RUNWAY_API_TOKEN'),
+    string(credentialsId: 'appcenter-token', variable: 'APPCENTER_API_TOKEN')
   ]) {
     withEnv(['LC_ALL=en_US.UTF-8', 'LANG=en_US.UTF-8']) {
       sshagent(['powerci-github-ssh-key']) {
