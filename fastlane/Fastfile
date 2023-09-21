@@ -60,7 +60,7 @@ end
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
 
-  opts[:os] = 'ios'1326
+  opts[:os] = 'ios'
 
   #change name before upload
   new_name = rename_ios_app(opts)
