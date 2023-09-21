@@ -67,7 +67,7 @@ lane :ship_ios_to_appcenter do |opts|
 
   opts[:os] = 'ios'
   appcenter_upload(
-    api_token: "bf0ae509c985f2a1102c2ad53894b35a5fa5383e",
+    api_token: opts[:appcenter_token],
     owner_name: "powerhome",
     owner_type: "organization",
     app_name: app_name,
