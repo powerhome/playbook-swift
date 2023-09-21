@@ -60,7 +60,7 @@ end
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
 
-  opts[:os] = 'ios'
+  opts[:os] = 'ios'1326
 
   #change name before upload
   new_name = rename_ios_app(opts)
@@ -68,11 +68,6 @@ lane :ship_ios_to_appcenter do |opts|
   #compress file
   zip_name = new_name.gsub(' ', '_')
   sh "ditto -c -k --sequesterRsrc --keepParent '../#{new_name}.app' '../#{zip_name}.zip'"
-
-  ed_signature = nil
-  if opts[:type] == 'rc'
-    ed_signature = get_ed_signature(zip_path: "'../#{zip_name}.zip'")
-  end
 
   keep_trying {
     appcenter_upload(
@@ -103,8 +98,8 @@ lane :rename_ios_app do |opts|
   else
     new_name = "#{app_name_beta}_#{opts[:type]}_#{opts[:build_number]}"
   end
-  sh "cp -a '../#{target_ios}.app' '../#{new_name}.app'"
-  sh "cp -a '../#{target_ios}.app.app.dSYM.zip' '../#{new_name}.app.app.dSYM.zip'"
+  sh "/#{new_name}.app"
+  sh "/#{new_name}.app.app.dSYM.zip"
   new_name
 end
 
