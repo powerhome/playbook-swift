@@ -59,48 +59,25 @@ end
 
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
+  
+  app_name = "Playbook-Showcase-Beta"
+  if opts[:type] == 'production'
+    app_name = "Playbook-Showcase"
+  end
 
   opts[:os] = 'ios'
-
-  #change name before upload
-  new_name = rename_ios_app(opts)
-
-  #compress file
-  zip_name = new_name.gsub(' ', '_')
-  sh "ditto -c -k --sequesterRsrc --keepParent '../#{new_name}.app' '../#{zip_name}.zip'"
-
-  keep_trying {
-    appcenter_upload(
-      api_token: opts[:appcenter_token],
-      owner_name: "powerhome",
-      owner_type: "organization",
-      app_name: appcenter_app_name(opts),
-      file: "#{zip_name}.zip",
-      version: "#{opts[:build_number]}",
-      release_notes: "#{opts[:release_notes]}",
-      destinations: "Rebels",
-      destination_type: "group",
-      upload_build_only: false
-    )
-  }
-end
-
-desc "Rename ios app"
-lane :rename_ios_app do |opts|
-  #copy changing name before upload
-
-  app_name_beta = "Playbook-Showcase-Beta"
-  app_name = "Playbook-Showcase"
-
-  case opts[:type]
-  when 'production'
-    new_name = "#{app_name}"
-  else
-    new_name = "#{app_name_beta}_#{opts[:type]}_#{opts[:build_number]}"
-  end
-  sh "/#{new_name}.app"
-  sh "/#{new_name}.app.app.dSYM.zip"
-  new_name
+  appcenter_upload(
+    api_token: "bf0ae509c985f2a1102c2ad53894b35a5fa5383e",
+    owner_name: "powerhome",
+    owner_type: "organization",
+    app_name: app_name,
+    file: "#{target_ios}.ipa",
+    version: "#{opts[:build_number]}",
+    release_notes: "#{opts[:release_notes]}",
+    destinations: "Rebels",
+    destination_type: "group",
+    upload_build_only: false
+  )
 end
 
 desc "Create Runway comment"
