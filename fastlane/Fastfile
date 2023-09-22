@@ -36,13 +36,6 @@ desc "Set up build. build_number:1"
 lane :setup_before_build do |opts|
   # sets the build number
   increment_build_number(build_number: "#{opts[:build_number]}")
-
-  # replace app display name
-  change_app_name(opts)
-
-  if opts[:type] == 'rc'
-    insert_appcenter_key
-  end
 end
 
 desc "Build iOS"
@@ -98,6 +91,7 @@ lane :ship_ios_to_appcenter do |opts|
     file: "#{target_ios}.ipa",
     version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
+    build_number: "#{opts[:build_number]}",
     destinations: "Rebels",
     destination_type: "group",
     upload_build_only: false
