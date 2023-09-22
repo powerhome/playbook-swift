@@ -32,13 +32,10 @@ lane :tag_build do |opts|
   end
 end
 
-desc "Set up build. build_number:#{opts[:build_number]}"
+desc "Set up build. build_number:2"
 lane :setup_before_build do |opts|
   # sets the build number
   increment_build_number(build_number: "#{opts[:build_number]}")
-
-  # replace app display name
-  change_app_name(opts)
 
   if opts[:type] == 'rc'
     insert_appcenter_key
