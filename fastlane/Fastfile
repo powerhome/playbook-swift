@@ -91,7 +91,6 @@ lane :ship_ios_to_appcenter do |opts|
     file: "#{target_ios}.ipa",
     version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
-    build_number: "#{opts[:build_number]}",
     destinations: "Rebels",
     destination_type: "group",
     upload_build_only: false
