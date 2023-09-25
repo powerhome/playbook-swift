@@ -21,9 +21,9 @@ public enum Componenets: String, CaseIterable {
   case image
   case label = "Label Value"
   case message
-  case multipleUser = "Multiple User"
-  case multipleUsersIndicator = "Multiple User Indicator"
-  case multipleUserStacked = "Multiple User Stacked"
+  case multipleUser = "Multiple Users"
+  case multipleUsersIndicator = "Multiple Users Indicator"
+  case multipleUserStacked = "Multiple Users Stacked"
   case nav
   case pill
   case progressIndicator = "Progress Indicator"
