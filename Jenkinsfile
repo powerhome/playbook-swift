@@ -16,7 +16,7 @@ def steps = [
     runNode {
       getReleaseNotes()
       def args = "build_number:${buildNumber} type:${buildType()}"
-      prepareToBuild(buildType())
+      //prepareToBuild(buildType())
       buildAndShipiOS(args)
     }
   // }, 'macOS': {
