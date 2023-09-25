@@ -120,7 +120,7 @@ def prepareToBuild(String buildType) {
   def fastlaneOpts = ''
   stage('Prepare') {
     sh "make ${buildType} && sleep 1"
-    fastlaneOpts = "build_number:${buildNumber} type:${buildType}"
+    fastlaneOpts = "build_number:${buildNumber} type:${'production'}"
     fastlane("setup_before_build ${fastlaneOpts}")
   }
   checkForFailedParallelJob()
