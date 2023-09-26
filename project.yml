@@ -19,7 +19,7 @@ targets:
       - package: PlaybookSwift
     settings:
       base:
-        GENERATE_INFOPLIST_FILE: true
+        GENERATE_INFOPLIST_FILE: false
         PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 4.3.0
@@ -32,7 +32,7 @@ targets:
       - package: PlaybookSwift
     settings:
       base:
-        GENERATE_INFOPLIST_FILE: true
+        GENERATE_INFOPLIST_FILE: false
         PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 4.3.0
