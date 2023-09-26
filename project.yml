@@ -11,7 +11,7 @@ packages:
   Playbook:
     path: ./
 targets:
-  PlaybookShowcase-iOS:
+  PlaybookShowcase:
     type: application
     platform: iOS
     sources: [PlaybookShowcase]
