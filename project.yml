@@ -19,7 +19,7 @@ targets:
       - package: Playbook
     settings:
       base:
-        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_FILE: PlaybookShowcase/PlaybookShowcase/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 1
