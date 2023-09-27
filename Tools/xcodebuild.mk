@@ -32,7 +32,7 @@ xcodebuild-export-archive = \
 		-archivePath "$(BUILD_ROOT)/$(1)-$(2).xcarchive" \
 		-exportPath "$(BUILD_ROOT)" \
 		-exportOptionsPlist "$(TOOLS_ROOT)/$(3)" ;\
-	mv "$(BUILD_ROOT)/$(1).ipa" "$(BUILD_ROOT)/$(1).ipa"	
+	#mv "$(BUILD_ROOT)/$(1).ipa" "$(BUILD_ROOT)/$(1).ipa"	
 	#mv "$(BUILD_ROOT)/navigator.ipa" "$(BUILD_ROOT)/$(1)-b$(BUILD_NUMBER).ipa"
 
 # Parameters: XCODE_SCHEME, XCODE_CONFIGURATION
