@@ -279,7 +279,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
 				DEVELOPMENT_TEAM = EG5Q7XM634;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = PlaybookShowcase/PlaybookShowcase/Info.plist;
+				INFOPLIST_FILE = PlaybookShowcase/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Playbook;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -316,7 +316,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EG5Q7XM634;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = PlaybookShowcase/PlaybookShowcase/Info.plist;
+				INFOPLIST_FILE = PlaybookShowcase/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Playbook;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
