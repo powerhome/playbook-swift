@@ -62,7 +62,9 @@ proj:
 #
 
 playbook-ios:
-	$(call setup,project)
+	#@asdf exec bundle exec fastlane set_appcenter_secret target:navigator env:beta
+	#@asdf exec bundle exec fastlane build_ios scheme:navigator target:Beta
+	$(call xcodebuild-export-archive,PlaybookShowcase-iOS,Release,export-options.plist)
 
 #
 # Tests
