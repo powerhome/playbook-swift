@@ -6,6 +6,10 @@ ifndef ROOT_DIR
   ROOT_DIR := $(PWD)
 endif
 
+export PLAYBOOK_ROOT := $(ROOT_DIR)/PlaybookShowcase/PlaybookShowcase
+export TOOLS_ROOT := $(ROOT_DIR)/Tools
+export BUILD_ROOT := $(ROOT_DIR)/Build
+
 help:
 	@echo "Help:"
 	@echo

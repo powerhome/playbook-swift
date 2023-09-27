@@ -3,11 +3,11 @@
 requireVariables      \
   BUILD_NUMBER        \
   BUILD_TARGET        \
-  NAVIGATOR_ROOT
+  PLAYBOOK_ROOT
 
 case $BUILD_TARGET in
   navigator-*)
-    INFO_PLIST="$NAVIGATOR_ROOT/Info.plist"
+    INFO_PLIST="$PLAYBOOK_ROOT/Info.plist"
     ;;
 
   *)
