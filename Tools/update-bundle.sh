@@ -6,7 +6,7 @@ requireVariables      \
   PLAYBOOK_ROOT
 
 case $BUILD_TARGET in
-  navigator-*)
+  playbook-ios-*)
     INFO_PLIST="$PLAYBOOK_ROOT/Info.plist"
     ;;
 
