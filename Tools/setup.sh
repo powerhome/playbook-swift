@@ -7,6 +7,7 @@ requireVariables      \
   ROOT_DIR
 
 export BUILD_ROOT="$ROOT_DIR/Build"
+export PLAYBOOK_ROOT="$ROOT_DIR/PlaybookShowcase/PlaybookShowcase"
 export TOOLS_ROOT="$ROOT_DIR/Tools"
 
 if [ -z "$GITHUB_COMMIT_SHA" ]; then
