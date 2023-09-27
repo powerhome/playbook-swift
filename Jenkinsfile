@@ -260,7 +260,7 @@ def buildAndShipiOS(String fastlaneOpts) {
     // fastlane("build_ios ${fastlaneOpts}")
     withEnv([
       "BUILD_NUMBER=${buildNumber}",
-      "BUILD_TARGET='playbook-ios'"]) {
+      "BUILD_TARGET=playbook-ios"]) {
         withCredentials([
           string(credentialsId: '62620542-b00d-4c1f-81dd-4d014369f07d', variable: 'GITHUB_API_TOKEN'),
           string(credentialsId: 'nitro-runway-api-token-tps-40', variable: 'RUNWAY_API_TOKEN')]) {
