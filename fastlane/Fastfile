@@ -18,7 +18,7 @@ require 'httparty'
 default_platform(:ios)
 
 target_ios = 'PlaybookShowcase-iOS'
-build_path = "Build"
+build_path = "Build/Archives"
 derived_data_path = "DerivedData"
 ios_plist = "PlaybookShowcase/PlaybookShowcase/Info.plist"
 
