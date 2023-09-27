@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		639039872A13A496004576FF /* ContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639039862A13A496004576FF /* ContentListView.swift */; };
-		B56662252A98282400F6F580 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B56662242A98282400F6F580 /* Info.plist */; };
+		B5BA57F32AC4BC730046D97C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5BA57F22AC4BC730046D97C /* Info.plist */; };
+		B5BA57F42AC4BC730046D97C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5BA57F22AC4BC730046D97C /* Info.plist */; };
 		F905151B29F03B0700F9B66D /* PlaybookShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */; };
 		F905151F29F03B0700F9B66D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F905152229F03B0700F9B66D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
@@ -21,7 +22,7 @@
 
 /* Begin PBXFileReference section */
 		639039862A13A496004576FF /* ContentListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListView.swift; sourceTree = "<group>"; };
-		B56662242A98282400F6F580 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = PlaybookShowcase/Info.plist; sourceTree = "<group>"; };
+		B5BA57F22AC4BC730046D97C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F905151829F03B0700F9B66D /* PlaybookShowcase-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaybookShowcase-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcaseApp.swift; sourceTree = "<group>"; };
 		F905151E29F03B0700F9B66D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -54,6 +55,7 @@
 		F905151929F03B0700F9B66D /* PlaybookShowcase */ = {
 			isa = PBXGroup;
 			children = (
+				B5BA57F22AC4BC730046D97C /* Info.plist */,
 				F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */,
 				639039862A13A496004576FF /* ContentListView.swift */,
 				F905151E29F03B0700F9B66D /* Assets.xcassets */,
@@ -81,7 +83,6 @@
 		F9370FC929EDCC0100FFD0DF = {
 			isa = PBXGroup;
 			children = (
-				B56662242A98282400F6F580 /* Info.plist */,
 				F937100029EDCC1900FFD0DF /* Packages */,
 				F905151929F03B0700F9B66D /* PlaybookShowcase */,
 				F905154729F03B3C00F9B66D /* PlaybookShowcase-macOS */,
@@ -205,7 +206,7 @@
 			files = (
 				F905152229F03B0700F9B66D /* Preview Assets.xcassets in Resources */,
 				F905151F29F03B0700F9B66D /* Assets.xcassets in Resources */,
-				B56662252A98282400F6F580 /* Info.plist in Resources */,
+				B5BA57F32AC4BC730046D97C /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +216,7 @@
 			files = (
 				F943570A29F070F10051C650 /* Preview Assets.xcassets in Resources */,
 				F943570929F070E90051C650 /* Assets.xcassets in Resources */,
+				B5BA57F42AC4BC730046D97C /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
