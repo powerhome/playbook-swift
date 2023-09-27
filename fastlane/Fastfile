@@ -18,7 +18,7 @@ require 'httparty'
 default_platform(:ios)
 
 target_ios = 'PlaybookShowcase-iOS'
-build_path = "Build"
+build_path = "Build/"
 derived_data_path = "DerivedData"
 ios_plist = "PlaybookShowcase/PlaybookShowcase/Info.plist"
 
@@ -35,6 +35,7 @@ lane :build_ios do |opts|
     output_name: "#{target_ios}.ipa",
     build_path: build_path,
     derived_data_path: derived_data_path,
+    archive_path: "#{build_path}PlaybookShowcase-iOS.xcarchive",
     xcargs: '-skipPackagePluginValidation'
   )
 end
