@@ -57,6 +57,34 @@ lane :upload_ios do |opts|
   }
 end
 
+desc "Sets the AppCenter app key"
+  lane :set_appcenter_secret do |opts|
+
+    if opts[:target] == "navigator"
+      case opts[:env]
+      when "beta"
+        displayName = "Playbook Showcase Beta"
+        secret = "c919a21e-0c50-4299-b974-18c54920e809"
+      when "production"
+        displayName = "Playbook Showcase"
+        secret = "8853374d-fe92-47b6-95c3-ce6a1ce66d41"
+      else
+        displayName = "NOT_DEFINED"
+        secret = "NOT_DEFINED"
+      end
+      plist_path = "PlaybookShowcase/PlaybookShowcase/Info.plist"
+    end
+
+    update_info_plist(
+      xcodeproj: "PlaybookShowcase.xcodeproj",
+      display_name: displayName,
+      plist_path: plist_path,
+      block: proc do |plist|
+        urlScheme = plist["CFBundleURLTypes"][0]["CFBundleURLSchemes"] = ["appcenter-#{secret}"]
+      end
+    )
+  end
+
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
   
