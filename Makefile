@@ -16,6 +16,7 @@ help:
 	@echo "  dependencies              Install project dependencies."
 	@echo
 	@echo "  proj                      Runs nitro and opens Xcode."
+	@echo "  playbook-ios-beta         Playbook-iOS Showcase Beta App."
 	@echo "  playbook-ios              Playbook-iOS Showcase App."
 	@echo
 	@echo "  test                      Run all tests."
@@ -61,8 +62,13 @@ proj:
 # Playbook
 #
 
+playbook-ios-beta:
+	@asdf exec bundle exec fastlane set_appcenter_secret target:PlaybookShowcase-iOS env:beta
+	@asdf exec bundle exec fastlane build_ios scheme:PlaybookShowcase-iOS target:Release
+	$(call xcodebuild-export-archive,PlaybookShowcase-iOS,Release,export-options.plist)
+
 playbook-ios:
-	#@asdf exec bundle exec fastlane set_appcenter_secret target:navigator env:beta
+	@asdf exec bundle exec fastlane set_appcenter_secret target:PlaybookShowcase-iOS env:production
 	@asdf exec bundle exec fastlane build_ios scheme:PlaybookShowcase-iOS target:Release
 	$(call xcodebuild-export-archive,PlaybookShowcase-iOS,Release,export-options.plist)
 

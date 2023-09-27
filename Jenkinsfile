@@ -16,7 +16,7 @@ def steps = [
     runNode {
       getReleaseNotes()
       def args = "build_number:${buildNumber} type:${buildType()}"
-      buildAndShipiOS(args, 'playbook-ios')
+      buildAndShipiOS(args, target())
     }
   // }, 'macOS': {
   //   runNode {
@@ -141,6 +141,13 @@ def getReleaseNotes() {
 
 def writeRunwayComment() {
   fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
+}
+
+def target() {
+  if (isMainBuild() == true) {
+    return 'playbook-ios'
+  }
+  return 'playbook-ios-beta'
 }
 
 def buildType() {

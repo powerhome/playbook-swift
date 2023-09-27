@@ -61,7 +61,7 @@ end
 desc "Sets the AppCenter app key"
   lane :set_appcenter_secret do |opts|
 
-    if opts[:target] == "navigator"
+    if opts[:target] == "PlaybookShowcase-iOS"
       case opts[:env]
       when "beta"
         displayName = "Playbook Showcase Beta"
@@ -73,13 +73,12 @@ desc "Sets the AppCenter app key"
         displayName = "NOT_DEFINED"
         secret = "NOT_DEFINED"
       end
-      plist_path = "PlaybookShowcase/PlaybookShowcase/Info.plist"
     end
 
     update_info_plist(
-      xcodeproj: "PlaybookShowcase.xcodeproj",
+      xcodeproj: "PlaybookShowcase/PlaybookShowcase.xcodeproj",
       display_name: displayName,
-      plist_path: plist_path,
+      plist_path: ios_plist,
       block: proc do |plist|
         urlScheme = plist["CFBundleURLTypes"][0]["CFBundleURLSchemes"] = ["appcenter-#{secret}"]
       end
