@@ -49,7 +49,7 @@ echo "*   Upload to App Center   *"
 echo "****************************"
 
 echo ""
-(cd "$IOS_ROOT" && asdf exec bundle exec fastlane distribute_to_appcenter app_name:"$APP_NAME" org_name:"$ORG_NAME" token:"$APP_CENTER_API_TOKEN" file:"$BUILD_ROOT/$BUILD_IPA_FILE_NAME" release_notes:"$RELEASE_NOTES")
+(cd "$IOS_ROOT" && asdf exec bundle exec fastlane ship_ios_to_appcenter app_name:"$APP_NAME" org_name:"$ORG_NAME" token:"$APP_CENTER_API_TOKEN" file:"$BUILD_ROOT/$BUILD_IPA_FILE_NAME" release_notes:"$RELEASE_NOTES")
 
 PUBLIC_URL="https://appcenter.ms/orgs/$ORG_NAME/apps/$APP_NAME"
 
