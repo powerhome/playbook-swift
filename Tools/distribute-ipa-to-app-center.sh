@@ -16,7 +16,7 @@ case $BUILD_TARGET in
     ORG_NAME="powerhome"
     APP_NAME="Playbook-Showcase";;
 
-  navigator-beta)
+  playbook-ios-beta)
     ORG_NAME="powerhome"
     APP_NAME="Playbook-Showcase-Beta";;
 
