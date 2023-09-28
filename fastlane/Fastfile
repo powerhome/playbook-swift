@@ -104,7 +104,7 @@ lane :ship_ios_to_appcenter do |opts|
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
     destination_type: "group",
-    upload_build_only: false
+    upload_build_only: true
   )
 end
 
