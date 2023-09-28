@@ -262,7 +262,7 @@ def publishTestOutput(String device) {
   ])
 }
 
-def buildAndShipiOS(String fastlaneOpts, String target) {
+def buildAndShipiOS(String fastlaneOpts, String target, String... distributionList) {
   stage('Build iOS') {
     // fastlane("build_ios ${fastlaneOpts}")
     withEnv([
@@ -275,9 +275,22 @@ def buildAndShipiOS(String fastlaneOpts, String target) {
         }
     }
   }
-  checkForFailedParallelJob()
-  stage('Upload iOS') {
-    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\"")
+  // checkForFailedParallelJob()
+  // stage('Upload iOS') {
+  //   fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\"")
+  // }
+  if (distributionList.length > 0) {
+    withEnv([
+      "BUILD_NUMBER=${buildNumber}",
+      "BUILD_TARGET=${target}",
+    ]) {
+      withCredentials([
+        string(credentialsId: 'appcenter-token', variable: 'APP_CENTER_API_TOKEN'),
+        string(credentialsId: '62620542-b00d-4c1f-81dd-4d014369f07d', variable: 'GITHUB_API_TOKEN'),
+        string(credentialsId: 'nitro-runway-api-token-tps-40', variable: 'RUNWAY_API_TOKEN')]) {
+          sh "./.jenkins/jenkins-distribute.sh ${distributionList.join(' ')}"
+      }
+    }
   }
 }
 
