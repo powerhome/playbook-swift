@@ -22,14 +22,14 @@ xcodebuild-build = \
 
 # Parameters: XCODE_SCHEME, XCODE_CONFIGURATION
 xcodebuild-archive = \
-	$(call -xcodebuild,$(1),$(2),iphoneos,-archivePath "$(BUILD_ROOT)/$(1)-$(2).xcarchive",archive,ONLY_ACTIVE_ARCH=NO,) \
+	$(call -xcodebuild,$(1),$(2),iphoneos,-archivePath "$(BUILD_ROOT)/$(1).xcarchive",archive,ONLY_ACTIVE_ARCH=NO,) \
 
 # Parameters: XCODE_SCHEME, XCODE_CONFIGURATION, EXPORT_OPTIONS_PLIST
 xcodebuild-export-archive = \
 	xcodebuild \
 		-exportArchive \
 		-sdk iphoneos \
-		-archivePath "$(BUILD_ROOT)/$(1)-$(2).xcarchive" \
+		-archivePath "$(BUILD_ROOT)/$(1).xcarchive" \
 		-exportPath "$(BUILD_ROOT)" \
 		-exportOptionsPlist "$(TOOLS_ROOT)/$(3)" ;\
 	#mv "$(BUILD_ROOT)/$(1).ipa" "$(BUILD_ROOT)/$(1).ipa"	
