@@ -312,8 +312,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Power Home Remodeling Group, LLC";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EG5Q7XM634;
+				DEVELOPMENT_TEAM = EG5Q7XM634;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PlaybookShowcase/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Playbook;
