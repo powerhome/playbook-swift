@@ -28,7 +28,9 @@ lane :build_ios do |opts|
   export_method = 'ad-hoc'
 
   gym(
-    scheme: target_ios,
+    project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
+    configuration: opts[:target],
+    scheme: opts[:scheme],
     skip_package_dependencies_resolution: false,
     export_method: export_method,
     output_name: "#{target_ios}.ipa",
