@@ -28,7 +28,6 @@ lane :build_ios do |opts|
   export_method = 'ad-hoc'
 
   gym(
-    project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
     scheme: target_ios,
     skip_package_dependencies_resolution: false,
     export_method: export_method,
