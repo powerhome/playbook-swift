@@ -11,7 +11,7 @@ public struct PBSelect: View {
   let title: String?
   let options: [(value: String, text: String?)]
   let style: Variant
-  let  selectedOption: ((String) -> Void)
+  let selectedOption: ((String) -> Void)
   @State private var selected: String = ""
 
   public init(
