@@ -122,7 +122,7 @@ public extension PBTextArea {
     if error != nil {
       return .error
     } else {
-      return isTextAreaFocused ? .selected() : .`default`
+      return isTextAreaFocused ? .selected(type: .textInput) : .`default`
     }
   }
 

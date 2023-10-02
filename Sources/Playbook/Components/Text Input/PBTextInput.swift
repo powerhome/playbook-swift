@@ -14,7 +14,7 @@ public struct PBTextInput: View {
   public let style: Style
   public var onChange: Bool?
   #if os(iOS)
-  public let keyboardType: UIKeyboardType
+    public let keyboardType: UIKeyboardType
   #endif
   @Binding public var text: String
   @FocusState private var selected: Bool
@@ -49,11 +49,9 @@ public struct PBTextInput: View {
           .stroke(lineWidth: lineWidth)
           .frame(maxHeight: .infinity)
           .clipShape(
-            Rectangle()
-              .offset(x: offset, y: 0)
+            RoundedRectangle(cornerRadius: BorderRadius.medium)
           )
           .foregroundColor(borderColor)
-
       }
       .frame(height: 45)
       .onTapGesture {
@@ -81,9 +79,9 @@ public struct PBTextInput: View {
 
   var lineWidth: CGFloat {
     #if os(iOS)
-    return 1.4
+      return 1.4
     #elseif os(macOS)
-    return 2
+      return 2
     #endif
   }
 
@@ -92,14 +90,6 @@ public struct PBTextInput: View {
       .frame(width: 1)
       .overlay(borderColor)
       .opacity(dividerOpacity)
-  }
-
-  var offset: CGFloat {
-    switch style {
-    case .leftIcon: return 45
-    case .rightIcon: return -45
-    default: return 0
-    }
   }
 
   @ViewBuilder
@@ -201,49 +191,49 @@ public struct PBTextInput: View {
 
   var pbTextField: some View {
     #if os(iOS)
-    TextField("", text: $text, prompt: placeHolder)
-      .keyboardType(keyboardType)
+      TextField("", text: $text, prompt: placeHolder)
+        .keyboardType(keyboardType)
     #elseif os(macOS)
-    MacOSTextField(text: $text, prompt: placeholder)
+      MacOSTextField(text: $text, prompt: placeholder)
     #endif
   }
 }
 
 public extension PBTextInput {
   #if os(iOS)
-  init(
-    _ title: String? = nil,
-    text: Binding<String>,
-    placeholder: String = "",
-    error: (Bool, String)? = nil,
-    style: Style = .default,
-    keyboardType: UIKeyboardType = .default,
-    onChange: Bool? = nil
-  ) {
-    self.title = title
-    self._text = text
-    self.placeholder = placeholder
-    self.error = error
-    self.style = style
-    self.keyboardType = keyboardType
-    self.onChange = onChange
-  }
+    init(
+      _ title: String? = nil,
+      text: Binding<String>,
+      placeholder: String = "",
+      error: (Bool, String)? = nil,
+      style: Style = .default,
+      keyboardType: UIKeyboardType = .default,
+      onChange: Bool? = nil
+    ) {
+      self.title = title
+      self._text = text
+      self.placeholder = placeholder
+      self.error = error
+      self.style = style
+      self.keyboardType = keyboardType
+      self.onChange = onChange
+    }
   #elseif os(macOS)
-  init(
-    _ title: String? = nil,
-    text: Binding<String>,
-    placeholder: String = "",
-    error: (Bool, String)? = nil,
-    style: Style = .default,
-    onChange: Bool? = nil
-  ) {
-    self.title = title
-    self._text = text
-    self.placeholder = placeholder
-    self.error = error
-    self.style = style
-    self.onChange = onChange
-  }
+    init(
+      _ title: String? = nil,
+      text: Binding<String>,
+      placeholder: String = "",
+      error: (Bool, String)? = nil,
+      style: Style = .default,
+      onChange: Bool? = nil
+    ) {
+      self.title = title
+      self._text = text
+      self.placeholder = placeholder
+      self.error = error
+      self.style = style
+      self.onChange = onChange
+    }
   #endif
 }
 
