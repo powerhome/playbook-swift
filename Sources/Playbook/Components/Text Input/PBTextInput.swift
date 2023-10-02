@@ -14,7 +14,7 @@ public struct PBTextInput: View {
   public let style: Style
   public var onChange: Bool?
   #if os(iOS)
-    public let keyboardType: UIKeyboardType
+ public let keyboardType: UIKeyboardType
   #endif
   @Binding public var text: String
   @FocusState private var selected: Bool
