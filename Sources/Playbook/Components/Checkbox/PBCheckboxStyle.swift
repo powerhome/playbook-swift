@@ -40,7 +40,9 @@ public struct PBCheckboxStyle: ToggleStyle {
     }
     .frame(minHeight: 22)
     .contentShape(Rectangle())
-    .onHover { isHovering = $0 }
+    .onHover(disabled: false) {
+      isHovering = $0
+    }
     .onTapGesture {
       checked.toggle()
       action?()
@@ -51,7 +53,7 @@ public struct PBCheckboxStyle: ToggleStyle {
     switch (checkboxType, checked) {
     case (.default, true), (.error, true), (.indeterminate, true): return .pbPrimary
     case (.error, false): return .status(.error)
-    default: return .border
+    default: return Color.border
     }
   }
 
