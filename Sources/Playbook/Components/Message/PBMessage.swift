@@ -17,8 +17,9 @@ public struct PBMessage<Content: View>: View {
   let verticalPadding: CGFloat
   let horizontalPadding: CGFloat
   let content: Content?
-  @State private var timestampVariant: PBTimestamp.Variant = .hideUserElapsed
-  @State private var hoverColor: Color = .clear
+  let timestampVariant: PBTimestamp.Variant
+
+  @State private var isHovering: Bool = false
 
   public init(
     avatar: AnyView? = nil,
@@ -26,6 +27,7 @@ public struct PBMessage<Content: View>: View {
     message: String? = nil,
     timestamp: Date? = nil,
     timestampAlignment: TimestampAlignment? = .trailing,
+    timestampVariant: PBTimestamp.Variant = .standard,
     changeTimeStampOnHover: Bool = false,
     verticalPadding: CGFloat = Spacing.xSmall,
     horizontalPadding: CGFloat = Spacing.xSmall,
@@ -36,6 +38,7 @@ public struct PBMessage<Content: View>: View {
     self.message = message
     self.timestamp = timestamp
     self.timestampAlignment = timestampAlignment
+    self.timestampVariant = timestampVariant
     self.changeTimeStampOnHover = changeTimeStampOnHover
     self.verticalPadding = verticalPadding
     self.horizontalPadding = horizontalPadding
@@ -57,8 +60,10 @@ public struct PBMessage<Content: View>: View {
           if let timestamp = timestamp {
             PBTimestamp(
               timestamp,
+              amPmStyle: .full,
+              showDate: false,
               showUser: false,
-              variant: timestampVariant
+              variant: returnTimestamp(isHovering: isHovering)
             )
           }
         }
@@ -73,16 +78,20 @@ public struct PBMessage<Content: View>: View {
         content
       }
       .onHover { hover in
-        if changeTimeStampOnHover {
-          timestampVariant =  hover ? .standard : .hideUserElapsed
-        }
-        hoverColor = hover ? .hover : .clear
+        isHovering = hover
       }
     }
     .padding(.vertical, verticalPadding)
     .padding(.horizontal, horizontalPadding)
-    .background(hoverColor)
     .frame(maxWidth: .infinity, alignment: .topLeading)
+  }
+
+  func returnTimestamp(isHovering: Bool) -> PBTimestamp.Variant {
+    if changeTimeStampOnHover {
+      return isHovering ? .standard : .hideUserElapsed
+    } else {
+      return timestampVariant
+    }
   }
 }
 
