@@ -62,8 +62,7 @@ public struct Typography: ViewModifier {
 
   var fontWeight: Font.Weight {
     switch font {
-    case .title1, .title2: return variant == .light ? FontWeight.light : FontWeight.bolder
-    case .title3: return FontWeight.bolder
+    case .title1, .title2, .title3: return variant == .light ? FontWeight.light : FontWeight.bolder
     case .title4, .buttonText, .badgeText: return FontWeight.bolder
     case .caption: return FontWeight.bold
     case .detail(true): return FontWeight.bold
