@@ -2,7 +2,7 @@
 //  TimeStampCatalog.swift
 //
 //
-//  Created by Israel Molestina on 5/23/23.
+//  Created by Israel Molestina on 6/13/23.
 //
 
 import SwiftUI
@@ -11,95 +11,224 @@ public struct TimeStampCatalog: View {
 
   public init() {}
 
+  let addThreeYear: TimeInterval = 126_230_400
+  let subOneYear: TimeInterval = -31_536_000
+
+  let minWidth: CGFloat = 0
   public var body: some View {
-    let timeInterval: TimeInterval = 31_536_000
-    let minWidth: CGFloat = 0
-    List {
-      Section("Default") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(Date(), showDate: false)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date())
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(timeInterval))
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          defaultView()
+        }
+
+        PBDoc(title: "Alignments") {
+          alginmentView()
+        }
+
+        PBDoc(title: "Timezones") {
+          timeZoneView()
+        }
+
+        PBDoc(title: "Last Updated By") {
+          lastUpdatedView()
+        }
+
+        PBDoc(title: "Time Ago") {
+          timeAgoView()
         }
       }
+      .padding(Spacing.medium)
+    }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("TimeStamp")
+  }
 
-      Section("Alignments") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(Date(), showDate: false)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date())
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(timeInterval))
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+  func defaultView() -> some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBTimestamp(
+        Date(),
+        showDate: false
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-          PBTimestamp(Date(), showDate: false)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
-          PBTimestamp(Date())
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
-          PBTimestamp(Date().addingTimeInterval(timeInterval))
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+      PBTimestamp(
+        Date()
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-          PBTimestamp(Date(), showDate: false)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
-          PBTimestamp(Date())
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
-          PBTimestamp(Date().addingTimeInterval(timeInterval))
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
-        }
-      }
+      PBTimestamp(
+        Date().addingTimeInterval(addThreeYear)
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-      Section("Timezones") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(Date(), showDate: false, showTimeZone: true, timeZone: "America/New_York")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date(), showTimeZone: true, timeZone: "America/New_York")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(
-            Date().addingTimeInterval(timeInterval),
-            showTimeZone: true,
-            timeZone: "America/New_York"
-          )
+      PBTimestamp(
+        Date().addingTimeInterval(subOneYear)
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+    }
+  }
+
+  func alginmentView() -> some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(Date())
           .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
 
-          PBTimestamp(Date(), showDate: false, showTimeZone: true, timeZone: "Asia/Hong_Kong")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date(), showTimeZone: true, timeZone: "Asia/Hong_Kong")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(timeInterval), showTimeZone: true, timeZone: "Asia/Hong_Kong")
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-        }
+        PBTimestamp(Date().addingTimeInterval(addThreeYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(Date().addingTimeInterval(subOneYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
       }
 
-      Section("Last Updated By") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(
-            Date().addingTimeInterval(-12),
-            showUser: true,
-            text: "Andrew Black",
-            variant: .updated
-          )
-          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(-12), variant: .updated)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-        }
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+
+        PBTimestamp(Date())
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+
+        PBTimestamp(Date().addingTimeInterval(addThreeYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+
+        PBTimestamp(Date().addingTimeInterval(subOneYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
       }
 
-      Section("Time Ago") {
-        VStack(alignment: .leading, spacing: nil) {
-          PBTimestamp(
-            Date().addingTimeInterval(-10),
-            showUser: true,
-            text: "Andrew Black",
-            variant: .elapsed
-          )
-          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-          PBTimestamp(Date().addingTimeInterval(-88000), variant: .elapsed)
-            .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
-        }
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+
+        PBTimestamp(Date())
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+
+        PBTimestamp(Date().addingTimeInterval(addThreeYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
+
+        PBTimestamp(Date().addingTimeInterval(subOneYear))
+          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .trailing)
       }
+    }
+  }
+
+  func timeZoneView() -> some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false,
+          showTimeZone: true,
+          timeZone: "America/New_York"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date(),
+          showTimeZone: true,
+          timeZone: "America/New_York"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date().addingTimeInterval(addThreeYear),
+          showTimeZone: true,
+          timeZone: "America/New_York"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date().addingTimeInterval(subOneYear),
+          showTimeZone: true,
+          timeZone: "America/New_York"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+      }
+
+      Group {
+        PBTimestamp(
+          Date(),
+          showDate: false,
+          showTimeZone: true,
+          timeZone: "Asia/Hong_Kong"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date(),
+          showTimeZone: true,
+          timeZone: "Asia/Hong_Kong"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date().addingTimeInterval(addThreeYear),
+          showTimeZone: true,
+          timeZone: "Asia/Hong_Kong"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+        PBTimestamp(
+          Date().addingTimeInterval(subOneYear),
+          showTimeZone: true,
+          timeZone: "Asia/Hong_Kong"
+        )
+        .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+      }
+    }
+  }
+
+  func lastUpdatedView() -> some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBTimestamp(
+        Date().addingTimeInterval(-12),
+        showUser: true,
+        text: "Maricris Nanota",
+        variant: .updated
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+      PBTimestamp(
+        Date().addingTimeInterval(-12),
+        variant: .updated
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+    }
+  }
+
+  func timeAgoView() -> some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBTimestamp(
+        Date().addingTimeInterval(-10),
+        showUser: true,
+        text: "Maricris Nanota",
+        variant: .elapsed
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+      PBTimestamp(
+        Date().addingTimeInterval(-36000),
+        variant: .elapsed
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
+
+      PBTimestamp(
+        Date().addingTimeInterval(-36000),
+        variant: .hideUserElapsed
+      )
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .leading)
     }
   }
 }

@@ -8,65 +8,61 @@
 import SwiftUI
 
 public struct RadioCatalog: View {
-  @State var selectedDefault: PBRadioItem? = PBRadioItem("Power")
-  @State var selectedCustom: PBRadioItem? = PBRadioItem("Custom Power")
-  @State var selectedError: PBRadioItem? = PBRadioItem("Power")
-  @State var selectedOrientation: PBRadioItem? = PBRadioItem("Power")
-  @State var selectedAlignment: PBRadioItem? = PBRadioItem("Power")
-  @State var selectedSpacing: PBRadioItem? = PBRadioItem("Small")
-  @State var selectedPadding: PBRadioItem? = PBRadioItem("Small")
-  @State var selectedSubtitle: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedDefault: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedCustom: PBRadioItem? = PBRadioItem("Custom Power")
+  @State private var selectedError: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedOrientation: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedAlignment: PBRadioItem? = PBRadioItem("Power")
+  @State private var selectedSpacing: PBRadioItem? = PBRadioItem("Small")
+  @State private var selectedPadding: PBRadioItem? = PBRadioItem("Small")
+  @State private var selectedSubtitle: PBRadioItem? = PBRadioItem("Power")
   var orientation: Orientation = .vertical
 
   public init(
-    selectedDefault: PBRadioItem? = nil,
-    selectedCustom: PBRadioItem? = nil,
-    selectedError: PBRadioItem? = nil,
-    selectedOrientation: PBRadioItem? = nil,
-    selectedAlignment: PBRadioItem? = nil,
-    selectedSpacing: PBRadioItem? = nil,
-    selectedPadding: PBRadioItem? = nil,
-    selectedSubtitle: PBRadioItem? = nil,
     orientation: Orientation = .vertical
   ) {
-    self.selectedDefault = selectedDefault
-    self.selectedCustom = selectedCustom
-    self.selectedError = selectedError
-    self.selectedOrientation = selectedOrientation
-    self.selectedAlignment = selectedAlignment
-    self.selectedSpacing = selectedSpacing
-    self.selectedPadding = selectedPadding
-    self.selectedSubtitle = selectedSubtitle
     self.orientation = orientation
   }
 
   public var body: some View {
-    List {
-      Section("Default") {
-        defaultView()
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          defaultView()
+        }
+
+        PBDoc(title: "Custom") {
+          customView()
+        }
+
+        PBDoc(title: "With Error") {
+          errorView()
+        }
+
+        PBDoc(title: "Orientation") {
+          orientationView()
+        }
+
+        PBDoc(title: "Text Alignment") {
+          TextAlignmentView()
+        }
+
+        PBDoc(title: "Spacing") {
+          spacingView()
+        }
+
+        PBDoc(title: "Padding") {
+          paddingView()
+        }
+
+        PBDoc(title: "Subtitle") {
+          subtitleView()
+        }
       }
-      Section("Custom") {
-        customView()
-      }
-      Section("With Error") {
-        errorView()
-      }
-      Section("Orientation") {
-        orientationView()
-      }
-      Section("Text Alignment") {
-        TextAlignmentView()
-      }
-      Section("Spacing") {
-        spacingView()
-      }
-      Section("Padding") {
-        paddingView()
-      }
-      Section("Subtitle") {
-        subtitleView()
-      }
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Radio")
   }
 
   func defaultView() -> some View {
@@ -87,6 +83,7 @@ public struct RadioCatalog: View {
     VStack(alignment: .leading) {
       if let selectedCustom = selectedCustom {
         Text("Your choice is: \(selectedCustom.title)")
+          .pbFont(.detail(true), color: .text(.default))
       }
       PBRadio(
         items: [

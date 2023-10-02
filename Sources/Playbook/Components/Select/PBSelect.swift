@@ -27,7 +27,7 @@ public struct PBSelect: ButtonStyle {
         HStack {
           configuration.label
             .frame(height: 44)
-            .pbFont(.body())
+            .pbFont(.body)
           Spacer()
           PBIcon.fontAwesome(.chevronDown)
             .foregroundColor(.text(.default))
@@ -41,11 +41,6 @@ public struct PBSelect: ButtonStyle {
 public struct PBSelect_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-    return Group {
-      Button("Burgers") {}
-        .buttonStyle(PBSelect("FAVORITE FOOD", style: .default))
-        .preferredColorScheme(.light)
-        .padding(24)
-    }
+    return SelectCatalog()
   }
 }

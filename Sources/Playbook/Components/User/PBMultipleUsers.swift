@@ -85,17 +85,6 @@ public extension PBMultipleUsers {
 public struct PBMultipleUsers_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-    return VStack(alignment: .leading) {
-      Text("xSmall").pbFont(.title4)
-      PBMultipleUsers(users: twoUsers, size: .xSmall)
-      Divider()
-      Text("Small").pbFont(.title4)
-      PBMultipleUsers(users: multipleUsers, size: .small)
-      Divider()
-      Text("Small Reverse").pbFont(.title4)
-      PBMultipleUsers(users: multipleUsers, size: .small, reversed: true)
-      PBMultipleUsers(users: twoUsers, size: .small, reversed: true)
-    }
-    .padding(.leading, Spacing.xxSmall)
+    return MultipleUsersCatalog()
   }
 }

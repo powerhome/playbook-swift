@@ -16,37 +16,25 @@ import SwiftUI
     }
 
     public var body: some View {
-      List {
-        Section("Simple") {
-          SimpleButton()
+      ScrollView {
+        VStack(spacing: Spacing.medium) {
+          PBDoc(title: "Simple") { SimpleButton() }
+          PBDoc(title: "Complex") { ComplexButton() }
+          PBDoc(title: "Size") { SizeButtons() }
+          PBDoc(title: "Stacked") { StackedButton() }
+          PBDoc(title: "Status") { StatusButtons() }
         }
-
-        Section("Complex") {
-          ComplexButton()
-        }
-
-        Section("Size") {
-          SizeButtons()
-        }
-        .listRowSeparator(.hidden)
-
-        Section("Stacked") {
-          StackedButton()
-        }
-
-        Section("Status") {
-          StatusButtons()
-        }
-        .listRowSeparator(.hidden)
+        .padding(Spacing.medium)
       }
+      .background(Color.background(Color.BackgroundColor.light))
       .navigationTitle("Dialog")
     }
 
     struct SimpleButton: View {
-      @State var presentDialog: Bool = false
+      @State private var presentDialog: Bool = false
 
-      func foo() {
-        print("Hello World")
+      func closeDialog() {
+        presentDialog = false
       }
 
       var body: some View {
@@ -58,8 +46,8 @@ import SwiftUI
           PBDialog(
             title: "This is some informative text",
             message: infoMessage,
-            cancelButton: ("Cancel", foo),
-            confirmButton: ("Okay", foo)
+            cancelButton: ("Cancel", closeDialog),
+            confirmButton: ("Okay", closeDialog)
           )
           .backgroundViewModifier(alpha: 0.2)
         }
@@ -67,9 +55,10 @@ import SwiftUI
     }
 
     struct ComplexButton: View {
-      @State var presentDialog: Bool = false
+      @State private var presentDialog: Bool = false
+      @State private var message = ""
 
-      func foo() {
+      func closeDialog() {
         presentDialog = false
       }
 
@@ -80,17 +69,16 @@ import SwiftUI
         }
         .fullScreenCover(isPresented: $presentDialog) {
           PBDialog(
-            title: "Header header",
-            cancelButton: ("Back", foo),
-            confirmButton: ("Send My Issue", foo),
+            title: "Send us your thoughts!",
+            cancelButton: ("Cancel", closeDialog),
+            confirmButton: ("Submit", closeDialog),
             content: ({
               ScrollView {
                 Text("Hello Complex Dialog!\nAnything can be placed here")
                   .pbFont(.title2)
                   .multilineTextAlignment(.leading)
 
-                TextField("", text: .constant("text"))
-                  .textFieldStyle(PBTextInputStyle("default"))
+                PBTextInput("text", text: .constant("Some text"))
                   .padding()
               }
             }))
@@ -99,44 +87,61 @@ import SwiftUI
       }
     }
 
-    struct SizeButtons: View {
-      @State var presentDialog: DialogSize?
+    struct DialogButtonSize: View {
+      let title: String
+      let size: DialogSize
+      @State private var presentDialog: Bool = false
 
-      func foo() {
-        presentDialog = nil
+      func closeDialog() {
+        presentDialog = false
       }
 
+      public init(
+        title: String,
+        size: DialogSize
+      ) {
+        self.title = title
+        self.size = size
+      }
       var body: some View {
-        ForEach(DialogSize.allCases, id: \.self) { size in
-          PBButton(title: size.rawValue.capitalized) {
-            disableAnimation()
-            presentDialog = size
-          }
-          .fullScreenCover(item: $presentDialog) { item in
-            PBDialog(
-              title: "\(item.rawValue.capitalized) Dialog",
-              message: infoMessage,
-              cancelButton: ("Cancel", foo),
-              confirmButton: ("Okay", foo),
-              size: size
-            )
-            .backgroundViewModifier(alpha: 0.2)
-          }
+        PBButton(title: title) {
+          disableAnimation()
+          presentDialog.toggle()
+        }
+        .fullScreenCover(isPresented: $presentDialog) {
+          PBDialog(
+            title: "\(title) Dialog",
+            message: infoMessage,
+            cancelButton: ("Cancel", closeDialog),
+            confirmButton: ("Okay", closeDialog),
+            size: size
+          )
+          .backgroundViewModifier(alpha: 0.2)
+        }
+      }
+    }
+
+    struct SizeButtons: View {
+      var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.small) {
+          DialogButtonSize(title: "Small", size: .small)
+          DialogButtonSize(title: "Medium", size: .medium)
+          DialogButtonSize(title: "Large", size: .large)
         }
       }
     }
 
     struct StackedButton: View {
-      @State var presentDialog1: Bool = false
-      @State var presentDialog2: Bool = false
+      @State private var presentDialog1: Bool = false
+      @State private var presentDialog2: Bool = false
 
-      func foo() {
+      func closeDialog() {
         presentDialog1 = false
         presentDialog2 = false
       }
 
       var body: some View {
-        HStack {
+        VStack(alignment: .leading, spacing: Spacing.small) {
           PBButton(title: "Stacked") {
             disableAnimation()
             presentDialog1.toggle()
@@ -147,8 +152,8 @@ import SwiftUI
               message: infoMessage,
               variant: .status(.success),
               isStacked: true,
-              cancelButton: ("Cancel", foo),
-              confirmButton: ("Okay", foo),
+              cancelButton: ("Cancel", closeDialog),
+              confirmButton: ("Okay", closeDialog),
               size: .small
             )
             .backgroundViewModifier(alpha: 0.2)
@@ -164,7 +169,7 @@ import SwiftUI
               message: infoMessage,
               variant: .status(.error),
               isStacked: true,
-              confirmButton: ("Okay", foo),
+              confirmButton: ("Okay", closeDialog),
               size: .small
             )
             .backgroundViewModifier(alpha: 0.2)
@@ -174,28 +179,30 @@ import SwiftUI
     }
 
     struct StatusButtons: View {
-      @State var presentDialog: DialogStatus?
+      @State private var presentDialog: DialogStatus?
 
-      func foo() {
+      func closeDialog() {
         presentDialog = nil
       }
 
       var body: some View {
-        ForEach(DialogStatus.allCases, id: \.self) { status in
-          PBButton(title: status.rawValue.capitalized) {
-            disableAnimation()
-            presentDialog = status
-          }
-          .fullScreenCover(item: $presentDialog) { item in
-            PBDialog(
-              title: item.rawValue.capitalized,
-              message: infoMessage,
-              variant: .status(item),
-              isStacked: false,
-              cancelButton: ("Cancel", foo),
-              confirmButton: ("Okay", foo)
-            )
-            .backgroundViewModifier(alpha: 0.2)
+        VStack(alignment: .leading, spacing: Spacing.small) {
+          ForEach(DialogStatus.allCases, id: \.self) { status in
+            PBButton(title: status.rawValue.capitalized) {
+              disableAnimation()
+              presentDialog = status
+            }
+            .fullScreenCover(item: $presentDialog) { item in
+              PBDialog(
+                title: item.rawValue.capitalized,
+                message: infoMessage,
+                variant: .status(item),
+                isStacked: false,
+                cancelButton: ("Cancel", closeDialog),
+                confirmButton: ("Okay", closeDialog)
+              )
+              .backgroundViewModifier(alpha: 0.2)
+            }
           }
         }
       }
@@ -203,9 +210,9 @@ import SwiftUI
   }
 #elseif os(macOS)
   public struct DialogCatalog: View {
-    @State var presentSmallDialog: Bool = false
-    @State var presentMediumDialog: Bool = false
-    @State var presentLargeDialog: Bool = false
+    @State private var presentSmallDialog: Bool = false
+    @State private var presentMediumDialog: Bool = false
+    @State private var presentLargeDialog: Bool = false
 
     let infoMessage = "This is a message for informational purposes only and requires no action."
 

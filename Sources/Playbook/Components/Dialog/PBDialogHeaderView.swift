@@ -19,13 +19,13 @@ struct PBDialogHeaderView: View {
   var body: some View {
     HStack {
       if let title = title {
-        Text(title).pbFont(.body()).padding(Spacing.small)
+        Text(title).pbFont(.body).padding(Spacing.small)
       }
       Spacer()
       Button {
         dismissAction()
       } label: {
-        PBIcon(FontAwesome.times, size: .medium)
+        PBIcon(FontAwesome.times, size: .x1)
           .foregroundColor(.text(.default))
       }
       .buttonStyle(.borderless)

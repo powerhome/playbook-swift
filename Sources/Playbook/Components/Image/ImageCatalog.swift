@@ -1,6 +1,6 @@
 //
 //  ImageCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 16/05/23.
 //
@@ -9,32 +9,47 @@ import SwiftUI
 
 public struct ImageCatalog: View {
   public var body: some View {
-    List {
-      ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-        Section(size.name) {
-          HStack {
-            PBImage(
-              image: nil,
-              placeholder: Image("Forest", bundle: .module),
-              size: size,
-              cornerRadius: .rounded
-            )
-            Spacer()
-            PBImage(
-              image: Image("Forest", bundle: .module),
-              size: size,
-              cornerRadius: .sharp
-            )
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          VStack(alignment: .leading, spacing: Spacing.small) {
+            ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+              VStack(alignment: .leading) {
+                Text(size.name).pbFont(.detail(true), color: .text(.default))
+                PBImage(
+                  image: nil,
+                  placeholder: Image("Forest", bundle: .module),
+                  size: size,
+                  rounded: .sharp
+                )
+              }
+            }
+            VStack(alignment: .leading) {
+              Text("None").pbFont(.detail(true), color: .text(.default))
+              PBImage(image: Image("Forest", bundle: .module))
+            }
+          }
+        }
+
+        PBDoc(title: "Rounded") {
+          VStack(alignment: .leading, spacing: Spacing.small) {
+            ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+              VStack(alignment: .leading) {
+                Text(size.name).pbFont(.detail(true), color: .text(.default))
+                PBImage(
+                  image: nil,
+                  placeholder: Image("Forest", bundle: .module),
+                  size: size,
+                  rounded: .rounded
+                )
+              }
+            }
           }
         }
       }
-      .listRowBackground(Color.clear)
-
-      Section("No size") {
-        PBImage(image: Image("Forest", bundle: .module))
-      }
-      .listRowBackground(Color.clear)
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Image")
   }
 }

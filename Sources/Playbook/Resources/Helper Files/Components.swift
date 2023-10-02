@@ -16,9 +16,10 @@ public enum Componenets: String, CaseIterable {
   case checkbox
   case collapsible
   case dialog
-  case iconCircle
+  case icon
+  case iconCircle = "Icon Circle"
   case image
-  case label
+  case label = "Label Value"
   case message
   case multipleUserStacked = "Multiple User Stacked"
   case nav
@@ -27,9 +28,9 @@ public enum Componenets: String, CaseIterable {
   case radio
   case sectionSeparator = "Section Separator"
   case select
-  case textArea = "Text Area"
+  case textArea = "Textarea"
   case textInput = "Text Input"
-  case timeAndDate = "Time and Date"
+  case timeStamp = "TimeStamp"
   case toggle
   case user
 
@@ -45,6 +46,7 @@ public enum Componenets: String, CaseIterable {
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
     case .dialog: DialogCatalog()
+    case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
     case .image: PBImage_Previews.previews
     case .label: PBLabelValue_Previews.previews
@@ -56,10 +58,10 @@ public enum Componenets: String, CaseIterable {
     case .radio: RadioCatalog()
     case .sectionSeparator: PBSectionSeparator_Previews.previews
     case .select: PBSelect_Previews.previews
-    case .textArea: PBTextArea_Previews.previews
+    case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
-    case .timeAndDate: TimeStampCatalog()
-    case .toggle: PBRadio_Previews.previews
+    case .timeStamp: TimeStampCatalog()
+    case .toggle: ToggleCatalog()
     case .user: PBMultipleUsers_Previews.previews
     }
   }

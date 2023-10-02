@@ -49,7 +49,7 @@ public struct ColorsCatalog: View {
         ForEach(Color.ProductColor.allCases, id: \.self) { color in
           VStack {
             shape.foregroundColor(.product(color, category: .highlight))
-            Text(color.rawValue.uppercased()).pbFont(.body(.smallest), color: .text(.light))
+            Text(color.rawValue.uppercased()).pbFont(.subcaption, color: .text(.light))
           }
         }
       }
@@ -60,7 +60,7 @@ public struct ColorsCatalog: View {
         ForEach(Color.ProductColor.allCases, id: \.self) { color in
           VStack {
             shape.foregroundColor(.product(color, category: .background))
-            Text(color.rawValue.uppercased()).pbFont(.body(.smallest), color: .text(.light))
+            Text(color.rawValue.uppercased()).pbFont(.subcaption, color: .text(.light))
           }
         }
       }
@@ -71,7 +71,7 @@ public struct ColorsCatalog: View {
         ForEach(Color.CategoryColor.allCases, id: \.self) { color in
           VStack {
             shape.foregroundColor(.category(color))
-            Text(color.rawValue.uppercased()).pbFont(.body(.smallest), color: .text(.light))
+            Text(color.rawValue.uppercased()).pbFont(.subcaption, color: .text(.light))
           }
         }
       }

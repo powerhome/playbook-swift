@@ -1,6 +1,6 @@
 //
 //  TypographyCatalog.swift
-//  
+//
 //
 //  Created by Isis Silva on 23/05/23.
 //
@@ -22,22 +22,17 @@ public struct TypographyCatalog: View {
         .pbFont(.title4, variant: .link)
     }
 
-    let body = Section("Body") {
+    let body = Section("Text size") {
       ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
-        Text("Body: Text size \(Int(size.rawValue)) px")
-          .pbFont(.body(size))
+        Text("Text size \(Int(size.rawValue)) px")
+          .pbFont(.monogram(size.rawValue))
           .padding(6)
       }
     }
 
     let letterSpacing = Section("Letter spacing") {
-      ForEach(Typography.LetterSpacing.allCases, id: \.rawValue) { space in
-        HStack {
-          Text("Letter spacing")
-          Spacer()
-          Text(String(format: "%.2f", space.rawValue) + " px")
-        }
-        .pbFont(.body(), letterSpace: space)
+      ForEach(LetterSpacing.allCases, id: \.rawValue) { space in
+        Text(space.rawValue).tracking(PBFont.body.space(space, font: .body))
       }
     }
 
@@ -59,6 +54,15 @@ public struct TypographyCatalog: View {
         .pbFont(.subcaption, variant: .link)
     }
 
+    let detail = Section("Detail") {
+      Text("I am a detail kit")
+        .pbFont(.detail(false))
+
+      Text("I am a detail kit")
+        .pbFont(.detail(true))
+
+    }
+
     return List {
       title
       body
@@ -67,7 +71,7 @@ public struct TypographyCatalog: View {
       }
       componentsText
       caption
-
+      detail
     }
     .navigationTitle("Typography")
   }

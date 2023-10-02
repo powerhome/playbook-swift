@@ -35,13 +35,6 @@ public struct PBMultipleUsersIndicator: View {
 struct PBMultipleUsersIndicator_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-
-    return List {
-      Section("Multiple Users Indicator") {
-        PBMultipleUsersIndicator(usersCount: 4, size: .xxSmall)
-        PBMultipleUsersIndicator(usersCount: 4, size: .xSmall)
-      }
-      .listRowSeparator(.hidden)
-    }
+    return MultipleUsersIndicatorCatalog()
   }
 }

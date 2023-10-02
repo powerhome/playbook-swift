@@ -12,6 +12,7 @@ public extension Color {
   static let card = Color("Card", bundle: .module)
   static let active = Color("Active", bundle: .module)
   static let border = Color("Border", bundle: .module)
+  static let focus = Color("Focus", bundle: .module)
   static let shadow = Color("Shadow", bundle: .module)
   static let hover = Color("Hover", bundle: .module)
 

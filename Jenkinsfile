@@ -15,7 +15,8 @@ def steps = [
   'iOS': {
     runNode {
       getReleaseNotes()
-      buildAndShipiOS('')
+      def args = "build_number:${buildNumber} type:${buildType()}"
+      buildAndShipiOS(args)
     }
   // }, 'macOS': {
   //   runNode {
@@ -31,7 +32,7 @@ waitUntil { success }
 
 runShortNode {
   stage('Runway Comment') {
-    // writeRunwayComment()
+    writeRunwayComment()
   }
   stage('Tag') {
     try { fastlane("tag_build build:${buildNumber}") } catch (e) { }
