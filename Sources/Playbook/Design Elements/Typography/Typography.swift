@@ -47,7 +47,7 @@ public struct Typography: ViewModifier {
 
   var letterSpacing: CGFloat {
     switch font {
-    case .subcaption: return font.space(.looser, font: .subcaption)
+    case .subcaption: return font.space(.normal, font: .subcaption)
     case .caption: return font.space(.looser, font: .caption)
     case .largeCaption: return font.space(.looser, font: .largeCaption)
     case .body: return font.space(.normal, font: .body)
