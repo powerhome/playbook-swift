@@ -16,6 +16,7 @@ def steps = [
     runNode {
       getReleaseNotes()
       def args = "build_number:${buildNumber} type:${buildType()}"
+     // prepareToBuild(buildType())
       buildAndShipiOS(args)
     }
   // }, 'macOS': {
@@ -44,7 +45,8 @@ runShortNode {
 def setupEnvironment(block) {
   withCredentials([
     string(credentialsId: '62620542-b00d-4c1f-81dd-4d014369f07d', variable: 'GITHUB_API_TOKEN'),
-    string(credentialsId: 'nitro-runway-api-token-tps-40', variable: 'RUNWAY_API_TOKEN')
+    string(credentialsId: 'nitro-runway-api-token-tps-40', variable: 'RUNWAY_API_TOKEN'),
+    string(credentialsId: 'appcenter-token', variable: 'APPCENTER_API_TOKEN')
   ]) {
     withEnv(['LC_ALL=en_US.UTF-8', 'LANG=en_US.UTF-8']) {
       sshagent(['powerci-github-ssh-key']) {
@@ -114,11 +116,11 @@ def runNodeWith(label, block, isShort) {
   }
 }
 
-def prepareToBuild(String buildType, String flavor) {
+def prepareToBuild(String buildType) {
   def fastlaneOpts = ''
   stage('Prepare') {
-    sh "make ${flavor}-${buildType} && sleep 1"
-    fastlaneOpts = "build_number:${buildNumber} type:${buildType} flavor:${flavor}"
+    // sh "make ${buildType} && sleep 1"
+    fastlaneOpts = "build_number:${buildNumber} type:${buildType}"
     fastlane("setup_before_build ${fastlaneOpts}")
   }
   checkForFailedParallelJob()
@@ -261,7 +263,7 @@ def buildAndShipiOS(String fastlaneOpts) {
   }
   checkForFailedParallelJob()
   stage('Upload iOS') {
-    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\"")
+    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
   }
 }
 
