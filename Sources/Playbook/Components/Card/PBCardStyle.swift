@@ -1,6 +1,6 @@
 //
 //  PBCardStyle.swift
-//  
+//
 //
 //  Created by Isis Silva on 14/06/23.
 //
@@ -8,7 +8,10 @@
 import SwiftUI
 
 public enum PBCardStyle {
-  case `default`, selected(type: SelectedType = .card), error, inline
+  case `default`
+  case selected(type: SelectedType = .card)
+  case error
+  case inline
 
   var color: Color {
     switch self {

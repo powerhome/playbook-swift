@@ -20,6 +20,23 @@ default_platform(:ios)
 target_ios = 'PlaybookShowcase-iOS'
 build_path = "BuildTemp/Archives"
 derived_data_path = "DerivedData"
+ios_plist = "./Info.plist"
+
+desc "Tag build"
+lane :tag_build do |opts|
+  begin
+    add_git_tag(tag: "builds/#{opts[:build]}")
+    push_git_tags(remote: "git@github.com:powerhome/PlaybookSwift.git")
+  rescue => ex
+    UI.error(ex)
+  end
+end
+
+desc "Set up build. build_number:1"
+lane :setup_before_build do |opts|
+  # sets the build number
+  increment_build_number(build_number: "#{opts[:build_number]}")
+end
 
 desc "Build iOS"
 lane :build_ios do |opts|
@@ -72,6 +89,7 @@ lane :ship_ios_to_appcenter do |opts|
     owner_type: "organization",
     app_name: app_name,
     file: "#{target_ios}.ipa",
+    version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
     destination_type: "group",
