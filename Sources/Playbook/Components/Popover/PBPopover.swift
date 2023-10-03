@@ -14,11 +14,12 @@ struct PBPopover<T: View>: ViewModifier {
   let cardPadding: CGFloat
   let backgroundAlpha: CGFloat
 
-  @State var isPresented: Bool = false
-  @State var yOffset: CGFloat = .zero
-  @State var midY: CGFloat = .zero
-  @State var midX: CGFloat = .zero
-  @State var xOffset: CGFloat = .zero
+  @State private var isPresented: Bool = false
+  @State private var yOffset: CGFloat = .zero
+  @State private var midY: CGFloat = .zero
+  @State private var midX: CGFloat = .zero
+  @State private var xOffset: CGFloat = .zero
+  @State private var hasTimeElapsed = false
 
   init(
     position: PopoverPosition = .bottom(),
@@ -34,7 +35,6 @@ struct PBPopover<T: View>: ViewModifier {
     self.popover = popover()
   }
 
-  @ViewBuilder
   func body(content: Content) -> some View {
     VStack {
       content
@@ -42,39 +42,57 @@ struct PBPopover<T: View>: ViewModifier {
         .background {
           GeometryReader { geometry in
             let frame = geometry.frame(in: .global)
-#if os(iOS)
+            #if os(iOS)
             let positionX = frame.midX + xOffset
             let positionY = frame.midY + yOffset
             Color.clear.fullScreenCover(isPresented: $isPresented) {
               popoverView(frame)
+                .animation(nil, value: isPresented)
                 .position(
                   x: positionX,
                   y: positionY
                 )
+                .opacity(hasTimeElapsed ? 1 : 0)
+                .onAppear(perform: delayTask)
                 .backgroundViewModifier(alpha: backgroundAlpha)
                 .onTapGesture {
                   switch shouldClosePopover {
                   case .outside, .anywhere:
-                    isPresented.toggle()
+                    dismissPopover()
                   case .inside:
                     break
                   }
                 }
             }
-#elseif os(macOS)
+            #elseif os(macOS)
             BackgroundView(isVisible: $isPresented, frame: frame) {
               popoverView(frame)
             }
-#endif
+            #endif
           }
         }
         .onTapGesture {
-#if os(iOS)
-          UIView.setAnimationsEnabled(false)
-#endif
-          isPresented.toggle()
+          presentPopover()
         }
     }
+  }
+
+  private func delayTask() {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+      hasTimeElapsed = true
+    }
+  }
+  private func presentPopover() {
+    UIView.setAnimationsEnabled(true)
+    UIView.animate(withDuration: 0.1) {
+      isPresented = true
+    }
+  }
+
+  private func dismissPopover() {
+    UIView.setAnimationsEnabled(false)
+    isPresented = false
+    hasTimeElapsed = false
   }
 
   @ViewBuilder
@@ -90,7 +108,7 @@ struct PBPopover<T: View>: ViewModifier {
     .onTapGesture {
       switch shouldClosePopover {
       case .inside, .anywhere:
-        isPresented.toggle()
+        dismissPopover()
       case .outside:
         break
       }
@@ -186,7 +204,7 @@ public enum PopoverPosition {
 
   func horizontalOffset(_ frame: CGRect, _ padding: CGFloat) -> CGFloat {
     var space: CGFloat = 0
-#if os(iOS)
+    #if os(iOS)
     let view = UIScreen.main.bounds
     let frameMax = frame.maxX + padding
     let frameMin = frame.minX
@@ -197,7 +215,7 @@ public enum PopoverPosition {
     if view.maxX.isLess(than: frameMax - 1) {
       space = -(frameMax - view.maxX) - padding
     }
-#endif
+    #endif
     return space
   }
 }
