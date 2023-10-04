@@ -35,9 +35,9 @@ runShortNode {
   stage('Runway Comment') {
     writeRunwayComment()
   }
-  stage('Tag') {
-    try { fastlane("tag_build build:${buildNumber}") } catch (e) { }
-  }
+// stage('Tag') {
+//  try { fastlane("tag_build build:${buildNumber}") } catch (e) { }
+// }
 }
 
 // Methods
