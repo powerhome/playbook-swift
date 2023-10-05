@@ -19,7 +19,6 @@ struct PBPopover<T: View>: ViewModifier {
   @State private var midY: CGFloat = .zero
   @State private var midX: CGFloat = .zero
   @State private var xOffset: CGFloat = .zero
-  @State private var hasTimeElapsed = false
 
   init(
     position: PopoverPosition = .bottom(),
@@ -45,20 +44,18 @@ struct PBPopover<T: View>: ViewModifier {
             #if os(iOS)
             let positionX = frame.midX + xOffset
             let positionY = frame.midY + yOffset
-            Color.clear.fullScreenCover(isPresented: $isPresented) {
+            Color.clear.heroFullScreenCover(show: $isPresented) {
               popoverView(frame)
                 .animation(nil, value: isPresented)
                 .position(
                   x: positionX,
                   y: positionY
                 )
-                .opacity(hasTimeElapsed ? 1 : 0)
-                .onAppear(perform: delayTask)
                 .backgroundViewModifier(alpha: backgroundAlpha)
                 .onTapGesture {
                   switch shouldClosePopover {
                   case .outside, .anywhere:
-                    dismissPopover()
+                    isPresented = false
                   case .inside:
                     break
                   }
@@ -72,27 +69,9 @@ struct PBPopover<T: View>: ViewModifier {
           }
         }
         .onTapGesture {
-          presentPopover()
+          isPresented = true
         }
     }
-  }
-
-  private func delayTask() {
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-      hasTimeElapsed = true
-    }
-  }
-  private func presentPopover() {
-    UIView.setAnimationsEnabled(true)
-    UIView.animate(withDuration: 0.1) {
-      isPresented = true
-    }
-  }
-
-  private func dismissPopover() {
-    UIView.setAnimationsEnabled(false)
-    isPresented = false
-    hasTimeElapsed = false
   }
 
   @ViewBuilder
@@ -108,7 +87,7 @@ struct PBPopover<T: View>: ViewModifier {
     .onTapGesture {
       switch shouldClosePopover {
       case .inside, .anywhere:
-        dismissPopover()
+        isPresented = false
       case .outside:
         break
       }
@@ -226,35 +205,3 @@ public struct PBPopover_Previews: PreviewProvider {
     return PopoverCatalog()
   }
 }
-
-#if os(macOS)
-struct BackgroundView<T: View>: NSViewRepresentable {
-  @Binding var isVisible: Bool
-  let frame: CGRect
-  let content: T
-
-  init(isVisible: Binding<Bool>, frame: CGRect, @ViewBuilder content: () -> T) {
-    self._isVisible = isVisible
-    self.frame = frame
-    self.content = content()
-  }
-
-  func makeNSView(context: Context) -> NSView {
-    let view = NSView()
-    return view
-  }
-
-  func updateNSView(_ nsView: NSView, context: Context) {
-    if isVisible {
-      let popover = NSPopover()
-      let content = NSHostingController(rootView: content)
-      popover.contentViewController = content
-      popover.setValue(true, forKeyPath: "shouldHideAnchor")
-      popover.animates = false
-      popover.behavior = .semitransient
-      let rect = NSRect(x: nsView.bounds.width/2, y: 0, width: nsView.bounds.width, height: nsView.bounds.height)
-      popover.show(relativeTo: rect, of: nsView, preferredEdge: .minY)
-    }
-  }
-}
-#endif
