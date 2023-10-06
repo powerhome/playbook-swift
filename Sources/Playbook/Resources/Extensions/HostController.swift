@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if os(iOS)
 extension View {
   @ViewBuilder
   func heroFullScreenCover<Content: View>(show: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) -> some View {
@@ -34,12 +35,11 @@ struct HelperHeroView<Overlay: View>: ViewModifier {
       .onChange(of: show) { newValue in
         if newValue {
           hostView = UIHostingController(rootView: overlay)
+          
           if let hostView {
-            
             hostView.modalPresentationStyle = .overCurrentContext
             hostView.modalTransitionStyle = .crossDissolve
             hostView.view.backgroundColor = .clear
-            
             parentController?.present(hostView, animated: false)
           }
         } else {
@@ -62,43 +62,10 @@ struct ExtractSwiftUIParentController<Content: View>: UIViewRepresentable {
   func updateUIView(_ uiView: UIViewType, context: Context) {
     hostView?.rootView = content
     Task {
-      parentController(uiView.superview?.superview?.parentController)
-    }
-  }
-  
-}
-
-#if os(macOS)
-struct BackgroundView<T: View>: NSViewRepresentable {
-  @Binding var isVisible: Bool
-  let frame: CGRect
-  let content: T
-  
-  init(isVisible: Binding<Bool>, frame: CGRect, @ViewBuilder content: () -> T) {
-    self._isVisible = isVisible
-    self.frame = frame
-    self.content = content()
-  }
-  
-  func makeNSView(context: Context) -> NSView {
-    let view = NSView()
-    return view
-  }
-  
-  func updateNSView(_ nsView: NSView, context: Context) {
-    if isVisible {
-      let popover = NSPopover()
-      let content = NSHostingController(rootView: content)
-      popover.contentViewController = content
-      popover.setValue(true, forKeyPath: "shouldHideAnchor")
-      popover.animates = false
-      popover.behavior = .semitransient
-      let rect = NSRect(x: nsView.bounds.width/2, y: 0, width: nsView.bounds.width, height: nsView.bounds.height)
-      popover.show(relativeTo: rect, of: nsView, preferredEdge: .minY)
+      parentController(uiView.superview?.parentController)
     }
   }
 }
-#endif
 
 public extension UIView {
   var parentController: UIViewController? {
@@ -112,3 +79,35 @@ public extension UIView {
     return nil
   }
 }
+
+
+#elseif os(macOS)
+struct BackgroundView<T: View>: NSViewRepresentable {
+  @Binding var isVisible: Bool
+  let frame: CGRect
+  let content: T
+  
+  init(isVisible: Binding<Bool>, frame: CGRect, @ViewBuilder content: () -> T) {
+    self._isVisible = isVisible
+    self.frame = frame
+    self.content = content()
+  }
+  
+  func makeNSView(context: Context) -> NSView {
+    return NSView()
+  }
+  
+  func updateNSView(_ nsView: NSView, context: Context) {
+    let popover = NSPopover()
+    let content = NSHostingController(rootView: content)
+    popover.contentViewController = content
+    popover.setValue(true, forKeyPath: "shouldHideAnchor")
+    popover.animates = false
+    popover.behavior = .semitransient
+    let rect = NSRect(x: nsView.bounds.width/2, y: 0, width: nsView.bounds.width, height: nsView.bounds.height)
+    if isVisible {
+      popover.show(relativeTo: rect, of: nsView, preferredEdge: .minY)
+    }
+  }
+}
+#endif
