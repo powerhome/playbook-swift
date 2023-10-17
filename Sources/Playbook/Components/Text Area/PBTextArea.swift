@@ -43,7 +43,8 @@ public struct PBTextArea: View {
       if inline {
         PBCard(border: isTextAreaFocused, padding: 0, style: style(isTextAreaFocused)) {
           inlineTextEditorView
-          if let placeholder = placeholder, (isTextAreaFocused == false && text.isEmpty) {
+          if let placeholder = placeholder,
+             (!isTextAreaFocused && text.isEmpty) {
             placeHolderTextView(placeholder, topPadding: -40)
           }
         }
@@ -51,7 +52,8 @@ public struct PBTextArea: View {
         PBCard(padding: 0, style: style(isTextAreaFocused)) {
           ZStack(alignment: .leading) {
             textEditorView
-            if let placeholder = placeholder, (isTextAreaFocused == false && text.isEmpty) {
+            if let placeholder = placeholder,
+                (!isTextAreaFocused && text.isEmpty) {
               placeHolderTextView(placeholder, topPadding: -32)
             }
           }

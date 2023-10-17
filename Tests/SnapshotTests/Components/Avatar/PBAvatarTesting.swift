@@ -12,13 +12,13 @@ import XCTest
 #if os(iOS)
   class PBAvatarTesting: XCTestCase {
     func testPBAvatarDefault() {
-      let vc = PBAvatar_Previews.defaultAvatars
+      let vc = AvatarCatalog().defaultAvatars
 
       assertSnapshot(matching: vc, as: .image)
     }
 
     func testPBAvatarMonogram() {
-      let vc = PBAvatar_Previews.monograms
+      let vc = AvatarCatalog().monograms
 
       assertSnapshot(matching: vc, as: .image)
     }
