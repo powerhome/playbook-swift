@@ -142,7 +142,7 @@ def getReleaseNotes() {
 }
 
 def writeRunwayComment() {
-  if (PR_USER_HANDLE in ['renovate', 'dependabot']) {
+  if (env.PR_USER_HANDLE in ['renovate', 'dependabot']) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
   }
