@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "$ROOT_DIR/Tools/include.sh"
+. "$ROOT_DIR/Tools/github-utils.sh"
 
 requireVariables      \
   BUILD_NUMBER        \

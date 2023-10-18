@@ -142,6 +142,10 @@ def getReleaseNotes() {
 }
 
 def writeRunwayComment() {
+  if (env.PR_USER_HANDLE in ['renovate', 'dependabot']) {
+    echo "Bot PR detected. Skipping Runway comment."
+    return true
+  }
   fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
 }
 
