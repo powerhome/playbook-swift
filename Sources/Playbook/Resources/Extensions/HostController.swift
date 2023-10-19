@@ -1,6 +1,6 @@
 //
-//  ScrollView+Offset.swift
-//  
+//  FullScreenCover+View.swift
+//
 //
 //  Created by Isis Silva on 05/09/23.
 //
@@ -18,10 +18,10 @@ extension View {
 struct HelperHeroView<Overlay: View>: ViewModifier {
   @Binding var show: Bool
   var overlay: Overlay
-  
+
   @State private var hostView: UIHostingController<Overlay>?
   @State private var parentController: UIViewController?
-  
+
   func body(content: Content) -> some View {
     content
       .background {
@@ -35,7 +35,7 @@ struct HelperHeroView<Overlay: View>: ViewModifier {
       .onChange(of: show) { newValue in
         if newValue {
           hostView = UIHostingController(rootView: overlay)
-          
+
           if let hostView {
             hostView.modalPresentationStyle = .overCurrentContext
             hostView.modalTransitionStyle = .crossDissolve
@@ -52,12 +52,12 @@ struct HelperHeroView<Overlay: View>: ViewModifier {
 struct ExtractSwiftUIParentController<Content: View>: UIViewRepresentable {
   var content: Content
   @Binding var hostView: UIHostingController<Content>?
-  var parentController: (UIViewController?) -> ()
-  
+  var parentController: (UIViewController?) -> Void
+
   func makeUIView(context: Context) -> some UIView {
     return UIView()
   }
-  
+
   @MainActor
   func updateUIView(_ uiView: UIViewType, context: Context) {
     hostView?.rootView = content
@@ -80,23 +80,22 @@ public extension UIView {
   }
 }
 
-
 #elseif os(macOS)
 struct BackgroundView<T: View>: NSViewRepresentable {
   @Binding var isVisible: Bool
   let frame: CGRect
   let content: T
-  
+
   init(isVisible: Binding<Bool>, frame: CGRect, @ViewBuilder content: () -> T) {
     self._isVisible = isVisible
     self.frame = frame
     self.content = content()
   }
-  
+
   func makeNSView(context: Context) -> NSView {
     return NSView()
   }
-  
+
   func updateNSView(_ nsView: NSView, context: Context) {
     let popover = NSPopover()
     let content = NSHostingController(rootView: content)
