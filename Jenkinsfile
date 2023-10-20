@@ -36,7 +36,9 @@ runShortNode {
     writeRunwayComment()
   }
   stage('Tag') {
-    try { fastlane("tag_build build:${buildNumber}") } catch (e) { }
+    if (env.GITHUB_BRANCH_NAME == "main") {
+      try { fastlane("tag_build build:${buildNumber}") } catch (e) { }
+    }
   }
 }
 
