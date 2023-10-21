@@ -9,10 +9,9 @@ import SwiftUI
 
 struct ToastHandler: ViewModifier {
   @Environment(\.toastValue) var toast
-//  @Binding var isPresented: Bool
+  let position: PBToast.Position
 
   func body(content: Content) -> some View {
-//    if isPresented {
       content
       .overlay(
         toastView()
@@ -20,15 +19,23 @@ struct ToastHandler: ViewModifier {
             TapGesture().onEnded { dismiss() }
           )
       )
-//    }
   }
 
   func toastView() -> some View {
     VStack {
-      toast
-        .padding(.top)
-//        .animation(Animation.easeOut(duration: 0.3), value: currentOffset)
-      Spacer()
+      switch position {
+      case .top:
+        toast
+          .padding(.top)
+  //        .animation(Animation.easeOut(duration: 0.3), value: currentOffset)
+        Spacer()
+      case .bottom:
+        Spacer()
+        toast
+          .padding(.bottom)
+  //        .animation(Animation.easeOut(duration: 0.3), value: currentOffset)
+      }
+     
 
     }
   }
@@ -39,9 +46,9 @@ struct ToastHandler: ViewModifier {
 }
 
 public extension View {
-  func withToastHandling(_ toast: PBToast?) -> some View {
+  func withToastHandling(_ toast: PBToast?, position: PBToast.Position = .top) -> some View {
     self
-      .modifier(ToastHandler())
+      .modifier(ToastHandler(position: position))
       .environment(\.toastValue, toast)
   }
 }

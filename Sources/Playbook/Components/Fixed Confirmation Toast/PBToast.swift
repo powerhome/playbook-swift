@@ -32,10 +32,17 @@ public struct PBToast: View {
         .padding(.horizontal, 24)
 
       if let dismiss = dismissAction {
-        Button { dismiss.action() }
-      label: {
-        dismiss.view
+        dismiss.view.onTapGesture {
+          dismiss.action()
+        }
       }
+    }
+    .onAppear {
+      if let dismiss = dismissAction {
+        switch dismiss {
+        case .withTimer:  dismiss.action()
+        default: break
+        }
       }
     }
     .foregroundColor(.white)
@@ -47,14 +54,19 @@ public struct PBToast: View {
   }
 }
 
-// extension PBToast {
-  public enum DismissAction {
-    case `default`(() -> Void), custom(AnyView, (() -> Void))
+public extension PBToast {
+  enum Position {
+    case top, bottom
+  }
+
+  enum DismissAction {
+    case `default`(() -> Void), custom(AnyView, (() -> Void)), withTimer(TimeInterval, (() -> Void))
 
     var view: AnyView {
       switch self {
       case .default: AnyView(PBIcon.fontAwesome(.times))
       case .custom(let view, _): view
+      case .withTimer: AnyView(EmptyView().frame(width: 0))
       }
     }
 
@@ -62,16 +74,18 @@ public struct PBToast: View {
       switch self {
       case .default(let action): action
       case .custom(_, let action): action
+      case .withTimer(let time, let action): { 
+        _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { action() }
+      }
       }
     }
   }
 
-  public enum Variant {
+  enum Variant {
     case error, success, neutral, custom(FontAwesome? = nil, Color)
 
     func color(_ custom: Color = .pbPrimary) -> Color {
       switch self {
-
       case .error: .status(.error)
       case .success: .status(.success)
       case .neutral: .status(.neutral)
@@ -88,7 +102,7 @@ public struct PBToast: View {
       }
     }
   }
-// }
+}
 
 #Preview {
   @State var isPresented = false
