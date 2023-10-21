@@ -29,7 +29,7 @@ public struct PBToast: View {
       }
       Text(text)
         .pbFont(.title4, color: .white)
-        .padding(.horizontal, 24)
+        .padding(.horizontal, Spacing.medium)
 
       if let dismiss = dismissAction {
         dismiss.view.onTapGesture {
@@ -46,8 +46,8 @@ public struct PBToast: View {
       }
     }
     .foregroundColor(.white)
-    .padding(7)
-    .padding(.horizontal)
+    .padding(.vertical, Spacing.xSmall)
+    .padding(.horizontal, Spacing.medium)
     .background(
       Capsule().fill(variant.color())
     )
@@ -74,9 +74,7 @@ public extension PBToast {
       switch self {
       case .default(let action): action
       case .custom(_, let action): action
-      case .withTimer(let time, let action): { 
-        _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { action() }
-      }
+      case .withTimer(let time, let action): { _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { action() } }
       }
     }
   }

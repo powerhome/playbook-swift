@@ -13,12 +13,7 @@ struct ToastHandler: ViewModifier {
 
   func body(content: Content) -> some View {
       content
-      .overlay(
-        toastView()
-          .simultaneousGesture(
-            TapGesture().onEnded { dismiss() }
-          )
-      )
+      .overlay(toastView())
   }
 
   func toastView() -> some View {
@@ -27,21 +22,13 @@ struct ToastHandler: ViewModifier {
       case .top:
         toast
           .padding(.top)
-  //        .animation(Animation.easeOut(duration: 0.3), value: currentOffset)
         Spacer()
       case .bottom:
         Spacer()
         toast
           .padding(.bottom)
-  //        .animation(Animation.easeOut(duration: 0.3), value: currentOffset)
       }
-     
-
     }
-  }
-
-  func dismiss() {
-//    isPresented = false
   }
 }
 

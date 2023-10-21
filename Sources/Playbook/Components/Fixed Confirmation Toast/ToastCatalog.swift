@@ -8,9 +8,10 @@
 import SwiftUI
 
 public struct ToastCatalog: View {
-  let infoMessage = "Design & Handoff Process was moved to UX Designer Learning Track."
   @State private var toastView: PBToast?
   @State private var toastPosition: PBToast.Position = .top
+
+  private let message = "Design & Handoff Process was moved to UX Designer."
 
   public var body: some View {
     ScrollView {
@@ -25,15 +26,15 @@ public struct ToastCatalog: View {
       .padding(Spacing.medium)
     }
     .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Dialog")
+    .navigationTitle("Toast")
     .withToastHandling(toastView, position: toastPosition)
   }
 
-  func closeDialog() {
+  private func closeDialog() {
     toastView = nil
   }
 
-  var defaultToast: some View {
+  private var defaultToast: some View {
     VStack(alignment: .leading) {
       PBToast(text: "Error Message", variant: .error, dismissAction: .default { closeDialog() })
       PBToast(text: "Items Successfully Moved", variant: .success)
@@ -41,11 +42,11 @@ public struct ToastCatalog: View {
     }
   }
 
-  var multiLine: some View {
-    PBToast(text: infoMessage, variant: .custom(.infoCircle, .pbPrimary))
+  private var multiLine: some View {
+    PBToast(text: message, variant: .custom(.infoCircle, .pbPrimary))
   }
 
-  var clickToClose: some View {
+  private var clickToClose: some View {
     VStack(alignment: .leading) {
       PBToast(text: "Error Message", variant: .error, dismissAction: .default { closeDialog() })
       PBToast(text: "Items Successfully Moved", variant: .success, dismissAction: .default { closeDialog() })
@@ -53,41 +54,56 @@ public struct ToastCatalog: View {
     }
   }
 
-  var positionButton: some View {
+  private var positionButton: some View {
     HStack {
       PBButton(variant: .secondary, title: "Top Center") {
         toastPosition = .top
-        toastView = PBToast(text: "Some mesage here", variant: .custom(.addressBook, .pink), dismissAction: .default { closeDialog() })
+        toastView = PBToast(
+          text: "Top Center",
+          variant: .neutral,
+          dismissAction: .default { closeDialog() }
+        )
       }
 
       PBButton(variant: .secondary, title: "Bottom Center") {
         toastPosition = .bottom
-        toastView = PBToast(text: "Some here", variant: .custom(.addressBook, .pink), dismissAction: .default { closeDialog() })
+        toastView = PBToast(
+          text: "Bottom Center",
+          variant: .custom(.user, .pbPrimary),
+          dismissAction: .default { closeDialog() }
+        )
       }
     }
   }
-  
-  var children: some View {
+
+  private var children: some View {
     PBToast(
-      text: infoMessage,
+      text: message,
       variant: .success,
       dismissAction: .custom(
-        AnyView(Text("Undo").pbFont(.title4, color: .white)),
-        { closeDialog() }
+        AnyView(Text("Undo").pbFont(.title4, color: .white)), { closeDialog() }
       )
     )
   }
-  
-  var withTimer: some View {
+
+  private var withTimer: some View {
     HStack {
       PBButton(variant: .secondary, title: "Top Center") {
         toastPosition = .top
-        toastView = PBToast(text: "Some mesage here", variant: .custom(.addressBook, .pink), dismissAction: .withTimer(3, { closeDialog() }))
+        toastView = PBToast(
+          text: "Top Center",
+          variant: .neutral,
+          dismissAction: .withTimer(3, { closeDialog() })
+        )
       }
 
       PBButton(variant: .secondary, title: "Bottom Center") {
         toastPosition = .bottom
-        toastView = PBToast(text: "Some here", variant: .custom(.addressBook, .pink), dismissAction: .withTimer(2, { closeDialog() }))
+        toastView = PBToast(
+          text: "Bottom Center",
+          variant: .neutral,
+          dismissAction: .withTimer(2, { closeDialog() })
+        )
       }
     }
   }
