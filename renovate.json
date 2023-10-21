@@ -1,11 +1,18 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":dependencyDashboard",
+    "group:allNonMajor"
   ],
-  "labels": ["improvement"],
+  "labels": ["dependencies"],
   "lockFileMaintenance": {
     "enabled": true
   },
+  "major": {
+    "enabled": false
+  },
+  "prCreation": "not-pending",
+  "prConcurrentLimit": 1,
   "pre-commit": {
     "enabled": true
   }

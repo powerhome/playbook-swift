@@ -18,7 +18,7 @@ extension View {
 struct HelperHeroView<Overlay: View>: ViewModifier {
   @Binding var show: Bool
   var overlay: Overlay
-
+  
   @State private var hostView: UIHostingController<Overlay>?
   @State private var parentController: UIViewController?
 
@@ -35,7 +35,6 @@ struct HelperHeroView<Overlay: View>: ViewModifier {
       .onChange(of: show) { newValue in
         if newValue {
           hostView = UIHostingController(rootView: overlay)
-
           if let hostView {
             hostView.modalPresentationStyle = .overCurrentContext
             hostView.modalTransitionStyle = .crossDissolve
@@ -85,7 +84,6 @@ struct BackgroundView<T: View>: NSViewRepresentable {
   @Binding var isVisible: Bool
   let frame: CGRect
   let content: T
-
   init(isVisible: Binding<Bool>, frame: CGRect, @ViewBuilder content: () -> T) {
     self._isVisible = isVisible
     self.frame = frame
