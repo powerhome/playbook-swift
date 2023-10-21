@@ -71,7 +71,7 @@ public enum Componenets: String, CaseIterable {
     case .toast: ToastCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
-   
+
     }
   }
 }

@@ -22,6 +22,7 @@ struct FrameGetter: ViewModifier {
         if rect.integral != self.frame.integral {
           Task {
             self.frame = rect
+            print("frame \(rect)")
           }
         }
         return AnyView(EmptyView())

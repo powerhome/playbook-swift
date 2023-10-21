@@ -9,8 +9,8 @@ import SwiftUI
 
 public struct ToastCatalog: View {
   let infoMessage = "This is a message for informational purposes only and requires no action."
-  @State private var toastView: PBToast? = nil
-  
+  @State private var toastView: PBToast?
+
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
@@ -19,41 +19,40 @@ public struct ToastCatalog: View {
         PBDoc(title: "Click to Close") { clickToClose }
         PBDoc(title: "Simple") { simpleButton }
       }
-      .withToastHandling(toastView)
       .padding(Spacing.medium)
     }
     .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Dialog")
+    .withToastHandling(toastView)
   }
-  
+
   func closeDialog() {
     toastView = nil
   }
-  
+
   var simpleButton: some View {
     PBButton(title: "Simple") {
-      toastView = PBToast(text: "Some mesage here", variant: .custom(.addressBook, .pink))
+      toastView = PBToast(text: "Some mesage here", variant: .custom(.addressBook, .pink), dismissAction: .default { closeDialog() })
     }
-    
   }
 
   var defaultToast: some View {
-    VStack {
+    VStack(alignment: .leading) {
       PBToast(text: "Error Message", variant: .error)
       PBToast(text: "Items Successfully Moved", variant: .success)
       PBToast(text: "Scan to Assign Selected Items", variant: .neutral)
     }
   }
-  
+
   var multiLine: some View {
     PBToast(text: infoMessage, variant: .custom(.infoCircle, .pbPrimary))
   }
-  
+
   var clickToClose: some View {
-    VStack {
-      PBToast(text: "Error Message", variant: .error)
-      PBToast(text: "Items Successfully Moved", variant: .success)
-      PBToast(text: "Scan to Assign Selected Items", variant: .neutral)
+    VStack(alignment: .leading) {
+      PBToast(text: "Error Message", variant: .error, dismissAction: .default { closeDialog() })
+      PBToast(text: "Items Successfully Moved", variant: .success, dismissAction: .default { closeDialog() })
+      PBToast(text: "Scan to Assign Selected Items", variant: .neutral, dismissAction: .default { closeDialog() })
     }
   }
 }

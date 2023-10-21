@@ -9,39 +9,32 @@ import SwiftUI
 
 struct ToastHandler: ViewModifier {
   @Environment(\.toastValue) var toast
-  @State private var presenterContentRect: CGRect = .zero
-  @State private var sheetContentRect: CGRect = .zero
-  
-  private var displayedOffset: CGFloat { presenterContentRect.minY }
-  private var currentOffset: CGFloat { toast != nil ? displayedOffset : screenHeight }
-  
-  private var screenWidth: CGFloat { UIScreen.main.bounds.size.width }
-  private var screenHeight: CGFloat { UIScreen.main.bounds.size.height }
+//  @Binding var isPresented: Bool
 
   func body(content: Content) -> some View {
-    ZStack {
+//    if isPresented {
       content
-        .frameGetter($presenterContentRect)
-    }
-    .overlay(sheet())
+      .overlay(
+        toastView()
+          .simultaneousGesture(
+            TapGesture().onEnded { dismiss() }
+          )
+      )
+//    }
   }
-  
-  func sheet() -> some View {
-    ZStack {
-      toast
-        .frameGetter($sheetContentRect)
-        .frame(width: screenWidth)
-        .offset(x: 0, y: -currentOffset)
-        .animation(Animation.easeOut(duration: 0.3), value: currentOffset)
-      
-    }
-  }
-}
 
-class ToastHandling: ObservableObject {
-  @Published var currentToast: PBToast?
-  func handle(toast: PBToast?) {
-    currentToast = toast
+  func toastView() -> some View {
+    VStack {
+      toast
+        .padding(.top)
+//        .animation(Animation.easeOut(duration: 0.3), value: currentOffset)
+      Spacer()
+
+    }
+  }
+
+  func dismiss() {
+//    isPresented = false
   }
 }
 
