@@ -25,7 +25,7 @@ public struct PBToast: View {
   public var body: some View {
     HStack {
       if let icon = variant.icon {
-        PBIcon.fontAwesome(icon)
+        PBIcon.fontAwesome(icon, size: .x1)
       }
       Text(text)
         .pbFont(.title4, color: .white)
@@ -51,6 +51,7 @@ public struct PBToast: View {
     .background(
       Capsule().fill(variant.color())
     )
+    .pbShadow(.deeper)
   }
 }
 
@@ -72,9 +73,9 @@ public extension PBToast {
 
     var action: (() -> Void) {
       switch self {
-      case .default(let action): action
-      case .custom(_, let action): action
-      case .withTimer(let time, let action): { _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { action() } }
+      case .default(let currentAction): currentAction
+      case .custom(_, let currentAction): currentAction
+      case .withTimer(let time, let currentAction): { _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { currentAction() } }
       }
     }
   }
@@ -93,7 +94,7 @@ public extension PBToast {
 
     var icon: FontAwesome? {
       switch self {
-      case .error: .exclamationTriangle
+      case .error: FontAwesome.exclamationTriangle
       case .success: .check
       case .neutral: .infoCircle
       case .custom(let icon, _): icon
@@ -102,8 +103,10 @@ public extension PBToast {
   }
 }
 
-#Preview {
-  @State var isPresented = false
-  registerFonts()
-  return ToastCatalog()
+private struct PBToast_Previews: PreviewProvider {
+  public static var previews: some View {
+    @State var isPresented = false
+    registerFonts()
+    return ToastCatalog()
+  }
 }

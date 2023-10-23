@@ -112,8 +112,7 @@ public extension PBButton {
   }
 }
 
-@available(macOS 13.0, *)
-struct PBButton_Previews: PreviewProvider {
+private struct PBButton_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
     return ButtonsCatalog()

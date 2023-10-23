@@ -18,7 +18,7 @@ extension View {
 struct HelperHeroView<Overlay: View>: ViewModifier {
   @Binding var show: Bool
   var overlay: Overlay
-  
+
   @State private var hostView: UIHostingController<Overlay>?
   @State private var parentController: UIViewController?
 
