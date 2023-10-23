@@ -10,7 +10,10 @@ import SwiftUI
 #if os(iOS)
 extension View {
   @ViewBuilder
-  func heroFullScreenCover<Content: View>(show: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) -> some View {
+  func heroFullScreenCover<Content: View>(
+    show: Binding<Bool>,
+    @ViewBuilder content: @escaping () -> Content
+  ) -> some View {
     self.modifier(HelperHeroView(show: show, overlay: content()))
   }
 }

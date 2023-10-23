@@ -8,18 +8,18 @@
 import SwiftUI
 
 public struct PBToast: View {
-  let text: String
+  let text: String?
   let variant: Variant
-  let dismissAction: DismissAction?
+  let actionView: DismissAction?
 
   public init(
-    text: String,
-    variant: Variant,
-    dismissAction: DismissAction? = nil
+    text: String? = nil,
+    variant: Variant = .custom(nil, .clear),
+    actionView: DismissAction? = nil
   ) {
     self.text = text
     self.variant = variant
-    self.dismissAction = dismissAction
+    self.actionView = actionView
   }
 
   public var body: some View {
@@ -27,18 +27,19 @@ public struct PBToast: View {
       if let icon = variant.icon {
         PBIcon.fontAwesome(icon, size: .x1)
       }
-      Text(text)
-        .pbFont(.title4, color: .white)
-        .padding(.horizontal, Spacing.medium)
-
-      if let dismiss = dismissAction {
+      if let text = text {
+        Text(text)
+          .pbFont(.title4, color: .white)
+          .padding(.horizontal, Spacing.medium)
+      }
+      if let dismiss = actionView {
         dismiss.view.onTapGesture {
           dismiss.action()
         }
       }
     }
     .onAppear {
-      if let dismiss = dismissAction {
+      if let dismiss = actionView {
         switch dismiss {
         case .withTimer:  dismiss.action()
         default: break
@@ -75,7 +76,9 @@ public extension PBToast {
       switch self {
       case .default(let currentAction): currentAction
       case .custom(_, let currentAction): currentAction
-      case .withTimer(let time, let currentAction): { _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { currentAction() } }
+      case .withTimer(let time, let currentAction): {
+        _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { currentAction() }
+      }
       }
     }
   }
@@ -85,9 +88,9 @@ public extension PBToast {
 
     func color(_ custom: Color = .pbPrimary) -> Color {
       switch self {
-      case .error: .status(.error)
-      case .success: .status(.success)
-      case .neutral: .status(.neutral)
+      case .error: Color.status(.error)
+      case .success: Color.status(.success)
+      case .neutral: Color.status(.neutral)
       case .custom(_, let color): color
       }
     }
@@ -95,8 +98,8 @@ public extension PBToast {
     var icon: FontAwesome? {
       switch self {
       case .error: FontAwesome.exclamationTriangle
-      case .success: .check
-      case .neutral: .infoCircle
+      case .success: FontAwesome.check
+      case .neutral: FontAwesome.infoCircle
       case .custom(let icon, _): icon
       }
     }

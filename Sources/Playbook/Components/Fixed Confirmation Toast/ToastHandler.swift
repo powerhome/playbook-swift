@@ -12,8 +12,7 @@ struct ToastHandler: ViewModifier {
   let position: PBToast.Position
 
   func body(content: Content) -> some View {
-      content
-      .overlay(toastView())
+    content.overlay(toastView())
   }
 
   func toastView() -> some View {
