@@ -36,21 +36,21 @@ public struct ToastCatalog: View {
 
   private var defaultToast: some View {
     VStack(alignment: .leading) {
-      PBToast(text: "Error Message", variant: .error, actionView: .default { closeDialog() })
-      PBToast(text: "Items Successfully Moved", variant: .success)
-      PBToast(text: "Scan to Assign Selected Items", variant: .neutral)
+      PBToast(text: "Error Message", variant: .error, actionView: .default, dismissAction: closeDialog)
+      PBToast(text: "Items Successfully Moved", variant: .success, dismissAction: closeDialog)
+      PBToast(text: "Scan to Assign Selected Items", variant: .neutral, dismissAction: closeDialog)
     }
   }
 
   private var multiLine: some View {
-    PBToast(text: message, variant: .custom(.infoCircle, .pbPrimary))
+    PBToast(text: message, variant: .custom(.infoCircle, .pbPrimary), dismissAction: closeDialog)
   }
 
   private var clickToClose: some View {
     VStack(alignment: .leading) {
-      PBToast(text: "Error Message", variant: .error, actionView: .default { closeDialog() })
-      PBToast(text: "Items Successfully Moved", variant: .success, actionView: .default { closeDialog() })
-      PBToast(text: "Scan to Assign Selected Items", variant: .neutral, actionView: .default { closeDialog() })
+      PBToast(text: "Error Message", variant: .error, actionView: .default, dismissAction: closeDialog)
+      PBToast(text: "Items Successfully Moved", variant: .success, actionView: .default, dismissAction: closeDialog)
+      PBToast(text: "Scan to Assign Selected Items", variant: .neutral, actionView: .default, dismissAction: closeDialog)
     }
   }
 
@@ -61,7 +61,8 @@ public struct ToastCatalog: View {
         toastView = PBToast(
           text: "Top Center",
           variant: .neutral,
-          actionView: .default { closeDialog() }
+          actionView: .default,
+          dismissAction: closeDialog
         )
       }
 
@@ -70,7 +71,8 @@ public struct ToastCatalog: View {
         toastView = PBToast(
           text: "Bottom Center",
           variant: .custom(.user, .pbPrimary),
-          actionView: .default { closeDialog() }
+          actionView: .default,
+          dismissAction: closeDialog
         )
       }
     }
@@ -81,9 +83,8 @@ public struct ToastCatalog: View {
       PBToast(
         text: message,
         variant: .success,
-        actionView: .custom(
-          AnyView(Text("Undo").pbFont(.title4, color: .white)), { closeDialog() }
-        )
+        actionView: .custom(AnyView(Text("Undo").pbFont(.title4, color: .white))),
+        dismissAction: closeDialog
       )
 
       PBToast(
@@ -94,8 +95,8 @@ public struct ToastCatalog: View {
               Text("Undo action").pbFont(.caption, color: .white)
               PBButton(variant: .primary, title: "Undo").disabled(true)
             }
-          ), { closeDialog() }
-        )
+          )),
+        dismissAction: closeDialog
       )
     }
   }
@@ -107,7 +108,8 @@ public struct ToastCatalog: View {
         toastView = PBToast(
           text: "Top Center",
           variant: .neutral,
-          actionView: .withTimer(3, { closeDialog() })
+          actionView: .withTimer(3),
+          dismissAction: closeDialog
         )
       }
 
@@ -116,7 +118,8 @@ public struct ToastCatalog: View {
         toastView = PBToast(
           text: "Bottom Center",
           variant: .neutral,
-          actionView: .withTimer(2, { closeDialog() })
+          actionView: .withTimer(2),
+          dismissAction: closeDialog
         )
       }
     }

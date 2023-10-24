@@ -11,15 +11,18 @@ public struct PBToast: View {
   let text: String?
   let variant: Variant
   let actionView: DismissAction?
+  let dismissAction: (() -> Void)
 
   public init(
     text: String? = nil,
     variant: Variant = .custom(nil, .clear),
-    actionView: DismissAction? = nil
+    actionView: DismissAction? = nil,
+    dismissAction: @escaping (() -> Void)
   ) {
     self.text = text
     self.variant = variant
     self.actionView = actionView
+    self.dismissAction = dismissAction
   }
 
   public var body: some View {
@@ -34,14 +37,16 @@ public struct PBToast: View {
       }
       if let dismiss = actionView {
         dismiss.view.onTapGesture {
-          dismiss.action()
+          dismissAction()
         }
       }
     }
     .onAppear {
       if let dismiss = actionView {
         switch dismiss {
-        case .withTimer:  dismiss.action()
+        case .withTimer(let time):
+          _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { dismissAction()
+          }
         default: break
         }
       }
@@ -62,23 +67,13 @@ public extension PBToast {
   }
 
   enum DismissAction {
-    case `default`(() -> Void), custom(AnyView, (() -> Void)), withTimer(TimeInterval, (() -> Void))
+    case `default`, custom(AnyView), withTimer(TimeInterval)
 
     var view: AnyView {
       switch self {
       case .default: AnyView(PBIcon.fontAwesome(.times))
-      case .custom(let view, _): view
+      case .custom(let view): view
       case .withTimer: AnyView(EmptyView().frame(width: 0))
-      }
-    }
-
-    var action: (() -> Void) {
-      switch self {
-      case .default(let currentAction): currentAction
-      case .custom(_, let currentAction): currentAction
-      case .withTimer(let time, let currentAction): {
-        _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { currentAction() }
-      }
       }
     }
   }
