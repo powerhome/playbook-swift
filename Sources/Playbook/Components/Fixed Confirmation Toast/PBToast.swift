@@ -83,19 +83,19 @@ public extension PBToast {
 
     func color(_ custom: Color = .pbPrimary) -> Color {
       switch self {
-      case .error: Color.status(.error)
-      case .success: Color.status(.success)
-      case .neutral: Color.status(.neutral)
-      case .custom(_, let color): color
+      case .error: return Color.status(.error)
+      case .success: return Color.status(.success)
+      case .neutral: return Color.status(.neutral)
+      case .custom(_, let color): return color
       }
     }
 
     var icon: FontAwesome? {
       switch self {
-      case .error: FontAwesome.exclamationTriangle
-      case .success: FontAwesome.check
-      case .neutral: FontAwesome.infoCircle
-      case .custom(let icon, _): icon
+      case .error: return FontAwesome.exclamationTriangle
+      case .success: return FontAwesome.check
+      case .neutral: return FontAwesome.infoCircle
+      case .custom(let icon, _): return icon
       }
     }
   }
