@@ -35,8 +35,8 @@ public struct PBToast: View {
           .pbFont(.title4, color: .white)
           .padding(.horizontal, Spacing.medium)
       }
-      if let dismiss = actionView {
-        dismiss.view.onTapGesture {
+      if let dismiss = actionView, let view = dismiss.view {
+        view.onTapGesture {
           dismissAction()
         }
       }
@@ -69,11 +69,11 @@ public extension PBToast {
   enum DismissAction {
     case `default`, custom(AnyView), withTimer(TimeInterval)
 
-    var view: AnyView {
+    var view: AnyView? {
       switch self {
-      case .default: AnyView(PBIcon.fontAwesome(.times))
-      case .custom(let view): view
-      case .withTimer: AnyView(EmptyView().frame(width: 0))
+      case .default: return AnyView(PBIcon.fontAwesome(.times))
+      case .custom(let view): return view
+      case .withTimer: return nil
       }
     }
   }
