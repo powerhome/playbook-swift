@@ -19,10 +19,12 @@ jobs:
           node-version: 20
       - name: Set Git Config
         run: |
-          git config --local user.name "${{ github.actor }}"
-          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
       - name: Get Build Number
         run: |
+          echo $(git config user.name)
+          echo $(git config user.email)
           git clone --depth 5 git@github.com:powerhome/nitro-buildnumber.git .
           echo $(ls nitro-buildnumber)
           "666" >> ./buildNumber.txt
