@@ -16,13 +16,8 @@ def steps = [
     runNode {
       getReleaseNotes()
       def args = "type:${buildType()}"
-     // prepareToBuild(buildType())
       buildAndShipiOS(args)
     }
-  // }, 'macOS': {
-  //   runNode {
-  //     buildAndShipMacOS(args)
-  //   }
   }
 ]
 def map = steps
@@ -332,8 +327,9 @@ def updateBuildNumber() {
     // clone repo
     dir('.buildnumber') {
       try {
-        sh 'git clone --depth 5 git@github.com:powerhome/nitro-buildnumber.git .'
-        buildNumber = sh(returnStdout: true, script: './increment PlaybookSwift-version').trim().toInteger()
+        // sh 'git clone --depth 5 git@github.com:powerhome/nitro-buildnumber.git .'
+        // buildNumber = sh(returnStdout: true, script: './increment PlaybookSwift-version').trim().toInteger()
+        buildNumber = 666
         print "Build number: ${buildNumber}"
       }
       finally {

@@ -29,7 +29,7 @@ if [ -n "$GITHUB_PULL_REQUEST_ID" ]; then
 
   getPullRequestDetails "$GITHUB_PULL_REQUEST_ID" \
     | tee "$PR_DETAILS" \
-    | jq ". | {url, user, id, number, title, state, commits, mergeable}"
+    | jq ". | {commits, draft, id, mergeable, number, state, title, url, user}"
 
   export PR_USER_HANDLE=`jq -r .user.login "$PR_DETAILS"`
 else
