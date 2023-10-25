@@ -79,7 +79,10 @@ def runNodeWith(label, block, isShort) {
         stage('Checkout') {
             checkout scm
         }
-        
+        stage('Update Build Number') {
+          sh "echo \"CURRENT_PROJECT_VERSION = ${buildNumber}\" > ./PlaybookShowcase/Versioning.xcconfig"
+          sh "echo \$(cat ./PlaybookShowcase/Versioning.xcconfig)"
+        }
         if (isShort == false) {
           stage('Dependencies') {
             sh 'make dependencies'
@@ -327,9 +330,8 @@ def updateBuildNumber() {
     // clone repo
     dir('.buildnumber') {
       try {
-        // sh 'git clone --depth 5 git@github.com:powerhome/nitro-buildnumber.git .'
-        // buildNumber = sh(returnStdout: true, script: './increment PlaybookSwift-version').trim().toInteger()
-        buildNumber = 666
+        sh 'git clone --depth 5 git@github.com:powerhome/nitro-buildnumber.git .'
+        buildNumber = sh(returnStdout: true, script: './increment PlaybookSwift-version').trim().toInteger()
         print "Build number: ${buildNumber}"
       }
       finally {

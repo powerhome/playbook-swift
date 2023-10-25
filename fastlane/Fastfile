@@ -51,7 +51,8 @@ lane :build_ios do |opts|
     output_name: "#{target_ios}.ipa",
     build_path: build_path,
     derived_data_path: derived_data_path,
-    xcargs: '-skipPackagePluginValidation'
+    xcargs: '-skipPackagePluginValidation',
+    xcconfig: './PlaybookShowcase/Versioning.xcconfig'
   )
 end
 
