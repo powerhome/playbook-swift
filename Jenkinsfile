@@ -3,6 +3,8 @@
 success = true
 defaultNode = 'xcode-14'
 
+readyForTesting = env.PR_READY_FOR_TESTING
+
 stage('Build number') {
   node(defaultNode) {
     setupEnvironment {
@@ -81,7 +83,6 @@ def runNodeWith(label, block, isShort) {
         }
         stage('Update Build Number') {
           sh "echo \"CURRENT_PROJECT_VERSION = ${buildNumber}\" > ./PlaybookShowcase/Versioning.xcconfig"
-          sh "echo \$(cat ./PlaybookShowcase/Versioning.xcconfig)"
         }
         if (isShort == false) {
           stage('Dependencies') {
@@ -142,11 +143,17 @@ def getReleaseNotes() {
 }
 
 def writeRunwayComment() {
-  if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${RUNWAY_BACKLOG_ITEM_ID}" == env.FAKE_RUNWAY_STORY_ID) {
+  if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot']) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
   }
-  if (env.PR_READY_FOR_TESTING) {
+  if ("${RUNWAY_BACKLOG_ITEM_ID}" == env.FAKE_RUNWAY_STORY_ID) {
+    echo "No Runway story ID could be found in PR title!. Please add one in this format [PBIOS-XXX]"
+    return true
+  }
+
+  echo "readyForTesting ${readyForTesting}"
+  if (readyForTesting) {
     fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
   }
 }
@@ -268,7 +275,7 @@ def buildAndShipiOS(String fastlaneOpts) {
     fastlane("build_ios ${fastlaneOpts}")
   }
   checkForFailedParallelJob()
-  if (env.PR_READY_FOR_TESTING) {
+  if (readyForTesting) {
     stage('Upload iOS') {
       fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
     }
