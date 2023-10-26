@@ -11,17 +11,6 @@ help:
 	@echo
 	@echo "  dependencies              Install project dependencies."
 	@echo
-	@echo "  proj                   	 Runs nitro and opens Xcode."
-	@echo "  nitro                     Nitro Connect for development and debug."
-	@echo "  nitro-beta                Nitro Connect for beta release."
-	@echo "  nitro-rc                  Nitro Connect for RC release."
-	@echo "  nitro-production          Nitro Connect for production release."
-	@echo
-	@echo "  tempo                     Tempo Connect for development and debug."
-	@echo "  tempo-beta                Tempo Connect for beta release."
-	@echo "  tempo-rc                  Tempo Connect for RC release."
-	@echo "  tempo-production          Tempo Connect for production release."
-	@echo
 	@echo "  docker                    Starts a local server."
 	@echo "  docker-stop               Stops the local server."
 	@echo
@@ -40,15 +29,6 @@ define dependencies
 	@bash script_install_dependencies.sh
 endef
 
-define setup
-	@osascript -e 'quit app "Xcode"'
-	rm -rf Connect.xcodeproj
-	rm -rf Connect.xcworkspace
-	rm -rf Pods
-	xcodegen generate -s $(1).yml
-	asdf exec bundle exec pod install
-endef
-
 define runDockerAndFastlane
 	nohup caffeinate -ut 900 &
 	if $(MAKE) docker && asdf exec bundle exec fastlane $(1); then \
@@ -65,33 +45,6 @@ endef
 
 dependencies:
 	$(call dependencies)
-
-proj:
-	$(MAKE) nitro-debug
-	sleep 1 && xed .
-
-proj-tempo:
-	$(MAKE) tempo
-	sleep 1 && xed .
-
-#
-# Nitro
-#
-
-nitro-testing:
-	$(call setup,project_config_testing)
-
-nitro-debug:
-	$(call setup,project_config_debug)
-
-nitro-beta:
-	$(call setup,project_config_beta)
-
-nitro-rc:
-	$(call setup,project_config_rc)
-
-nitro-production:
-	$(call setup,project_config_production)
 
 #
 # Docker
@@ -144,19 +97,3 @@ test-iphone:
 test-ipad:
 	$(call runDockerAndFastlane,run_tests_ipad)
 	$(MAKE) docker-stop
-
-#
-# Tempo
-#
-
-tempo:
-	$(call setup,project_config_debug_tempo)
-
-tempo-beta:
-	$(call setup,project_config_beta_tempo)
-
-tempo-rc:
-	$(call setup,project_config_rc_tempo)
-
-tempo-production:
-	$(call setup,project_config_production_tempo)
