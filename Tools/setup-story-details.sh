@@ -29,7 +29,9 @@ if [ -n "$GITHUB_PULL_REQUEST_ID" ]; then
 
   getPullRequestDetails "$GITHUB_PULL_REQUEST_ID" \
     | tee "$PR_DETAILS" \
-    | jq ". | {commits, draft, id, mergeable, number, state, title, url, user}"
+    | jq ". | {commits, draft, id, labels, mergeable, number, state, title, url, user}"
+
+  export PR_READY_FOR_TESTING=`jq -r '.labels | map(select(.name == "Ready for Testing"))| . != []'`
 
   export PR_USER_HANDLE=`jq -r .user.login "$PR_DETAILS"`
 else

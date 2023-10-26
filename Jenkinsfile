@@ -146,7 +146,9 @@ def writeRunwayComment() {
     echo "Bot PR detected. Skipping Runway comment."
     return true
   }
-  fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
+  if (env.PR_READY_FOR_TESTING) {
+    fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
+  }
 }
 
 def buildType() {
@@ -266,8 +268,10 @@ def buildAndShipiOS(String fastlaneOpts) {
     fastlane("build_ios ${fastlaneOpts}")
   }
   checkForFailedParallelJob()
-  stage('Upload iOS') {
-    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+  if (env.PR_READY_FOR_TESTING) {
+    stage('Upload iOS') {
+      fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+    }
   }
 }
 
