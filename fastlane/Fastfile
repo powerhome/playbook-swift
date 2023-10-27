@@ -22,16 +22,6 @@ build_path = "BuildTemp/Archives"
 derived_data_path = "DerivedData"
 ios_plist = "./Info.plist"
 
-desc "Tag build"
-lane :tag_build do |opts|
-  begin
-    add_git_tag(tag: "builds/#{opts[:build]}")
-    push_git_tags(remote: "git@github.com:powerhome/PlaybookSwift.git")
-  rescue => ex
-    UI.error(ex)
-  end
-end
-
 desc "Set up build. build_number:1"
 lane :setup_before_build do |opts|
   # sets the build number

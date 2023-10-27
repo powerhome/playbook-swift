@@ -19,10 +19,9 @@ public struct Typography: ViewModifier {
       if variant == .link {
         return .pbPrimary
       } else {
-        if font == .caption || font == .largeCaption || font == .subcaption || font == .detail(true) || font == .detail(false) {
-          return .text(.light)
-        } else {
-          return .text(.default)
+        switch font {
+        case .caption, .largeCaption, .subcaption, .detail: return .text(.light)
+        default: return .text(.default)
         }
       }
     }

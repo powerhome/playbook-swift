@@ -8,6 +8,7 @@
 import SwiftUI
 
 public struct LabelValueCatalog: View {
+  private let longText = "Proin pulvinar feugiat massa in luctus. Donec urna nulla, elementum sit"
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
@@ -15,7 +16,7 @@ public struct LabelValueCatalog: View {
           VStack(alignment: .leading, spacing: Spacing.small) {
             PBLabelValue("Role", "Administrator, Moderator")
             PBLabelValue("Email", "anna.black@powerhrg.com")
-            PBLabelValue("Bio", "Proin pulvinar feugiat massa in luctus. Donec urna nulla, elementum sit amet tincidunt")
+            PBLabelValue("Bio", longText)
           }
         }
 
