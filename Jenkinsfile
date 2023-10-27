@@ -3,8 +3,6 @@
 success = true
 defaultNode = 'xcode-14'
 
-readyForTesting = env.PR_READY_FOR_TESTING
-
 stage('Build number') {
   node(defaultNode) {
     setupEnvironment {
@@ -18,6 +16,10 @@ def steps = [
     runNode {
       getReleaseNotes()
       def args = "type:${buildType()}"
+
+      RUNWAY_BACKLOG_ITEM_ID = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
+      PR_READY_FOR_TESTING = env.PR_READY_FOR_TESTING
+
       buildAndShipiOS(args)
     }
   }
@@ -130,7 +132,6 @@ def prepareToBuild(String buildType) {
 
 def getReleaseNotes() {
   stage('Release notes') {
-    RUNWAY_BACKLOG_ITEM_ID = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
     if (env.CHANGE_ID) {
       // CHANGE_ID is PR ID
       releaseNotes = sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
@@ -152,8 +153,8 @@ def writeRunwayComment() {
     return true
   }
 
-  echo "readyForTesting ${readyForTesting}"
-  if (readyForTesting) {
+  echo "PR_READY_FOR_TESTING ${PR_READY_FOR_TESTING}"
+  if (PR_READY_FOR_TESTING) {
     fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
   }
 }
@@ -275,7 +276,7 @@ def buildAndShipiOS(String fastlaneOpts) {
     fastlane("build_ios ${fastlaneOpts}")
   }
   checkForFailedParallelJob()
-  if (readyForTesting) {
+  if (PR_READY_FOR_TESTING) {
     stage('Upload iOS') {
       fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
     }
