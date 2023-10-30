@@ -14,63 +14,55 @@ struct PBPopover<T: View>: ViewModifier {
   let cardPadding: CGFloat
   let backgroundAlpha: CGFloat
 
-  @State private var isPresented: Bool = false
+  @Binding var isPresented: Bool
   @State private var yOffset: CGFloat = .zero
   @State private var midY: CGFloat = .zero
   @State private var midX: CGFloat = .zero
   @State private var xOffset: CGFloat = .zero
+  @Binding var viewFrame: CGRect
 
   init(
+    isPresented: Binding<Bool>,
     position: PopoverPosition = .bottom(),
     shouldClosePopover: CloseOptions = .anywhere,
     cardPadding: CGFloat,
     backgroundAlpha: CGFloat = 0,
+    viewFrame: Binding<CGRect>,
     @ViewBuilder popover: () -> T
   ) {
+    self._isPresented = isPresented
     self.position = position
     self.shouldClosePopover = shouldClosePopover
     self.cardPadding = cardPadding
     self.backgroundAlpha = backgroundAlpha
+    self._viewFrame = viewFrame
     self.popover = popover()
   }
 
   func body(content: Content) -> some View {
-    VStack {
+    if isPresented {
       content
-        .disabled(true)
-        .background {
-          GeometryReader { geometry in
-            let frame = geometry.frame(in: .global)
-            #if os(iOS)
-            let positionX = frame.midX + xOffset
-            let positionY = frame.midY + yOffset
-            Color.clear.heroFullScreenCover(show: $isPresented) {
-              popoverView(frame)
-                .animation(nil, value: isPresented)
-                .position(
-                  x: positionX,
-                  y: positionY
-                )
-                .backgroundViewModifier(alpha: backgroundAlpha)
-                .onTapGesture {
-                  switch shouldClosePopover {
-                  case .outside, .anywhere:
-                    isPresented = false
-                  case .inside:
-                    break
-                  }
-                }
+        .overlay {
+          let frame = viewFrame
+          let positionX = frame.midX + xOffset
+          let positionY = frame.midY + yOffset
+          popoverView(frame)
+            .position(
+              x: positionX,
+              y: positionY
+            )
+            .backgroundViewModifier(alpha: backgroundAlpha)
+            .onTapGesture {
+              switch shouldClosePopover {
+              case .outside, .anywhere:
+                isPresented = false
+              case .inside:
+                break
+              }
             }
-            #elseif os(macOS)
-            BackgroundView(isVisible: $isPresented, frame: frame) {
-              popoverView(frame)
-            }
-            #endif
-          }
         }
-        .onTapGesture {
-          isPresented = true
-        }
+    } else {
+      content
     }
   }
 
@@ -118,18 +110,22 @@ struct PBPopover<T: View>: ViewModifier {
 
 extension View {
   func pbPopover<Content: View>(
+    isPresented: Binding<Bool>,
     position: PopoverPosition = .bottom(),
     shouldClosePopover: CloseOptions = .anywhere,
     cardPadding: CGFloat = Spacing.small,
     backgroundAlpha: CGFloat = 0,
+    viewFrame: Binding<CGRect>,
     @ViewBuilder popover: () -> Content
   ) -> some View {
     return modifier(
       PBPopover(
+        isPresented: isPresented,
         position: position,
         shouldClosePopover: shouldClosePopover,
         cardPadding: cardPadding,
         backgroundAlpha: backgroundAlpha,
+        viewFrame: viewFrame,
         popover: popover)
     )
   }

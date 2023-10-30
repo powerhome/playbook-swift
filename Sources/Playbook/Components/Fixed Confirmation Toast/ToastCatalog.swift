@@ -50,7 +50,12 @@ public struct ToastCatalog: View {
     VStack(alignment: .leading) {
       PBToast(text: "Error Message", variant: .error, actionView: .default, dismissAction: closeDialog)
       PBToast(text: "Items Successfully Moved", variant: .success, actionView: .default, dismissAction: closeDialog)
-      PBToast(text: "Scan to Assign Selected Items", variant: .neutral, actionView: .default, dismissAction: closeDialog)
+      PBToast(
+        text: "Scan to Assign Selected Items",
+        variant: .neutral,
+        actionView: .default,
+        dismissAction: closeDialog
+      )
     }
   }
 
