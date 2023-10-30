@@ -17,9 +17,6 @@ def steps = [
       getReleaseNotes()
       def args = "type:${buildType()}"
 
-      RUNWAY_BACKLOG_ITEM_ID = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
-      PR_READY_FOR_TESTING = env.PR_READY_FOR_TESTING
-
       buildAndShipiOS(args)
     }
   }
@@ -144,6 +141,14 @@ def getReleaseNotes() {
 }
 
 def writeRunwayComment() {
+  RUNWAY_BACKLOG_ITEM_ID = env.RUNWAY_BACKLOG_ITEM_ID
+  echo "RUNWAY_BACKLOG_ITEM_ID ${RUNWAY_BACKLOG_ITEM_ID}"
+
+  PR_READY_FOR_TESTING = false
+  echo "PR_READY_FOR_TESTING ${env.PR_READY_FOR_TESTING}"
+
+  echo "PR_USER_HANDLE ${PR_USER_HANDLE}"
+
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot']) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
@@ -153,7 +158,6 @@ def writeRunwayComment() {
     return true
   }
 
-  echo "PR_READY_FOR_TESTING ${PR_READY_FOR_TESTING}"
   if (PR_READY_FOR_TESTING) {
     fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
   }
@@ -276,7 +280,7 @@ def buildAndShipiOS(String fastlaneOpts) {
     fastlane("build_ios ${fastlaneOpts}")
   }
   checkForFailedParallelJob()
-  if (PR_READY_FOR_TESTING) {
+  if (env.PR_READY_FOR_TESTING) {
     stage('Upload iOS') {
       fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
     }
