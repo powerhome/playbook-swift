@@ -27,6 +27,7 @@ parallel map
 
 waitUntil { success }
 
+// This doesn't setup any of the Github/Runway data!
 runShortNode {
   stage('Runway Comment') {
     writeRunwayComment()
@@ -63,6 +64,7 @@ def runShortNode(block) {
 }
 
 def checkForFailedParallelJob() {
+  echo "Checking for failed parallel job..."
   if (success == false) {
     throw new Exception('A parallel job has failed.')
   }
@@ -142,12 +144,8 @@ def getReleaseNotes() {
 
 def writeRunwayComment() {
   RUNWAY_BACKLOG_ITEM_ID = env.RUNWAY_BACKLOG_ITEM_ID
-  echo "RUNWAY_BACKLOG_ITEM_ID ${RUNWAY_BACKLOG_ITEM_ID}"
 
   PR_READY_FOR_TESTING = false
-  echo "PR_READY_FOR_TESTING ${env.PR_READY_FOR_TESTING}"
-
-  echo "PR_USER_HANDLE ${PR_USER_HANDLE}"
 
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot']) {
     echo "Bot PR detected. Skipping Runway comment."
