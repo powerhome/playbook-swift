@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct PBButton: View {
   var fullWidth: Bool
-  var variant: PBButtonVariant
+  var variant: Variant
   var size: Size
   var shape: Shape
   var title: String?
@@ -19,7 +19,7 @@ public struct PBButton: View {
 
   public init(
     fullWidth: Bool = false,
-    variant: PBButtonVariant = .primary,
+    variant: Variant = .primary,
     size: Size = .medium,
     shape: Shape = .primary,
     title: String? = nil,
@@ -82,15 +82,15 @@ public extension PBButton {
       }
     }
 
-    func verticalPadding(_ variant: PBButtonVariant) -> CGFloat {
+    func verticalPadding(_ variant: PBButton.Variant) -> CGFloat {
       return variant == .link ? 0 : fontSize / 2
     }
 
-    func horizontalPadding(_ variant: PBButtonVariant) -> CGFloat {
+    func horizontalPadding(_ variant: PBButton.Variant) -> CGFloat {
       return variant == .link ? 0 : fontSize * 2.42
     }
 
-    func minHeight(_ variant: PBButtonVariant) -> CGFloat {
+    func minHeight(_ variant: PBButton.Variant) -> CGFloat {
       if variant != .link {
         switch self {
         case .small:

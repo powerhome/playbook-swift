@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PBPopover<T: View>: ViewModifier {
   let popover: T
-  let position: PopoverPosition
+  let position: Position
   let shouldClosePopover: CloseOptions
   let cardPadding: CGFloat
   let backgroundAlpha: CGFloat
@@ -23,7 +23,7 @@ struct PBPopover<T: View>: ViewModifier {
 
   init(
     isPresented: Binding<Bool>,
-    position: PopoverPosition = .bottom(),
+    position: Position = .bottom(),
     shouldClosePopover: CloseOptions = .anywhere,
     cardPadding: CGFloat,
     backgroundAlpha: CGFloat = 0,
@@ -43,10 +43,9 @@ struct PBPopover<T: View>: ViewModifier {
     if isPresented {
       content
         .overlay {
-          let frame = viewFrame
-          let positionX = frame.midX + xOffset
-          let positionY = frame.midY + yOffset
-          popoverView(frame)
+          let positionX = viewFrame.midX + xOffset
+          let positionY = viewFrame.midY + yOffset
+          popoverView(viewFrame)
             .position(
               x: positionX,
               y: positionY
@@ -108,11 +107,77 @@ struct PBPopover<T: View>: ViewModifier {
   }
 }
 
+extension PBPopover {
+  enum CloseOptions {
+    case inside, outside, anywhere
+  }
+
+  enum Position {
+    case top(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
+    case bottom(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
+    case left(_ spacing: CGFloat = Spacing.xSmall)
+    case right(_ spacing: CGFloat = Spacing.xSmall)
+    case center(_ spacing: CGFloat = Spacing.xSmall)
+
+    func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
+      let labelHeight = labelFrame.height
+      let labelWidth = labelFrame.width
+      let popHeight = popoverFrame.height
+      let popWidth = popoverFrame.width
+
+      switch self {
+      case .top(let space, let padding):
+        return CGPoint(
+          x: horizontalOffset(popoverFrame, padding),
+          y: -(labelHeight/2 + popHeight/2) - space
+        )
+      case .bottom(let space, let padding):
+        return CGPoint(
+          x: horizontalOffset(popoverFrame, padding),
+          y: (labelHeight/2 + popHeight/2) + space
+        )
+      case .right(let space):
+        return CGPoint(
+          x: (labelWidth/2 + popWidth/2) + space,
+          y: 0
+        )
+      case .left(let space):
+        return CGPoint(
+          x: -(labelWidth/2 + popWidth/2) - space,
+          y: 0
+        )
+      case .center:
+        return CGPoint(
+          x: 0,
+          y: 0
+        )
+      }
+    }
+
+    func horizontalOffset(_ frame: CGRect, _ padding: CGFloat) -> CGFloat {
+      var space: CGFloat = 0
+      #if os(iOS)
+      let view = UIScreen.main.bounds
+      let frameMax = frame.maxX + padding
+      let frameMin = frame.minX
+
+      if frameMin.isLess(than: view.minX) {
+        space = -frame.minX + padding
+      }
+      if view.maxX.isLess(than: frameMax - 1) {
+        space = -(frameMax - view.maxX) - padding
+      }
+      #endif
+      return space
+    }
+  }
+}
+
 extension View {
   func pbPopover<Content: View>(
     isPresented: Binding<Bool>,
-    position: PopoverPosition = .bottom(),
-    shouldClosePopover: CloseOptions = .anywhere,
+    position: PBPopover<Content>.Position = .bottom(),
+    shouldClosePopover: PBPopover<Content>.CloseOptions = .anywhere,
     cardPadding: CGFloat = Spacing.small,
     backgroundAlpha: CGFloat = 0,
     viewFrame: Binding<CGRect>,
@@ -131,73 +196,7 @@ extension View {
   }
 }
 
-public enum CloseOptions {
-  case inside, outside, anywhere
-}
-
-public enum PopoverPosition {
-  case top(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
-  case bottom(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
-  case left(_ spacing: CGFloat = Spacing.xSmall)
-  case right(_ spacing: CGFloat = Spacing.xSmall)
-  case center(_ spacing: CGFloat = Spacing.xSmall)
-
-  func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
-    let labelHeight = labelFrame.height
-    let labelWidth = labelFrame.width
-    let popHeight = popoverFrame.height
-    let popWidth = popoverFrame.width
-
-    switch self {
-    case .top(let space, let padding):
-      return CGPoint(
-        x: horizontalOffset(popoverFrame, padding),
-        y: -(labelHeight/2 + popHeight/2) - space
-      )
-    case .bottom(let space, let padding):
-      return CGPoint(
-        x: horizontalOffset(popoverFrame, padding),
-        y: (labelHeight/2 + popHeight/2) + space
-      )
-    case .right(let space):
-      return CGPoint(
-        x: (labelWidth/2 + popWidth/2) + space,
-        y: 0
-      )
-    case .left(let space):
-      return CGPoint(
-        x: -(labelWidth/2 + popWidth/2) - space,
-        y: 0
-      )
-    case .center:
-      return CGPoint(
-        x: 0,
-        y: 0
-      )
-    }
-  }
-
-  func horizontalOffset(_ frame: CGRect, _ padding: CGFloat) -> CGFloat {
-    var space: CGFloat = 0
-    #if os(iOS)
-    let view = UIScreen.main.bounds
-    let frameMax = frame.maxX + padding
-    let frameMin = frame.minX
-
-    if frameMin.isLess(than: view.minX) {
-      space = -frame.minX + padding
-    }
-    if view.maxX.isLess(than: frameMax - 1) {
-      space = -(frameMax - view.maxX) - padding
-    }
-    #endif
-    return space
-  }
-}
-
-private struct PBPopover_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return PopoverCatalog()
-  }
+#Preview {
+  registerFonts()
+  return PopoverCatalog()
 }
