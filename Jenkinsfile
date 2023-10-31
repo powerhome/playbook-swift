@@ -97,8 +97,6 @@ def runNodeWith(label, block, isShort) {
           stage('Keychain') {
             setupKeychain()
           }
-        } else {
-          sh './.jenkins/jenkins-setup.sh setup'
         }
         checkForFailedParallelJob()
         block()
@@ -133,6 +131,7 @@ def prepareToBuild(String buildType) {
 
 def getReleaseNotes() {
   stage('Release notes') {
+    RUNWAY_BACKLOG_ITEM_ID = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
     if (env.CHANGE_ID) {
       // CHANGE_ID is PR ID
       releaseNotes = sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
@@ -145,25 +144,11 @@ def getReleaseNotes() {
 }
 
 def writeRunwayComment() {
-  RUNWAY_BACKLOG_ITEM_ID = env.RUNWAY_BACKLOG_ITEM_ID
-
-  // PR_READY_FOR_TESTING = env.PR_READY_FOR_TESTING
-  PR_READY_FOR_TESTING = true
-
-  echo "env.PR_READY_FOR_TESTING=${env.PR_READY_FOR_TESTING}"
-
-  if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot']) {
+  if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${RUNWAY_BACKLOG_ITEM_ID}" == env.FAKE_RUNWAY_STORY_ID) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
   }
-  if ("${RUNWAY_BACKLOG_ITEM_ID}" == env.FAKE_RUNWAY_STORY_ID) {
-    echo "No Runway story ID could be found in PR title!. Please add one in this format [PBIOS-XXX]"
-    return true
-  }
-
-  if (PR_READY_FOR_TESTING) {
-    fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
-  }
+  fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
 }
 
 def buildType() {
