@@ -147,8 +147,9 @@ def getReleaseNotes() {
 def writeRunwayComment() {
   RUNWAY_BACKLOG_ITEM_ID = env.RUNWAY_BACKLOG_ITEM_ID
 
-  PR_READY_FOR_TESTING = env.PR_READY_FOR_TESTING
-  
+  // PR_READY_FOR_TESTING = env.PR_READY_FOR_TESTING
+  PR_READY_FOR_TESTING = true
+
   echo "env.PR_READY_FOR_TESTING=${env.PR_READY_FOR_TESTING}"
 
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot']) {
@@ -282,10 +283,8 @@ def buildAndShipiOS(String fastlaneOpts) {
     fastlane("build_ios ${fastlaneOpts}")
   }
   checkForFailedParallelJob()
-  if (env.PR_READY_FOR_TESTING) {
-    stage('Upload iOS') {
-      fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
-    }
+  stage('Upload iOS') {
+    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
   }
 }
 
