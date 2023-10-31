@@ -84,3 +84,5 @@ else
     echo "Unable to parse Runway Backlog Item ID from commit message title"
   fi
 fi
+
+echo $RUNWAY_BACKLOG_ITEM_ID
