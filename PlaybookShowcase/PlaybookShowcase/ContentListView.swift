@@ -11,9 +11,10 @@ import Playbook
 import UIKit
 #endif
 
+@available(iOS 16.0, *)
 struct ContentListView: View {
 
-#if os(iOS)
+  #if os(iOS)
   init() {
     let appearance = UINavigationBarAppearance()
     appearance.configureWithOpaqueBackground()
@@ -24,19 +25,15 @@ struct ContentListView: View {
     UINavigationBar.appearance().compactAppearance = appearance
     UINavigationBar.appearance().scrollEdgeAppearance = appearance
   }
-#endif
+  #endif
 
   @State var selectedItem: Int = 0
   var body: some View {
-    NavigationView {
+    NavigationStack {
       contentView.padding(.bottom, 80)
         .toolbar {
           ToolbarItem(placement: .cancellationAction) {
-            HStack {
-              Image("Playbook")
-              Text("Playbook")
-                .pbFont(.title4, variant: .link)
-            }
+            playbookLogo
           }
         }
         .background {
@@ -52,7 +49,7 @@ struct ContentListView: View {
     }
     #if os(iOS)
     .navigationViewStyle(.stack)
-    #endif
+#endif
   }
 
   var bottomBar: some View {
@@ -70,53 +67,76 @@ struct ContentListView: View {
   }
 
   @ViewBuilder
-  var contentView: some View {
+  private var contentView: some View {
+    if selectedItem == 0 {
+      designElementsView
+    } else {
+      componentsView
+    }
+  }
+
+  private var playbookLogo: some View {
+    HStack {
+      Image("Playbook")
+      Text("Playbook")
+        .pbFont(.title4, variant: .link)
+    }
+  }
+
+  private var componentsView: some View {
     ScrollView(showsIndicators: false) {
       VStack(alignment: .leading) {
-        if selectedItem == 0 {
-          Text(DesignElements.title).pbFont(.title3)
-          VStack(spacing: Spacing.small) {
-            ForEach(DesignElements.allCases, id: \.self) { element in
-              NavigationLink {
-                element.destination
-              } label: {
-                PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
-                  HStack {
-                    PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(.black)
-                    Text(element.rawValue.capitalized).pbFont(.buttonText(16))
-                      .multilineTextAlignment(.leading)
-                    PBIcon.fontAwesome(.chevronRight, size: .small)
-                      .foregroundColor(.text(.default))
-                      .frame(maxWidth: .infinity, alignment: .trailing)
-                  }
+        Text(Componenets.title).pbFont(.title3)
+        VStack(spacing: Spacing.small) {
+          ForEach(Componenets.allCases, id: \.self) { element in
+            NavigationLink {
+              element.destination
+            } label: {
+              PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
+                HStack {
+                  Text(element.rawValue.capitalized).pbFont(.buttonText(16))
+                    .multilineTextAlignment(.leading)
+                  PBIcon.fontAwesome(.chevronRight, size: .small)
+                    .foregroundColor(.text(.default))
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
               }
             }
+            .buttonStyle(.plain)
           }
-        } else {
-          Text(Componenets.title).pbFont(.title3)
-          VStack(spacing: Spacing.small) {
-            ForEach(Componenets.allCases, id: \.self) { element in
-              NavigationLink {
-                element.destination
-              } label: {
-                PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
-                  HStack {
-                    Text(element.rawValue.capitalized).pbFont(.buttonText(16))
-                      .multilineTextAlignment(.leading)
-                    PBIcon.fontAwesome(.chevronRight, size: .small)
-                      .foregroundColor(.text(.default))
-                      .frame(maxWidth: .infinity, alignment: .trailing)
-                  }
+        }
+
+      }
+    }
+    .padding()
+  }
+
+  private var designElementsView: some View {
+    ScrollView(showsIndicators: false) {
+      VStack(alignment: .leading) {
+        Text(DesignElements.title).pbFont(.title3)
+        VStack(spacing: Spacing.small) {
+          ForEach(DesignElements.allCases, id: \.self) { element in
+            NavigationLink {
+              element.destination
+            } label: {
+              PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
+                HStack {
+                  PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(.black)
+                  Text(element.rawValue.capitalized).pbFont(.buttonText(16))
+                    .multilineTextAlignment(.leading)
+                  PBIcon.fontAwesome(.chevronRight, size: .small)
+                    .foregroundColor(.text(.default))
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
               }
             }
+            .buttonStyle(.plain)
           }
         }
       }
-      .padding()
     }
-    .frame(maxWidth: .infinity)
+    .padding()
   }
 }
 

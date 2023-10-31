@@ -97,6 +97,8 @@ def runNodeWith(label, block, isShort) {
           stage('Keychain') {
             setupKeychain()
           }
+        } else {
+          sh './.jenkins/jenkins-setup.sh setup'
         }
         checkForFailedParallelJob()
         block()
@@ -145,7 +147,9 @@ def getReleaseNotes() {
 def writeRunwayComment() {
   RUNWAY_BACKLOG_ITEM_ID = env.RUNWAY_BACKLOG_ITEM_ID
 
-  PR_READY_FOR_TESTING = false
+  PR_READY_FOR_TESTING = env.PR_READY_FOR_TESTING
+  
+  echo "env.PR_READY_FOR_TESTING=${env.PR_READY_FOR_TESTING}"
 
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot']) {
     echo "Bot PR detected. Skipping Runway comment."

@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct PBCollapsible<HeaderContent: View, Content: View>: View {
-  @Binding private var isCollapsed: Bool
+  @Binding var isCollapsed: Bool
   var indicatorPosition: IndicatorPosition
   var indicatorColor: Color
   var headerView: HeaderContent
