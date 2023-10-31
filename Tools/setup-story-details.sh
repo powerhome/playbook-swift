@@ -29,11 +29,7 @@ if [ -n "$GITHUB_PULL_REQUEST_ID" ]; then
 
   getPullRequestDetails "$GITHUB_PULL_REQUEST_ID" \
     | tee "$PR_DETAILS" \
-    | jq ". | {commits, draft, id, labels, mergeable, number, state, title, url, user}"
-
-  export PR_READY_FOR_TESTING=`jq -r '.labels | map(select(.name == "Ready for Testing"))| . != []' "$PR_DETAILS"`
-
-  echo "$PR_READY_FOR_TESTING"
+    | jq ". | {url, user, id, number, title, state, commits, mergeable}"
 
   export PR_USER_HANDLE=`jq -r .user.login "$PR_DETAILS"`
 else
@@ -84,3 +80,5 @@ else
     echo "Unable to parse Runway Backlog Item ID from commit message title"
   fi
 fi
+
+echo $RUNWAY_BACKLOG_ITEM_ID
