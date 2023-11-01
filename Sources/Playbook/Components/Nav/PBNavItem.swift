@@ -59,7 +59,7 @@ public struct PBNavItem<Content: View>: View {
           .foregroundColor(iconColor)
 
         Text(label)
-          .pbFont(font, color: captionForegroundColor)
+          .pbFont(.body, color: captionForegroundColor)
 
         if orientation == .vertical {
           Spacer()
@@ -83,7 +83,17 @@ public struct PBNavItem<Content: View>: View {
     .overlay(
       selectionIndicator,
       alignment: selectionIndicatorAlignment
-    )
+    ).overlay {
+      textView
+    }
+  }
+  @ViewBuilder
+  var textView: some View {
+    if orientation == .horizontal {
+      Text(label ?? "")
+        .pbFont(font, color: captionBoldForegroundColor)
+
+    }
   }
 }
 
@@ -133,6 +143,29 @@ extension PBNavItem {
         return .pbPrimary
       }
     } else {
+      if orientation == .horizontal {
+        return .clear
+      } else {
+        if isSelected {
+          return .white
+        }
+      }
+    }
+    return .text(.default)
+  }
+
+  var captionBoldForegroundColor: Color {
+    if variant != .bold {
+      if variant == .normal && orientation == .horizontal {
+        if isHovering {
+          return .pbPrimary
+        }
+        return .text(.default)
+      }
+      if isSelected || isHovering {
+        return .pbPrimary
+      }
+    } else {
       if isSelected {
         return .white
       }
@@ -141,13 +174,17 @@ extension PBNavItem {
   }
 
   var font: PBFont {
-    if variant == .normal, orientation == .horizontal {
+    if variant == .normal && orientation == .horizontal {
       return selectedFont
     }
     if isSelected, variant != .subtle {
       return selectedFont
     }
-    return .body
+    if variant == .bold && orientation == .horizontal {
+      return .body
+    } else {
+      return .body
+    }
   }
 
   var selectedFont: PBFont {
