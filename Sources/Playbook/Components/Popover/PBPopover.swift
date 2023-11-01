@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PBPopover<T: View>: ViewModifier {
+public struct PBPopover<T: View>: ViewModifier {
   let popover: T
   let position: Position
   let shouldClosePopover: CloseOptions
@@ -39,7 +39,7 @@ struct PBPopover<T: View>: ViewModifier {
     self.popover = popover()
   }
 
-  func body(content: Content) -> some View {
+  public func body(content: Content) -> some View {
     if isPresented {
       content
         .overlay {
@@ -74,6 +74,7 @@ struct PBPopover<T: View>: ViewModifier {
       width: nil
     ) {
       popover
+        .fixedSize(horizontal: false, vertical: true)
     }
     .onTapGesture {
       switch shouldClosePopover {
@@ -107,7 +108,7 @@ struct PBPopover<T: View>: ViewModifier {
   }
 }
 
-extension PBPopover {
+public extension PBPopover {
   enum CloseOptions {
     case inside, outside, anywhere
   }
@@ -128,52 +129,68 @@ extension PBPopover {
       switch self {
       case .top(let space, let padding):
         return CGPoint(
-          x: horizontalOffset(popoverFrame, padding),
+          x: offsetX(popoverFrame, padding: padding),
           y: -(labelHeight/2 + popHeight/2) - space
         )
       case .bottom(let space, let padding):
         return CGPoint(
-          x: horizontalOffset(popoverFrame, padding),
+          x: offsetX(popoverFrame, padding: padding),
           y: (labelHeight/2 + popHeight/2) + space
         )
       case .right(let space):
+        let offset = (labelWidth/2 + popWidth/2) + space
         return CGPoint(
-          x: (labelWidth/2 + popWidth/2) + space,
+          x: offsetX(popoverFrame, offset: offset),
           y: 0
         )
       case .left(let space):
+        let offset = -(labelWidth/2 + popWidth/2) - space
         return CGPoint(
-          x: -(labelWidth/2 + popWidth/2) - space,
+          x: offsetX(popoverFrame, offset: offset),
           y: 0
         )
       case .center:
         return CGPoint(
-          x: 0,
+          x: offsetX(popoverFrame, offset: 0),
           y: 0
         )
       }
     }
 
-    func horizontalOffset(_ frame: CGRect, _ padding: CGFloat) -> CGFloat {
+    func offsetX(_ frame: CGRect, offset: CGFloat = 0, padding: CGFloat = 0) -> CGFloat {
       var space: CGFloat = 0
       #if os(iOS)
-      let view = UIScreen.main.bounds
-      let frameMax = frame.maxX + padding
+      let view = UIScreen.main.bounds.width
+      let frameMax = frame.maxX
       let frameMin = frame.minX
 
-      if frameMin.isLess(than: view.minX) {
-        space = -frame.minX + padding
+      switch self {
+      case .bottom, .top, .center:
+        if frameMin.isLess(than: 0) && frameMax.isLess(than: view) {
+          space = -frameMin + padding
+        }
+        if view.isLess(than: frameMax + padding) {
+          space = -(frameMax - view) - padding
+        }
+  
+      case .left, .right:
+        if frameMin.isLess(than: 0) && frameMax.isLess(than: view) {
+          space = -frameMin + padding
+        }
+        if view.isLess(than: frame.maxX + offset) {
+          space = -(frameMax - view) - padding
+        }
       }
-      if view.maxX.isLess(than: frameMax - 1) {
-        space = -(frameMax - view.maxX) - padding
-      }
+
+      #elseif os(macOS)
+      space = offset
       #endif
       return space
     }
   }
 }
 
-extension View {
+public extension View {
   func pbPopover<Content: View>(
     isPresented: Binding<Bool>,
     position: PBPopover<Content>.Position = .bottom(),

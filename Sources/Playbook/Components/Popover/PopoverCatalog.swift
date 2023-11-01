@@ -79,15 +79,17 @@ public struct PopoverCatalog: View {
     let scrollPopover = PBButton(
       variant: .secondary,
       title: "Click Me"
-    )
+    ) {
+      isPresente6 = true
+    }
       .frameGetter($viewFrame6)
 
     return ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") { defaultPopover }
         PBDoc(title: "Dropdrown") { dropdownPopover }
-        PBDoc(title: "Close options") { closePopover }
         PBDoc(title: "Scroll") { scrollPopover }
+        PBDoc(title: "Close options") { closePopover }
       }
       .padding(Spacing.medium)
     }
@@ -133,7 +135,7 @@ public struct PopoverCatalog: View {
       shouldClosePopover: .anywhere,
       viewFrame: $viewFrame5
     ) {
-      Text("Click anything!")
+      Text("Click anything!jsfc[pwJFC[jwfc[jqw[ovjpqnevonq[onvponqw")
         .pbFont(.body, color: .text(.default))
     }
     .pbPopover(
