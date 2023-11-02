@@ -235,8 +235,8 @@
 			projectRoot = "";
 			targets = (
 				F905151729F03B0700F9B66D /* PlaybookShowcase-iOS */,
-				F905154529F03B3C00F9B66D /* PlaybookShowcase-macOS */,
 				8FC7D0E22AF414EE00EA16DD /* PlaybookShowcase-iOS-Beta */,
+				F905154529F03B3C00F9B66D /* PlaybookShowcase-macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -415,7 +415,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 4.4.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase;
+				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcaseBeta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook In House";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Playbook In House";
