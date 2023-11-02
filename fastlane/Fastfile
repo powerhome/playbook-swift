@@ -44,12 +44,17 @@ lane :build_ios do |opts|
 
   export_method = 'enterprise'
 
+  file_name = target_ios
+  if opts[:type] != 'production'
+    "#{file_name}-Beta"
+  end
+
   gym(
     project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
     scheme: target_ios,
     skip_package_dependencies_resolution: false,
     export_method: export_method,
-    output_name: "#{target_ios}.ipa",
+    output_name: "#{file_name}.ipa",
     build_path: build_path,
     derived_data_path: derived_data_path,
     xcargs: '-skipPackagePluginValidation',
@@ -79,8 +84,11 @@ end
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
 
+  file_name = target_ios
   app_name = "Playbook-Showcase-Beta"
-  if opts[:type] == 'production'
+  if opts[:type] != 'production'
+    file_name = "#{file_name}-Beta"
+  else
     app_name = "Playbook-Showcase"
   end
 
@@ -90,7 +98,7 @@ lane :ship_ios_to_appcenter do |opts|
     owner_name: "powerhome",
     owner_type: "organization",
     app_name: app_name,
-    file: "#{target_ios}.ipa",
+    file: "#{file_name}.ipa",
     version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
