@@ -51,7 +51,7 @@ lane :build_ios do |opts|
 
   gym(
     project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
-    scheme: target_ios,
+    scheme: file_name,
     skip_package_dependencies_resolution: false,
     export_method: export_method,
     output_name: "#{file_name}.ipa",
