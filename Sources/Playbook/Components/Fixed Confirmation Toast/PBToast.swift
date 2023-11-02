@@ -80,7 +80,6 @@ public extension PBToast {
 
   enum Variant {
     case error, success, neutral, custom(FontAwesome? = nil, Color)
-
     func color(_ custom: Color = .pbPrimary) -> Color {
       switch self {
       case .error: return Color.status(.error)
@@ -89,7 +88,6 @@ public extension PBToast {
       case .custom(_, let color): return color
       }
     }
-
     var icon: FontAwesome? {
       switch self {
       case .error: return FontAwesome.exclamationTriangle
@@ -100,11 +98,14 @@ public extension PBToast {
     }
   }
 }
-
-private struct PBToast_Previews: PreviewProvider {
-  public static var previews: some View {
-    @State var isPresented = false
-    registerFonts()
-    return ToastCatalog()
+// private struct PBToast_Previews: PreviewProvider {
+//  public static var previews: some View {
+//    @State var isPresented = false
+//    registerFonts()
+//    return ToastCatalog()
+//  }
+// }
+#Preview {
+  registerFonts()
+  return ToastCatalog()
   }
-}
