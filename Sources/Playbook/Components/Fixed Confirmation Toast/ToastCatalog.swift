@@ -7,9 +7,10 @@
 
 import SwiftUI
 
+@available(iOS 16.0, *)
 public struct ToastCatalog: View {
   @State private var toastView: PBToast?
-  @State private var toastPosition: PBToast.Position = .top
+  @State private var position: PBToast.Position = .top
 
   private let message = "Design & Handoff Process was moved to UX Designer."
 
@@ -26,7 +27,7 @@ public struct ToastCatalog: View {
     }
     .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Fixed Confirmation Toast")
-    .withToastHandling(toastView, position: toastPosition)
+    .withToastHandling(toastView, position: position)
   }
 
   private func closeToast() {
@@ -54,25 +55,66 @@ public struct ToastCatalog: View {
   }
 
   private var positionButton: some View {
-    HStack {
-      PBButton(variant: .secondary, title: "Top Center") {
-        toastPosition = .top
-        toastView = PBToast(
-          text: "Top Center",
-          variant: .neutral,
-          actionView: .default,
-          dismissAction: closeToast
-        )
+    return Grid {
+      GridRow {
+        PBButton(variant: .secondary, title: "Top Left") {
+          position = .topLeft
+          toastView = PBToast(
+            text: "Top Left",
+            variant: .neutral,
+            actionView: .default,
+            dismissAction: closeToast
+          )
+        }
+        PBButton(variant: .secondary, title: "Top Right") {
+          position = .topRight
+          toastView = PBToast(
+            text: "Top Right",
+            variant: .neutral,
+            actionView: .default,
+            dismissAction: closeToast
+          )
+        }
       }
-
-      PBButton(variant: .secondary, title: "Bottom Center") {
-        toastPosition = .bottom
-        toastView = PBToast(
-          text: "Bottom Center",
-          variant: .custom(.user, .pbPrimary),
-          actionView: .default,
-          dismissAction: closeToast
-        )
+      GridRow {
+        PBButton(variant: .secondary, title: "Top Center") {
+          position = .top
+          toastView = PBToast(
+            text: "Top Center",
+            variant: .neutral,
+            actionView: .default,
+            dismissAction: closeToast
+          )
+        }
+        PBButton(variant: .secondary, title: "Bottom Center") {
+          position = .bottom
+          toastView = PBToast(
+            text: "Bottom Center",
+            variant: .custom(.user, .pbPrimary),
+            actionView: .default,
+            dismissAction: closeToast
+          )
+        }
+      }
+      GridRow {
+        PBButton(variant: .secondary, title: "Bottom Left") {
+          position = .bottomLeft
+          toastView = PBToast(
+            text: "Bottom Left",
+            variant: .custom(.user, .pbPrimary),
+            actionView: .default,
+            dismissAction: closeToast
+          )
+        }
+        PBButton(variant: .secondary, title: "Bottom Right") {
+          position = .bottomRight
+          toastView = PBToast(
+            text: "Bottom Right",
+            variant: .custom(.user, .pbPrimary),
+            actionView: .default,
+            dismissAction: closeToast
+          )
+        }
       }
     }
   }
@@ -103,7 +145,7 @@ public struct ToastCatalog: View {
   private var withTimer: some View {
     HStack {
       PBButton(variant: .secondary, title: "Top Center") {
-        toastPosition = .top
+        position = .top
         toastView = PBToast(
           text: "Top Center",
           variant: .neutral,
@@ -113,7 +155,7 @@ public struct ToastCatalog: View {
       }
 
       PBButton(variant: .secondary, title: "Bottom Center") {
-        toastPosition = .bottom
+        position = .bottom
         toastView = PBToast(
           text: "Bottom Center",
           variant: .neutral,
