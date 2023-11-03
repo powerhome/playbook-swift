@@ -63,7 +63,14 @@ public struct PBToast: View {
 
 public extension PBToast {
   enum Position {
-    case top, bottom
+    case topLeft, top, topRight, bottomLeft, bottom, bottomRight
+    var alignment: Alignment {
+      switch self {
+      case .top, .bottom: .center
+      case .topLeft, .bottomLeft: .leading
+      case .topRight, .bottomRight: .trailing
+      }
+    }
   }
 
   enum DismissAction {
