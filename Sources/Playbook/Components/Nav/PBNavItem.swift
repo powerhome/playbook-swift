@@ -155,28 +155,32 @@ extension PBNavItem {
   }
 
   var captionBoldForegroundColor: Color {
-    if variant != .bold {
-      if variant == .normal && orientation == .horizontal {
-        if isHovering {
-          return .pbPrimary
-        }
-        return .text(.default)
-      }
-      if isSelected || isHovering {
-        return .pbPrimary
-      }
-    } else {
+    if variant == .bold, orientation == .horizontal {
       if isSelected {
         return .white
+      } else if isHovering {
+        return .pbPrimary
       }
+      else {
+        return .text(.default)
+      }
+    } else {
+      return Color.clear
     }
-    return .text(.default)
   }
 
   var font: PBFont {
-    if isSelected, variant == .normal {
+    if isSelected, variant != .subtle {
+      if variant == .bold, orientation == .vertical {
+        return .title4
+      } else if variant == .bold, orientation == .horizontal {
+        return .body
+      }
       return .title4
-    } else {
+    } else if variant == .normal, orientation == .horizontal {
+      return .title4
+    }
+      else {
       return .body
     }
   }
