@@ -66,9 +66,9 @@ public extension PBToast {
     case topLeft, top, topRight, bottomLeft, bottom, bottomRight
     var alignment: Alignment {
       switch self {
-      case .top, .bottom: .center
-      case .topLeft, .bottomLeft: .leading
-      case .topRight, .bottomRight: .trailing
+      case .top, .bottom: return .center
+      case .topLeft, .bottomLeft: return .leading
+      case .topRight, .bottomRight: return .trailing
       }
     }
   }
@@ -108,20 +108,13 @@ public extension PBToast {
   }
 }
 
-// private struct PBToast_Previews: PreviewProvider {
-//  public static var previews: some View {
-//    @State var isPresented = false
-//    registerFonts()
-//    return ToastCatalog()
-//  }
-// }
-
-#Preview {
-  registerFonts()
-  if #available(iOS 16.0, *) {
-    return ToastCatalog()
-  } else {
-    return EmptyView()
-    // Fallback on earlier versions
+private struct PBToast_Previews: PreviewProvider {  
+  private static var previews: some View {
+    registerFonts()
+    if #available(iOS 16.0, *) {
+      return ToastCatalog()
+    } else {
+      return EmptyView()
+    }
   }
 }
