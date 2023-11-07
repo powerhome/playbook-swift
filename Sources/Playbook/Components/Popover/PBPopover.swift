@@ -18,12 +18,13 @@ public struct PBPopover<Content: View>: View {
   @State private var midY: CGFloat = .zero
   @State private var midX: CGFloat = .zero
   @State private var xOffset: CGFloat = .zero
+  @State private var anyview: AnyView? = AnyView(EmptyView())
   @Binding var parentFrame: CGRect
 
   init(
     position: Position = .bottom(),
     shouldClosePopover: CloseOptions = .anywhere,
-    cardPadding: CGFloat = 10,
+    cardPadding: CGFloat = Spacing.small,
     backgroundAlpha: CGFloat = 0,
     parentFrame: Binding<CGRect>,
     @ViewBuilder popover: () -> Content
@@ -39,19 +40,22 @@ public struct PBPopover<Content: View>: View {
   public var body: some View {
     let positionX = parentFrame.midX + xOffset
     let positionY = parentFrame.midY + yOffset
-    popoverView(parentFrame)
-      .position(
-        x: positionX,
-        y: positionY
-      )
-//      .onTapGesture {
-//        switch shouldClosePopover {
-//        case .outside, .anywhere:
-//          isPresented = false
-//        case .inside:
-//          break
-//        }
-//      }
+   
+    VStack {
+      popoverView(parentFrame)
+        .position(
+          x: positionX,
+          y: positionY
+        )
+    }
+      .onTapGesture {
+        switch shouldClosePopover {
+        case .outside, .anywhere:
+          anyview = nil
+        case .inside:
+          break
+        }
+      }
     
   }
   
@@ -66,14 +70,15 @@ public struct PBPopover<Content: View>: View {
       popover
         .fixedSize(horizontal: false, vertical: true)
     }
-//    .onTapGesture {
-//      switch shouldClosePopover {
-//      case .inside, .anywhere:
-//        isPresented = false
-//      case .outside:
-//        break
-//      }
-//    }
+    .environment(\.popoverValue, anyview)
+    .onTapGesture {
+      switch shouldClosePopover {
+      case .inside, .anywhere:
+        anyview = nil
+      case .outside:
+        break
+      }
+    }
     .background(GeometryReader { geo in
       Color.clear.onAppear {
         let offset = position.offset(
@@ -180,29 +185,6 @@ public extension PBPopover {
   }
 }
 
-//public extension View {
-//  func pbPopover<Content: View>(
-//    isPresented: Binding<Bool>,
-//    position: PBPopover<Content>.Position = .bottom(),
-//    shouldClosePopover: PBPopover<Content>.CloseOptions = .anywhere,
-//    cardPadding: CGFloat = Spacing.small,
-//    backgroundAlpha: CGFloat = 0,
-//    viewFrame: Binding<CGRect>,
-//    @ViewBuilder popover: () -> Content
-//  ) -> some View {
-//    return modifier(
-//      PBPopover(
-//        isPresented: isPresented,
-//        position: position,
-//        shouldClosePopover: shouldClosePopover,
-//        cardPadding: cardPadding,
-//        backgroundAlpha: backgroundAlpha,
-//        viewFrame: viewFrame,
-//        popover: popover)
-//    )
-//  }
-//}
-
 #Preview {
   registerFonts()
   return PopoverCatalog()
@@ -223,6 +205,7 @@ public extension View {
     self
       .modifier(PopoverHandler())
       .environment(\.popoverValue, popover)
+    
   }
 }
 
