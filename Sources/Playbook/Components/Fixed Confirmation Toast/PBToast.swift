@@ -108,13 +108,3 @@ public extension PBToast {
   }
 }
 
-private struct PBToast_Previews: PreviewProvider {  
-  private static var previews: some View {
-    registerFonts()
-    if #available(iOS 16.0, *) {
-      return ToastCatalog()
-    } else {
-      return EmptyView()
-    }
-  }
-}
