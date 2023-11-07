@@ -21,18 +21,26 @@ secrets = [
 ]
 
 stg = [
-  buildNum: 'Build Number'
+  details: 'Release Details',
 ]
 
-stage(stg.buildNum) {
+stage(stg.details) {
   node(defaultNode) {
     setupEnv {
       updateBuildNum()
+      checkout scm
+      jenkinsSetup()
+      getReleaseNotes()
     }
   }
 }
 
 // Methods
+
+def jenkinsSetup() {
+  echo "Running Jenkins setup script..."
+  sh './.jenkins/jenkins-setup.sh'
+}
 
 def setupEnv(block) {
   withCredentials([
@@ -49,7 +57,7 @@ def setupEnv(block) {
 }
 
 def updateBuildNum() {
-  lock(resource: stg.buildNum) {
+  lock(resource: stg.details) {
     // clone repo
     dir('.buildnumber') {
       try {
@@ -62,4 +70,15 @@ def updateBuildNum() {
       }
     }
   }
+}
+
+def getReleaseNotes() {
+  RUNWAY_BACKLOG_ITEM_ID = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
+  if (env.CHANGE_ID) {
+    releaseNotes = sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
+  }
+  else {
+    releaseNotes = sh(script: 'git show-branch --no-name HEAD', returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
+  }
+  echo "Release Notes: ${releaseNotes}"
 }
