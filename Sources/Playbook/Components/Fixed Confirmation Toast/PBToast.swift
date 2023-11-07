@@ -66,9 +66,9 @@ public extension PBToast {
     case topLeft, top, topRight, bottomLeft, bottom, bottomRight
     var alignment: Alignment {
       switch self {
-      case .top, .bottom: .center
-      case .topLeft, .bottomLeft: .leading
-      case .topRight, .bottomRight: .trailing
+      case .top, .bottom: return .center
+      case .topLeft, .bottomLeft: return .leading
+      case .topRight, .bottomRight: return .trailing
       }
     }
   }
