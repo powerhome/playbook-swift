@@ -28,6 +28,7 @@ secrets = [
 stg = [
   buildNum: 'Build Number',
   checkout: 'Checkout',
+  deps: 'Dependencies',
   setup: 'Setup',
 ]
 
@@ -53,6 +54,11 @@ stage(stg.setup) {
       getRunwayBacklogItemId()
       getReleaseNotes()
     }
+  }
+}
+stage(stg.deps) {
+  node(defaultNode) {
+    sh 'make dependencies'
   }
 }
 
