@@ -63,7 +63,6 @@ public struct PBDatestamp: View {
   var datestampStyle: String {
     switch variant {
     case .short: return formattedShortened
-    case .hyphenated: return formattedHyphenated
     case .standard: return formattedStandard
     case .dayDate: return formattedDayDate
     case .withIcon(let isStandard): return isStandard ? formattedStandard : formattedDayDate
@@ -73,7 +72,7 @@ public struct PBDatestamp: View {
   var iconView: AnyView? {
     switch variant {
     case .withIcon:
-      return AnyView(PBIcon.fontAwesome(.calendar,size: iconSize).foregroundStyle(Color.text(.light)))
+      return AnyView(PBIcon.fontAwesome(.calendarAlt, size: iconSize).foregroundStyle(Color.text(.light)))
     default:
       return nil
     }
@@ -83,12 +82,12 @@ public struct PBDatestamp: View {
 public extension PBDatestamp {
   enum Variant: CaseIterable, Hashable {
     public static var allCases: [PBDatestamp.Variant] {
-      return [.short, .dayDate, .hyphenated, .standard, .withIcon(isStandard: true), .withIcon(isStandard: false)]
+      return [.short, .dayDate, .standard, .withIcon(isStandard: true), .withIcon(isStandard: false)]
     }
     public static var showCases: [PBDatestamp.Variant] {
-      return [.short, .hyphenated, .standard, .dayDate]
+      return [.short, .standard, .dayDate]
     }
-    case short, hyphenated, standard, dayDate, withIcon(isStandard: Bool)
+    case short, standard, dayDate, withIcon(isStandard: Bool)
   }
 }
 
