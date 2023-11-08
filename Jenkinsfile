@@ -29,6 +29,7 @@ stg = [
   buildNum: 'Build Number',
   checkout: 'Checkout',
   deps: 'Dependencies',
+  provision: 'Provisioning Profiles',
   setup: 'Setup',
 ]
 
@@ -58,7 +59,19 @@ stage(stg.setup) {
 }
 stage(stg.deps) {
   node(defaultNode) {
-    sh 'make dependencies'
+    setupEnv {
+      sh 'make dependencies'
+    }
+  }
+}
+
+stage(stg.provision) {
+  node(defaultNode) {
+    setupEnv {
+      clearProvisioningProfiles()
+      downloadProvisioningProfiles()
+      fastlane('install_prov_profiles')
+    }
   }
 }
 
@@ -123,4 +136,22 @@ def getReleaseNotes() {
     releaseNotes = sh(script: 'git show-branch --no-name HEAD', returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
   }
   echo "Release Notes: ${releaseNotes}"
+}
+
+def clearProvisioningProfiles() {
+  sh "rm -rf '~/Library/MobileDevice/Provisioning Profiles'"
+}
+
+def downloadProvisioningProfiles() {
+  sh 'rm -rf ./git_prov_profiles'
+  sh 'git clone --depth 1 git@github.com:powerhome/ios-provisioning-profiles.git ./git_prov_profiles'
+}
+
+def checkProvisioningProfiles() {
+  sh "cd ./git_prov_profiles && ./check-expire-and-install-provisioning-profiles.sh"
+  sh "cd ./git_prov_profiles/profiles_macos && ./check-expire-and-install-provisioning-profiles.sh"
+}
+
+def fastlane(String command) {
+  sh "asdf exec bundle exec fastlane ${command}"
 }
