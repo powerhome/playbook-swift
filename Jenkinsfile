@@ -29,6 +29,7 @@ stg = [
   buildNum: 'Build Number',
   checkout: 'Checkout',
   deps: 'Dependencies',
+  keychain: 'Setup Keychain',
   provision: 'Provisioning Profiles',
   setup: 'Setup',
 ]
@@ -71,6 +72,14 @@ stage(stg.provision) {
       clearProvisioningProfiles()
       downloadProvisioningProfiles()
       fastlane('install_prov_profiles')
+    }
+  }
+}
+
+stage(stg.keyChain) {
+  node(defaultNode) {
+    setupEnv {
+      setupKeychain()
     }
   }
 }
@@ -154,4 +163,28 @@ def checkProvisioningProfiles() {
 
 def fastlane(String command) {
   sh "asdf exec bundle exec fastlane ${command}"
+}
+
+def setupKeychain() {
+  withEnv([
+    "BUILD_NUMBER=${buildNumber}",
+  ]) {
+    withCredentials([
+      string(credentialsId: 'ios-distribution-password', variable: 'KEY_PASSWORD'),
+    ]) {
+      lock(resource: 'Nitro-iOS Keychain Search List') {
+        sh './.jenkins/jenkins-keychain.sh setup'
+      }
+    }
+  }
+}
+
+def deleteKeychain() {
+  withEnv([
+    "BUILD_NUMBER=${buildNumber}",
+  ]) {
+    lock(resource: 'Nitro-iOS Keychain Search List') {
+      sh './.jenkins/jenkins-keychain.sh destroy'
+    }
+  }
 }
