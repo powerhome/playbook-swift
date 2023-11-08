@@ -15,6 +15,7 @@ public enum Componenets: String, CaseIterable {
   case card
   case checkbox
   case collapsible
+  case date
   case dialog
   case icon
   case iconCircle = "Icon Circle"
@@ -49,6 +50,7 @@ public enum Componenets: String, CaseIterable {
     case .card: CardCatalog()
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
+    case .date: DatestampCatalog()
     case .dialog: DialogCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
@@ -71,7 +73,6 @@ public enum Componenets: String, CaseIterable {
     case .toast: ToastCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
-
     }
   }
 }

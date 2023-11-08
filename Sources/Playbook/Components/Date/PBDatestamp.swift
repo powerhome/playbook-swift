@@ -73,7 +73,7 @@ public struct PBDatestamp: View {
   var iconView: AnyView? {
     switch variant {
     case .withIcon:
-      return AnyView(PBIcon.fontAwesome(.calendar, size: iconSize))
+      return AnyView(PBIcon.fontAwesome(.calendar,size: iconSize).foregroundStyle(Color.text(.light)))
     default:
       return nil
     }
