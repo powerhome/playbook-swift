@@ -4,6 +4,9 @@ success = true
 defaultNode = 'xcode-15'
 sshKey = 'powerci-github-ssh-key'
 
+prDetails = null
+runwayBacklogItemId = null
+
 // TODO: move all secrets out!
 secrets = [
   github: [
@@ -21,15 +24,30 @@ secrets = [
 ]
 
 stg = [
-  details: 'Release Details',
+  buildNum: 'Build Number',
+  checkout: 'Checkout',
+  setup: 'Setup',
 ]
 
-stage(stg.details) {
+stage(stg.buildNum) {
   node(defaultNode) {
     setupEnv {
       updateBuildNum()
+    }
+  }
+}
+stage(stg.checkout) {
+  node(defaultNode) {
+    setupEnv {
       checkout scm
+    }
+  }
+}
+stage(stg.setup) {
+  node(defaultNode) {
+    setupEnv {
       jenkinsSetup()
+      getRunwayBacklogItemId()
       getReleaseNotes()
     }
   }
@@ -57,7 +75,7 @@ def setupEnv(block) {
 }
 
 def updateBuildNum() {
-  lock(resource: stg.details) {
+  lock(resource: stg.buildNum) {
     // clone repo
     dir('.buildnumber') {
       try {
@@ -72,12 +90,25 @@ def updateBuildNum() {
   }
 }
 
-def getReleaseNotes() {
-  RUNWAY_BACKLOG_ITEM_ID = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
-  if (env.CHANGE_ID) {
-    releaseNotes = sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
+def getDetailsJson() {
+  if (!prDetails) {
+    prDetails = sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true)
   }
-  else {
+  echo "PR Details: ${prDetails}"
+  return prDetails
+}
+
+def getRunwayBacklogItemId() {
+  if (!runwayBacklogItemId) {
+    runwayBacklogItemId = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
+  }
+  return runwayBacklogItemId
+}
+
+def getReleaseNotes() {
+  if (env.CHANGE_ID) {
+    releaseNotes = getDetailsJson().trim().replaceAll (/\"/,/\\\"/)
+  } else {
     releaseNotes = sh(script: 'git show-branch --no-name HEAD', returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
   }
   echo "Release Notes: ${releaseNotes}"
