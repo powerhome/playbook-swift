@@ -13,12 +13,11 @@ public struct PBPopover<Content: View>: View {
   let shouldClosePopover: CloseOptions
   let cardPadding: CGFloat
   let backgroundAlpha: CGFloat
+  let dismissAction: (() -> Void)
 
   @State private var yOffset: CGFloat = .zero
-  @State private var midY: CGFloat = .zero
-  @State private var midX: CGFloat = .zero
   @State private var xOffset: CGFloat = .zero
-  @State private var anyview: AnyView? = AnyView(EmptyView())
+
   @Binding var parentFrame: CGRect
 
   init(
@@ -27,6 +26,7 @@ public struct PBPopover<Content: View>: View {
     cardPadding: CGFloat = Spacing.small,
     backgroundAlpha: CGFloat = 0,
     parentFrame: Binding<CGRect>,
+    dismissAction: @escaping (() -> Void),
     @ViewBuilder popover: () -> Content
   ) {
     self.position = position
@@ -34,13 +34,14 @@ public struct PBPopover<Content: View>: View {
     self.cardPadding = cardPadding
     self.backgroundAlpha = backgroundAlpha
     self._parentFrame = parentFrame
+    self.dismissAction = dismissAction
     self.popover = popover()
   }
-  
+
   public var body: some View {
     let positionX = parentFrame.midX + xOffset
     let positionY = parentFrame.midY + yOffset
-   
+
     VStack {
       popoverView(parentFrame)
         .position(
@@ -51,14 +52,13 @@ public struct PBPopover<Content: View>: View {
       .onTapGesture {
         switch shouldClosePopover {
         case .outside, .anywhere:
-          anyview = nil
+          dismissAction()
         case .inside:
           break
         }
       }
-    
   }
-  
+
   @ViewBuilder
   private func popoverView(_ p: CGRect) -> some View {
     PBCard(
@@ -68,13 +68,11 @@ public struct PBPopover<Content: View>: View {
       width: nil
     ) {
       popover
-        .fixedSize(horizontal: false, vertical: true)
     }
-    .environment(\.popoverValue, anyview)
     .onTapGesture {
       switch shouldClosePopover {
       case .inside, .anywhere:
-        anyview = nil
+        dismissAction()
       case .outside:
         break
       }
@@ -82,21 +80,11 @@ public struct PBPopover<Content: View>: View {
     .background(GeometryReader { geo in
       Color.clear.onAppear {
         let offset = position.offset(
-          labelFrame: p.size,
+          labelFrame: parentFrame.size,
           popoverFrame: geo.frame(in: .global)
         )
-        midY = p.midY - geo.frame(in: .global).midY + offset.y
-        midX = offset.x
-      }
-      .onChange(of: midY) { newValue in
-        if midY != 0 {
-          yOffset = newValue
-        }
-      }
-      .onChange(of: midX) { newValue in
-        if midX != 0 {
-          xOffset = newValue
-        }
+        yOffset = p.midY - geo.frame(in: .global).midY + offset.y
+        xOffset = offset.x
       }
     })
     .preferredColorScheme(.light)
@@ -167,7 +155,7 @@ public extension PBPopover {
         if view.isLess(than: frameMax + padding) {
           space = -(frameMax - view) - padding
         }
-  
+
       case .left, .right:
         if frameMin.isLess(than: 0) && frameMax.isLess(than: view) {
           space = -frameMin + padding
@@ -190,7 +178,6 @@ public extension PBPopover {
   return PopoverCatalog()
 }
 
-
 struct PopoverHandler: ViewModifier {
   @Environment(\.popoverValue) var popover
 
@@ -205,23 +192,9 @@ public extension View {
     self
       .modifier(PopoverHandler())
       .environment(\.popoverValue, popover)
-    
+
   }
 }
-
-
-//
-//private struct PopoverEnvironmentKey: EnvironmentKey {
-//  static let defaultValue: PBPopover? = nil
-//}
-//
-//extension EnvironmentValues {
-//  var toastValue: PBPopover? {
-//    get { self[PopoverEnvironmentKey.self] }
-//    set { self[PopoverEnvironmentKey.self] = newValue }
-//  }
-//}
-//
 
 private struct PopoverEnvironmentKey: EnvironmentKey {
   static let defaultValue: AnyView? = nil

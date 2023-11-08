@@ -8,8 +8,6 @@
 import SwiftUI
 
 public struct PopoverCatalog: View {
-  @State private var scrollPosition: CGPoint = .zero
-  @State private var tabHeight: CGFloat = .zero
   @State var viewFrame1: CGRect = .zero
   @State var viewFrame2: CGRect = .zero
   @State var viewFrame3: CGRect = .zero
@@ -21,7 +19,27 @@ public struct PopoverCatalog: View {
   public init() {}
 
   public var body: some View {
-    let defaultPopover = HStack {
+    return ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") { defaultPopover }
+        PBDoc(title: "Dropdrown") { dropdownPopover }
+        PBDoc(title: "Scroll") { scrollPopover }
+        PBDoc(title: "Close options") { onClosePopover }
+      }
+      .padding(Spacing.medium)
+    }
+    .background(Color.background(.light))
+    .preferredColorScheme(.light)
+    .navigationTitle("Popover")
+    .withPopoverHandling(popoverValue)
+  }
+
+  private func closePopover() {
+    popoverValue = nil
+  }
+
+  private var defaultPopover: some View {
+    HStack {
       Text("Click info for more details")
         .pbFont(.body, color: .text(.default))
 
@@ -31,7 +49,7 @@ public struct PopoverCatalog: View {
         icon: .fontAwesome(.info)
       ) {
         popoverValue = AnyView(
-          PBPopover(parentFrame: $viewFrame1) {
+          PBPopover(parentFrame: $viewFrame1, dismissAction: closePopover) {
             Text("I'm a popover. I can show content of any size.")
               .pbFont(.body, color: .text(.default))
           }
@@ -39,15 +57,17 @@ public struct PopoverCatalog: View {
       }
       .frameGetter($viewFrame1)
     }
+  }
 
-    let dropdownPopover = PBButton(
+  private var dropdownPopover: some View {
+    PBButton(
       variant: .secondary,
       title: "Filter By",
       icon: .fontAwesome(.chevronDown),
       iconPosition: .right
     ) {
       popoverValue = AnyView(
-        PBPopover(cardPadding: Spacing.none, parentFrame: $viewFrame2) {
+        PBPopover(cardPadding: Spacing.none, parentFrame: $viewFrame2, dismissAction: closePopover) {
           List {
             PBButton(variant: .link, title: "Popularity")
             PBButton(variant: .link, title: "Title")
@@ -61,15 +81,17 @@ public struct PopoverCatalog: View {
         }
       )
     }
-      .frameGetter($viewFrame2)
+    .frameGetter($viewFrame2)
+  }
 
-    let closePopover = VStack(spacing: Spacing.medium) {
+  private var onClosePopover: some View {
+    VStack(spacing: Spacing.medium) {
       PBButton(
         variant: .secondary,
         title: "Click Inside"
       ) {
         popoverValue = AnyView(
-          PBPopover(shouldClosePopover: .inside, parentFrame: $viewFrame3) {
+          PBPopover(shouldClosePopover: .inside, parentFrame: $viewFrame3, dismissAction: closePopover) {
             Text("Click on me!")
               .pbFont(.body, color: .text(.default))
           }
@@ -82,7 +104,7 @@ public struct PopoverCatalog: View {
         title: "Click Outside"
       ) {
         popoverValue = AnyView(
-          PBPopover(position: .top(), shouldClosePopover: .outside, parentFrame: $viewFrame4) {
+          PBPopover(position: .top(), shouldClosePopover: .outside, parentFrame: $viewFrame4, dismissAction: closePopover) {
             Text("Click anywhere but me!")
               .pbFont(.body, color: .text(.default))
           }
@@ -95,7 +117,7 @@ public struct PopoverCatalog: View {
         title: "Click Anywhere"
       ) {
         popoverValue = AnyView(
-          PBPopover(position: .right(), shouldClosePopover: .anywhere, parentFrame: $viewFrame5) {
+          PBPopover(position: .right(), shouldClosePopover: .anywhere, parentFrame: $viewFrame5, dismissAction: closePopover) {
             Text("Click anything!jsfc[pwJFC[jwfc[jqw[ovjpqnevonq[onvponqw")
               .pbFont(.body, color: .text(.default))
           }
@@ -103,23 +125,25 @@ public struct PopoverCatalog: View {
       }
       .frameGetter($viewFrame5)
     }
+  }
 
-    let scrollPopover = PBButton(
+  private var scrollPopover: some View {
+    PBButton(
       variant: .secondary,
       title: "Click Me"
     ) {
       popoverValue = AnyView(
-        PBPopover(position: .right(), parentFrame: $viewFrame6) {
+        PBPopover(position: .right(), parentFrame: $viewFrame6, dismissAction: closePopover) {
           ScrollView {
             Text(
-                  """
-                  So many people live within unhappy circumstances and yet will not take
-                  the initiative to change their situation
-                  because they are conditioned to a life of security,
-                  conformity, and conservation, all of which may appear to give one peace of mind,
-                  but in reality, nothing is more damaging to the adventurous spirit.
-                  - Christopher McCandless
-                  """
+                """
+                So many people live within unhappy circumstances and yet will not take
+                the initiative to change their situation
+                because they are conditioned to a life of security,
+                conformity, and conservation, all of which may appear to give one peace of mind,
+                but in reality, nothing is more damaging to the adventurous spirit.
+                - Christopher McCandless
+                """
             )
             .multilineTextAlignment(.leading)
             .pbFont(.body, color: .text(.default))
@@ -128,20 +152,6 @@ public struct PopoverCatalog: View {
         }
       )
     }
-      .frameGetter($viewFrame6)
-
-    return ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") { defaultPopover }
-        PBDoc(title: "Dropdrown") { dropdownPopover }
-        PBDoc(title: "Scroll") { scrollPopover }
-        PBDoc(title: "Close options") { closePopover }
-      }
-      .padding(Spacing.medium)
-    }
-    .background(Color.background(.light))
-    .preferredColorScheme(.light)
-    .navigationTitle("Popover")
-    .withPopoverHandling(popoverValue)
+    .frameGetter($viewFrame6)
   }
 }
