@@ -4,8 +4,10 @@ success = true
 defaultNode = 'xcode-15'
 sshKey = 'powerci-github-ssh-key'
 
-prDetails = null
+prTitle = null
 runwayBacklogItemId = null
+releaseNotes = null
+buildNum = null
 
 // TODO: move all secrets out!
 secrets = [
@@ -32,7 +34,7 @@ stg = [
 stage(stg.buildNum) {
   node(defaultNode) {
     setupEnv {
-      updateBuildNum()
+      getBuildNum()
     }
   }
 }
@@ -46,6 +48,7 @@ stage(stg.checkout) {
 stage(stg.setup) {
   node(defaultNode) {
     setupEnv {
+      updateBuildNum()
       jenkinsSetup()
       getRunwayBacklogItemId()
       getReleaseNotes()
@@ -74,14 +77,13 @@ def setupEnv(block) {
   }
 }
 
-def updateBuildNum() {
+def getBuildNum() {
   lock(resource: stg.buildNum) {
-    // clone repo
     dir('.buildnumber') {
       try {
         sh 'git clone --depth 5 git@github.com:powerhome/nitro-buildnumber.git .'
-        buildNumber = sh(returnStdout: true, script: './increment PlaybookSwift-version').trim().toInteger()
-        print "Build number: ${buildNumber}"
+        buildNum = sh(returnStdout: true, script: './increment PlaybookSwift-version').trim().toInteger()
+        print "Build number: ${buildNum}"
       }
       finally {
         deleteDir()
@@ -90,12 +92,15 @@ def updateBuildNum() {
   }
 }
 
-def getDetailsJson() {
-  if (!prDetails) {
-    prDetails = sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true)
+def updateBuildNum() {
+  sh "echo \"CURRENT_PROJECT_VERSION = ${buildNum}\" > ./PlaybookShowcase/Versioning.xcconfig"
+}
+
+def getPrTitle() {
+  if (!prTitle) {
+    prTitle = sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true)
   }
-  echo "PR Details: ${prDetails}"
-  return prDetails
+  return prTitle
 }
 
 def getRunwayBacklogItemId() {
@@ -107,7 +112,7 @@ def getRunwayBacklogItemId() {
 
 def getReleaseNotes() {
   if (env.CHANGE_ID) {
-    releaseNotes = getDetailsJson().trim().replaceAll (/\"/,/\\\"/)
+    releaseNotes = getPrTitle().trim().replaceAll (/\"/,/\\\"/)
   } else {
     releaseNotes = sh(script: 'git show-branch --no-name HEAD', returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
   }
