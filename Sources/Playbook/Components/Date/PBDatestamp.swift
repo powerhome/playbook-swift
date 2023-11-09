@@ -56,7 +56,7 @@ public struct PBDatestamp: View {
 
   var formattedDayDate: String {
     let formatter = DateFormatter()
-    formatter.dateFormat = "EEE \u{00b7} MMM d, YYYY"
+    formatter.dateFormat = "EEE • MMM d, YYYY"
     return formatter.string(from: datestamp)
   }
 
