@@ -36,31 +36,31 @@ public struct PBDatestamp: View {
     .frame(maxWidth: .infinity, alignment: alignment)
   }
 
-  var formattedShortened: String {
+  var formattedShortened: AttributedString {
     let formatter  = DateFormatter()
     formatter.dateFormat = "MMM d"
-    return formatter.string(from: datestamp)
+    return colorAttributedText(formatter.string(from: datestamp))
   }
 
-  var formattedHyphenated: String {
+  var formattedHyphenated: AttributedString {
     let formatter  = DateFormatter()
     formatter.dateFormat = "MMM - d - YYYY"
-    return formatter.string(from: datestamp)
+    return colorAttributedText(formatter.string(from: datestamp))
   }
 
-  var formattedStandard: String {
+  var formattedStandard: AttributedString {
     let formatter  = DateFormatter()
     formatter.dateFormat = "MMM d, YYYY"
-    return formatter.string(from: datestamp)
+    return colorAttributedText(formatter.string(from: datestamp))
   }
 
-  var formattedDayDate: String {
+  var formattedDayDate: AttributedString {
     let formatter = DateFormatter()
     formatter.dateFormat = "EEE • MMM d, YYYY"
-    return formatter.string(from: datestamp)
+    return colorAttributedText(formatter.string(from: datestamp))
   }
 
-  var datestampStyle: String {
+  var datestampStyle: AttributedString {
     switch variant {
     case .short: return formattedShortened
     case .standard: return formattedStandard
@@ -76,6 +76,19 @@ public struct PBDatestamp: View {
     default:
       return nil
     }
+  }
+}
+
+extension View {
+  func colorAttributedText(_ text: String) -> AttributedString {
+    var attributedString = AttributedString(text)
+    var words = text.components(separatedBy: " ")
+    words.append(contentsOf: text.components(separatedBy: "\n"))
+    for word in words.filter({ $0.hasPrefix("•") }) {
+      guard let range = attributedString.range(of: word) else { return attributedString }
+      attributedString[range].foregroundColor = Color.text(.light)
+    }
+    return attributedString
   }
 }
 

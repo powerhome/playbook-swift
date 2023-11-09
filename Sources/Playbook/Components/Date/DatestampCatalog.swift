@@ -48,18 +48,18 @@ public extension DatestampCatalog {
 
   var variantView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBDatestamp(Date(), variant: .withIcon(isStandard: true), typography: .caption, iconSize: .small)
+      PBDatestamp(Date(), variant: .withIcon(isStandard: true), typography: .caption, iconSize: .xSmall)
       PBDatestamp(Date(), variant: .standard, typography: .title4)
-      PBDatestamp(Date(), variant: .withIcon(isStandard: true), typography: .title4, iconSize: .large)
+      PBDatestamp(Date(), variant: .withIcon(isStandard: true), typography: .title4, iconSize: .x1)
       PBDatestamp(Date(), variant: .dayDate, typography: .title4)
-      PBDatestamp(Date(), variant: .withIcon(isStandard: false), typography: .title4, iconSize: .large)
+      PBDatestamp(Date(), variant: .withIcon(isStandard: false), typography: .title4, iconSize: .x1)
     }
   }
 
   var alignmentView: some View {
     VStack(spacing: Spacing.small) {
       PBDatestamp(Date(), variant: .standard, typography: .title4, alignment: .leading)
-      PBDatestamp(Date(), variant: .withIcon(isStandard: true), typography: .title4, alignment: .center)
+      PBDatestamp(Date(), variant: .withIcon(isStandard: true), typography: .title4, iconSize: .x1, alignment: .center)
       PBDatestamp(Date(), variant: .short, typography: .title4, alignment: .trailing)
     }
   }
@@ -68,7 +68,7 @@ public extension DatestampCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDatestamp(Date(), variant: .short, typography: .body)
       PBDatestamp(Date(), variant: .standard, typography: .title1)
-      PBDatestamp(Date(), variant: .withIcon(isStandard: false), typography: .subcaption)
+      PBDatestamp(Date(), variant: .withIcon(isStandard: false), typography: .subcaption, iconSize: .xSmall)
     }
   }
 }
