@@ -31,6 +31,9 @@ struct ToastHandler: ViewModifier {
   }
 }
 
+func randomTestFunction(a: Int, b: Int) -> Int {
+  return a * b
+}
 public extension View {
   func withToastHandling(_ toast: PBToast?, position: PBToast.Position = .top) -> some View {
     self
