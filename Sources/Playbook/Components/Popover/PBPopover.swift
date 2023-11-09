@@ -17,7 +17,6 @@ public struct PBPopover<Content: View>: View {
 
   @State private var yOffset: CGFloat = .zero
   @State private var xOffset: CGFloat = .zero
-
   @Binding var parentFrame: CGRect
 
   init(
@@ -97,11 +96,7 @@ public extension PBPopover {
   }
 
   enum Position {
-    case top
-    case bottom
-    case left
-    case right
-    case center
+    case top, bottom, left, right, center
 
     func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
       let labelHeight = labelFrame.height
@@ -140,7 +135,7 @@ public extension PBPopover {
       }
     }
 
-    func offsetX(_ frame: CGRect, offset: CGFloat = 0) -> CGFloat {
+    private func offsetX(_ frame: CGRect, offset: CGFloat = 0) -> CGFloat {
       let space: CGFloat = Spacing.xSmall
       let viewWidth = Screen.deviceWidth
       let frameMaxX = frame.maxX
@@ -171,39 +166,4 @@ public extension PBPopover {
 #Preview {
   registerFonts()
   return PopoverCatalog()
-}
-
-struct PopoverHandler: ViewModifier {
-  @Environment(\.popoverValue) var popover
-
-  func body(content: Content) -> some View {
-    content.overlay(VStack { popover })
-  }
-}
-
-public extension View {
-  func withPopoverHandling(_ popover: AnyView?, position: PBToast.Position = .top) -> some View {
-    self
-      .modifier(PopoverHandler())
-      .environment(\.popoverValue, popover)
-  }
-}
-
-private struct PopoverEnvironmentKey: EnvironmentKey {
-  static let defaultValue: AnyView? = nil
-}
-
-extension EnvironmentValues {
-  var popoverValue: AnyView? {
-    get { self[PopoverEnvironmentKey.self] }
-    set { self[PopoverEnvironmentKey.self] = newValue }
-  }
-}
-
-class Screen {
-  #if os(iOS)
-  static var deviceWidth: CGFloat = UIScreen.main.bounds.width
-  #elseif os(macOS)
-  static var deviceWidth: CGFloat = NSScreen.main?.frame.width ?? 500
-  #endif
 }

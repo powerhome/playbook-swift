@@ -20,9 +20,9 @@ struct FrameGetter: ViewModifier {
     content
       .background(GeometryReader { proxy -> AnyView in
         let rect = proxy.frame(in: .global)
-        if rect.integral != self.frame.integral {
-          DispatchQueue.main.async {
-            self.frame = rect
+        if rect.integral != frame.integral {
+          Task {
+            frame = rect
           }
         }
         return AnyView(EmptyView())
