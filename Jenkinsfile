@@ -26,12 +26,16 @@ secrets = [
 ]
 
 stg = [
-  buildNum: 'Build Number',
-  checkout: 'Checkout',
-  deps: 'Dependencies',
+  build: 'Build App',
+  buildNum: 'Update Build Number',
+  checkout: 'Checkout Repo',
+  cleanup: 'Cleanup',
+  deps: 'Install Dependencies',
   keychain: 'Setup Keychain',
   provision: 'Provisioning Profiles',
+  runway: 'Create Runway Comment',
   setup: 'Setup',
+  upload: 'Upload to AppCenter'
 ]
 
 stage(stg.buildNum) {
@@ -76,13 +80,32 @@ stage(stg.provision) {
   }
 }
 
-stage(stg.keyChain) {
+stage(stg.keychain) {
   node(defaultNode) {
     setupEnv {
       setupKeychain()
     }
   }
 }
+
+buildAndShipiOS("type:${buildType()}")
+
+stage(stg.runway) {
+  node(defaultNode) {
+    setupEnv {
+      writeRunwayComment()
+    }
+  }
+}
+
+stage(stg.cleanup) {
+  node(defaultNode) {
+    setupEnv {
+      handleCleanup()
+    }
+  }
+}
+
 
 // Methods
 
@@ -149,10 +172,10 @@ def getReleaseNotes() {
 
 def clearProvisioningProfiles() {
   sh "rm -rf '~/Library/MobileDevice/Provisioning Profiles'"
+  sh 'rm -rf ./git_prov_profiles'
 }
 
 def downloadProvisioningProfiles() {
-  sh 'rm -rf ./git_prov_profiles'
   sh 'git clone --depth 1 git@github.com:powerhome/ios-provisioning-profiles.git ./git_prov_profiles'
 }
 
@@ -167,7 +190,8 @@ def fastlane(String command) {
 
 def setupKeychain() {
   withEnv([
-    "BUILD_NUMBER=${buildNumber}",
+    "BUILD_NUMBER=${buildNum}",
+    "ROOT_DIR=./"
   ]) {
     withCredentials([
       string(credentialsId: 'ios-distribution-password', variable: 'KEY_PASSWORD'),
@@ -181,10 +205,52 @@ def setupKeychain() {
 
 def deleteKeychain() {
   withEnv([
-    "BUILD_NUMBER=${buildNumber}",
+    "BUILD_NUMBER=${buildNum}",
   ]) {
     lock(resource: 'Nitro-iOS Keychain Search List') {
       sh './.jenkins/jenkins-keychain.sh destroy'
     }
   }
+}
+
+def buildAndShipiOS(String fastlaneOpts) {
+  stage(stg.build) {
+    node(defaultNode) {
+      setupEnv {
+        fastlane("build_ios ${fastlaneOpts}")
+      }
+    }
+  }
+  stage(stg.upload) {
+    node(defaultNode) {
+      setupEnv {
+        fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+      }
+    }
+  }
+}
+
+def buildType() {
+  if (isMainBuild() == true) {
+    return 'production'
+  }
+  return 'beta'
+}
+
+def isMainBuild() {
+  return env.BRANCH_NAME == 'main'
+}
+
+def writeRunwayComment() {
+  if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${runwayBacklogItemId}" == env.FAKE_RUNWAY_STORY_ID) {
+    echo "Bot PR detected. Skipping Runway comment."
+    return true
+  }
+  fastlane("create_runway_comment build_number:${buildNum} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${runwayBacklogItemId} github_pull_request_id:${env.CHANGE_ID}")
+}
+
+def handleCleanup() {
+  try { deleteKeychain() } catch (e) { }
+  try { deleteDerivedData() } catch (e) { }
+  try { deleteDir() } catch (e) { }
 }
