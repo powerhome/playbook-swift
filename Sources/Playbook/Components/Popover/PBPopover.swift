@@ -21,7 +21,7 @@ public struct PBPopover<Content: View>: View {
   @Binding var parentFrame: CGRect
 
   init(
-    position: Position = .bottom(),
+    position: Position = .bottom,
     shouldClosePopover: CloseOptions = .anywhere,
     cardPadding: CGFloat = Spacing.small,
     backgroundAlpha: CGFloat = 0,
@@ -42,25 +42,25 @@ public struct PBPopover<Content: View>: View {
     let positionX = parentFrame.midX + xOffset
     let positionY = parentFrame.midY + yOffset
 
-    VStack {
-      popoverView(parentFrame)
+    ZStack {
+      popoverView
         .position(
           x: positionX,
           y: positionY
         )
     }
-      .onTapGesture {
-        switch shouldClosePopover {
-        case .outside, .anywhere:
-          dismissAction()
-        case .inside:
-          break
-        }
+    .background(Color.white.opacity(0.01))
+    .onTapGesture {
+      switch shouldClosePopover {
+      case .outside, .anywhere:
+        dismissAction()
+      case .inside:
+        break
       }
+    }
   }
 
-  @ViewBuilder
-  private func popoverView(_ p: CGRect) -> some View {
+  private var popoverView: some View {
     PBCard(
       border: false,
       padding: cardPadding,
@@ -83,7 +83,7 @@ public struct PBPopover<Content: View>: View {
           labelFrame: parentFrame.size,
           popoverFrame: geo.frame(in: .global)
         )
-        yOffset = p.midY - geo.frame(in: .global).midY + offset.y
+        yOffset = parentFrame.midY - geo.frame(in: .global).midY + offset.y
         xOffset = offset.x
       }
     })
@@ -97,11 +97,11 @@ public extension PBPopover {
   }
 
   enum Position {
-    case top(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
-    case bottom(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
-    case left(_ spacing: CGFloat = Spacing.xSmall)
-    case right(_ spacing: CGFloat = Spacing.xSmall)
-    case center(_ spacing: CGFloat = Spacing.xSmall)
+    case top
+    case bottom
+    case left
+    case right
+    case center
 
     func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
       let labelHeight = labelFrame.height
@@ -110,65 +110,60 @@ public extension PBPopover {
       let popWidth = popoverFrame.width
 
       switch self {
-      case .top(let space, let padding):
+      case .top:
         return CGPoint(
-          x: offsetX(popoverFrame, padding: padding),
-          y: -(labelHeight/2 + popHeight/2) - space
+          x: offsetX(popoverFrame),
+          y: -(labelHeight/2 + popHeight/2) - Spacing.xSmall
         )
-      case .bottom(let space, let padding):
+      case .bottom:
         return CGPoint(
-          x: offsetX(popoverFrame, padding: padding),
-          y: (labelHeight/2 + popHeight/2) + space
+          x: offsetX(popoverFrame),
+          y: (labelHeight + popHeight)/2 + Spacing.xSmall
         )
-      case .right(let space):
-        let offset = (labelWidth/2 + popWidth/2) + space
+      case .right:
+        let offset = (labelWidth + popWidth)/2 + Spacing.xSmall
         return CGPoint(
           x: offsetX(popoverFrame, offset: offset),
           y: 0
         )
-      case .left(let space):
-        let offset = -(labelWidth/2 + popWidth/2) - space
+      case .left:
+        let offset = -(labelWidth + popWidth)/2 - Spacing.xSmall
         return CGPoint(
           x: offsetX(popoverFrame, offset: offset),
           y: 0
         )
       case .center:
         return CGPoint(
-          x: offsetX(popoverFrame, offset: 0),
+          x: offsetX(popoverFrame),
           y: 0
         )
       }
     }
 
-    func offsetX(_ frame: CGRect, offset: CGFloat = 0, padding: CGFloat = 0) -> CGFloat {
-      var space: CGFloat = 0
-      #if os(iOS)
-      let view = UIScreen.main.bounds.width
-      let frameMax = frame.maxX
-      let frameMin = frame.minX
+    func offsetX(_ frame: CGRect, offset: CGFloat = 0) -> CGFloat {
+      let space: CGFloat = Spacing.xSmall
+      let viewWidth = Screen.deviceWidth
+      let frameMaxX = frame.maxX
+      let frameMinX = frame.minX
 
       switch self {
       case .bottom, .top, .center:
-        if frameMin.isLess(than: 0) && frameMax.isLess(than: view) {
-          space = -frameMin + padding
+        if viewWidth.isLess(than: frameMaxX) && !frameMinX.isLess(than: 0) {
+          return -(frameMaxX - viewWidth) - space
+        } else if frameMinX.isLess(than: 0) && frameMaxX.isLess(than: frameMaxX) {
+          return -frameMinX + space
+        } else {
+          return 0
         }
-        if view.isLess(than: frameMax + padding) {
-          space = -(frameMax - view) - padding
-        }
-
       case .left, .right:
-        if frameMin.isLess(than: 0) && frameMax.isLess(than: view) {
-          space = -frameMin + padding
-        }
-        if view.isLess(than: frame.maxX + offset) {
-          space = -(frameMax - view) - padding
+        if viewWidth.isLess(than: frameMaxX + offset) {
+          return -(frameMaxX - viewWidth) - space
+        } else if (frameMinX + offset).isLess(than: 0) && (frameMaxX + offset).isLess(than: frameMaxX) {
+          return -frameMinX + space
+        } else {
+          return offset
         }
       }
-
-      #elseif os(macOS)
-      space = offset
-      #endif
-      return space
     }
   }
 }
@@ -184,7 +179,6 @@ struct PopoverHandler: ViewModifier {
   func body(content: Content) -> some View {
     content.overlay(VStack { popover })
   }
-
 }
 
 public extension View {
@@ -192,7 +186,6 @@ public extension View {
     self
       .modifier(PopoverHandler())
       .environment(\.popoverValue, popover)
-
   }
 }
 
@@ -205,4 +198,12 @@ extension EnvironmentValues {
     get { self[PopoverEnvironmentKey.self] }
     set { self[PopoverEnvironmentKey.self] = newValue }
   }
+}
+
+class Screen {
+  #if os(iOS)
+  static var deviceWidth: CGFloat = UIScreen.main.bounds.width
+  #elseif os(macOS)
+  static var deviceWidth: CGFloat = NSScreen.main?.frame.width ?? 500
+  #endif
 }

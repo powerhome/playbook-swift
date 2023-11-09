@@ -30,8 +30,8 @@ public struct PopoverCatalog: View {
     }
     .background(Color.background(.light))
     .preferredColorScheme(.light)
-    .navigationTitle("Popover")
     .withPopoverHandling(popoverValue)
+    .navigationTitle("Popover")
   }
 
   private func closePopover() {
@@ -104,7 +104,7 @@ public struct PopoverCatalog: View {
         title: "Click Outside"
       ) {
         popoverValue = AnyView(
-          PBPopover(position: .top(), shouldClosePopover: .outside, parentFrame: $viewFrame4, dismissAction: closePopover) {
+          PBPopover(position: .top, shouldClosePopover: .outside, parentFrame: $viewFrame4, dismissAction: closePopover) {
             Text("Click anywhere but me!")
               .pbFont(.body, color: .text(.default))
           }
@@ -117,8 +117,8 @@ public struct PopoverCatalog: View {
         title: "Click Anywhere"
       ) {
         popoverValue = AnyView(
-          PBPopover(position: .right(), shouldClosePopover: .anywhere, parentFrame: $viewFrame5, dismissAction: closePopover) {
-            Text("Click anything!jsfc[pwJFC[jwfc[jqw[ovjpqnevonq[onvponqw")
+          PBPopover(position: .right, shouldClosePopover: .anywhere, parentFrame: $viewFrame5, dismissAction: closePopover) {
+            Text("Click anything!")
               .pbFont(.body, color: .text(.default))
           }
         )
@@ -133,7 +133,7 @@ public struct PopoverCatalog: View {
       title: "Click Me"
     ) {
       popoverValue = AnyView(
-        PBPopover(position: .right(), parentFrame: $viewFrame6, dismissAction: closePopover) {
+        PBPopover(position: .right, parentFrame: $viewFrame6, dismissAction: closePopover) {
           ScrollView {
             Text(
                 """
