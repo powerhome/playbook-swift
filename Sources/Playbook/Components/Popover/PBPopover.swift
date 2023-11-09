@@ -163,7 +163,9 @@ public extension PBPopover {
   }
 }
 
-#Preview {
-  registerFonts()
-  return PopoverCatalog()
+private struct PBPopover_Previews: PreviewProvider {
+  public static var previews: some View {
+    registerFonts()
+    return PopoverCatalog()
+  }
 }

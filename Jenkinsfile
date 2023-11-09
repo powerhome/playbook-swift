@@ -16,13 +16,9 @@ def steps = [
     runNode {
       getReleaseNotes()
       def args = "type:${buildType()}"
-     // prepareToBuild(buildType())
+
       buildAndShipiOS(args)
     }
-  // }, 'macOS': {
-  //   runNode {
-  //     buildAndShipMacOS(args)
-  //   }
   }
 ]
 def map = steps
@@ -31,6 +27,7 @@ parallel map
 
 waitUntil { success }
 
+// This doesn't setup any of the Github/Runway data!
 runShortNode {
   stage('Runway Comment') {
     writeRunwayComment()
@@ -67,6 +64,7 @@ def runShortNode(block) {
 }
 
 def checkForFailedParallelJob() {
+  echo "Checking for failed parallel job..."
   if (success == false) {
     throw new Exception('A parallel job has failed.')
   }
@@ -84,7 +82,9 @@ def runNodeWith(label, block, isShort) {
         stage('Checkout') {
             checkout scm
         }
-        
+        stage('Update Build Number') {
+          sh "echo \"CURRENT_PROJECT_VERSION = ${buildNumber}\" > ./PlaybookShowcase/Versioning.xcconfig"
+        }
         if (isShort == false) {
           stage('Dependencies') {
             sh 'make dependencies'
