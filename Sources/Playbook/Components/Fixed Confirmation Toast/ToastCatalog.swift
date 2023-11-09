@@ -90,7 +90,7 @@ public struct ToastCatalog: View {
           position = .bottom
           toastView = PBToast(
             text: "Bottom Center",
-            variant: .custom(.user, .pbPrimary),
+            variant: .custom(.user, .status(.neutral)),
             actionView: .default,
             dismissAction: closeToast
           )
@@ -101,7 +101,7 @@ public struct ToastCatalog: View {
           position = .bottomLeft
           toastView = PBToast(
             text: "Bottom Left",
-            variant: .custom(.user, .pbPrimary),
+            variant: .custom(.user, .status(.neutral)),
             actionView: .default,
             dismissAction: closeToast
           )
@@ -110,7 +110,7 @@ public struct ToastCatalog: View {
           position = .bottomRight
           toastView = PBToast(
             text: "Bottom Right",
-            variant: .custom(.user, .pbPrimary),
+            variant: .custom(.user, .status(.neutral)),
             actionView: .default,
             dismissAction: closeToast
           )

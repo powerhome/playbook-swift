@@ -50,12 +50,7 @@ public enum Componenets: String, CaseIterable {
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
     case .dialog: DialogCatalog()
-    case .toast: if #available(iOS 16.0, *) {
-      ToastCatalog()
-    } else {
-      EmptyView()
-      // Fallback on earlier versions
-    }
+    case .toast: if #available(iOS 16.0, *) { ToastCatalog() } else { EmptyView() }
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
     case .image: PBImage_Previews.previews
