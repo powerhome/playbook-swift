@@ -7,75 +7,59 @@
 
 import SwiftUI
 
-struct PBPopover<T: View>: ViewModifier {
-  let popover: T
-  let position: PopoverPosition
+public struct PBPopover<Content: View>: View {
+  let popover: Content
+  let position: Position
   let shouldClosePopover: CloseOptions
   let cardPadding: CGFloat
   let backgroundAlpha: CGFloat
+  let dismissAction: (() -> Void)
 
-  @State private var isPresented: Bool = false
   @State private var yOffset: CGFloat = .zero
-  @State private var midY: CGFloat = .zero
-  @State private var midX: CGFloat = .zero
   @State private var xOffset: CGFloat = .zero
+  @Binding var parentFrame: CGRect
 
   init(
-    position: PopoverPosition = .bottom(),
+    position: Position = .bottom,
     shouldClosePopover: CloseOptions = .anywhere,
-    cardPadding: CGFloat,
+    cardPadding: CGFloat = Spacing.small,
     backgroundAlpha: CGFloat = 0,
-    @ViewBuilder popover: () -> T
+    parentFrame: Binding<CGRect>,
+    dismissAction: @escaping (() -> Void),
+    @ViewBuilder popover: () -> Content
   ) {
     self.position = position
     self.shouldClosePopover = shouldClosePopover
     self.cardPadding = cardPadding
     self.backgroundAlpha = backgroundAlpha
+    self._parentFrame = parentFrame
+    self.dismissAction = dismissAction
     self.popover = popover()
   }
 
-  func body(content: Content) -> some View {
-    VStack {
-      content
-        .disabled(true)
-        .background {
-          GeometryReader { geometry in
-            let frame = geometry.frame(in: .global)
-            #if os(iOS)
-            let positionX = frame.midX + xOffset
-            let positionY = frame.midY + yOffset
-            Color.clear.heroFullScreenCover(show: $isPresented) {
-              popoverView(frame)
-                .animation(nil, value: isPresented)
-                .position(
-                  x: positionX,
-                  y: positionY
-                )
-                .backgroundViewModifier(alpha: backgroundAlpha)
-                .onTapGesture {
-                  switch shouldClosePopover {
-                  case .outside, .anywhere:
-                    isPresented = false
-                  case .inside:
-                    break
-                  }
-                }
-            }
-            #elseif os(macOS)
-            BackgroundView(isVisible: $isPresented, frame: frame) {
-              popoverView(frame)
-            }
-            #endif
-          }
-        }
-        .onTapGesture {
-          isPresented = true
-        }
+  public var body: some View {
+    let positionX = parentFrame.midX + xOffset
+    let positionY = parentFrame.midY + yOffset
+
+    ZStack {
+      popoverView
+        .position(
+          x: positionX,
+          y: positionY
+        )
+    }
+    .background(Color.white.opacity(0.01))
+    .onTapGesture {
+      switch shouldClosePopover {
+      case .outside, .anywhere:
+        dismissAction()
+      case .inside:
+        break
+      }
     }
   }
 
-  @ViewBuilder
-  private func popoverView(_ p: CGRect) -> some View {
+  private var popoverView: some View {
     PBCard(
       border: false,
       padding: cardPadding,
@@ -87,7 +71,7 @@ struct PBPopover<T: View>: ViewModifier {
     .onTapGesture {
       switch shouldClosePopover {
       case .inside, .anywhere:
-        isPresented = false
+        dismissAction()
       case .outside:
         break
       }
@@ -95,107 +79,87 @@ struct PBPopover<T: View>: ViewModifier {
     .background(GeometryReader { geo in
       Color.clear.onAppear {
         let offset = position.offset(
-          labelFrame: p.size,
+          labelFrame: parentFrame.size,
           popoverFrame: geo.frame(in: .global)
         )
-        midY = p.midY - geo.frame(in: .global).midY + offset.y
-        midX = offset.x
-      }
-      .onChange(of: midY) { newValue in
-        if midY != 0 {
-          yOffset = newValue
-        }
-      }
-      .onChange(of: midX) { newValue in
-        if midX != 0 {
-          xOffset = newValue
-        }
+        yOffset = parentFrame.midY - geo.frame(in: .global).midY + offset.y
+        xOffset = offset.x
       }
     })
     .preferredColorScheme(.light)
   }
 }
 
-extension View {
-  func pbPopover<Content: View>(
-    position: PopoverPosition = .bottom(),
-    shouldClosePopover: CloseOptions = .anywhere,
-    cardPadding: CGFloat = Spacing.small,
-    backgroundAlpha: CGFloat = 0,
-    @ViewBuilder popover: () -> Content
-  ) -> some View {
-    return modifier(
-      PBPopover(
-        position: position,
-        shouldClosePopover: shouldClosePopover,
-        cardPadding: cardPadding,
-        backgroundAlpha: backgroundAlpha,
-        popover: popover)
-    )
-  }
-}
-
-public enum CloseOptions {
-  case inside, outside, anywhere
-}
-
-public enum PopoverPosition {
-  case top(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
-  case bottom(_ spacing: CGFloat = Spacing.xSmall, padding: CGFloat = 0)
-  case left(_ spacing: CGFloat = Spacing.xSmall)
-  case right(_ spacing: CGFloat = Spacing.xSmall)
-  case center(_ spacing: CGFloat = Spacing.xSmall)
-
-  func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
-    let labelHeight = labelFrame.height
-    let labelWidth = labelFrame.width
-    let popHeight = popoverFrame.height
-    let popWidth = popoverFrame.width
-
-    switch self {
-    case .top(let space, let padding):
-      return CGPoint(
-        x: horizontalOffset(popoverFrame, padding),
-        y: -(labelHeight/2 + popHeight/2) - space
-      )
-    case .bottom(let space, let padding):
-      return CGPoint(
-        x: horizontalOffset(popoverFrame, padding),
-        y: (labelHeight/2 + popHeight/2) + space
-      )
-    case .right(let space):
-      return CGPoint(
-        x: (labelWidth/2 + popWidth/2) + space,
-        y: 0
-      )
-    case .left(let space):
-      return CGPoint(
-        x: -(labelWidth/2 + popWidth/2) - space,
-        y: 0
-      )
-    case .center:
-      return CGPoint(
-        x: 0,
-        y: 0
-      )
-    }
+public extension PBPopover {
+  enum CloseOptions {
+    case inside, outside, anywhere
   }
 
-  func horizontalOffset(_ frame: CGRect, _ padding: CGFloat) -> CGFloat {
-    var space: CGFloat = 0
-    #if os(iOS)
-    let view = UIScreen.main.bounds
-    let frameMax = frame.maxX + padding
-    let frameMin = frame.minX
+  enum Position {
+    case top, bottom, left, right, center
 
-    if frameMin.isLess(than: view.minX) {
-      space = -frame.minX + padding
+    func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
+      let labelHeight = labelFrame.height
+      let labelWidth = labelFrame.width
+      let popHeight = popoverFrame.height
+      let popWidth = popoverFrame.width
+
+      switch self {
+      case .top:
+        return CGPoint(
+          x: offsetX(popoverFrame),
+          y: -(labelHeight/2 + popHeight/2) - Spacing.xSmall
+        )
+      case .bottom:
+        return CGPoint(
+          x: offsetX(popoverFrame),
+          y: (labelHeight + popHeight)/2 + Spacing.xSmall
+        )
+      case .right:
+        let offset = (labelWidth + popWidth)/2 + Spacing.xSmall
+        return CGPoint(
+          x: offsetX(popoverFrame, offset: offset),
+          y: 0
+        )
+      case .left:
+        let offset = -(labelWidth + popWidth)/2 - Spacing.xSmall
+        return CGPoint(
+          x: offsetX(popoverFrame, offset: offset),
+          y: 0
+        )
+      case .center:
+        return CGPoint(
+          x: offsetX(popoverFrame),
+          y: 0
+        )
+      }
     }
-    if view.maxX.isLess(than: frameMax - 1) {
-      space = -(frameMax - view.maxX) - padding
+
+    private func offsetX(_ frame: CGRect, offset: CGFloat = 0) -> CGFloat {
+      let space: CGFloat = Spacing.xSmall
+      let viewWidth = Screen.deviceWidth
+      let frameMaxX = frame.maxX
+      let frameMinX = frame.minX
+
+      switch self {
+      case .bottom, .top, .center:
+        if viewWidth.isLess(than: frameMaxX) && !frameMinX.isLess(than: 0) {
+          return -(frameMaxX - viewWidth) - space
+        } else if frameMinX.isLess(than: 0) && frameMaxX.isLess(than: frameMaxX) {
+          return -frameMinX + space
+        } else {
+          return 0
+        }
+      case .left, .right:
+        if viewWidth.isLess(than: frameMaxX + offset) {
+          return -(frameMaxX - viewWidth) - space
+        } else if (frameMinX + offset).isLess(than: 0) && (frameMaxX + offset).isLess(than: frameMaxX) {
+          return -frameMinX + space
+        } else {
+          return offset
+        }
+      }
     }
-    #endif
-    return space
   }
 }
 

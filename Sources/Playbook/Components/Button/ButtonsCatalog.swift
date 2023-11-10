@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@available(macOS 13.0, *)
 public struct ButtonsCatalog: View {
   let simpleButtons: some View = VStack(alignment: .leading, spacing: Spacing.small) {
     PBButton(
