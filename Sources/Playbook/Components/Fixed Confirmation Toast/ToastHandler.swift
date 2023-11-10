@@ -18,16 +18,18 @@ struct ToastHandler: ViewModifier {
   func toastView() -> some View {
     VStack {
       switch position {
-      case .top:
+      case .topLeft, .top, .topRight:
         toast
           .padding(.top)
+          .padding(.horizontal)
         Spacer()
-      case .bottom:
+      case .bottomLeft, .bottom, .bottomRight:
         Spacer()
         toast
           .padding(.bottom)
+          .padding(.horizontal)
       }
-    }
+    }.frame(maxWidth: .infinity, alignment: position.alignment)
   }
 }
 
