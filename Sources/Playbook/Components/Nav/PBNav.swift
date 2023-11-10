@@ -78,13 +78,13 @@ public extension PBNav {
     case normal
     case subtle
     case bold
-
     var spacing: CGFloat {
       switch self {
       case .normal:
         return 0
       case .subtle, .bold:
         return 2
+
       }
     }
   }
