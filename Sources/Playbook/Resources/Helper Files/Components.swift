@@ -15,6 +15,7 @@ public enum Componenets: String, CaseIterable {
   case card
   case checkbox
   case collapsible
+  case date
   case dialog
   case toast = "Fixed Confirmation Toast"
   case icon
@@ -49,6 +50,7 @@ public enum Componenets: String, CaseIterable {
     case .card: CardCatalog()
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
+    case .date: DateCatalog()
     case .dialog: DialogCatalog()
     case .toast: if #available(iOS 16.0, *) {
       ToastCatalog()
@@ -76,7 +78,6 @@ public enum Componenets: String, CaseIterable {
     case .timeStamp: TimeStampCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
-
     }
   }
 }
