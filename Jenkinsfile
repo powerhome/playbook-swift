@@ -26,7 +26,7 @@ secrets = [
 ]
 
 stg = [
-  build: 'Build App',
+  build: 'Build iOS',
   buildNum: 'Update Build Number',
   checkout: 'Checkout Repo',
   cleanup: 'Cleanup',
@@ -88,7 +88,19 @@ stage(stg.keychain) {
   }
 }
 
-buildAndShipiOS("type:${buildType()}")
+def steps = [
+  'iOS': {
+    node(defaultNode) {
+      setupEnv {
+        def args = "type:${buildType()}"
+        buildAndShipiOS(args)
+      }
+    }
+  }
+]
+def map = steps
+map.failFast = true
+parallel map
 
 stage(stg.runway) {
   node(defaultNode) {
@@ -206,6 +218,7 @@ def setupKeychain() {
 def deleteKeychain() {
   withEnv([
     "BUILD_NUMBER=${buildNum}",
+    "ROOT_DIR=./"
   ]) {
     lock(resource: 'Nitro-iOS Keychain Search List') {
       sh './.jenkins/jenkins-keychain.sh destroy'
@@ -215,18 +228,10 @@ def deleteKeychain() {
 
 def buildAndShipiOS(String fastlaneOpts) {
   stage(stg.build) {
-    node(defaultNode) {
-      setupEnv {
-        fastlane("build_ios ${fastlaneOpts}")
-      }
-    }
+    fastlane("build_ios ${fastlaneOpts}")
   }
   stage(stg.upload) {
-    node(defaultNode) {
-      setupEnv {
-        fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
-      }
-    }
+    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
   }
 }
 
@@ -247,6 +252,10 @@ def writeRunwayComment() {
     return true
   }
   fastlane("create_runway_comment build_number:${buildNum} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${runwayBacklogItemId} github_pull_request_id:${env.CHANGE_ID}")
+}
+
+def deleteDerivedData(){
+  fastlane("run clear_derived_data")
 }
 
 def handleCleanup() {
