@@ -50,7 +50,7 @@ public enum Componenets: String, CaseIterable {
     case .card: CardCatalog()
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
-    case .date: DatestampCatalog()
+    case .date: DateCatalog()
     case .dialog: DialogCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
