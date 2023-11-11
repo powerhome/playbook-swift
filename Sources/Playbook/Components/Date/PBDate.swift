@@ -27,7 +27,7 @@ public struct PBDate: View {
     self.iconSize = iconSize
     self.alignment = alignment
   }
-
+  
   public var body: some View {
     HStack {
       iconView
@@ -39,7 +39,7 @@ public struct PBDate: View {
   
   var formattedDate: AttributedString {
     let formatter = DateFormatter()
-    formatter.dateFormat = variant.dateStyle
+    formatter.dateFormat = dateStyle
     return colorAttributedText(formatter.string(from: datestamp), characterToChange: "•", color: .text(.light))
   }
   
@@ -51,15 +51,22 @@ public struct PBDate: View {
       return nil
     }
   }
-}
-
-var getCurrentYear: Int {
-  let calendar = Calendar.current
-  let currentYear = calendar.component(.year, from: Date())
-  return currentYear
+  
+  var getCurrentYear: Int {
+    let calendar = Calendar.current
+    let currentYear = calendar.component(.year, from: Date())
+    return currentYear
+  }
 }
 
 public extension PBDate {
+  
+  func getYear() -> Bool {
+    let currentDate = getCurrentYear
+    let datestampYear = Calendar.current.component(.year, from: datestamp)
+    return currentDate == datestampYear
+  }
+  
   enum Variant: CaseIterable, Hashable {
     case short, standard, dayDate, withIcon(isStandard: Bool)
     
@@ -68,16 +75,15 @@ public extension PBDate {
     public static var showCases: [PBDate.Variant] {
       return [.short, .standard, .dayDate]
     }
-    
+  }
     var dateStyle: String {
-      switch self {
-      case .short: return getCurrentYear == getCurrentYear ? "MMM d" : ""
-      case .standard: return getCurrentYear == getCurrentYear ? "MMM d" : "MMM d, YYYY"
-      case .dayDate: return getCurrentYear == getCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
-      case .withIcon(let isStandard): return isStandard && getCurrentYear == getCurrentYear ? "MMM d" : isStandard && getCurrentYear != getCurrentYear ? "MMM d, YYYY" : !isStandard && getCurrentYear == getCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
+      switch variant {
+      case .short: return "MMM d"
+      case .standard: return getYear() ? "MMM d" : "MMM d, YYYY"
+      case .dayDate: return getYear() ? "EEE • MMM d" : "EEE • MMM d, YYYY"
+      case .withIcon(let isStandard): return isStandard && getYear() ? "MMM d" : getYear() ? "EEE • MMM d" : "EEE • MMM d, YYYY"
       }
     }
-  }
 }
 
 public struct PBDate_Previews: PreviewProvider {
