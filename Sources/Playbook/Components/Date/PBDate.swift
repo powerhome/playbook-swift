@@ -36,7 +36,9 @@ public struct PBDate: View {
     }
     .frame(maxWidth: .infinity, alignment: alignment)
   }
-  
+}
+
+public extension PBDate {
   var formattedDate: AttributedString {
     let formatter = DateFormatter()
     formatter.dateFormat = dateStyle
@@ -52,17 +54,14 @@ public struct PBDate: View {
     }
   }
   
-  var getCurrentYear: Int {
+  var currentYear: Int {
     let calendar = Calendar.current
     let currentYear = calendar.component(.year, from: Date())
     return currentYear
   }
-}
-
-public extension PBDate {
   
-  func getYear() -> Bool {
-    let currentDate = getCurrentYear
+  var isCurrentYear: Bool {
+    let currentDate = currentYear
     let datestampYear = Calendar.current.component(.year, from: datestamp)
     return currentDate == datestampYear
   }
@@ -79,9 +78,9 @@ public extension PBDate {
     var dateStyle: String {
       switch variant {
       case .short: return "MMM d"
-      case .standard: return getYear() ? "MMM d" : "MMM d, YYYY"
-      case .dayDate: return getYear() ? "EEE • MMM d" : "EEE • MMM d, YYYY"
-      case .withIcon(let isStandard): return isStandard && getYear() ? "MMM d" : getYear() ? "EEE • MMM d" : "EEE • MMM d, YYYY"
+      case .standard: return isCurrentYear ? "MMM d" : "MMM d, YYYY"
+      case .dayDate: return isCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
+      case .withIcon(let isStandard): return isStandard && isCurrentYear ? "MMM d" : isCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
       }
     }
 }
