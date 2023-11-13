@@ -247,11 +247,14 @@ def isMainBuild() {
 }
 
 def writeRunwayComment() {
+  echo "PR_READY_FOR_TESTING: ${env.PR_READY_FOR_TESTING}"
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${runwayBacklogItemId}" == env.FAKE_RUNWAY_STORY_ID) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
   }
-  fastlane("create_runway_comment build_number:${buildNum} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${runwayBacklogItemId} github_pull_request_id:${env.CHANGE_ID}")
+  if (env.PR_READY_FOR_TESTING) {
+    fastlane("create_runway_comment build_number:${buildNum} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${runwayBacklogItemId} github_pull_request_id:${env.CHANGE_ID}")
+  }
 }
 
 def deleteDerivedData(){
