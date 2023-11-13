@@ -13,7 +13,7 @@ public struct PBDate: View {
   let typography: PBFont
   let iconSize: PBIcon.IconSize
   let alignment: Alignment
-  
+
   public init(
     _ datestamp: Date,
     variant: Variant = .short,
@@ -27,7 +27,7 @@ public struct PBDate: View {
     self.iconSize = iconSize
     self.alignment = alignment
   }
-  
+
   public var body: some View {
     HStack {
       iconView
@@ -44,7 +44,7 @@ public extension PBDate {
     formatter.dateFormat = dateStyle
     return colorAttributedText(formatter.string(from: datestamp), characterToChange: "•", color: .text(.light))
   }
-  
+
   var iconView: AnyView? {
     switch variant {
     case .withIcon:
@@ -53,36 +53,43 @@ public extension PBDate {
       return nil
     }
   }
-  
+
   var currentYear: Int {
     let calendar = Calendar.current
     let currentYear = calendar.component(.year, from: Date())
     return currentYear
   }
-  
+
   var isCurrentYear: Bool {
     let currentDate = currentYear
     let datestampYear = Calendar.current.component(.year, from: datestamp)
     return currentDate == datestampYear
   }
-  
+
   enum Variant: CaseIterable, Hashable {
     case short, standard, dayDate, withIcon(isStandard: Bool)
-    
-    public static var allCases: [PBDate.Variant] = [.short, .dayDate, .standard, .withIcon(isStandard: true), .withIcon(isStandard: false)]
-    
+
+    public static var allCases: [PBDate.Variant] = [
+      .short,
+      .dayDate,
+      .standard,
+      .withIcon(isStandard: true),
+      .withIcon(isStandard: false)
+    ]
+
     public static var showCases: [PBDate.Variant] {
       return [.short, .standard, .dayDate]
     }
   }
-    var dateStyle: String {
-      switch variant {
-      case .short: return "MMM d"
-      case .standard: return isCurrentYear ? "MMM d" : "MMM d, YYYY"
-      case .dayDate: return isCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
-      case .withIcon(let isStandard): return isStandard && isCurrentYear ? "MMM d" : isCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
-      }
+  var dateStyle: String {
+    switch variant {
+    case .short: return "MMM d"
+    case .standard: return isCurrentYear ? "MMM d" : "MMM d, YYYY"
+    case .dayDate: return isCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
+    case .withIcon(let isStandard):
+      return isStandard && isCurrentYear ? "MMM d" : isCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
     }
+  }
 }
 
 public struct PBDate_Previews: PreviewProvider {
