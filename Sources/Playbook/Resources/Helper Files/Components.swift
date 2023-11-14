@@ -15,7 +15,9 @@ public enum Componenets: String, CaseIterable {
   case card
   case checkbox
   case collapsible
+  case date
   case dialog
+  case toast = "Fixed Confirmation Toast"
   case icon
   case iconCircle = "Icon Circle"
   case image
@@ -34,7 +36,6 @@ public enum Componenets: String, CaseIterable {
   case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
-  case toast
   case toggle
   case user
 
@@ -49,7 +50,14 @@ public enum Componenets: String, CaseIterable {
     case .card: CardCatalog()
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
+    case .date: DateCatalog()
     case .dialog: DialogCatalog()
+    case .toast: if #available(iOS 16.0, *) {
+      ToastCatalog()
+    } else {
+      EmptyView()
+      // Fallback on earlier versions
+    }
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
     case .image: PBImage_Previews.previews
@@ -68,10 +76,8 @@ public enum Componenets: String, CaseIterable {
     case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
     case .timeStamp: TimeStampCatalog()
-    case .toast: ToastCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
-
     }
   }
 }
