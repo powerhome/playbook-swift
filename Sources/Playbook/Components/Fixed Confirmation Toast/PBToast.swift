@@ -63,7 +63,14 @@ public struct PBToast: View {
 
 public extension PBToast {
   enum Position {
-    case top, bottom
+    case topLeft, top, topRight, bottomLeft, bottom, bottomRight
+    var alignment: Alignment {
+      switch self {
+      case .top, .bottom: return .center
+      case .topLeft, .bottomLeft: return .leading
+      case .topRight, .bottomRight: return .trailing
+      }
+    }
   }
 
   enum DismissAction {
@@ -80,7 +87,6 @@ public extension PBToast {
 
   enum Variant {
     case error, success, neutral, custom(FontAwesome? = nil, Color)
-
     func color(_ custom: Color = .pbPrimary) -> Color {
       switch self {
       case .error: return Color.status(.error)
@@ -89,7 +95,6 @@ public extension PBToast {
       case .custom(_, let color): return color
       }
     }
-
     var icon: FontAwesome? {
       switch self {
       case .error: return FontAwesome.exclamationTriangle
@@ -98,13 +103,5 @@ public extension PBToast {
       case .custom(let icon, _): return icon
       }
     }
-  }
-}
-
-private struct PBToast_Previews: PreviewProvider {
-  public static var previews: some View {
-    @State var isPresented = false
-    registerFonts()
-    return ToastCatalog()
   }
 }

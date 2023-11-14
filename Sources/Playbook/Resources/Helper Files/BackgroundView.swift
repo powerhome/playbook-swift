@@ -36,7 +36,8 @@ struct BackgroundViewModifier: ViewModifier {
       content
         .background(BackgroundView(color: color, alpha: alpha))
     #elseif os(macOS)
-      content
+    content
+      .background { Color.black.opacity(0.001).frame(maxWidth: .infinity) }
     #endif
   }
 }

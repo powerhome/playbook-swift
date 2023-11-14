@@ -10,7 +10,7 @@ import SwiftUI
 extension Button {
   @ViewBuilder
   func customButtonStyle(
-    variant: PBButtonVariant,
+    variant: PBButton.Variant,
     shape: PBButton.Shape,
     size: PBButton.Size
   ) -> some View {

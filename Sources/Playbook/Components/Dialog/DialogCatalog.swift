@@ -33,7 +33,7 @@ import SwiftUI
     struct SimpleButton: View {
       @State private var presentDialog: Bool = false
 
-      func closeDialog() {
+      func closeToast() {
         presentDialog = false
       }
 
@@ -46,8 +46,8 @@ import SwiftUI
           PBDialog(
             title: "This is some informative text",
             message: infoMessage,
-            cancelButton: ("Cancel", closeDialog),
-            confirmButton: ("Okay", closeDialog)
+            cancelButton: ("Cancel", closeToast),
+            confirmButton: ("Okay", closeToast)
           )
           .backgroundViewModifier(alpha: 0.2)
         }
@@ -58,7 +58,7 @@ import SwiftUI
       @State private var presentDialog: Bool = false
       @State private var message = ""
 
-      func closeDialog() {
+      func closeToast() {
         presentDialog = false
       }
 
@@ -70,8 +70,8 @@ import SwiftUI
         .fullScreenCover(isPresented: $presentDialog) {
           PBDialog(
             title: "Send us your thoughts!",
-            cancelButton: ("Cancel", closeDialog),
-            confirmButton: ("Submit", closeDialog),
+            cancelButton: ("Cancel", closeToast),
+            confirmButton: ("Submit", closeToast),
             content: ({
               ScrollView {
                 Text("Hello Complex Dialog!\nAnything can be placed here")
@@ -92,7 +92,7 @@ import SwiftUI
       let size: DialogSize
       @State private var presentDialog: Bool = false
 
-      func closeDialog() {
+      func closeToast() {
         presentDialog = false
       }
 
@@ -112,8 +112,8 @@ import SwiftUI
           PBDialog(
             title: "\(title) Dialog",
             message: infoMessage,
-            cancelButton: ("Cancel", closeDialog),
-            confirmButton: ("Okay", closeDialog),
+            cancelButton: ("Cancel", closeToast),
+            confirmButton: ("Okay", closeToast),
             size: size
           )
           .backgroundViewModifier(alpha: 0.2)
@@ -135,7 +135,7 @@ import SwiftUI
       @State private var presentDialog1: Bool = false
       @State private var presentDialog2: Bool = false
 
-      func closeDialog() {
+      func closeToast() {
         presentDialog1 = false
         presentDialog2 = false
       }
@@ -152,8 +152,8 @@ import SwiftUI
               message: infoMessage,
               variant: .status(.success),
               isStacked: true,
-              cancelButton: ("Cancel", closeDialog),
-              confirmButton: ("Okay", closeDialog),
+              cancelButton: ("Cancel", closeToast),
+              confirmButton: ("Okay", closeToast),
               size: .small
             )
             .backgroundViewModifier(alpha: 0.2)
@@ -169,7 +169,7 @@ import SwiftUI
               message: infoMessage,
               variant: .status(.error),
               isStacked: true,
-              confirmButton: ("Okay", closeDialog),
+              confirmButton: ("Okay", closeToast),
               size: .small
             )
             .backgroundViewModifier(alpha: 0.2)
@@ -181,7 +181,7 @@ import SwiftUI
     struct StatusButtons: View {
       @State private var presentDialog: DialogStatus?
 
-      func closeDialog() {
+      func closeToast() {
         presentDialog = nil
       }
 
@@ -198,8 +198,8 @@ import SwiftUI
                 message: infoMessage,
                 variant: .status(item),
                 isStacked: false,
-                cancelButton: ("Cancel", closeDialog),
-                confirmButton: ("Okay", closeDialog)
+                cancelButton: ("Cancel", closeToast),
+                confirmButton: ("Okay", closeToast)
               )
               .backgroundViewModifier(alpha: 0.2)
             }
