@@ -61,10 +61,9 @@ public extension PBBadge {
   }
 }
 
-struct PBBadge_Previews: PreviewProvider {
+private struct PBBadge_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
-
     return BadgeCatalog()
       .background(Color.white)
   }

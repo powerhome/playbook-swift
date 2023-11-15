@@ -29,7 +29,7 @@ public struct PBDialog<Content: View>: View {
     confirmButton: (String, (() -> Void))? = nil,
     onClose: (() -> Void)? = nil,
     size: DialogSize = .medium,
-    shouldCloseOnOverlay: Bool = true,
+    shouldCloseOnOverlay: Bool = false,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.content = content()

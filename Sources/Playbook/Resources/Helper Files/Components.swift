@@ -15,20 +15,25 @@ public enum Componenets: String, CaseIterable {
   case card
   case checkbox
   case collapsible
+  case date
   case dialog
+  case toast = "Fixed Confirmation Toast"
   case icon
   case iconCircle = "Icon Circle"
   case image
   case label = "Label Value"
   case message
-  case multipleUserStacked = "Multiple User Stacked"
+  case multipleUser = "Multiple Users"
+  case multipleUsersIndicator = "Multiple Users Indicator"
+  case multipleUserStacked = "Multiple Users Stacked"
   case nav
   case pill
+  case popover
   case progressIndicator = "Progress Indicator"
   case radio
   case sectionSeparator = "Section Separator"
   case select
-  case textArea = "Text Area"
+  case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
   case typeahead
@@ -46,15 +51,25 @@ public enum Componenets: String, CaseIterable {
     case .card: CardCatalog()
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
+    case .date: DateCatalog()
     case .dialog: DialogCatalog()
+    case .toast: if #available(iOS 16.0, *) {
+      ToastCatalog()
+    } else {
+      EmptyView()
+      // Fallback on earlier versions
+    }
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
     case .image: PBImage_Previews.previews
     case .label: PBLabelValue_Previews.previews
     case .message: PBMessage_Previews.previews
+    case .multipleUser: MultipleUsersCatalog()
+    case .multipleUsersIndicator: MultipleUsersIndicatorCatalog()
     case .multipleUserStacked: MultipleUsersStackedCatalog()
     case .nav: PBNav_Previews.previews
     case .pill: PillCatalog()
+    case .popover: PopoverCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
     case .radio: RadioCatalog()
     case .sectionSeparator: PBSectionSeparator_Previews.previews
@@ -64,7 +79,7 @@ public enum Componenets: String, CaseIterable {
     case .timeStamp: TimeStampCatalog()
     case .typeahead: TypeaheadCatalog()
     case .toggle: ToggleCatalog()
-    case .user: PBMultipleUsers_Previews.previews
+    case .user: UserCatalog()
     }
   }
 }

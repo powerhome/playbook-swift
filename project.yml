@@ -1,5 +1,5 @@
 # This is the base yml for project.yml and project_production.yml
-name: PlaybookDemo
+name: PlaybookShowcase
 options:
   indentWidth: 2
   groupOrdering:
@@ -16,23 +16,23 @@ targets:
     platform: iOS
     sources: [Shared]
     dependencies:
-      - package: Playbook
+      - package: PlaybookSwift
     settings:
       base:
-        GENERATE_INFOPLIST_FILE: true
-        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.playbookdemo
+        GENERATE_INFOPLIST_FILE: false
+        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
-        MARKETING_VERSION: 1
+        MARKETING_VERSION: 4.3.0
   Playbook-macOS:
     type: application
     platform: macOS
     sources: [Shared, macOS]
     scheme: {}
     dependencies:
-      - package: Playbook
+      - package: PlaybookSwift
     settings:
       base:
-        GENERATE_INFOPLIST_FILE: true
-        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.playbookdemo
+        GENERATE_INFOPLIST_FILE: false
+        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
-        MARKETING_VERSION: 1
+        MARKETING_VERSION: 4.3.0

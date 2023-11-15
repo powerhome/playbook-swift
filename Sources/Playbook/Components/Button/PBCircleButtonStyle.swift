@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct PBCircleButtonStyle: ButtonStyle {
-  var variant: PBButtonVariant
+  var variant: PBButton.Variant
   var size: PBButton.Size
   @State private var isHovering = false
 
@@ -52,7 +52,7 @@ struct PBCircleStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
 
-    return HStack {
+    return HStack(spacing: Spacing.small) {
       PBButton(
         shape: .circle,
         icon: PBIcon.fontAwesome(.plus, size: .x1),

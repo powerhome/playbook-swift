@@ -15,13 +15,10 @@ def steps = [
   'iOS': {
     runNode {
       getReleaseNotes()
-      def args = "build_number:${buildNumber} type:${buildType()}"
+      def args = "type:${buildType()}"
+
       buildAndShipiOS(args)
     }
-  // }, 'macOS': {
-  //   runNode {
-  //     buildAndShipMacOS(args)
-  //   }
   }
 ]
 def map = steps
@@ -30,12 +27,15 @@ parallel map
 
 waitUntil { success }
 
+// This doesn't setup any of the Github/Runway data!
 runShortNode {
   stage('Runway Comment') {
-    // writeRunwayComment()
+    writeRunwayComment()
   }
   stage('Tag') {
-    try { fastlane("tag_build build:${buildNumber}") } catch (e) { }
+    if (env.GITHUB_BRANCH_NAME == "main") {
+      try { fastlane("tag_build build:${buildNumber}") } catch (e) { }
+    }
   }
 }
 
@@ -44,7 +44,8 @@ runShortNode {
 def setupEnvironment(block) {
   withCredentials([
     string(credentialsId: '62620542-b00d-4c1f-81dd-4d014369f07d', variable: 'GITHUB_API_TOKEN'),
-    string(credentialsId: 'nitro-runway-api-token-tps-40', variable: 'RUNWAY_API_TOKEN')
+    string(credentialsId: 'nitro-runway-api-token-tps-40', variable: 'RUNWAY_API_TOKEN'),
+    string(credentialsId: 'appcenter-token', variable: 'APPCENTER_API_TOKEN')
   ]) {
     withEnv(['LC_ALL=en_US.UTF-8', 'LANG=en_US.UTF-8']) {
       sshagent(['powerci-github-ssh-key']) {
@@ -63,6 +64,7 @@ def runShortNode(block) {
 }
 
 def checkForFailedParallelJob() {
+  echo "Checking for failed parallel job..."
   if (success == false) {
     throw new Exception('A parallel job has failed.')
   }
@@ -80,7 +82,9 @@ def runNodeWith(label, block, isShort) {
         stage('Checkout') {
             checkout scm
         }
-        
+        stage('Update Build Number') {
+          sh "echo \"CURRENT_PROJECT_VERSION = ${buildNumber}\" > ./PlaybookShowcase/Versioning.xcconfig"
+        }
         if (isShort == false) {
           stage('Dependencies') {
             sh 'make dependencies'
@@ -114,11 +118,11 @@ def runNodeWith(label, block, isShort) {
   }
 }
 
-def prepareToBuild(String buildType, String flavor) {
+def prepareToBuild(String buildType) {
   def fastlaneOpts = ''
   stage('Prepare') {
-    sh "make ${flavor}-${buildType} && sleep 1"
-    fastlaneOpts = "build_number:${buildNumber} type:${buildType} flavor:${flavor}"
+    // sh "make ${buildType} && sleep 1"
+    fastlaneOpts = "build_number:${buildNumber} type:${buildType}"
     fastlane("setup_before_build ${fastlaneOpts}")
   }
   checkForFailedParallelJob()
@@ -140,6 +144,10 @@ def getReleaseNotes() {
 }
 
 def writeRunwayComment() {
+  if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${RUNWAY_BACKLOG_ITEM_ID}" == env.FAKE_RUNWAY_STORY_ID) {
+    echo "Bot PR detected. Skipping Runway comment."
+    return true
+  }
   fastlane("create_runway_comment build_number:${buildNumber} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${RUNWAY_BACKLOG_ITEM_ID} github_pull_request_id:${env.CHANGE_ID}")
 }
 
@@ -261,7 +269,7 @@ def buildAndShipiOS(String fastlaneOpts) {
   }
   checkForFailedParallelJob()
   stage('Upload iOS') {
-    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\"")
+    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
   }
 }
 

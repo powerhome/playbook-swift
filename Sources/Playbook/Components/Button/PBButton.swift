@@ -8,7 +8,8 @@
 import SwiftUI
 
 public struct PBButton: View {
-  var variant: PBButtonVariant
+  var fullWidth: Bool
+  var variant: Variant
   var size: Size
   var shape: Shape
   var title: String?
@@ -17,7 +18,8 @@ public struct PBButton: View {
   let action: (() -> Void)?
 
   public init(
-    variant: PBButtonVariant = .primary,
+    fullWidth: Bool = false,
+    variant: Variant = .primary,
     size: Size = .medium,
     shape: Shape = .primary,
     title: String? = nil,
@@ -25,6 +27,7 @@ public struct PBButton: View {
     iconPosition: IconPosition? = .left,
     action: (() -> Void)? = {}
   ) {
+    self.fullWidth = fullWidth
     self.variant = variant
     self.size = size
     self.shape = shape
@@ -46,6 +49,7 @@ public struct PBButton: View {
         }
       }
       .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
+      .frame(maxWidth: fullWidth ? .infinity : nil)
     }
     .customButtonStyle(
       variant: variant,
@@ -78,15 +82,15 @@ public extension PBButton {
       }
     }
 
-    func verticalPadding(_ variant: PBButtonVariant) -> CGFloat {
+    func verticalPadding(_ variant: PBButton.Variant) -> CGFloat {
       return variant == .link ? 0 : fontSize / 2
     }
 
-    func horizontalPadding(_ variant: PBButtonVariant) -> CGFloat {
+    func horizontalPadding(_ variant: PBButton.Variant) -> CGFloat {
       return variant == .link ? 0 : fontSize * 2.42
     }
 
-    func minHeight(_ variant: PBButtonVariant) -> CGFloat {
+    func minHeight(_ variant: PBButton.Variant) -> CGFloat {
       if variant != .link {
         switch self {
         case .small:
@@ -108,8 +112,7 @@ public extension PBButton {
   }
 }
 
-@available(macOS 13.0, *)
-struct PBButton_Previews: PreviewProvider {
+private struct PBButton_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
     return ButtonsCatalog()

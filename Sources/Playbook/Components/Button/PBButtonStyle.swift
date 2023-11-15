@@ -8,12 +8,12 @@
 import SwiftUI
 
 public struct PBButtonStyle: ButtonStyle {
-  var variant: PBButtonVariant
+  var variant: PBButton.Variant
   var size: PBButton.Size
   @State private var isHovering = false
 
   public init(
-    variant: PBButtonVariant,
+    variant: PBButton.Variant,
     size: PBButton.Size) {
     self.variant = variant
     self.size = size
@@ -54,34 +54,5 @@ public struct PBButtonStyle: ButtonStyle {
       }
     #endif
       .pbFont(.buttonText(size.fontSize))
-  }
-}
-
-@available(macOS 13.0, *)
-public struct PBButtonStyle_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-
-    return VStack(alignment: .leading) {
-      PBButton(
-        title: "Button Primary",
-        action: {}
-      )
-      PBButton(
-        variant: .secondary,
-        title: "Button Secondary",
-        action: {})
-      PBButton(
-        variant: .link,
-        title: "Button Link",
-        action: {}
-      )
-      PBButton(
-        variant: .disabled,
-        title: "Button Disabled"
-      )
-    }
-    .listRowSeparator(.hidden)
-    .previewDisplayName("Button Variants")
   }
 }

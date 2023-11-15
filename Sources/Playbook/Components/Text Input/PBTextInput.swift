@@ -14,7 +14,7 @@ public struct PBTextInput: View {
   public let style: Style
   public var onChange: Bool?
   #if os(iOS)
-  public let keyboardType: UIKeyboardType
+    public let keyboardType: UIKeyboardType
   #endif
   @Binding public var text: String
   @FocusState private var selected: Bool
@@ -29,27 +29,27 @@ public struct PBTextInput: View {
           .padding(.bottom, Spacing.xSmall)
       }
 
-      PBCard(padding: Spacing.none, style: borderStyle) {
+      PBCard(padding: Spacing.none) {
         HStack(alignment: .center, spacing: Spacing.none) {
           leftView
           pbTextField
             .textFieldStyle(.plain)
             .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .frame(maxHeight: .infinity)
             .pbFont(.body, color: .text(.default))
             .tint(.text(.default))
             .background(backgroundColor)
             .focused($selected, equals: true)
-            .disabled(isDisabled)
+            .disabled(style == .disabled)
           rightView
         }
       }
-      .overlay {
+      .overlay(alignment: .center) {
         RoundedRectangle(cornerRadius: BorderRadius.medium)
-          .stroke(lineWidth: 1.2)
+          .stroke(lineWidth: lineWidth)
+          .frame(maxHeight: .infinity)
           .clipShape(
-            Rectangle()
-              .offset(x: offset, y: 0)
+            RoundedRectangle(cornerRadius: BorderRadius.medium)
           )
           .foregroundColor(borderColor)
       }
@@ -63,7 +63,7 @@ public struct PBTextInput: View {
 
       if let error, error.0 {
         Text(error.1)
-          .pbFont(.body)
+          .pbFont(.body, color: .status(.error))
           .padding(.top, Spacing.xxSmall)
           .foregroundColor(.status(.error))
       }
@@ -77,38 +77,27 @@ public struct PBTextInput: View {
     }
   }
 
+  var lineWidth: CGFloat {
+    #if os(iOS)
+      return 1.4
+    #elseif os(macOS)
+      return 2
+    #endif
+  }
+
   var divider: some View {
     Divider()
       .frame(width: 1)
       .overlay(borderColor)
-  }
-
-  var offset: CGFloat {
-    switch style {
-    case .leftIcon: return 45
-    case .rightIcon: return -45
-    default: return 0
-    }
-  }
-
-  var isDisabled: Bool {
-    switch style {
-    case .disabled: return true
-    default: return false
-    }
+      .opacity(dividerOpacity)
   }
 
   @ViewBuilder
   var leftView: some View {
     switch style {
-    case .leftIcon(let icon, divider: let withDivider):
-      if withDivider {
-        customIcon(icon)
-        divider
-      } else {
-        customIcon(icon)
-      }
-    case .typeahead(let view): view
+    case .leftIcon(let icon, divider: _):
+      customIcon(icon)
+      divider
     default: EmptyView()
     }
   }
@@ -116,13 +105,9 @@ public struct PBTextInput: View {
   @ViewBuilder
   var rightView: some View {
     switch style {
-    case .rightIcon(let icon, divider: let withDivider):
-      if withDivider {
-        divider
-        customIcon(icon)
-      } else {
-        customIcon(icon)
-      }
+    case .rightIcon(let icon, divider: _):
+      divider
+      customIcon(icon)
     default: EmptyView()
     }
   }
@@ -171,6 +156,14 @@ public struct PBTextInput: View {
     }
   }
 
+  var dividerOpacity: Double {
+    switch style {
+    case .leftIcon(_, divider: false): return 0
+    case .rightIcon(_, divider: false): return 0
+    default: return 1
+    }
+  }
+
   var placeHolder: Text {
     Text(placeholder)
       .foregroundColor(placeHolderColor)
@@ -198,60 +191,59 @@ public struct PBTextInput: View {
 
   var pbTextField: some View {
     #if os(iOS)
-    TextField("", text: $text, prompt: placeHolder)
-      .keyboardType(keyboardType)
+      TextField("", text: $text, prompt: placeHolder)
+        .keyboardType(keyboardType)
     #elseif os(macOS)
-    MacOSTextField(text: $text, prompt: placeholder)
+      MacOSTextField(text: $text, prompt: placeholder)
     #endif
   }
 }
 
 public extension PBTextInput {
-#if os(iOS)
-  init(
-    _ title: String? = nil,
-    text: Binding<String>,
-    placeholder: String = "",
-    error: (Bool, String)? = nil,
-    style: Style = .default,
-    keyboardType: UIKeyboardType = .default,
-    onChange: Bool? = nil
-  ) {
-    self.title = title
-    self._text = text
-    self.placeholder = placeholder
-    self.error = error
-    self.style = style
-    self.keyboardType = keyboardType
-    self.onChange = onChange
-  }
-#elseif os(macOS)
-  init(
-    _ title: String? = nil,
-    text: Binding<String>,
-    placeholder: String = "",
-    error: (Bool, String)? = nil,
-    style: Style = .default,
-    onChange: Bool? = nil
-  ) {
-    self.title = title
-    self._text = text
-    self.placeholder = placeholder
-    self.error = error
-    self.style = style
-    self.onChange = onChange
-  }
-#endif
+  #if os(iOS)
+    init(
+      _ title: String? = nil,
+      text: Binding<String>,
+      placeholder: String = "",
+      error: (Bool, String)? = nil,
+      style: Style = .default,
+      keyboardType: UIKeyboardType = .default,
+      onChange: Bool? = nil
+    ) {
+      self.title = title
+      self._text = text
+      self.placeholder = placeholder
+      self.error = error
+      self.style = style
+      self.keyboardType = keyboardType
+      self.onChange = onChange
+    }
+  #elseif os(macOS)
+    init(
+      _ title: String? = nil,
+      text: Binding<String>,
+      placeholder: String = "",
+      error: (Bool, String)? = nil,
+      style: Style = .default,
+      onChange: Bool? = nil
+    ) {
+      self.title = title
+      self._text = text
+      self.placeholder = placeholder
+      self.error = error
+      self.style = style
+      self.onChange = onChange
+    }
+  #endif
 }
 
 public extension PBTextInput {
-  enum Style {
+  enum Style: Equatable {
     case `default`
     case rightIcon(_ icon: FontAwesome, divider: Bool)
     case leftIcon(_ icon: FontAwesome, divider: Bool)
     case inline
     case disabled
-    case typeahead(AnyView)
   }
 }
 

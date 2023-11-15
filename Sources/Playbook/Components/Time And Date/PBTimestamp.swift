@@ -55,9 +55,7 @@ public struct PBTimestamp: View {
       let inputDate = Calendar.current.dateComponents([.year], from: timestamp)
       let currentDate = Calendar.current.dateComponents([.year], from: Date())
 
-      if let inputYear = inputDate.year,
-         let currentYear = currentDate.year,
-         inputYear > currentYear || inputYear < currentYear {
+      if let inputYear = inputDate.year, let currentYear = currentDate.year, inputYear != currentYear {
         formatter.dateFormat = "MMM d, YYYY \u{00b7} h:mma"
       } else {
         formatter.dateFormat = "MMM d \u{00b7} h:mma"

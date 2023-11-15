@@ -12,69 +12,49 @@ public struct SectionSeparatorCatalog: View {
   public init() {}
 
   public var body: some View {
+    ScrollView {
+      let loremIpsum: some View = Text(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
+      )
+      .pbFont(.body)
 
-    List {
-      Section("Line separator") {
-        textView()
-        lineView()
-      }
-      .listRowSeparator(.hidden)
-      Section("Dashed separator") {
-        dashedView()
-        dashedTextView()
-      }
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Line separator") {
+          PBSectionSeparator()
+        }
 
-      .listRowSeparator(.hidden)
+        PBDoc(title: "Dashed separator") {
+          PBSectionSeparator(variant: .dashed)
+        }
 
-      Section("Children separator") {
-        childrenView()
-      }
+        PBDoc(title: "Text separator") {
+          PBSectionSeparator("Text separator")
+        }
 
-      Section("Vertical separator") {
-        verticalView()
+        PBDoc(title: "Children separator") {
+          PBSectionSeparator(variant: .dashed) {
+            PBCard(alignment: .center, borderRadius: BorderRadius.rounded, padding: Spacing.xxSmall, width: 70) {
+              Text("Today")
+                .pbFont(.caption)
+                .frame(maxWidth: .infinity, alignment: .center)
+            }
+          }
+        }
+
+        PBDoc(title: "Vertical separator") {
+          HStack(spacing: Spacing.none) {
+            loremIpsum
+            PBSectionSeparator(orientation: .vertical)
+            loremIpsum
+          }
+          .frame(maxWidth: .infinity)
+          .frame(height: 120, alignment: .center)
+          .listRowSeparator(.hidden)
+        }
       }
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Section Separator")
   }
-
-  func textView() -> some View {
-    PBSectionSeparator("Title separator")
-  }
-
-  func lineView() -> some View {
-    PBSectionSeparator()
-  }
-
-  func dashedTextView() -> some View {
-    PBSectionSeparator("Title separator", variant: .dashed)
-  }
-
-  func dashedView() -> some View {
-    PBSectionSeparator(variant: .dashed)
-  }
-
-  func childrenView() -> some View {
-    PBSectionSeparator(variant: .dashed) {
-      PBCard(alignment: .center, borderRadius: BorderRadius.rounded, padding: Spacing.xxSmall, width: 70) {
-        Text("Today")
-          .pbFont(.caption)
-          .frame(maxWidth: .infinity, alignment: .center)
-      }
-    }
-  }
-
-  func verticalView() -> some View {
-    HStack(spacing: 0) {
-      loremIpsum
-      PBSectionSeparator(orientation: .vertical)
-      loremIpsum
-    }
-    .frame(maxWidth: .infinity)
-    .frame(height: 120, alignment: .center)
-    .listRowSeparator(.hidden)
-  }
-
-  let loremIpsum: some View = Text(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
-  )
-    .pbFont(.body)
 }

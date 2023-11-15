@@ -20,6 +20,14 @@ default_platform(:ios)
 target_ios = 'PlaybookShowcase-iOS'
 build_path = "BuildTemp/Archives"
 derived_data_path = "DerivedData"
+ios_plist = "./Info.plist"
+appcenter_token = "bf0ae509c985f2a1102c2ad53894b35a5fa5383e"
+
+desc "Set up build. build_number:1"
+lane :setup_before_build do |opts|
+  # sets the build number
+  increment_build_number(build_number: "#{opts[:build_number]}")
+end
 
 desc "Build iOS"
 lane :build_ios do |opts|
@@ -34,7 +42,8 @@ lane :build_ios do |opts|
     output_name: "#{target_ios}.ipa",
     build_path: build_path,
     derived_data_path: derived_data_path,
-    xcargs: '-skipPackagePluginValidation'
+    xcargs: '-skipPackagePluginValidation',
+    xcconfig: './PlaybookShowcase/Versioning.xcconfig'
   )
 end
 
@@ -59,7 +68,7 @@ end
 
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
-  
+
   app_name = "Playbook-Showcase-Beta"
   if opts[:type] == 'production'
     app_name = "Playbook-Showcase"
@@ -67,11 +76,12 @@ lane :ship_ios_to_appcenter do |opts|
 
   opts[:os] = 'ios'
   appcenter_upload(
-    api_token: "bf0ae509c985f2a1102c2ad53894b35a5fa5383e",
+    api_token: appcenter_token,
     owner_name: "powerhome",
     owner_type: "organization",
     app_name: app_name,
     file: "#{target_ios}.ipa",
+    version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
     destination_type: "group",
@@ -87,9 +97,31 @@ lane :create_runway_comment do |opts|
   github_pull_request_id = opts[:github_pull_request_id]
   type = opts[:type]
   build_number = opts[:build_number]
+  release_notes = "#{opts[:release_notes]}"
+
+  app_name = "Playbook-Showcase-Beta"
+  if type == 'production'
+    app_name = "Playbook-Showcase"
+  end
+
+  merged_comment = ''
+  if type == 'production'
+    merged_comment = "✅ MERGED ✅\n\n"
+  end
+
+  # https://install.appcenter.ms/orgs/powerhome/apps/#{app_name}/releases/#{release_num}
+  # Generate the link above based on this call:
+  version_info = appcenter_fetch_version_number(
+    api_token: appcenter_token,
+    owner_name: "powerhome",
+    app_name: app_name
+  )
 
   comment = <<~HEREDOC
-  RUNWAY COMMENT HERE
+  <p><b>#{merged_comment}#{type} build #{build_number}</b></p>
+  <ul>
+    <li>PlaybookShowcase-iOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{app_name}/releases/#{version_info["id"]}"}>iOS</a></li>
+  </ul>
   HEREDOC
 
   UI.message(comment)
@@ -104,6 +136,8 @@ lane :create_runway_comment do |opts|
     body: payload,
     headers: { 'Content-Type' => 'application/json' }
   )
+
+  UI.message("Runway response code: #{response.code}")
 end
 
 def keep_trying(ignore=[], interval=300, retry_counter=0, &block)

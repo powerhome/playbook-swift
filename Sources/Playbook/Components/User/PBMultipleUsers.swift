@@ -49,6 +49,20 @@ public struct PBMultipleUsers: View {
     return reversed ? padding : 0
   }
 
+  var totalWidth: CGFloat {
+    var width = size.avatarSize.diameter
+
+    if filteredUsers.0.count > 1 {
+      width = size.avatarSize.diameter / 1.5 * CGFloat(filteredUsers.0.count - 1) + size.avatarSize.diameter
+    }
+
+    if users.count > maxDisplayedUsers {
+      width = size.avatarSize.diameter / 1.5 * CGFloat(maxDisplayedUsers - 1) + size.avatarSize.diameter
+    }
+
+    return width
+  }
+
   public var body: some View {
     ZStack {
       ForEach(filteredUsers.0.indices, id: \.self) { index in
@@ -65,6 +79,7 @@ public struct PBMultipleUsers: View {
         .offset(x: xOffset(index: filteredUsers.0.endIndex), y: 0)
     }
     .padding(.leading, leadingPadding)
+    .frame(width: totalWidth, alignment: .leading)
   }
 }
 
@@ -85,17 +100,6 @@ public extension PBMultipleUsers {
 public struct PBMultipleUsers_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
-    return VStack(alignment: .leading) {
-      Text("xSmall").pbFont(.title4)
-      PBMultipleUsers(users: twoUsers, size: .xSmall)
-      Divider()
-      Text("Small").pbFont(.title4)
-      PBMultipleUsers(users: multipleUsers, size: .small)
-      Divider()
-      Text("Small Reverse").pbFont(.title4)
-      PBMultipleUsers(users: multipleUsers, size: .small, reversed: true)
-      PBMultipleUsers(users: twoUsers, size: .small, reversed: true)
-    }
-    .padding(.leading, Spacing.xxSmall)
+    return MultipleUsersCatalog()
   }
 }
