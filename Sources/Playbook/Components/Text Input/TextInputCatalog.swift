@@ -151,7 +151,7 @@ struct TextInputCatalog: View {
     let pbTextInputView = ScrollView {
       Section("Default") {
         PBTextInput(
-          title: "First name",
+          "First name",
           text: $textFirstName,
           placeholder: "Enter first name"
         )

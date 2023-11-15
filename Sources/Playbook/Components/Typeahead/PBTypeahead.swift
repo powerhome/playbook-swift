@@ -36,6 +36,8 @@ struct PBTypeahead: View {
       .onChange(of: searchText) { _ in
         _ = searchResults
       }
+      
+      
 
       PBCard(border: true, padding: Spacing.none) {
         ForEach(searchResults, id: \.self) { suggestion in

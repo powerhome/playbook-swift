@@ -109,7 +109,6 @@ public struct PBIcon_Previews: PreviewProvider {
 
 extension View {
   func flipped(_ axis: [Axis]? = nil) -> some View {
-
     switch axis {
     case [.horizontal]:
       return scaleEffect(CGSize(width: -1, height: 1), anchor: .center)

@@ -8,20 +8,82 @@
 import SwiftUI
 
 struct Pill: View {
-  private var shape = Capsule()
+  private var shape =  Capsule()
+  @Environment (\.active) var isActive: Bool
+  @Environment (\.focus) var isFocus: Bool
+  @Environment(\.hovering) var hovering: Bool
+  @State private var isHovering: Bool = false
+  let icon: FontAwesome? = nil
+  
 
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        .font(.custom(ProximaNova.bold.rawValue, size: 14))
-        .padding(.vertical, Spacing.xSmall)
-        .background(Color.gray)
-        .clipShape(shape)
-        .overlay(shape.stroke(lineWidth: 1))
-       
+      HStack(spacing: Spacing.xSmall) {
+        if let icon = icon {
+          PBIcon.fontAwesome(icon)
+        }
+
+        Text("Default")
+          .font(.custom(ProximaNova.bold.rawValue, size: 14))
+          .foregroundStyle(Color.text(.default))
+
+        PBIcon(FontAwesome.times)
+      }
+      .padding(.vertical, Spacing.xSmall)
+      .padding(.horizontal, Spacing.small )
+      .background(backgroundColor)
+      .clipShape(shape)
+      .overlay(
+        shape
+          .stroke(lineWidth: borderWidth)
+          .foregroundStyle(borderColor)
+      )
+      .onHover { hovering in
+        isHovering = hovering
+      }
     }
+}
+
+private extension Pill {
+  var backgroundColor: Color {
+    if isActive {
+      return .active
+    } else if isHovering {
+      return .hover
+    } else {
+      return .white
+    }
+  }
+
+  var borderWidth: CGFloat {
+    isFocus ? 2 : 1
+  }
+
+  var borderColor: Color {
+    isFocus ? .pbPrimary : .border
+  }
 }
 
 #Preview {
   registerFonts()
-    return Pill()
+  return VStack(spacing: Spacing.small) {
+    Pill()
+
+    Pill()
+      .environment(\.focus, true)
+
+    Pill()
+      .environment(\.active, true)
+
+    Pill()
+      .environment(\.hovering, true)
+
+    Pill()
+      .environment(\.hovering, true)
+      .environment(\.focus, true)
+
+    Pill()
+      .environment(\.hovering, true)
+      .environment(\.active, true)
+      .environment(\.focus, true)
+  }
 }
