@@ -71,7 +71,7 @@ node(defaultNode) {
     }
 
     stage(stg.upload) {
-      fastlane("upload_ios type:${buildType()} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+      uploadToAppCenter()
     }
 
     stage(stg.runway) {
@@ -202,12 +202,30 @@ def isMainBuild() {
   return env.BRANCH_NAME == 'main'
 }
 
+def isDevBuild() {
+  return env.BRANCH_NAME != 'main'
+}
+
 def getRunwayDetailsJson() {
   def props = readJSON file: "./Build/pr-${env.CHANGE_ID}-details.json"
+  println "props: ${props}"
   return props
 }
 
+def readyForTesting() {
+  def labels = getRunwayDetailsJson()['labels']
+  return labels.find{it.name == "Ready for Testing"}
+}
+
+def uploadToAppCenter() {
+  if (isDevBuild() && !readyForTesting()) return
+
+  fastlane("upload_ios type:${buildType()} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+}
+
 def writeRunwayComment() {
+  if (isDevBuild() && !readyForTesting()) return
+
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${runwayBacklogItemId}" == env.FAKE_RUNWAY_STORY_ID) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
