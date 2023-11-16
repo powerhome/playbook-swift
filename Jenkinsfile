@@ -202,7 +202,14 @@ def isMainBuild() {
   return env.BRANCH_NAME == 'main'
 }
 
+def getRunwayDetailsJson() {
+  def props = readJSON file: "./Build/pr-${env.CHANGE_ID}-details.json"
+  return props
+}
+
 def writeRunwayComment() {
+  echo "GH Labels: ${getRunwayDetailsJson()['labels']}"
+
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${runwayBacklogItemId}" == env.FAKE_RUNWAY_STORY_ID) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
