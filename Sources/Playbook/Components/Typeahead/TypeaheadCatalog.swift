@@ -8,11 +8,13 @@
 import SwiftUI
 
 public struct TypeaheadCatalog: View {
+  @State var popoverValue: AnyView?
   public var body: some View {
     List {
-      PBTypeahead(title: "Colors", variant: .text)
-      PBTypeahead(title: "Users", variant: .pill)
-      PBTypeahead(title: "Colors", variant: .other)
+      PBTypeahead(title: "Colors", variant: .text, popoverValue: $popoverValue)
+      PBTypeahead(title: "Users", variant: .pill, popoverValue: $popoverValue)
+      PBTypeahead(title: "Colors", variant: .other, popoverValue: $popoverValue)
     }
+    .withPopoverHandling(popoverValue, position: .bottom)
   }
 }

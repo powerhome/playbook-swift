@@ -11,18 +11,22 @@ struct PBTypeahead: View {
   @State private var searchText = ""
   @State private var suggestions: [String]
   @State private var selectedElement: [String] = []
+  @State private var typeaheadFrame: CGRect = .zero
   @FocusState private var isFocused
+  @Binding var popoverValue: AnyView?
   var title: String
   var variant: Variant
 
   init(
     suggestions: [String] = ["Apple", "Banana", "Cherry", "Grapes", "Orange"],
     title: String,
-    variant: Variant
+    variant: Variant,
+    popoverValue: Binding<AnyView?>
   ) {
     self.suggestions = suggestions
     self.title = title
     self.variant = variant
+    self._popoverValue = popoverValue
   }
 
   var body: some View {
@@ -32,35 +36,40 @@ struct PBTypeahead: View {
         text: $searchText,
         style: .typeahead(leftView)
       )
+      .onTapGesture {
+      
+          popoverValue = AnyView(
+            PBPopover(parentFrame: $typeaheadFrame, dismissAction: { popoverValue = nil }) {
+              ForEach(searchResults, id: \.self) { suggestion in
+                Text(suggestion)
+                  .pbFont(.body)
+//                  .padding(.horizontal)
+//                  .padding(.vertical, 8)
+//                  .frame(maxWidth: .infinity, alignment: .leading)
+                  .border(Color.border, width: 0.5)
+                  .frame(maxWidth: typeaheadFrame.width - 28, alignment: .leading)
+                  .onTapGesture {
+                    selectedElement.append(suggestion)
+                    if let index = suggestions.firstIndex(of: suggestion) {
+                      suggestions.remove(at: index)
+                    }
+                    searchText = ""
+                    isFocused = false
+                  }
+              }
+              
+            }
+              
+          )
+        
+      }
       .focused($isFocused, equals: true)
       .onChange(of: searchText) { _ in
         _ = searchResults
       }
-      
-      
-
-      PBCard(border: true, padding: Spacing.none) {
-        ForEach(searchResults, id: \.self) { suggestion in
-          VStack {
-            Text(suggestion)
-              .pbFont(.body)
-              .padding(.horizontal)
-              .padding(.vertical, 8)
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .border(Color.border, width: 0.5)
-          }
-          .onTapGesture {
-            selectedElement.append(suggestion)
-            if let index = suggestions.firstIndex(of: suggestion) {
-              suggestions.remove(at: index)
-            }
-            searchText = ""
-            isFocused = false
-          }
-        }
-      }
-    }
-    .padding()
+      .frameGetter($typeaheadFrame)
+    
+    }.frame(maxWidth: .infinity, alignment: .leading)
   }
 }
 
