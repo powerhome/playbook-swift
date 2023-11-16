@@ -38,86 +38,51 @@ stg = [
   upload: 'Upload to AppCenter'
 ]
 
-stage(stg.buildNum) {
-  node(defaultNode) {
-    setupEnv {
+node(defaultNode) {
+  setupEnv {
+    stage(stg.buildNum) {
       getBuildNum()
     }
-  }
-}
-stage(stg.checkout) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.checkout) {
       checkout scm
     }
-  }
-}
-stage(stg.setup) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.setup) {
       updateBuildNum()
       jenkinsSetup()
       getRunwayBacklogItemId()
       getReleaseNotes()
     }
-  }
-}
-stage(stg.deps) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.deps) {
       sh 'make dependencies'
     }
-  }
-}
 
-stage(stg.provision) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.provision) {
       clearProvisioningProfiles()
       downloadProvisioningProfiles()
       fastlane('install_prov_profiles')
     }
-  }
-}
 
-stage(stg.keychain) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.keychain) {
       setupKeychain()
     }
-  }
-}
 
-def steps = [
-  'iOS': {
-    node(defaultNode) {
-      setupEnv {
-        def args = "type:${buildType()}"
-        buildAndShipiOS(args)
-      }
+    stage(stg.build) {
+      fastlane("build_ios type:${buildType()}")
     }
-  }
-]
-def map = steps
-map.failFast = true
-parallel map
 
-stage(stg.runway) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.upload) {
+      fastlane("upload_ios type:${buildType()} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+    }
+
+    stage(stg.runway) {
       writeRunwayComment()
     }
-  }
-}
 
-stage(stg.cleanup) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.cleanup) {
       handleCleanup()
     }
   }
 }
-
 
 // Methods
 
@@ -226,15 +191,6 @@ def deleteKeychain() {
   }
 }
 
-def buildAndShipiOS(String fastlaneOpts) {
-  stage(stg.build) {
-    fastlane("build_ios ${fastlaneOpts}")
-  }
-  stage(stg.upload) {
-    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
-  }
-}
-
 def buildType() {
   if (isMainBuild() == true) {
     return 'production'
@@ -246,18 +202,17 @@ def isMainBuild() {
   return env.BRANCH_NAME == 'main'
 }
 
-def writeRunwayComment() {
-  echo "**** PR Details ****\n"
-  sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true)
-  echo "**** PR Details ****\n"
+def getRunwayDetailsJson() {
+  def props = readJSON file: "./Build/pr-${env.CHANGE_ID}-details.json"
+  return props
+}
 
+def writeRunwayComment() {
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${runwayBacklogItemId}" == env.FAKE_RUNWAY_STORY_ID) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
   }
-  if (env.PR_READY_FOR_TESTING) {
-    fastlane("create_runway_comment build_number:${buildNum} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${runwayBacklogItemId} github_pull_request_id:${env.CHANGE_ID}")
-  }
+  fastlane("create_runway_comment build_number:${buildNum} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${runwayBacklogItemId} github_pull_request_id:${env.CHANGE_ID}")
 }
 
 def deleteDerivedData(){
