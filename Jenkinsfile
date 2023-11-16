@@ -208,8 +208,6 @@ def getRunwayDetailsJson() {
 }
 
 def writeRunwayComment() {
-  echo "GH Labels: ${getRunwayDetailsJson()['labels']}"
-
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${runwayBacklogItemId}" == env.FAKE_RUNWAY_STORY_ID) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
