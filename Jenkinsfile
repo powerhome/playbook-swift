@@ -247,7 +247,10 @@ def isMainBuild() {
 }
 
 def writeRunwayComment() {
-  echo "PR_READY_FOR_TESTING: ${env.PR_READY_FOR_TESTING}"
+  echo "**** PR Details ****\n"
+  sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true)
+  echo "**** PR Details ****\n"
+
   if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${runwayBacklogItemId}" == env.FAKE_RUNWAY_STORY_ID) {
     echo "Bot PR detected. Skipping Runway comment."
     return true
