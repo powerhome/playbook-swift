@@ -145,7 +145,7 @@ public extension PBPopover {
       case .bottom, .top, .center:
         if viewWidth.isLess(than: frameMaxX) && !frameMinX.isLess(than: 0) {
           return -(frameMaxX - viewWidth) - space
-        } else if frameMinX.isLess(than: 0) && frameMaxX.isLess(than: frameMaxX) {
+        } else if frameMinX.isLessThanOrEqualTo(0) {
           return -frameMinX + space
         } else {
           return 0
@@ -153,7 +153,7 @@ public extension PBPopover {
       case .left, .right:
         if viewWidth.isLess(than: frameMaxX + offset) {
           return -(frameMaxX - viewWidth) - space
-        } else if (frameMinX + offset).isLess(than: 0) && (frameMaxX + offset).isLess(than: frameMaxX) {
+        } else if (frameMinX + offset).isLess(than: 0) {
           return -frameMinX + space
         } else {
           return offset
