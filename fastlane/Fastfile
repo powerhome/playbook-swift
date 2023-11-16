@@ -23,16 +23,6 @@ derived_data_path = "DerivedData"
 ios_plist = "./Info.plist"
 appcenter_token = "bf0ae509c985f2a1102c2ad53894b35a5fa5383e"
 
-desc "Tag build"
-lane :tag_build do |opts|
-  begin
-    add_git_tag(tag: "builds/#{opts[:build]}")
-    push_git_tags(remote: "git@github.com:powerhome/PlaybookSwift.git")
-  rescue => ex
-    UI.error(ex)
-  end
-end
-
 desc "Set up build. build_number:1"
 lane :setup_before_build do |opts|
   # sets the build number
@@ -52,7 +42,7 @@ lane :build_ios do |opts|
     output_name: "#{target_ios}.ipa",
     build_path: build_path,
     derived_data_path: derived_data_path,
-    xcargs: '-skipPackagePluginValidation',
+    xcargs: '-skipPackagePluginValidation -skipMacroValidation',
     xcconfig: './PlaybookShowcase/Versioning.xcconfig'
   )
 end
