@@ -8,12 +8,12 @@
 import SwiftUI
 
 public struct PBButtonStyle: ButtonStyle {
-  var variant: PBButtonVariant
+  var variant: PBButton.Variant
   var size: PBButton.Size
   @State private var isHovering = false
 
   public init(
-    variant: PBButtonVariant,
+    variant: PBButton.Variant,
     size: PBButton.Size) {
     self.variant = variant
     self.size = size
