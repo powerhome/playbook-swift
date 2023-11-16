@@ -15,6 +15,6 @@ public struct TypeaheadCatalog: View {
       PBTypeahead(title: "Users", variant: .pill, popoverValue: $popoverValue)
       PBTypeahead(title: "Colors", variant: .other, popoverValue: $popoverValue)
     }
-    .withPopoverHandling(popoverValue, position: .bottom)
+ //   .withPopoverHandling(popoverValue, position: .bottom)
   }
 }

@@ -9,15 +9,20 @@ import SwiftUI
 
 public struct PopoverCatalog: View {
   @State var isPresented: Bool = false
-  @State var viewFrame2: CGRect = .zero
-  @State var viewFrame3: CGRect = .zero
-  @State var viewFrame4: CGRect = .zero
-  @State var viewFrame5: CGRect = .zero
-  @State var viewFrame6: CGRect = .zero
+  @State var isPresented2: Bool = false
+  @State var isPresented3: Bool = false
+  @State var isPresented4: Bool = false
+  @State var isPresented5: Bool = false
+  @State var isPresented6: Bool = false
   @State var popoverValue: AnyView?
-  
+  @State var popoverValue2: AnyView?
+  @State var popoverValue3: AnyView?
+  @State var popoverValue4: AnyView?
+  @State var popoverValue5: AnyView?
+  @State var popoverValue6: AnyView?
+
   public init() {}
-  
+
   public var body: some View {
     return ScrollView {
       VStack(spacing: Spacing.medium) {
@@ -30,19 +35,24 @@ public struct PopoverCatalog: View {
     }
     .background(Color.background(.light))
     .preferredColorScheme(.light)
-    .withPopoverHandling(popoverValue)
+    .withPopoverHandling(isPresented: $isPresented, popoverValue)
+    .withPopoverHandling(isPresented: $isPresented2, popoverValue2)
+    .withPopoverHandling(isPresented: $isPresented3, popoverValue3)
+    .withPopoverHandling(isPresented: $isPresented4, popoverValue4)
+    .withPopoverHandling(isPresented: $isPresented5, popoverValue5)
+    .withPopoverHandling(isPresented: $isPresented6, popoverValue6)
+    
     .navigationTitle("Popover")
   }
-  
+
   private func closePopover() {
     popoverValue = nil
   }
-  
+
   private var defaultPopover: some View {
     HStack {
       Text("Click info for more details")
         .pbFont(.body, color: .text(.default))
-      
       PBButton(
         variant: .secondary,
         shape: .circle,
@@ -50,13 +60,13 @@ public struct PopoverCatalog: View {
       ) {
         isPresented.toggle()
       }
-      .pbPopover($popoverValue) {
-                      Text("I'm a popover. I can show content of any size.")
-                        .pbFont(.body, color: .text(.default))
+      .pbPopover(isPresente: $isPresented, $popoverValue) {
+        Text("I'm a popover. I can show content of any size.")
+          .pbFont(.body, color: .text(.default))
       }
     }
   }
-  
+
   private var dropdownPopover: some View {
     PBButton(
       variant: .secondary,
@@ -64,22 +74,20 @@ public struct PopoverCatalog: View {
       icon: .fontAwesome(.chevronDown),
       iconPosition: .right
     ) {
-      popoverValue = AnyView(
-        PBPopover(cardPadding: Spacing.none, parentFrame: viewFrame2, dismissAction: closePopover) {
-          List {
-            PBButton(variant: .link, title: "Popularity")
-            PBButton(variant: .link, title: "Title")
-            PBButton(variant: .link, title: "Duration")
-            PBButton(variant: .link, title: "Date Started")
-            PBButton(variant: .link, title: "Date Ended")
-          }
-          .listStyle(.plain)
-          .frame(width: 150, height: 100)
-          .pbFont(.body, color: .text(.light))
-        }
-      )
+  isPresented2 = true
     }
-    .frameGetter($viewFrame2)
+    .pbPopover(isPresente: $isPresented2, $popoverValue2) {
+        List {
+          PBButton(variant: .link, title: "Popularity")
+          PBButton(variant: .link, title: "Title")
+          PBButton(variant: .link, title: "Duration")
+          PBButton(variant: .link, title: "Date Started")
+          PBButton(variant: .link, title: "Date Ended")
+        }
+        .listStyle(.plain)
+        .frame(width: 150, height: 100)
+        .pbFont(.body, color: .text(.light))
+      }
   }
   
   private var onClosePopover: some View {
@@ -88,50 +96,34 @@ public struct PopoverCatalog: View {
         variant: .secondary,
         title: "Click Inside"
       ) {
-        popoverValue = AnyView(
-          PBPopover(shouldClosePopover: .inside, parentFrame: viewFrame3, dismissAction: closePopover) {
-            Text("Click on me!")
-              .pbFont(.body, color: .text(.default))
-          }
-        )
+        isPresented3 = true
       }
-      .frameGetter($viewFrame3)
+      .pbPopover(isPresente: $isPresented3, $popoverValue3) {
+        Text("Click on me!")
+          .pbFont(.body, color: .text(.default))
+      }
       
       PBButton(
         variant: .secondary,
         title: "Click Outside"
       ) {
-        popoverValue = AnyView(
-          PBPopover(
-            position: .top,
-            shouldClosePopover: .outside,
-            parentFrame: viewFrame4,
-            dismissAction: closePopover
-          ) {
-            Text("Click anywhere but me!")
-              .pbFont(.body, color: .text(.default))
-          }
-        )
+        isPresented4 = true
       }
-      .frameGetter($viewFrame4)
+      .pbPopover(isPresente: $isPresented4, $popoverValue4) {
+        Text("Click anywhere but me!")
+          .pbFont(.body, color: .text(.default))
+      }
       
       PBButton(
         variant: .secondary,
         title: "Click Anywhere"
       ) {
-        popoverValue = AnyView(
-          PBPopover(
-            position: .right,
-            shouldClosePopover: .anywhere,
-            parentFrame: viewFrame5,
-            dismissAction: closePopover
-          ) {
-            Text("Click anything!")
-              .pbFont(.body, color: .text(.default))
-          }
-        )
+        isPresented5 = true
       }
-      .frameGetter($viewFrame5)
+      .pbPopover(isPresente: $isPresented5, $popoverValue5) {
+        Text("Click anything!")
+          .pbFont(.body, color: .text(.default))
+      }
     }
   }
   
@@ -140,49 +132,47 @@ public struct PopoverCatalog: View {
       variant: .secondary,
       title: "Click Me"
     ) {
-      popoverValue = AnyView(
-        PBPopover(position: .right, parentFrame: viewFrame6, dismissAction: closePopover) {
-          ScrollView {
-            Text(
-                """
-                So many people live within unhappy circumstances and yet will not take
-                the initiative to change their situation
-                because they are conditioned to a life of security,
-                conformity, and conservation, all of which may appear to give one peace of mind,
-                but in reality, nothing is more damaging to the adventurous spirit.
-                - Christopher McCandless
-                """
-            )
-            .multilineTextAlignment(.leading)
-            .pbFont(.body, color: .text(.default))
-          }
-          .frame(width: 200, height: 150)
-        }
-      )
+      isPresented6 = true
     }
-    .frameGetter($viewFrame6)
+    .pbPopover(isPresente: $isPresented6, $popoverValue6) {
+      ScrollView {
+        Text(
+            """
+            So many people live within unhappy circumstances and yet will not take
+            the initiative to change their situation
+            because they are conditioned to a life of security,
+            conformity, and conservation, all of which may appear to give one peace of mind,
+            but in reality, nothing is more damaging to the adventurous spirit.
+            - Christopher McCandless
+            """
+        )
+        .multilineTextAlignment(.leading)
+        .pbFont(.body, color: .text(.default))
+      }
+      .frame(width: 200, height: 150)
+    }
   }
 }
 
 
 extension View {
-  func pbPopover<T: View>(_ view: Binding<AnyView?>, customView: @escaping () -> T) -> some View {
-    modifier(Pop(view: view, customView: customView))
+  func pbPopover<T: View>(isPresente: Binding<Bool>, _ view: Binding<AnyView?>, contentView: @escaping () -> T) -> some View {
+    modifier(Pop(isPresente: isPresente, view: view, contentView: contentView))
   }
 }
 
 struct Pop<T: View>: ViewModifier {
+  @Binding var isPresente: Bool
   @Binding var view: AnyView?
-  @ViewBuilder var customView: () -> T
+  @ViewBuilder var contentView: () -> T
   
   func body(content: Content) -> some View {
     content
       .background(GeometryReader { proxy  in
         Color.clear.onAppear {
           view = AnyView(
-            PBPopover(parentFrame: proxy.frame(in: .global), dismissAction: {}) {
-              customView()
-
+            PBPopover(parentFrame: proxy.frame(in: .global), dismissAction: { isPresente = false }) {
+              contentView()
             }
           )
         }
