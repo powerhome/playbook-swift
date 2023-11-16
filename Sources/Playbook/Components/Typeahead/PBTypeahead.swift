@@ -36,33 +36,33 @@ struct PBTypeahead: View {
         text: $searchText,
         style: .typeahead(leftView)
       )
-      .onTapGesture {
       
-          popoverValue = AnyView(
-            PBPopover(parentFrame: $typeaheadFrame, dismissAction: { popoverValue = nil }) {
-              ForEach(searchResults, id: \.self) { suggestion in
-                Text(suggestion)
-                  .pbFont(.body)
-//                  .padding(.horizontal)
-//                  .padding(.vertical, 8)
-//                  .frame(maxWidth: .infinity, alignment: .leading)
-                  .border(Color.border, width: 0.5)
-                  .frame(maxWidth: typeaheadFrame.width - 28, alignment: .leading)
-                  .onTapGesture {
-                    selectedElement.append(suggestion)
-                    if let index = suggestions.firstIndex(of: suggestion) {
-                      suggestions.remove(at: index)
-                    }
-                    searchText = ""
-                    isFocused = false
-                  }
-              }
-              
-            }
-              
-          )
-        
-      }
+      //      .onTapGesture {
+//          popoverValue = AnyView(
+//            PBPopover(parentFrame: $typeaheadFrame, dismissAction: { popoverValue = nil }) {
+//              ForEach(searchResults, id: \.self) { suggestion in
+//                Text(suggestion)
+//                  .pbFont(.body)
+////                  .padding(.horizontal)
+////                  .padding(.vertical, 8)
+////                  .frame(maxWidth: .infinity, alignment: .leading)
+//                  .border(Color.border, width: 0.5)
+//                  .frame(maxWidth: typeaheadFrame.width - 28, alignment: .leading)
+//                  .onTapGesture {
+//                    selectedElement.append(suggestion)
+//                    if let index = suggestions.firstIndex(of: suggestion) {
+//                      suggestions.remove(at: index)
+//                    }
+//                    searchText = ""
+//                    isFocused = false
+//                  }
+//              }
+//              
+//            }
+//              
+//          )
+//        
+//      }
       .focused($isFocused, equals: true)
       .onChange(of: searchText) { _ in
         _ = searchResults
@@ -70,6 +70,31 @@ struct PBTypeahead: View {
       .frameGetter($typeaheadFrame)
     
     }.frame(maxWidth: .infinity, alignment: .leading)
+      .overlay {
+        VStack {
+          Spacer(minLength: 800)
+          PBPopover(parentFrame: typeaheadFrame, dismissAction: { popoverValue = nil }) {
+            ForEach(searchResults, id: \.self) { suggestion in
+              Text(suggestion)
+                .pbFont(.body)
+              //                  .padding(.horizontal)
+              //                  .padding(.vertical, 8)
+              //                  .frame(maxWidth: .infinity, alignment: .leading)
+                .border(Color.border, width: 0.5)
+                .frame(maxWidth: typeaheadFrame.width - 28, alignment: .leading)
+                .onTapGesture {
+                  selectedElement.append(suggestion)
+                  if let index = suggestions.firstIndex(of: suggestion) {
+                    suggestions.remove(at: index)
+                  }
+                  searchText = ""
+                  isFocused = false
+                }
+            }
+            
+          }
+        }
+      }
   }
 }
 

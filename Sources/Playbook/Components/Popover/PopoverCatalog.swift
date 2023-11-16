@@ -8,16 +8,16 @@
 import SwiftUI
 
 public struct PopoverCatalog: View {
-  @State var viewFrame1: CGRect = .zero
+  @State var isPresented: Bool = false
   @State var viewFrame2: CGRect = .zero
   @State var viewFrame3: CGRect = .zero
   @State var viewFrame4: CGRect = .zero
   @State var viewFrame5: CGRect = .zero
   @State var viewFrame6: CGRect = .zero
   @State var popoverValue: AnyView?
-
+  
   public init() {}
-
+  
   public var body: some View {
     return ScrollView {
       VStack(spacing: Spacing.medium) {
@@ -33,32 +33,30 @@ public struct PopoverCatalog: View {
     .withPopoverHandling(popoverValue)
     .navigationTitle("Popover")
   }
-
+  
   private func closePopover() {
     popoverValue = nil
   }
-
+  
   private var defaultPopover: some View {
     HStack {
       Text("Click info for more details")
         .pbFont(.body, color: .text(.default))
-
+      
       PBButton(
         variant: .secondary,
         shape: .circle,
         icon: .fontAwesome(.info)
       ) {
-        popoverValue = AnyView(
-          PBPopover(parentFrame: $viewFrame1, dismissAction: closePopover) {
-            Text("I'm a popover. I can show content of any size.")
-              .pbFont(.body, color: .text(.default))
-          }
-        )
+        isPresented.toggle()
       }
-      .frameGetter($viewFrame1)
+      .pbPopover($popoverValue) {
+                      Text("I'm a popover. I can show content of any size.")
+                        .pbFont(.body, color: .text(.default))
+      }
     }
   }
-
+  
   private var dropdownPopover: some View {
     PBButton(
       variant: .secondary,
@@ -67,7 +65,7 @@ public struct PopoverCatalog: View {
       iconPosition: .right
     ) {
       popoverValue = AnyView(
-        PBPopover(cardPadding: Spacing.none, parentFrame: $viewFrame2, dismissAction: closePopover) {
+        PBPopover(cardPadding: Spacing.none, parentFrame: viewFrame2, dismissAction: closePopover) {
           List {
             PBButton(variant: .link, title: "Popularity")
             PBButton(variant: .link, title: "Title")
@@ -83,7 +81,7 @@ public struct PopoverCatalog: View {
     }
     .frameGetter($viewFrame2)
   }
-
+  
   private var onClosePopover: some View {
     VStack(spacing: Spacing.medium) {
       PBButton(
@@ -91,14 +89,14 @@ public struct PopoverCatalog: View {
         title: "Click Inside"
       ) {
         popoverValue = AnyView(
-          PBPopover(shouldClosePopover: .inside, parentFrame: $viewFrame3, dismissAction: closePopover) {
+          PBPopover(shouldClosePopover: .inside, parentFrame: viewFrame3, dismissAction: closePopover) {
             Text("Click on me!")
               .pbFont(.body, color: .text(.default))
           }
         )
       }
       .frameGetter($viewFrame3)
-
+      
       PBButton(
         variant: .secondary,
         title: "Click Outside"
@@ -107,7 +105,7 @@ public struct PopoverCatalog: View {
           PBPopover(
             position: .top,
             shouldClosePopover: .outside,
-            parentFrame: $viewFrame4,
+            parentFrame: viewFrame4,
             dismissAction: closePopover
           ) {
             Text("Click anywhere but me!")
@@ -116,7 +114,7 @@ public struct PopoverCatalog: View {
         )
       }
       .frameGetter($viewFrame4)
-
+      
       PBButton(
         variant: .secondary,
         title: "Click Anywhere"
@@ -125,7 +123,7 @@ public struct PopoverCatalog: View {
           PBPopover(
             position: .right,
             shouldClosePopover: .anywhere,
-            parentFrame: $viewFrame5,
+            parentFrame: viewFrame5,
             dismissAction: closePopover
           ) {
             Text("Click anything!")
@@ -136,14 +134,14 @@ public struct PopoverCatalog: View {
       .frameGetter($viewFrame5)
     }
   }
-
+  
   private var scrollPopover: some View {
     PBButton(
       variant: .secondary,
       title: "Click Me"
     ) {
       popoverValue = AnyView(
-        PBPopover(position: .right, parentFrame: $viewFrame6, dismissAction: closePopover) {
+        PBPopover(position: .right, parentFrame: viewFrame6, dismissAction: closePopover) {
           ScrollView {
             Text(
                 """
@@ -163,5 +161,31 @@ public struct PopoverCatalog: View {
       )
     }
     .frameGetter($viewFrame6)
+  }
+}
+
+
+extension View {
+  func pbPopover<T: View>(_ view: Binding<AnyView?>, customView: @escaping () -> T) -> some View {
+    modifier(Pop(view: view, customView: customView))
+  }
+}
+
+struct Pop<T: View>: ViewModifier {
+  @Binding var view: AnyView?
+  @ViewBuilder var customView: () -> T
+  
+  func body(content: Content) -> some View {
+    content
+      .background(GeometryReader { proxy  in
+        Color.clear.onAppear {
+          view = AnyView(
+            PBPopover(parentFrame: proxy.frame(in: .global), dismissAction: {}) {
+              customView()
+
+            }
+          )
+        }
+      })
   }
 }

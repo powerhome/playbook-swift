@@ -17,14 +17,14 @@ public struct PBPopover<Content: View>: View {
 
   @State private var yOffset: CGFloat = .zero
   @State private var xOffset: CGFloat = .zero
-  @Binding var parentFrame: CGRect
+  var parentFrame: CGRect
 
   init(
     position: Position = .bottom,
     shouldClosePopover: CloseOptions = .anywhere,
     cardPadding: CGFloat = Spacing.small,
     backgroundAlpha: CGFloat = 0,
-    parentFrame: Binding<CGRect>,
+    parentFrame: CGRect,
     dismissAction: @escaping (() -> Void),
     @ViewBuilder popover: () -> Content
   ) {
@@ -32,7 +32,7 @@ public struct PBPopover<Content: View>: View {
     self.shouldClosePopover = shouldClosePopover
     self.cardPadding = cardPadding
     self.backgroundAlpha = backgroundAlpha
-    self._parentFrame = parentFrame
+    self.parentFrame = parentFrame
     self.dismissAction = dismissAction
     self.popover = popover()
   }
@@ -163,9 +163,7 @@ public extension PBPopover {
   }
 }
 
-private struct PBPopover_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return PopoverCatalog()
-  }
+#Preview {
+  registerFonts()
+  return PopoverCatalog()
 }
