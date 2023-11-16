@@ -38,86 +38,51 @@ stg = [
   upload: 'Upload to AppCenter'
 ]
 
-stage(stg.buildNum) {
-  node(defaultNode) {
-    setupEnv {
+node(defaultNode) {
+  setupEnv {
+    stage(stg.buildNum) {
       getBuildNum()
     }
-  }
-}
-stage(stg.checkout) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.checkout) {
       checkout scm
     }
-  }
-}
-stage(stg.setup) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.setup) {
       updateBuildNum()
       jenkinsSetup()
       getRunwayBacklogItemId()
       getReleaseNotes()
     }
-  }
-}
-stage(stg.deps) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.deps) {
       sh 'make dependencies'
     }
-  }
-}
 
-stage(stg.provision) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.provision) {
       clearProvisioningProfiles()
       downloadProvisioningProfiles()
       fastlane('install_prov_profiles')
     }
-  }
-}
 
-stage(stg.keychain) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.keychain) {
       setupKeychain()
     }
-  }
-}
 
-def steps = [
-  'iOS': {
-    node(defaultNode) {
-      setupEnv {
-        def args = "type:${buildType()}"
-        buildAndShipiOS(args)
-      }
+    stage(stg.build) {
+      fastlane("build_ios type:${buildType()}")
     }
-  }
-]
-def map = steps
-map.failFast = true
-parallel map
 
-stage(stg.runway) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.upload) {
+      fastlane("upload_ios type:${buildType()} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+    }
+
+    stage(stg.runway) {
       writeRunwayComment()
     }
-  }
-}
 
-stage(stg.cleanup) {
-  node(defaultNode) {
-    setupEnv {
+    stage(stg.cleanup) {
       handleCleanup()
     }
   }
 }
-
 
 // Methods
 
@@ -223,15 +188,6 @@ def deleteKeychain() {
     lock(resource: 'Nitro-iOS Keychain Search List') {
       sh './.jenkins/jenkins-keychain.sh destroy'
     }
-  }
-}
-
-def buildAndShipiOS(String fastlaneOpts) {
-  stage(stg.build) {
-    fastlane("build_ios ${fastlaneOpts}")
-  }
-  stage(stg.upload) {
-    fastlane("upload_ios ${fastlaneOpts} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
   }
 }
 
