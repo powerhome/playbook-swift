@@ -12,9 +12,9 @@ public struct TypeaheadCatalog: View {
   public var body: some View {
     List {
       PBTypeahead(title: "Colors", variant: .text, popoverValue: $popoverValue)
-      PBTypeahead(title: "Users", variant: .pill, popoverValue: $popoverValue)
-      PBTypeahead(title: "Colors", variant: .other, popoverValue: $popoverValue)
+//      PBTypeahead(title: "Users", variant: .pill, popoverValue: $popoverValue)
+//      PBTypeahead(title: "Colors", variant: .other, popoverValue: $popoverValue)
     }
- //   .withPopoverHandling(popoverValue, position: .bottom)
+    .withPopoverHandling(popoverValue)
   }
 }

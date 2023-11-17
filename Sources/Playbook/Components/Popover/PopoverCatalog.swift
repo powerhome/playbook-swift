@@ -35,13 +35,12 @@ public struct PopoverCatalog: View {
     }
     .background(Color.background(.light))
     .preferredColorScheme(.light)
-    .withPopoverHandling(isPresented: $isPresented, popoverValue)
-    .withPopoverHandling(isPresented: $isPresented2, popoverValue2)
-    .withPopoverHandling(isPresented: $isPresented3, popoverValue3)
-    .withPopoverHandling(isPresented: $isPresented4, popoverValue4)
-    .withPopoverHandling(isPresented: $isPresented5, popoverValue5)
-    .withPopoverHandling(isPresented: $isPresented6, popoverValue6)
-    
+    .withPopoverHandling(popoverValue)
+    .withPopoverHandling(popoverValue2)
+    .withPopoverHandling(popoverValue3)
+    .withPopoverHandling(popoverValue4)
+    .withPopoverHandling(popoverValue5)
+    .withPopoverHandling(popoverValue6)
     .navigationTitle("Popover")
   }
 
@@ -60,7 +59,7 @@ public struct PopoverCatalog: View {
       ) {
         isPresented.toggle()
       }
-      .pbPopover(isPresente: $isPresented, $popoverValue) {
+      .pbPopover(isPresented: $isPresented, $popoverValue) {
         Text("I'm a popover. I can show content of any size.")
           .pbFont(.body, color: .text(.default))
       }
@@ -74,22 +73,22 @@ public struct PopoverCatalog: View {
       icon: .fontAwesome(.chevronDown),
       iconPosition: .right
     ) {
-  isPresented2 = true
+      isPresented2 = true
     }
-    .pbPopover(isPresente: $isPresented2, $popoverValue2) {
-        List {
-          PBButton(variant: .link, title: "Popularity")
-          PBButton(variant: .link, title: "Title")
-          PBButton(variant: .link, title: "Duration")
-          PBButton(variant: .link, title: "Date Started")
-          PBButton(variant: .link, title: "Date Ended")
-        }
-        .listStyle(.plain)
-        .frame(width: 150, height: 100)
-        .pbFont(.body, color: .text(.light))
+    .pbPopover(isPresented: $isPresented2, $popoverValue2) {
+      List {
+        PBButton(variant: .link, title: "Popularity")
+        PBButton(variant: .link, title: "Title")
+        PBButton(variant: .link, title: "Duration")
+        PBButton(variant: .link, title: "Date Started")
+        PBButton(variant: .link, title: "Date Ended")
       }
+      .listStyle(.plain)
+      .frame(width: 150, height: 100)
+      .pbFont(.body, color: .text(.light))
+    }
   }
-  
+
   private var onClosePopover: some View {
     VStack(spacing: Spacing.medium) {
       PBButton(
@@ -98,35 +97,35 @@ public struct PopoverCatalog: View {
       ) {
         isPresented3 = true
       }
-      .pbPopover(isPresente: $isPresented3, $popoverValue3) {
+      .pbPopover(isPresented: $isPresented3, $popoverValue3) {
         Text("Click on me!")
           .pbFont(.body, color: .text(.default))
       }
-      
+
       PBButton(
         variant: .secondary,
         title: "Click Outside"
       ) {
         isPresented4 = true
       }
-      .pbPopover(isPresente: $isPresented4, $popoverValue4) {
+      .pbPopover(isPresented: $isPresented4, $popoverValue4) {
         Text("Click anywhere but me!")
           .pbFont(.body, color: .text(.default))
       }
-      
+
       PBButton(
         variant: .secondary,
         title: "Click Anywhere"
       ) {
         isPresented5 = true
       }
-      .pbPopover(isPresente: $isPresented5, $popoverValue5) {
+      .pbPopover(isPresented: $isPresented5, $popoverValue5) {
         Text("Click anything!")
           .pbFont(.body, color: .text(.default))
       }
     }
   }
-  
+
   private var scrollPopover: some View {
     PBButton(
       variant: .secondary,
@@ -134,7 +133,7 @@ public struct PopoverCatalog: View {
     ) {
       isPresented6 = true
     }
-    .pbPopover(isPresente: $isPresented6, $popoverValue6) {
+    .pbPopover(isPresented: $isPresented6, $popoverValue6) {
       ScrollView {
         Text(
             """
@@ -151,31 +150,5 @@ public struct PopoverCatalog: View {
       }
       .frame(width: 200, height: 150)
     }
-  }
-}
-
-
-extension View {
-  func pbPopover<T: View>(isPresente: Binding<Bool>, _ view: Binding<AnyView?>, contentView: @escaping () -> T) -> some View {
-    modifier(Pop(isPresente: isPresente, view: view, contentView: contentView))
-  }
-}
-
-struct Pop<T: View>: ViewModifier {
-  @Binding var isPresente: Bool
-  @Binding var view: AnyView?
-  @ViewBuilder var contentView: () -> T
-  
-  func body(content: Content) -> some View {
-    content
-      .background(GeometryReader { proxy  in
-        Color.clear.onAppear {
-          view = AnyView(
-            PBPopover(parentFrame: proxy.frame(in: .global), dismissAction: { isPresente = false }) {
-              contentView()
-            }
-          )
-        }
-      })
   }
 }

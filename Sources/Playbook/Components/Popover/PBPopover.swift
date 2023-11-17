@@ -10,6 +10,7 @@ import SwiftUI
 public struct PBPopover<Content: View>: View {
   let popover: Content
   let position: Position
+  let parentFrame: CGRect
   let shouldClosePopover: CloseOptions
   let cardPadding: CGFloat
   let backgroundAlpha: CGFloat
@@ -17,7 +18,6 @@ public struct PBPopover<Content: View>: View {
 
   @State private var yOffset: CGFloat = .zero
   @State private var xOffset: CGFloat = .zero
-  var parentFrame: CGRect
 
   init(
     position: Position = .bottom,
@@ -48,7 +48,7 @@ public struct PBPopover<Content: View>: View {
           y: positionY
         )
     }
-    .background(Color.white.opacity(0.01))
+    .backgroundViewModifier(alpha: backgroundAlpha)
     .onTapGesture {
       switch shouldClosePopover {
       case .outside, .anywhere:
@@ -78,11 +78,12 @@ public struct PBPopover<Content: View>: View {
     }
     .background(GeometryReader { geo in
       Color.clear.onAppear {
+        let popoverFrame = geo.frame(in: .global)
         let offset = position.offset(
           labelFrame: parentFrame.size,
-          popoverFrame: geo.frame(in: .global)
+          popoverFrame: popoverFrame
         )
-        yOffset = parentFrame.midY - geo.frame(in: .global).midY + offset.y
+        yOffset = parentFrame.midY - popoverFrame.midY + offset.y
         xOffset = offset.x
       }
     })
@@ -160,6 +161,53 @@ public extension PBPopover {
         }
       }
     }
+  }
+}
+
+struct Popover<T: View>: ViewModifier {
+  @Binding var isPresented: Bool
+  @Binding var view: AnyView?
+  @ViewBuilder var contentView: () -> T
+
+  func body(content: Content) -> some View {
+    if isPresented {
+      content
+        .background(GeometryReader { proxy  in
+          let frame = proxy.frame(in: .global)
+          Color.clear.onAppear {
+            view = AnyView(
+              PBPopover(parentFrame: frame, dismissAction: dismiss) {
+                contentView()
+              }
+            )
+          }
+        })
+    } else {
+      content
+    }
+  }
+
+  var dismiss: () -> Void {
+    return {
+      isPresented = false
+      view = nil
+    }
+  }
+}
+
+extension View {
+  func pbPopover<T: View>(
+    isPresented: Binding<Bool>,
+    _ view: Binding<AnyView?>,
+    contentView: @escaping () -> T
+  ) -> some View {
+    modifier(
+      Popover(
+        isPresented: isPresented,
+        view: view,
+        contentView: contentView
+      )
+    )
   }
 }
 

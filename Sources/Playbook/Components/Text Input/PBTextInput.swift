@@ -76,8 +76,7 @@ public struct PBTextInput: View {
       }
     }
   }
-  
-  
+
 }
 
 public extension PBTextInput {
@@ -116,7 +115,7 @@ public extension PBTextInput {
       self.onChange = onChange
     }
   #endif
-  
+
   var isDisabled: Bool {
     switch style {
     case .disabled: return true

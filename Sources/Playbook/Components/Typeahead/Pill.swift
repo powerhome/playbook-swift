@@ -14,7 +14,6 @@ struct Pill: View {
   @Environment(\.hovering) var hovering: Bool
   @State private var isHovering: Bool = false
   let icon: FontAwesome? = nil
-  
 
     var body: some View {
       HStack(spacing: Spacing.xSmall) {

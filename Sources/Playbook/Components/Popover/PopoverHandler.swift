@@ -8,22 +8,15 @@
 import SwiftUI
 
 struct PopoverHandler: ViewModifier {
-  @Environment(\.popoverValue) var popover
-  @Binding var isPresented: Bool
+  var popover: AnyView?
 
   func body(content: Content) -> some View {
-    if isPresented {
-      content.overlay(VStack { popover })
-    } else {
-      content
-    }
+    content.overlay(VStack { popover})
   }
 }
 
 public extension View {
-  func withPopoverHandling(isPresented: Binding<Bool>, _ popover: AnyView?, position: PBToast.Position = .top) -> some View {
-    self
-      .modifier(PopoverHandler(isPresented: isPresented))
-      .environment(\.popoverValue, popover)
+  func withPopoverHandling(_ popover: AnyView?) -> some View {
+    self.modifier(PopoverHandler(popover: popover))
   }
 }
