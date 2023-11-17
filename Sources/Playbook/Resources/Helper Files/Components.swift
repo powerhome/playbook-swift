@@ -18,6 +18,7 @@ public enum Componenets: String, CaseIterable {
   case date
   case dialog
   case toast = "Fixed Confirmation Toast"
+  case homeAddress = "Home Address Street"
   case icon
   case iconCircle = "Icon Circle"
   case image
@@ -58,6 +59,7 @@ public enum Componenets: String, CaseIterable {
       EmptyView()
       // Fallback on earlier versions
     }
+    case .homeAddress: HomeAddressStreetCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
     case .image: PBImage_Previews.previews

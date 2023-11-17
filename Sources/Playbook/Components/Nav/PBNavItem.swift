@@ -160,8 +160,7 @@ extension PBNavItem {
         return .white
       } else if isHovering {
         return .pbPrimary
-      }
-      else {
+      } else {
         return .text(.default)
       }
     } else {
@@ -179,8 +178,7 @@ extension PBNavItem {
       return .title4
     } else if variant == .normal, orientation == .horizontal {
       return .title4
-    }
-      else {
+    } else {
       return .body
     }
   }
