@@ -8,18 +8,18 @@
 import SwiftUI
 
 public struct PopoverCatalog: View {
-  @State var isPresented: Bool = false
-  @State var isPresented2: Bool = false
-  @State var isPresented3: Bool = false
-  @State var isPresented4: Bool = false
-  @State var isPresented5: Bool = false
-  @State var isPresented6: Bool = false
-  @State var popoverValue: AnyView?
-  @State var popoverValue2: AnyView?
-  @State var popoverValue3: AnyView?
-  @State var popoverValue4: AnyView?
-  @State var popoverValue5: AnyView?
-  @State var popoverValue6: AnyView?
+  @State private var isPresented: Bool = false
+  @State private var isPresented2: Bool = false
+  @State private var isPresented3: Bool = false
+  @State private var isPresented4: Bool = false
+  @State private var isPresented5: Bool = false
+  @State private var isPresented6: Bool = false
+  @State private var popoverValue: AnyView?
+  @State private var popoverValue2: AnyView?
+  @State private var popoverValue3: AnyView?
+  @State private var popoverValue4: AnyView?
+  @State private var popoverValue5: AnyView?
+  @State private var popoverValue6: AnyView?
 
   public init() {}
 
@@ -42,10 +42,6 @@ public struct PopoverCatalog: View {
     .withPopoverHandling(popoverValue5)
     .withPopoverHandling(popoverValue6)
     .navigationTitle("Popover")
-  }
-
-  private func closePopover() {
-    popoverValue = nil
   }
 
   private var defaultPopover: some View {
@@ -75,17 +71,24 @@ public struct PopoverCatalog: View {
     ) {
       isPresented2 = true
     }
-    .pbPopover(isPresented: $isPresented2, $popoverValue2) {
+    .pbPopover(isPresented: $isPresented2, $popoverValue2, cardPadding: 0) {
       List {
-        PBButton(variant: .link, title: "Popularity")
-        PBButton(variant: .link, title: "Title")
-        PBButton(variant: .link, title: "Duration")
-        PBButton(variant: .link, title: "Date Started")
-        PBButton(variant: .link, title: "Date Ended")
+        VStack(spacing: Spacing.small) {
+          PBButton(variant: .link, title: "Popularity")
+            .frame(maxWidth: .infinity, alignment: .leading)
+          PBButton(variant: .link, title: "Title")
+            .frame(maxWidth: .infinity, alignment: .leading)
+          PBButton(variant: .link, title: "Duration")
+            .frame(maxWidth: .infinity, alignment: .leading)
+          PBButton(variant: .link, title: "Date Started")
+            .frame(maxWidth: .infinity, alignment: .leading)
+          PBButton(variant: .link, title: "Date Ended")
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+          .frame(maxWidth: .infinity, alignment: .leading)
       }
       .listStyle(.plain)
       .frame(width: 150, height: 100)
-      .pbFont(.body, color: .text(.light))
     }
   }
 
@@ -97,7 +100,7 @@ public struct PopoverCatalog: View {
       ) {
         isPresented3 = true
       }
-      .pbPopover(isPresented: $isPresented3, $popoverValue3) {
+      .pbPopover(isPresented: $isPresented3, $popoverValue3, clickToClose: .inside) {
         Text("Click on me!")
           .pbFont(.body, color: .text(.default))
       }
@@ -108,7 +111,7 @@ public struct PopoverCatalog: View {
       ) {
         isPresented4 = true
       }
-      .pbPopover(isPresented: $isPresented4, $popoverValue4) {
+      .pbPopover(isPresented: $isPresented4, $popoverValue4, position: .top, clickToClose: .outside) {
         Text("Click anywhere but me!")
           .pbFont(.body, color: .text(.default))
       }
@@ -119,7 +122,7 @@ public struct PopoverCatalog: View {
       ) {
         isPresented5 = true
       }
-      .pbPopover(isPresented: $isPresented5, $popoverValue5) {
+      .pbPopover(isPresented: $isPresented5, $popoverValue5, position: .right) {
         Text("Click anything!")
           .pbFont(.body, color: .text(.default))
       }
@@ -133,7 +136,7 @@ public struct PopoverCatalog: View {
     ) {
       isPresented6 = true
     }
-    .pbPopover(isPresented: $isPresented6, $popoverValue6) {
+    .pbPopover(isPresented: $isPresented6, $popoverValue6, position: .right) {
       ScrollView {
         Text(
             """
