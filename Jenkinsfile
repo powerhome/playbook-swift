@@ -127,7 +127,9 @@ def updateBuildNum() {
 
 def getRunwayBacklogItemId() {
   runwayBacklogItemId = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
-  githubPrDetails = readJSON file: "./Build/pr-${env.CHANGE_ID}-details.json"
+  if (isDevBuild()) {
+    githubPrDetails = readJSON file: "./Build/pr-${env.CHANGE_ID}-details.json"
+  }
   return runwayBacklogItemId
 }
 
