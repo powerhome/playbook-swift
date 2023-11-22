@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct PBCircleButtonStyle: ButtonStyle {
-  var variant: PBButtonVariant
+  var variant: PBButton.Variant
   var size: PBButton.Size
   @State private var isHovering = false
 
