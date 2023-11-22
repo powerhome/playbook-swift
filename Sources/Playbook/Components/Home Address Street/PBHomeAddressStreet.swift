@@ -115,7 +115,8 @@ public extension PBHomeAddressStreet {
           }
         }
         Text(territory)
-          .pbFont(.caption, variant: .light, color: .text(.light))
+          .pbFont(.subcaption, variant: .light, color: .text(.light))
+          .textCase(.uppercase)
       }
     )
   }
