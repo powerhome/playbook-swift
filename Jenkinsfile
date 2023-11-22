@@ -229,7 +229,7 @@ def writeRunwayComment() {
     return
   }
 
-  if (!prTitleValid()) {
+  if (isDevBuild() && !prTitleValid()) {
     echo "Invalid PR title detected. Skipping Runway comment."
     return
   }
