@@ -10,15 +10,14 @@ import SwiftUI
 public struct PBPerson: View {
   let firstName: String
   let lastName: String
-  
   public init(firstName: String, lastName: String) {
     self.firstName = firstName
     self.lastName = lastName
   }
-  
   public var body: some View {
     HStack {
       Text(firstName)
+        .padding(.trailing, -4.5)
         .pbFont(.body)
       Text(lastName)
         .bold()
