@@ -6,6 +6,7 @@ sshKey = 'powerci-github-ssh-key'
 
 prTitle = null
 runwayBacklogItemId = null
+githubPrDetails = null
 releaseNotes = null
 buildNum = null
 
@@ -71,7 +72,7 @@ node(defaultNode) {
     }
 
     stage(stg.upload) {
-      fastlane("upload_ios type:${buildType()} release_notes:\"${releaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+      uploadToAppCenter()
     }
 
     stage(stg.runway) {
@@ -124,23 +125,17 @@ def updateBuildNum() {
   sh "echo \"CURRENT_PROJECT_VERSION = ${buildNum}\" > ./PlaybookShowcase/Versioning.xcconfig"
 }
 
-def getPrTitle() {
-  if (!prTitle) {
-    prTitle = sh(script: "jq -r .title './Build/pr-${env.CHANGE_ID}-details.json'", returnStdout:true)
-  }
-  return prTitle
-}
-
 def getRunwayBacklogItemId() {
-  if (!runwayBacklogItemId) {
-    runwayBacklogItemId = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
+  runwayBacklogItemId = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
+  if (isDevBuild()) {
+    githubPrDetails = readJSON file: "./Build/pr-${env.CHANGE_ID}-details.json"
   }
   return runwayBacklogItemId
 }
 
 def getReleaseNotes() {
   if (env.CHANGE_ID) {
-    releaseNotes = getPrTitle().trim().replaceAll (/\"/,/\\\"/)
+    releaseNotes = githubPrDetails['title']
   } else {
     releaseNotes = sh(script: 'git show-branch --no-name HEAD', returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
   }
@@ -202,16 +197,43 @@ def isMainBuild() {
   return env.BRANCH_NAME == 'main'
 }
 
-def getRunwayDetailsJson() {
-  def props = readJSON file: "./Build/pr-${env.CHANGE_ID}-details.json"
-  return props
+def isDevBuild() {
+  return env.BRANCH_NAME != 'main'
+}
+
+def readyForTesting() {
+  def labels = githubPrDetails['labels']
+  return labels.find{it.name == "Ready for Testing"}
+}
+
+def uploadToAppCenter() {
+  if (isDevBuild() && !readyForTesting()) return
+
+  def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
+  fastlane("upload_ios type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+}
+
+def prTitleValid() {
+  def match = githubPrDetails['title'] =~ /\[PBIOS\-[0-9]+\]+/
+  return match.find()
 }
 
 def writeRunwayComment() {
-  if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot'] || "${runwayBacklogItemId}" == env.FAKE_RUNWAY_STORY_ID) {
-    echo "Bot PR detected. Skipping Runway comment."
-    return true
+  if (isDevBuild() && !readyForTesting()) {
+    echo "PR is not ready for testing yet. Skipping Runway comment."
+    return
   }
+
+  if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot']) {
+    echo "Bot PR detected. Skipping Runway comment."
+    return
+  }
+
+  if (isDevBuild() && !prTitleValid()) {
+    echo "Invalid PR title detected. Skipping Runway comment."
+    return
+  }
+
   fastlane("create_runway_comment build_number:${buildNum} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${runwayBacklogItemId} github_pull_request_id:${env.CHANGE_ID}")
 }
 
