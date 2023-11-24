@@ -1,4 +1,4 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 import PackageDescription
 
@@ -16,8 +16,8 @@ let package = Package(
   ],
   dependencies: [
     // Dependencies declare other packages that this package depends on.
-    .package(url: "https://github.com/realm/SwiftLint.git", from: "0.53.0"),
-    .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.52.8"),
+    .package(url: "https://github.com/realm/SwiftLint.git", from: "0.54.0"),
+    .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.52.10"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
       from: "1.14.2"
