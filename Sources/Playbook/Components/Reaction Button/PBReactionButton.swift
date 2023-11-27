@@ -84,7 +84,7 @@ extension PBReactionButton {
     }
     .pbFont(.caption, variant: .light, color: .text(.light))
     .fixedSize()
-    .frame(width: count > 0 ? 58 : 40, height: 28)
+    .frame(width: count > 0 ? 55 : 40, height: 28)
      
 
   }
