@@ -14,30 +14,13 @@ let package = Package(
       name: "Playbook",
       targets: ["Playbook"])
   ],
-  dependencies: [
-    // Dependencies declare other packages that this package depends on.
-    .package(url: "https://github.com/realm/SwiftLint.git", from: "0.54.0"),
-    .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.52.10"),
-    .package(
-      url: "https://github.com/pointfreeco/swift-snapshot-testing",
-      from: "1.14.2"
-    )
-  ],
   targets: [
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
     // Targets can depend on other targets in this package, and on products in packages this package depends on.
     .target(
       name: "Playbook",
       dependencies: [],
-      resources: [.process("Resources/Assets/")],
-      plugins: [.plugin(name: "SwiftLintPlugin", package: "SwiftLint")]
-    ),
-    .testTarget(
-      name: "SnapshotTests",
-      dependencies: [
-        "Playbook",
-        .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
-      ]
+      resources: [.process("Resources/Assets/")]
     )
   ]
 )
