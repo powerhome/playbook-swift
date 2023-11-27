@@ -57,7 +57,12 @@ public extension PBDate {
   enum Variant: CaseIterable, Hashable {
     case short, standard, dayDate, withIcon(isStandard: Bool)
 
-    public static var allCases: [PBDate.Variant] = [.short, .dayDate, .standard, .withIcon(isStandard: true), .withIcon(isStandard: false)]
+    public static var allCases: [PBDate.Variant] = [
+      .short,
+      .dayDate,
+      .standard,
+      .withIcon(isStandard: true),
+      .withIcon(isStandard: false)]
 
     public static var showCases: [PBDate.Variant] {
       return [.short, .standard, .dayDate]
