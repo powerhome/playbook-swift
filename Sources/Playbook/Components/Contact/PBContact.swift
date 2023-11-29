@@ -18,7 +18,7 @@ public struct PBContact: View {
     self.detail = detail
   }
   public var body: some View {
-    HStack(alignment: .center, spacing: Spacing.xxSmall) {
+    HStack(spacing: Spacing.xxSmall) {
       PBIcon.fontAwesome(type.icon)
         .foregroundColor(Color.text(.light))
         .padding(.trailing, Spacing.xxSmall - 2)
