@@ -20,7 +20,7 @@ public struct PBContact: View {
   public var body: some View {
     HStack(spacing: Spacing.xxSmall) {
       PBIcon.fontAwesome(type.icon)
-        .foregroundColor(Color.text(.light))
+        .foregroundStyle(Color.text(.light))
         .padding(.trailing, Spacing.xxSmall - 2)
       Text(parsedValue)
         .foregroundColor(Color.text(.light))
