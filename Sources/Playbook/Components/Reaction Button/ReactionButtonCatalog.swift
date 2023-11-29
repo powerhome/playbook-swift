@@ -11,7 +11,6 @@ struct ReactionButtonCatalog: View {
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: Spacing.xxSmall) {
-        
         PBDoc(title: "Reaction Button") {
           reactionButtonView
         }
@@ -29,7 +28,7 @@ extension ReactionButtonCatalog {
       PBReactionButton(icon: "\u{1F389}", variant: .reactionButtonEmoji)
       PBReactionButton(icon: "1️⃣", variant: .reactionButtonEmoji)
       PBReactionButton(variant: .reactionButtonEmoji)
-      PBReactionButton(pbIcon: PBIcon(FontAwesome.user), variant: .reactionButtonEmoji)
+      PBReactionButton(pbIcon: PBIcon(FontAwesome.user), variant: .defaultUserButton)
     }
   }
 }
