@@ -27,7 +27,7 @@ public struct PBContact: View {
         .pbFont(.body)
       if self.detail {
         Text(type.text)
-          .foregroundColor(Color.text(.light))
+          .foregroundStyle(Color.text(.light))
           .padding(.top, Spacing.xxSmall - 1)
           .pbFont(.subcaption)
       }
