@@ -23,7 +23,7 @@ public struct PBContact: View {
         .foregroundStyle(Color.text(.light))
         .padding(.trailing, Spacing.xxSmall - 2)
       Text(parsedValue)
-        .foregroundColor(Color.text(.light))
+        .foregroundStyle(Color.text(.light))
         .pbFont(.body)
       if self.detail {
         Text(type.text)
