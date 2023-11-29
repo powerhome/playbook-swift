@@ -15,12 +15,11 @@ public struct PBPerson: View {
     self.lastName = lastName
   }
   public var body: some View {
-    HStack(spacing: 0) {
+    HStack(spacing: 2) {
       Text(firstName)
         .pbFont(.body)
       Text(lastName)
         .bold()
-        .padding(.leading, 2)
         .pbFont(.body)
     }
   }
