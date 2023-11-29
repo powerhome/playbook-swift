@@ -41,7 +41,7 @@ public struct PBDate: View {
 public extension PBDate {
   var formattedDate: AttributedString {
     let formatter = DateFormatter()
-    formatter.dateFormat = dateStyle
+    formatter.dateFormat = variant.dateStyle
     return colorAttributedText(formatter.string(from: datestamp), characterToChange: "•", color: .text(.light))
   }
 
@@ -65,7 +65,9 @@ public extension PBDate {
     let datestampYear = Calendar.current.component(.year, from: datestamp)
     return currentDate == datestampYear
   }
+}
 
+public extension PBDate {
   enum Variant: CaseIterable, Hashable {
     case short, standard, dayDate, withIcon(isStandard: Bool)
 
@@ -80,14 +82,14 @@ public extension PBDate {
     public static var showCases: [PBDate.Variant] {
       return [.short, .standard, .dayDate]
     }
-  }
-  var dateStyle: String {
-    switch variant {
-    case .short: return "MMM d"
-    case .standard: return isCurrentYear ? "MMM d" : "MMM d, YYYY"
-    case .dayDate: return isCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
-    case .withIcon(let isStandard):
-      return isStandard && isCurrentYear ? "MMM d" : isCurrentYear ? "EEE • MMM d" : "EEE • MMM d, YYYY"
+ 
+    var dateStyle: String {
+      switch self {
+      case .short: return "MMM d"
+      case .standard: return "MMM d, YYYY"
+      case .dayDate: return "EEE • MMM d, YYYY"
+      case .withIcon(let isStandard): return isStandard ? "MMM d, YYYY" : "EEE • MMM d, YYYY"
+      }
     }
   }
 }
