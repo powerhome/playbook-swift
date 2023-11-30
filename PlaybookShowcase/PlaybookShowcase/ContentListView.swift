@@ -7,33 +7,38 @@
 
 import SwiftUI
 import Playbook
+
 #if os(iOS)
-import UIKit
+  import UIKit
 #endif
 
 @available(iOS 16.0, *)
 struct ContentListView: View {
 
-  #if os(iOS)
-  init() {
-    let appearance = UINavigationBarAppearance()
-    appearance.configureWithOpaqueBackground()
-    appearance.backgroundColor = .white
-    appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.text(.default))]
-    appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
-    UINavigationBar.appearance().standardAppearance = appearance
-    UINavigationBar.appearance().compactAppearance = appearance
-    UINavigationBar.appearance().scrollEdgeAppearance = appearance
-  }
-  #endif
+  let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
 
+  #if os(iOS)
+    init() {
+      let appearance = UINavigationBarAppearance()
+      appearance.configureWithOpaqueBackground()
+      appearance.backgroundColor = .white
+      appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.text(.default))]
+      appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
+      UINavigationBar.appearance().standardAppearance = appearance
+      UINavigationBar.appearance().compactAppearance = appearance
+      UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+  #endif
   @State var selectedItem: Int = 0
   var body: some View {
     NavigationStack {
       contentView.padding(.bottom, 80)
         .toolbar {
           ToolbarItem(placement: .cancellationAction) {
-            playbookLogo
+            HStack(spacing: Spacing.small) {
+              playbookLogo
+              PBBadge(text: version!, variant: .success)
+            }
           }
         }
         .background {
@@ -49,7 +54,7 @@ struct ContentListView: View {
     }
     #if os(iOS)
     .navigationViewStyle(.stack)
-#endif
+    #endif
   }
 
   var bottomBar: some View {
