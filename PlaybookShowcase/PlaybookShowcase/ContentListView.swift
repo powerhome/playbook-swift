@@ -11,7 +11,8 @@ import Playbook
 import UIKit
 #endif
 
-@available(iOS 16.0, *)
+@available(macOS 13.3, *)
+@available(iOS 16.4, *)
 struct ContentListView: View {
 
   #if os(iOS)
@@ -59,7 +60,7 @@ struct ContentListView: View {
       orientation: .horizontal
     ) {
       PBNavItem(DesignElements.title)
-      PBNavItem(Componenets.title)
+      PBNavItem(Components.title)
     }
     .offset(y: -8)
     .frame(maxWidth: .infinity, minHeight: 80)
@@ -86,9 +87,9 @@ struct ContentListView: View {
   private var componentsView: some View {
     ScrollView(showsIndicators: false) {
       VStack(alignment: .leading) {
-        Text(Componenets.title).pbFont(.title3)
+        Text(Components.title).pbFont(.title3)
         VStack(spacing: Spacing.small) {
-          ForEach(Componenets.allCases, id: \.self) { element in
+          ForEach(Components.allCases, id: \.self) { element in
             NavigationLink {
               element.destination
             } label: {
@@ -140,7 +141,8 @@ struct ContentListView: View {
   }
 }
 
-@available(iOS 16.0, *)
+@available(macOS 13.3, *)
+@available(iOS 16.4, *)
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
