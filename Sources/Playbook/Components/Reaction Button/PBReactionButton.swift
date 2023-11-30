@@ -10,12 +10,12 @@ import SwiftUI
 public struct PBReactionButton: View {
   @State private var count: Int = 0
   @State private var isHighlighted: Bool = false
+  @State private var isHovering: Bool = false
   var icon: String?
   var pbIcon: PBIcon?
   var addReactionIcon: String?
   var variant: Variant?
   let action: (() -> Void)?
-
   init(
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
@@ -34,8 +34,6 @@ public struct PBReactionButton: View {
     VStack(alignment: .leading, spacing: 10) {
       reactionButtonView
     }
-    .padding(.horizontal, 8)
-    .padding(.vertical, 2)
   }
 }
 
@@ -44,21 +42,16 @@ extension PBReactionButton {
     case reactionButtonEmoji, defaultUserButton, addReactionButton
   }
 
-  var iconVariant: any View {
-    switch variant {
-    case .reactionButtonEmoji, .defaultUserButton, .addReactionButton: return reactionButtonView
-    default:
-      break
-    }
-    return self.iconVariant
-  }
-
   var reactionButtonView: some View {
     return VStack(alignment: .leading, spacing: 10) {
       Button {
         pbHighlightReaction()
       } label: {
         reactionButtonLabelView
+          .background(isHovering ? Color.text(.lighter) : Color.clear)
+          .onHover { hovering in
+            isHovering = hovering
+          }
       }
     }
   }
@@ -68,7 +61,7 @@ extension PBReactionButton {
       if icon != nil {
         emojiPlusCountView
       } else if pbIcon != nil {
-        defaultUserIcon
+        defaultUserIconView
       } else {
         addReactionEmojiView
       }
@@ -95,7 +88,7 @@ extension PBReactionButton {
   }
 
   var countView: some View {
-    return Text(count != 0 && variant == .reactionButtonEmoji ? "\(count)" : "153")
+    return Text(count != 0 && variant == .reactionButtonEmoji ? "\(count)" : "")
       .pbFont(.caption, variant: .light, color: .text(.light))
   }
 
@@ -104,9 +97,10 @@ extension PBReactionButton {
       .resizable()
       .pbFont(.caption, variant: .light, color: .text(.light))
       .frame(width: Spacing.xLarge, height: 28)
+    // I cant seem to make this work using only .padding() & not .frame() for this view and defaultUserIconView
   }
 
-  var defaultUserIcon: some View {
+  var defaultUserIconView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.user)
         .pbFont(.caption, variant: .light, color: .text(.lighter))
