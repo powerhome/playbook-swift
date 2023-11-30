@@ -36,17 +36,15 @@ public struct DateCatalog: View {
 public extension DateCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-          PBDate(Date(), variant: .short)
-       
-          PBDate(Date().makeDate(year: 2012, month: 8, day: 3), variant: .standard)
-        
-          PBDate(Date().makeDate(year: 2017, month: 12, day: 3), variant: .dayDate)
+      PBDate(Date(), variant: .short)
+      PBDate(Date().makeDate(year: 2012, month: 8, day: 3), variant: .standard)          
+      PBDate(Date().makeDate(year: 2017, month: 12, day: 3), variant: .dayDate)
       Spacer()
-          PBDate(Date(), variant: .short, typography: .title4)
-          PBDate(Date().makeDate(year: 2012, month: 8, day: 3), variant: .standard, typography: .title4)
-          PBDate(Date().makeDate(year: 2017, month: 12, day: 3), variant: .dayDate, typography: .title4)
-      }
+      PBDate(Date(), variant: .short, typography: .title4)        
+      PBDate(Date().makeDate(year: 2012, month: 8, day: 3), variant: .standard, typography: .title4)
+      PBDate(Date().makeDate(year: 2017, month: 12, day: 3), variant: .dayDate, typography: .title4)
     }
+  }
 
 
   var variantView: some View {
