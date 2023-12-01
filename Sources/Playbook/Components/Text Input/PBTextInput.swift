@@ -224,7 +224,7 @@ public extension PBTextInput {
       text: Binding<String>,
       placeholder: String = "",
       error: (Bool, String)? = nil,
-      style: Style = .defaultIcon,
+      style: Style = .default,
       onChange: Bool? = nil
     ) {
       self.title = title

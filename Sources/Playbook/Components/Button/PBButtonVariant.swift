@@ -86,7 +86,7 @@ public extension PBButton {
       if isLinkVariant && isPressed {
         return .pbPrimary
       } else if isLinkVariant && isHovering {
-        return .text(.defaultIcon)
+        return .text(.default)
       } else {
         return variant.foregroundColor
       }
