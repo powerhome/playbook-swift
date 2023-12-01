@@ -225,7 +225,7 @@ import SwiftUI
           PBDialog(
             title: "Small",
             message: infoMessage,
-            variant: .default,
+            variant: .defaultIcon,
             isStacked: false,
             cancelButton: ("Cancel", {}),
             confirmButton: ("Okay", {}),
@@ -240,7 +240,7 @@ import SwiftUI
           PBDialog(
             title: "Medium",
             message: infoMessage,
-            variant: .default,
+            variant: .defaultIcon,
             isStacked: false,
             cancelButton: ("Cancel", {}),
             confirmButton: ("Okay", {}),
@@ -255,7 +255,7 @@ import SwiftUI
           PBDialog(
             title: "Large",
             message: infoMessage,
-            variant: .default,
+            variant: .defaultIcon,
             isStacked: false,
             cancelButton: ("Cancel", {}),
             confirmButton: ("Okay", {}),

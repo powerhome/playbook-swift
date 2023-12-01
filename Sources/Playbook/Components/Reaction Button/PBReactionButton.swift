@@ -8,24 +8,23 @@
 import SwiftUI
 
 public struct PBReactionButton: View {
-  @State private var count: Int = 0
+  @Binding var count: Int?
   @State private var isHighlighted: Bool = false
   @State private var isHovering: Bool = false
-  var icon: String?
-  var pbIcon: PBIcon?
-  var addReactionIcon: String?
-  var variant: Variant?
+  let icon: String?
+  let pbIcon: PBIcon?
+  let variant: Variant?
   let action: (() -> Void)?
   init(
+    count: Binding<Int?> = .constant(nil),
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
-    addReactionIcon: String? = "smilePlus",
-    variant: Variant? = .reactionButtonEmoji,
+    variant: Variant? = .emoji,
     action: (() -> Void)? = {}
   ) {
+    self._count = count
     self.icon = icon
     self.pbIcon = pbIcon
-    self.addReactionIcon = addReactionIcon
     self.variant = variant
     self.action = action
   }
@@ -39,13 +38,13 @@ public struct PBReactionButton: View {
 
 extension PBReactionButton {
   enum Variant {
-    case reactionButtonEmoji, defaultUserButton, addReactionButton
+    case emoji, defaultIcon, addReaction
   }
 
   var reactionButtonView: some View {
     return VStack(alignment: .leading, spacing: 10) {
       Button {
-        pbHighlightReaction()
+        highlightReaction()
       } label: {
         reactionButtonLabelView
           .background(isHovering ? Color.text(.lighter) : Color.clear)
@@ -57,24 +56,26 @@ extension PBReactionButton {
   }
 
   var reactionButtonLabelView: some View {
-    return HStack(alignment: .center, spacing: Spacing.xxSmall) {
+    return HStack(spacing: Spacing.xxSmall) {
       if icon != nil {
-        emojiPlusCountView
+        emojiCountView
       } else if pbIcon != nil {
-        defaultUserIconView
+        pbIconView
       } else {
-        addReactionEmojiView
+        addReactionView
       }
     }
     .background(Capsule(style: .circular).stroke(
-      isHighlighted && variant != .defaultUserButton ? Color.pbPrimary : Color.border,
+      isHighlighted && variant != .defaultIcon ? Color.pbPrimary : Color.border,
       lineWidth: isHighlighted ? 2.0 : 1.0))
   }
 
-  var emojiPlusCountView: some View {
-    return HStack(alignment: .center, spacing: Spacing.xxSmall) {
+  var emojiCountView: some View {
+    return HStack(spacing: Spacing.xxSmall) {
       emojiView
-      countView
+      if count != nil {
+        countView
+      }
     }
     .padding(.vertical, 2)
     .padding(.horizontal, 8)
@@ -83,24 +84,23 @@ extension PBReactionButton {
 
   var emojiView: some View {
     return Text(icon ?? "")
-      .padding(.leading, count > 0 ? 0 : 4)
+      .padding(.leading, count ?? 0 > 0 ? 0 : 4)
       .pbFont(.body, variant: .light, color: .text(.light))
   }
 
   var countView: some View {
-    return Text(count != 0 && variant == .reactionButtonEmoji ? "\(count)" : "")
+    return Text(variant == .emoji ? "\(count ?? 0)" : "")
       .pbFont(.caption, variant: .light, color: .text(.light))
   }
 
-  var addReactionEmojiView: some View {
-    return Image(addReactionIcon ?? "smilePlus", bundle: .module)
+  var addReactionView: some View {
+    return Image("smilePlus", bundle: .module)
       .resizable()
       .pbFont(.caption, variant: .light, color: .text(.light))
       .frame(width: Spacing.xLarge, height: 28)
-    // I cant seem to make this work using only .padding() & not .frame() for this view and defaultUserIconView
   }
 
-  var defaultUserIconView: some View {
+  var pbIconView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.user)
         .pbFont(.caption, variant: .light, color: .text(.lighter))
@@ -108,12 +108,15 @@ extension PBReactionButton {
     }
   }
 
-  func pbHighlightReaction() {
+  func highlightReaction() {
     isHighlighted.toggle()
     if isHighlighted == false {
-      count -= 1
-    } else {
-      count += 1
+      if count == count {
+        count! -= 1
+      }
+    }
+    if isHighlighted == true {
+      count! += 1
     }
   }
 }

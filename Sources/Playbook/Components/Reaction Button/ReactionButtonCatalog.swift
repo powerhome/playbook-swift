@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ReactionButtonCatalog: View {
+  @State private var count: Int? = 153
+  @State private var count1: Int? = 5
+
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: Spacing.xxSmall) {
@@ -25,10 +28,10 @@ struct ReactionButtonCatalog: View {
 extension ReactionButtonCatalog {
   var reactionButtonView: some View {
     return HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 10) {
-      PBReactionButton(icon: "\u{1F389}", variant: .reactionButtonEmoji)
-      PBReactionButton(icon: "1️⃣", variant: .reactionButtonEmoji)
-      PBReactionButton(variant: .reactionButtonEmoji)
-      PBReactionButton(pbIcon: PBIcon(FontAwesome.user), variant: .defaultUserButton)
+      PBReactionButton(count: $count, icon: "\u{1F389}", variant: .emoji)
+      PBReactionButton(count: $count1, icon: "1️⃣", variant: .emoji)
+      PBReactionButton(variant: .emoji)
+      PBReactionButton(pbIcon: PBIcon(FontAwesome.user), variant: .defaultIcon)
     }
   }
 }
