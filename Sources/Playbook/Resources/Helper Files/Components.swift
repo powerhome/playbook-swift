@@ -15,6 +15,7 @@ public enum Componenets: String, CaseIterable {
   case card
   case checkbox
   case collapsible
+  case contact
   case date
   case dialog
   case toast = "Fixed Confirmation Toast"
@@ -52,6 +53,7 @@ public enum Componenets: String, CaseIterable {
     case .card: CardCatalog()
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
+    case .contact: ContactCatalog()
     case .date: DateCatalog()
     case .dialog: DialogCatalog()
     case .toast: if #available(iOS 16.0, *) {
