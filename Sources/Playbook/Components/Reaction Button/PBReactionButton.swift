@@ -87,7 +87,7 @@ extension PBReactionButton {
   }
 
   var countView: some View {
-    return Text(variant == .emoji ? "\(count)" : "")
+    return Text(variant == .emoji && count > 0 ? "\(count)" : "")
       .pbFont(.caption, variant: .light, color: .text(.light))
   }
 
