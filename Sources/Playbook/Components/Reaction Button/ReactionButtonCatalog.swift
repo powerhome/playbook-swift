@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ReactionButtonCatalog: View {
-  @State private var count: Int? = 153
-  @State private var count1: Int? = 5
+  @State private var count: Int = 153
+  @State private var count1: Int = 5
 
   var body: some View {
     ScrollView {

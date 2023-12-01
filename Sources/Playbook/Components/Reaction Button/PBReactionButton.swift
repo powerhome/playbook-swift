@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct PBReactionButton: View {
-  @Binding var count: Int?
+  @Binding var count: Int
   @State private var isHighlighted: Bool = false
   @State private var isHovering: Bool = false
   let icon: String?
@@ -16,7 +16,7 @@ public struct PBReactionButton: View {
   let variant: Variant?
   let action: (() -> Void)?
   init(
-    count: Binding<Int?> = .constant(nil),
+    count: Binding<Int> = .constant(0),
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
     variant: Variant? = .emoji,
@@ -73,9 +73,7 @@ extension PBReactionButton {
   var emojiCountView: some View {
     return HStack(spacing: Spacing.xxSmall) {
       emojiView
-      if count != nil {
-        countView
-      }
+      countView
     }
     .padding(.vertical, 2)
     .padding(.horizontal, 8)
@@ -84,12 +82,12 @@ extension PBReactionButton {
 
   var emojiView: some View {
     return Text(icon ?? "")
-      .padding(.leading, count ?? 0 > 0 ? 0 : 4)
+      .padding(.leading, count > 0 ? 0 : 4)
       .pbFont(.body, variant: .light, color: .text(.light))
   }
 
   var countView: some View {
-    return Text(variant == .emoji ? "\(count ?? 0)" : "")
+    return Text(variant == .emoji ? "\(count)" : "")
       .pbFont(.caption, variant: .light, color: .text(.light))
   }
 
@@ -111,12 +109,9 @@ extension PBReactionButton {
   func highlightReaction() {
     isHighlighted.toggle()
     if isHighlighted == false {
-      if count == count {
-        count! -= 1
-      }
-    }
-    if isHighlighted == true {
-      count! += 1
+      count -= 1
+    } else {
+      count += 1
     }
   }
 }
