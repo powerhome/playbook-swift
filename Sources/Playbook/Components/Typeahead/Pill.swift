@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct Pill: View {
-  private var shape =  Capsule()
   @Environment (\.active) var isActive: Bool
   @Environment (\.focus) var isFocus: Bool
   @Environment(\.hovering) var hovering: Bool
   @State private var isHovering: Bool = false
+  private var shape =  Capsule()
   let icon: FontAwesome? = nil
+  let text: String
+  
+  init(_ text: String) {
+    self.text = text
+  }
 
     var body: some View {
       HStack(spacing: Spacing.xSmall) {
@@ -21,17 +26,16 @@ struct Pill: View {
           PBIcon.fontAwesome(icon)
         }
 
-        Text("Default")
+        Text(text)
           .font(.custom(ProximaNova.bold.rawValue, size: 14))
           .foregroundStyle(Color.text(.default))
-
         PBIcon(FontAwesome.times)
       }
       .padding(.vertical, Spacing.xSmall)
       .padding(.horizontal, Spacing.small )
       .background(backgroundColor)
       .clipShape(shape)
-      .overlay(
+      .background(
         shape
           .stroke(lineWidth: borderWidth)
           .foregroundStyle(borderColor)
@@ -39,6 +43,7 @@ struct Pill: View {
       .onHover { hovering in
         isHovering = hovering
       }
+      .frame(height: 27)
     }
 }
 
@@ -65,22 +70,22 @@ private extension Pill {
 #Preview {
   registerFonts()
   return VStack(spacing: Spacing.small) {
-    Pill()
+    Pill("Default")
 
-    Pill()
+    Pill("Default")
       .environment(\.focus, true)
 
-    Pill()
+    Pill("Default")
       .environment(\.active, true)
 
-    Pill()
+    Pill("Default")
       .environment(\.hovering, true)
 
-    Pill()
+    Pill("Default")
       .environment(\.hovering, true)
       .environment(\.focus, true)
 
-    Pill()
+    Pill("Default")
       .environment(\.hovering, true)
       .environment(\.active, true)
       .environment(\.focus, true)
