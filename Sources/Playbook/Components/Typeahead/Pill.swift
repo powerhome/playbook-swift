@@ -15,7 +15,7 @@ struct Pill: View {
   private var shape =  Capsule()
   let icon: FontAwesome? = nil
   let text: String
-  
+
   init(_ text: String) {
     self.text = text
   }
@@ -25,7 +25,6 @@ struct Pill: View {
         if let icon = icon {
           PBIcon.fontAwesome(icon)
         }
-
         Text(text)
           .font(.custom(ProximaNova.bold.rawValue, size: 14))
           .foregroundStyle(Color.text(.default))
