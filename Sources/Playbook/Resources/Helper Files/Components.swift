@@ -32,7 +32,6 @@ public enum Componenets: String, CaseIterable {
   case popover
   case progressIndicator = "Progress Indicator"
   case radio
-  case reactionButton = "Reaction Button"
   case sectionSeparator = "Section Separator"
   case select
   case textArea = "Textarea"
@@ -74,7 +73,6 @@ public enum Componenets: String, CaseIterable {
     case .popover: PopoverCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
     case .radio: RadioCatalog()
-    case .reactionButton: ReactionButtonCatalog()
     case .sectionSeparator: PBSectionSeparator_Previews.previews
     case .select: PBSelect_Previews.previews
     case .textArea: TextAreaCatalog()

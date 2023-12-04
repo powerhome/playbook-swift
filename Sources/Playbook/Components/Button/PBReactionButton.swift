@@ -14,19 +14,16 @@ public struct PBReactionButton: View {
   let icon: String?
   let pbIcon: PBIcon?
   let variant: Variant?
-  let action: (() -> Void)?
   init(
     count: Binding<Int> = .constant(0),
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
-    variant: Variant? = .emoji,
-    action: (() -> Void)? = {}
+    variant: Variant? = .emoji
   ) {
     self._count = count
     self.icon = icon
     self.pbIcon = pbIcon
     self.variant = variant
-    self.action = action
   }
 
   public var body: some View {
@@ -116,7 +113,7 @@ extension PBReactionButton {
   }
 }
 
-#Preview {
-  registerFonts()
-  return ReactionButtonCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return ReactionButtonCatalog()
+//}
