@@ -17,11 +17,15 @@ require 'httparty'
 
 default_platform(:ios)
 
-target_ios = 'PlaybookShowcase-iOS'
 build_path = "BuildTemp/Archives"
 derived_data_path = "DerivedData"
 ios_plist = "./Info.plist"
 appcenter_token = "bf0ae509c985f2a1102c2ad53894b35a5fa5383e"
+
+def target_ios(suffix = nil)
+  target = 'PlaybookShowcase-iOS'
+  suffix ? "#{target}-#{suffix}" : target
+end
 
 desc "Set up build. build_number:1"
 lane :setup_before_build do |opts|
@@ -33,13 +37,14 @@ desc "Build iOS"
 lane :build_ios do |opts|
 
   export_method = 'enterprise'
+  target = target_ios(opts[:suffix])
 
   gym(
     project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
-    scheme: target_ios,
+    scheme: target,
     skip_package_dependencies_resolution: false,
     export_method: export_method,
-    output_name: "#{target_ios}.ipa",
+    output_name: "#{target}.ipa",
     build_path: build_path,
     derived_data_path: derived_data_path,
     xcargs: '-skipPackagePluginValidation -skipMacroValidation',
@@ -81,7 +86,7 @@ lane :ship_ios_to_appcenter do |opts|
     owner_name: "powerhome",
     owner_type: "organization",
     app_name: app_name,
-    file: "#{target_ios}.ipa",
+    file: "#{target_ios(opts[:suffix])}.ipa",
     version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
