@@ -41,11 +41,14 @@ public struct PBTypeahead: View {
         placeholder: placeholder,
         searchText: $searchText,
         options: selectedOptions,
-        variant: variant, 
+        variant: variant,
         isFocused: { isFocused = $0 },
         clearAction: { clearText },
-        onItemTap: { onItemTap($0) }
+        onItemTap: { removeSelected($0) }
       )
+      .onTapGesture {
+        isFocused?.toggle()
+      }
 
       listView
     }
@@ -53,6 +56,22 @@ public struct PBTypeahead: View {
 }
 
 private extension PBTypeahead {
+  func variantSelectedOptions(_ result: String) -> [String] {
+    if let index = options.firstIndex(of: result) {
+      options.remove(at: index)
+      selectedOptions.append(result)
+    }
+    switch variant {
+    case .text:
+      guard let lastOption = selectedOptions.last else { return [] }
+      options.append(contentsOf: selectedOptions.dropLast())
+      selectedOptions = []
+      selectedOptions.append(lastOption)
+    default: break
+    }
+    return selectedOptions
+  }
+  
   var searchResults: [String] {
     let stringCollection = options.map { "\($0)" }
     return (searchText.isEmpty && (isFocused ?? false)) ? stringCollection  : stringCollection.filter {
@@ -70,7 +89,7 @@ private extension PBTypeahead {
     }
   }
   
-  func onItemTap(_ element: String) {
+  func removeSelected(_ element: String) {
     if let selectedElementIndex = selectedOptions.firstIndex(where: { $0 == element }) {
       let selectedElement = selectedOptions.remove(at: selectedElementIndex)
       options.append(selectedElement)
@@ -89,10 +108,7 @@ private extension PBTypeahead {
             .frame(height: 40)
             .frame(maxWidth: .infinity, alignment: .leading)
             .onTapGesture {
-              selectedOptions.append(result)
-              if let index = options.firstIndex(of: result) {
-                options.remove(at: index)
-              }
+              selectedOptions = variantSelectedOptions(result)
               isFocused = false
             }
           }

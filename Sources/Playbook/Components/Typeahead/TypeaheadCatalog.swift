@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct TypeaheadCatalog: View {
   @State var assets = ["Apple", "Banana", "Cherry", "Grapes", "Orange"]
+  @State var users = multipleUsers
   @State private var searchText: String = ""
   
   public var body: some View {
@@ -21,6 +22,10 @@ public struct TypeaheadCatalog: View {
         PBDoc(title: "Name") {
           PBTypeahead(title: "Users", searchText: $searchText, options: assets, variant: .pill)
         }
+        
+//        PBDoc(title: "Users") {
+//          PBTypeahead(title: "Users", searchText: $searchText, options: users, variant: .pill)
+//        }
       }
       .padding(Spacing.medium)
     }
