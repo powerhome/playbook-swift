@@ -13,11 +13,14 @@ struct Pill: View {
   @Environment(\.hovering) var hovering: Bool
   @State private var isHovering: Bool = false
   private var shape =  Capsule()
-  let icon: FontAwesome? = nil
+  let icon: FontAwesome?
   let text: String
+  let closeAction: (() -> Void)?
 
-  init(_ text: String) {
+  init(_ text: String, icon: FontAwesome? = nil, closeAction: (() -> Void)? = nil) {
     self.text = text
+    self.icon = icon
+    self.closeAction = closeAction
   }
 
     var body: some View {
@@ -29,6 +32,9 @@ struct Pill: View {
           .font(.custom(ProximaNova.bold.rawValue, size: 14))
           .foregroundStyle(Color.text(.default))
         PBIcon(FontAwesome.times)
+//          .onTapGesture {
+//            closeAction?()
+//          }
       }
       .padding(.vertical, Spacing.xSmall)
       .padding(.horizontal, Spacing.small )

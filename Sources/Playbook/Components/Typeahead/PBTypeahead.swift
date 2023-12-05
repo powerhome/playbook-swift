@@ -6,117 +6,80 @@
 //
 
 import SwiftUI
-import WrappingHStack
 
-struct PBTypeahead: View {
-  @State private var searchText = ""
-  @State private var suggestions: [String]
-  @State private var selectedElements: [String] = []
-  @State private var isPresented: Bool = true
-  @State private var gridSize: CGFloat = .zero
-  @FocusState private var isFocused
-  
-  var title: String
-  let placeholder: String = "Select"
-  var variant: Variant = .pill
-  
+public struct PBTypeahead: View {
+  let title: String
+  let placeholder: String
+  let variant: WrappedInputField.Variant
+  let clearAction: (() -> Void)?
+  @Binding var searchText: String
+  @State private var options: [String]
+  @State private var selectedOptions: [String] = []
+  @State private var isFocused: Bool?
+
   init(
-    suggestions: [String] = ["Apple", "Banana", "Cherry", "Grapes", "Orange"],
     title: String,
-    variant: Variant = .pill
+    placeholder: String = "Select",
+    searchText: Binding<String>,
+    options: [String] = [],
+    variant: WrappedInputField.Variant = .pill,
+    clearAction: (() -> Void)? = nil
   ) {
-    self.suggestions = suggestions
     self.title = title
+    self.placeholder = placeholder
+    self._searchText = searchText
+    self.options = options
     self.variant = variant
+    self.clearAction = clearAction
   }
-  
-  private var indices: Range<Int> {
-    Range(0...selectedElements.count)
-  }
-  
-  var body: some View {
+
+  public var body: some View {
     VStack(alignment: .leading) {
       Text(title).pbFont(.caption)
-      WrappingHStack(indices) { element in
-        if indices.last == element {
-          HStack {
-            TextField(placeholder, text: $searchText)
-              .textFieldStyle(.plain)
-              .focused($isFocused)
-              .pbFont(.body, color: textColor)
-              .frame(minHeight: Spacing.xLarge)
-            
-            PBIcon.fontAwesome(.times)
-              .onTapGesture {
-                clearText
-              }
-          }
-          .padding(.horizontal, Spacing.small)
-        } else {
-          if selectedElements.count > 0 {
-            gridItem(selectedElements[element])
-              .padding(.leading, Spacing.xSmall)
-              .padding(.vertical, Spacing.xSmall)
-          }
-        }
-        
-        
-      }
-      .background(
-        RoundedRectangle(cornerRadius: BorderRadius.medium)
-          .stroke(borderColor, lineWidth: 1)
+      WrappedInputField(
+        title: title,
+        placeholder: placeholder,
+        searchText: $searchText,
+        options: selectedOptions,
+        variant: variant, 
+        isFocused: { isFocused = $0 },
+        clearAction: { clearText },
+        onItemTap: { onItemTap($0) }
       )
-      
+
       listView
     }
   }
 }
 
-extension PBTypeahead {
-  private var borderColor: Color {
-    isFocused ? .pbPrimary : .border
-  }
-  
-  private var textColor: Color {
-    searchText.isEmpty ? .text(.light) : .text(.default)
-  }
-  
-  @ViewBuilder
-  func gridItem(_ item: String) -> some View {
-    variant.view(text: item)
-      .onTapGesture {
-        if let index = selectedElements.firstIndex(of: item) {
-          selectedElements.remove(at: index)
-          suggestions.append(item)
-        }
-      }
-  }
-  
+private extension PBTypeahead {
   var searchResults: [String] {
-    return (searchText.isEmpty && isFocused) ? suggestions : suggestions.filter {
+    let stringCollection = options.map { "\($0)" }
+    return (searchText.isEmpty && (isFocused ?? false)) ? stringCollection  : stringCollection.filter {
       $0.localizedCaseInsensitiveContains(searchText)
     }
   }
   
   var clearText: Void {
-    searchText = ""
-    suggestions.append(contentsOf: selectedElements)
-    selectedElements = []
+    if let action = clearAction {
+      action()
+    } else {
+      searchText = ""
+      options.append(contentsOf: selectedOptions)
+      selectedOptions = []
+    }
   }
   
-  var gridFrame: CFloat {
-    var width: CGFloat = 0
-    for i in 0..<selectedElements.count {
-      if i < 2 {
-        width += gridSize + 4
-      }
+  func onItemTap(_ element: String) {
+    if let selectedElementIndex = selectedOptions.firstIndex(where: { $0 == element }) {
+      let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+      options.append(selectedElement)
     }
-    return CFloat(width)
   }
   
   @ViewBuilder
   var listView: some View {
-    if isFocused && !searchResults.isEmpty {
+    if let focused = isFocused, focused, !searchResults.isEmpty {
       PBCard(alignment: .leading, padding: Spacing.small) {
         ScrollView {
           ForEach(searchResults, id: \.self) { result in
@@ -126,9 +89,9 @@ extension PBTypeahead {
             .frame(height: 40)
             .frame(maxWidth: .infinity, alignment: .leading)
             .onTapGesture {
-              selectedElements.append(result)
-              if let index = suggestions.firstIndex(of: result) {
-                suggestions.remove(at: index)
+              selectedOptions.append(result)
+              if let index = options.firstIndex(of: result) {
+                options.remove(at: index)
               }
               isFocused = false
             }
@@ -138,19 +101,6 @@ extension PBTypeahead {
       }
       .frame(maxWidth: .infinity)
       .pbShadow(.deeper)
-    }
-  }
-  
-  enum Variant {
-    case text, pill, other
-    
-    @ViewBuilder
-    func view(text: String) -> some View {
-      switch self {
-      case .text: Text(text)
-      case .pill: Pill(text)
-      case .other: Text(text)
-      }
     }
   }
 }
