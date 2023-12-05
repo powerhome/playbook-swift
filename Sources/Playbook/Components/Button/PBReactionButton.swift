@@ -44,7 +44,8 @@ extension PBReactionButton {
         highlightReaction()
       } label: {
         reactionButtonLabelView
-          .background(isHovering ? Color.text(.lighter) : Color.clear)
+          .background(isHovering ? Color.background(.light) : Color.clear)
+          .clipShape(.capsule)
           .onHover { hovering in
             isHovering = hovering
           }
@@ -92,6 +93,7 @@ extension PBReactionButton {
     return Image("smilePlus", bundle: .module)
       .resizable()
       .pbFont(.caption, variant: .light, color: .text(.light))
+      .clipShape(.capsule)
       .frame(width: Spacing.xLarge, height: 28)
   }
 
@@ -112,8 +114,3 @@ extension PBReactionButton {
     }
   }
 }
-
-//#Preview {
-//  registerFonts()
-//  return ReactionButtonCatalog()
-//}
