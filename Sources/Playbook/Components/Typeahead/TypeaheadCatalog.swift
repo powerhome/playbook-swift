@@ -8,18 +8,20 @@
 import SwiftUI
 
 public struct TypeaheadCatalog: View {
-  @State var popoverValue: AnyView?
   public var body: some View {
-
     ScrollView {
-      VStack(spacing: 60) {
-        PBTypeahead(title: "Colors", variant: .text)
-        PBTypeahead(title: "Users", variant: .pill)
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          PBTypeahead(title: "Colors", variant: .text)
+        }
+        
+        PBDoc(title: "Name") {
+          PBTypeahead(title: "Users", variant: .pill)
+        }
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
+    .background(Color.background(.light))
     .navigationTitle("Typeahead")
-
   }
 }
