@@ -16,9 +16,12 @@ import Playbook
 struct ContentListView: View {
 
   let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+  let isBeta = Bundle.main.infoDictionary?["Beta"] as? Bool
 
   #if os(iOS)
     init() {
+      print("isBeta: \(String(describing: isBeta))")
+
       let appearance = UINavigationBarAppearance()
       appearance.configureWithOpaqueBackground()
       appearance.backgroundColor = .white
