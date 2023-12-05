@@ -81,7 +81,9 @@ extension PBReactionButton {
   var emojiView: some View {
     return Text(icon ?? "")
       .padding(.leading, count > 0 ? 0 : 4)
-      .pbFont(.body, variant: .light, color: .text(.light))
+//      .pbFont(.body, variant: .light, color: .text(.light))
+    // web says emoji is 14px and it does look better
+      .pbFont(.detail(false), variant: .light, color: .text(.light))
   }
 
   var countView: some View {
