@@ -12,6 +12,9 @@ import SwiftUI
 public struct TooltipCatalog: View {
   @State var canShowTooltip: Bool = true
   public var body: some View {
+    #if os(iOS)
+    iosUnavailable
+    #else
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") {
@@ -31,12 +34,17 @@ public struct TooltipCatalog: View {
     }
     .background(Color.background(.light))
     .navigationTitle("Tooltip")
+    #endif
   }
 }
 
 @available(macOS 13.3, *)
 @available(iOS 16.4, *)
 public extension TooltipCatalog {
+  var iosUnavailable: some View {
+    Text("This kit is only available in MacOS.")
+      .pbFont(.title4)
+  }
   var defaultView: some View {
     HStack(spacing: Spacing.medium) {
       Text("Hover here (Top)")

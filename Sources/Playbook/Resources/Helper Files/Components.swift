@@ -39,7 +39,9 @@ public enum Components: String, CaseIterable {
   case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
+  #if os(macOS)
   case tooltip = "Tooltip"
+  #endif
   case toggle
   case user
 
@@ -77,7 +79,9 @@ public enum Components: String, CaseIterable {
     case .select: PBSelect_Previews.previews
     case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
+    #if os(macOS)
     case .tooltip: TooltipCatalog()
+    #endif
     case .timeStamp: TimeStampCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()

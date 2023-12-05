@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 16.4, *)
 @available(macOS 13.3, *)
 public struct PBTooltip: ViewModifier {
   let canPresent: Bool
@@ -50,7 +51,9 @@ public struct PBTooltip: ViewModifier {
     }
   }
 }
+@available(iOS 16.4, *)
 
+@available(iOS 16.4, *)
 @available(macOS 13.3, *)
 public extension PBTooltip {
   enum DelayType {
@@ -127,6 +130,7 @@ public extension PBTooltip {
   }
 }
 
+@available(iOS 16.4, *)
 public extension View {
   @available(macOS 13.3, *)
   func pbTooltip(
@@ -150,6 +154,7 @@ public extension View {
   }
 }
 
+@available(iOS 16.4, *)
 @available(macOS 13.3, *)
 public struct PBTooltip_Previews: PreviewProvider {
   public static var previews: some View {
