@@ -37,7 +37,9 @@ struct ContentListView: View {
           ToolbarItem(placement: .cancellationAction) {
             HStack(spacing: Spacing.small) {
               playbookLogo
-              PBBadge(text: version!, variant: .success)
+              if let version = version {
+                PBBadge(text: version, variant: .success)
+              }
             }
           }
         }
