@@ -42,13 +42,14 @@ lane :build_ios do |opts|
     output_name: "#{target_ios}.ipa",
     build_path: build_path,
     derived_data_path: derived_data_path,
-    xcargs: '-skipPackagePluginValidation',
+    xcargs: '-skipPackagePluginValidation -skipMacroValidation',
     xcconfig: './PlaybookShowcase/Versioning.xcconfig'
   )
 end
 
 desc "Install provisioning profiles"
 lane :install_prov_profiles do
+  sh 'rm -rf ./git_prov_profiles'
   sh 'cp -r ./../git_prov_profiles ./git_prov_profiles'
   Dir.glob("./git_prov_profiles/profiles/*.mobileprovision") do |item|
     install_provisioning_profile(path: item)

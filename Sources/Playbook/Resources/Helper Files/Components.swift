@@ -15,9 +15,11 @@ public enum Componenets: String, CaseIterable {
   case card
   case checkbox
   case collapsible
+  case contact
   case date
   case dialog
   case toast = "Fixed Confirmation Toast"
+  case homeAddress = "Home Address Street"
   case icon
   case iconCircle = "Icon Circle"
   case image
@@ -27,6 +29,7 @@ public enum Componenets: String, CaseIterable {
   case multipleUsersIndicator = "Multiple Users Indicator"
   case multipleUserStacked = "Multiple Users Stacked"
   case nav
+  case person
   case pill
   case popover
   case progressIndicator = "Progress Indicator"
@@ -51,6 +54,7 @@ public enum Componenets: String, CaseIterable {
     case .card: CardCatalog()
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
+    case .contact: ContactCatalog()
     case .date: DateCatalog()
     case .dialog: DialogCatalog()
     case .toast: if #available(iOS 16.0, *) {
@@ -59,6 +63,7 @@ public enum Componenets: String, CaseIterable {
       EmptyView()
       // Fallback on earlier versions
     }
+    case .homeAddress: HomeAddressStreetCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
     case .image: PBImage_Previews.previews
@@ -68,6 +73,7 @@ public enum Componenets: String, CaseIterable {
     case .multipleUsersIndicator: MultipleUsersIndicatorCatalog()
     case .multipleUserStacked: MultipleUsersStackedCatalog()
     case .nav: PBNav_Previews.previews
+    case .person: PersonCatalog()
     case .pill: PillCatalog()
     case .popover: PopoverCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
