@@ -9,7 +9,6 @@ import SwiftUI
 
 public struct ButtonsCatalog: View {
   @State private var count: Int = 153
-  @State private var count1: Int = 5
 
   let simpleButtons: some View = VStack(alignment: .leading, spacing: Spacing.small) {
     PBButton(
@@ -39,11 +38,11 @@ public struct ButtonsCatalog: View {
         PBDoc(title: "Simple") { simpleButtons }
 
         PBDoc(title: "Reaction Button") {
-          HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 10) {
+          HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 12) {
             PBReactionButton(count: $count, icon: "\u{1F389}", variant: .emoji)
-            PBReactionButton(count: $count1, icon: "1️⃣", variant: .emoji)
-            PBReactionButton(variant: .emoji)
-            PBReactionButton(pbIcon: PBIcon(FontAwesome.user), variant: .defaultIcon)
+            PBReactionButton(icon: "1️⃣", variant: .isNotInteractive)
+            PBReactionButton(variant: .isNotInteractive)
+            PBReactionButton(pbIcon: PBIcon(FontAwesome.user), variant: .isNotInteractive)
           }
         }
 

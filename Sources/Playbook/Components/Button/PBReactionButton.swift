@@ -14,16 +14,19 @@ public struct PBReactionButton: View {
   let icon: String?
   let pbIcon: PBIcon?
   let variant: Variant?
+  let nonInteractiveCount: Int?
   init(
     count: Binding<Int> = .constant(0),
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
-    variant: Variant? = .emoji
+    variant: Variant? = .emoji,
+    nonInteractiveCount: Int? = 5
   ) {
     self._count = count
     self.icon = icon
     self.pbIcon = pbIcon
     self.variant = variant
+    self.nonInteractiveCount = nonInteractiveCount
   }
 
   public var body: some View {
@@ -35,7 +38,7 @@ public struct PBReactionButton: View {
 
 extension PBReactionButton {
   enum Variant {
-    case emoji, defaultIcon, addReaction
+    case emoji, addReaction, isNotInteractive
   }
 
   var reactionButtonView: some View {
@@ -64,7 +67,7 @@ extension PBReactionButton {
       }
     }
     .background(Capsule(style: .circular).stroke(
-      isHighlighted && variant != .defaultIcon ? Color.pbPrimary : Color.border,
+      isHighlighted && variant != .isNotInteractive ? Color.pbPrimary : Color.border,
       lineWidth: isHighlighted ? 2.0 : 1.0))
   }
 
@@ -81,27 +84,33 @@ extension PBReactionButton {
   var emojiView: some View {
     return Text(icon ?? "")
       .padding(.leading, count > 0 ? 0 : 4)
-//      .pbFont(.body, variant: .light, color: .text(.light))
-//        web says emoji is 14px and it does look better
       .pbFont(.detail(false), variant: .light, color: .text(.light))
   }
 
   var countView: some View {
-    return Text(variant == .emoji && count > 0 ? "\(count)" : "")
-      .pbFont(.caption, variant: .light, color: .text(.light))
+    switch variant {
+    case .addReaction, .emoji:
+      return Text(count > 0 ? "\(count)" : "")
+        .pbFont(.caption, variant: .light, color: .text(.light))
+    case .isNotInteractive:
+      return Text("\(nonInteractiveCount ?? 0)" )
+        .pbFont(.caption, variant: .light, color: .text(.light))
+    default: break
+    }
+    return self.countView
   }
 
   var addReactionView: some View {
-    return Image("smilePlus", bundle: .module)
-      .resizable()
-      .pbFont(.caption, variant: .light, color: .text(.light))
-      .clipShape(.capsule)
-      .frame(width: Spacing.xLarge, height: 28)
+    return HStack(alignment: .center, spacing: Spacing.xxSmall) {
+      PBIcon(FontAwesome.faceSmilePlus, size: .small)
+        .pbFont(.caption, variant: .light, color: .text(.lighter))
+        .frame(width: Spacing.xLarge, height: 28)
+    }
   }
 
   var pbIconView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
-      PBIcon(FontAwesome.user)
+      PBIcon(FontAwesome.user, size: .small)
         .pbFont(.caption, variant: .light, color: .text(.lighter))
         .frame(width: Spacing.xLarge, height: 28)
     }
