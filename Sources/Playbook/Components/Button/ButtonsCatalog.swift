@@ -39,10 +39,10 @@ public struct ButtonsCatalog: View {
 
         PBDoc(title: "Reaction Button") {
           HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 12) {
-            PBReactionButton(count: $count, icon: "\u{1F389}", variant: .emoji)
-            PBReactionButton(icon: "1️⃣", variant: .isNotInteractive)
-            PBReactionButton(variant: .isNotInteractive)
-            PBReactionButton(pbIcon: PBIcon(FontAwesome.user), variant: .isNotInteractive)
+            PBReactionButton(count: $count, icon: "\u{1F389}", isInteractive: true)
+            PBReactionButton(icon: "1️⃣", isInteractive: false)
+            PBReactionButton(isInteractive: false)
+            PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false)
           }
         }
 

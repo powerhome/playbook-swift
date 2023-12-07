@@ -14,19 +14,22 @@ public struct PBReactionButton: View {
   let icon: String?
   let pbIcon: PBIcon?
   let variant: Variant?
-  let nonInteractiveCount: Int?
+  let nonInteractiveCount: Int
+  let isInteractive: Bool
   init(
     count: Binding<Int> = .constant(0),
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
     variant: Variant? = .emoji,
-    nonInteractiveCount: Int? = 5
+    nonInteractiveCount: Int = 5,
+    isInteractive: Bool = false
   ) {
     self._count = count
     self.icon = icon
     self.pbIcon = pbIcon
     self.variant = variant
     self.nonInteractiveCount = nonInteractiveCount
+    self.isInteractive = isInteractive
   }
 
   public var body: some View {
@@ -38,7 +41,7 @@ public struct PBReactionButton: View {
 
 extension PBReactionButton {
   enum Variant {
-    case emoji, addReaction, isNotInteractive
+    case emoji, addReaction
   }
 
   var reactionButtonView: some View {
@@ -67,7 +70,7 @@ extension PBReactionButton {
       }
     }
     .background(Capsule(style: .circular).stroke(
-      isHighlighted && variant != .isNotInteractive ? Color.pbPrimary : Color.border,
+      isHighlighted && isInteractive == true ? Color.pbPrimary : Color.border,
       lineWidth: isHighlighted ? 2.0 : 1.0))
   }
 
@@ -88,22 +91,14 @@ extension PBReactionButton {
   }
 
   var countView: some View {
-    switch variant {
-    case .addReaction, .emoji:
-      return Text(count > 0 ? "\(count)" : "")
-        .pbFont(.caption, variant: .light, color: .text(.light))
-    case .isNotInteractive:
-      return Text("\(nonInteractiveCount ?? 0)" )
-        .pbFont(.caption, variant: .light, color: .text(.light))
-    default: break
-    }
-    return self.countView
+    return Text(count > 0 ? "\(count)" : !isInteractive ? "\(nonInteractiveCount)" : "")
+      .pbFont(.caption, variant: .light, color: .text(.light))
   }
 
   var addReactionView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.faceSmilePlus, size: .small)
-        .pbFont(.caption, variant: .light, color: .text(.lighter))
+        .foregroundStyle(Color.text(.lighter))
         .frame(width: Spacing.xLarge, height: 28)
     }
   }
@@ -111,7 +106,7 @@ extension PBReactionButton {
   var pbIconView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.user, size: .small)
-        .pbFont(.caption, variant: .light, color: .text(.lighter))
+        .foregroundStyle(Color.text(.lighter))
         .frame(width: Spacing.xLarge, height: 28)
     }
   }
