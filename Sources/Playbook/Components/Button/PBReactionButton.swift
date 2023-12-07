@@ -13,21 +13,19 @@ public struct PBReactionButton: View {
   @State private var isHovering: Bool = false
   let icon: String?
   let pbIcon: PBIcon?
-  let variant: Variant?
   let nonInteractiveCount: Int
   let isInteractive: Bool
+
   init(
     count: Binding<Int> = .constant(0),
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
-    variant: Variant? = .emoji,
     nonInteractiveCount: Int = 5,
     isInteractive: Bool = false
   ) {
     self._count = count
     self.icon = icon
     self.pbIcon = pbIcon
-    self.variant = variant
     self.nonInteractiveCount = nonInteractiveCount
     self.isInteractive = isInteractive
   }
@@ -40,10 +38,6 @@ public struct PBReactionButton: View {
 }
 
 extension PBReactionButton {
-  enum Variant {
-    case emoji, addReaction
-  }
-
   var reactionButtonView: some View {
     return VStack(alignment: .leading, spacing: 10) {
       Button {
