@@ -60,6 +60,7 @@ public struct WrappedInputField: View {
             gridItem("\(options[index])")
               .padding(.leading, Spacing.xSmall)
               .padding(.vertical, Spacing.xSmall)
+              .fixedSize()
           }
         }
       }

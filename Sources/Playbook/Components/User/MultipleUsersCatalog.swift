@@ -12,17 +12,17 @@ public struct MultipleUsersCatalog: View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "xSmall") {
-          PBMultipleUsers(users: twoUsers, size: .xSmall)
+          PBMultipleUsers(users: Mocks.twoUsers, size: .xSmall)
         }
 
         PBDoc(title: "Small") {
-          PBMultipleUsers(users: multipleUsers, size: .small)
+          PBMultipleUsers(users: Mocks.multipleUsers, size: .small)
         }
 
         PBDoc(title: "Small Reverse") {
           VStack(alignment: .leading, spacing: Spacing.small) {
-            PBMultipleUsers(users: multipleUsers, size: .small, reversed: true)
-            PBMultipleUsers(users: twoUsers, size: .small, reversed: true)
+            PBMultipleUsers(users: Mocks.multipleUsers, size: .small, reversed: true)
+            PBMultipleUsers(users: Mocks.twoUsers, size: .small, reversed: true)
           }
         }
       }

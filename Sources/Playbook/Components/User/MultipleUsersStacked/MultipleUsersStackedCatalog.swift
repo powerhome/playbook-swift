@@ -13,25 +13,25 @@ public struct MultipleUsersStackedCatalog: View {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Small") {
           HStack(spacing: Spacing.xSmall) {
-            PBMultipleUsersStacked(users: oneUser)
-            PBMultipleUsersStacked(users: twoUsers)
-            PBMultipleUsersStacked(users: multipleUsers)
+            PBMultipleUsersStacked(users: Mocks.oneUser)
+            PBMultipleUsersStacked(users: Mocks.twoUsers)
+            PBMultipleUsersStacked(users: Mocks.multipleUsers)
           }
         }
 
         PBDoc(title: "xSmall") {
           HStack(spacing: Spacing.xSmall) {
-            PBMultipleUsersStacked(users: oneUser, size: .xSmall)
-            PBMultipleUsersStacked(users: twoUsers, size: .xSmall)
-            PBMultipleUsersStacked(users: multipleUsers, size: .xSmall)
+            PBMultipleUsersStacked(users: Mocks.oneUser, size: .xSmall)
+            PBMultipleUsersStacked(users: Mocks.twoUsers, size: .xSmall)
+            PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .xSmall)
           }
         }
 
         PBDoc(title: "Default") {
           HStack(spacing: Spacing.xSmall) {
-            PBMultipleUsersStacked(users: oneUser, size: .default)
-            PBMultipleUsersStacked(users: twoUsers, size: .default)
-            PBMultipleUsersStacked(users: multipleUsers, size: .default)
+            PBMultipleUsersStacked(users: Mocks.oneUser, size: .default)
+            PBMultipleUsersStacked(users: Mocks.twoUsers, size: .default)
+            PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .default)
           }
         }
       }

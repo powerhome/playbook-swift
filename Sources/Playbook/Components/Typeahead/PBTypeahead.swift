@@ -12,8 +12,10 @@ public struct PBTypeahead: View {
   let placeholder: String
   let variant: WrappedInputField.Variant
   let clearAction: (() -> Void)?
+  let anyOptions: [String : Any?]
   @Binding var searchText: String
-  @State private var options: [String]
+  @State private var options: [String] = []
+  @State private var optionsValues: [Any?] = []
   @State private var selectedOptions: [String] = []
   @State private var isFocused: Bool?
 
@@ -21,14 +23,14 @@ public struct PBTypeahead: View {
     title: String,
     placeholder: String = "Select",
     searchText: Binding<String>,
-    options: [String] = [],
+    options: [String : Any?] = [:],
     variant: WrappedInputField.Variant = .pill,
     clearAction: (() -> Void)? = nil
   ) {
     self.title = title
     self.placeholder = placeholder
     self._searchText = searchText
-    self.options = options
+    self.anyOptions = options
     self.variant = variant
     self.clearAction = clearAction
   }
@@ -51,6 +53,10 @@ public struct PBTypeahead: View {
       }
 
       listView
+    }
+    .onAppear {
+      options = anyOptions.map { $0.key }
+      optionsValues = anyOptions.map { $0.value }
     }
   }
 }
@@ -79,6 +85,13 @@ private extension PBTypeahead {
     }
   }
   
+//  var searchValuesResults: [Any] {
+////    let stringCollection = optionsValues.map { "\($0)" }
+//    return (searchText.isEmpty && (isFocused ?? false)) ? stringCollection  : stringCollection.filter {
+//      $0.localizedCaseInsensitiveContains(searchText)
+//    }
+//  }
+//  
   var clearText: Void {
     if let action = clearAction {
       action()
