@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct ButtonsCatalog: View {
   @State private var count: Int = 153
-
+  @State private var count1: Int = 5
   let simpleButtons: some View = VStack(alignment: .leading, spacing: Spacing.small) {
     PBButton(
       title: "Button Primary",
@@ -44,7 +44,7 @@ public struct ButtonsCatalog: View {
               icon: "\u{1F389}",
               isInteractive: true
             )
-            PBReactionButton(icon: "1️⃣")
+            PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
             PBReactionButton()
             PBReactionButton(pbIcon: PBIcon(FontAwesome.user))
           }

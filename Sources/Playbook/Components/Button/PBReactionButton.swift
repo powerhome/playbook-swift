@@ -13,20 +13,17 @@ public struct PBReactionButton: View {
   @State private var isHovering: Bool = false
   let icon: String?
   let pbIcon: PBIcon?
-  let nonInteractiveCount: Int
   let isInteractive: Bool
 
   init(
     count: Binding<Int> = .constant(0),
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
-    nonInteractiveCount: Int = 5,
     isInteractive: Bool = false
   ) {
     self._count = count
     self.icon = icon
     self.pbIcon = pbIcon
-    self.nonInteractiveCount = nonInteractiveCount
     self.isInteractive = isInteractive
   }
 
@@ -85,7 +82,7 @@ extension PBReactionButton {
   }
 
   var countView: some View {
-    return Text(count > 0 ? "\(count)" : !isInteractive ? "\(nonInteractiveCount)" : "")
+    return Text(count > 0 ? "\(count)" : "")
       .pbFont(.caption, variant: .light, color: .text(.light))
   }
 
