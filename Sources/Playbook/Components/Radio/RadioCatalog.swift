@@ -121,6 +121,9 @@ public struct RadioCatalog: View {
         orientation: .horizontal,
         selected: $selectedOrientation
       )
+      .lineLimit(1)
+      .minimumScaleFactor(0.5)
+        
     }
   }
 
@@ -172,6 +175,8 @@ public struct RadioCatalog: View {
         selected: $selectedSpacing
       )
     }
+    .lineLimit(3)
+    .minimumScaleFactor(1.0)
   }
 
   func	paddingView() -> some View {

@@ -53,17 +53,20 @@ struct ContentListView: View {
   }
 
   var bottomBar: some View {
-    PBNav(
-      selected: $selectedItem,
-      variant: .subtle,
-      orientation: .horizontal
-    ) {
-      PBNavItem(DesignElements.title)
-      PBNavItem(Componenets.title)
+    HStack(alignment: .center) {
+      PBNav(
+        selected: $selectedItem,
+        variant: .subtle,
+        orientation: .horizontal
+      ) {
+        PBNavItem(DesignElements.title)
+        PBNavItem(Componenets.title)
+      }
+      .offset(x: 20, y: -8)
+      .padding(.horizontal, Spacing.xLarge)
+      .frame(maxWidth: .infinity, minHeight: 80)
+      .background(Color.white)
     }
-    .offset(y: -8)
-    .frame(maxWidth: .infinity, minHeight: 80)
-    .background(Color.white)
   }
 
   @ViewBuilder
