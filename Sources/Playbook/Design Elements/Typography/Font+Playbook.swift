@@ -76,8 +76,7 @@ public enum PBFont: Equatable {
     case .subcaption:
       return Font.custom(
         ProximaNova.regular.rawValue,
-        size: size,
-        relativeTo: .caption2
+        size: size
       )
     case let .monogram(fontSize):
       return Font.custom(
