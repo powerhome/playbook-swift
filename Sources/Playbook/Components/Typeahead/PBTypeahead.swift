@@ -17,7 +17,9 @@ public struct PBTypeahead<Content: View>: View {
   @State private var options: [(String, Content?)] = []
   @State private var selectedOptions: [(String, Content?)] = []
   @State private var isFocused: Bool?
-
+  @State private var isHovering: Bool = false
+  @State private var hoveringItem: String = ""
+  
   init(
     title: String,
     placeholder: String = "Select",
@@ -33,7 +35,7 @@ public struct PBTypeahead<Content: View>: View {
     self.variant = variant
     self.clearAction = clearAction
   }
-
+  
   public var body: some View {
     VStack(alignment: .leading) {
       Text(title).pbFont(.caption)
@@ -47,15 +49,13 @@ public struct PBTypeahead<Content: View>: View {
         clearAction: { clearText },
         onItemTap: { removeSelected($0) }
       )
+      
       listView
     }
     .onAppear {
       options = anyOptions
     }
-//    .background(Color.white.opacity(0.01))
-//    .onTapGesture {
-//      isFocused?.toggle()
-//    }
+    
   }
 }
 
@@ -74,13 +74,13 @@ private extension PBTypeahead {
     }
     return selectedOptions
   }
-
+  
   var searchResults: [(String, Content?)] {
     return (searchText.isEmpty && (isFocused ?? false)) ? options  : options.filter {
       $0.0.localizedCaseInsensitiveContains(searchText)
     }
   }
-
+  
   var clearText: Void {
     if let action = clearAction {
       action()
@@ -101,29 +101,37 @@ private extension PBTypeahead {
   @ViewBuilder
   var listView: some View {
     if let focused = isFocused, focused, !searchResults.isEmpty {
-      PBCard(alignment: .leading, padding: Spacing.small) {
+      PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
-          ForEach(searchResults, id: \.0) { (result, value) in
-            HStack {
-              if let value = value {
-                value
-              } else {
-                Text(result).frame(height: 40)
+          VStack(spacing: 0) {
+            ForEach(searchResults, id: \.0) { (result, value) in
+              HStack {
+                if let value = value {
+                  value
+                } else {
+                  Text(result)
+                }
+                Spacer()
               }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .onTapGesture {
-              selectedOptions = variantSelectedOptions(result)
-              isFocused = nil
-              searchText = ""
+              .padding(.horizontal, Spacing.xSmall + 4)
+              .padding(.vertical, Spacing.xSmall)
+              .background(listBackgroundColor(item: result))
+              .onHover { _ in hoveringItem = result }
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .onTapGesture {
+                selectedOptions = variantSelectedOptions(result)
+                isFocused = nil
+                searchText = ""
+              }
             }
           }
         }
-        .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
       }
-      .frame(maxWidth: .infinity)
-      .pbShadow(.deeper)
     }
+  }
+
+  private func listBackgroundColor(item: String) -> Color {
+    hoveringItem == item ? .hover : .card
   }
 }
 
