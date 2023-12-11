@@ -109,7 +109,7 @@ private extension PBTypeahead {
                 if let value = value {
                   value
                 } else {
-                  Text(result)
+                  Text(result).pbFont(.body)
                 }
                 Spacer()
               }
@@ -130,7 +130,7 @@ private extension PBTypeahead {
     }
   }
 
-  private func listBackgroundColor(item: String) -> Color {
+  func listBackgroundColor(item: String) -> Color {
     hoveringItem == item ? .hover : .card
   }
 }
