@@ -799,6 +799,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
   case laptopCode = "fa-laptop-code"
   case laptopHouse = "fa-laptop-house"
   case laptopMedical = "fa-laptop-medical"
+  case laptopMobile = "fa-laptop-mobile"
   case laravel = "fa-laravel"
   case lastfm = "fa-lastfm"
   case lastfmSquare = "fa-lastfm-square"
@@ -989,6 +990,8 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
   case phoenixSquadron = "fa-phoenix-squadron"
   case phone = "fa-phone"
   case phoneAlt = "fa-phone-alt"
+  case phoneOffice = "fa-phone-office"
+  case phonePlus = "fa-phone-plus"
   case phoneSlash = "fa-phone-slash"
   case phoneSquare = "fa-phone-square"
   case phoneSquareAlt = "fa-phone-square-alt"
@@ -2450,6 +2453,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .phoenixSquadron: return "\u{f511}"
     case .phone: return "\u{f095}"
     case .phoneAlt: return "\u{f879}"
+    case .phonePlus: return "\u{f4d2}"
     case .phoneSlash: return "\u{f3dd}"
     case .phoneSquare: return "\u{f098}"
     case .phoneSquareAlt: return "\u{f87b}"
@@ -2968,6 +2972,8 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .youtube: return "\u{f167}"
     case .youtubeSquare: return "\u{f431}"
     case .zhihu: return "\u{f63f}"
+    case .laptopMobile: return "\u{f67d}"
+    case .phoneOffice: return "\u{f87a}"
     }
   }
 }
