@@ -62,7 +62,8 @@ public extension PBDate {
       .dayDate,
       .standard,
       .withIcon(isStandard: true),
-      .withIcon(isStandard: false)]
+      .withIcon(isStandard: false)
+    ]
 
     public static var showCases: [PBDate.Variant] {
       return [.short, .standard, .dayDate]
