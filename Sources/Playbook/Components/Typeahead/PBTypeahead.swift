@@ -7,23 +7,22 @@
 
 import SwiftUI
 
-public struct PBTypeahead: View {
+public struct PBTypeahead<Content: View>: View {
   let title: String
   let placeholder: String
   let variant: WrappedInputField.Variant
   let clearAction: (() -> Void)?
-  let anyOptions: [String : Any?]
+  let anyOptions: [(String, Content?)]
   @Binding var searchText: String
-  @State private var options: [String] = []
-  @State private var optionsValues: [Any?] = []
-  @State private var selectedOptions: [String] = []
+  @State private var options: [(String, Content?)] = []
+  @State private var selectedOptions: [(String, Content?)] = []
   @State private var isFocused: Bool?
 
   init(
     title: String,
     placeholder: String = "Select",
     searchText: Binding<String>,
-    options: [String : Any?] = [:],
+    options: [(String, Content?)] = [],
     variant: WrappedInputField.Variant = .pill,
     clearAction: (() -> Void)? = nil
   ) {
@@ -42,30 +41,28 @@ public struct PBTypeahead: View {
         title: title,
         placeholder: placeholder,
         searchText: $searchText,
-        options: selectedOptions,
+        options: selectedOptions.map { $0.0 },
         variant: variant,
         isFocused: { isFocused = $0 },
         clearAction: { clearText },
         onItemTap: { removeSelected($0) }
       )
-      .onTapGesture {
-        isFocused?.toggle()
-      }
-
       listView
     }
     .onAppear {
-      options = anyOptions.map { $0.key }
-      optionsValues = anyOptions.map { $0.value }
+      options = anyOptions
     }
+//    .background(Color.white.opacity(0.01))
+//    .onTapGesture {
+//      isFocused?.toggle()
+//    }
   }
 }
 
 private extension PBTypeahead {
-  func variantSelectedOptions(_ result: String) -> [String] {
-    if let index = options.firstIndex(of: result) {
-      options.remove(at: index)
-      selectedOptions.append(result)
+  func variantSelectedOptions(_ result: String) -> [(String, Content?)] {
+    if let index = options.firstIndex(where: { $0.0 == result }){
+      selectedOptions.append(options.remove(at: index))
     }
     switch variant {
     case .text:
@@ -77,21 +74,13 @@ private extension PBTypeahead {
     }
     return selectedOptions
   }
-  
-  var searchResults: [String] {
-    let stringCollection = options.map { "\($0)" }
-    return (searchText.isEmpty && (isFocused ?? false)) ? stringCollection  : stringCollection.filter {
-      $0.localizedCaseInsensitiveContains(searchText)
+
+  var searchResults: [(String, Content?)] {
+    return (searchText.isEmpty && (isFocused ?? false)) ? options  : options.filter {
+      $0.0.localizedCaseInsensitiveContains(searchText)
     }
   }
-  
-//  var searchValuesResults: [Any] {
-////    let stringCollection = optionsValues.map { "\($0)" }
-//    return (searchText.isEmpty && (isFocused ?? false)) ? stringCollection  : stringCollection.filter {
-//      $0.localizedCaseInsensitiveContains(searchText)
-//    }
-//  }
-//  
+
   var clearText: Void {
     if let action = clearAction {
       action()
@@ -103,7 +92,7 @@ private extension PBTypeahead {
   }
   
   func removeSelected(_ element: String) {
-    if let selectedElementIndex = selectedOptions.firstIndex(where: { $0 == element }) {
+    if let selectedElementIndex = selectedOptions.firstIndex(where: { $0.0 == element }) {
       let selectedElement = selectedOptions.remove(at: selectedElementIndex)
       options.append(selectedElement)
     }
@@ -114,15 +103,19 @@ private extension PBTypeahead {
     if let focused = isFocused, focused, !searchResults.isEmpty {
       PBCard(alignment: .leading, padding: Spacing.small) {
         ScrollView {
-          ForEach(searchResults, id: \.self) { result in
+          ForEach(searchResults, id: \.0) { (result, value) in
             HStack {
-              Text(result)
+              if let value = value {
+                value
+              } else {
+                Text(result).frame(height: 40)
+              }
             }
-            .frame(height: 40)
             .frame(maxWidth: .infinity, alignment: .leading)
             .onTapGesture {
               selectedOptions = variantSelectedOptions(result)
-              isFocused = false
+              isFocused = nil
+              searchText = ""
             }
           }
         }

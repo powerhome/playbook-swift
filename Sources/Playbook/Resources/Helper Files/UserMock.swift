@@ -8,14 +8,14 @@
 import SwiftUI
 
 enum Mocks {
-  static let andrew = PBUser(name: "Andrew Black", image: Image("andrew", bundle: .module))
-  static let ana = PBUser(name: "Andrew Black", image: Image("Anna", bundle: .module))
-  static let patric = PBUser(name: "Andrew Black", image: Image("Pat", bundle: .module))
-  static let luccile = PBUser(name: "Andrew Black", image: Image("andrew", bundle: .module))
+  static let andrew = PBUser(name: "Andrew Black", image: Image("andrew", bundle: .module), size: .small, title: "Senior User Experience Engineer")
+  static let ana = PBUser(name: "Ana Black", image: Image("Anna", bundle: .module), size: .small, title: "Senior User Experience Engineer")
+  static let patric = PBUser(name: "Pat Black", image: Image("Pat", bundle: .module), size: .small, title: "Senior User Experience Engineer")
+  static let luccile = PBUser(name: "Luccile Black", image: Image("Lu", bundle: .module), size: .small, title: "Senior User Experience Engineer")
   static let oneUser = [andrew]
   static let twoUsers = [andrew, ana]
   static let multipleUsers = [andrew, ana, patric, luccile]
-  static let multipleUsersDictionary: [String : PBUser] = ["Andrew" : andrew, "Ana" : ana, "Patric" : patric, "Luccile" : andrew]
+  static let multipleUsersDictionary: [(String, PBUser)] = [("Andrew", andrew), ("Ana", ana), ("Patric", patric), ("Luccile", luccile)]
   static let avatarXSmall = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall)
   static let avatarXSmallStatus = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .online)
   static let userName = "Andrew Black"
