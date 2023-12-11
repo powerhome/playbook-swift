@@ -16,6 +16,7 @@ let package = Package(
   ],
   dependencies: [
     // Dependencies declare other packages that this package depends on.
+    .package(url: "https://github.com/marmelroy/PhoneNumberKit.git", from: "3.7.5"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
       from: "1.14.2"
@@ -26,7 +27,9 @@ let package = Package(
     // Targets can depend on other targets in this package, and on products in packages this package depends on.
     .target(
       name: "Playbook",
-      dependencies: [],
+      dependencies: [
+        .product(name: "PhoneNumberKit", package: "PhoneNumberKit")
+      ],
       resources: [.process("Resources/Assets/")]
     ),
     .testTarget(

@@ -68,7 +68,7 @@ node(defaultNode) {
     }
 
     stage(stg.build) {
-      fastlane("build_ios type:${buildType()}")
+      fastlane("build_ios suffix:${buildSuffix()}")
     }
 
     stage(stg.upload) {
@@ -86,6 +86,9 @@ node(defaultNode) {
 }
 
 // Methods
+def buildSuffix() {
+  isDevBuild() ? 'beta' : nil
+}
 
 def jenkinsSetup() {
   echo "Running Jenkins setup script..."
@@ -210,7 +213,7 @@ def uploadToAppCenter() {
   if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
-  fastlane("upload_ios type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+  fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
 }
 
 def prTitleValid() {
