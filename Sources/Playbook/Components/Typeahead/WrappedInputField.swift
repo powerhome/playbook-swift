@@ -10,43 +10,45 @@ import WrappingHStack
 
 public struct WrappedInputField: View {
   let title: String
-  let placeholder: Text?
-  let options: [Any]
+  let placeholder: String
+  let selection: Selection
   let variant: Variant
   let clearAction: (() -> Void)?
   let onItemTap: ((String) -> Void)?
-  @Binding var isFocused: Bool
+//  @Binding var isFocused: Bool
   @Binding var searchText: String
-  @FocusState private var focus
+  @FocusState private var isFocused
 
   init(
     title: String,
-    placeholder: Text? = nil,
+    placeholder: String = "Select",
     searchText: Binding<String>,
-    options: [Any] = [],
+//    options: [Any] = [],
+    selection: Selection,
     variant: Variant = .pill,
-    isFocused: Binding<Bool>,
+//    isFocused: Binding<Bool>,
     clearAction: (() -> Void)? = nil,
     onItemTap: ((String) -> Void)? = nil
   ) {
     self.title = title
     self.placeholder = placeholder
     self._searchText = searchText
-    self.options = options
+//    self.options = options
+    self.selection = selection
     self.variant = variant
-    self._isFocused = isFocused
     self.clearAction = clearAction
     self.onItemTap = onItemTap
   }
 
   public var body: some View {
     VStack(alignment: .leading) {
-      WrappingHStack(indices) { index in
+      WrappingHStack(indices, spacing: .constant(0)) { index in
         if indices.last == index {
           HStack {
-            TextField("", text: $searchText, prompt: placeholder)
+            TextField(placeholderText, text: $searchText)
               .textFieldStyle(.plain)
-              .focused($focus)
+//              .focusable(interactions: .edit)
+              .focused($isFocused)
               .pbFont(.body, color: textColor)
               .frame(minHeight: Spacing.xLarge)
             PBIcon.fontAwesome(.times)
@@ -56,12 +58,7 @@ public struct WrappedInputField: View {
           }
           .padding(.horizontal, Spacing.small)
         } else {
-          if options.count > 0 {
-            gridItem("\(options[index])")
-              .padding(.leading, Spacing.xSmall)
-              .padding(.vertical, Spacing.xSmall)
-              .fixedSize()
-          }
+          itemView(index: index)
         }
       }
       .background(
@@ -69,21 +66,52 @@ public struct WrappedInputField: View {
           .stroke(borderColor, lineWidth: 1)
       )
     }
-    .onChange(of: focus) { isFocused = $0 }
+//    .onChange(of: focus) { isFocused = $0 }
   }
 }
 
 extension WrappedInputField {
+  @ViewBuilder
+  func itemView(index: Int) -> some View {
+    switch selection {
+    case .multiple(let options):
+      if options.count > 0 {
+        gridItem("\(options[index])")
+          .padding(.leading, Spacing.xSmall)
+          .padding(.vertical, Spacing.xSmall)
+          .fixedSize()
+      }
+    case .single:
+      EmptyView()
+    }
+  }
+  
+  private var placeholderText: String {
+    switch selection {
+    case .multiple(_): return placeholder
+    case .single(let element): return element ?? placeholder
+    }
+  }
+  
   private var indices: Range<Int> {
-    Range(0...options.count)
+    switch selection {
+    case .multiple(let options): return  Range(0...options.count)
+    case .single(_): return Range(0...1)
+    }
   }
 
   private var borderColor: Color {
-    focus ? .pbPrimary : .border
+    isFocused ? .pbPrimary : .border
   }
   
   private var textColor: Color {
     searchText.isEmpty ? .text(.light) : .text(.default)
+  }
+  
+  @ViewBuilder
+  private func gridItem(_ item: String) -> some View {
+    variant.view(text: item)
+      .onTapGesture { onItemTap?(item) }
   }
   
   enum Variant {
@@ -99,13 +127,16 @@ extension WrappedInputField {
     }
   }
   
-  @ViewBuilder
-  func gridItem(_ item: String) -> some View {
-    variant.view(text: item)
-      .onTapGesture { onItemTap?(item) }
+  enum Selection {
+    case single(String?), multiple([String])
   }
 }
 
 #Preview {
-  WrappedInputField(title: "title", searchText: .constant("some text"), options: ["option 1"], isFocused: .constant(true))
+  registerFonts()
+  return VStack {
+    WrappedInputField(title: "title", searchText: .constant(""), selection: .single(nil))
+    
+    WrappedInputField(title: "title", searchText: .constant(""), selection: .multiple(["oi1", "oi2"]))
+  }
 }

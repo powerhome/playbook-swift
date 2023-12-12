@@ -9,9 +9,10 @@ import SwiftUI
 
 public struct PBTypeahead<Content: View>: View {
   let title: String
-  @State private var placeholder: String
+  let placeholder: String
   let variant: WrappedInputField.Variant
   let clearAction: (() -> Void)?
+  let selection: Selection
   @Binding var searchText: String
   @State private var options: [(String, Content?)] = []
   @State private var selectedOptions: [(String, Content?)] = []
@@ -24,6 +25,7 @@ public struct PBTypeahead<Content: View>: View {
     title: String,
     placeholder: String = "Select",
     searchText: Binding<String>,
+    selection: Selection,
     options: [(String, Content?)] = [],
     variant: WrappedInputField.Variant = .pill,
     clearAction: (() -> Void)? = nil
@@ -31,6 +33,7 @@ public struct PBTypeahead<Content: View>: View {
     self.title = title
     self.placeholder = placeholder
     self._searchText = searchText
+    self.selection = selection
     self.options = options
     self.variant = variant
     self.clearAction = clearAction
@@ -41,11 +44,10 @@ public struct PBTypeahead<Content: View>: View {
       Text(title).pbFont(.caption)
       WrappedInputField(
         title: title,
-        placeholder: placeholderView,
-        searchText: $searchText,
-        options: optionsToShow,
+        placeholder: placeholder,
+        searchText: $searchText, 
+        selection: opstndonfq(),
         variant: variant,
-        isFocused: $isFocused,
         clearAction: { clearText },
         onItemTap: { removeSelected($0) }
       )
@@ -61,17 +63,8 @@ public struct PBTypeahead<Content: View>: View {
 }
 
 private extension PBTypeahead {
-  var placeholderView: Text {
-    Text(placeholder)
-      .pbFont(.body, color: .text(.default)) as? Text ?? Text(placeholder)
-//      .pbFont(.body, color: isPresented ? .text(.default) : .text(.light)) as? Text ?? Text(placeholder)
-  }
-
   var optionsToShow: [String] {
-    switch variant {
-    case .text: return []
-    default: return selectedOptions.map { $0.0 }
-    }
+    return selectedOptions.map { $0.0 }
   }
   
   func variantSelectedOptions(_ result: String) -> [(String, Content?)] {
@@ -101,7 +94,8 @@ private extension PBTypeahead {
     } else {
       searchText = ""
       options.append(contentsOf: selectedOptions)
-      selectedOptions = []
+      selectedOptions.removeAll()
+      selection.selectedOptions(options: [], placeholder: placeholder)
     }
   }
   
@@ -115,18 +109,20 @@ private extension PBTypeahead {
   func onListSelection(selected element: String) {
     selectedOptions = variantSelectedOptions(element)
     isPresented.toggle()
-    isFocused.toggle()
     searchText = ""
-   
-    switch variant {
-    case .text: placeholder = element
-    default: break
+  }
+  
+  func opstndonfq() -> WrappedInputField.Selection {
+    if selectedOptions.isEmpty {
+      return selection.selectedOptions(options: [], placeholder: placeholder)
+    } else {
+      return selection.selectedOptions(options: optionsToShow, placeholder: placeholder)
     }
   }
   
   @ViewBuilder
   var listView: some View {
-    if isPresented || isFocused {
+    if isPresented {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
           VStack(spacing: 0) {
@@ -156,6 +152,19 @@ private extension PBTypeahead {
 
   func listBackgroundColor(item: String) -> Color {
     hoveringItem == item ? .hover : .card
+  }
+}
+
+public extension PBTypeahead {
+  enum Selection {
+    case single, multiple
+  
+    func selectedOptions(options: [String], placeholder: String) -> WrappedInputField.Selection {
+      switch self {
+      case .single: return .single(options.first ?? placeholder)
+      case .multiple: return .multiple(options)
+      }
+    }
   }
 }
 
