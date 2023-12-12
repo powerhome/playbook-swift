@@ -9,14 +9,14 @@ import SwiftUI
 
 public struct PBTypeahead<Content: View>: View {
   let title: String
-  let placeholder: String
+  @State private var placeholder: String
   let variant: WrappedInputField.Variant
   let clearAction: (() -> Void)?
-  let anyOptions: [(String, Content?)]
   @Binding var searchText: String
   @State private var options: [(String, Content?)] = []
   @State private var selectedOptions: [(String, Content?)] = []
-  @State private var isFocused: Bool?
+  @State private var isPresented: Bool = false
+  @State private var isFocused: Bool = false
   @State private var isHovering: Bool = false
   @State private var hoveringItem: String = ""
   
@@ -31,7 +31,7 @@ public struct PBTypeahead<Content: View>: View {
     self.title = title
     self.placeholder = placeholder
     self._searchText = searchText
-    self.anyOptions = options
+    self.options = options
     self.variant = variant
     self.clearAction = clearAction
   }
@@ -41,25 +41,39 @@ public struct PBTypeahead<Content: View>: View {
       Text(title).pbFont(.caption)
       WrappedInputField(
         title: title,
-        placeholder: placeholder,
+        placeholder: placeholderView,
         searchText: $searchText,
-        options: selectedOptions.map { $0.0 },
+        options: optionsToShow,
         variant: variant,
-        isFocused: { isFocused = $0 },
+        isFocused: $isFocused,
         clearAction: { clearText },
         onItemTap: { removeSelected($0) }
       )
       
       listView
     }
-    .onAppear {
-      options = anyOptions
+    .background(Color.white.opacity(0.02))
+    .onTapGesture {
+      isPresented.toggle()
     }
-    
+   
   }
 }
 
 private extension PBTypeahead {
+  var placeholderView: Text {
+    Text(placeholder)
+      .pbFont(.body, color: .text(.default)) as? Text ?? Text(placeholder)
+//      .pbFont(.body, color: isPresented ? .text(.default) : .text(.light)) as? Text ?? Text(placeholder)
+  }
+
+  var optionsToShow: [String] {
+    switch variant {
+    case .text: return []
+    default: return selectedOptions.map { $0.0 }
+    }
+  }
+  
   func variantSelectedOptions(_ result: String) -> [(String, Content?)] {
     if let index = options.firstIndex(where: { $0.0 == result }){
       selectedOptions.append(options.remove(at: index))
@@ -76,7 +90,7 @@ private extension PBTypeahead {
   }
   
   var searchResults: [(String, Content?)] {
-    return (searchText.isEmpty && (isFocused ?? false)) ? options  : options.filter {
+    return (searchText.isEmpty && isPresented) ? options  : options.filter {
       $0.0.localizedCaseInsensitiveContains(searchText)
     }
   }
@@ -98,9 +112,21 @@ private extension PBTypeahead {
     }
   }
   
+  func onListSelection(selected element: String) {
+    selectedOptions = variantSelectedOptions(element)
+    isPresented.toggle()
+    isFocused.toggle()
+    searchText = ""
+   
+    switch variant {
+    case .text: placeholder = element
+    default: break
+    }
+  }
+  
   @ViewBuilder
   var listView: some View {
-    if let focused = isFocused, focused, !searchResults.isEmpty {
+    if isPresented || isFocused {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
           VStack(spacing: 0) {
@@ -119,9 +145,7 @@ private extension PBTypeahead {
               .onHover { _ in hoveringItem = result }
               .frame(maxWidth: .infinity, alignment: .leading)
               .onTapGesture {
-                selectedOptions = variantSelectedOptions(result)
-                isFocused = nil
-                searchText = ""
+                onListSelection(selected: result)
               }
             }
           }

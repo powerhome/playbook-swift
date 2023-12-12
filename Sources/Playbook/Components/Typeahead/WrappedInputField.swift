@@ -10,22 +10,22 @@ import WrappingHStack
 
 public struct WrappedInputField: View {
   let title: String
-  let placeholder: String
+  let placeholder: Text?
   let options: [Any]
   let variant: Variant
   let clearAction: (() -> Void)?
   let onItemTap: ((String) -> Void)?
-  let isFocused: ((Bool) -> Void)?
+  @Binding var isFocused: Bool
   @Binding var searchText: String
   @FocusState private var focus
 
   init(
     title: String,
-    placeholder: String = "Select",
+    placeholder: Text? = nil,
     searchText: Binding<String>,
     options: [Any] = [],
     variant: Variant = .pill,
-    isFocused: ((Bool) -> Void)?,
+    isFocused: Binding<Bool>,
     clearAction: (() -> Void)? = nil,
     onItemTap: ((String) -> Void)? = nil
   ) {
@@ -34,7 +34,7 @@ public struct WrappedInputField: View {
     self._searchText = searchText
     self.options = options
     self.variant = variant
-    self.isFocused = isFocused
+    self._isFocused = isFocused
     self.clearAction = clearAction
     self.onItemTap = onItemTap
   }
@@ -44,7 +44,7 @@ public struct WrappedInputField: View {
       WrappingHStack(indices) { index in
         if indices.last == index {
           HStack {
-            TextField(placeholder, text: $searchText)
+            TextField("", text: $searchText, prompt: placeholder)
               .textFieldStyle(.plain)
               .focused($focus)
               .pbFont(.body, color: textColor)
@@ -69,7 +69,7 @@ public struct WrappedInputField: View {
           .stroke(borderColor, lineWidth: 1)
       )
     }
-    .onChange(of: focus) { isFocused?($0) }
+    .onChange(of: focus) { isFocused = $0 }
   }
 }
 
@@ -107,5 +107,5 @@ extension WrappedInputField {
 }
 
 #Preview {
-  WrappedInputField(title: "title", searchText: .constant("some text"), options: ["option 1"], isFocused: { _ in })
+  WrappedInputField(title: "title", searchText: .constant("some text"), options: ["option 1"], isFocused: .constant(true))
 }
