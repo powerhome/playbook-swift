@@ -21,6 +21,7 @@ struct ReactionButtonModifier: ViewModifier {
   func body(content: Content) -> some View {
     content
       .frame(height: 28)
+      .padding(.vertical, 2)
       .background(
         Capsule(style: .continuous)
           .strokeBorder(isHighlighted && isInteractive ? Color.pbPrimary : Color.border ,lineWidth: isHighlighted ? 2.0 : 1.0)
