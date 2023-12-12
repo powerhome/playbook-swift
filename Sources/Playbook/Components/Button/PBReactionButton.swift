@@ -71,7 +71,7 @@ public extension PBReactionButton {
   var emojiView: some View {
     return Text(icon ?? "")
       .padding(.leading, count > 0 ? 0 : 4)
-      .pbFont(.detail(false), variant: .light, color: .text(.light))
+      .pbFont(.buttonText(14), variant: .light, color: .text(.light))
   }
   
   var countView: some View {
