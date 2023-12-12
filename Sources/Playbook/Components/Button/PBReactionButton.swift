@@ -70,7 +70,7 @@ public extension PBReactionButton {
   
   var emojiView: some View {
     return Text(icon ?? "")
-      .pbFont(.monogram(14), variant: .light, color: .text(.light))
+      .pbFont(.monogram(12), variant: .light, color: .text(.light))
       .padding(.leading, count > 0 ? 0 : 4)
      
   }
