@@ -41,9 +41,7 @@ public struct ButtonsCatalog: View {
           HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 12) {
             PBReactionButton(
               count: $count,
-              icon: "\u{1F389}",
-              isInteractive: true
-            )
+              icon: "\u{1F389}", isInteractive: true)
             PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
             PBReactionButton()
             PBReactionButton(pbIcon: PBIcon(FontAwesome.user))
