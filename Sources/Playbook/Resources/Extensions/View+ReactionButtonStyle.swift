@@ -31,9 +31,9 @@ struct ReactionButtonModifier: ViewModifier {
       .onHover { hovering in
 #if os(macOS)
         if hovering {
-          NSCursor.closedHand.push()
+          NSCursor.pointingHand.push()
         } else {
-          NSCursor.closedHand.pop()
+          NSCursor.pointingHand.pop()
         }
 #endif
       }
