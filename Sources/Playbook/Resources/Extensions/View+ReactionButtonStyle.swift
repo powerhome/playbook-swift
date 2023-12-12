@@ -24,7 +24,7 @@ struct ReactionButtonModifier: ViewModifier {
       .frame(height: 28)
       .background(
         Capsule(style: .continuous)
-          .strokeBorder(isHighlighted && isInteractive ? Color.pbPrimary : Color.border ,lineWidth: isHighlighted ? 2.0 : 1.0)
+          .strokeBorder(isHighlighted && isInteractive ? Color.pbPrimary : Color.border ,lineWidth: isHighlighted && isInteractive ? 2.0 : 1.0)
           .background(isHovering ? Color.background(.light) : Color.white)
       )
       .clipShape(Capsule())
