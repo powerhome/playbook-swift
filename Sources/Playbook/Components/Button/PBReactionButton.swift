@@ -84,7 +84,7 @@ public extension PBReactionButton {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.faceSmilePlus, size: .small)
         .foregroundStyle(Color.text(.lighter))
-        .frame(width: Spacing.xLarge)
+        .padding(.horizontal, 12)
     }
   }
   
@@ -92,8 +92,7 @@ public extension PBReactionButton {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.user, size: .small)
         .foregroundStyle(Color.text(.lighter))
-        .frame(width: Spacing.xLarge)
-      
+        .padding(.horizontal, 12)
     }
   }
   
