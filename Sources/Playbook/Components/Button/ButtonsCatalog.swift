@@ -43,8 +43,8 @@ public struct ButtonsCatalog: View {
               count: $count,
               icon: "\u{1F389}", isInteractive: true)
             PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
-            PBReactionButton()
-            PBReactionButton(pbIcon: PBIcon(FontAwesome.user))
+            PBReactionButton(isInteractive: false)
+            PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false)
           }
         }
 
