@@ -76,7 +76,7 @@ public extension PBReactionButton {
   
   var countView: some View {
     return Text(count > 0 || isInteractive == true ? "\(count)" : "")
-      .pbFont(.caption, variant: .light, color: .text(.light))
+      .pbFont(.subcaption, variant: .light, color: .text(.light))
   }
   
   var addReactionView: some View {
