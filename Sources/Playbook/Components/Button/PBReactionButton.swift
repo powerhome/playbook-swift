@@ -92,7 +92,7 @@ public extension PBReactionButton {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.user, size: .small)
         .foregroundStyle(Color.text(.lighter))
-        .padding(.horizontal, 12)
+        .padding(.horizontal, 14.5)
     }
   }
   
