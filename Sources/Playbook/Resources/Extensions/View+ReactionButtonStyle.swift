@@ -23,17 +23,19 @@ struct ReactionButtonModifier: ViewModifier {
       .padding(.vertical, 2)
       .frame(height: 28)
       .background(
-        Capsule(style: .continuous)
-          .strokeBorder(isHighlighted && isInteractive ? Color.pbPrimary : Color.border ,lineWidth: isHighlighted && isInteractive ? 2.0 : 1.0)
-          .background(isHovering ? Color.background(.light) : Color.white)
+          Capsule(style: .continuous)
+            .strokeBorder(isHighlighted && isInteractive ? Color.pbPrimary : Color.border ,lineWidth: isHighlighted && isInteractive ? 2.0 : 1.0)
+            .background(isHovering ? Color.background(.light) : Color.white)
+            .animation(.easeInOut(duration: 0.3), value: isHighlighted)
+            .animation(.easeInOut(duration: 0.3), value: isHovering)
       )
       .clipShape(Capsule())
       .onHover { hovering in
 #if os(macOS)
         if hovering {
-          NSCursor.pointingHand.push()
+            NSCursor.pointingHand.push()
         } else {
-          NSCursor.pointingHand.pop()
+            NSCursor.pointingHand.pop()
         }
 #endif
       }
