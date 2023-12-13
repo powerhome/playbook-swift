@@ -68,7 +68,7 @@ public extension PersonContactCatalog {
       PBPersonContact(contactType: .home, contactValue: "(304) 861-5385", variant: .contact)
       Spacer()
       Text("Wrong Number")
-        .pbFont(.caption)
+        .pbFont(.caption, variant: .bold, color: .text(.light))
       PBPersonContact(contactType: .custom("", FontAwesome.phoneSlash), contactValue: "(324) 562-7482", variant: .contact)
     }
   }
