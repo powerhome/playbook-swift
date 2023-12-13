@@ -44,7 +44,6 @@ public struct PBPersonContact: View {
 public extension PBPersonContact {
   enum Variant {
     case person, contact
-    
   }
   var nameView: some View {
     return PBPerson(firstName: firstName ?? "Pauline", lastName: lastName ?? "Smith")

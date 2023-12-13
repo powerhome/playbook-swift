@@ -41,7 +41,6 @@ public extension PersonContactCatalog {
       PBPersonContact(contactType: .work , contactValue: "(342) 562-7482", contactDetail: false, variant: .contact)
     }
   }
-  
   var multiplePeopleView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       PBPersonContact(firstName: "Harvey", lastName: "Walters", variant: .person)
@@ -53,7 +52,6 @@ public extension PersonContactCatalog {
       PBPersonContact(contactType: .home, contactValue: "(555) 555-5555", variant: .contact)
     }
   }
-  
   var withDetailView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       PBPersonContact(firstName: "Harvey", lastName: "Walters", variant: .person)
@@ -62,7 +60,6 @@ public extension PersonContactCatalog {
       PBPersonContact(contactType: .work, contactValue: "(324) 562-7482", contactDetail: true, variant: .contact)
     }
   }
-  
   var withWrongNumbersView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       PBPersonContact(firstName: "Pauline", lastName: "Smith", variant: .person)
