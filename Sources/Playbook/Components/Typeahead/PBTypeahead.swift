@@ -46,7 +46,7 @@ public struct PBTypeahead<Content: View>: View {
         title: title,
         placeholder: placeholder,
         searchText: $searchText, 
-        selection: opstndonfq(),
+        selection: onSelection(),
         variant: variant,
         clearAction: { clearText },
         onItemTap: { removeSelected($0) }
@@ -58,7 +58,6 @@ public struct PBTypeahead<Content: View>: View {
     .onTapGesture {
       isPresented.toggle()
     }
-   
   }
 }
 
@@ -95,7 +94,6 @@ private extension PBTypeahead {
       searchText = ""
       options.append(contentsOf: selectedOptions)
       selectedOptions.removeAll()
-      selection.selectedOptions(options: [], placeholder: placeholder)
     }
   }
   
@@ -112,7 +110,7 @@ private extension PBTypeahead {
     searchText = ""
   }
   
-  func opstndonfq() -> WrappedInputField.Selection {
+  func onSelection() -> WrappedInputField.Selection {
     if selectedOptions.isEmpty {
       return selection.selectedOptions(options: [], placeholder: placeholder)
     } else {
@@ -146,6 +144,7 @@ private extension PBTypeahead {
             }
           }
         }
+        .scrollDismissesKeyboard(.immediately)
       }
     }
   }

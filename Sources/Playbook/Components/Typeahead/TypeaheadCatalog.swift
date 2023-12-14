@@ -19,7 +19,6 @@ public struct TypeaheadCatalog: View {
 
   @State private var searchTextUsers: String = ""
   @State private var assetsUsers = Mocks.multipleUsersDictionary
-
   @State private var searchText: String = ""
   @State private var assets: [(String, AnyView?)] = [("Apple", nil), ("Banana", nil), ("Cherry", nil), ("Grapes", nil), ("Orange", nil)]
 
@@ -29,17 +28,14 @@ public struct TypeaheadCatalog: View {
         PBDoc(title: "Default") {
           PBTypeahead(title: "Colors", searchText: $searchTextColors, selection: .single, options: assetsColors, variant: .text)
         }
-        
-        PBDoc(title: "With Highlight") {
-          PBTypeahead(title: "Users", searchText: $searchTextUsers, selection: .multiple, options: assetsUsers, variant: .pill)
-        }
-        
+
         PBDoc(title: "With Pills") {
           PBTypeahead(title: "Users", searchText: $searchText, selection: .multiple, options: assetsUsers, variant: .pill)
         }
       }
       .padding(Spacing.medium)
     }
+    .scrollDismissesKeyboard(.immediately)
     .background(Color.background(.light))
     .navigationTitle("Typeahead")
   }

@@ -15,25 +15,23 @@ public struct WrappedInputField: View {
   let variant: Variant
   let clearAction: (() -> Void)?
   let onItemTap: ((String) -> Void)?
-//  @Binding var isFocused: Bool
+  private let shape = RoundedRectangle(cornerRadius: BorderRadius.medium)
   @Binding var searchText: String
+  @State private var isHovering: Bool = false
   @FocusState private var isFocused
 
   init(
     title: String,
     placeholder: String = "Select",
     searchText: Binding<String>,
-//    options: [Any] = [],
     selection: Selection,
     variant: Variant = .pill,
-//    isFocused: Binding<Bool>,
     clearAction: (() -> Void)? = nil,
     onItemTap: ((String) -> Void)? = nil
   ) {
     self.title = title
     self.placeholder = placeholder
     self._searchText = searchText
-//    self.options = options
     self.selection = selection
     self.variant = variant
     self.clearAction = clearAction
@@ -57,15 +55,22 @@ public struct WrappedInputField: View {
           itemView(index: index)
         }
       }
+      .background(backgroundColor)
+      .clipShape(shape)
       .background(
-        RoundedRectangle(cornerRadius: BorderRadius.medium)
-          .stroke(borderColor, lineWidth: 1)
+        shape
+          .stroke(borderColor, lineWidth: 1.2)
       )
     }
+    .onHover { isHovering = $0 }
   }
 }
 
 extension WrappedInputField {
+  var backgroundColor: Color {
+    isHovering ? .background(.light) : .card
+  }
+
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
     ZStack(alignment: .leading) {
@@ -75,6 +80,7 @@ extension WrappedInputField {
           .frame(minHeight: Spacing.xLarge)
       }
         TextField("", text: $searchText)
+        .scrollDismissesKeyboard(.immediately)
           .textFieldStyle(.plain)
           .focused($isFocused)
           .pbFont(.body, color: textColor)
@@ -154,7 +160,6 @@ extension WrappedInputField {
   registerFonts()
   return VStack {
     WrappedInputField(title: "title", searchText: .constant(""), selection: .single(nil))
-    
     WrappedInputField(title: "title", searchText: .constant(""), selection: .multiple(["oi1", "oi2"]))
   }
 }
