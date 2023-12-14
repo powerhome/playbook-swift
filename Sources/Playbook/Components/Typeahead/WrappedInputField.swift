@@ -45,12 +45,8 @@ public struct WrappedInputField: View {
       WrappingHStack(indices, spacing: .constant(0)) { index in
         if indices.last == index {
           HStack {
-            TextField(placeholderText, text: $searchText)
-              .textFieldStyle(.plain)
-//              .focusable(interactions: .edit)
-              .focused($isFocused)
-              .pbFont(.body, color: textColor)
-              .frame(minHeight: Spacing.xLarge)
+            textfieldWithCustomPlaceholder
+            Spacer()
             PBIcon.fontAwesome(.times)
               .onTapGesture {
                 clearAction?()
@@ -66,11 +62,27 @@ public struct WrappedInputField: View {
           .stroke(borderColor, lineWidth: 1)
       )
     }
-//    .onChange(of: focus) { isFocused = $0 }
   }
 }
 
 extension WrappedInputField {
+  @ViewBuilder
+  var textfieldWithCustomPlaceholder: some View {
+    ZStack(alignment: .leading) {
+      if searchText.isEmpty {
+        Text(placeholderText)
+          .pbFont(.body, color: textColor)
+          .frame(minHeight: Spacing.xLarge)
+      }
+        TextField("", text: $searchText)
+          .textFieldStyle(.plain)
+          .focused($isFocused)
+          .pbFont(.body, color: textColor)
+          .frame(minHeight: Spacing.xLarge)
+      
+    }
+  }
+  
   @ViewBuilder
   func itemView(index: Int) -> some View {
     switch selection {
@@ -105,7 +117,13 @@ extension WrappedInputField {
   }
   
   private var textColor: Color {
-    searchText.isEmpty ? .text(.light) : .text(.default)
+    
+    switch selection {
+    case .multiple(_): return searchText.isEmpty ? .text(.light) : .text(.default)
+    case .single(let element):
+      return element == placeholder ? .text(.light) : .text(.default)
+      
+    }
   }
   
   @ViewBuilder
