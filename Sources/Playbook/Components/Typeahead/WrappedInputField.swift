@@ -104,7 +104,7 @@ extension WrappedInputField {
   
   private var placeholderText: String {
     switch selection {
-    case .multiple(_): return placeholder
+    case .multiple(let elements): return elements.isEmpty ? placeholder : ""
     case .single(let element): return element ?? placeholder
     }
   }

@@ -74,25 +74,43 @@ private extension Pill {
 
 #Preview {
   registerFonts()
-  return VStack(spacing: Spacing.small) {
-    Pill("Default")
+  return ScrollView {
+    VStack(spacing: Spacing.medium) {
+      
+      
+      PBDoc(title: "Default", spacing: Spacing.small) {
+        HStack {
+          Pill("Default")
+          
+          Pill("Default")
+            .environment(\.focus, true)
+          
+          Pill("Default")
+            .environment(\.active, true)
+        }
+        
+        HStack {
+          Pill("Default")
+            .environment(\.hovering, true)
+          
+          Pill("Default")
+            .environment(\.hovering, true)
+            .environment(\.focus, true)
+          
+          Pill("Default")
+            .environment(\.hovering, true)
+            .environment(\.active, true)
+            .environment(\.focus, true)
+        }
+      }
 
-    Pill("Default")
-      .environment(\.focus, true)
-
-    Pill("Default")
-      .environment(\.active, true)
-
-    Pill("Default")
-      .environment(\.hovering, true)
-
-    Pill("Default")
-      .environment(\.hovering, true)
-      .environment(\.focus, true)
-
-    Pill("Default")
-      .environment(\.hovering, true)
-      .environment(\.active, true)
-      .environment(\.focus, true)
+      PBDoc(title: "With icons") {
+        Pill("Default", icon: .desktop)
+      }
+    }
+    .padding(Spacing.medium)
   }
+  .scrollDismissesKeyboard(.immediately)
+  .background(Color.background(.light))
+  .navigationTitle("Pill")
 }
