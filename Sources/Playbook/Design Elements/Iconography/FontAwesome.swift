@@ -2970,8 +2970,8 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .youtube: return "\u{f167}"
     case .youtubeSquare: return "\u{f431}"
     case .zhihu: return "\u{f63f}"
-    case .laptopMobile: return "\u{f67d}"
-    case .phoneOffice: return "\u{f87a}"
+    case .laptopMobile: return "\u{f87a}"
+    case .phoneOffice: return "\u{f67d}"
     }
   }
 }

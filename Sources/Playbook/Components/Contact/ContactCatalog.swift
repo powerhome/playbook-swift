@@ -32,7 +32,7 @@ public extension ContactCatalog {
       PBContact(value: "5555555555")
       PBContact(type: .email, value: "email@example.com")
       PBContact(type: .work, value: "3245627482")
-      PBContact(type: .workCell, value: "3245627482")
+      PBContact(type: .workCell, value: "3245627482", detail: true)
     }
   }
   var detailView: some View {

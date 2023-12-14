@@ -38,7 +38,7 @@ public extension PersonContactCatalog {
       PBPersonContact(firstName: "Pauline", lastName: "Smith", variant: .person)
       PBPersonContact(contactType: .email , contactValue: "email@example.com", contactDetail: false, variant: .contact)
       PBPersonContact(contactType: .home , contactValue: "(555) 555-5555", contactDetail: false, variant: .contact)
-      PBPersonContact(contactType: .workCell, contactValue: "(342) 562-7482", contactDetail: false, variant: .contact)
+      PBPersonContact(contactType: .work, contactValue: "(342) 562-7482", contactDetail: false, variant: .contact)
     }
   }
   var multiplePeopleView: some View {
@@ -46,7 +46,7 @@ public extension PersonContactCatalog {
       PBPersonContact(firstName: "Harvey", lastName: "Walters", variant: .person)
       PBPersonContact(contactType: .email, contactValue: "email@example.com", variant: .contact)
       PBPersonContact(contactType: .home, contactValue: "(555) 555-5555", variant: .contact)
-      PBPersonContact(contactType: .workCell, contactValue: "(324) 562-7482", variant: .contact)
+      PBPersonContact(contactType: .work, contactValue: "(324) 562-7482", variant: .contact)
       Spacer()
       PBPersonContact(firstName: "Brenda", lastName: "Walters", variant: .person)
       PBPersonContact(contactType: .home, contactValue: "(555) 555-5555", variant: .contact)
@@ -57,7 +57,7 @@ public extension PersonContactCatalog {
       PBPersonContact(firstName: "Harvey", lastName: "Walters", variant: .person)
       PBPersonContact(contactType: .email, contactValue: "email@example.com", variant: .contact)
       PBPersonContact(contactType: .home, contactValue: "(555) 555-5555", contactDetail: true, variant: .contact)
-      PBPersonContact(contactType: .workCell, contactValue: "(324) 562-7482", contactDetail: true, variant: .contact)
+      PBPersonContact(contactType: .work, contactValue: "(324) 562-7482", contactDetail: true, variant: .contact)
     }
   }
   var withWrongNumbersView: some View {
