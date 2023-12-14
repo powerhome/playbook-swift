@@ -32,9 +32,6 @@ struct Pill: View {
           .font(.custom(ProximaNova.bold.rawValue, size: 14))
           .foregroundStyle(Color.text(.default))
         PBIcon(FontAwesome.times)
-//          .onTapGesture {
-//            closeAction?()
-//          }
       }
       .padding(.vertical, Spacing.xSmall)
       .padding(.horizontal, Spacing.small )

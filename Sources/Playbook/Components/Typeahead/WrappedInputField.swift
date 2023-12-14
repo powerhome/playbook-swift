@@ -40,21 +40,26 @@ public struct WrappedInputField: View {
 
   public var body: some View {
     VStack(alignment: .leading) {
-      WrappingHStack(indices, spacing: .constant(0)) { index in
-        if indices.last == index {
-          HStack(spacing: 0) {
-            textfieldWithCustomPlaceholder
-            Spacer()
-            PBIcon.fontAwesome(.times)
-              .foregroundStyle(Color.text(.light))
-              .onTapGesture {
-                clearAction?()
-              }
+      HStack {
+        WrappingHStack(indices, spacing: .constant(0)) { index in
+          if indices.last == index {
+            HStack(spacing: 0) {
+              textfieldWithCustomPlaceholder
+              Spacer()
+             
+            }
+            .padding(.leading, Spacing.small)
+          } else {
+            itemView(index: index)
           }
-          .padding(.horizontal, Spacing.small)
-        } else {
-          itemView(index: index)
         }
+       
+        PBIcon.fontAwesome(.times)
+          .foregroundStyle(Color.text(.light))
+          .onTapGesture {
+            clearAction?()
+          }
+          .padding(.trailing, Spacing.small)
       }
       .background(backgroundColor)
       .clipShape(shape)
