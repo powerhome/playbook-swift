@@ -31,19 +31,23 @@ public struct PBPersonContact: View {
   }
 
   public var body: some View {
-    VStack(spacing: Spacing.medium) {
-      if variant == .person {
-        nameView
-      } else if variant == .contact {
-        contactView
-      }
-    }
+    personOrContactView
   }
 }
 
 public extension PBPersonContact {
   enum Variant {
     case person, contact
+  }
+  
+  var personOrContactView: some View {
+    return VStack(spacing: Spacing.medium) {
+      if variant == .person {
+        nameView
+      } else if variant == .contact {
+        contactView
+      }
+    }
   }
   var nameView: some View {
     return PBPerson(firstName: firstName ?? "Pauline", lastName: lastName ?? "Smith")
