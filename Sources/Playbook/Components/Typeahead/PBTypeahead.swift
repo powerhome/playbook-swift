@@ -40,8 +40,9 @@ public struct PBTypeahead<Content: View>: View {
   }
   
   public var body: some View {
-    VStack(alignment: .leading) {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text(title).pbFont(.caption)
+        .padding(.bottom, Spacing.xxSmall)
       WrappedInputField(
         title: title,
         placeholder: placeholder,
@@ -94,6 +95,7 @@ private extension PBTypeahead {
       searchText = ""
       options.append(contentsOf: selectedOptions)
       selectedOptions.removeAll()
+      isPresented = false
     }
   }
   
@@ -130,6 +132,7 @@ private extension PBTypeahead {
                   value
                 } else {
                   Text(result).pbFont(.body)
+                    .padding(.vertical, 4)
                 }
                 Spacer()
               }

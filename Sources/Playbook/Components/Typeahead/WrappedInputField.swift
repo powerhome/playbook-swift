@@ -42,10 +42,11 @@ public struct WrappedInputField: View {
     VStack(alignment: .leading) {
       WrappingHStack(indices, spacing: .constant(0)) { index in
         if indices.last == index {
-          HStack {
+          HStack(spacing: 0) {
             textfieldWithCustomPlaceholder
             Spacer()
             PBIcon.fontAwesome(.times)
+              .foregroundStyle(Color.text(.light))
               .onTapGesture {
                 clearAction?()
               }
@@ -57,10 +58,7 @@ public struct WrappedInputField: View {
       }
       .background(backgroundColor)
       .clipShape(shape)
-      .background(
-        shape
-          .stroke(borderColor, lineWidth: 1.2)
-      )
+      .background(shape.stroke(borderColor, lineWidth: 1.2))
     }
     .onHover { isHovering = $0 }
   }
