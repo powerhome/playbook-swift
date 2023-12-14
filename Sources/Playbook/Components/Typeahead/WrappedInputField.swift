@@ -9,12 +9,13 @@ import SwiftUI
 import WrappingHStack
 
 public struct WrappedInputField: View {
-  let title: String
-  let placeholder: String
-  let selection: Selection
-  let variant: Variant
-  let clearAction: (() -> Void)?
-  let onItemTap: ((String) -> Void)?
+  private let title: String
+  private let placeholder: String
+  private let selection: Selection
+  private let variant: Variant
+  private let clearAction: (() -> Void)?
+  private let onItemTap: ((String) -> Void)?
+  @Binding var focus: Bool
   private let shape = RoundedRectangle(cornerRadius: BorderRadius.medium)
   @Binding var searchText: String
   @State private var isHovering: Bool = false
@@ -26,6 +27,7 @@ public struct WrappedInputField: View {
     searchText: Binding<String>,
     selection: Selection,
     variant: Variant = .pill,
+    isFocused: Binding<Bool>,
     clearAction: (() -> Void)? = nil,
     onItemTap: ((String) -> Void)? = nil
   ) {
@@ -34,6 +36,7 @@ public struct WrappedInputField: View {
     self._searchText = searchText
     self.selection = selection
     self.variant = variant
+    self._focus = isFocused
     self.clearAction = clearAction
     self.onItemTap = onItemTap
   }
@@ -66,6 +69,9 @@ public struct WrappedInputField: View {
       .background(shape.stroke(borderColor, lineWidth: 1.2))
     }
     .onHover { isHovering = $0 }
+    .onChange(of: focus) {
+      isFocused = $0
+    }
   }
 }
 
@@ -162,7 +168,18 @@ extension WrappedInputField {
 #Preview {
   registerFonts()
   return VStack {
-    WrappedInputField(title: "title", searchText: .constant(""), selection: .single(nil))
-    WrappedInputField(title: "title", searchText: .constant(""), selection: .multiple(["oi1", "oi2"]))
+    WrappedInputField(
+      title: "title",
+      searchText: .constant(""),
+      selection: .single(nil), 
+      isFocused: .constant(true)
+    )
+    
+    WrappedInputField(
+      title: "title",
+      searchText: .constant(""),
+      selection: .multiple(["oi1", "oi2"]),
+      isFocused: .constant(false)
+    )
   }
 }

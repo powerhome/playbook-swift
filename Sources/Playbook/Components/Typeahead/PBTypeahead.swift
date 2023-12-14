@@ -49,6 +49,7 @@ public struct PBTypeahead<Content: View>: View {
         searchText: $searchText, 
         selection: onSelection(),
         variant: variant,
+        isFocused: $isFocused,
         clearAction: { clearText },
         onItemTap: { removeSelected($0) }
       )
@@ -58,6 +59,7 @@ public struct PBTypeahead<Content: View>: View {
     .background(Color.white.opacity(0.02))
     .onTapGesture {
       isPresented.toggle()
+      isFocused = true
     }
   }
 }

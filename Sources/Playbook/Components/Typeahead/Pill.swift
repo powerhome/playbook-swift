@@ -26,15 +26,16 @@ struct Pill: View {
     var body: some View {
       HStack(spacing: Spacing.xSmall) {
         if let icon = icon {
-          PBIcon.fontAwesome(icon)
+          PBIcon.fontAwesome(icon, size: .xSmall)
+            .foregroundStyle(Color.text(.light))
         }
         Text(text)
           .font(.custom(ProximaNova.bold.rawValue, size: 14))
           .foregroundStyle(Color.text(.default))
-        PBIcon(FontAwesome.times)
+        PBIcon(FontAwesome.times, size: .xSmall)
       }
-      .padding(.vertical, Spacing.xSmall)
-      .padding(.horizontal, Spacing.small )
+      .padding(.vertical, verticalPadding)
+      .padding(.horizontal, horizontalPadding)
       .background(backgroundColor)
       .clipShape(shape)
       .background(
@@ -45,11 +46,18 @@ struct Pill: View {
       .onHover { hovering in
         isHovering = hovering
       }
-      .frame(height: 27)
     }
 }
 
 private extension Pill {
+  var verticalPadding: CGFloat {
+    isFocus ? 3 : 4
+  }
+  
+  var horizontalPadding: CGFloat {
+    isFocus ? 11 : 12
+  }
+
   var backgroundColor: Color {
     if isActive {
       return .active
@@ -73,24 +81,22 @@ private extension Pill {
   registerFonts()
   return ScrollView {
     VStack(spacing: Spacing.medium) {
-      
-      
       PBDoc(title: "Default", spacing: Spacing.small) {
         HStack {
           Pill("Default")
           
-          Pill("Default")
+          Pill("Focus")
             .environment(\.focus, true)
           
-          Pill("Default")
+          Pill("Active")
             .environment(\.active, true)
         }
         
         HStack {
-          Pill("Default")
+          Pill("Hovering")
             .environment(\.hovering, true)
           
-          Pill("Default")
+          Pill("Hovering/Focus")
             .environment(\.hovering, true)
             .environment(\.focus, true)
           
