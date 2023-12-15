@@ -59,7 +59,7 @@ public struct PBTypeahead<Content: View>: View {
     .background(Color.white.opacity(0.02))
     .onTapGesture {
       isPresented.toggle()
-      isFocused = true
+      isFocused = isPresented
     }
   }
 }
@@ -124,7 +124,7 @@ private extension PBTypeahead {
   
   @ViewBuilder
   var listView: some View {
-    if isPresented {
+    if isPresented && isFocused {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
           VStack(spacing: 0) {

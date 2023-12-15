@@ -31,9 +31,9 @@ struct Pill: View {
         }
         Text(text)
           .font(.custom(ProximaNova.bold.rawValue, size: 14))
-          .foregroundStyle(Color.text(.default))
         PBIcon(FontAwesome.times, size: .xSmall)
       }
+      .foregroundStyle(Color.text(.default))
       .padding(.vertical, verticalPadding)
       .padding(.horizontal, horizontalPadding)
       .background(backgroundColor)
@@ -108,7 +108,10 @@ private extension Pill {
       }
 
       PBDoc(title: "With icons") {
-        Pill("Default", icon: .desktop)
+        HStack {
+          Pill("Desktop", icon: .desktop)
+          Pill("Laptop", icon: .laptop)
+        }
       }
     }
     .padding(Spacing.medium)

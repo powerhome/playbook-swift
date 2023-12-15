@@ -92,7 +92,7 @@ extension WrappedInputField {
         .scrollDismissesKeyboard(.immediately)
           .textFieldStyle(.plain)
           .focused($isFocused)
-          .pbFont(.body, color: textColor)
+          .pbFont(.body, color: .text(.default))
           .frame(minHeight: Spacing.xLarge)
       
     }
@@ -132,7 +132,6 @@ extension WrappedInputField {
   }
   
   private var textColor: Color {
-    
     switch selection {
     case .multiple(_): return searchText.isEmpty ? .text(.light) : .text(.default)
     case .single(let element):
@@ -171,7 +170,7 @@ extension WrappedInputField {
     WrappedInputField(
       title: "title",
       searchText: .constant(""),
-      selection: .single(nil), 
+      selection: .single(nil),
       isFocused: .constant(true)
     )
     
