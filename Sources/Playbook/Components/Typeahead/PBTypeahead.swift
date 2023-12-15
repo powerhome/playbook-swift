@@ -8,11 +8,11 @@
 import SwiftUI
 
 public struct PBTypeahead<Content: View>: View {
-  let title: String
-  let placeholder: String
-  let variant: WrappedInputField.Variant
-  let clearAction: (() -> Void)?
-  let selection: Selection
+  private let title: String
+  private let placeholder: String
+  private let variant: WrappedInputField.Variant
+  private let clearAction: (() -> Void)?
+  private let selection: Selection
   @Binding var searchText: String
   @State private var options: [(String, Content?)] = []
   @State private var selectedOptions: [(String, Content?)] = []
@@ -21,7 +21,7 @@ public struct PBTypeahead<Content: View>: View {
   @State private var isHovering: Bool = false
   @State private var hoveringItem: String = ""
   
-  init(
+  public init(
     title: String,
     placeholder: String = "Select",
     searchText: Binding<String>,
@@ -47,7 +47,7 @@ public struct PBTypeahead<Content: View>: View {
         title: title,
         placeholder: placeholder,
         searchText: $searchText, 
-        selection: onSelection(),
+        selection: onSelection,
         variant: variant,
         isFocused: $isFocused,
         clearAction: { clearText },
@@ -68,22 +68,7 @@ private extension PBTypeahead {
   var optionsToShow: [String] {
     return selectedOptions.map { $0.0 }
   }
-  
-  func variantSelectedOptions(_ result: String) -> [(String, Content?)] {
-    if let index = options.firstIndex(where: { $0.0 == result }){
-      selectedOptions.append(options.remove(at: index))
-    }
-    switch variant {
-    case .text:
-      guard let lastOption = selectedOptions.last else { return [] }
-      options.append(contentsOf: selectedOptions.dropLast())
-      selectedOptions = []
-      selectedOptions.append(lastOption)
-    default: break
-    }
-    return selectedOptions
-  }
-  
+
   var searchResults: [(String, Content?)] {
     return (searchText.isEmpty && isPresented) ? options  : options.filter {
       $0.0.localizedCaseInsensitiveContains(searchText)
@@ -101,6 +86,29 @@ private extension PBTypeahead {
     }
   }
   
+  var onSelection: WrappedInputField.Selection {
+    if selectedOptions.isEmpty {
+      return selection.selectedOptions(options: [], placeholder: placeholder)
+    } else {
+      return selection.selectedOptions(options: optionsToShow, placeholder: placeholder)
+    }
+  }
+  
+  func variantSelectedOptions(_ result: String) -> [(String, Content?)] {
+    if let index = options.firstIndex(where: { $0.0 == result }){
+      selectedOptions.append(options.remove(at: index))
+    }
+    switch variant {
+    case .text:
+      guard let lastOption = selectedOptions.last else { return [] }
+      options.append(contentsOf: selectedOptions.dropLast())
+      selectedOptions = []
+      selectedOptions.append(lastOption)
+    default: break
+    }
+    return selectedOptions
+  }
+  
   func removeSelected(_ element: String) {
     if let selectedElementIndex = selectedOptions.firstIndex(where: { $0.0 == element }) {
       let selectedElement = selectedOptions.remove(at: selectedElementIndex)
@@ -114,12 +122,8 @@ private extension PBTypeahead {
     searchText = ""
   }
   
-  func onSelection() -> WrappedInputField.Selection {
-    if selectedOptions.isEmpty {
-      return selection.selectedOptions(options: [], placeholder: placeholder)
-    } else {
-      return selection.selectedOptions(options: optionsToShow, placeholder: placeholder)
-    }
+  func listBackgroundColor(item: String) -> Color {
+    hoveringItem == item ? .hover : .card
   }
   
   @ViewBuilder
@@ -153,10 +157,6 @@ private extension PBTypeahead {
       }
     }
   }
-
-  func listBackgroundColor(item: String) -> Color {
-    hoveringItem == item ? .hover : .card
-  }
 }
 
 public extension PBTypeahead {
@@ -172,9 +172,7 @@ public extension PBTypeahead {
   }
 }
 
-struct PBTypeahead_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return TypeaheadCatalog()
-  }
+#Preview {
+  registerFonts()
+  return TypeaheadCatalog()
 }

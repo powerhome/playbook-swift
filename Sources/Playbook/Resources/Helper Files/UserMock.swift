@@ -24,4 +24,11 @@ enum Mocks {
   static let picAnna = PBAvatar(image: Image("Anna", bundle: .module), size: .xSmall, status: .online)
   static let picPatric = PBAvatar(image: Image("Pat", bundle: .module), size: .xSmall)
   static let picLuccile = PBAvatar(image: Image("Lu", bundle: .module), size: .xSmall)
+  static let assetsColors: [(String, AnyView?)] = [
+    ("Orange", nil),
+    ("Red", nil),
+    ("Green", nil),
+    ("Blue", nil),
+    ("Pink", nil)
+  ]
 }

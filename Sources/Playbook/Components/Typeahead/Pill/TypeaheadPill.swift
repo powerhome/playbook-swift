@@ -1,5 +1,5 @@
 //
-//  Pill.swift
+//  TypeaheadPill.swift
 //  
 //
 //  Created by Isis Silva on 13/11/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Pill: View {
+struct TypeaheadPill: View {
   @Environment (\.active) var isActive: Bool
   @Environment (\.focus) var isFocus: Bool
   @Environment(\.hovering) var hovering: Bool
@@ -49,7 +49,7 @@ struct Pill: View {
     }
 }
 
-private extension Pill {
+private extension TypeaheadPill {
   var verticalPadding: CGFloat {
     isFocus ? 3 : 4
   }
@@ -79,44 +79,5 @@ private extension Pill {
 
 #Preview {
   registerFonts()
-  return ScrollView {
-    VStack(spacing: Spacing.medium) {
-      PBDoc(title: "Default", spacing: Spacing.small) {
-        HStack {
-          Pill("Default")
-          
-          Pill("Focus")
-            .environment(\.focus, true)
-          
-          Pill("Active")
-            .environment(\.active, true)
-        }
-        
-        HStack {
-          Pill("Hovering")
-            .environment(\.hovering, true)
-          
-          Pill("Hovering/Focus")
-            .environment(\.hovering, true)
-            .environment(\.focus, true)
-          
-          Pill("Default")
-            .environment(\.hovering, true)
-            .environment(\.active, true)
-            .environment(\.focus, true)
-        }
-      }
-
-      PBDoc(title: "With icons") {
-        HStack {
-          Pill("Desktop", icon: .desktop)
-          Pill("Laptop", icon: .laptop)
-        }
-      }
-    }
-    .padding(Spacing.medium)
-  }
-  .scrollDismissesKeyboard(.immediately)
-  .background(Color.background(.light))
-  .navigationTitle("Pill")
+  return TypeaheadPillCatalog()
 }

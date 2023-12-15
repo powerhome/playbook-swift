@@ -15,8 +15,8 @@ public struct WrappedInputField: View {
   private let variant: Variant
   private let clearAction: (() -> Void)?
   private let onItemTap: ((String) -> Void)?
-  @Binding var focus: Bool
   private let shape = RoundedRectangle(cornerRadius: BorderRadius.medium)
+  @Binding var focus: Bool
   @Binding var searchText: String
   @State private var isHovering: Bool = false
   @FocusState private var isFocused
@@ -49,7 +49,6 @@ public struct WrappedInputField: View {
             HStack(spacing: 0) {
               textfieldWithCustomPlaceholder
               Spacer()
-             
             }
             .padding(.leading, Spacing.small)
           } else {
@@ -75,11 +74,37 @@ public struct WrappedInputField: View {
   }
 }
 
-extension WrappedInputField {
+private extension WrappedInputField {
   var backgroundColor: Color {
     isHovering ? .background(.light) : .card
   }
 
+  var placeholderText: String {
+    switch selection {
+    case .multiple(let elements): return elements.isEmpty ? placeholder : ""
+    case .single(let element): return element ?? placeholder
+    }
+  }
+  
+  var indices: Range<Int> {
+    switch selection {
+    case .multiple(let options): return  Range(0...options.count)
+    case .single(_): return Range(0...1)
+    }
+  }
+  
+  var borderColor: Color {
+    isFocused ? .pbPrimary : .border
+  }
+  
+  var textColor: Color {
+    switch selection {
+    case .multiple(_): return searchText.isEmpty ? .text(.light) : .text(.default)
+    case .single(let element):
+      return element == placeholder ? .text(.light) : .text(.default)
+    }
+  }
+  
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
     ZStack(alignment: .leading) {
@@ -88,14 +113,19 @@ extension WrappedInputField {
           .pbFont(.body, color: textColor)
           .frame(minHeight: Spacing.xLarge)
       }
-        TextField("", text: $searchText)
+      TextField("", text: $searchText)
         .scrollDismissesKeyboard(.immediately)
-          .textFieldStyle(.plain)
-          .focused($isFocused)
-          .pbFont(.body, color: .text(.default))
-          .frame(minHeight: Spacing.xLarge)
-      
+        .textFieldStyle(.plain)
+        .focused($isFocused)
+        .pbFont(.body, color: .text(.default))
+        .frame(minHeight: Spacing.xLarge)
     }
+  }
+  
+  @ViewBuilder
+  func gridItem(_ item: String) -> some View {
+    variant.view(text: item)
+      .onTapGesture { onItemTap?(item) }
   }
   
   @ViewBuilder
@@ -112,38 +142,11 @@ extension WrappedInputField {
       EmptyView()
     }
   }
-  
-  private var placeholderText: String {
-    switch selection {
-    case .multiple(let elements): return elements.isEmpty ? placeholder : ""
-    case .single(let element): return element ?? placeholder
-    }
-  }
-  
-  private var indices: Range<Int> {
-    switch selection {
-    case .multiple(let options): return  Range(0...options.count)
-    case .single(_): return Range(0...1)
-    }
-  }
-
-  private var borderColor: Color {
-    isFocused ? .pbPrimary : .border
-  }
-  
-  private var textColor: Color {
-    switch selection {
-    case .multiple(_): return searchText.isEmpty ? .text(.light) : .text(.default)
-    case .single(let element):
-      return element == placeholder ? .text(.light) : .text(.default)
-      
-    }
-  }
-  
-  @ViewBuilder
-  private func gridItem(_ item: String) -> some View {
-    variant.view(text: item)
-      .onTapGesture { onItemTap?(item) }
+}
+ 
+public extension WrappedInputField {
+  enum Selection {
+    case single(String?), multiple([String])
   }
   
   enum Variant {
@@ -152,21 +155,17 @@ extension WrappedInputField {
     @ViewBuilder
     func view(text: String) -> some View {
       switch self {
-      case .text: Text(text)
-      case .pill: Pill(text)
+      case .text: Text(text).pbFont(.body)
+      case .pill: TypeaheadPill(text)
       case .other(let view): view
       }
     }
-  }
-  
-  enum Selection {
-    case single(String?), multiple([String])
   }
 }
 
 #Preview {
   registerFonts()
-  return VStack {
+  return VStack(spacing: Spacing.medium) {
     WrappedInputField(
       title: "title",
       searchText: .constant(""),
@@ -177,8 +176,25 @@ extension WrappedInputField {
     WrappedInputField(
       title: "title",
       searchText: .constant(""),
-      selection: .multiple(["oi1", "oi2"]),
+      selection: .multiple(["title1", "title2"]),
+      isFocused: .constant(false)
+    )
+    
+    WrappedInputField(
+      title: "title",
+      searchText: .constant(""),
+      selection: .multiple(["title1", "title2"]),
+      variant: .other(AnyView(PBPill("oi", variant: .primary))),
+      isFocused: .constant(false)
+    )
+    
+    WrappedInputField(
+      title: "title",
+      searchText: .constant(""),
+      selection: .multiple(["title1", "title2"]),
+      variant: .other(AnyView(PBBadge(text: "title", variant: .primary))),
       isFocused: .constant(false)
     )
   }
+  .padding()
 }
