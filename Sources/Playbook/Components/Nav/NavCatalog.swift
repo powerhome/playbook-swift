@@ -26,7 +26,6 @@ struct NavCatalog: View {
   @State private var selectedHSubtleNoHighlight: Int = 1
   @State private var selectedHBold: Int = 1
   @State private var selectedCustom: Int = 1
-  @State private var selectedTabDefault: Bool = false
   @State private var navContent: NavContent = .vertical
   var body: some View {
     VStack {
@@ -286,8 +285,6 @@ struct NavCatalog: View {
   var tabBarView: some View {
     let navDefault = PBDoc(title: "Default") {
       PBNav(
-        // need to set state var at the top for selected
-        //selected: $selectedTabDefault,
         variant: .normal,
         orientation: .horizontal,
         borders: false

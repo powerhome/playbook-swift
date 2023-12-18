@@ -8,25 +8,13 @@
 import SwiftUI
 
 public struct PBTabBar: View {
-  let icon: FontAwesome?
-  let iconSize: PBIcon.IconSize?
-  let tabBarIconName: String?
   @State private var isSelected: Bool
-  @Binding var selectedTabDefault: Bool
   let variant: Variant
   public init(
-    icon: FontAwesome? = nil,
-    iconSize: PBIcon.IconSize? = nil,
-    tabBarIconName: String? = nil,
     isSelected: Bool = false,
-    selectedTabDefault: Binding<Bool> = .constant(false),
     variant: Variant = .home
   ) {
-    self.icon = icon
-    self.iconSize = iconSize
-    self.tabBarIconName = tabBarIconName
     self.isSelected = isSelected
-    _selectedTabDefault = selectedTabDefault
     self.variant = variant
   }
   
