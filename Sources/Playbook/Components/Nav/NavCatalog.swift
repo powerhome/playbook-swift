@@ -284,23 +284,25 @@ struct NavCatalog: View {
   
   var tabBarView: some View {
     let navDefault = PBDoc(title: "Default") {
+      PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: .default, shadow: .deep) {
       PBNav(
         variant: .normal,
         orientation: .horizontal,
         borders: false
       ) {
-        PBTabBar(variant: .home)
-        PBTabBar(variant: .calendar)
-        PBTabBar(variant: .notifications)
-        PBTabBar(variant: .search)
-        PBTabBar(variant: .more)
+          PBTabBar(variant: .home)
+          PBTabBar(variant: .calendar)
+          PBTabBar(variant: .notifications)
+          PBTabBar(variant: .search)
+          PBTabBar(variant: .more)
+      }
+          
       }
     }
 
     return ScrollView {
-      HStack(spacing: Spacing.medium) {
+      HStack {
         navDefault
-    
       }
     }
     .background(Color.background(Color.BackgroundColor.light))

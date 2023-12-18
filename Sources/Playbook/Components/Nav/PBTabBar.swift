@@ -19,30 +19,33 @@ public struct PBTabBar: View {
   }
   
   public var body: some View {
-    tabButtonView
+      tabButtonView
   }
 }
+
 public extension PBTabBar {
   enum Variant {
     case home, calendar, notifications, search, more
   }
   
   var tabButtonView: some View {
-    return HStack {
+    return HStack(spacing: Spacing.medium) {
       Button {
         isSelected.toggle()
       } label: {
         tabButtonLabelView
+          .pbFont(.subcaption, color: tabIconColor)
       }
-    }.padding(.bottom, Spacing.large)
+    }
+    .padding(.bottom, Spacing.large)
   }
   var tabButtonLabelView: some View {
     return  GeometryReader { geo in
       VStack(spacing: Spacing.xxSmall) {
         tabIconView
         tabIconNameView
-      } .pbFont(.subcaption, color: tabIconColor)
-        .frame(width: geo.size.width * 1.0, height: geo.size.height)
+      }
+     .frame(width: geo.size.width * 1.05, height: geo.size.height)
     }
   }
   var tabIconView: PBIcon {
