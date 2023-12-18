@@ -31,15 +31,11 @@ public struct PBTabBar: View {
   }
   
   public var body: some View {
-    
-  
-          tabButtonView
-
-    }
+    tabButtonView
+  }
 }
 public extension PBTabBar {
   enum Variant {
-    // does this work because you will have a diff num of icons
     case home, calendar, notifications, search, more
   }
   
@@ -47,23 +43,20 @@ public extension PBTabBar {
     return HStack {
       Button {
         isSelected.toggle()
-        // selected tab. make enum for different views
       } label: {
         tabButtonLabelView
       }
     }.padding(.bottom, Spacing.large)
   }
-  
   var tabButtonLabelView: some View {
     return  GeometryReader { geo in
       VStack(spacing: Spacing.xxSmall) {
-          tabIconView
-          tabIconNameView
+        tabIconView
+        tabIconNameView
       } .pbFont(.subcaption, color: tabIconColor)
-      .frame(width: geo.size.width * 1.0, height: geo.size.height)
+        .frame(width: geo.size.width * 1.0, height: geo.size.height)
     }
   }
-  
   var tabIconView: PBIcon {
     switch variant {
     case .home: return PBIcon(FontAwesome.home, size: .large)
@@ -88,6 +81,6 @@ public extension PBTabBar {
 }
 
 #Preview {
-registerFonts()
-   return PBTabBar()
+  registerFonts()
+  return PBTabBar()
 }
