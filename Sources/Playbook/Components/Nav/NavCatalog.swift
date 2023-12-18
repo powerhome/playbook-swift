@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum NavContent {
-  case vertical, horizontal, custom
+  case vertical, horizontal, tabBar, custom
 }
 
 struct NavCatalog: View {
@@ -26,12 +26,14 @@ struct NavCatalog: View {
   @State private var selectedHSubtleNoHighlight: Int = 1
   @State private var selectedHBold: Int = 1
   @State private var selectedCustom: Int = 1
+  @State private var selectedTabDefault: Bool = false
   @State private var navContent: NavContent = .vertical
   var body: some View {
     VStack {
       Picker("Select", selection: $navContent) {
         Text("Vertical").tag(NavContent.vertical)
         Text("Horizontal").tag(NavContent.horizontal)
+        Text("Tab Bar").tag(NavContent.tabBar)
         Text("Custom").tag(NavContent.custom)
       }
       .pickerStyle(.segmented)
@@ -40,6 +42,7 @@ struct NavCatalog: View {
       switch navContent {
       case .vertical: verticalListView
       case .horizontal: horizontalListView
+      case .tabBar: tabBarView
       case .custom: customListView
       }
     }
@@ -279,6 +282,37 @@ struct NavCatalog: View {
     .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Nav")
   }
+  
+  var tabBarView: some View {
+    let navDefault = PBDoc(title: "Default") {
+      PBNav(
+        // need to set state var at the top for selected
+        //selected: $selectedTabDefault,
+        variant: .normal,
+        orientation: .horizontal,
+        borders: false
+      ) {
+        PBTabBar(variant: .home)
+        PBTabBar(variant: .calendar)
+        PBTabBar(variant: .notifications)
+        PBTabBar(variant: .search)
+        PBTabBar(variant: .more)
+      }
+    }
+
+    return ScrollView {
+      HStack(spacing: Spacing.medium) {
+        navDefault
+    
+      }
+    }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Tab Bar")
+  }
+  
+  
+  
+  
 
   var customListView: some View {
     let navUsers = PBDoc(title: "Block") {
