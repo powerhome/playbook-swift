@@ -163,7 +163,7 @@ public extension PBTypeahead {
   
     func selectedOptions(options: [String], placeholder: String) -> WrappedInputField.Selection {
       switch self {
-      case .single: return .single(options.first ?? placeholder)
+      case .single: return .single(options.first)
       case .multiple: return .multiple(options)
       }
     }

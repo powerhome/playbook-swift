@@ -56,8 +56,7 @@ public struct WrappedInputField: View {
           }
         }
        
-        PBIcon.fontAwesome(.times)
-          .foregroundStyle(Color.text(.light))
+      dismissIconView
           .onTapGesture {
             clearAction?()
           }
@@ -101,8 +100,27 @@ private extension WrappedInputField {
     switch selection {
     case .multiple(_): return searchText.isEmpty ? .text(.light) : .text(.default)
     case .single(let element):
-      return element == placeholder ? .text(.light) : .text(.default)
+      return element == nil ? .text(.light) : .text(.default)
     }
+  }
+  
+  @ViewBuilder
+  var dismissIconView: some View {
+    switch selection {
+    case .multiple(let elements):
+      if !elements.isEmpty {
+        dismissIcon
+      }
+    case .single(let element):
+      if element != nil {
+        dismissIcon
+      }
+    }
+  }
+  
+  var dismissIcon: some View {
+    PBIcon.fontAwesome(.times)
+      .foregroundStyle(Color.text(.light))
   }
   
   @ViewBuilder
