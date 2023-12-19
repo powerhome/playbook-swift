@@ -11,7 +11,7 @@ struct PopoverHandler: ViewModifier {
   var popover: AnyView?
 
   func body(content: Content) -> some View {
-    content.overlay(VStack { popover})
+    content.overlay(VStack { popover })
   }
 }
 

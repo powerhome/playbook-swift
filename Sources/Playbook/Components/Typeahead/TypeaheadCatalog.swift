@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 16.0, *)
 public struct TypeaheadCatalog: View {
   @State private var searchTextColors: String = ""
   @State private var assetsColors = Mocks.assetsColors
@@ -21,7 +22,7 @@ public struct TypeaheadCatalog: View {
         }
 
         PBDoc(title: "With Pills", spacing: Spacing.small) {
-          PBTypeahead(title: "Users", searchText: $searchTextUsers, selection: .multiple, options: assetsUsers, variant: .pill)
+          PBTypeahead(title: "Users", placeholder: "type the name of a user", searchText: $searchTextUsers, selection: .multiple, options: assetsUsers, variant: .pill)
         }
       }
       .padding(Spacing.medium)

@@ -12,10 +12,9 @@ import Playbook
   import UIKit
 #endif
 
-@available(iOS 16.0, *)
 struct ContentListView: View {
-
   let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+  @State var selectedItem: Int = 0
 
   #if os(iOS)
     init() {
@@ -29,7 +28,7 @@ struct ContentListView: View {
       UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
   #endif
-  @State var selectedItem: Int = 0
+
   var body: some View {
     NavigationStack {
       contentView.padding(.bottom, 80)

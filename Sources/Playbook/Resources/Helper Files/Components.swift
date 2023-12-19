@@ -8,6 +8,7 @@
 import SwiftUI
 
 @available(macOS 13.0, *)
+@available(iOS 16, *)
 public enum Componenets: String, CaseIterable {
   case avatar
   case badge
@@ -57,12 +58,7 @@ public enum Componenets: String, CaseIterable {
     case .contact: ContactCatalog()
     case .date: DateCatalog()
     case .dialog: DialogCatalog()
-    case .toast: if #available(iOS 16.0, *) {
-      ToastCatalog()
-    } else {
-      EmptyView()
-      // Fallback on earlier versions
-    }
+    case .toast: ToastCatalog()
     case .homeAddress: HomeAddressStreetCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()

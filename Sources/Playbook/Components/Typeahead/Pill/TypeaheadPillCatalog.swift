@@ -52,7 +52,6 @@ struct TypeaheadPillCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .scrollDismissesKeyboard(.immediately)
     .background(Color.background(.light))
     .navigationTitle("Pill")
   }

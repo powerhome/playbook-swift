@@ -52,7 +52,7 @@ public struct WrappedInputField: View {
             }
             .padding(.leading, Spacing.small)
           } else {
-            itemView(index: index)
+            gridView(index: index)
           }
         }
        
@@ -107,14 +107,14 @@ private extension WrappedInputField {
   
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
-    ZStack(alignment: .leading) {
+    ZStack(alignment: .leading)
+    {
       if searchText.isEmpty {
         Text(placeholderText)
           .pbFont(.body, color: textColor)
           .frame(minHeight: Spacing.xLarge)
       }
       TextField("", text: $searchText)
-        .scrollDismissesKeyboard(.immediately)
         .textFieldStyle(.plain)
         .focused($isFocused)
         .pbFont(.body, color: .text(.default))
@@ -123,17 +123,13 @@ private extension WrappedInputField {
   }
   
   @ViewBuilder
-  func gridItem(_ item: String) -> some View {
-    variant.view(text: item)
-      .onTapGesture { onItemTap?(item) }
-  }
-  
-  @ViewBuilder
-  func itemView(index: Int) -> some View {
+  func gridView(index: Int) -> some View {
     switch selection {
     case .multiple(let options):
+      let option = "\(options[index])"
       if options.count > 0 {
-        gridItem("\(options[index])")
+        variant.view(text: option)
+          .onTapGesture { onItemTap?(option) }
           .padding(.leading, Spacing.xSmall)
           .padding(.vertical, Spacing.xSmall)
           .fixedSize()
@@ -143,7 +139,7 @@ private extension WrappedInputField {
     }
   }
 }
- 
+
 public extension WrappedInputField {
   enum Selection {
     case single(String?), multiple([String])
