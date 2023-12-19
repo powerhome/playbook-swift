@@ -29,7 +29,7 @@ public extension PBTabBar {
   }
   
   var tabButtonView: some View {
-    return HStack(spacing: Spacing.medium) {
+    return HStack {
       Button {
         isTabSelected.toggle()
       } label: {
@@ -40,9 +40,11 @@ public extension PBTabBar {
     .padding(.bottom, Spacing.large)
   }
   var tabButtonLabelView: some View {
-    return VStack(spacing: Spacing.xxSmall) {
+    return GeometryReader { geo in
+      VStack(spacing: Spacing.xxSmall) {
         tabIconView
         tabIconNameView
+      }.frame(width: geo.size.width * 1.05, height: geo.size.height)
     }
   }
   var tabIconView: PBIcon {

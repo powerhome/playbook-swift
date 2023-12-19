@@ -291,13 +291,11 @@ struct NavCatalog: View {
           orientation: .horizontal,
           borders: false
         ) {
-          HStack(spacing: Spacing.medium) {
             PBTabBar(variant: .home)
             PBTabBar(variant: .calendar)
             PBTabBar(variant: .notifications)
             PBTabBar(variant: .search)
             PBTabBar(variant: .more)
-          }
         }
       }
     }
@@ -308,30 +306,26 @@ struct NavCatalog: View {
           orientation: .horizontal,
           borders: false
         ) {
-          HStack(spacing: Spacing.medium) {
-            PBTabBar(variant: .home)
-            PBTabBar(variant: .calendar)
-            PBTabBar(variant: .notifications)
-            PBTabBar(variant: .search)
-            PBTabBar(variant: .more)
-          }
+              PBTabBar(variant: .home)
+              PBTabBar(variant: .calendar)
+              PBTabBar(variant: .notifications)
+              PBTabBar(variant: .search)
+              PBTabBar(variant: .more)
         }
       }
     }
     let tabBorderWithShadow = PBDoc(title: "Border With Shadow") {
-      PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: .default, shadow: .deep) {
+      PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: .default, shadow: .deepest) {
         PBNav(
           variant: .normal,
           orientation: .horizontal,
           borders: false
         ) {
-          HStack(spacing: Spacing.medium) {
             PBTabBar(variant: .home)
             PBTabBar(variant: .calendar)
             PBTabBar(variant: .notifications)
             PBTabBar(variant: .search)
             PBTabBar(variant: .more)
-          }
         }
       }
     }
