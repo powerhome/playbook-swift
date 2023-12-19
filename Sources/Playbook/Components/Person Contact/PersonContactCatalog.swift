@@ -28,48 +28,35 @@ public struct PersonContactCatalog: View {
       }
       .background(Color.background(.light))
       .navigationTitle("Person Contact")
-
     }
 }
 
 public extension PersonContactCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
-      PBPersonContact(firstName: "Pauline", lastName: "Smith", variant: .person)
-      PBPersonContact(contactType: .email , contactValue: "email@example.com", contactDetail: false, variant: .contact)
-      PBPersonContact(contactType: .home , contactValue: "(555) 555-5555", contactDetail: false, variant: .contact)
-      PBPersonContact(contactType: .work, contactValue: "(342) 562-7482", contactDetail: false, variant: .contact)
+      PBPersonContact(firstName: "Pauline", lastName: "Smith", contacts: [PBContact(type: .email, value: "email@example.com", detail: false), PBContact(type: .home, value: "(555) 555-5555", detail: false), PBContact(type: .work, value: "(324) 562-7482", detail: false)])
     }
   }
   var multiplePeopleView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
-      PBPersonContact(firstName: "Harvey", lastName: "Walters", variant: .person)
-      PBPersonContact(contactType: .email, contactValue: "email@example.com", variant: .contact)
-      PBPersonContact(contactType: .home, contactValue: "(555) 555-5555", variant: .contact)
-      PBPersonContact(contactType: .work, contactValue: "(324) 562-7482", variant: .contact)
+      PBPersonContact(firstName: "Harvey", lastName: "Walters", contacts: [PBContact(type: .email, value: "email@example.com", detail: false), PBContact(type: .home, value: "(555) 555-5555", detail: false), PBContact(type: .work, value: "(324) 562-7482", detail: false)])
       Spacer()
-      PBPersonContact(firstName: "Brenda", lastName: "Walters", variant: .person)
-      PBPersonContact(contactType: .home, contactValue: "(555) 555-5555", variant: .contact)
+      PBPersonContact(firstName: "Brenda", lastName: "Walters", contacts: [PBContact(type: .home, value: "(555) 555-5555", detail: false)])
     }
   }
   var withDetailView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
-      PBPersonContact(firstName: "Harvey", lastName: "Walters", variant: .person)
-      PBPersonContact(contactType: .email, contactValue: "email@example.com", variant: .contact)
-      PBPersonContact(contactType: .home, contactValue: "(555) 555-5555", contactDetail: true, variant: .contact)
-      PBPersonContact(contactType: .work, contactValue: "(324) 562-7482", contactDetail: true, variant: .contact)
+      PBPersonContact(firstName: "Harvey", lastName: "Walters", contacts: [PBContact(type: .email, value: "email@example.com", detail: false), PBContact(type: .home, value: "(555) 555-5555", detail: true), PBContact(type: .work, value: "(324) 562-7482", detail: true)])
     }
   }
   var withWrongNumbersView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
-      PBPersonContact(firstName: "Pauline", lastName: "Smith", variant: .person)
-      PBPersonContact(contactType: .email, contactValue: "email@example.com", variant: .contact)
-      PBPersonContact(contactType: .home, contactValue: "(555) 555-5555", variant: .contact)
-      PBPersonContact(contactType: .home, contactValue: "(304) 861-5385", variant: .contact)
-      Spacer()
-      Text("Wrong Number")
-        .pbFont(.caption, variant: .bold, color: .text(.light))
-      PBPersonContact(contactType: .custom("", FontAwesome.phoneSlash), contactValue: "(324) 562-7482", variant: .contact)
+      PBPersonContact(firstName: "Pauline", lastName: "Smith", contacts: [PBContact(type: .email, value: "email@example.com", detail: false), PBContact(type: .home, value: " (555) 555-5555", detail: false), PBContact(type: .home, value: "(304) 861-5385", detail: false)])
+     
+      Text("wrong number")
+        .pbFont(.caption)
+      PBPersonContact(firstName: "", lastName: "", contacts: [PBContact(type: .custom("", .phoneSlash), value: "(324) 562-7482", detail: false)])
+     
     }
   }
 }

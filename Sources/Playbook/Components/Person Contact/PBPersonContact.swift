@@ -10,24 +10,16 @@ import SwiftUI
 public struct PBPersonContact: View {
   let firstName: String?
   let lastName: String?
-  let contactType: PBContact.ContactType?
-  let contactValue: String?
-  let contactDetail: Bool?
-  let variant: Variant?
+  let contacts: [PBContact]
+  
   public init(
     firstName: String? = nil,
     lastName: String? = nil,
-    contactType: PBContact.ContactType? = nil,
-    contactValue: String? = nil,
-    contactDetail: Bool? = nil,
-    variant: Variant? = nil
+    contacts: [PBContact]
   ) {
     self.firstName = firstName
     self.lastName = lastName
-    self.contactType = contactType
-    self.contactValue = contactValue
-    self.contactDetail = contactDetail
-    self.variant = variant
+    self.contacts = contacts
   }
 
   public var body: some View {
@@ -36,24 +28,18 @@ public struct PBPersonContact: View {
 }
 
 public extension PBPersonContact {
-  enum Variant {
-    case person, contact
-  }
-  
+  @ViewBuilder
   var personOrContactView: some View {
-    return VStack(spacing: Spacing.medium) {
-      if variant == .person {
         nameView
-      } else if variant == .contact {
-        contactView
-      }
-    }
+       contactView
   }
   var nameView: some View {
     return PBPerson(firstName: firstName ?? "Pauline", lastName: lastName ?? "Smith")
   }
   var contactView: some View {
-    return PBContact(type: contactType ?? PBContact.ContactType.email, value: contactValue ?? "email@example.com", detail: contactDetail ?? false)
+    return ForEach(contacts, id: \.parsedValue) { contact in
+      PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
+    }
   }
 }
 
