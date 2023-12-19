@@ -27,6 +27,7 @@ struct NavCatalog: View {
   @State private var selectedHBold: Int = 1
   @State private var selectedCustom: Int = 1
   @State private var navContent: NavContent = .vertical
+  
   var body: some View {
     VStack {
       Picker("Select", selection: $navContent) {
@@ -285,55 +286,55 @@ struct NavCatalog: View {
   var tabBarView: some View {
     let tabNoShadow = PBDoc(title: "No Shadow") {
       PBCard(alignment: .center, backgroundColor: Color.card, border: false, style: .default, shadow: Shadow.none) {
-      PBNav(
-        variant: .normal,
-        orientation: .horizontal,
-        borders: false
-      ) {
-          PBTabBar(variant: .home)
-          PBTabBar(variant: .calendar)
-          PBTabBar(variant: .notifications)
-          PBTabBar(variant: .search)
-          PBTabBar(variant: .more)
-      }
-          
+        PBNav(
+          variant: .normal,
+          orientation: .horizontal,
+          borders: false
+        ) {
+          HStack(spacing: Spacing.medium) {
+            PBTabBar(variant: .home)
+            PBTabBar(variant: .calendar)
+            PBTabBar(variant: .notifications)
+            PBTabBar(variant: .search)
+            PBTabBar(variant: .more)
+          }
+        }
       }
     }
-
     let tabBorderNoShadow = PBDoc(title: "Border No Shadow") {
       PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: .default, shadow: Shadow.none) {
-      PBNav(
-        variant: .normal,
-        orientation: .horizontal,
-        borders: false
-      ) {
-          PBTabBar(variant: .home)
-          PBTabBar(variant: .calendar)
-          PBTabBar(variant: .notifications)
-          PBTabBar(variant: .search)
-          PBTabBar(variant: .more)
-      }
-          
+        PBNav(
+          variant: .normal,
+          orientation: .horizontal,
+          borders: false
+        ) {
+          HStack(spacing: Spacing.medium) {
+            PBTabBar(variant: .home)
+            PBTabBar(variant: .calendar)
+            PBTabBar(variant: .notifications)
+            PBTabBar(variant: .search)
+            PBTabBar(variant: .more)
+          }
+        }
       }
     }
-    
     let tabBorderWithShadow = PBDoc(title: "Border With Shadow") {
       PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: .default, shadow: .deep) {
-      PBNav(
-        variant: .normal,
-        orientation: .horizontal,
-        borders: false
-      ) {
-          PBTabBar(variant: .home)
-          PBTabBar(variant: .calendar)
-          PBTabBar(variant: .notifications)
-          PBTabBar(variant: .search)
-          PBTabBar(variant: .more)
-      }
-          
+        PBNav(
+          variant: .normal,
+          orientation: .horizontal,
+          borders: false
+        ) {
+          HStack(spacing: Spacing.medium) {
+            PBTabBar(variant: .home)
+            PBTabBar(variant: .calendar)
+            PBTabBar(variant: .notifications)
+            PBTabBar(variant: .search)
+            PBTabBar(variant: .more)
+          }
+        }
       }
     }
-    
     return ScrollView {
       VStack(spacing: Spacing.medium) {
         tabNoShadow

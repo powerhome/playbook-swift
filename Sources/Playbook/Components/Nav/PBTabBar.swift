@@ -8,13 +8,13 @@
 import SwiftUI
 
 public struct PBTabBar: View {
-  @State private var isSelected: Bool
+  @State private var isTabSelected: Bool
   let variant: Variant
   public init(
-    isSelected: Bool = false,
+    isTabSelected: Bool = false,
     variant: Variant = .home
   ) {
-    self.isSelected = isSelected
+    self.isTabSelected = isTabSelected
     self.variant = variant
   }
   
@@ -31,21 +31,18 @@ public extension PBTabBar {
   var tabButtonView: some View {
     return HStack(spacing: Spacing.medium) {
       Button {
-        isSelected.toggle()
+        isTabSelected.toggle()
       } label: {
         tabButtonLabelView
           .pbFont(.subcaption, color: tabIconColor)
-      }
+      }.buttonStyle(.plain)
     }
     .padding(.bottom, Spacing.large)
   }
   var tabButtonLabelView: some View {
-    return  GeometryReader { geo in
-      VStack(spacing: Spacing.xxSmall) {
+    return VStack(spacing: Spacing.xxSmall) {
         tabIconView
         tabIconNameView
-      }
-     .frame(width: geo.size.width * 1.05, height: geo.size.height)
     }
   }
   var tabIconView: PBIcon {
@@ -67,7 +64,7 @@ public extension PBTabBar {
     }
   }
   var tabIconColor: Color {
-    return isSelected == true ? Color.pbPrimary : Color.text(.light)
+    return isTabSelected == true ? Color.pbPrimary : Color.text(.light)
   }
 }
 
