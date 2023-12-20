@@ -14,7 +14,12 @@ extension View {
         self.shadow(color: shadow.color, radius: shadow.radius, x: 0, y: 10)
           .shadow(color: shadow.color, radius: shadow.radius, x: 0, y: 10)
       )
-    } else {
+    } else if shadow == .top {
+      
+      return AnyView(
+        self.shadow(color: shadow.color, radius: shadow.radius, x: 2, y: -5)
+      )
+    }else {
       return AnyView(
         self.shadow(color: shadow.color, radius: shadow.radius, x: 0, y: 6))
     }
@@ -22,20 +27,22 @@ extension View {
 }
 
 public enum Shadow: String, CaseIterable {
-  case deep, deeper, deepest, none
-
+  case deep, deeper, deepest, top, none
+  
   var color: Color {
     switch self {
     case .deep: return .shadow.opacity(0.74)
+    case .top: return .shadow.opacity(0.74)
     case .none: return Color.clear
     default: return .shadow
     }
   }
-
+  
   var radius: CGFloat {
     switch self {
     case .deep: return 4
     case .deeper: return 10
+    case .top: return 4
     case .none: return 0
     default: return 14
     }

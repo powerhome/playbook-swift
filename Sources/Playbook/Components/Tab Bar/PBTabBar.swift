@@ -29,22 +29,20 @@ public extension PBTabBar {
   }
   
   var tabButtonView: some View {
-    return HStack {
-      Button {
-        isTabSelected.toggle()
-      } label: {
-        tabButtonLabelView
-          .pbFont(.subcaption, color: tabIconColor)
-      }.buttonStyle(.plain)
-    }
-    .padding(.bottom, Spacing.large)
+    return Button {
+          isTabSelected.toggle()
+        } label: {
+            tabButtonLabelView
+              .pbFont(.subcaption, color: tabIconColor)
+        }.buttonStyle(.plain)
+          .padding(.bottom, Spacing.large)
   }
   var tabButtonLabelView: some View {
     return GeometryReader { geo in
       VStack(spacing: Spacing.xxSmall) {
         tabIconView
         tabIconNameView
-      }.frame(width: geo.size.width * 1.05, height: geo.size.height)
+      }.frame(width: geo.size.width / 0.9, height: geo.size.height, alignment: .center)
     }
   }
   var tabIconView: PBIcon {
@@ -72,5 +70,5 @@ public extension PBTabBar {
 
 #Preview {
   registerFonts()
-  return PBTabBar()
+  return TabBarCatalog()
 }

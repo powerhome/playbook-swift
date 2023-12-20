@@ -36,6 +36,7 @@ public enum Componenets: String, CaseIterable {
   case radio
   case sectionSeparator = "Section Separator"
   case select
+  case tabBar = "Tab Bar"
   case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
@@ -79,6 +80,7 @@ public enum Componenets: String, CaseIterable {
     case .radio: RadioCatalog()
     case .sectionSeparator: PBSectionSeparator_Previews.previews
     case .select: PBSelect_Previews.previews
+    case .tabBar: TabBarCatalog()
     case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
     case .timeStamp: TimeStampCatalog()
