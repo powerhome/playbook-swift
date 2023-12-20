@@ -51,7 +51,6 @@ struct PBDialogActionView: View {
   }
 }
 
-@available(macOS 13.0, *)
 struct PBDialogActionView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
