@@ -8,7 +8,6 @@
 import SwiftUI
 import Playbook
 
-@available(macOS 13.3, *)
 @available(iOS 16.4, *)
 @main
 struct PlaybookShowcaseApp: App {

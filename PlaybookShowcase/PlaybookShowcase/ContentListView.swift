@@ -8,12 +8,13 @@
 import SwiftUI
 import Playbook
 #if os(iOS)
-import UIKit
+  import UIKit
 #endif
 
-@available(macOS 13.3, *)
 @available(iOS 16.4, *)
 struct ContentListView: View {
+  let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+  @State var selectedItem: Int = 0
 
   #if os(iOS)
   init() {
@@ -28,13 +29,17 @@ struct ContentListView: View {
   }
   #endif
 
-  @State var selectedItem: Int = 0
   var body: some View {
     NavigationStack {
       contentView.padding(.bottom, 80)
         .toolbar {
           ToolbarItem(placement: .cancellationAction) {
-            playbookLogo
+            HStack(spacing: Spacing.small) {
+              playbookLogo
+              if let version = version {
+                PBBadge(text: version, variant: .success)
+              }
+            }
           }
         }
         .background {
@@ -50,21 +55,24 @@ struct ContentListView: View {
     }
     #if os(iOS)
     .navigationViewStyle(.stack)
-#endif
+    #endif
   }
 
   var bottomBar: some View {
-    PBNav(
-      selected: $selectedItem,
-      variant: .subtle,
-      orientation: .horizontal
-    ) {
-      PBNavItem(DesignElements.title)
-      PBNavItem(Components.title)
+    HStack(alignment: .center) {
+      PBNav(
+        selected: $selectedItem,
+        variant: .subtle,
+        orientation: .horizontal
+      ) {
+        PBNavItem(DesignElements.title)
+        PBNavItem(Components.title)
+      }
+      .offset(x: 20, y: -8)
+      .padding(.horizontal, Spacing.xLarge)
+      .frame(maxWidth: .infinity, minHeight: 80)
+      .background(Color.white)
     }
-    .offset(y: -8)
-    .frame(maxWidth: .infinity, minHeight: 80)
-    .background(Color.white)
   }
 
   @ViewBuilder
@@ -141,7 +149,6 @@ struct ContentListView: View {
   }
 }
 
-@available(macOS 13.3, *)
 @available(iOS 16.4, *)
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
