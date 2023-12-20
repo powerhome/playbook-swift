@@ -38,7 +38,7 @@ public struct PBDate: View {
   }
 }
 
-public extension PBDate {
+private extension PBDate {
   var formattedDate: AttributedString {
     let formatter = DateFormatter()
     formatter.dateFormat = variant.dateStyle
@@ -82,7 +82,7 @@ public extension PBDate {
     public static var showCases: [PBDate.Variant] {
       return [.short, .standard, .dayDate]
     }
- 
+
     var dateStyle: String {
       switch self {
       case .short: return "MMM d"

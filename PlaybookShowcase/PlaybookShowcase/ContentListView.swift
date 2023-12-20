@@ -7,29 +7,28 @@
 
 import SwiftUI
 import Playbook
-
 #if os(iOS)
   import UIKit
 #endif
 
-@available(iOS 16.0, *)
+@available(iOS 16.4, *)
 struct ContentListView: View {
-
   let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+  @State var selectedItem: Int = 0
 
   #if os(iOS)
-    init() {
-      let appearance = UINavigationBarAppearance()
-      appearance.configureWithOpaqueBackground()
-      appearance.backgroundColor = .white
-      appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.text(.default))]
-      appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
-      UINavigationBar.appearance().standardAppearance = appearance
-      UINavigationBar.appearance().compactAppearance = appearance
-      UINavigationBar.appearance().scrollEdgeAppearance = appearance
-    }
+  init() {
+    let appearance = UINavigationBarAppearance()
+    appearance.configureWithOpaqueBackground()
+    appearance.backgroundColor = .white
+    appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.text(.default))]
+    appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
+    UINavigationBar.appearance().standardAppearance = appearance
+    UINavigationBar.appearance().compactAppearance = appearance
+    UINavigationBar.appearance().scrollEdgeAppearance = appearance
+  }
   #endif
-  @State var selectedItem: Int = 0
+
   var body: some View {
     NavigationStack {
       contentView.padding(.bottom, 80)
@@ -60,17 +59,20 @@ struct ContentListView: View {
   }
 
   var bottomBar: some View {
-    PBNav(
-      selected: $selectedItem,
-      variant: .subtle,
-      orientation: .horizontal
-    ) {
-      PBNavItem(DesignElements.title)
-      PBNavItem(Componenets.title)
+    HStack(alignment: .center) {
+      PBNav(
+        selected: $selectedItem,
+        variant: .subtle,
+        orientation: .horizontal
+      ) {
+        PBNavItem(DesignElements.title)
+        PBNavItem(Components.title)
+      }
+      .offset(x: 20, y: -8)
+      .padding(.horizontal, Spacing.xLarge)
+      .frame(maxWidth: .infinity, minHeight: 80)
+      .background(Color.white)
     }
-    .offset(y: -8)
-    .frame(maxWidth: .infinity, minHeight: 80)
-    .background(Color.white)
   }
 
   @ViewBuilder
@@ -93,9 +95,9 @@ struct ContentListView: View {
   private var componentsView: some View {
     ScrollView(showsIndicators: false) {
       VStack(alignment: .leading) {
-        Text(Componenets.title).pbFont(.title3)
+        Text(Components.title).pbFont(.title3)
         VStack(spacing: Spacing.small) {
-          ForEach(Componenets.allCases, id: \.self) { element in
+          ForEach(Components.allCases, id: \.self) { element in
             NavigationLink {
               element.destination
             } label: {
@@ -147,7 +149,7 @@ struct ContentListView: View {
   }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.4, *)
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()
