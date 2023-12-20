@@ -87,7 +87,7 @@ node(defaultNode) {
 
 // Methods
 def buildSuffix() {
-  isDevBuild() ? 'beta' : nil
+  isDevBuild() ? 'beta' : null
 }
 
 def jenkinsSetup() {
