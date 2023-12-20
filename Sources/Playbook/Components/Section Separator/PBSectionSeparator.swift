@@ -101,6 +101,7 @@ public extension PBSectionSeparator {
   }
 }
 
+@available(macOS 13.0, *)
 public struct PBSectionSeparator_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()

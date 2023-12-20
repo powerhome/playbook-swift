@@ -148,6 +148,7 @@ public enum DialogVariant: Equatable {
   }
 }
 
+@available(macOS 13.0, *)
 public struct PBDialog_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()

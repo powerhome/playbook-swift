@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-@available(iOS 16.4, *)
-@available(macOS 13.3, *)
-public enum Components: String, CaseIterable {
+@available(macOS 13.0, *)
+public enum Componenets: String, CaseIterable {
   case avatar
   case badge
   case button
@@ -40,13 +39,11 @@ public enum Components: String, CaseIterable {
   case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
-  case tooltip = "Tooltip"
   case toggle
   case user
 
   public static let title: String = "Components"
 
-  @available(macOS 13.3, *)
   @ViewBuilder
   public var destination: some View {
     switch self {
@@ -59,7 +56,12 @@ public enum Components: String, CaseIterable {
     case .contact: ContactCatalog()
     case .date: DateCatalog()
     case .dialog: DialogCatalog()
-    case .toast: ToastCatalog()
+    case .toast: if #available(iOS 16.0, *) {
+      ToastCatalog()
+    } else {
+      EmptyView()
+      // Fallback on earlier versions
+    }
     case .homeAddress: HomeAddressStreetCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
@@ -79,7 +81,6 @@ public enum Components: String, CaseIterable {
     case .select: PBSelect_Previews.previews
     case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
-    case .tooltip: TooltipCatalog()
     case .timeStamp: TimeStampCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
