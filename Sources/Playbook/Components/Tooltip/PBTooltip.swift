@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-@available(macOS 13.3, *)
 @available(iOS 16.4, *)
+@available(macOS 13.3, *)
 public struct PBTooltip: ViewModifier {
   let canPresent: Bool
   let delay: TimeInterval
@@ -17,8 +17,10 @@ public struct PBTooltip: ViewModifier {
   let placement: Edge
   let text: String
 
-  @State private var shouldPresentPopover: Bool = false
+  @State private var delayCompleted: Bool = false
   @State private var presentPopover: Bool = false
+  @State private var shouldPresentPopover: Bool = false
+  @State private var workItems: [DispatchWorkItem?] = []
 
   public init(
     canPresent: Bool = true,
@@ -39,19 +41,10 @@ public struct PBTooltip: ViewModifier {
   public func body(content: Content) -> some View {
     HStack {
       if self.canPresent {
-        content.onHover(perform: { hovering in
-          shouldPresentPopover = hovering
-        })
-        .onChange(of: shouldPresentPopover, perform: { _ in
-          handleDelay
-        })
-        .popover(isPresented: $presentPopover, arrowEdge: self.placement, content: {
-          if self.icon != nil {
-            iconPopover
-          } else {
-            basePopover
-          }
-        })
+        content
+        .onHover(perform: handleOnHover)
+        .onChange(of: shouldPresentPopover, perform: handleOnChange)
+        .popover(isPresented: $presentPopover, arrowEdge: self.placement, content: popoverView)
       } else {
         content
       }
@@ -59,53 +52,84 @@ public struct PBTooltip: ViewModifier {
   }
 }
 
-@available(macOS 13.3, *)
 @available(iOS 16.4, *)
+@available(macOS 13.3, *)
 public extension PBTooltip {
   enum DelayType {
     case all
     case open
     case close
   }
-  var basePopover: some View {
-    Text(self.text)
-      .padding()
-      .presentationCompactAdaptation(.popover)
-      .onHover(perform: tooltipContentHover)
+
+  private func handleOnHover(hovering: Bool) {
+    shouldPresentPopover = hovering
   }
-  var iconPopover: some View {
-    HStack(alignment: .center, spacing: Spacing.xSmall) {
-      PBIcon(self.icon!)
-        .padding(.leading, Spacing.small)
-      Text(self.text)
-        .padding(.vertical, Spacing.small)
-        .padding(.trailing, Spacing.small)
-        .presentationCompactAdaptation(.popover)
+
+  private func handleOnChange(_: Bool) {
+    if delay > 0.0 {
+      handleDelay
+    } else {
+      presentPopover = shouldPresentPopover
     }
   }
-  private func handleDispatch(present: Bool) {
-    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+
+  private func handleDispatch(present: Bool) -> DispatchWorkItem {
+    let workItem = DispatchWorkItem {
       presentPopover = present
+      delayCompleted = present
     }
+    let queue = DispatchQueue.global(qos: .utility)
+    queue.asyncAfter(deadline: .now() + delay, execute: workItem)
+    return workItem
   }
-  private func tooltipContentHover(hovering: Bool) {
-    print("Hovering over tooltip contents")
+
+  private var cancelWorkItems: Void {
+    for item in workItems {
+      item?.cancel()
+    }
+    workItems.removeAll()
   }
-  var handleDelay: Void {
+
+  private var addWorkQueueItem: Void {
+    workItems.append(handleDispatch(present: shouldPresentPopover))
+  }
+
+  private var handleDelay: Void {
     switch self.delayType {
     case .all:
-      handleDispatch(present: shouldPresentPopover)
+      addWorkQueueItem
+      if !shouldPresentPopover && !delayCompleted {
+        cancelWorkItems
+      }
     case .close:
       if shouldPresentPopover {
         presentPopover = true
       } else {
-        handleDispatch(present: false)
+        addWorkQueueItem
       }
     case .open:
       if shouldPresentPopover {
-        handleDispatch(present: true)
+        addWorkQueueItem
       } else {
         presentPopover = false
+        cancelWorkItems
+      }
+    }
+  }
+
+  private func popoverView() -> some View {
+    HStack {
+      if let icon = icon {
+        PBIcon(icon)
+          .padding(.leading, Spacing.small)
+        Text(text)
+          .padding(.vertical, Spacing.small)
+          .padding(.trailing, Spacing.small)
+          .presentationCompactAdaptation(.popover)
+      } else {
+        Text(text)
+          .padding()
+          .presentationCompactAdaptation(.popover)
       }
     }
   }
@@ -113,6 +137,30 @@ public extension PBTooltip {
 
 @available(macOS 13.3, *)
 @available(iOS 16.4, *)
+public extension View {
+  func pbTooltip(
+    canPresent: Bool = true,
+    delay: TimeInterval = 0.0,
+    delayType: PBTooltip.DelayType = .all,
+    icon: FontAwesome? = nil,
+    placement: Edge = .top,
+    text: String = ""
+  ) -> some View {
+    return AnyView(
+      self.modifier(PBTooltip(
+        canPresent: canPresent,
+        delay: delay,
+        delayType: delayType,
+        icon: icon,
+        placement: placement,
+        text: text
+      ))
+    )
+  }
+}
+
+@available(iOS 16.4, *)
+@available(macOS 13.3, *)
 public struct PBTooltip_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
