@@ -68,7 +68,7 @@ struct NavCatalog: View {
         title: "Browse"
       ) {
         PBNavItem("News Feed", icon: .pbIcon(.fontAwesome(.newspaper)), accessory: .chevronDown)
-        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.snapchatSquare)))
+        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.messages)))
         PBNavItem("Events", icon: .pbIcon(.fontAwesome(.calendarCheck)))
         PBNavItem("Friends", icon: .pbIcon(.fontAwesome(.peopleCarry)))
         PBNavItem("Groups", icon: .pbIcon(.fontAwesome(.campground)))
@@ -88,7 +88,7 @@ struct NavCatalog: View {
         )
         PBNavItem(
           "Messages",
-          icon: .image(PBImage(image: Image("andrew", bundle: .module)))
+          icon: .custom(AnyView(Image(systemName: "bubble.left.and.bubble.right")))
         )
         PBNavItem(
           "Events",
@@ -154,7 +154,7 @@ struct NavCatalog: View {
         orientation: .vertical
       ) {
         PBNavItem("News Feed", icon: .pbIcon(.fontAwesome(.newspaper)))
-        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.snapchatSquare)))
+        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.messages)))
         PBNavItem("Events", icon: .pbIcon(.fontAwesome(.calendarCheck)))
         PBNavItem("Friends", icon: .pbIcon(.fontAwesome(.peopleCarry)))
         PBNavItem("Groups", icon: .pbIcon(.fontAwesome(.campground)))
