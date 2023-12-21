@@ -36,7 +36,7 @@ public extension PBPersonContact {
     }
   }
   var nameView: some View {
-    return PBPerson(firstName: firstName ?? "Pauline", lastName: lastName ?? "Smith")
+    return PBPerson(firstName: firstName ?? "", lastName: lastName ?? "")
   }
   var contactView: some View {
     return ForEach(contacts, id: \.parsedValue) { contact in
