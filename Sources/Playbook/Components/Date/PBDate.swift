@@ -53,6 +53,18 @@ private extension PBDate {
       return nil
     }
   }
+
+  var currentYear: Int {
+    let calendar = Calendar.current
+    let currentYear = calendar.component(.year, from: Date())
+    return currentYear
+  }
+
+  var isCurrentYear: Bool {
+    let currentDate = currentYear
+    let datestampYear = Calendar.current.component(.year, from: datestamp)
+    return currentDate == datestampYear
+  }
 }
 
 public extension PBDate {
@@ -70,7 +82,7 @@ public extension PBDate {
     public static var showCases: [PBDate.Variant] {
       return [.short, .standard, .dayDate]
     }
-    
+
     var dateStyle: String {
       switch self {
       case .short: return "MMM d"

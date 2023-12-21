@@ -36,39 +36,70 @@ public struct DateCatalog: View {
 public extension DateCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      ForEach(PBDate.Variant.showCases, id: \.self) {  variant in
-        PBDate(Date(), variant: variant)
-      }
+      PBDate(Date(), variant: .short)
+      PBDate(Date().makeDate(year: 2012, month: 8, day: 3), variant: .standard)          
+      PBDate(Date().makeDate(year: 2017, month: 12, day: 3), variant: .dayDate)
       Spacer()
-      ForEach(PBDate.Variant.showCases, id: \.self) {  variant in
-        PBDate(Date(), variant: variant, typography: .title4)
-      }
+      PBDate(Date(), variant: .short, typography: .title4)        
+      PBDate(Date().makeDate(year: 2012, month: 8, day: 3), variant: .standard, typography: .title4)
+      PBDate(Date().makeDate(year: 2017, month: 12, day: 3), variant: .dayDate, typography: .title4)
     }
   }
 
+
   var variantView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBDate(Date(), variant: .withIcon(isStandard: true), typography: .caption, iconSize: .xSmall)
-      PBDate(Date(), variant: .standard, typography: .title4)
-      PBDate(Date(), variant: .withIcon(isStandard: true), typography: .title4, iconSize: .x1)
-      PBDate(Date(), variant: .dayDate, typography: .title4)
-      PBDate(Date(), variant: .withIcon(isStandard: false), typography: .title4, iconSize: .x1)
+      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        variant: .withIcon(isStandard: true),
+        typography: .caption,
+        iconSize: .xSmall)
+      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        variant: .standard,
+        typography: .title4)
+      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        variant: .withIcon(isStandard: true),
+        typography: .title4,
+        iconSize: .x1)
+      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        variant: .dayDate,
+        typography: .title4)
+      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        variant: .withIcon(isStandard: false),
+        typography: .title4,
+        iconSize: .x1)
     }
   }
 
   var alignmentView: some View {
     VStack(spacing: Spacing.small) {
-      PBDate(Date(), variant: .standard, typography: .title4, alignment: .leading)
-      PBDate(Date(), variant: .withIcon(isStandard: true), typography: .title4, iconSize: .x1, alignment: .center)
-      PBDate(Date(), variant: .short, typography: .title4, alignment: .trailing)
+      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        variant: .standard,
+        typography: .title4,
+        alignment: .leading)
+      PBDate(Date().makeDate(year: 2020, month: 12, day: 25),
+        variant: .withIcon(isStandard: true),
+        typography: .title4,
+        iconSize: .x1,
+        alignment: .center)
+      PBDate(Date(),
+        variant: .short,
+        typography: .title4,
+        alignment: .trailing)
     }
   }
 
   var unstyledView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBDate(Date(), variant: .short, typography: .body)
-      PBDate(Date(), variant: .standard, typography: .title1)
-      PBDate(Date(), variant: .withIcon(isStandard: false), typography: .subcaption, iconSize: .xSmall)
+      PBDate(Date(),
+        variant: .short,
+        typography: .body)
+      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        variant: .standard,
+        typography: .title1)
+      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        variant: .withIcon(isStandard: false),
+        typography: .subcaption,
+        iconSize: .xSmall)
     }
   }
 }

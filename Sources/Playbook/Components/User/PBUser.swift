@@ -60,7 +60,7 @@ public struct PBUser: View {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
 
-        VStack(alignment: .leading, spacing: size == .large ? Spacing.large : 6) {
+        VStack(alignment: .leading, spacing: Spacing.xSmall) {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
@@ -68,12 +68,12 @@ public struct PBUser: View {
         }
       }
     } else {
-      VStack(spacing: Spacing.large) {
+      VStack(spacing: Spacing.xSmall) {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
 
-        VStack(alignment: displayAvatar ? .center : .leading, spacing: 6) {
+        VStack(alignment: displayAvatar ? .center : .leading, spacing: Spacing.xSmall) {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
