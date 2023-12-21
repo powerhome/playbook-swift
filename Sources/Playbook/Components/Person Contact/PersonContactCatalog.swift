@@ -33,11 +33,17 @@ public struct PersonContactCatalog: View {
 
 public extension PersonContactCatalog {
   var defaultView: some View {
-    VStack(alignment: .leading, spacing: Spacing.xSmall) {
-      PBPersonContact(firstName: "Pauline", lastName: "Smith", contacts: [PBContact(type: .email, value: "email@example.com", detail: false), PBContact(type: .home, value: "(555) 555-5555", detail: false), PBContact(type: .work, value: "(324) 562-7482", detail: false)])
-    }
+    let contacts = [
+      PBContact(type: .email, value: "email@example.com", detail: false),
+      PBContact(type: .home, value: "(555) 555-5555", detail: false),
+      PBContact(type: .work, value: "(324) 562-7482", detail: false)
+    ]
+  
+    return PBPersonContact(firstName: "Pauline", lastName: "Smith", contacts: contacts)
+   
   }
   var multiplePeopleView: some View {
+    
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       PBPersonContact(firstName: "Harvey", lastName: "Walters", contacts: [PBContact(type: .email, value: "email@example.com", detail: false), PBContact(type: .home, value: "(555) 555-5555", detail: false), PBContact(type: .work, value: "(324) 562-7482", detail: false)])
       Spacer()
@@ -45,19 +51,23 @@ public extension PersonContactCatalog {
     }
   }
   var withDetailView: some View {
-    VStack(alignment: .leading, spacing: Spacing.xSmall) {
-      PBPersonContact(firstName: "Harvey", lastName: "Walters", contacts: [PBContact(type: .email, value: "email@example.com", detail: false), PBContact(type: .home, value: "(555) 555-5555", detail: true), PBContact(type: .work, value: "(324) 562-7482", detail: true)])
-    }
+    let contacts = [
+      PBContact(type: .email, value: "email@example.com", detail: false),
+      PBContact(type: .home, value: "(555) 555-5555", detail: false),
+      PBContact(type: .work, value: "(324) 562-7482", detail: false)
+    ]
+   
+     return PBPersonContact(firstName: "Harvey", lastName: "Walters", contacts: contacts)
+    
   }
   var withWrongNumbersView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       PBPersonContact(firstName: "Pauline", lastName: "Smith", contacts: [PBContact(type: .email, value: "email@example.com", detail: false), PBContact(type: .home, value: " (555) 555-5555", detail: false), PBContact(type: .home, value: "(304) 861-5385", detail: false)])
-    
-        Text("wrong number")
-          .pbFont(.caption)
-          .padding(.top, 20)
-        PBPersonContact(firstName: "", lastName: "", contacts: [PBContact(type: .custom("", .phoneSlash), value: "(324) 562-7482", detail: false)])
+    Spacer()
+
+      PBPersonContact(firstName: "Wrong", lastName: "Number", contacts: [PBContact(type: .custom("", .phoneSlash), value: "(324) 562-7482", detail: false)])
         .padding(.top, -10)
+        
     }
    
   }

@@ -30,8 +30,10 @@ public struct PBPersonContact: View {
 public extension PBPersonContact {
   @ViewBuilder
   var personOrContactView: some View {
-        nameView
-       contactView
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
+      nameView
+      contactView
+    }
   }
   var nameView: some View {
     return PBPerson(firstName: firstName ?? "Pauline", lastName: lastName ?? "Smith")
