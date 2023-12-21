@@ -16,4 +16,4 @@ spec:
   owner: playbook-admins
   domain: ux
   lifecycle: production
-  system: power-application-framework
+  system: playbook
