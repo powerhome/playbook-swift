@@ -13,7 +13,7 @@ metadata:
     nitro.powerhrg.com/ci-build-connect-room: "72342"
 spec:
   type: library
-  owner: playbook-web
+  owner: playbook-admins
   domain: ux
   lifecycle: production
   system: power-application-framework
