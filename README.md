@@ -4,6 +4,8 @@ Playbook Swift is the SwiftUI version of [Playbook](https://playbook.powerapp.cl
 
 Built and maintained by the User Experience Team at [Power Home Remodeling](https://www.techatpower.com/).
 
+>This project uses [FA Pro] icons and the [Proxima Nova] font, both of which are licensed by Power Home Remodeling and used for demonstrative purposes. Consumers of this project are required to secure >their own license for use.
+
 ## Installation
 
 ### Prerequisites
@@ -13,12 +15,13 @@ Built and maintained by the User Experience Team at [Power Home Remodeling](http
 
 ### Playbook Swift can be added via the Swift Package Manager
 
-![Package Manager Popup](pkgmgr-pop.png)
+<!--![Package Manager Popup](pkgmgr-pop.png)-->
+<img src="pkgmgr-pop.png" height=200px />
 
 1. Search for: `git@github.com:powerhome/PlaybookSwift.git`
 1. Choose `Add Package`
-2. Choose `Packages > Resolve Package Versions`
-    ![Alt text](xcode-resolve-deps.png)
+2. In Xcode, Choose `Packages > Resolve Package Versions`
+   <!-- ![Alt text](xcode-resolve-deps.png)-->
 3. In your Swift view file:
     ```swift
     import Playbook
