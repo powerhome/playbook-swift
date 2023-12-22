@@ -1,4 +1,4 @@
-<h1 align="center">Playbook Design System iOS</h1><br />
+<h1 align="center">Playbook Swift Contribution Guidelines</h1><br />
 
 # Feature Request
 Before submitting a feature request be sure to review our [issue history](https://github.com/powerhome/PlaybookSwift/issues?q=is%3Aissue+) to confirm that your request is unique or not already in progress. 
