@@ -8,6 +8,8 @@
 import SwiftUI
 
 public struct ButtonsCatalog: View {
+  @State private var count: Int = 153
+  @State private var count1: Int = 5
   let simpleButtons: some View = VStack(alignment: .leading, spacing: Spacing.small) {
     PBButton(
       title: "Button Primary",
@@ -34,6 +36,17 @@ public struct ButtonsCatalog: View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Simple") { simpleButtons }
+
+        PBDoc(title: "Reaction Button") {
+          HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 12) {
+            PBReactionButton(
+              count: $count,
+              icon: "\u{1F389}", isInteractive: true)
+            PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
+            PBReactionButton(isInteractive: false)
+            PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false)
+          }
+        }
 
         PBDoc(title: "Full Width") {
           PBButton(
