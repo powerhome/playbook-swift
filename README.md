@@ -4,7 +4,7 @@ Playbook Swift is the SwiftUI version of [Playbook](https://playbook.powerapp.cl
 
 Built and maintained by the User Experience Team at [Power Home Remodeling](https://www.techatpower.com/).
 
->This project uses [FontAwesome Pro](https://fontawesome.com/icons) icons and the [Proxima Nova](https://www.marksimonson.com/fonts/view/proxima-nova) font, both of which are licensed by Power Home Remodeling and used for demonstrative purposes. Consumers of this project are required to secure >their own license for use.
+>This project uses [FontAwesome Pro](https://fontawesome.com/icons) icons and the [Proxima Nova](https://www.marksimonson.com/fonts/view/proxima-nova) font, both of which are licensed to Power Home Remodeling and used only for demonstrative purposes. Consumers of this project are required to secure >their own license for use.
 
 ## Installation
 
