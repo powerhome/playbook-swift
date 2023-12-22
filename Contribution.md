@@ -1,13 +1,15 @@
 <h1 align="center">Playbook Design System iOS</h1><br />
 
 # Feature Request
+Before submitting a feature request be sure to review our [issue history](https://github.com/powerhome/PlaybookSwift/issues?q=is%3Aissue+) to confirm that your request is unique or not already in progress. 
+When you're ready to submit, be sure to use the following template: 
 
 | Name | About  | Title  | Labels | Assignees |
 | :---:   | :---: | :---: | :---: | :---: |
 |  Feature Request | Suggest an idea for this preoject   |    
 
 **Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+A clear and concise description of what the problem is. Ex: I'm always frustrated when [...]
 
 **Describe the solution you'd like**
 A clear and concise description of what you want to happen.
@@ -22,6 +24,8 @@ Add any other context or screenshots about the feature request here.
 <br/>
 
 # Bug Reporting
+Like Feature Requests, before submitting a bug report, be sure to review our [issue history](https://github.com/powerhome/PlaybookSwift/issues?q=is%3Aissue+) to confirm that your bug fix is not already resolved or in progress.
+When you're ready to submit, be sure to use the following template: 
 
 | Name | About  | Title  | Labels | Assignees |
 | :---:   | :---: | :---: | :---: | :---: |
@@ -82,3 +86,37 @@ These rules will also be enforced before you commit via [pre-commit](https://pre
 
 * pre-commit will check for several rules and auto-corrects any violations. You will have to commit again if it finds an error. In the example below, one file did not have proper indentation which SwiftFormat detected and corrected:
 <br /><br />![Alt text](swift-format-violations.png)
+
+<br />
+<br />
+
+# Pull Requests
+
+When submitting a pull request use the following template: 
+## Summary
+- [First bullet point must be a **_short_** overall summary]
+
+## Additional Details
+- [Runway Story]
+- [Optional: add more details]
+
+## Screenshots (for UI stories: show before/after changes)
+
+| Before                            | After                             |
+| --------------------------------- | --------------------------------- |
+| [Before Pic]                      | [After Pic]                       |
+
+## Breaking Changes
+
+[Yes/No (Explain)]
+
+## Testing
+
+[Insert testing details or N/A]
+
+## Checklist
+
+- [ ] **LABELS** - Add a label: `breaking`, `bug`, `improvement`, `documentation`, or `enhancement`. See [Labels](https://github.com/powerhome/playbook-apple/labels) for descriptions.
+- [ ] **SCREENSHOTS** - Please add a screenshot or two. For UI changes, you MUST provide before and after screenshots.
+- [ ] **RELEASES** - Add the appropriate label: `Ready for Testing` / `Ready for Release`
+- [ ] **TESTING** - Have you tested your story?
