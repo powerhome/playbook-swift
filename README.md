@@ -4,47 +4,28 @@ Playbook Swift is the SwiftUI version of [Playbook](https://playbook.powerapp.cl
 
 Built and maintained by the User Experience Team at [Power Home Remodeling](https://www.techatpower.com/).
 
+>This project uses [FontAwesome Pro](https://fontawesome.com/icons) icons and the [Proxima Nova](https://www.marksimonson.com/fonts/view/proxima-nova) font, both of which are licensed to Power Home Remodeling and used only for demonstrative purposes. Consumers of this project are required to secure >their own license for use.
+
 ## Installation
 
-### Prerequisites
+Follow our [installation guide](Installation.md) to setup Playbook Swift in your project.
 
-- [Xcode 15](https://developer.apple.com/xcode/)
-- [Homebrew](https://brew.sh/)
 
-### Playbook Swift can be added via the Swift Package Manager
 
-![Package Manager Popup](pkgmgr-pop.png)
-
-1. Search for: `git@github.com:powerhome/PlaybookSwift.git`
-1. Choose `Add Package`
-2. Choose `Packages > Resolve Package Versions`
-    ![Alt text](xcode-resolve-deps.png)
-3. In your Swift view file:
-    ```swift
-    import Playbook
-    ```
-5. Build the project
-
-### Install [`pre-commit`](https://pre-commit.com/#install) via `brew install pre-commit`
-  1. In the Playbook Swift root directory, run `pre-commit install` to set up the git hook scripts
-
-# Code Format & Linting
-
-See the [Editing Linting, Formatting, and Auto Correction](LINTING.md) doc for more information.
-
-## Component Examples via PlaybookShowcase
+## Component Examples via demo app (PlaybookShowcase)
 
 Playbook Swift contains the app named `PlaybookShowcase`; providing examples of each component. PlaybookShowcase can be launched within the XCode simulator, side-loaded, or downloaded to your device.
 
 <img src="./playbook-showcase.png" height="500px" />
 
-# Note: YAML Configuration Files
 
-- You may need to add the package like so:
 
-```yaml
-packages:
-  Playbook:
-    url: git@github.com:powerhome/PlaybookSwift.git
-    version x.x.x // Where x.x.x is the desired version
-```
+# Contributing
+
+Want to contribute to Playbook Swift? Check out our [contribution guidelines](Contribution.md) to better understand how you can help grow our library.
+
+
+# Copyright & License
+
+Code released under [ISC License](License.md)
+
