@@ -8,7 +8,7 @@ Built and maintained by the User Experience Team at [Power Home Remodeling](http
 
 ## Installation
 
-Follow our [installation guide](link here) to setup Playbook Swift in your project.
+Follow our [installation guide](Installation.md) to setup Playbook Swift in your project.
 
 
 
