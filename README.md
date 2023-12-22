@@ -22,6 +22,6 @@ Playbook Swift contains the app named `PlaybookShowcase`; providing examples of 
 
 # Contributions
 
-Want to contribute to Playbook Swift? Check out our [contribution guidelines](Contributions.md) to better understand how you can help grow our library.
+Want to contribute to Playbook Swift? Check out our [contribution guidelines](Contribution.md) to better understand how you can help grow our library.
 
 
