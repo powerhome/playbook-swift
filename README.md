@@ -20,8 +20,12 @@ Playbook Swift contains the app named `PlaybookShowcase`; providing examples of 
 
 
 
-# Contributions
+# Contributing
 
 Want to contribute to Playbook Swift? Check out our [contribution guidelines](Contribution.md) to better understand how you can help grow our library.
 
+
+# Copyright & License
+
+Code released under [ISC License](License.md)
 
