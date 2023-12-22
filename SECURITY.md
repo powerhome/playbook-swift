@@ -7,7 +7,7 @@ If you discover a security vulnerability within the design system, please open a
 ## Supported Versions
 
 Only the latest version of the design system is supported.
-For the latest version, go [here](https://github.com/powerhome/playbook/blob/master/playbook/lib/playbook/version.rb#L5).
+For the latest version, go [here](https://github.com/powerhome/PlaybookSwift/blob/main/.swift-version).
 
 ## Updates and Upgrades
 
