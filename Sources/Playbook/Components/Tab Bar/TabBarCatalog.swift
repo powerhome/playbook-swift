@@ -15,7 +15,7 @@ public struct TabBarCatalog: View {
           .pbFont(.caption, variant: .light, color: .text(.light))
           .padding(.trailing, 250)
           .padding(.top, 30)
-        PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: PBCardStyle.default, shadow: .top) {
+        PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: PBCardStyle.default, shadow: .deep) {
           dropShadow
         }
         Text("Without Shadow")
@@ -41,7 +41,7 @@ public struct TabBarCatalog: View {
 
 public extension TabBarCatalog {
   var dropShadow: some View {
-    return PBNav(variant: .normal, orientation: .horizontal, borders: true) {
+    return HStack {
       PBTabBar(variant: .home)
       PBTabBar(variant: .calendar)
       //  PBTabBar(variant: .notifications)
@@ -50,7 +50,7 @@ public extension TabBarCatalog {
     }
   }
   var withoutShadow: some View {
-    return PBNav(variant: .normal, orientation: .horizontal, borders: false) {
+    return HStack {
       PBTabBar(variant: .home)
       PBTabBar(variant: .calendar)
       //   PBTabBar(variant: .notifications)
@@ -59,7 +59,7 @@ public extension TabBarCatalog {
     }
   }
   var withBorder: some View {
-    return PBNav(variant: .normal, orientation: .horizontal, borders: true) {
+    return HStack {
       PBTabBar(variant: .home)
       PBTabBar(variant: .calendar)
       PBTabBar(variant: .notifications)
