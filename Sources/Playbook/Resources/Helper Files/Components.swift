@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-@available(macOS 13.0, *)
-@available(iOS 16, *)
-public enum Componenets: String, CaseIterable {
+@available(iOS 16.4, *)
+@available(macOS 13.3, *)
+public enum Components: String, CaseIterable {
   case avatar
   case badge
   case button
@@ -41,11 +41,13 @@ public enum Componenets: String, CaseIterable {
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
   case typeahead
+  case tooltip = "Tooltip"
   case toggle
   case user
 
   public static let title: String = "Components"
 
+  @available(macOS 13.3, *)
   @ViewBuilder
   public var destination: some View {
     switch self {
@@ -78,6 +80,7 @@ public enum Componenets: String, CaseIterable {
     case .select: PBSelect_Previews.previews
     case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
+    case .tooltip: TooltipCatalog()
     case .timeStamp: TimeStampCatalog()
     case .typeahead: TypeaheadCatalog()
     case .toggle: ToggleCatalog()
