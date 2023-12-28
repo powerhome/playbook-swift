@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-@available(macOS 13.0, *)
-public enum Componenets: String, CaseIterable {
+@available(iOS 16.4, *)
+@available(macOS 13.3, *)
+public enum Components: String, CaseIterable {
   case avatar
   case badge
   case button
@@ -30,6 +31,7 @@ public enum Componenets: String, CaseIterable {
   case multipleUserStacked = "Multiple Users Stacked"
   case nav
   case person
+  case personContact = "Person Contact"
   case pill
   case popover
   case progressIndicator = "Progress Indicator"
@@ -40,11 +42,13 @@ public enum Componenets: String, CaseIterable {
   case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
+  case tooltip = "Tooltip"
   case toggle
   case user
 
   public static let title: String = "Components"
 
+  @available(macOS 13.3, *)
   @ViewBuilder
   public var destination: some View {
     switch self {
@@ -57,12 +61,7 @@ public enum Componenets: String, CaseIterable {
     case .contact: ContactCatalog()
     case .date: DateCatalog()
     case .dialog: DialogCatalog()
-    case .toast: if #available(iOS 16.0, *) {
-      ToastCatalog()
-    } else {
-      EmptyView()
-      // Fallback on earlier versions
-    }
+    case .toast: ToastCatalog()
     case .homeAddress: HomeAddressStreetCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
@@ -74,6 +73,7 @@ public enum Componenets: String, CaseIterable {
     case .multipleUserStacked: MultipleUsersStackedCatalog()
     case .nav: PBNav_Previews.previews
     case .person: PersonCatalog()
+    case .personContact: PersonContactCatalog()
     case .pill: PillCatalog()
     case .popover: PopoverCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
@@ -83,6 +83,7 @@ public enum Componenets: String, CaseIterable {
     case .tabBar: TabBarCatalog()
     case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
+    case .tooltip: TooltipCatalog()
     case .timeStamp: TimeStampCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()

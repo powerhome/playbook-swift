@@ -8,7 +8,7 @@
 import SwiftUI
 import Playbook
 
-@available(iOS 16.0, *)
+@available(iOS 16.4, *)
 @main
 struct PlaybookShowcaseApp: App {
   var body: some Scene {
