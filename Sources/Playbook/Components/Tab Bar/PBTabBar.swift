@@ -20,7 +20,9 @@ public struct PBTabBar: View {
   }
   
   public var body: some View {
+      HStack(spacing: Spacing.large) {
         tabButtonView
+      }
   }
 }
 
@@ -35,16 +37,18 @@ public extension PBTabBar {
         tabButtonLabelView
       }
       .buttonStyle(.plain)
+      .pbFont(.subcaption, color: tabIconColor)
       .padding(.bottom, Spacing.large)
   }
   var tabButtonLabelView: some View {
     return GeometryReader { geo in
       VStack(spacing: Spacing.xxSmall) {
-        tabIconView
-        tabIconNameView
-    }.pbFont(.subcaption, color: tabIconColor)
-     .frame(width: geo.size.width / 0.89, height: geo.size.height)
+          tabIconView
+          tabIconNameView
+      }
+    .frame(width: geo.size.width / 0.95, height: geo.size.height)
     }
+      
   }
   var tabIconView: PBIcon {
     switch variant {

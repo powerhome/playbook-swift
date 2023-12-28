@@ -10,7 +10,7 @@ import SwiftUI
 public struct TabBarCatalog: View {
   public var body: some View {
     ScrollView {
-      VStack(spacing: Spacing.medium) {
+      VStack(spacing: Spacing.small) {
         Text("Drop Shadow")
           .pbFont(.caption, variant: .light, color: .text(.light))
           .padding(.trailing, 250)
@@ -32,6 +32,20 @@ public struct TabBarCatalog: View {
         PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: PBCardStyle.default) {
           withBorder
         }
+        Text("4 options")
+          .pbFont(.caption, variant: .light, color: .text(.light))
+          .padding(.trailing, 250)
+          .padding(.top, 10)
+        PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: PBCardStyle.default, shadow: .deep) {
+          fourOptions
+        }
+        Text("3 options")
+          .pbFont(.caption, variant: .light, color: .text(.light))
+          .padding(.trailing, 250)
+          .padding(.top, 10)
+        PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: PBCardStyle.default, shadow: .deep) {
+          threeOptions
+        }
       }
     }
     .background(Color.background(Color.BackgroundColor.light))
@@ -44,8 +58,8 @@ public extension TabBarCatalog {
     return HStack {
       PBTabBar(variant: .home)
       PBTabBar(variant: .calendar)
-      //  PBTabBar(variant: .notifications)
-      //  PBTabBar(variant: .search)
+      PBTabBar(variant: .notifications)
+      PBTabBar(variant: .search)
       PBTabBar(variant: .more)
     }
   }
@@ -53,7 +67,7 @@ public extension TabBarCatalog {
     return HStack {
       PBTabBar(variant: .home)
       PBTabBar(variant: .calendar)
-      //   PBTabBar(variant: .notifications)
+      PBTabBar(variant: .notifications)
       PBTabBar(variant: .search)
       PBTabBar(variant: .more)
     }
@@ -65,6 +79,21 @@ public extension TabBarCatalog {
       PBTabBar(variant: .notifications)
       PBTabBar(variant: .search)
       PBTabBar(variant: .more)
+    }
+  }
+  var fourOptions: some View {
+    return HStack {
+      PBTabBar(variant: .home)
+      PBTabBar(variant: .calendar)
+      PBTabBar(variant: .notifications)
+      PBTabBar(variant: .search)
+    }
+  }
+  var threeOptions: some View {
+    return HStack {
+      PBTabBar(variant: .home)
+      PBTabBar(variant: .notifications)
+      PBTabBar(variant: .search)
     }
   }
 }
