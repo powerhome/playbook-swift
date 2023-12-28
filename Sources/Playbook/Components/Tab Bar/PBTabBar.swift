@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct PBTabBar: View {
-  @State private var isTabSelected: Bool
+  @State var isTabSelected: Bool
   let variant: Variant
   
   public init(
@@ -20,9 +20,7 @@ public struct PBTabBar: View {
   }
   
   public var body: some View {
-      HStack(spacing: Spacing.large) {
-        tabButtonView
-      }
+    tabButtonView
   }
 }
 
@@ -32,23 +30,23 @@ public extension PBTabBar {
   }
   var tabButtonView: some View {
     return Button {
-        isTabSelected.toggle()
-      } label: {
-        tabButtonLabelView
-      }
-      .buttonStyle(.plain)
-      .pbFont(.subcaption, color: tabIconColor)
-      .padding(.bottom, Spacing.large)
+      isTabSelected.toggle()
+    } label: {
+      tabButtonLabelView
+    }
+    .buttonStyle(.plain)
+    .pbFont(.subcaption, color: tabIconColor)
+    .padding(.bottom, Spacing.large)
+    .padding(.leading, -50)
   }
   var tabButtonLabelView: some View {
     return GeometryReader { geo in
       VStack(spacing: Spacing.xxSmall) {
-          tabIconView
-          tabIconNameView
+        tabIconView
+        tabIconNameView
       }
-    .frame(width: geo.size.width / 0.95, height: geo.size.height)
+      .frame(width: geo.size.width / 0.75)
     }
-      
   }
   var tabIconView: PBIcon {
     switch variant {

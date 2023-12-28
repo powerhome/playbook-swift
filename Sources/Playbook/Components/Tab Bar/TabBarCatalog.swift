@@ -8,6 +8,7 @@
 import SwiftUI
 
 public struct TabBarCatalog: View {
+ 
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.small) {
@@ -55,8 +56,8 @@ public struct TabBarCatalog: View {
 
 public extension TabBarCatalog {
   var dropShadow: some View {
-    return HStack {
-      PBTabBar(variant: .home)
+    return HStack(spacing: Spacing.medium) {
+      PBTabBar(isTabSelected: true, variant: .home)
       PBTabBar(variant: .calendar)
       PBTabBar(variant: .notifications)
       PBTabBar(variant: .search)
@@ -64,8 +65,8 @@ public extension TabBarCatalog {
     }
   }
   var withoutShadow: some View {
-    return HStack {
-      PBTabBar(variant: .home)
+    return HStack(spacing: Spacing.medium) {
+      PBTabBar(isTabSelected: true, variant: .home)
       PBTabBar(variant: .calendar)
       PBTabBar(variant: .notifications)
       PBTabBar(variant: .search)
@@ -73,8 +74,8 @@ public extension TabBarCatalog {
     }
   }
   var withBorder: some View {
-    return HStack {
-      PBTabBar(variant: .home)
+    return HStack(spacing: Spacing.medium) {
+      PBTabBar(isTabSelected: true, variant: .home)
       PBTabBar(variant: .calendar)
       PBTabBar(variant: .notifications)
       PBTabBar(variant: .search)
@@ -82,16 +83,16 @@ public extension TabBarCatalog {
     }
   }
   var fourOptions: some View {
-    return HStack {
-      PBTabBar(variant: .home)
+    return HStack(spacing: Spacing.large) {
+      PBTabBar(isTabSelected: true, variant: .home)
       PBTabBar(variant: .calendar)
       PBTabBar(variant: .notifications)
       PBTabBar(variant: .search)
     }
   }
   var threeOptions: some View {
-    return HStack {
-      PBTabBar(variant: .home)
+    return HStack(spacing: Spacing.xLarge) {
+      PBTabBar(isTabSelected: true, variant: .home)
       PBTabBar(variant: .notifications)
       PBTabBar(variant: .search)
     }
