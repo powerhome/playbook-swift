@@ -44,7 +44,7 @@ struct PBDialogActionView: View {
           title: cancelButton.0,
           action: cancelButton.1 ?? {}
         )
-        .padding(.top, isStacked ? -8 : 0)
+        .padding(.top, isStacked ? 5 : 0)
       }
     }
     .frame(maxWidth: .infinity)
