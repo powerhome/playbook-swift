@@ -37,7 +37,6 @@ public extension PBTabBar {
     .buttonStyle(.plain)
     .pbFont(.subcaption, color: tabIconColor)
     .padding(.bottom, Spacing.large)
-    .padding(.leading, -40)
   }
   var tabButtonLabelView: some View {
     return GeometryReader { geo in
