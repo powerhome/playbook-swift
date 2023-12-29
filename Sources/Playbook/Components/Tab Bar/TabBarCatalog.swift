@@ -16,9 +16,10 @@ public struct TabBarCatalog: View {
           .pbFont(.caption, variant: .light, color: .text(.light))
           .padding(.trailing, 250)
           .padding(.top, 30)
-        PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: PBCardStyle.default, shadow: .deep) {
+//        PBCard(alignment: .center, backgroundColor: Color.card, border: true, style: PBCardStyle.default, shadow: .deep) {
           dropShadow
-        }
+       
+      //  }
         Text("Without Shadow")
           .pbFont(.caption, variant: .light, color: .text(.light))
           .padding(.trailing, 220)
@@ -57,44 +58,51 @@ public struct TabBarCatalog: View {
 public extension TabBarCatalog {
   var dropShadow: some View {
     return HStack(spacing: Spacing.medium) {
-      PBTabBar(isTabSelected: true, variant: .home)
-      PBTabBar(variant: .calendar)
-      PBTabBar(variant: .notifications)
-      PBTabBar(variant: .search)
-      PBTabBar(variant: .more)
+//      PBTabBar(hasBorder: true, hasShadow: true, icon: [PBIcon.fontAwesome(.home, size: .large), PBIcon.fontAwesome(.home, size: .large)])
+      PBTabBar(tabIconCount: 3, hasBorder: true, hasShadow: true, iconName: .home)
+    //  PBTabBar(hasBorder: true, hasShadow: true, iconName: .home)
+//      PBTabBar(isTabSelected: true, variant: .home)
+//      PBTabBar(variant: .calendar)
+//      PBTabBar(variant: .notifications)
+//      PBTabBar(variant: .search)
+//      PBTabBar(variant: .more)
     }
   }
   var withoutShadow: some View {
     return HStack(spacing: Spacing.medium) {
-      PBTabBar(isTabSelected: true, variant: .home)
-      PBTabBar(variant: .calendar)
-      PBTabBar(variant: .notifications)
-      PBTabBar(variant: .search)
-      PBTabBar(variant: .more)
+      Text("")
+//      PBTabBar(isTabSelected: true, variant: .home)
+//      PBTabBar(variant: .calendar)
+//      PBTabBar(variant: .notifications)
+//      PBTabBar(variant: .search)
+//      PBTabBar(variant: .more)
     }
   }
   var withBorder: some View {
     return HStack(spacing: Spacing.medium) {
-      PBTabBar(isTabSelected: true, variant: .home)
-      PBTabBar(variant: .calendar)
-      PBTabBar(variant: .notifications)
-      PBTabBar(variant: .search)
-      PBTabBar(variant: .more)
+      Text("")
+//      PBTabBar(isTabSelected: true, variant: .home)
+//      PBTabBar(variant: .calendar)
+//      PBTabBar(variant: .notifications)
+//      PBTabBar(variant: .search)
+//      PBTabBar(variant: .more)
     }
   }
   var fourOptions: some View {
     return HStack(spacing: Spacing.large) {
-      PBTabBar(isTabSelected: true, variant: .home)
-      PBTabBar(variant: .calendar)
-      PBTabBar(variant: .notifications)
-      PBTabBar(variant: .search)
+      Text("")
+//      PBTabBar(isTabSelected: true, variant: .home)
+//      PBTabBar(variant: .calendar)
+//      PBTabBar(variant: .notifications)
+//      PBTabBar(variant: .search)
     }
   }
   var threeOptions: some View {
     return HStack(spacing: Spacing.xLarge) {
-      PBTabBar(isTabSelected: true, variant: .home)
-      PBTabBar(variant: .notifications)
-      PBTabBar(variant: .search)
+      Text("")
+//      PBTabBar(isTabSelected: true, variant: .home)
+//      PBTabBar(variant: .notifications)
+//      PBTabBar(variant: .search)
     }
   }
 }

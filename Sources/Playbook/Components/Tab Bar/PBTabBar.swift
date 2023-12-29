@@ -8,63 +8,65 @@
 import SwiftUI
 
 public struct PBTabBar: View {
-  @State var isTabSelected: Bool
-  let variant: Variant
-  
+  @State var isTabSelected: Bool = false
+  var tabIconCount: Int = 0
+  let hasBorder: Bool?
+  let hasShadow: Bool?
+  var icon: [PBIcon]
+  var iconName: FontAwesome
   public init(
-    isTabSelected: Bool = false,
-    variant: Variant = .home
+    tabIconCount: Int = 0,
+    hasBorder: Bool = false,
+    hasShadow: Bool = false,
+    icon: [PBIcon] = [PBIcon.fontAwesome(.home, size: .large)],
+    iconName: FontAwesome = .home
   ) {
-    self.isTabSelected = isTabSelected
-    self.variant = variant
+    self.tabIconCount = tabIconCount
+    self.hasBorder = hasBorder
+    self.hasShadow = hasShadow
+    self.icon = icon
+    self.iconName = iconName
   }
   
   public var body: some View {
-    tabButtonView
+    PBCard(alignment: .center, backgroundColor: Color.card, border: hasBorder ?? false, style: PBCardStyle.default, shadow: hasShadow ?? false ? .deep : Shadow.none) {
+      HStack(spacing: Spacing.xLarge) {
+        ForEach(0..<tabIconCount, id: \.description) { _ in
+          tabButtonView
+            .frame(maxWidth: .infinity)
+            .foregroundStyle(tabIconColor)
+        }
+      }
+      .frame(maxWidth: .infinity, alignment: .bottom)
+      .frame(height: 48)
+    }
   }
 }
 
 public extension PBTabBar {
-  enum Variant {
-    case home, calendar, notifications, search, more
-  }
   var tabButtonView: some View {
     return Button {
       isTabSelected.toggle()
+      
     } label: {
       tabButtonLabelView
     }
     .buttonStyle(.plain)
     .pbFont(.subcaption, color: tabIconColor)
     .padding(.bottom, Spacing.large)
-    .padding(.leading, -10)
   }
+  @ViewBuilder
   var tabButtonLabelView: some View {
-    return GeometryReader { geo in
-      VStack(spacing: Spacing.xxSmall) {
-        tabIconView
-        tabIconNameView
-      }
-      .frame(width: geo.size.width / 0.75)
+    VStack(spacing: Spacing.xxSmall) {
+      tabIconView
+      Text(tabIconNameView)
     }
   }
   var tabIconView: PBIcon {
-    switch variant {
-    case .home: return PBIcon(FontAwesome.home, size: .large)
-    case .calendar: return PBIcon(FontAwesome.calendar, size: .large)
-    case .notifications: return PBIcon(FontAwesome.bell, size: .large)
-    case .search: return PBIcon(FontAwesome.search, size: .large)
-    case .more: return PBIcon(FontAwesome.ellipsisH, size: .large)
-    }
+    return PBIcon(iconName, size: .large)
   }
-  var tabIconNameView: Text {
-    switch variant {
-    case .home: return Text("Home")
-    case .calendar: return Text("Calendar")
-    case .notifications: return Text("Notifications")
-    case .search: return Text("Search")
-    case .more: return Text("More")
-    }
+  var tabIconNameView: String {
+    return iconName.rawValue.replacingOccurrences(of: "fa-", with: "")
   }
   var tabIconColor: Color {
     return isTabSelected == true ? Color.pbPrimary : Color.text(.light)
