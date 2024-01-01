@@ -32,7 +32,7 @@ public struct PBTabBar: View {
       HStack {
         tabButtonView
       }
-    }
+    }.shadow(color: hasShadow ?? false ? .shadow.opacity(0.74) : Color.clear, radius: 4, x: 4, y: 0)
   }
 }
 
