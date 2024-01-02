@@ -8,11 +8,11 @@
 import SwiftUI
 
 public struct TabBarCatalog: View {
-  @State var selectedTab: Int = 0
-  @State var selectedTab1: Int = 0
-  @State var selectedTab2: Int = 0
-  @State var selectedTab3: Int = 0
-  @State var selectedTab4: Int = 0
+  @State var selectedTab: String = ""
+  @State var selectedTab1: String = ""
+  @State var selectedTab2: String = ""
+  @State var selectedTab3: String = ""
+  @State var selectedTab4: String = ""
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.small) {

@@ -8,13 +8,13 @@
 import SwiftUI
 
 public struct PBTabBar: View {
-  @Binding var selectedTab: Int
+  @Binding var selectedTab: String
   let hasBorder: Bool?
   let hasShadow: Bool?
   var icon: [FontAwesome]
   var iconName: [String]
   public init(
-    selectedTab: Binding<Int> = .constant(0),
+    selectedTab: Binding<String> = .constant(""),
     hasBorder: Bool = false,
     hasShadow: Bool = false,
     icon: [FontAwesome] = [(.home)],
@@ -41,20 +41,40 @@ public extension PBTabBar {
     return ForEach(Array(zip(icon, iconName)), id: \.self.0) { (image, name) in
       Spacer()
       Button {
-        selectedTab = image.hashValue
+        selectedTab = image.rawValue
       } label: {
-          VStack(spacing: Spacing.xxSmall) {
-            PBIcon(image, size: .large)
-            Text(name)
+        TabButtonLabel(iconImageName: image, iconName: name)
+          .pbFont(.subcaption, color: selectedTab == image.rawValue ? Color.pbPrimary : Color.text(.light)
+          )
+          .padding(.horizontal, -5)
+          .onAppear {
+            selectedTab = "fa-home"
           }
-          .pbFont(.subcaption, color: selectedTab == image.hashValue ? Color.pbPrimary : Color.text(.light)
-          ).padding(.horizontal, -5)
       }
       .buttonStyle(.plain)
       .padding(.bottom, Spacing.large)
-      .frame(maxWidth: .infinity, alignment: .bottom)
       .frame(height: 48)
       Spacer()
+    }
+  }
+}
+
+struct TabButtonLabel: View {
+  var iconImageName: FontAwesome
+  var iconName: String
+  
+  init(
+    iconImageName: FontAwesome = .home,
+    iconName: String = ""
+  ) {
+    self.iconImageName = iconImageName
+    self.iconName = iconName
+  }
+  
+  var body: some View {
+    VStack(spacing: Spacing.xxSmall) {
+      PBIcon(iconImageName, size: .large)
+      Text(iconName)
     }
   }
 }
