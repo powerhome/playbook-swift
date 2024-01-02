@@ -62,7 +62,6 @@ public extension PBTabBar {
 struct TabButtonLabel: View {
   var iconImageName: FontAwesome
   var iconName: String
-  
   init(
     iconImageName: FontAwesome = .home,
     iconName: String = ""

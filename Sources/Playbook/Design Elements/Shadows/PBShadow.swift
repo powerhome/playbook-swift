@@ -22,7 +22,7 @@ extension View {
 }
 
 public enum Shadow: String, CaseIterable {
-  case deep, deeper, deepest, top, none
+  case deep, deeper, deepest, none
   
   var color: Color {
     switch self {
