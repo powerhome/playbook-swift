@@ -34,7 +34,9 @@ public struct PBTabBar: View {
           tabButtonView
         }
         
-      }
+      }.padding(.leading, -Spacing.xxSmall)
+        .padding(.trailing, -Spacing.xxSmall)
+        .padding(.top, -Spacing.xxSmall)
     }.shadow(color: hasShadow ?? false ? .shadow.opacity(0.74) : Color.clear, radius: 4, x: 4, y: 0)
   }
 }
