@@ -65,7 +65,7 @@ public extension TabBarCatalog {
         hasBorder: false,
         hasShadow: true,
         icon: [.home, .calendar, .bell, .search, .ellipsisH],
-        iconName: ["home", "calendar", "notfications", "search", "more"]
+        iconName: ["Home", "Calendar", "Notfications", "Search", "More"]
       )
     }
   }
@@ -76,7 +76,7 @@ public extension TabBarCatalog {
         hasBorder: false,
         hasShadow: false,
         icon: [.home, .calendar, .bell, .search, .ellipsisH],
-        iconName: ["home", "calendar", "notfications", "search", "more"]
+        iconName: ["Home", "Calendar", "Notfications", "Search", "More"]
       )
     }
   }
@@ -87,7 +87,7 @@ public extension TabBarCatalog {
         hasBorder: true,
         hasShadow: false,
         icon: [.home, .calendar, .bell, .search, .ellipsisH],
-        iconName: ["home", "calendar", "notfications", "search", "more"]
+        iconName: ["Home", "Calendar", "Notfications", "Search", "More"]
       )
     }
   }
@@ -98,7 +98,7 @@ public extension TabBarCatalog {
         hasBorder: false,
         hasShadow: true,
         icon: [.home, .calendar, .bell, .search],
-        iconName: ["home", "calendar", "notfications", "search"]
+        iconName: ["Home", "Calendar", "Notfications", "Search"]
       )
     }
   }
@@ -109,7 +109,7 @@ public extension TabBarCatalog {
         hasBorder: false,
         hasShadow: true,
         icon: [.home, .bell, .search],
-        iconName: ["home", "notfications", "search"]
+        iconName: ["Home", "Notfications", "Search"]
       )
     }
   }

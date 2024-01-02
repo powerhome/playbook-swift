@@ -30,7 +30,10 @@ public struct PBTabBar: View {
   public var body: some View {
     PBCard(alignment: .center, backgroundColor: Color.card, border: hasBorder ?? false, style: PBCardStyle.default, shadow: hasShadow ?? false ? .deep : Shadow.none) {
       HStack {
-        tabButtonView
+        withAnimation(.easeIn) {
+          tabButtonView
+        }
+        
       }
     }.shadow(color: hasShadow ?? false ? .shadow.opacity(0.74) : Color.clear, radius: 4, x: 4, y: 0)
   }
