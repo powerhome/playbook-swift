@@ -28,7 +28,7 @@ public struct PBTabBar: View {
   }
   
   public var body: some View {
-    PBCard(alignment: .center, backgroundColor: Color.card, border: hasBorder ?? false, borderRadius: BorderRadius.none, style: PBCardStyle.default, shadow: hasShadow ?? false ? .deep : Shadow.none) {
+    PBCard(alignment: .center, backgroundColor: Color.card, border: hasBorder ?? false, borderRadius: BorderRadius.none, style: PBCardStyle.default, shadow: shadow) {
       HStack {
         withAnimation(.easeIn) {
           tabButtonView
@@ -62,6 +62,9 @@ public extension PBTabBar {
       .frame(height: 48)
       Spacer()
     }
+  }
+  var shadow: Shadow {
+    return hasShadow ?? false ? .deep : Shadow.none
   }
 }
 
