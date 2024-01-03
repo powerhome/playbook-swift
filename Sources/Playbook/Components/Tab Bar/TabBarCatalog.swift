@@ -16,7 +16,7 @@ public struct TabBarCatalog: View {
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.small) {
-        Text("Drop Shadow")
+        Text("Default Shadow")
           .pbFont(.caption, variant: .light, color: .text(.light))
           .padding(.trailing, 250)
           .padding(.top, 30)
