@@ -15,42 +15,38 @@ public struct TabBarCatalog: View {
   @State var selectedTab4: String = ""
   public var body: some View {
     ScrollView {
-      VStack(spacing: Spacing.small) {
+      VStack(spacing: Spacing.xSmall) {
         Text("Default")
-          .pbFont(.caption, variant: .light, color: .text(.light))
           .padding(.trailing, 285)
           .padding(.top, 30)
 
           defaultShadow
        
         Text("Without Shadow")
-          .pbFont(.caption, variant: .light, color: .text(.light))
           .padding(.trailing, 220)
           .padding(.top, 10)
        
           withoutShadow
         
         Text("With Border")
-          .pbFont(.caption, variant: .light, color: .text(.light))
           .padding(.trailing, 250)
           .padding(.top, 10)
       
           withBorder
         
         Text("4 options")
-          .pbFont(.caption, variant: .light, color: .text(.light))
-          .padding(.trailing, 270)
+          .padding(.trailing, 268)
           .padding(.top, 10)
         
          fourOptions
         
         Text("3 options")
-          .pbFont(.caption, variant: .light, color: .text(.light))
-          .padding(.trailing, 270)
+          .padding(.trailing, 263)
           .padding(.top, 10)
        
           threeOptions
-      }
+      } .pbFont(.caption, variant: .light, color: .text(.light))
+        
     }
     .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Tab Bar")
