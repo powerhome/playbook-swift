@@ -67,9 +67,7 @@ struct ContentListView: View {
       ) {
         PBNavItem(DesignElements.title)
         PBNavItem(Components.title)
-      }.scrollDisabled(true)
-      .offset(x: 15, y: -4)
-      .padding(.horizontal, Spacing.xLarge)
+      }
       .frame(maxWidth: .infinity, minHeight: 80)
       .background(Color.white)
     }
