@@ -57,32 +57,48 @@ import SwiftUI
     struct ComplexButton: View {
       @State private var presentDialog: Bool = false
       @State private var message = ""
-
+     
       func closeToast() {
         presentDialog = false
       }
 
+      
       var body: some View {
         PBButton(title: "Complex") {
           disableAnimation()
           presentDialog.toggle()
         }
         .fullScreenCover(isPresented: $presentDialog) {
-          PBDialog(
-            title: "Send us your thoughts!",
-            cancelButton: ("Cancel", closeToast),
-            confirmButton: ("Submit", closeToast),
-            content: ({
-              ScrollView {
-                Text("Hello Complex Dialog!\nAnything can be placed here")
-                  .pbFont(.title2)
-                  .multilineTextAlignment(.leading)
+          VStack{
+            PBDialog(
+              title: "Send us your thoughts!",
+              cancelButton: ("Cancel", closeToast),
+              confirmButton: ("Submit", closeToast),
+              content: ({
+                ScrollView {
+                  Text("Complex Dialog!")
+                    .pbFont(.title2)
+                    .multilineTextAlignment(.leading)
+                    .padding(.top, 25)
+                  Spacer()
+                  Label {
+                    Text("Description")
+                  } icon: {
+                    Image("")
+                  }.padding(.trailing, 230)
 
-                PBTextInput("text", text: .constant("Some text"))
-                  .padding()
-              }
-            }))
+                  TextField("Let us know how we can improve...", text: $message)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 25)
+                    .border(Color.text(.light))
+                    .textFieldStyle(.plain)
+                    .padding()
+                   
+                }
+                        }))
             .backgroundViewModifier(alpha: 0.2)
+          }
         }
       }
     }
