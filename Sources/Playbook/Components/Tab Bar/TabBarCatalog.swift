@@ -39,14 +39,14 @@ public struct TabBarCatalog: View {
         
         Text("4 options")
           .pbFont(.caption, variant: .light, color: .text(.light))
-          .padding(.trailing, 265)
+          .padding(.trailing, 270)
           .padding(.top, 10)
         
          fourOptions
         
         Text("3 options")
           .pbFont(.caption, variant: .light, color: .text(.light))
-          .padding(.trailing, 265)
+          .padding(.trailing, 270)
           .padding(.top, 10)
        
           threeOptions

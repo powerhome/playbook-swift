@@ -34,7 +34,8 @@ public struct PBTabBar: View {
           tabButtonView
         }
         
-      }.padding(.leading, -Spacing.small)
+      }
+      .padding(.leading, -Spacing.small)
         .padding(.trailing, -Spacing.small)
         .padding(.top, -Spacing.xxSmall)
         .padding(.bottom, -Spacing.small)
