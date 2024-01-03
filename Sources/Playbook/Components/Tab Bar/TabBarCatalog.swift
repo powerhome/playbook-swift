@@ -16,12 +16,12 @@ public struct TabBarCatalog: View {
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.small) {
-        Text("Drop Shadow")
+        Text("Default")
           .pbFont(.caption, variant: .light, color: .text(.light))
-          .padding(.trailing, 250)
+          .padding(.trailing, 285)
           .padding(.top, 30)
 
-          dropShadow
+          defaultShadow
        
         Text("Without Shadow")
           .pbFont(.caption, variant: .light, color: .text(.light))
@@ -58,7 +58,7 @@ public struct TabBarCatalog: View {
 }
 
 public extension TabBarCatalog {
-  var dropShadow: some View {
+  var defaultShadow: some View {
     return HStack {
       PBTabBar(
         selectedTab: $selectedTab,
