@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MAIN_BRANCH="PBIOS-234"
+MAIN_BRANCH="main"
 
 currVersion=""
 newVersion=""
