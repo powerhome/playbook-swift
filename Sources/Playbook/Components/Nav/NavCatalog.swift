@@ -278,7 +278,7 @@ struct NavCatalog: View {
       .padding(Spacing.medium)
     }
     .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Nav Bar")
+    .navigationTitle("Nav")
   }
 
   var customListView: some View {

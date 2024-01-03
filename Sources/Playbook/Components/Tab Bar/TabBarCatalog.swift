@@ -19,30 +19,35 @@ public struct TabBarCatalog: View {
         Text("Default")
           .padding(.trailing, 285)
           .padding(.top, 30)
+          .scaledToFit()
 
           defaultShadow
        
         Text("Without Shadow")
           .padding(.trailing, 220)
           .padding(.top, 10)
+          .scaledToFit()
        
           withoutShadow
         
         Text("With Border")
           .padding(.trailing, 250)
           .padding(.top, 10)
+          .scaledToFit()
       
           withBorder
         
         Text("4 options")
           .padding(.trailing, 268)
           .padding(.top, 10)
+          .scaledToFit()
         
          fourOptions
         
         Text("3 options")
           .padding(.trailing, 263)
           .padding(.top, 10)
+          .scaledToFit()
        
           threeOptions
       } .pbFont(.caption, variant: .light, color: .text(.light))

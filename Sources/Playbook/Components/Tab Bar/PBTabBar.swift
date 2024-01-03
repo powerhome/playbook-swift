@@ -61,6 +61,7 @@ public extension PBTabBar {
       .buttonStyle(.plain)
       .padding(.bottom, Spacing.large)
       .frame(height: 48)
+      
       Spacer()
     }
   }
@@ -69,12 +70,15 @@ public extension PBTabBar {
 struct TabButtonLabel: View {
   var iconImageName: FontAwesome
   var iconName: String
+  var iconSize: PBIcon.IconSize
   init(
     iconImageName: FontAwesome = .home,
-    iconName: String = ""
+    iconName: String = "",
+    iconSize: PBIcon.IconSize = .large
   ) {
     self.iconImageName = iconImageName
     self.iconName = iconName
+    self.iconSize = iconSize
   }
   
   var body: some View {
