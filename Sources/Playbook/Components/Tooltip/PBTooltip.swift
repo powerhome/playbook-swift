@@ -133,7 +133,8 @@ public extension PBTooltip {
           .padding(.all, 10)
           .presentationCompactAdaptation(.popover)
       }
-    }.background(Color.black)
+    }
+    .background(Color.black.padding(-80))
   }
 }
 
