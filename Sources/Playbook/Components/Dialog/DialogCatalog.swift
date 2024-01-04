@@ -9,7 +9,7 @@ import SwiftUI
 
 #if os(iOS)
   public struct DialogCatalog: View {
-    static let infoMessage = "This is a message for informational purposes only and requires no action."
+    static let infoMessage = "This is a message for informational purposes only."
 
     static func disableAnimation() {
       UIView.setAnimationsEnabled(false)
@@ -136,23 +136,25 @@ import SwiftUI
     struct StackedButton: View {
       @State private var presentDialog1: Bool = false
       @State private var presentDialog2: Bool = false
+      @State private var presentDialog3: Bool = false
 
       func closeToast() {
         presentDialog1 = false
         presentDialog2 = false
+        presentDialog3 = false
       }
 
       var body: some View {
         VStack(alignment: .leading, spacing: Spacing.small) {
-          PBButton(title: "Stacked") {
+          PBButton(title: "Default Status") {
             disableAnimation()
             presentDialog1.toggle()
           }
           .fullScreenCover(isPresented: $presentDialog1) {
             PBDialog(
-              title: "Success!",
+              title: "Are you sure?",
               message: infoMessage,
-              variant: .status(.success),
+              variant: .status(.default),
               isStacked: true,
               cancelButton: ("Cancel", closeToast),
               confirmButton: ("Okay", closeToast),
@@ -161,16 +163,34 @@ import SwiftUI
             .backgroundViewModifier(alpha: 0.2)
           }
 
-          PBButton(title: "Stacked Simple") {
+          PBButton(title: "Caution Status") {
             disableAnimation()
             presentDialog2.toggle()
           }
           .fullScreenCover(isPresented: $presentDialog2) {
             PBDialog(
-              title: "Error!",
+              title: "Are you sure?",
               message: infoMessage,
-              variant: .status(.error),
+              variant: .status(.caution),
               isStacked: true,
+              cancelButton: ("Cancel", closeToast),
+              confirmButton: ("Okay", closeToast),
+              size: .small
+            )
+            .backgroundViewModifier(alpha: 0.2)
+          }
+          
+          PBButton(title: "Delete Status") {
+            disableAnimation()
+            presentDialog3.toggle()
+          }
+          .fullScreenCover(isPresented: $presentDialog3) {
+            PBDialog(
+              title: "Delete?",
+              message: infoMessage,
+              variant: .status(.delete),
+              isStacked: true,
+              cancelButton: ("Cancel", closeToast),
               confirmButton: ("Okay", closeToast),
               size: .small
             )
