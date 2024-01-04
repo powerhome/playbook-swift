@@ -14,7 +14,7 @@ struct PBStatusDialogView: View {
 
   var body: some View {
     VStack {
-      PBIconCircle(status.icon.0, size: .x3, color: status.icon.1)
+      PBIconCircle(status.icon.0, size: .large, color: status.icon.1)
         .frame(width: 80)
       Text(title)
         .pbFont(.title3)
