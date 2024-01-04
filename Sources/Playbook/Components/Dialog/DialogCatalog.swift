@@ -76,33 +76,19 @@ import SwiftUI
               confirmButton: ("Submit", closeToast),
               content: ({
                 ScrollView {
-                  Text("Complex Dialog!")
-                    .pbFont(.title2)
-                    .multilineTextAlignment(.leading)
-                    .padding(.top, 25)
-                  Spacer()
-                  Label {
-                    Text("Description")
-                  } icon: {
-                    Image("")
-                  }.padding(.trailing, 230)
+                  complexTitle
 
-                  TextField("Let us know how we can improve...", text: $message)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 25)
-                    .border(Color.text(.light))
-                    .textFieldStyle(.plain)
-                    .padding()
-                   
+                  complexLabel
+
+                  complexTextField
                 }
-                        }))
+              }))
             .backgroundViewModifier(alpha: 0.2)
           }
         }
       }
     }
-
+    
     struct DialogButtonSize: View {
       let title: String
       let size: DialogSize
@@ -224,6 +210,41 @@ import SwiftUI
       }
     }
   }
+
+extension DialogCatalog.ComplexButton {
+  var complexTitle: some View {
+    return Text("Complex Dialog!")
+      .pbFont(.title3)
+      .multilineTextAlignment(.leading)
+      .padding(.top, 25)
+  }
+  var complexLabel: some View {
+    return VStack(alignment: .leading) {
+      Label {
+        Text("Description")
+          .foregroundStyle(Color.text(.light))
+          .pbFont(.caption)
+      } icon: {
+        Image("")
+      }
+      .padding(.trailing, 215)
+      .padding(.top, 25)
+      .padding(.bottom, -15)
+    }
+  }
+  var complexTextField: some View {
+    return TextField("Let us know how we can improve...", text: $message)
+      .pbFont(.subcaption)
+      .padding()
+      .frame(maxWidth: .infinity)
+      .frame(height: 55)
+      .border(Color.text(.lighter))
+      .textFieldStyle(.plain)
+      .padding()
+      .padding(.bottom, 100)
+     
+  }
+}
 #elseif os(macOS)
   public struct DialogCatalog: View {
     @State private var presentSmallDialog: Bool = false
