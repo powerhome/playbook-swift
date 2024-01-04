@@ -8,86 +8,85 @@
 import SwiftUI
 
 public struct PBTabBar: View {
-  @Binding var selectedTab: String
-  let hasBorder: Bool?
-  let hasShadow: Bool?
-  var icon: [FontAwesome]
-  var iconName: [String]
+  @Binding var selectedTab: Int?
+  let border: Bool
+  let shadow: Bool
+  var icons: [TabIcon]
   public init(
-    selectedTab: Binding<String> = .constant(""),
-    hasBorder: Bool = false,
-    hasShadow: Bool = false,
-    icon: [FontAwesome] = [(.home)],
-    iconName: [String] = [""]
+    selectedTab: Binding<Int?> = .constant(0),
+    border: Bool = false,
+    shadow: Bool = false,
+    icons: [TabIcon] = []
   ) {
     self._selectedTab = selectedTab
-    self.hasBorder = hasBorder
-    self.hasShadow = hasShadow
-    self.icon = icon
-    self.iconName = iconName
+    self.border = border
+    self.shadow = shadow
+    self.icons = icons
   }
   
   public var body: some View {
-    PBCard(alignment: .center, backgroundColor: Color.card, border: hasBorder ?? false, borderRadius: BorderRadius.none, style: PBCardStyle.default, shadow: Shadow.none) {
+    PBCard(
+      alignment: .center,
+      border: border,
+      borderRadius: BorderRadius.none,
+      padding: Spacing.none,
+      shadow: Shadow.none
+    ) {
+      
       HStack {
         withAnimation(.easeIn) {
           tabButtonView
         }
-        
       }
-      .padding(.leading, -Spacing.small)
-      .padding(.trailing, -Spacing.small)
-      .padding(.top, -Spacing.xxSmall)
-      .padding(.bottom, -Spacing.small)
-    }.shadow(color: hasShadow ?? false ? .shadow.opacity(0.74) : Color.clear, radius: 10, x: 0, y: -4)
+      .padding(.horizontal, Spacing.xSmall)
+      .padding(.top, Spacing.xSmall)
+      .padding(.bottom, Spacing.large)
+    }
+    .shadow(color: shadowColor, radius: 10, x: 0, y: -4)
   }
 }
 
 public extension PBTabBar {
   var tabButtonView: some View {
-    return ForEach(Array(zip(icon, iconName)), id: \.self.0) { (image, name) in
+    return ForEach(Array(zip(icons.indices, icons)), id: \.self.0) { (index, icon) in
       Spacer()
       Button {
-        selectedTab = image.rawValue
+        selectedTab = index
       } label: {
-        TabIcon(iconImageName: image, iconName: name, iconSize: .large)
-          .pbFont(.subcaption, color: selectedTab == image.rawValue ? Color.pbPrimary : Color.text(.light)
-          )
-          .padding(.horizontal, -5)
-          .onAppear {
-            selectedTab = "fa-home"
-          }
+        TabIcon(icon: icon.icon, name: icon.name)
+          .pbFont(.subcaption, color: iconColor(index))
       }
       .buttonStyle(.plain)
-      .padding(.bottom, Spacing.large)
-      .frame(height: 48)
-      
       Spacer()
+    }
+  }
+  var shadowColor: Color {
+      return shadow ? .shadow : .clear
+    }
+  func iconColor(_ index: Int) -> Color {
+      selectedTab == index ? Color.pbPrimary : Color.text(.light)
+    }
+}
+
+public struct TabIcon: View {
+  var icon: FontAwesome
+  var name: String
+ public init(
+    icon: FontAwesome = .home,
+    name: String = ""
+  ) {
+    self.icon = icon
+    self.name = name
+  }
+  
+  public var body: some View {
+    VStack(spacing: Spacing.xxSmall) {
+      PBIcon(icon, size: .large)
+      Text(name)
     }
   }
 }
 
-struct TabIcon: View {
-  var iconImageName: FontAwesome
-  var iconName: String
-  var iconSize: PBIcon.IconSize
-  init(
-    iconImageName: FontAwesome = .home,
-    iconName: String = "",
-    iconSize: PBIcon.IconSize = .large
-  ) {
-    self.iconImageName = iconImageName
-    self.iconName = iconName
-    self.iconSize = iconSize
-  }
-  
-  var body: some View {
-    VStack(spacing: Spacing.xxSmall) {
-      PBIcon(iconImageName, size: iconSize)
-      Text(iconName)
-    }
-  }
-}
 
 #Preview {
   registerFonts()

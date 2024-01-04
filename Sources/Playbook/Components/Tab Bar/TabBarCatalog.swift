@@ -8,75 +8,68 @@
 import SwiftUI
 
 public struct TabBarCatalog: View {
-  @State var selectedTab: String = ""
-  @State var selectedTab1: String = ""
-  @State var selectedTab2: String = ""
-  @State var selectedTab3: String = ""
-  @State var selectedTab4: String = ""
+  @State var selectedTab: Int? = 0
+  @State var selectedTab1: Int? = 0
+  @State var selectedTab2: Int? = 0
+  @State var selectedTab3: Int? = 0
+  @State var selectedTab4: Int? = 0
   public var body: some View {
     ScrollView {
-      VStack(spacing: Spacing.xSmall) {
-        Text("Default")
-          .padding(.trailing, 285)
-          .padding(.top, 30)
-          .scaledToFit()
-
+      VStack(spacing: Spacing.small) {
+        TabBarDoc("Default", spacing: Spacing.small) {
           defaultShadow
-       
-        Text("Without Shadow")
-          .padding(.trailing, 220)
-          .padding(.top, 10)
-          .scaledToFit()
-       
+        }
+
+        TabBarDoc("Without Shadow", spacing: Spacing.small) {
           withoutShadow
+        }
         
-        Text("With Border")
-          .padding(.trailing, 250)
-          .padding(.top, 10)
-          .scaledToFit()
-      
+        TabBarDoc("With Border", spacing: Spacing.small) {
           withBorder
+        }
         
-        Text("4 options")
-          .padding(.trailing, 268)
-          .padding(.top, 10)
-          .scaledToFit()
-        
-         fourOptions
-        
-        Text("3 options")
-          .padding(.trailing, 263)
-          .padding(.top, 10)
-          .scaledToFit()
-       
+        TabBarDoc("4 options", spacing: Spacing.small) {
+          fourOptions
+        }
+
+        TabBarDoc("3 options", spacing: Spacing.small) {
           threeOptions
+        }
+    
       }.pbFont(.caption, variant: .light, color: .text(.light))
+        .padding(.top, Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
+    .background(Color.background(.light))
     .navigationTitle("Tab Bar")
   }
 }
 
 public extension TabBarCatalog {
+  static let icons: [TabIcon] = [
+      .init(icon: .home, name: "Home"),
+      .init(icon: .calendar, name: "Calendar"),
+      .init(icon: .bell, name: "Notfications"),
+      .init(icon: .search, name: "Search"),
+      .init(icon: .ellipsisH, name: "More"),
+    ]
   var defaultShadow: some View {
     return HStack {
       PBTabBar(
         selectedTab: $selectedTab,
-        hasBorder: false,
-        hasShadow: true,
-        icon: [.home, .calendar, .bell, .search, .ellipsisH],
-        iconName: ["Home", "Calendar", "Notfications", "Search", "More"]
-      )
+        border: false,
+        shadow: true,
+        icons: TabBarCatalog.icons
+       )
     }
   }
   var withoutShadow: some View {
     return HStack {
       PBTabBar(
         selectedTab: $selectedTab1,
-        hasBorder: false,
-        hasShadow: false,
-        icon: [.home, .calendar, .bell, .search, .ellipsisH],
-        iconName: ["Home", "Calendar", "Notfications", "Search", "More"]
+        border: false,
+        shadow: false,
+        icons: TabBarCatalog.icons
+
       )
     }
   }
@@ -84,10 +77,10 @@ public extension TabBarCatalog {
     return HStack {
       PBTabBar(
         selectedTab: $selectedTab2,
-        hasBorder: true,
-        hasShadow: false,
-        icon: [.home, .calendar, .bell, .search, .ellipsisH],
-        iconName: ["Home", "Calendar", "Notfications", "Search", "More"]
+        border: true,
+        shadow: false,
+        icons: TabBarCatalog.icons
+        
       )
     }
   }
@@ -95,10 +88,9 @@ public extension TabBarCatalog {
     return HStack(spacing: Spacing.large) {
       PBTabBar(
         selectedTab: $selectedTab3,
-        hasBorder: false,
-        hasShadow: true,
-        icon: [.home, .calendar, .bell, .search],
-        iconName: ["Home", "Calendar", "Notfications", "Search"]
+        border: false,
+        shadow: true,
+        icons: TabBarCatalog.icons.prefix(5).dropLast()
       )
     }
   }
@@ -106,15 +98,39 @@ public extension TabBarCatalog {
     return HStack {
       PBTabBar(
         selectedTab: $selectedTab4,
-        hasBorder: false,
-        hasShadow: true,
-        icon: [.home, .bell, .search],
-        iconName: ["Home", "Notfications", "Search"]
+        border: false,
+        shadow: true,
+        icons: TabBarCatalog.icons.prefix(4).dropLast()
       )
     }
   }
 }
 
+fileprivate struct TabBarDoc<Content: View>: View {
+  let title: String
+  let spacing: CGFloat
+  let content: Content
+  
+  init(
+    _ title: String,
+    spacing: CGFloat = 0,
+    @ViewBuilder content: () -> Content
+  ) {
+    self.title = title
+    self.spacing = spacing
+    self.content = content()
+  }
+  
+  var body: some View {
+    VStack(alignment: .leading, spacing: spacing) {
+      Text(title)
+        .pbFont(.caption, variant: .light, color: .text(.light))
+        .padding(.leading, Spacing.medium)
+      content
+    }
+  }
+}
+ 
 //#Preview {
 //    TabBarCatalog()
 //}
