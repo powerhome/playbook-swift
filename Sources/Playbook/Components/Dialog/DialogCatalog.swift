@@ -79,8 +79,6 @@ import SwiftUI
                   complexTitle
 
                   complexLabel
-
-                //  complexTextField
                 }
               }))
             .backgroundViewModifier(alpha: 0.2)
