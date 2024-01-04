@@ -50,8 +50,7 @@ public struct TabBarCatalog: View {
           .scaledToFit()
        
           threeOptions
-      } .pbFont(.caption, variant: .light, color: .text(.light))
-        
+      }.pbFont(.caption, variant: .light, color: .text(.light))
     }
     .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Tab Bar")

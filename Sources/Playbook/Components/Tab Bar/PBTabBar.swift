@@ -50,7 +50,7 @@ public extension PBTabBar {
       Button {
         selectedTab = image.rawValue
       } label: {
-        TabButtonLabel(iconImageName: image, iconName: name)
+        TabIcon(iconImageName: image, iconName: name, iconSize: .large)
           .pbFont(.subcaption, color: selectedTab == image.rawValue ? Color.pbPrimary : Color.text(.light)
           )
           .padding(.horizontal, -5)
@@ -67,7 +67,7 @@ public extension PBTabBar {
   }
 }
 
-struct TabButtonLabel: View {
+struct TabIcon: View {
   var iconImageName: FontAwesome
   var iconName: String
   var iconSize: PBIcon.IconSize
@@ -83,7 +83,7 @@ struct TabButtonLabel: View {
   
   var body: some View {
     VStack(spacing: Spacing.xxSmall) {
-      PBIcon(iconImageName, size: .large)
+      PBIcon(iconImageName, size: iconSize)
       Text(iconName)
     }
   }
