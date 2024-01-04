@@ -80,7 +80,7 @@ import SwiftUI
 
                   complexLabel
 
-                  complexTextField
+                //  complexTextField
                 }
               }))
             .backgroundViewModifier(alpha: 0.2)
@@ -239,30 +239,16 @@ extension DialogCatalog.ComplexButton {
       .padding(.top, 25)
   }
   var complexLabel: some View {
-    return VStack(alignment: .leading) {
-      Label {
-        Text("Description")
-          .foregroundStyle(Color.text(.light))
-          .pbFont(.caption)
-      } icon: {
-        Image("")
-      }
-      .padding(.trailing, 215)
-      .padding(.top, 25)
-      .padding(.bottom, -15)
-    }
-  }
-  var complexTextField: some View {
-    return TextField("Let us know how we can improve...", text: $message)
-      .pbFont(.subcaption)
-      .padding()
-      .frame(maxWidth: .infinity)
-      .frame(height: 55)
-      .border(Color.text(.lighter))
-      .textFieldStyle(.plain)
-      .padding()
-      .padding(.bottom, 100)
-     
+    return VStack(alignment: .leading, spacing: 5) {
+      Text("Description")
+        .pbFont(.caption)
+      TextField("Let us know how we can improve...", text: $message)
+        .pbFont(.subcaption)
+        .padding()
+        .frame(height: 55)
+        .border(Color.text(.lighter))
+    }.padding(.all)
+     .foregroundStyle(Color.text(.light))
   }
 }
 #elseif os(macOS)
