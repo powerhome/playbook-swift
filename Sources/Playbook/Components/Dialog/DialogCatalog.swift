@@ -238,16 +238,9 @@ extension DialogCatalog.ComplexButton {
   }
   var complexLabel: some View {
     return VStack(alignment: .leading, spacing: 5) {
-      Text("Description")
-        .pbFont(.caption)
-        .padding(.leading, 2)
-      TextField("Let us know how we can improve...", text: $message)
-        .pbFont(.subcaption)
-        .padding()
-        .frame(height: 55)
-        .border(Color.text(.lighter))
-    }.padding(.all)
-     .foregroundStyle(Color.text(.light))
+      PBTextInput("Description", text: $message, placeholder: "Let us know how we can improve...")
+    }
+    .padding(.all)
   }
 }
 #elseif os(macOS)
