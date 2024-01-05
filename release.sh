@@ -1,5 +1,21 @@
 #!/bin/bash
 
+# Description
+# Only for use by admins.
+# This script automates 90% of the release process for you.
+# It will create the necessary tag, release, and PRs based on your input.
+
+# Prerequisites
+
+# `gh` GitHub CLI brings GitHub to your terminal. Free and open source. https://cli.github.com
+# `brew install gh`
+
+# `yq` a lightweight and portable command-line YAML, JSON and XML processor. https://github.com/mikefarah/yq
+# `brew install yq`
+
+# Useage
+# ./release.sh
+
 MAIN_BRANCH="main"
 
 currVersion=""
@@ -109,8 +125,6 @@ function updateConnect {
 }
 
 function confirmCreateConnectPR {
-  # TODO: this is very difficult to escape propery...
-  # description=$(cd ../PlaybookSwift && gh release view --json body|jq '.body')
   description=$releaseLink
 
   cd ../connect-apple
@@ -118,8 +132,6 @@ function confirmCreateConnectPR {
   git push -u origin $connectAppleBranch
   gh repo sync -b $connectAppleBranch
 
-  # TODO: title is a PITA even when I try to escape spaces, it complains 🤷‍♂️
-  # title="[PBIOS-$rwStoryId] Update PlaybookSwift Version"
   title="PBIOS-$rwStoryId"
   connectApplePR=$(gh pr create -a @me -B main -b $description -t \"$title\")
   echo $connectApplePR
