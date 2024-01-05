@@ -32,7 +32,6 @@ public struct PBTabBar: View {
       padding: Spacing.none,
       shadow: Shadow.none
     ) {
-      
       HStack {
         withAnimation(.easeIn) {
           tabButtonView
