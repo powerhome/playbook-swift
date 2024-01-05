@@ -53,7 +53,6 @@ public extension PBTabBar {
         selectedTab = index
       } label: {
         TabIcon(icon: icon.icon, name: icon.name)
-          .pbFont(.subcaption, color: iconColor(index))
       }
       .buttonStyle(.plain)
       Spacer()
