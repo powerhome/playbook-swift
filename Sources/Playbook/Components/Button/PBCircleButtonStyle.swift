@@ -47,7 +47,6 @@ public struct PBCircleButtonStyle: ButtonStyle {
   }
 }
 
-@available(macOS 13.0, *)
 struct PBCircleStyle_Previews: PreviewProvider {
   static var previews: some View {
     registerFonts()

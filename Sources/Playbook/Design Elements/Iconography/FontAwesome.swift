@@ -494,6 +494,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
   case facebookF = "fa-facebook-f"
   case facebookMessenger = "fa-facebook-messenger"
   case facebookSquare = "fa-facebook-square"
+  case faceSmilePlus = "fa-regular fa-face-smile-plus"
   case fan = "fa-fan"
   case fantasyFlightGames = "fa-fantasy-flight-games"
   case fastBackward = "fa-fast-backward"
@@ -1957,6 +1958,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .facebookF: return "\u{f39e}"
     case .facebookMessenger: return "\u{f39f}"
     case .facebookSquare: return "\u{f082}"
+    case .faceSmilePlus: return "\u{f5b9}"
     case .fan: return "\u{f863}"
     case .fantasyFlightGames: return "\u{f6dc}"
     case .fastBackward: return "\u{f049}"
@@ -2261,6 +2263,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .laptopCode: return "\u{f5fc}"
     case .laptopHouse: return "\u{e066}"
     case .laptopMedical: return "\u{f812}"
+    case .laptopMobile: return "\u{f87a}"
     case .laravel: return "\u{f3bd}"
     case .lastfm: return "\u{f202}"
     case .lastfmSquare: return "\u{f203}"
@@ -2451,6 +2454,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .phoenixSquadron: return "\u{f511}"
     case .phone: return "\u{f095}"
     case .phoneAlt: return "\u{f879}"
+    case .phoneOffice: return "\u{f67d}"
     case .phonePlus: return "\u{f4d2}"
     case .phoneSlash: return "\u{f3dd}"
     case .phoneSquare: return "\u{f098}"
@@ -2970,8 +2974,6 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .youtube: return "\u{f167}"
     case .youtubeSquare: return "\u{f431}"
     case .zhihu: return "\u{f63f}"
-    case .laptopMobile: return "\u{f67d}"
-    case .phoneOffice: return "\u{f87a}"
     }
   }
 }

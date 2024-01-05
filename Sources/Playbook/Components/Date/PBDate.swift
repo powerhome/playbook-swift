@@ -36,7 +36,9 @@ public struct PBDate: View {
     }
     .frame(maxWidth: .infinity, alignment: alignment)
   }
+}
 
+private extension PBDate {
   var formattedDate: AttributedString {
     let formatter = DateFormatter()
     formatter.dateFormat = variant.dateStyle
@@ -51,16 +53,31 @@ public struct PBDate: View {
       return nil
     }
   }
+
+  var currentYear: Int {
+    let calendar = Calendar.current
+    let currentYear = calendar.component(.year, from: Date())
+    return currentYear
+  }
+
+  var isCurrentYear: Bool {
+    let currentDate = currentYear
+    let datestampYear = Calendar.current.component(.year, from: datestamp)
+    return currentDate == datestampYear
+  }
 }
 
 public extension PBDate {
   enum Variant: CaseIterable, Hashable {
     case short, standard, dayDate, withIcon(isStandard: Bool)
-      public static var allCases: [PBDate.Variant] = [
-        .short,
-        .dayDate,
-        .standard,
-        .withIcon(isStandard: true), .withIcon(isStandard: false)]
+
+    public static var allCases: [PBDate.Variant] = [
+      .short,
+      .dayDate,
+      .standard,
+      .withIcon(isStandard: true),
+      .withIcon(isStandard: false)
+    ]
 
     public static var showCases: [PBDate.Variant] {
       return [.short, .standard, .dayDate]
