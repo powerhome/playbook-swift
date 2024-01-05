@@ -81,7 +81,7 @@ public struct TabIcon: View {
   public var body: some View {
     VStack(spacing: Spacing.xxSmall) {
       PBIcon(icon, size: .large)
-      Text(name)
+      Text(name).pbFont(.subcaption, color: iconColor(index))
     }
   }
 }
