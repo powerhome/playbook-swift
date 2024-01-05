@@ -240,6 +240,7 @@ extension DialogCatalog.ComplexButton {
     return VStack(alignment: .leading, spacing: 5) {
       Text("Description")
         .pbFont(.caption)
+        .padding(.leading, 2)
       TextField("Let us know how we can improve...", text: $message)
         .pbFont(.subcaption)
         .padding()
