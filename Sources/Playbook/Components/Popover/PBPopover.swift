@@ -19,7 +19,7 @@ public struct PBPopover<Content: View>: View {
   @State private var xOffset: CGFloat = .zero
   @Binding var parentFrame: CGRect
 
-  init(
+  public init(
     position: Position = .bottom,
     shouldClosePopover: CloseOptions = .anywhere,
     cardPadding: CGFloat = Spacing.small,
