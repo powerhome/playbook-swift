@@ -68,8 +68,6 @@ struct ContentListView: View {
         PBNavItem(DesignElements.title)
         PBNavItem(Components.title)
       }
-      .offset(x: 20, y: -8)
-      .padding(.horizontal, Spacing.xLarge)
       .frame(maxWidth: .infinity, minHeight: 80)
       .background(Color.white)
     }
