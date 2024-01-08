@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  MultipleUsersCatalog.swift
 //
 //
 //  Created by Carlos Lima on 24/08/23.
