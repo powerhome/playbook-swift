@@ -40,7 +40,7 @@ public struct PBTextInput: View {
             .tint(.text(.default))
             .background(backgroundColor)
             .focused($selected, equals: true)
-            .disabled(style == .disabled)
+            .disabled(isDisabled)
           rightView
         }
       }
@@ -77,6 +77,52 @@ public struct PBTextInput: View {
     }
   }
 
+}
+
+public extension PBTextInput {
+  #if os(iOS)
+    init(
+      _ title: String? = nil,
+      text: Binding<String>,
+      placeholder: String = "",
+      error: (Bool, String)? = nil,
+      style: Style = .default,
+      keyboardType: UIKeyboardType = .default,
+      onChange: Bool? = nil
+    ) {
+      self.title = title
+      self._text = text
+      self.placeholder = placeholder
+      self.error = error
+      self.style = style
+      self.keyboardType = keyboardType
+      self.onChange = onChange
+    }
+  #elseif os(macOS)
+    init(
+      _ title: String? = nil,
+      text: Binding<String>,
+      placeholder: String = "",
+      error: (Bool, String)? = nil,
+      style: Style = .default,
+      onChange: Bool? = nil
+    ) {
+      self.title = title
+      self._text = text
+      self.placeholder = placeholder
+      self.error = error
+      self.style = style
+      self.onChange = onChange
+    }
+  #endif
+
+  var isDisabled: Bool {
+    switch style {
+    case .disabled: return true
+    default: return false
+    }
+  }
+
   var lineWidth: CGFloat {
     #if os(iOS)
       return 1.4
@@ -98,6 +144,7 @@ public struct PBTextInput: View {
     case .leftIcon(let icon, divider: _):
       customIcon(icon)
       divider
+    case .typeahead(let view): view
     default: EmptyView()
     }
   }
@@ -200,50 +247,13 @@ public struct PBTextInput: View {
 }
 
 public extension PBTextInput {
-  #if os(iOS)
-    init(
-      _ title: String? = nil,
-      text: Binding<String>,
-      placeholder: String = "",
-      error: (Bool, String)? = nil,
-      style: Style = .default,
-      keyboardType: UIKeyboardType = .default,
-      onChange: Bool? = nil
-    ) {
-      self.title = title
-      self._text = text
-      self.placeholder = placeholder
-      self.error = error
-      self.style = style
-      self.keyboardType = keyboardType
-      self.onChange = onChange
-    }
-  #elseif os(macOS)
-    init(
-      _ title: String? = nil,
-      text: Binding<String>,
-      placeholder: String = "",
-      error: (Bool, String)? = nil,
-      style: Style = .default,
-      onChange: Bool? = nil
-    ) {
-      self.title = title
-      self._text = text
-      self.placeholder = placeholder
-      self.error = error
-      self.style = style
-      self.onChange = onChange
-    }
-  #endif
-}
-
-public extension PBTextInput {
-  enum Style: Equatable {
+  enum Style {
     case `default`
     case rightIcon(_ icon: FontAwesome, divider: Bool)
     case leftIcon(_ icon: FontAwesome, divider: Bool)
     case inline
     case disabled
+    case typeahead(AnyView)
   }
 }
 

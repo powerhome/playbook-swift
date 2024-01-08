@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PopoverHandler: ViewModifier {
-  @Environment(\.popoverValue) var popover
+  var popover: AnyView?
 
   func body(content: Content) -> some View {
     content.overlay(VStack { popover })
@@ -16,9 +16,7 @@ struct PopoverHandler: ViewModifier {
 }
 
 public extension View {
-  func withPopoverHandling(_ popover: AnyView?, position: PBToast.Position = .top) -> some View {
-    self
-      .modifier(PopoverHandler())
-      .environment(\.popoverValue, popover)
+  func withPopoverHandling(_ popover: AnyView?) -> some View {
+    self.modifier(PopoverHandler(popover: popover))
   }
 }

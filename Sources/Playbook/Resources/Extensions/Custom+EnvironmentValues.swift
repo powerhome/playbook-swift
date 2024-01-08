@@ -7,11 +7,19 @@
 
 import SwiftUI
 
-struct PBNavSelection: EnvironmentKey {
+struct Selection: EnvironmentKey {
   static let defaultValue = false
 }
 
-struct PBNavHovering: EnvironmentKey {
+struct Hovering: EnvironmentKey {
+  static let defaultValue = false
+}
+
+struct Active: EnvironmentKey {
+  static let defaultValue = false
+}
+
+struct Focus: EnvironmentKey {
   static let defaultValue = false
 }
 
@@ -29,13 +37,23 @@ struct PBNavHighlight: EnvironmentKey {
 
 public extension EnvironmentValues {
   var selected: Bool {
-    get { self[PBNavSelection.self] }
-    set { self[PBNavSelection.self] = newValue }
+    get { self[Selection.self] }
+    set { self[Selection.self] = newValue }
   }
 
   var hovering: Bool {
-    get { self[PBNavHovering.self] }
-    set { self[PBNavHovering.self] = newValue }
+    get { self[Hovering.self] }
+    set { self[Hovering.self] = newValue }
+  }
+
+  var active: Bool {
+    get { self[Active.self] }
+    set { self[Active.self] = newValue }
+  }
+
+  var focus: Bool {
+    get { self[Focus.self] }
+    set { self[Focus.self] = newValue }
   }
 
   var variant: PBNav.Variant {
