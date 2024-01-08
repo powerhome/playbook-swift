@@ -7,32 +7,32 @@
 
 import SwiftUI
 
-public struct PBPopover<Content: View>: View {
+public struct PopoverView<Content: View>: View {
   let popover: Content
   let position: Position
-  let shouldClosePopover: CloseOptions
+  let parentFrame: CGRect
+  let clickToClose: Close
   let cardPadding: CGFloat
-  let backgroundAlpha: CGFloat
+  let backgroundOpacity: Double
   let dismissAction: (() -> Void)
 
   @State private var yOffset: CGFloat = .zero
   @State private var xOffset: CGFloat = .zero
-  @Binding var parentFrame: CGRect
 
   public init(
-    position: Position = .bottom,
-    shouldClosePopover: CloseOptions = .anywhere,
-    cardPadding: CGFloat = Spacing.small,
-    backgroundAlpha: CGFloat = 0,
-    parentFrame: Binding<CGRect>,
+    position: Position,
+    clickToClose: Close,
+    cardPadding: CGFloat,
+    backgroundOpacity: Double,
+    parentFrame: CGRect,
     dismissAction: @escaping (() -> Void),
     @ViewBuilder popover: () -> Content
   ) {
     self.position = position
-    self.shouldClosePopover = shouldClosePopover
+    self.clickToClose = clickToClose
     self.cardPadding = cardPadding
-    self.backgroundAlpha = backgroundAlpha
-    self._parentFrame = parentFrame
+    self.backgroundOpacity = backgroundOpacity
+    self.parentFrame = parentFrame
     self.dismissAction = dismissAction
     self.popover = popover()
   }
@@ -48,9 +48,9 @@ public struct PBPopover<Content: View>: View {
           y: positionY
         )
     }
-    .background(Color.white.opacity(0.01))
+    .background(Color.black.opacity(backgroundOpacity))
     .onTapGesture {
-      switch shouldClosePopover {
+      switch clickToClose {
       case .outside, .anywhere:
         dismissAction()
       case .inside:
@@ -69,7 +69,7 @@ public struct PBPopover<Content: View>: View {
       popover
     }
     .onTapGesture {
-      switch shouldClosePopover {
+      switch clickToClose {
       case .inside, .anywhere:
         dismissAction()
       case .outside:
@@ -78,11 +78,12 @@ public struct PBPopover<Content: View>: View {
     }
     .background(GeometryReader { geo in
       Color.clear.onAppear {
+        let popoverFrame = geo.frame(in: .global)
         let offset = position.offset(
           labelFrame: parentFrame.size,
-          popoverFrame: geo.frame(in: .global)
+          popoverFrame: popoverFrame
         )
-        yOffset = parentFrame.midY - geo.frame(in: .global).midY + offset.y
+        yOffset = parentFrame.midY - popoverFrame.midY + offset.y
         xOffset = offset.x
       }
     })
@@ -90,8 +91,92 @@ public struct PBPopover<Content: View>: View {
   }
 }
 
-public extension PBPopover {
-  enum CloseOptions {
+public struct PBPopover<T: View>: ViewModifier {
+  @Binding var isPresented: Bool
+  @Binding var view: AnyView?
+  let position: PopoverView<T>.Position
+  let clickToClose: PopoverView<T>.Close
+  let cardPadding: CGFloat
+  let backgroundOpacity: Double
+  @ViewBuilder var contentView: () -> T
+
+  init(
+    isPresented: Binding<Bool>,
+    view: Binding<AnyView?>,
+    position: PopoverView<T>.Position,
+    clickToClose: PopoverView<T>.Close,
+    cardPadding: CGFloat,
+    backgroundOpacity: Double,
+    contentView: @escaping () -> T
+  ) {
+    self._isPresented = isPresented
+    self._view = view
+    self.position = position
+    self.clickToClose = clickToClose
+    self.cardPadding = cardPadding
+    self.backgroundOpacity = backgroundOpacity
+    self.contentView = contentView
+  }
+
+  public func body(content: Content) -> some View {
+    if isPresented {
+      content
+        .background(GeometryReader { proxy  in
+          let frame = proxy.frame(in: .global)
+          Color.clear.onAppear {
+            view = AnyView(
+              PopoverView(
+                position: position,
+                clickToClose: clickToClose,
+                cardPadding: cardPadding,
+                backgroundOpacity: backgroundOpacity,
+                parentFrame: frame,
+                dismissAction: dismiss
+              ) {
+                contentView()
+              }
+            )
+          }
+        })
+    } else {
+      content
+    }
+  }
+
+  private var dismiss: () -> Void {
+    return {
+      isPresented = false
+      view = nil
+    }
+  }
+}
+
+public extension View {
+  func pbPopover<T: View>(
+    isPresented: Binding<Bool>,
+    _ view: Binding<AnyView?>,
+    position: PopoverView<T>.Position = .bottom,
+    clickToClose: PopoverView<T>.Close = .anywhere,
+    cardPadding: CGFloat = Spacing.small,
+    backgroundOpacity: Double = 0.001,
+    contentView: @escaping () -> T
+  ) -> some View {
+    modifier(
+      PBPopover(
+        isPresented: isPresented,
+        view: view,
+        position: position,
+        clickToClose: clickToClose,
+        cardPadding: cardPadding,
+        backgroundOpacity: backgroundOpacity,
+        contentView: contentView
+      )
+    )
+  }
+}
+
+public extension PopoverView {
+  enum Close {
     case inside, outside, anywhere
   }
 
@@ -145,7 +230,7 @@ public extension PBPopover {
       case .bottom, .top, .center:
         if viewWidth.isLess(than: frameMaxX) && !frameMinX.isLess(than: 0) {
           return -(frameMaxX - viewWidth) - space
-        } else if frameMinX.isLess(than: 0) && frameMaxX.isLess(than: frameMaxX) {
+        } else if frameMinX.isLessThanOrEqualTo(0) {
           return -frameMinX + space
         } else {
           return 0
@@ -153,7 +238,7 @@ public extension PBPopover {
       case .left, .right:
         if viewWidth.isLess(than: frameMaxX + offset) {
           return -(frameMaxX - viewWidth) - space
-        } else if (frameMinX + offset).isLess(than: 0) && (frameMaxX + offset).isLess(than: frameMaxX) {
+        } else if (frameMinX + offset).isLess(than: 0) {
           return -frameMinX + space
         } else {
           return offset
@@ -163,9 +248,7 @@ public extension PBPopover {
   }
 }
 
-private struct PBPopover_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return PopoverCatalog()
-  }
+#Preview {
+  registerFonts()
+  return PopoverCatalog()
 }

@@ -42,6 +42,7 @@ public enum Components: String, CaseIterable {
   case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
+  case typeahead
   case tooltip = "Tooltip"
   case toggle
   case user
@@ -85,6 +86,7 @@ public enum Components: String, CaseIterable {
     case .textInput: PBTextInput_Previews.previews
     case .tooltip: TooltipCatalog()
     case .timeStamp: TimeStampCatalog()
+    case .typeahead: TypeaheadCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
     }

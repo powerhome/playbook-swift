@@ -12,7 +12,11 @@ public struct PBBadge: View {
   var rounded: Bool
   var variant: Variant
 
-  public init(text: String, rounded: Bool = false, variant: Variant = .primary) {
+  public init(
+    text: String,
+    rounded: Bool = false,
+    variant: Variant = .primary
+  ) {
     self.text = text
     self.rounded = rounded
     self.variant = variant
