@@ -12,6 +12,7 @@ public struct PBTabBar: View {
   let border: Bool
   let shadow: Bool
   var icons: [TabIcon]
+
   public init(
     selectedTab: Binding<Int?> = .constant(0),
     border: Bool = false,
@@ -23,7 +24,7 @@ public struct PBTabBar: View {
     self.shadow = shadow
     self.icons = icons
   }
-  
+
   public var body: some View {
     PBCard(
       alignment: .center,
@@ -52,15 +53,17 @@ public extension PBTabBar {
       Button {
         selectedTab = index
       } label: {
-        TabIcon(icon: icon.icon, name: icon.name)
+        TabIcon(icon: icon.icon, name: icon.name, color: iconColor(index))
       }
       .buttonStyle(.plain)
       Spacer()
     }
   }
+
   var shadowColor: Color {
       return shadow ? .shadow : .clear
     }
+
   func iconColor(_ index: Int) -> Color {
       selectedTab == index ? Color.pbPrimary : Color.text(.light)
     }
@@ -69,22 +72,26 @@ public extension PBTabBar {
 public struct TabIcon: View {
   var icon: FontAwesome
   var name: String
+  var color: Color
+
  public init(
     icon: FontAwesome = .home,
-    name: String = ""
+    name: String = "",
+    color: Color = .text(.light)
   ) {
     self.icon = icon
     self.name = name
+    self.color = color
   }
-  
+
   public var body: some View {
     VStack(spacing: Spacing.xxSmall) {
       PBIcon(icon, size: .large)
-      Text(name).pbFont(.subcaption, color: iconColor(index))
+      Text(name)
     }
+    .pbFont(.subcaption, color: color)
   }
 }
-
 
 #Preview {
   registerFonts()
