@@ -23,7 +23,7 @@ extension View {
 
 public enum Shadow: String, CaseIterable {
   case deep, deeper, deepest, none
-
+  
   var color: Color {
     switch self {
     case .deep: return .shadow.opacity(0.74)
@@ -31,7 +31,7 @@ public enum Shadow: String, CaseIterable {
     default: return .shadow
     }
   }
-
+  
   var radius: CGFloat {
     switch self {
     case .deep: return 4
