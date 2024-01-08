@@ -27,6 +27,7 @@ struct NavCatalog: View {
   @State private var selectedHBold: Int = 1
   @State private var selectedCustom: Int = 1
   @State private var navContent: NavContent = .vertical
+  
   var body: some View {
     VStack {
       Picker("Select", selection: $navContent) {

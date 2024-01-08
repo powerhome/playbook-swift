@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  SelectCatalog.swift
 //
 //
 //  Created by Carlos Lima on 8/24/23.
