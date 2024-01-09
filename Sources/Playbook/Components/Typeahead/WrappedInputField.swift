@@ -64,7 +64,8 @@ public struct WrappedInputField: View {
       }
       .background(backgroundColor)
       .clipShape(shape)
-      .background(shape.stroke(borderColor, lineWidth: 1.2))
+//      .background(shape.stroke(borderColor, lineWidth: 1.2))
+      .background(shape.stroke(borderColor, lineWidth: 1.0))
     }
     .onHover { isHovering = $0 }
     .onChange(of: focus) {
