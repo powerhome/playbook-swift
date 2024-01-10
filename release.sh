@@ -92,7 +92,7 @@ function createPRWithVersionUpdate {
 function verifyIfReleaseVersionIsUpdated {
   git checkout main && git pull
   mergedPR=$(git log --oneline|grep "PBIOS-$rwStoryID")
-  if [ -z "$mergedPR" ]
+  if [ ! -z "$mergedPR" ]
   then
     echo "Please make sure the PR is merged so you can continue with the release."
     echo "When you are ready, choose Yes!"
