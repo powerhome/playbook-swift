@@ -92,7 +92,7 @@ function createPRWithVersionUpdate {
 function verifyIfReleaseVersionIsUpdated {
   git checkout main && git pull
   mergedPR=$(git log --oneline|grep "PBIOS-$rwStoryID")
-  if [[ ! -z "$mergedPR" ]]
+  if [ -z "$mergedPR" ]
   then
     echo "Please make sure the PR is merged so you can continue with the release."
     echo "When you are ready, choose Yes!"
@@ -117,26 +117,9 @@ function verifyIfReleaseVersionIsUpdated {
 
 function checkIfPRExists {
   currentPR=$(gh pr list|grep "PBIOS-$rwStoryId")
-  if [ -z "$currentPR" ]
+  if [ ! -z "$currentPR" ]
   then
-    echo "Please make sure the PR is merged so you can continue with the release."
-    echo "When you are ready, choose Yes!"
-    select c in Continue Cancel
-    do
-      case $c in "Continue")
-      echo "Great! Let's create $newVersion release!" 
-      return
-    ;;
-    "Cancel")
-    echo "Merge $pbSwiftBranch PR to continue with the relese."
-    checkIfPRExists
-    ;;
-    *)
-    echo "Invalid entry."
-    exit 1
-    ;;
-    esac
-  done
+    echo "PR already exists."
   fi
 }
 
@@ -213,10 +196,10 @@ function allDone {
 
 confirmBegin
 setRWStoryID
+checkIfPRExists
 getCurrentVersion
 promptVersion
 updateMarketingVersion
-checkIfPRExists
 createPRWithVersionUpdate
 verifyIfReleaseVersionIsUpdated
 createRelease
