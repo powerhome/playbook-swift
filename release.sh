@@ -117,7 +117,7 @@ function verifyIfReleaseVersionIsUpdated {
 
 function checkIfPRExists {
   currentPR=$(gh pr list|grep "PBIOS-$rwStoryId")
-  if [ -z "$currentPR" ]
+  if [ ! -z "$currentPR" ]
   then
     echo "Please make sure the PR is merged so you can continue with the release."
     echo "When you are ready, choose Yes!"
@@ -213,10 +213,10 @@ function allDone {
 
 confirmBegin
 setRWStoryID
+checkIfPRExists
 getCurrentVersion
 promptVersion
 updateMarketingVersion
-checkIfPRExists
 createPRWithVersionUpdate
 verifyIfReleaseVersionIsUpdated
 createRelease
