@@ -73,12 +73,40 @@ function updateMarketingVersion {
   sed -i '' -e "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $newVersion;/" ./PlaybookShowcase/PlaybookShowcase.xcodeproj/project.pbxproj
 }
 
-function createRelease {
+function createPRWithVersionUpdate {
   # It should confirm that the release has been created in Github and print the URL
   pbSwiftBranch="$newVersion-release"
   git checkout -b $pbSwiftBranch
   git commit -am "Release $newVersion"
   git push -u origin $pbSwiftBranch
+  gh pr create --title "[PBIOS-$rwStoryId] $newVersion-release"
+  gh pr create 
+}
+
+function verifyIfReleaseVersionIsUpdated {
+  getCurrentVersion
+  echo "Check if project version was succefully updated is $currentVersion == $newVersion?"
+  select yn in Yes No
+  do
+    case $yn in "Yes")
+    echo "Great! Let's get started."
+    createRelease
+    return
+    ;;
+    "No")
+    echo "Merge the PR with th eversion update."
+    exit 1
+    ;;
+    *)
+    echo "Invalid entry."
+    exit 1
+    ;;
+    esac
+  done
+}
+
+function createRelease {
+  # It should confirm that the release has been created in Github and print the URL
   gh repo sync -b $pbSwiftBranch
   releaseLink=$(gh release create $newVersion --generate-notes)
   echo $releaseLink
@@ -151,7 +179,8 @@ confirmBegin
 getCurrentVersion
 promptVersion
 updateMarketingVersion
-createRelease
+createPRWithVersionUpdate
+verifyIfReleaseVersionIsUpdated
 confirmUpdateConnect
 updateConnect
 confirmCreateConnectPR
