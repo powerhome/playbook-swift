@@ -16,7 +16,7 @@
 # Useage
 # ./release.sh
 
-MAIN_BRANCH="main"
+MAIN_BRANCH="release-script-update"
 
 currVersion=""
 newVersion=""
