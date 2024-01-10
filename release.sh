@@ -54,6 +54,13 @@ function confirmBegin {
   done
 }
 
+function setRWStoryID {
+  # It should prompt the dev to input the Runway story ID
+  echo "Please enter the Runway story ID (e.g. 123):"
+  read id # we need to validate this to only be numerical!
+  rwStoryId=$id
+}
+
 function getCurrentVersion {
   currVersion=$(yq '.targets.Playbook-iOS.settings.base.MARKETING_VERSION' project.yml)
 }
@@ -73,13 +80,69 @@ function updateMarketingVersion {
   sed -i '' -e "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $newVersion;/" ./PlaybookShowcase/PlaybookShowcase.xcodeproj/project.pbxproj
 }
 
-function createRelease {
+function createPRWithVersionUpdate {
   # It should confirm that the release has been created in Github and print the URL
   pbSwiftBranch="$newVersion-release"
   git checkout -b $pbSwiftBranch
   git commit -am "Release $newVersion"
   git push -u origin $pbSwiftBranch
-  gh repo sync -b $pbSwiftBranch
+  gh pr create --title "[PBIOS-$rwStoryId] $newVersion-release"
+}
+
+function verifyIfReleaseVersionIsUpdated {
+  git checkout main && git pull
+  mergedPR=$(git log --oneline|grep "PBIOS-$rwStoryID")
+  if [[ ! -z "$mergedPR" ]]
+  then
+    echo "Please make sure the PR is merged so you can continue with the release."
+    echo "When you are ready, choose Yes!"
+    select c in Continue Cancel
+    do
+      case $c in "Continue")
+      echo "Great! Let's create $newVersion release!" 
+      return
+    ;;
+    "Cancel")
+    echo "Merge $pbSwiftBranch PR to continue with the relese."
+    verifyIfReleaseVersionIsUpdated
+    ;;
+    *)
+    echo "Invalid entry."
+    verifyIfReleaseVersionIsUpdated
+    ;;
+    esac
+  done
+  fi
+}
+
+function checkIfPRExists {
+  currentPR=$(gh pr list|grep "PBIOS-$rwStoryId")
+  if [ -z "$currentPR" ]
+  then
+    echo "Please make sure the PR is merged so you can continue with the release."
+    echo "When you are ready, choose Yes!"
+    select c in Continue Cancel
+    do
+      case $c in "Continue")
+      echo "Great! Let's create $newVersion release!" 
+      return
+    ;;
+    "Cancel")
+    echo "Merge $pbSwiftBranch PR to continue with the relese."
+    checkIfPRExists
+    ;;
+    *)
+    echo "Invalid entry."
+    exit 1
+    ;;
+    esac
+  done
+  fi
+}
+
+function createRelease {
+  # It should confirm that the release has been created in Github and print the URL
+  gh repo sync -b main
   releaseLink=$(gh release create $newVersion --generate-notes)
   echo $releaseLink
 }
@@ -108,11 +171,6 @@ function confirmUpdateConnect {
 function updateConnect {
   cd ../connect-apple
 
-  # It should prompt the dev to input the Runway story ID
-  echo "Please enter the Runway story ID (e.g. 123):"
-  read id # we need to validate this to only be numerical!
-  rwStoryId=$id
-
   # It create a new branch and confirm to continue
   connectAppleBranch="PBIOS-$rwStoryId-PlaybookSwift-update-$newVersion"
   git checkout -b $connectAppleBranch
@@ -137,6 +195,12 @@ function confirmCreateConnectPR {
   echo $connectApplePR
 }
 
+function setupConnect {
+  confirmUpdateConnect
+  updateConnect
+  confirmCreateConnectPR
+}
+
 function createRunwayComment {
   echo "TODO: create runway comment?"
 }
@@ -148,13 +212,15 @@ function allDone {
 }
 
 confirmBegin
+setRWStoryID
 getCurrentVersion
 promptVersion
 updateMarketingVersion
+checkIfPRExists
+createPRWithVersionUpdate
+verifyIfReleaseVersionIsUpdated
 createRelease
-confirmUpdateConnect
-updateConnect
-confirmCreateConnectPR
+setupConnect
 createRunwayComment
 allDone
 
