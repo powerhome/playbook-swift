@@ -73,12 +73,42 @@ function updateMarketingVersion {
   sed -i '' -e "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $newVersion;/" ./PlaybookShowcase/PlaybookShowcase.xcodeproj/project.pbxproj
 }
 
-function createRelease {
+function createPRWithVersionUpdate {
   # It should confirm that the release has been created in Github and print the URL
   pbSwiftBranch="$newVersion-release"
   git checkout -b $pbSwiftBranch
   git commit -am "Release $newVersion"
   git push -u origin $pbSwiftBranch
+  gh pr create --title "[PBIOS-$rwStoryId] $newVersion-release"
+}
+
+function verifyIfReleaseVersionIsUpdated {
+  currentPR=$(gh pr list|grep "PBIOS-$rwStoryId")
+  if [ -z "$currentPR" ]
+  then
+    echo "Please make sure the PR is merged so you can continue with the release."
+    echo "When you are ready, choose Yes!"
+    select c in Continue Cancel
+    do
+      case $c in "Continue")
+      echo "Great! Let's create $newVersion release!" 
+      return
+    ;;
+    "Cancel")
+    echo "Merge $pbSwiftBranch PR to continue with the relese."
+    verifyIfReleaseVersionIsUpdated
+    ;;
+    *)
+    echo "Invalid entry."
+    exit 1
+    ;;
+    esac
+  done
+  fi
+}
+
+function createRelease {
+  # It should confirm that the release has been created in Github and print the URL
   gh repo sync -b $pbSwiftBranch
   releaseLink=$(gh release create $newVersion --generate-notes)
   echo $releaseLink
@@ -137,6 +167,12 @@ function confirmCreateConnectPR {
   echo $connectApplePR
 }
 
+function setupConnect {
+  confirmUpdateConnect
+  updateConnect
+  confirmCreateConnectPR
+}
+
 function createRunwayComment {
   echo "TODO: create runway comment?"
 }
@@ -151,10 +187,10 @@ confirmBegin
 getCurrentVersion
 promptVersion
 updateMarketingVersion
+createPRWithVersionUpdate
+verifyIfReleaseVersionIsUpdated
 createRelease
-confirmUpdateConnect
-updateConnect
-confirmCreateConnectPR
+setupConnect
 createRunwayComment
 allDone
 
