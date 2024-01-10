@@ -16,7 +16,7 @@
 # Useage
 # ./release.sh
 
-MAIN_BRANCH="main"
+MAIN_BRANCH="release-script-update"
 
 currVersion=""
 newVersion=""
@@ -116,27 +116,10 @@ function verifyIfReleaseVersionIsUpdated {
 }
 
 function checkIfPRExists {
-  currentPR=$(gh pr list|grep "PBIOS-$rwStoryId")
+  currentPR=$(gh pr list|grep "PBIOS-$rwStoryID")
   if [ -z "$currentPR" ]
   then
-    echo "Please make sure the PR is merged so you can continue with the release."
-    echo "When you are ready, choose Yes!"
-    select c in Continue Cancel
-    do
-      case $c in "Continue")
-      echo "Great! Let's create $newVersion release!" 
-      return
-    ;;
-    "Cancel")
-    echo "Merge $pbSwiftBranch PR to continue with the relese."
-    checkIfPRExists
-    ;;
-    *)
-    echo "Invalid entry."
-    exit 1
-    ;;
-    esac
-  done
+    echo "PR already exists!"
   fi
 }
 
