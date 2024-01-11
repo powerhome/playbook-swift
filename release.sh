@@ -20,7 +20,7 @@ MAIN_BRANCH="release-script-update"
 
 currVersion=""
 newVersion=""
-rwStoryId=""
+storyID=""
 connectApplePR=""
 releaseLink=""
 pbSwiftBranch=""
@@ -58,7 +58,7 @@ function setRWStoryID {
   # It should prompt the dev to input the Runway story ID
   echo "Please enter the Runway story ID (e.g. 123):"
   read id # we need to validate this to only be numerical!
-  rwStoryId=$id
+  storyID=$id
 }
 
 function getCurrentVersion {
@@ -86,7 +86,7 @@ function createPRWithVersionUpdate {
   git checkout -b $pbSwiftBranch
   git commit -am "Release $newVersion"
   git push -u origin $pbSwiftBranch
-  gh pr create --title "[PBIOS-$rwStoryId] $newVersion-release" --body "Playbook version update"
+  gh pr create --title "[PBIOS-$storyID] $newVersion-release" --body "Playbook version update"
 }
 
 function verifyIfReleaseVersionIsUpdated {
@@ -125,7 +125,7 @@ function verifyIfReleaseVersionIsUpdated {
 }
 
 function checkIfPRExists {
-  currentPR=$(gh pr list|grep "PBIOS-$rwStoryId")
+  currentPR=$(gh pr list|grep "PBIOS-$storyID")
   if [ ! -z "$currentPR" ]
   then
     echo "❗️ Error. PR already exists."
@@ -164,7 +164,7 @@ function updateConnect {
   cd ../connect-apple
 
   # It create a new branch and confirm to continue
-  connectAppleBranch="PBIOS-$rwStoryId-PlaybookSwift-update-$newVersion"
+  connectAppleBranch="PBIOS-$storyID-PlaybookSwift-update-$newVersion"
   git checkout -b $connectAppleBranch
 
   yq -i ".packages.Playbook.version = \"$newVersion\"" project_setup.yml
@@ -182,7 +182,7 @@ function confirmCreateConnectPR {
   git push -u origin $connectAppleBranch
   gh repo sync -b $connectAppleBranch
 
-  title="PBIOS-$rwStoryId"
+  title="PBIOS-$storyID"
   connectApplePR=$(gh pr create -a @me -B main -b $description -t \"$title\")
   echo $connectApplePR
 }
@@ -199,7 +199,7 @@ function createRunwayComment {
 
 function allDone {
   echo "🎉 Congrats! The release was successfully created!"
-  echo "Please remember to create a comment with your PR link here: https://nitro.powerhrg.com/runway/backlog_items/PBIOS-$rwStoryId"
+  echo "Please remember to create a comment with your PR link here: https://nitro.powerhrg.com/runway/backlog_items/PBIOS-$storyID"
   echo "PlaybookSwift release url: $releaseLink"
   echo "connect-apple PR url: $connectApplePR"
 }
