@@ -41,7 +41,7 @@ function assertRelease {
     exit 1
     ;;
     *)
-    echo "Invalid entry."
+    echo "❗️ Error. Invalid entry."
     exit 1
     ;;
     esac
@@ -57,7 +57,7 @@ function setRunwayStoryID {
     storyID="$id"
     return
   else
-    echo "Try to insert numbers only."
+    echo "❗️ Error. Try to insert numbers only."
     setRunwayStoryID
   fi
 }
@@ -66,7 +66,7 @@ function checkIfPRExists {
   currentPR=$(gh pr list | grep "PBIOS-$storyID")
   if [ ! -z "$currentPR" ]
   then
-    echo "PR already exists. Exiting."
+    echo "❗️ Error. PR already exists. Exiting."
     exit 1
   fi
 }
@@ -102,8 +102,7 @@ function createPRWithNewVersion {
 function verifyIfVersionIsUpdated {
   git checkout main && git pull
   mergedPR=$(git log --oneline|grep "PBIOS-$storyID")
-  if [ ! -z "$mergedPR" ]
-  then
+  if [ ! -z "$mergedPR" ]; then
     echo "Please make sure the PR is merged so you can continue with the release."
     echo "When you are ready, choose Continue!"
     select c in Continue Cancel
@@ -113,11 +112,11 @@ function verifyIfVersionIsUpdated {
       git pull
       reallyMergedPR=$(git log --oneline|grep "PBIOS-$storyID") #check if its really working
 
-      if [ ! -z "$mergedPR" ]
+      if [ ! -z "$reallyMergedPR" ]
       then
         verifyIfVersionIsUpdated
       else
-        echo "Great! Let's create $newVersion release!"
+        echo "🎉 Great! Let's create $newVersion release!"
         return
       fi
 
@@ -148,7 +147,7 @@ function assertConnectUpdate {
   select yn in Yes No
   do
     case $yn in "Yes")
-    echo "Great! Let's get started."
+    echo "🎉 Great! Let's get started."
     return
     ;;
     "No")
@@ -205,6 +204,7 @@ function allDone {
   echo "Please remember to create a comment with your PR link here: https://nitro.powerhrg.com/runway/backlog_items/PBIOS-$storyID"
   echo "PlaybookSwift release url: $releaseLink"
   echo "connect-apple PR url: $connectPR"
+  echo "🎉 Congrats! The release was successfully created!"
 }
 
 if [[ $currBranch != $MAIN_BRANCH ]]
