@@ -127,19 +127,18 @@ private extension WrappedInputField {
   
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
-    ZStack(alignment: .leading)
+    VStack(alignment: .leading)
     {
       if searchText.isEmpty {
         Text(placeholderText)
           .pbFont(.body, color: textColor)
-          .frame(minHeight: Spacing.xLarge)
+      } else {
+        TextField("", text: $searchText)
+          .textFieldStyle(.plain)
+          .focused($isFocused)
+          .pbFont(.body, color: .text(.default))
       }
-      TextField("", text: $searchText)
-        .textFieldStyle(.plain)
-        .focused($isFocused)
-        .pbFont(.body, color: .text(.default))
-        .frame(minHeight: Spacing.xLarge)
-    }
+    }.frame(minHeight: Spacing.xLarge)
   }
   
   @ViewBuilder
