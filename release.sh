@@ -33,7 +33,7 @@ then
   exit 1
 fi
 
-function confirmBegin {
+function assertRelease {
   # It should prompt the dev with a message that they are about to create a new release and confirm to continue
   echo "You are about to create a new PlaybookSwift release. Ready to begin?"
   select yn in Yes No
@@ -54,19 +54,26 @@ function confirmBegin {
   done
 }
 
-function setRWStoryID {
+function setRunwayStoryID {
   # It should prompt the dev to input the Runway story ID
   echo "Please enter the Runway story ID (e.g. 123):"
-  read id # we need to validate this to only be numerical!
-  storyID=$id
+  read id
+
+  if [[ $id =~ ^[0-9]+$ ]]; then
+    storyID="$id"
+    return
+  else
+    echo "❗️ Error. Try to insert numbers only."
+    setRunwayStoryID
+  fi
 }
 
 function getCurrentVersion {
   currentVersion=$(yq '.targets.Playbook-iOS.settings.base.MARKETING_VERSION' project.yml)
 }
 
-function promptVersion {
-  # It should prompt dev to input the version number in this format X.X.X per SemVer rules.
+function setVersion {
+  # It should prompt dev to input the version number in this format X.X.X per SemVer rules
   echo "Current version is ${currentVersion}. Please enter the new version number:"
   read v
   newVersion=$v
@@ -139,7 +146,7 @@ function createRelease {
   echo $releaseLink
 }
 
-function confirmUpdateConnect {
+function assertConnectUpdate {
   # It should prompt the dev with a message that they are about to make changes to connect-apple repo and confirm to continue
   echo "Ready to update PlaybookSwift version in connect-apple?"
   select yn in Yes No
@@ -174,7 +181,7 @@ function updateConnect {
   read c
 }
 
-function confirmCreateConnectPR {
+function createConnectPR {
   description=$releaseLink
 
   cd ../connect-apple
@@ -188,9 +195,9 @@ function confirmCreateConnectPR {
 }
 
 function setupConnect {
-  confirmUpdateConnect
+  assertConnectUpdate
   updateConnect
-  confirmCreateConnectPR
+  createConnectPR
 }
 
 function createRunwayComment {
@@ -204,11 +211,17 @@ function allDone {
   echo "connect-apple PR url: $connectPR"
 }
 
-confirmBegin
-setRWStoryID
+if [[ $currentBranch != $MAIN_BRANCH ]]
+then
+  echo "You must be on the $MAIN_BRANCH branch to continue. Tchau!"
+  exit 1
+fi
+
+assertRelease
+setRunwayStoryID
 checkIfPRExists
 getCurrentVersion
-promptVersion
+setVersion
 updateMarketingVersion
 createPRWithVersionUpdate
 verifyIfReleaseVersionIsUpdated
