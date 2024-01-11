@@ -113,8 +113,7 @@ function verifyIfReleaseVersionIsUpdated {
 
     ;;
     "Cancel")
-    echo "Merge $pbSwiftBranch PR to continue with the relese."
-    verifyIfReleaseVersionIsUpdated
+    exit 1
     ;;
     *)
     echo "Invalid entry."
