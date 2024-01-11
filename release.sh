@@ -18,16 +18,16 @@
 
 MAIN_BRANCH="release-script-update"
 
-currVersion=""
+currentVersion=""
 newVersion=""
 storyID=""
-connectApplePR=""
+connectPR=""
 releaseLink=""
 pbSwiftBranch=""
-connectAppleBranch=""
-currBranch=$(git rev-parse --abbrev-ref HEAD)
+connectBranch=""
+currentBranch=$(git rev-parse --abbrev-ref HEAD)
 
-if [[ $currBranch != $MAIN_BRANCH ]]
+if [[ $currentBranch != $MAIN_BRANCH ]]
 then
   echo "You must be on the $MAIN_BRANCH branch to continue. Tchau!"
   exit 1
@@ -62,12 +62,12 @@ function setRWStoryID {
 }
 
 function getCurrentVersion {
-  currVersion=$(yq '.targets.Playbook-iOS.settings.base.MARKETING_VERSION' project.yml)
+  currentVersion=$(yq '.targets.Playbook-iOS.settings.base.MARKETING_VERSION' project.yml)
 }
 
 function promptVersion {
   # It should prompt dev to input the version number in this format X.X.X per SemVer rules.
-  echo "Current version is ${currVersion}. Please enter the new version number:"
+  echo "Current version is ${currentVersion}. Please enter the new version number:"
   read v
   newVersion=$v
   echo "Okay. We will create PlaybookSwift version $newVersion."
@@ -164,8 +164,8 @@ function updateConnect {
   cd ../connect-apple
 
   # It create a new branch and confirm to continue
-  connectAppleBranch="PBIOS-$storyID-PlaybookSwift-update-$newVersion"
-  git checkout -b $connectAppleBranch
+  connectBranch="PBIOS-$storyID-PlaybookSwift-update-$newVersion"
+  git checkout -b $connectBranch
 
   yq -i ".packages.Playbook.version = \"$newVersion\"" project_setup.yml
 
@@ -179,12 +179,12 @@ function confirmCreateConnectPR {
 
   cd ../connect-apple
   git commit -am "Update PlaybookSwift version"
-  git push -u origin $connectAppleBranch
-  gh repo sync -b $connectAppleBranch
+  git push -u origin $connectBranch
+  gh repo sync -b $connectBranch
 
   title="PBIOS-$storyID"
-  connectApplePR=$(gh pr create -a @me -B main -b $description -t \"$title\")
-  echo $connectApplePR
+  connectPR=$(gh pr create -a @me -B main -b $description -t \"$title\")
+  echo $connectPR
 }
 
 function setupConnect {
@@ -201,7 +201,7 @@ function allDone {
   echo "🎉 Congrats! The release was successfully created!"
   echo "Please remember to create a comment with your PR link here: https://nitro.powerhrg.com/runway/backlog_items/PBIOS-$storyID"
   echo "PlaybookSwift release url: $releaseLink"
-  echo "connect-apple PR url: $connectApplePR"
+  echo "connect-apple PR url: $connectPR"
 }
 
 confirmBegin
