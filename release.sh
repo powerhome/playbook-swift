@@ -86,7 +86,7 @@ function createPRWithVersionUpdate {
   git checkout -b $pbSwiftBranch
   git commit -am "Release $newVersion"
   git push -u origin $pbSwiftBranch
-  gh pr create --title "[PBIOS-$rwStoryId] $newVersion-release"
+  gh pr create --title "[PBIOS-$rwStoryId] $newVersion-release" --body "Playbook version update"
 }
 
 function verifyIfReleaseVersionIsUpdated {
