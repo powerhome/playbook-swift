@@ -13,7 +13,7 @@
 # `yq` a lightweight and portable command-line YAML, JSON and XML processor. https://github.com/mikefarah/yq
 # `brew install yq`
 
-# Useage
+# Usage
 # ./release.sh
 
 MAIN_BRANCH="release-script-update"
@@ -47,7 +47,7 @@ function confirmBegin {
     exit 1
     ;;
     *)
-    echo "Invalid entry."
+    echo "❗️ Error. Invalid entry."
     exit 1
     ;;
     esac
@@ -66,7 +66,7 @@ function getCurrentVersion {
 }
 
 function promptVersion {
-  # It should prompt dev to input the version number in this format X.X.X per SemVer rules
+  # It should prompt dev to input the version number in this format X.X.X per SemVer rules.
   echo "Current version is ${currVersion}. Please enter the new version number:"
   read v
   newVersion=$v
@@ -74,14 +74,14 @@ function promptVersion {
 }
 
 function updateMarketingVersion {
-  # It should update the MARKETING_VERSION in the project and create a new commit then push to main
+  # It should update the MARKETING_VERSION in the project.
   yq -i ".targets.Playbook-iOS.settings.base.MARKETING_VERSION = \"$newVersion\"" project.yml
   yq -i ".targets.Playbook-macOS.settings.base.MARKETING_VERSION = \"$newVersion\"" project.yml
   sed -i '' -e "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $newVersion;/" ./PlaybookShowcase/PlaybookShowcase.xcodeproj/project.pbxproj
 }
 
 function createPRWithVersionUpdate {
-  # It should confirm that the release has been created in Github and print the URL
+  # It should confirm that the release has been created in Github and print the URL.
   pbSwiftBranch="$newVersion-release"
   git checkout -b $pbSwiftBranch
   git commit -am "Release $newVersion"
@@ -95,7 +95,7 @@ function verifyIfReleaseVersionIsUpdated {
   if [ ! -z "$mergedPR" ]
   then
     echo "Please make sure the PR is merged so you can continue with the release."
-    echo "When you are ready, choose Yes!"
+    echo "When you are ready, choose Continue!"
     select c in Continue Cancel
     do
       case $c in "Continue")
@@ -107,7 +107,7 @@ function verifyIfReleaseVersionIsUpdated {
       then
         verifyIfReleaseVersionIsUpdated
       else
-        echo "Great! Let's create $newVersion release!"
+        echo "🎉 Great! Let's create $newVersion release!"
         return
       fi
 
@@ -129,7 +129,7 @@ function checkIfPRExists {
   currentPR=$(gh pr list|grep "PBIOS-$rwStoryId")
   if [ ! -z "$currentPR" ]
   then
-    echo "PR already exists."
+    echo "❗️ Error. PR already exists."
   fi
 }
 
@@ -142,11 +142,11 @@ function createRelease {
 
 function confirmUpdateConnect {
   # It should prompt the dev with a message that they are about to make changes to connect-apple repo and confirm to continue
-  echo "Ready to create the version update in connect-apple?"
+  echo "Ready to update PlaybookSwift version in connect-apple?"
   select yn in Yes No
   do
     case $yn in "Yes")
-    echo "Great! Let's get started."
+    echo "🎉 Great! Let's get started."
     return
     ;;
     "No")
@@ -199,6 +199,7 @@ function createRunwayComment {
 }
 
 function allDone {
+  echo "🎉 Congrats! The release was successfully created!"
   echo "Please remember to create a comment with your PR link here: https://nitro.powerhrg.com/runway/backlog_items/PBIOS-$rwStoryId"
   echo "PlaybookSwift release url: $releaseLink"
   echo "connect-apple PR url: $connectApplePR"
