@@ -13,27 +13,21 @@
 # `yq` a lightweight and portable command-line YAML, JSON and XML processor. https://github.com/mikefarah/yq
 # `brew install yq`
 
-# Useage
+# Usage
 # ./release.sh
 
 MAIN_BRANCH="release-script-update"
 
 currVersion=""
 newVersion=""
-rwStoryId=""
-connectApplePR=""
+storyID=""
+connectPR=""
 releaseLink=""
 pbSwiftBranch=""
-connectAppleBranch=""
+connectBranch=""
 currBranch=$(git rev-parse --abbrev-ref HEAD)
 
-if [[ $currBranch != $MAIN_BRANCH ]]
-then
-  echo "You must be on the $MAIN_BRANCH branch to continue. Tchau!"
-  exit 1
-fi
-
-function confirmBegin {
+function assertRelease {
   # It should prompt the dev with a message that they are about to create a new release and confirm to continue
   echo "You are about to create a new PlaybookSwift release. Ready to begin?"
   select yn in Yes No
@@ -54,18 +48,34 @@ function confirmBegin {
   done
 }
 
-function setRWStoryID {
+function setRunwayStoryID {
   # It should prompt the dev to input the Runway story ID
-  echo "Please enter the Runway story ID (e.g. 123):"
-  read id # we need to validate this to only be numerical!
-  rwStoryId=$id
+  echo "Please enter the Runway story ID (e.g., 123):"
+  read id
+
+  if [[ $id =~ ^[0-9]+$ ]]; then
+    storyID="$id"
+    return
+  else
+    echo "Try to insert numbers only."
+    setRunwayStoryID
+  fi
+}
+
+function checkIfPRExists {
+  currentPR=$(gh pr list | grep "PBIOS-$storyID")
+  if [ ! -z "$currentPR" ]
+  then
+    echo "PR already exists. Exiting."
+    exit 1
+  fi
 }
 
 function getCurrentVersion {
   currVersion=$(yq '.targets.Playbook-iOS.settings.base.MARKETING_VERSION' project.yml)
 }
 
-function promptVersion {
+function setVersion {
   # It should prompt dev to input the version number in this format X.X.X per SemVer rules
   echo "Current version is ${currVersion}. Please enter the new version number:"
   read v
@@ -74,38 +84,38 @@ function promptVersion {
 }
 
 function updateMarketingVersion {
-  # It should update the MARKETING_VERSION in the project and create a new commit then push to main
+  # It should update the MARKETING_VERSION in the project
   yq -i ".targets.Playbook-iOS.settings.base.MARKETING_VERSION = \"$newVersion\"" project.yml
   yq -i ".targets.Playbook-macOS.settings.base.MARKETING_VERSION = \"$newVersion\"" project.yml
   sed -i '' -e "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $newVersion;/" ./PlaybookShowcase/PlaybookShowcase.xcodeproj/project.pbxproj
 }
 
-function createPRWithVersionUpdate {
+function createPRWithNewVersion {
   # It should confirm that the release has been created in Github and print the URL
   pbSwiftBranch="$newVersion-release"
   git checkout -b $pbSwiftBranch
   git commit -am "Release $newVersion"
   git push -u origin $pbSwiftBranch
-  gh pr create --title "[PBIOS-$rwStoryId] $newVersion-release"
+  gh pr create --title "[PBIOS-$storyID] $newVersion-release" --body "Update Playbook version."
 }
 
-function verifyIfReleaseVersionIsUpdated {
+function verifyIfVersionIsUpdated {
   git checkout main && git pull
-  mergedPR=$(git log --oneline|grep "PBIOS-$rwStoryID")
+  mergedPR=$(git log --oneline|grep "PBIOS-$storyID")
   if [ ! -z "$mergedPR" ]
   then
     echo "Please make sure the PR is merged so you can continue with the release."
-    echo "When you are ready, choose Yes!"
+    echo "When you are ready, choose Continue!"
     select c in Continue Cancel
     do
       case $c in "Continue")
 
       git pull
-      reallyMergedPR=$(git log --oneline|grep "PBIOS-$rwStoryID")
+      reallyMergedPR=$(git log --oneline|grep "PBIOS-$storyID") #check if its really working
 
       if [ ! -z "$mergedPR" ]
       then
-        verifyIfReleaseVersionIsUpdated
+        verifyIfVersionIsUpdated
       else
         echo "Great! Let's create $newVersion release!"
         return
@@ -114,22 +124,14 @@ function verifyIfReleaseVersionIsUpdated {
     ;;
     "Cancel")
     echo "Merge $pbSwiftBranch PR to continue with the relese."
-    verifyIfReleaseVersionIsUpdated
+    verifyIfVersionIsUpdated
     ;;
     *)
     echo "Invalid entry."
-    verifyIfReleaseVersionIsUpdated
+    verifyIfVersionIsUpdated
     ;;
     esac
   done
-  fi
-}
-
-function checkIfPRExists {
-  currentPR=$(gh pr list|grep "PBIOS-$rwStoryId")
-  if [ ! -z "$currentPR" ]
-  then
-    echo "PR already exists."
   fi
 }
 
@@ -140,9 +142,9 @@ function createRelease {
   echo $releaseLink
 }
 
-function confirmUpdateConnect {
+function assertConnectUpdate {
   # It should prompt the dev with a message that they are about to make changes to connect-apple repo and confirm to continue
-  echo "Ready to create the version update in connect-apple?"
+  echo "Ready to update PlaybookSwift version in connect-apple?"
   select yn in Yes No
   do
     case $yn in "Yes")
@@ -165,8 +167,8 @@ function updateConnect {
   cd ../connect-apple
 
   # It create a new branch and confirm to continue
-  connectAppleBranch="PBIOS-$rwStoryId-PlaybookSwift-update-$newVersion"
-  git checkout -b $connectAppleBranch
+  connectBranch="PBIOS-$storyID-PlaybookSwift-update-$newVersion"
+  git checkout -b $connectBranch
 
   yq -i ".packages.Playbook.version = \"$newVersion\"" project_setup.yml
 
@@ -175,23 +177,24 @@ function updateConnect {
   read c
 }
 
-function confirmCreateConnectPR {
+function createConnectPR {
   description=$releaseLink
 
   cd ../connect-apple
   git commit -am "Update PlaybookSwift version"
-  git push -u origin $connectAppleBranch
-  gh repo sync -b $connectAppleBranch
+  git push -u origin $connectBranch
+  gh repo sync -b $connectBranch
 
-  title="PBIOS-$rwStoryId"
-  connectApplePR=$(gh pr create -a @me -B main -b $description -t \"$title\")
-  echo $connectApplePR
+  title="PBIOS-$storyID"
+  connectPR=$(gh pr create -a @me -B main -b "$description" -t "$title")
+
+  echo $connectPR
 }
 
 function setupConnect {
-  confirmUpdateConnect
+  assertConnectUpdate
   updateConnect
-  confirmCreateConnectPR
+  createConnectPR
 }
 
 function createRunwayComment {
@@ -199,19 +202,25 @@ function createRunwayComment {
 }
 
 function allDone {
-  echo "Please remember to create a comment with your PR link here: https://nitro.powerhrg.com/runway/backlog_items/PBIOS-$rwStoryId"
+  echo "Please remember to create a comment with your PR link here: https://nitro.powerhrg.com/runway/backlog_items/PBIOS-$storyID"
   echo "PlaybookSwift release url: $releaseLink"
-  echo "connect-apple PR url: $connectApplePR"
+  echo "connect-apple PR url: $connectPR"
 }
 
-confirmBegin
-setRWStoryID
+if [[ $currBranch != $MAIN_BRANCH ]]
+then
+  echo "You must be on the $MAIN_BRANCH branch to continue. Tchau!"
+  exit 1
+fi
+
+assertRelease
+setRunwayStoryID
 checkIfPRExists
 getCurrentVersion
-promptVersion
+setVersion
 updateMarketingVersion
-createPRWithVersionUpdate
-verifyIfReleaseVersionIsUpdated
+createPRWithNewVersion
+verifyIfVersionIsUpdated
 createRelease
 setupConnect
 createRunwayComment
