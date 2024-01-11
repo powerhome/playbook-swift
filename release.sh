@@ -16,7 +16,7 @@
 # Usage
 # ./release.sh
 
-MAIN_BRANCH="release-script-update"
+MAIN_BRANCH="main"
 
 currentVersion=""
 newVersion=""
@@ -98,8 +98,8 @@ function createPRWithVersionUpdate {
 
 function verifyIfReleaseVersionIsUpdated {
   git checkout main && git pull
-  mergedPR=$(git log --oneline|grep "PBIOS-$rwStoryID")
-  if [ ! -z "$mergedPR" ]
+  verifiedPR=$(git log --oneline|grep "PBIOS-$rwStoryID")
+  if [ ! -z "$verifiedPR" ]
   then
     echo "Please make sure the PR is merged so you can continue with the release."
     echo "When you are ready, choose Continue!"
@@ -108,9 +108,9 @@ function verifyIfReleaseVersionIsUpdated {
       case $c in "Continue")
 
       git pull
-      reallyMergedPR=$(git log --oneline|grep "PBIOS-$rwStoryID")
+      mergedPR=$(git log --oneline|grep "PBIOS-$rwStoryID")
 
-      if [ ! -z "$mergedPR" ]
+      if [ ! -z "$verifiedPR" ]
       then
         verifyIfReleaseVersionIsUpdated
       else
