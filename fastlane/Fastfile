@@ -21,9 +21,15 @@ build_path = "BuildTemp/Archives"
 derived_data_path = "DerivedData"
 ios_plist = "./Info.plist"
 appcenter_token = "bf0ae509c985f2a1102c2ad53894b35a5fa5383e"
+project = './PlaybookShowcase/PlaybookShowcase.xcodeproj'
 
 def target_ios(suffix = nil)
   target = 'PlaybookShowcase-iOS'
+  suffix ? "#{target}-#{suffix}" : target
+end
+
+def target_macos(suffix = nil)
+  target = 'PlaybookShowcase-macOS'
   suffix ? "#{target}-#{suffix}" : target
 end
 
@@ -40,11 +46,30 @@ lane :build_ios do |opts|
   target = target_ios(opts[:suffix])
 
   gym(
-    project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
+    project: project,
     scheme: target,
     skip_package_dependencies_resolution: false,
     export_method: export_method,
     output_name: "#{target}.ipa",
+    build_path: build_path,
+    derived_data_path: derived_data_path,
+    xcargs: '-skipPackagePluginValidation -skipMacroValidation',
+    xcconfig: './PlaybookShowcase/Versioning.xcconfig'
+  )
+end
+
+desc "Build macOS"
+lane :build_macos do |opts|
+
+  export_method = 'enterprise'
+  target = target_macos(opts[:suffix])
+
+  gym(
+    project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
+    scheme: target,
+    skip_package_dependencies_resolution: false,
+    export_method: export_method,
+    output_name: "#{target}.zip",
     build_path: build_path,
     derived_data_path: derived_data_path,
     xcargs: '-skipPackagePluginValidation -skipMacroValidation',
@@ -87,6 +112,29 @@ lane :ship_ios_to_appcenter do |opts|
     owner_type: "organization",
     app_name: app_name,
     file: "#{target_ios(opts[:suffix])}.ipa",
+    version: "#{opts[:build_number]}",
+    release_notes: "#{opts[:release_notes]}",
+    destinations: "Rebels",
+    destination_type: "group",
+    upload_build_only: false
+  )
+end
+
+desc "Ship macOS to App Center"
+lane :ship_macos_to_appcenter do |opts|
+
+  app_name = "Playbook-Showcase-Beta"
+  if opts[:type] == 'production'
+    app_name = "Playbook-Showcase"
+  end
+
+  opts[:os] = 'macos'
+  appcenter_upload(
+    api_token: appcenter_token,
+    owner_name: "powerhome",
+    owner_type: "organization",
+    app_name: app_name,
+    file: "#{target_macos(opts[:suffix])}.zip",
     version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
