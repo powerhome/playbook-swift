@@ -65,7 +65,7 @@ lane :build_macos do |opts|
   target = target_macos(opts[:suffix])
 
   gym(
-    project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
+    project: project,
     scheme: target,
     skip_package_dependencies_resolution: false,
     export_method: export_method,
@@ -97,13 +97,6 @@ lane :upload_ios do |opts|
   }
 end
 
-desc "Upload macOS build"
-lane :upload_macos do |opts|
-  keep_trying {
-    ship_macos_to_appcenter(opts)
-  }
-end
-
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
 
@@ -127,12 +120,19 @@ lane :ship_ios_to_appcenter do |opts|
   )
 end
 
+desc "Upload macOS build"
+lane :upload_macos do |opts|
+  keep_trying {
+    ship_macos_to_appcenter(opts)
+  }
+end
+
 desc "Ship macOS to App Center"
 lane :ship_macos_to_appcenter do |opts|
 
-  app_name = "Playbook-Showcase-Mac-Beta"
+  app_name = "Playbook-Swift-Mac-Beta"
   if opts[:type] == 'production'
-    app_name = "Playbook-Showcase-Mac"
+    app_name = "Playbook-Swift-Mac"
   end
 
   opts[:os] = 'macos'
@@ -182,6 +182,7 @@ lane :create_runway_comment do |opts|
   <p><b>#{merged_comment}#{type} build #{build_number}</b></p>
   <ul>
     <li>PlaybookShowcase-iOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{app_name}/releases/#{version_info["id"]}"}>iOS</a></li>
+    <li>PlaybookShowcase-macOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{app_name}/releases/#{version_info["id"]}"}>macOS</a></li>
   </ul>
   HEREDOC
 
