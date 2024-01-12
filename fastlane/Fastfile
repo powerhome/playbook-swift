@@ -97,6 +97,13 @@ lane :upload_ios do |opts|
   }
 end
 
+desc "Upload macOS build"
+lane :upload_macos do |opts|
+  keep_trying {
+    ship_macos_to_appcenter(opts)
+  }
+end
+
 desc "Ship iOS to App Center"
 lane :ship_ios_to_appcenter do |opts|
 
@@ -123,9 +130,9 @@ end
 desc "Ship macOS to App Center"
 lane :ship_macos_to_appcenter do |opts|
 
-  app_name = "Playbook-Showcase-Beta"
+  app_name = "Playbook-Swift-Mac-Beta"
   if opts[:type] == 'production'
-    app_name = "Playbook-Showcase"
+    app_name = "Playbook-Swift-Mac"
   end
 
   opts[:os] = 'macos'
