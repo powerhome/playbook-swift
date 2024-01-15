@@ -128,24 +128,33 @@ private extension WrappedInputField {
   
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
-    VStack(alignment: .leading)
+    ZStack(alignment: .leading)
     {
-#if os(iOS)
-      TextField(searchText.isEmpty ? placeholderText : "", text: $searchText)
-        .textFieldStyle(.plain)
+    #if os(iOS)
+      Text(placeholderText)
         .pbFont(.body, color: textColor)
-#endif
-      
-#if os(macOS)
-      if searchText.isEmpty {
+        .opacity(searchText.isEmpty ? 1 : 0)
+      TextField("", text: $searchText)
+        .textFieldStyle(.plain)
+        .pbFont(.body, color: .text(.default))
+    #elseif os(macOS)
+    
         Text(placeholderText)
           .pbFont(.body, color: textColor)
-      } else {
+          .onTapGesture {
+            isFocused = true
+          }
         TextField("", text: $searchText)
+         // .focusable()
+          .focused($isFocused)
           .textFieldStyle(.plain)
           .pbFont(.body, color: .text(.default))
-      }
-#endif
+          .opacity(searchText.isEmpty ? 0 : 1)
+//          .onTapGesture {
+//            isFocused.toggle()
+//          }
+        
+    #endif
     }
     .focused($isFocused)
     .frame(height: Spacing.xLarge)
