@@ -69,7 +69,7 @@ lane :build_macos do |opts|
     scheme: target,
     skip_package_dependencies_resolution: false,
     export_method: export_method,
-    output_name: "#{target}.zip",
+    output_name: "#{target}.app",
     build_path: build_path,
     derived_data_path: derived_data_path,
     xcargs: '-skipPackagePluginValidation -skipMacroValidation',
