@@ -79,7 +79,6 @@ private extension PBTypeahead {
       $0.0.localizedCaseInsensitiveContains(searchText)
     }
 #endif
-   
   }
   
   var clearText: Void {

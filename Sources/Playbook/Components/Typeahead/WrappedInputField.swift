@@ -66,6 +66,7 @@ public struct WrappedInputField: View {
       .overlay {
         shape
           .stroke(borderColor, lineWidth: 1.0)
+        
       }
     }
     .onHover { isHovering = $0 }
@@ -129,16 +130,24 @@ private extension WrappedInputField {
   var textfieldWithCustomPlaceholder: some View {
     VStack(alignment: .leading)
     {
+#if os(iOS)
+      TextField(searchText.isEmpty ? placeholderText : "", text: $searchText)
+        .textFieldStyle(.plain)
+        .pbFont(.body, color: textColor)
+#endif
+      
+#if os(macOS)
       if searchText.isEmpty {
         Text(placeholderText)
           .pbFont(.body, color: textColor)
       } else {
         TextField("", text: $searchText)
           .textFieldStyle(.plain)
-          .focused($isFocused)
-          .pbFont(.body, color: .text(.default))
       }
-    }.frame(minHeight: Spacing.xLarge)
+#endif
+    }
+    .focused($isFocused)
+    .frame(height: Spacing.xLarge)
   }
   
   @ViewBuilder
