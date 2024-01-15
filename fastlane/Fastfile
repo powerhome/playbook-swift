@@ -152,7 +152,7 @@ lane :ship_macos_to_appcenter do |opts|
     app_name: app_name,
     app_os: "macOS",
     file: zip_file,
-    version: "#{opts[:build_number]}",
+    version: "9.9.9",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
     destination_type: "group",
