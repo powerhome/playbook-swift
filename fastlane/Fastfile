@@ -130,7 +130,7 @@ end
 desc "Ship macOS to App Center"
 lane :ship_macos_to_appcenter do |opts|
 
-  app_name = "Playbook-Showcase-Beta"
+  app_name = "Playbook-Showcase"
   if opts[:type] == 'production'
     app_name = "Playbook-Showcase"
   end
