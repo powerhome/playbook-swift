@@ -130,9 +130,9 @@ end
 desc "Ship macOS to App Center"
 lane :ship_macos_to_appcenter do |opts|
 
-  app_name = "Playbook-Swift-Mac-Beta"
+  app_name = "Playbook-Showcase-Beta"
   if opts[:type] == 'production'
-    app_name = "Playbook-Swift-Mac"
+    app_name = "Playbook-Showcase"
   end
 
   opts[:os] = 'macos'
@@ -140,6 +140,7 @@ lane :ship_macos_to_appcenter do |opts|
     api_token: appcenter_token,
     owner_name: "powerhome",
     owner_type: "organization",
+    app_name: app_name,
     app_os: "macOS",
     file: "#{target_macos(opts[:suffix])}.zip",
     version: "#{opts[:build_number]}",
