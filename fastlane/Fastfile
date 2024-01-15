@@ -141,7 +141,7 @@ lane :ship_macos_to_appcenter do |opts|
 
   zip_file = zip(
     path: build_path,
-    output_path: "#{app_name}.zip"
+    output_path: "#{target_macos(opts[:suffix])}.zip"
   )
 
   opts[:os] = 'macos'
