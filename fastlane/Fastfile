@@ -135,10 +135,6 @@ lane :ship_macos_to_appcenter do |opts|
     app_name = "Playbook-Showcase"
   end
 
-  #compress file
-  zip_name = app_name.gsub(' ', '_')
-  sh "ditto -c -k --sequesterRsrc --keepParent '../#{app_name}.app' '../#{zip_name}.zip'"
-
   opts[:os] = 'macos'
   appcenter_upload(
     api_token: appcenter_token,
