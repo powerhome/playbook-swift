@@ -143,6 +143,7 @@ private extension WrappedInputField {
       } else {
         TextField("", text: $searchText)
           .textFieldStyle(.plain)
+          .pbFont(.body, color: .text(.default))
       }
 #endif
     }
