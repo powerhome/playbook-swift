@@ -61,7 +61,7 @@ end
 desc "Build macOS"
 lane :build_macos do |opts|
 
-  export_method = 'enterprise'
+  export_method = 'developer-id'
   target = target_macos(opts[:suffix])
 
   gym(
