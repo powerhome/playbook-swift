@@ -44,18 +44,16 @@ public struct WrappedInputField: View {
   public var body: some View {
     VStack(alignment: .leading) {
       HStack {
-        WrappingHStack(indices, spacing: .constant(0)) { index in
+       WrappingHStack(indices, spacing: .constant(0)) { index in
           if indices.last == index {
-            HStack(spacing: 0) {
-              textfieldWithCustomPlaceholder
-              Spacer()
-            }
-            .padding(.leading, Spacing.small)
+                textfieldWithCustomPlaceholder
+                  .padding(.leading, Spacing.small)
           } else {
             gridView(index: index)
           }
         }
-       
+        .focused($isFocused)
+      
       dismissIconView
           .onTapGesture {
             clearAction?()
@@ -66,7 +64,6 @@ public struct WrappedInputField: View {
       .overlay {
         shape
           .stroke(borderColor, lineWidth: 1.0)
-        
       }
     }
     .onHover { isHovering = $0 }
@@ -128,36 +125,11 @@ private extension WrappedInputField {
   
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
-    ZStack(alignment: .leading)
-    {
-    #if os(iOS)
-      Text(placeholderText)
-        .pbFont(.body, color: textColor)
-        .opacity(searchText.isEmpty ? 1 : 0)
-      TextField("", text: $searchText)
-        .textFieldStyle(.plain)
-        .pbFont(.body, color: .text(.default))
-    #elseif os(macOS)
-    
-        Text(placeholderText)
-          .pbFont(.body, color: textColor)
-          .onTapGesture {
-            isFocused = true
-          }
-        TextField("", text: $searchText)
-         // .focusable()
-          .focused($isFocused)
-          .textFieldStyle(.plain)
-          .pbFont(.body, color: .text(.default))
-          .opacity(searchText.isEmpty ? 0 : 1)
-//          .onTapGesture {
-//            isFocused.toggle()
-//          }
-        
-    #endif
-    }
-    .focused($isFocused)
-    .frame(height: Spacing.xLarge)
+      TextField(placeholderText, text: $searchText)
+            .pbFont(.body, color: .text(.default))
+            .textFieldStyle(.plain)
+            .frame(maxWidth: .infinity)
+            .frame(height: Spacing.xLarge)
   }
   
   @ViewBuilder
