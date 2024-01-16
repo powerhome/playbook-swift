@@ -135,15 +135,6 @@ lane :ship_macos_to_appcenter do |opts|
     app_name = "Playbook-Showcase"
   end
 
-  #compress file
-  zip_name = app_name.gsub(' ', '_')
-  sh "ditto -c -k --sequesterRsrc --keepParent '../#{app_name}.app' '../#{zip_name}.zip'"
-
-  ed_signature = nil
-  if opts[:type] == 'rc'
-    ed_signature = get_ed_signature(zip_path: "'../#{zip_name}.zip'")
-  end
-
   zip_file = zip(
     path: build_path,
     output_path: "#{target_macos(opts[:suffix])}.zip"
@@ -161,8 +152,7 @@ lane :ship_macos_to_appcenter do |opts|
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
     destination_type: "group",
-    upload_build_only: false,
-    ed_signature: ed_signature
+    upload_build_only: false
   )
 end
 
@@ -238,11 +228,4 @@ def keep_trying(ignore=[], interval=300, retry_counter=0, &block)
     end
   end
   nil
-end
-
-desc "Prepare for Sparkle"
-lane :get_ed_signature do |opts|
-  xml_str = sh "../Tools/sign_update '#{opts[:zip_path]}' -f sparkle_private_key"
-  match = xml_str.match /(?<=edSignature=")(.*)(?=" )/
-  match[1]
 end
