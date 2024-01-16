@@ -30,7 +30,7 @@ end
 
 def target_macos(suffix = nil)
   target = 'PlaybookShowcase-macOS'
-  suffix ? "#{target}-#{suffix}" : target
+  target
 end
 
 desc "Set up build. build_number:1"
