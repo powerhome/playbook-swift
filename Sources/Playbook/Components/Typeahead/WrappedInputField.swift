@@ -40,21 +40,21 @@ public struct WrappedInputField: View {
     self.clearAction = clearAction
     self.onItemTap = onItemTap
   }
-
+  
   public var body: some View {
     VStack(alignment: .leading) {
       HStack {
-       WrappingHStack(indices, spacing: .constant(0)) { index in
+        WrappingHStack(indices, spacing: .constant(0)) { index in
+          
           if indices.last == index {
-                textfieldWithCustomPlaceholder
-                  .padding(.leading, Spacing.small)
+            textfieldWithCustomPlaceholder
+  
           } else {
             gridView(index: index)
           }
         }
-        .focused($isFocused)
-      
-      dismissIconView
+        
+        dismissIconView
           .onTapGesture {
             clearAction?()
           }
@@ -97,11 +97,7 @@ private extension WrappedInputField {
   }
   
   var textColor: Color {
-    switch selection {
-    case .multiple(_): return searchText.isEmpty ? .text(.light) : .text(.default)
-    case .single(let element):
-      return element == nil ? .text(.light) : .text(.default)
-    }
+    return searchText.isEmpty ? .text(.light) : .text(.default)
   }
   
   @ViewBuilder
@@ -126,10 +122,14 @@ private extension WrappedInputField {
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
       TextField(placeholderText, text: $searchText)
-            .pbFont(.body, color: .text(.default))
+            .pbFont(.body, color: textColor)
             .textFieldStyle(.plain)
+            .padding(.leading, Spacing.small)
             .frame(maxWidth: .infinity)
             .frame(height: Spacing.xLarge)
+            .focused($isFocused)
+            .foregroundStyle(Color.text(.default))
+            
   }
   
   @ViewBuilder
@@ -178,7 +178,7 @@ public extension WrappedInputField {
       selection: .single(nil),
       isFocused: .constant(true)
     )
-    
+
     WrappedInputField(
       title: "title",
       searchText: .constant(""),
