@@ -74,49 +74,11 @@ public struct WrappedInputField: View {
 }
 
 private extension WrappedInputField {
-  var backgroundColor: Color {
-    isHovering ? .background(.light) : .card
-  }
-
-  var placeholderText: String {
-    switch selection {
-    case .multiple(let elements): return elements.isEmpty ? placeholder : ""
-    case .single(let element): return element ?? placeholder
-    }
-  }
-  
   var indices: Range<Int> {
     switch selection {
     case .multiple(let options): return  Range(0...options.count)
     case .single(_): return Range(0...1)
     }
-  }
-  
-  var borderColor: Color {
-    isFocused ? .pbPrimary : .border
-  }
-  
-  var textColor: Color {
-    return searchText.isEmpty ? .text(.light) : .text(.default)
-  }
-  
-  @ViewBuilder
-  var dismissIconView: some View {
-    switch selection {
-    case .multiple(let elements):
-      if !elements.isEmpty {
-        dismissIcon
-      }
-    case .single(let element):
-      if element != nil {
-        dismissIcon
-      }
-    }
-  }
-  
-  var dismissIcon: some View {
-    PBIcon.fontAwesome(.times)
-      .foregroundStyle(Color.text(.light))
   }
   
   @ViewBuilder
@@ -147,6 +109,44 @@ private extension WrappedInputField {
     case .single:
       EmptyView()
     }
+  }
+  
+  var placeholderText: String {
+    switch selection {
+    case .multiple(let elements): return elements.isEmpty ? placeholder : ""
+    case .single(let element): return element ?? placeholder
+    }
+  }
+  
+  var textColor: Color {
+    return searchText.isEmpty ? .text(.light) : .text(.default)
+  }
+  
+  var borderColor: Color {
+    isFocused ? .pbPrimary : .border
+  }
+  
+  @ViewBuilder
+  var dismissIconView: some View {
+    switch selection {
+    case .multiple(let elements):
+      if !elements.isEmpty {
+        dismissIcon
+      }
+    case .single(let element):
+      if element != nil {
+        dismissIcon
+      }
+    }
+  }
+  
+  var dismissIcon: some View {
+    PBIcon.fontAwesome(.times)
+      .foregroundStyle(Color.text(.light))
+  }
+  
+  var backgroundColor: Color {
+    isHovering ? .background(.light) : .card
   }
 }
 
