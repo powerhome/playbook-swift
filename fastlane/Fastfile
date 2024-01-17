@@ -79,14 +79,19 @@ lane :build_macos do |opts|
   )
 end
 
-desc "Install provisioning profiles"
-lane :install_prov_profiles do
+desc "Install provisioning profiles iOS"
+lane :install_prov_profiles_ios do
   sh 'rm -rf ./git_prov_profiles'
   sh 'cp -r ./../git_prov_profiles ./git_prov_profiles'
   Dir.glob("./git_prov_profiles/profiles/*.mobileprovision") do |item|
     install_provisioning_profile(path: item)
   end
+end
 
+desc "Install provisioning profiles macOS"
+lane :install_prov_profiles_macos do
+  sh 'rm -rf ./git_prov_profiles'
+  sh 'cp -r ./../git_prov_profiles ./git_prov_profiles'
   Dir.glob("./git_prov_profiles/profiles_macos/*.provisionprofile") do |item|
     install_provisioning_profile(path: item)
   end
