@@ -65,7 +65,8 @@ node(defaultNode) {
     stage(stg.provision) {
       clearProvisioningProfiles()
       downloadProvisioningProfiles()
-      fastlane('install_prov_profiles')
+      fastlane('install_prov_profiles_ios')
+      fastlane('install_prov_profiles_macos')
     }
 
     stage(stg.keychain) {
