@@ -20,7 +20,7 @@ public struct WrappedInputField: View {
   @Binding var searchText: String
   @State private var isHovering: Bool = false
   @FocusState private var isFocused
-
+  @Binding var isPresented: Bool
   init(
     title: String,
     placeholder: String = "Select",
@@ -29,7 +29,8 @@ public struct WrappedInputField: View {
     variant: Variant = .pill,
     isFocused: Binding<Bool>,
     clearAction: (() -> Void)? = nil,
-    onItemTap: ((String) -> Void)? = nil
+    onItemTap: ((String) -> Void)? = nil,
+    isPresented: Binding<Bool>
   ) {
     self.title = title
     self.placeholder = placeholder
@@ -39,6 +40,7 @@ public struct WrappedInputField: View {
     self._focus = isFocused
     self.clearAction = clearAction
     self.onItemTap = onItemTap
+    _isPresented = isPresented
   }
   
   public var body: some View {
@@ -47,13 +49,12 @@ public struct WrappedInputField: View {
         WrappingHStack(indices, spacing: .constant(0)) { index in
           
           if indices.last == index {
-            textfieldWithCustomPlaceholder
-  
+              textfieldWithCustomPlaceholder
           } else {
             gridView(index: index)
           }
         }
-        
+          
         dismissIconView
           .onTapGesture {
             clearAction?()
@@ -83,15 +84,50 @@ private extension WrappedInputField {
   
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
-      TextField(placeholderText, text: $searchText)
-            .pbFont(.body, color: textColor)
-            .textFieldStyle(.plain)
-            .padding(.leading, Spacing.small)
-            .frame(maxWidth: .infinity)
-            .frame(height: Spacing.xLarge)
-            .focused($isFocused)
-            .foregroundStyle(Color.text(.default))
-            
+#if os(macOS)
+    ZStack(alignment: .leading) {
+      
+      
+      if searchText.isEmpty {
+        Text(placeholderText)
+          .pbFont(.body, color: textColor)
+      }
+      TextField("", text: $searchText)
+        .pbFont(.body, color: textColor)
+        .textFieldStyle(.plain)
+        .focused($isFocused)
+      //          .frame( height: Spacing.xLarge)
+      //          .frame(maxWidth: .infinity)
+    }
+    
+    .frame(maxWidth: .infinity)
+    .frame(height: Spacing.xLarge)
+    .padding(.leading, Spacing.small)
+    .overlay(
+      
+      HStack {
+        Color.white.opacity(isPresented ? 0:0.01)
+        Spacer()
+      }).onTapGesture {
+        isPresented.toggle()
+      }
+#elseif os(iOS)
+    ZStack(alignment: .leading) {
+      if searchText.isEmpty {
+        Text(placeholderText)
+          .pbFont(.body, color: textColor)
+      }
+      TextField("", text: $searchText)
+        .pbFont(.body, color: textColor)
+        .textFieldStyle(.plain)
+        .focused($isFocused)
+        .frame( height: Spacing.xLarge)
+        .frame(maxWidth: .infinity)
+    }
+    .padding(.leading, Spacing.small)
+    .frame(maxWidth: .infinity)
+    .frame(height: Spacing.xLarge)
+    #endif
   }
   
   @ViewBuilder
@@ -176,14 +212,14 @@ public extension WrappedInputField {
       title: "title",
       searchText: .constant(""),
       selection: .single(nil),
-      isFocused: .constant(true)
+      isFocused: .constant(true), isPresented: .constant(true)
     )
 
     WrappedInputField(
       title: "title",
       searchText: .constant(""),
       selection: .multiple(["title1", "title2"]),
-      isFocused: .constant(false)
+      isFocused: .constant(false), isPresented: .constant(true)
     )
     
     WrappedInputField(
@@ -191,7 +227,7 @@ public extension WrappedInputField {
       searchText: .constant(""),
       selection: .multiple(["title1", "title2"]),
       variant: .other(AnyView(PBPill("oi", variant: .primary))),
-      isFocused: .constant(false)
+      isFocused: .constant(false), isPresented: .constant(true)
     )
     
     WrappedInputField(
@@ -199,7 +235,7 @@ public extension WrappedInputField {
       searchText: .constant(""),
       selection: .multiple(["title1", "title2"]),
       variant: .other(AnyView(PBBadge(text: "title", variant: .primary))),
-      isFocused: .constant(false)
+      isFocused: .constant(false), isPresented: .constant(true)
     )
   }
   .padding()

@@ -51,7 +51,7 @@ public struct PBTypeahead<Content: View>: View {
         variant: variant,
         isFocused: $isFocused,
         clearAction: { clearText },
-        onItemTap: { removeSelected($0) }
+        onItemTap: { removeSelected($0) }, isPresented: $isPresented
       )
       
       listView
@@ -71,7 +71,7 @@ private extension PBTypeahead {
   var searchResults: [(String, Content?)] {
 #if os(iOS)
     return options.filter {
-            $0.0.localizedCaseInsensitiveContains(searchText)
+      $0.0.localizedCaseInsensitiveContains(searchText)
           }
 #endif
 #if os(macOS)
