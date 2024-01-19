@@ -31,13 +31,13 @@ struct ReactionButtonModifier: ViewModifier {
       )
       .clipShape(Capsule())
       .onHover { hovering in
-#if os(macOS)
+      #if os(macOS)
         if hovering {
             NSCursor.pointingHand.push()
         } else {
             NSCursor.pointingHand.pop()
         }
-#endif
+      #endif
       }
   }
 }

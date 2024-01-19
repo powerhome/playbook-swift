@@ -66,7 +66,16 @@ public struct WrappedInputField: View {
           .stroke(borderColor, lineWidth: 1.0)
       }
     }
-    .onHover { isHovering = $0 }
+    .onHover { isHovering = $0
+      #if os(macOS)
+      if isFocused {
+          NSCursor.arrow.push()
+      }
+      else {
+          NSCursor.arrow.pop()
+      }
+      #endif
+    }
     .onChange(of: focus) {
       isFocused = $0
     }
@@ -98,13 +107,13 @@ private extension WrappedInputField {
     .padding(.leading, Spacing.small)
     .overlay(
       HStack {
-        Color.white.opacity(isPresented ? 0:0.01)
+        Color.white.opacity(isPresented ? 0 : 0.01)
         Spacer()
       } .contentShape(Rectangle())
     )
     .onTapGesture {
        isPresented.toggle()
-       isFocused.toggle()
+      isFocused = true
     }
     #elseif os(iOS)
     ZStack(alignment: .leading) {
