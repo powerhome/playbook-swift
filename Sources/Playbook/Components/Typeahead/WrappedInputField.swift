@@ -68,7 +68,7 @@ public struct WrappedInputField: View {
     }
     .onHover { isHovering = $0
       #if os(macOS)
-      if isFocused {
+      if isHovering {
           NSCursor.arrow.push()
       }
       else {
