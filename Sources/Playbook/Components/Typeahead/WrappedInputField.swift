@@ -47,7 +47,6 @@ public struct WrappedInputField: View {
     VStack(alignment: .leading) {
       HStack {
         WrappingHStack(indices, spacing: .constant(0)) { index in
-          
           if indices.last == index {
               textfieldWithCustomPlaceholder
           } else {
@@ -84,20 +83,16 @@ private extension WrappedInputField {
   
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
-#if os(macOS)
+    #if os(macOS)
     ZStack(alignment: .leading) {
-      
-      
       if searchText.isEmpty {
         Text(placeholderText)
-          .pbFont(.body, color: textColor)
       }
       TextField("", text: $searchText)
-        .pbFont(.body, color: textColor)
         .textFieldStyle(.plain)
         .focused($isFocused)
     }
-    
+    .pbFont(.body, color: textColor)
     .frame(maxWidth: .infinity)
     .frame(height: Spacing.xLarge)
     .padding(.leading, Spacing.small)
@@ -108,22 +103,21 @@ private extension WrappedInputField {
       } .contentShape(Rectangle())
     )
     .onTapGesture {
-        isPresented.toggle()
-      isFocused.toggle()
-      }
-#elseif os(iOS)
+       isPresented.toggle()
+       isFocused.toggle()
+    }
+    #elseif os(iOS)
     ZStack(alignment: .leading) {
       if searchText.isEmpty {
         Text(placeholderText)
-          .pbFont(.body, color: textColor)
       }
       TextField("", text: $searchText)
-        .pbFont(.body, color: textColor)
         .textFieldStyle(.plain)
         .focused($isFocused)
         .frame( height: Spacing.xLarge)
         .frame(maxWidth: .infinity)
     }
+    .pbFont(.body, color: textColor)
     .padding(.leading, Spacing.small)
     .frame(maxWidth: .infinity)
     .frame(height: Spacing.xLarge)
@@ -155,7 +149,11 @@ private extension WrappedInputField {
   }
   
   var textColor: Color {
-    return searchText.isEmpty ? .text(.light) : .text(.default)
+    switch selection {
+    case .multiple(_): return searchText.isEmpty ? .text(.light) : .text(.default)
+    case .single(let element):
+      return element == nil ? .text(.light) : .text(.default)
+    }
   }
   
   var borderColor: Color {
