@@ -96,20 +96,20 @@ private extension WrappedInputField {
         .pbFont(.body, color: textColor)
         .textFieldStyle(.plain)
         .focused($isFocused)
-      //          .frame( height: Spacing.xLarge)
-      //          .frame(maxWidth: .infinity)
     }
     
     .frame(maxWidth: .infinity)
     .frame(height: Spacing.xLarge)
     .padding(.leading, Spacing.small)
     .overlay(
-      
       HStack {
         Color.white.opacity(isPresented ? 0:0.01)
         Spacer()
-      }).onTapGesture {
+      } .contentShape(Rectangle())
+    )
+    .onTapGesture {
         isPresented.toggle()
+      isFocused.toggle()
       }
 #elseif os(iOS)
     ZStack(alignment: .leading) {
