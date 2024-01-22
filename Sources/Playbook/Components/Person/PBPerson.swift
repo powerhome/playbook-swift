@@ -1,8 +1,10 @@
 //
-//  Person.swift
-//  
+//  Playbook Swift Design System
 //
-//  Created by Stephen Marshall on 11/21/23.
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  PBPerson.swift
 //
 
 import SwiftUI

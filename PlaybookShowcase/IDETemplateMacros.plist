@@ -6,14 +6,7 @@
 	<string>Power Home Remodeling Group</string>
 	<key>PROJECTNAME</key>
 	<string>Playbook Swift Design System</string>
-	<key>FILEHEADER</key>
-	<string>
-//  ___PROJECTNAME___
-//
-//  Copyright © ___YEAR___ ___ORGANIZATIONNAME___
-//  This software is distributed under the ISC License
-//
-//  ___FILENAME___
-//</string>
+	<key>PACKAGENAME</key>
+	<string>PlaybookSwift</string>
 </dict>
 </plist>
