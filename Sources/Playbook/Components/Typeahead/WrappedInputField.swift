@@ -51,6 +51,7 @@ public struct WrappedInputField: View {
               textfieldWithCustomPlaceholder
           } else {
             gridView(index: index)
+              
           }
         }
           
@@ -109,11 +110,12 @@ private extension WrappedInputField {
       HStack {
         Color.white.opacity(isPresented ? 0 : 0.01)
         Spacer()
-      } .contentShape(Rectangle())
+      } 
+      .contentShape(Rectangle())
     )
     .onTapGesture {
        isPresented.toggle()
-      isFocused = true
+       isFocused = true
     }
     #elseif os(iOS)
     ZStack(alignment: .leading) {
