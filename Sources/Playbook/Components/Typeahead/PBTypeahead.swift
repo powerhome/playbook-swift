@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreGraphics
 
 public struct PBTypeahead<Content: View>: View {
   private let title: String
@@ -13,13 +14,6 @@ public struct PBTypeahead<Content: View>: View {
   private let variant: WrappedInputField.Variant
   private let clearAction: (() -> Void)?
   private let selection: Selection
-  private let keys: [CGKeyCode: String] = [
-    .kVK_Tab: "Tab",
-    .kVK_Space: "Space",
-    .kVK_DownArrow: "DownArrow",
-    .kVK_UpArrow: "UpArrow",
-    .kVK_Return: "Return"
-  ]
   @Binding var searchText: String
   @State private var options: [(String, Content?)] = []
   @State private var selectedOptions: [(String, Content?)] = []
@@ -164,23 +158,7 @@ private extension PBTypeahead {
               .onTapGesture {
                 onListSelection(selected: result)
               } .onAppear{
-                NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-                 
-                  if let keyMessage = keys[CGKeyCode(Int(event.keyCode))] {
-                    if keyMessage == "Tab" {
-                      isFocused = true
-                    }
-                    if keyMessage == "Space" || keyMessage == "Return" {
-                      onListSelection(selected: result)
-                    }
-//                    if keyMessage = "DownArrow" {
-//                      result -= 1
-//                    }
-//                    self.message = "You've hit the \(keyMessage) key"
-//                    print("Event: \(keyMessage)")
-                  }
-                 return event
-                }
+                selectOptionUsingKeys()
               }
             }
           }
@@ -201,6 +179,34 @@ public extension PBTypeahead {
       }
     }
   }
+  
+#if os(macOS)
+  func selectOptionUsingKeys() {
+    let keys: [CGKeyCode: String] = [
+    .kVK_Tab: "Tab",
+    .kVK_Space: "Space",
+    .kVK_DownArrow: "DownArrow",
+    .kVK_UpArrow: "UpArrow",
+    .kVK_Return: "Return"
+  ]
+    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+     
+      if let keyMessage = keys[CGKeyCode(Int(event.keyCode))] {
+        if keyMessage == "Tab" {
+          isFocused = true
+        }
+        if keyMessage == "Space" || keyMessage == "Return" {
+          onListSelection(selected: hoveringItem)
+        }
+        if keyMessage == "DownArrow" {
+          
+        }
+      }
+     return event
+    }
+
+  }
+#endif
 }
 
 #Preview {

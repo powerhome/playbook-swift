@@ -7,7 +7,7 @@
 
 import Foundation
 import CoreGraphics
-
+#if os(macOS)
 extension CGKeyCode
 {
   /*
@@ -179,3 +179,4 @@ extension CGKeyCode
     CGEventSource.keyState(.combinedSessionState, key: self)
   }
 }
+#endif
