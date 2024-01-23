@@ -31,6 +31,7 @@ function addBuildKeys {
   # other certs in /fastlane/certs/ are being added direct on each machine, in Keychain -> System
   security import "$ROOT_DIR/fastlane/git_prov_profiles/certificates/ios_distribution.p12" -k "$KEYCHAIN_NAME" -P "$KEY_PASSWORD" -T /usr/bin/codesign
   security import "$ROOT_DIR/fastlane/git_prov_profiles/certificates/mac_ui_test_dev.p12" -k "$KEYCHAIN_NAME" -P "" -T /usr/bin/codesign
+  security import "$ROOT_DIR/fastlane/git_prov_profiles/certificates/dev_id_application.p12" -k "$KEYCHAIN_NAME" -P "$KEY_PASSWORD" -T /usr/bin/codesign
   security set-key-partition-list -S apple-tool:,apple: -s -k "$BUILD_KEYCHAIN_PASSWORD" "$KEYCHAIN_NAME"
 }
 

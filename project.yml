@@ -23,6 +23,18 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 4.9.0
+  Playbook-iOS-beta:
+    type: application
+    platform: iOS
+    sources: [Shared]
+    dependencies:
+      - package: PlaybookSwift
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: false
+        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase-beta
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: 4.9.0
   Playbook-macOS:
     type: application
     platform: macOS
@@ -34,5 +46,18 @@ targets:
       base:
         GENERATE_INFOPLIST_FILE: false
         PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: 4.9.0
+  Playbook-macOS-beta:
+    type: application
+    platform: macOS
+    sources: [Shared, macOS]
+    scheme: {}
+    dependencies:
+      - package: PlaybookSwift
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: false
+        PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase-beta
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 4.9.0

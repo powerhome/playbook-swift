@@ -27,7 +27,8 @@ secrets = [
 ]
 
 stg = [
-  build: 'Build iOS',
+  buildiOS: 'Build iOS',
+  buildmacOS: 'Build macOS',
   buildNum: 'Update Build Number',
   checkout: 'Checkout Repo',
   cleanup: 'Cleanup',
@@ -36,7 +37,8 @@ stg = [
   provision: 'Provisioning Profiles',
   runway: 'Create Runway Comment',
   setup: 'Setup',
-  upload: 'Upload to AppCenter'
+  uploadiOS: 'Upload iOS to AppCenter',
+  uploadmacOS: 'Upload macOS to AppCenter'
 ]
 
 node(defaultNode) {
@@ -44,15 +46,18 @@ node(defaultNode) {
     stage(stg.buildNum) {
       getBuildNum()
     }
+
     stage(stg.checkout) {
       checkout scm
     }
+
     stage(stg.setup) {
       updateBuildNum()
       jenkinsSetup()
       getRunwayBacklogItemId()
       getReleaseNotes()
     }
+
     stage(stg.deps) {
       sh 'make dependencies'
     }
@@ -60,19 +65,28 @@ node(defaultNode) {
     stage(stg.provision) {
       clearProvisioningProfiles()
       downloadProvisioningProfiles()
-      fastlane('install_prov_profiles')
+      fastlane('install_prov_profiles_ios')
+      fastlane('install_prov_profiles_macos')
     }
 
     stage(stg.keychain) {
       setupKeychain()
     }
 
-    stage(stg.build) {
+    stage(stg.buildiOS) {
       fastlane("build_ios suffix:${buildSuffix()}")
     }
 
-    stage(stg.upload) {
-      uploadToAppCenter()
+     stage(stg.buildmacOS) {
+      fastlane("build_macos suffix:${buildSuffix()}")
+    }
+
+    stage(stg.uploadiOS) {
+      uploadiOSToAppCenter()
+    }
+
+     stage(stg.uploadmacOS) {
+      uploadmacOSToAppCenter()
     }
 
     stage(stg.runway) {
@@ -209,11 +223,18 @@ def readyForTesting() {
   return labels.find{it.name == "Ready for Testing"}
 }
 
-def uploadToAppCenter() {
+def uploadiOSToAppCenter() {
   if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
   fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+}
+
+def uploadmacOSToAppCenter() {
+  if (isDevBuild() && !readyForTesting()) return
+
+  def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
+  fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
 }
 
 def prTitleValid() {
