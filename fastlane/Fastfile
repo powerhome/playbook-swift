@@ -24,8 +24,7 @@ appcenter_token = "bf0ae509c985f2a1102c2ad53894b35a5fa5383e"
 
 def target_ios(suffix = nil)
   target = 'PlaybookShowcase-iOS'
-  # suffix ? "#{target}-#{suffix}" : target
-  target
+  suffix ? "#{target}-#{suffix}" : target
 end
 
 desc "Set up build. build_number:1"
