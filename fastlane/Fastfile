@@ -25,8 +25,7 @@ project = './PlaybookShowcase/PlaybookShowcase.xcodeproj'
 
 def target_ios(suffix = nil)
   target = 'PlaybookShowcase-iOS'
-  # suffix ? "#{target}-#{suffix}" : target
-  target
+  suffix ? "#{target}-#{suffix}" : target
 end
 
 def target_macos(suffix = nil)
