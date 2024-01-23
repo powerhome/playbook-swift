@@ -17,7 +17,7 @@ public enum DesignElements: String, CaseIterable {
   public var destination: some View {
     switch self {
     case .borderRadius: BorderRadiusCatalog()
-    case .color: ColorsCatalog()
+    case .color: ColorCatalog()
     case .iconography: Iconography()
     case .spacing: SpacingCatalog()
     case .shadows: PBShadow_Previews.previews

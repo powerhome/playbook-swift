@@ -4,12 +4,12 @@
 //  Copyright © 2024 Power Home Remodeling Group
 //  This software is distributed under the ISC License
 //
-//  ColorsCatalog.swift
+//  ColorCatalog.swift
 //
 
 import SwiftUI
 
-public struct ColorsCatalog: View {
+public struct ColorCatalog: View {
   public var body: some View {
     let shape = Circle().frame(width: 60).pbShadow(.deep)
     let grid = [GridItem(.adaptive(minimum: 80), spacing: 16)]
@@ -92,6 +92,6 @@ public struct ColorsCatalog: View {
 
 struct ColorsCatalog_Previews: PreviewProvider {
   static var previews: some View {
-    ColorsCatalog()
+    ColorCatalog()
   }
 }
