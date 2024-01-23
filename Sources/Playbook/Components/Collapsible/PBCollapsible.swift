@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PBCollapsible.swift
-//
-//
-//  Created by Lucas C. Feijo on 10/08/21.
 //
 
 import SwiftUI

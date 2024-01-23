@@ -1,11 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  BackgroundView.swift
-//
-//
-//  Created by Alexandre Hauber on 05/08/21.
-//
-//  View that enables .sheet. and .fullScreenCover to have transparent background (iOS)
-//  Src: https://stackoverflow.com/a/66925883/2496187
 //
 
 import SwiftUI

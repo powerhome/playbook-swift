@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PBTextArea.swift
-//
-//
-//  Created by Everton Cunha on 04/03/22.
 //
 
 import SwiftUI

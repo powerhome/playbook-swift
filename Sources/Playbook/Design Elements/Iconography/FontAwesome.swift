@@ -1,9 +1,12 @@
 //
-//  FontAwesome.swift
-//  Connect
+//  Playbook Swift Design System
 //
-//  Created by Lucas Feijo
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
 //
+//  PBIcon.swift
+//
+
 import SwiftUI
 
 public extension PBIcon {
