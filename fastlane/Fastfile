@@ -194,7 +194,7 @@ lane :create_runway_comment do |opts|
   version_info = appcenter_fetch_version_number(
     api_token: appcenter_token,
     owner_name: "powerhome",
-    app_name: app_name
+    app_name: ios_app_name
   )
 
   comment = <<~HEREDOC
