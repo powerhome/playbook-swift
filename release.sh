@@ -84,6 +84,8 @@ function updateMarketingVersion {
   # It should update the MARKETING_VERSION in the project.
   yq -i ".targets.Playbook-iOS.settings.base.MARKETING_VERSION = \"$newVersion\"" project.yml
   yq -i ".targets.Playbook-macOS.settings.base.MARKETING_VERSION = \"$newVersion\"" project.yml
+  yq -i ".targets.Playbook-iOS-beta.settings.base.MARKETING_VERSION = \"$newVersion\"" project.yml
+  yq -i ".targets.Playbook-macOS-beta.settings.base.MARKETING_VERSION = \"$newVersion\"" project.yml
   sed -i '' -e "s/MARKETING_VERSION = .*;/MARKETING_VERSION = $newVersion;/" ./PlaybookShowcase/PlaybookShowcase.xcodeproj/project.pbxproj
 }
 

@@ -13,11 +13,7 @@
 		F905151B29F03B0700F9B66D /* PlaybookShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */; };
 		F905151F29F03B0700F9B66D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F905152229F03B0700F9B66D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
-		F905157229F03B7600F9B66D /* Playbook in Frameworks */ = {isa = PBXBuildFile; productRef = F905157129F03B7600F9B66D /* Playbook */; };
-		F91C08752B607CCA008086D0 /* PlaybookShowcase_iOS_betaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C08742B607CCA008086D0 /* PlaybookShowcase_iOS_betaApp.swift */; };
-		F91C08772B607CCA008086D0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C08762B607CCA008086D0 /* ContentView.swift */; };
-		F91C08792B607CCB008086D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F91C08782B607CCB008086D0 /* Assets.xcassets */; };
-		F91C087C2B607CCB008086D0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F91C087B2B607CCB008086D0 /* Preview Assets.xcassets */; };
+		F905157229F03B7600F9B66D /* Playbook in Frameworks */ = {isa = PBXBuildFile; productRef = F905157129F03B7600F9B66D /* Playbook */; settings = {ATTRIBUTES = (Required, ); }; };
 		F943570829F070960051C650 /* PlaybookShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */; };
 		F943570929F070E90051C650 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F943570A29F070F10051C650 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
@@ -34,7 +30,6 @@
 		F905152129F03B0700F9B66D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaybookShowcase-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F905155129F03B3C00F9B66D /* PlaybookShowcase_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlaybookShowcase_macOS.entitlements; sourceTree = "<group>"; };
-		F91C08722B607CCA008086D0 /* PlaybookShowcase-iOS-beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaybookShowcase-iOS-beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F91C08742B607CCA008086D0 /* PlaybookShowcase_iOS_betaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcase_iOS_betaApp.swift; sourceTree = "<group>"; };
 		F91C08762B607CCA008086D0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F91C08782B607CCB008086D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,13 +52,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F99BAA1E2A17F79000006C1C /* Playbook in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F91C086F2B607CCA008086D0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +123,6 @@
 			children = (
 				F905151829F03B0700F9B66D /* PlaybookShowcase-iOS.app */,
 				F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */,
-				F91C08722B607CCA008086D0 /* PlaybookShowcase-iOS-beta.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -200,23 +187,6 @@
 			productReference = F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F91C08712B607CCA008086D0 /* PlaybookShowcase-iOS-beta */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F91C087D2B607CCB008086D0 /* Build configuration list for PBXNativeTarget "PlaybookShowcase-iOS-beta" */;
-			buildPhases = (
-				F91C086E2B607CCA008086D0 /* Sources */,
-				F91C086F2B607CCA008086D0 /* Frameworks */,
-				F91C08702B607CCA008086D0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "PlaybookShowcase-iOS-beta";
-			productName = "PlaybookShowcase-iOS-beta";
-			productReference = F91C08722B607CCA008086D0 /* PlaybookShowcase-iOS-beta.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -232,9 +202,6 @@
 					};
 					F905154529F03B3C00F9B66D = {
 						CreatedOnToolsVersion = 14.3;
-					};
-					F91C08712B607CCA008086D0 = {
-						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -255,7 +222,6 @@
 			targets = (
 				F905151729F03B0700F9B66D /* PlaybookShowcase-iOS */,
 				F905154529F03B3C00F9B66D /* PlaybookShowcase-macOS */,
-				F91C08712B607CCA008086D0 /* PlaybookShowcase-iOS-beta */,
 			);
 		};
 /* End PBXProject section */
@@ -278,15 +244,6 @@
 				8F6D944F2AE98ED800AF0D15 /* Versioning.xcconfig in Resources */,
 				F943570A29F070F10051C650 /* Preview Assets.xcassets in Resources */,
 				F943570929F070E90051C650 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F91C08702B607CCA008086D0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F91C087C2B607CCB008086D0 /* Preview Assets.xcassets in Resources */,
-				F91C08792B607CCB008086D0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,15 +286,6 @@
 			files = (
 				F9E5A68A2AA7D02C00830A0C /* ContentListView.swift in Sources */,
 				F943570829F070960051C650 /* PlaybookShowcaseApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F91C086E2B607CCA008086D0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F91C08772B607CCA008086D0 /* ContentView.swift in Sources */,
-				F91C08752B607CCA008086D0 /* PlaybookShowcase_iOS_betaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,78 +446,6 @@
 			};
 			name = Release;
 		};
-		F91C087E2B607CCB008086D0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase-iOS-beta/Preview Content\"";
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-iOS-beta";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		F91C087F2B607CCB008086D0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase-iOS-beta/Preview Content\"";
-				DEVELOPMENT_TEAM = EG5Q7XM634;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.powerhrg.PlaybookShowcase-iOS-beta";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		F9370FF529EDCC0200FFD0DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -698,15 +574,6 @@
 			buildConfigurations = (
 				F905156929F03B3D00F9B66D /* Debug */,
 				F905156A29F03B3D00F9B66D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F91C087D2B607CCB008086D0 /* Build configuration list for PBXNativeTarget "PlaybookShowcase-iOS-beta" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F91C087E2B607CCB008086D0 /* Debug */,
-				F91C087F2B607CCB008086D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
