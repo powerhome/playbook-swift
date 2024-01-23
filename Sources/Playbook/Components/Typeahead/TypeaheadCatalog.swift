@@ -1,8 +1,10 @@
 //
-//  TypeaheadCatalog.swift
-//  
+//  Playbook Swift Design System
 //
-//  Created by Isis Silva on 23/08/23.
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  TypeaheadCatalog.swift
 //
 
 import SwiftUI

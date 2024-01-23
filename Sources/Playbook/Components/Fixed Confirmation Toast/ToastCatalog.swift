@@ -1,3 +1,12 @@
+//
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  ToastCatalog.swift
+//
+
 import SwiftUI
 
 @available(iOS 16.0, *)

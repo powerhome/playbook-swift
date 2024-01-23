@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  BadgeCatalog.swift
-//
-//
-//  Created by Israel Molestina on 5/18/23.
 //
 
 import SwiftUI

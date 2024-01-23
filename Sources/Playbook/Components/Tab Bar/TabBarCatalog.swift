@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  TabBarCatalog.swift
-//
-//
-//  Created by Rachel Radford on 12/20/23.
 //
 
 import SwiftUI

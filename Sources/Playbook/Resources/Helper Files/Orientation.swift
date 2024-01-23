@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  Orientation.swift
-//
-//
-//  Created by Alexandre Hauber on 16/07/21.
 //
 
 public enum Orientation {

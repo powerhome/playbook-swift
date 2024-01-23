@@ -1,8 +1,10 @@
 //
-//  Custom+EnvironmentValues.swift
-//  
+//  Playbook Swift Design System
 //
-//  Created by Isis Silva on 14/07/23.
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  Custom+EnvironmentValues.swift
 //
 
 import SwiftUI
