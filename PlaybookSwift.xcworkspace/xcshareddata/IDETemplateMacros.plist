@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PROJECTNAME</key>
+	<string>Playbook Swift Design System</string>
+	<key>ORGANIZATIONNAME</key>
+	<string>Power Home Remodeling Group</string>
+	<key>FILEHEADER</key>
+	<string>
+//  ___PROJECTNAME___
+//
+//  Copyright © ___YEAR___ ___ORGANIZATIONNAME___
+//  This software is distributed under the ISC License
+//
+//  ___FILENAME___
+//</string>
+</dict>
+</plist>
