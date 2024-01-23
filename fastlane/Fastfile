@@ -138,10 +138,10 @@ end
 desc "Ship macOS to App Center"
 lane :ship_macos_to_appcenter do |opts|
 
-  app_name = "Playbook-Swift-Mac-Beta"
-  if opts[:type] == 'production'
+  # app_name = "Playbook-Swift-Mac-Beta"
+  # if opts[:type] == 'production'
     app_name = "Playbook-Swift-Mac"
-  end
+  # end
 
   zip_file = zip(
     path: build_path,
