@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1430"
-   version = "2.2">
+   LastUpgradeVersion = "1500"
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -15,19 +15,10 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F905151729F03B0700F9B66D"
-               BuildableName = "PlaybookShowcase-iOS.app"
-               BlueprintName = "PlaybookShowcase-iOS"
+               BuildableName = "PlaybookShowcase-iOS.app-beta"
+               BlueprintName = "PlaybookShowcase-iOS-beta"
                ReferencedContainer = "container:PlaybookShowcase.xcodeproj">
             </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <AutocreatedTestPlanReference>
-            </AutocreatedTestPlanReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
@@ -37,30 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F905152629F03B0700F9B66D"
-               BuildableName = "PlaybookShowcase-iOSTests.xctest"
-               BlueprintName = "PlaybookShowcase-iOSTests"
-               ReferencedContainer = "container:PlaybookShowcase.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F905153029F03B0800F9B66D"
-               BuildableName = "PlaybookShowcase-iOSUITests.xctest"
-               BlueprintName = "PlaybookShowcase-iOSUITests"
-               ReferencedContainer = "container:PlaybookShowcase.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -94,8 +61,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F905151729F03B0700F9B66D"
-            BuildableName = "PlaybookShowcase-iOS.app"
-            BlueprintName = "PlaybookShowcase-iOS"
+            BuildableName = "PlaybookShowcase-iOS-beta.app"
+            BlueprintName = "PlaybookShowcase-iOS-beta"
             ReferencedContainer = "container:PlaybookShowcase.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
