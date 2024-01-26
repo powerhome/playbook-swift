@@ -157,7 +157,7 @@ public extension View {
   func pbPopover<T: View>(
     isPresented: Binding<Bool>,
     _ view: Binding<AnyView?>,
-    position: PopoverView<T>.Position = .bottom,
+    position: PopoverView<T>.Position = .bottom(),
     clickToClose: PopoverView<T>.Close = .anywhere,
     cardPadding: CGFloat = Spacing.small,
     backgroundOpacity: Double = 0.001,
@@ -183,7 +183,7 @@ public extension PopoverView {
   }
 
   enum Position {
-    case top, bottom, left, right, center
+    case top(CGFloat = 0), bottom(CGFloat = 0), left, right, center(CGFloat = 0)
 
     func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
       let labelHeight = labelFrame.height
@@ -192,14 +192,14 @@ public extension PopoverView {
       let popWidth = popoverFrame.width
 
       switch self {
-      case .top:
+      case .top(let offset):
         return CGPoint(
-          x: offsetX(popoverFrame),
+          x: offsetX(popoverFrame) + offset,
           y: -(labelHeight/2 + popHeight/2) - Spacing.xSmall
         )
-      case .bottom:
+      case .bottom(let offset):
         return CGPoint(
-          x: offsetX(popoverFrame),
+          x: offsetX(popoverFrame) + offset,
           y: (labelHeight + popHeight)/2 + Spacing.xSmall
         )
       case .right:
@@ -214,9 +214,9 @@ public extension PopoverView {
           x: offsetX(popoverFrame, offset: offset),
           y: 0
         )
-      case .center:
+      case .center(let offset):
         return CGPoint(
-          x: offsetX(popoverFrame),
+          x: offsetX(popoverFrame) + offset,
           y: 0
         )
       }
