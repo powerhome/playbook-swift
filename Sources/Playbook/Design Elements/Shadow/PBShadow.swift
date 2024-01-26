@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PBShadow.swift
-//
-//
-//  Created by Isis Silva on 09/02/23.
 //
 
 import SwiftUI
@@ -23,7 +25,7 @@ extension View {
 
 public enum Shadow: String, CaseIterable {
   case deep, deeper, deepest, none
-
+  
   var color: Color {
     switch self {
     case .deep: return .shadow.opacity(0.74)
@@ -31,7 +33,7 @@ public enum Shadow: String, CaseIterable {
     default: return .shadow
     }
   }
-
+  
   var radius: CGFloat {
     switch self {
     case .deep: return 4

@@ -1,9 +1,12 @@
 //
-//  FontAwesome.swift
-//  Connect
+//  Playbook Swift Design System
 //
-//  Created by Lucas Feijo
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
 //
+//  PBIcon.swift
+//
+
 import SwiftUI
 
 public extension PBIcon {
@@ -396,7 +399,6 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
   case delicious = "fa-delicious"
   case democrat = "fa-democrat"
   case deploydog = "fa-deploydog"
-  case deskpro = "fa-deskpro"
   case desktop = "fa-desktop"
   case dev = "fa-dev"
   case deviantart = "fa-deviantart"
@@ -591,6 +593,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
   case gg = "fa-gg"
   case ggCircle = "fa-gg-circle"
   case ghost = "fa-ghost"
+  case gif = "fa-gif"
   case gift = "fa-gift"
   case gifts = "fa-gifts"
   case git = "fa-git"
@@ -881,6 +884,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
   case mendeley = "fa-mendeley"
   case menorah = "fa-menorah"
   case mercury = "fa-mercury"
+  case messages = "fa-messages"
   case meteor = "fa-meteor"
   case microblog = "fa-microblog"
   case microchip = "fa-microchip"
@@ -1860,7 +1864,6 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .delicious: return "\u{f1a5}"
     case .democrat: return "\u{f747}"
     case .deploydog: return "\u{f38e}"
-    case .deskpro: return "\u{f38f}"
     case .desktop: return "\u{f108}"
     case .dev: return "\u{f6cc}"
     case .deviantart: return "\u{f1bd}"
@@ -2055,6 +2058,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .gg: return "\u{f260}"
     case .ggCircle: return "\u{f261}"
     case .ghost: return "\u{f6e2}"
+    case .gif: return "\u{e190}"
     case .gift: return "\u{f06b}"
     case .gifts: return "\u{f79c}"
     case .git: return "\u{f1d3}"
@@ -2345,6 +2349,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
     case .mendeley: return "\u{f7b3}"
     case .menorah: return "\u{f676}"
     case .mercury: return "\u{f223}"
+    case .messages: return "\u{f4b6}"
     case .meteor: return "\u{f753}"
     case .microblog: return "\u{e01a}"
     case .microchip: return "\u{f2db}"
@@ -3081,7 +3086,6 @@ public enum FontAwesomeBrands: String, PlaybookGenericIcon {
   case deezer = "fa-deezer"
   case delicious = "fa-delicious"
   case deploydog = "fa-deploydog"
-  case deskpro = "fa-deskpro"
   case dev = "fa-dev"
   case deviantart = "fa-deviantart"
   case dhl = "fa-dhl"
@@ -3547,7 +3551,6 @@ public enum FontAwesomeBrands: String, PlaybookGenericIcon {
     case .deezer: return "\u{e077}"
     case .delicious: return "\u{f1a5}"
     case .deploydog: return "\u{f38e}"
-    case .deskpro: return "\u{f38f}"
     case .dev: return "\u{f6cc}"
     case .deviantart: return "\u{f1bd}"
     case .dhl: return "\u{f790}"

@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  Components.swift
-//
-//
-//  Created by Isis Silva on 16/05/23.
 //
 
 import SwiftUI
@@ -38,9 +40,11 @@ public enum Components: String, CaseIterable {
   case radio
   case sectionSeparator = "Section Separator"
   case select
+  case tabBar = "Tab Bar"
   case textArea = "Textarea"
   case textInput = "Text Input"
   case timeStamp = "TimeStamp"
+  case typeahead
   case tooltip = "Tooltip"
   case toggle
   case user
@@ -79,10 +83,12 @@ public enum Components: String, CaseIterable {
     case .radio: RadioCatalog()
     case .sectionSeparator: PBSectionSeparator_Previews.previews
     case .select: PBSelect_Previews.previews
+    case .tabBar: TabBarCatalog()
     case .textArea: TextAreaCatalog()
     case .textInput: PBTextInput_Previews.previews
     case .tooltip: TooltipCatalog()
     case .timeStamp: TimeStampCatalog()
+    case .typeahead: TypeaheadCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
     }

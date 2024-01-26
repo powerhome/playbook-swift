@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  NavCatalog.swift
-//
-//
-//  Created by Isis Silva on 12/07/23.
 //
 
 import SwiftUI
@@ -27,6 +29,7 @@ struct NavCatalog: View {
   @State private var selectedHBold: Int = 1
   @State private var selectedCustom: Int = 1
   @State private var navContent: NavContent = .vertical
+  
   var body: some View {
     VStack {
       Picker("Select", selection: $navContent) {
@@ -68,7 +71,7 @@ struct NavCatalog: View {
         title: "Browse"
       ) {
         PBNavItem("News Feed", icon: .pbIcon(.fontAwesome(.newspaper)), accessory: .chevronDown)
-        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.snapchatSquare)))
+        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.messages)))
         PBNavItem("Events", icon: .pbIcon(.fontAwesome(.calendarCheck)))
         PBNavItem("Friends", icon: .pbIcon(.fontAwesome(.peopleCarry)))
         PBNavItem("Groups", icon: .pbIcon(.fontAwesome(.campground)))
@@ -88,7 +91,7 @@ struct NavCatalog: View {
         )
         PBNavItem(
           "Messages",
-          icon: .image(PBImage(image: Image("andrew", bundle: .module)))
+          icon: .custom(AnyView(Image(systemName: "bubble.left.and.bubble.right")))
         )
         PBNavItem(
           "Events",
@@ -154,7 +157,7 @@ struct NavCatalog: View {
         orientation: .vertical
       ) {
         PBNavItem("News Feed", icon: .pbIcon(.fontAwesome(.newspaper)))
-        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.snapchatSquare)))
+        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.messages)))
         PBNavItem("Events", icon: .pbIcon(.fontAwesome(.calendarCheck)))
         PBNavItem("Friends", icon: .pbIcon(.fontAwesome(.peopleCarry)))
         PBNavItem("Groups", icon: .pbIcon(.fontAwesome(.campground)))

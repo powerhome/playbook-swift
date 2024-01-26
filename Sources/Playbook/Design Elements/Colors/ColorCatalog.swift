@@ -1,13 +1,15 @@
 //
-//  ColorsCatalog.swift
+//  Playbook Swift Design System
 //
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
 //
-//  Created by Isis Silva on 4/18/23.
+//  ColorCatalog.swift
 //
 
 import SwiftUI
 
-public struct ColorsCatalog: View {
+public struct ColorCatalog: View {
   public var body: some View {
     let shape = Circle().frame(width: 60).pbShadow(.deep)
     let grid = [GridItem(.adaptive(minimum: 80), spacing: 16)]
@@ -90,6 +92,6 @@ public struct ColorsCatalog: View {
 
 struct ColorsCatalog_Previews: PreviewProvider {
   static var previews: some View {
-    ColorsCatalog()
+    ColorCatalog()
   }
 }

@@ -1,8 +1,10 @@
 //
-//  ContentListView.swift
-//  PlaybookShowcase-iOS
+//  Playbook Swift Design System
 //
-//  Created by Isis Silva on 4/19/23.
+//  Copyright © 2022 - 2023 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  ContentListView.swift
 //
 
 import SwiftUI
@@ -68,8 +70,6 @@ struct ContentListView: View {
         PBNavItem(DesignElements.title)
         PBNavItem(Components.title)
       }
-      .offset(x: 20, y: -8)
-      .padding(.horizontal, Spacing.xLarge)
       .frame(maxWidth: .infinity, minHeight: 80)
       .background(Color.white)
     }

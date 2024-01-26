@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PBNav.swift
-//
-//
-//  Created by Lucas C. Feijo on 26/07/21.
 //
 
 import SwiftUI
@@ -91,13 +93,11 @@ public extension PBNav {
 
   @ViewBuilder
   var horizontalBody: some View {
-    ScrollView(.horizontal, showsIndicators: false) {
-      HStack(spacing: variant.spacing) {
-        ForEach(views.indices, id: \.self) { index in
-          item(views[index], index)
-            .scaledToFill()
-            .contentShape(Rectangle())
-        }
+    HStack(spacing: variant.spacing) {
+      ForEach(views.indices, id: \.self) { index in
+        item(views[index], index)
+          .scaledToFill()
+          .contentShape(Rectangle())
       }
     }
   }

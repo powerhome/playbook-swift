@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  MultipleUsersStackedCatalog.swift
-//
-//
-//  Created by Isis Silva on 26/05/23.
 //
 
 import SwiftUI
@@ -13,25 +15,25 @@ public struct MultipleUsersStackedCatalog: View {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Small") {
           HStack(spacing: Spacing.xSmall) {
-            PBMultipleUsersStacked(users: oneUser)
-            PBMultipleUsersStacked(users: twoUsers)
-            PBMultipleUsersStacked(users: multipleUsers)
+            PBMultipleUsersStacked(users: Mocks.oneUser)
+            PBMultipleUsersStacked(users: Mocks.twoUsers)
+            PBMultipleUsersStacked(users: Mocks.multipleUsers)
           }
         }
 
         PBDoc(title: "xSmall") {
           HStack(spacing: Spacing.xSmall) {
-            PBMultipleUsersStacked(users: oneUser, size: .xSmall)
-            PBMultipleUsersStacked(users: twoUsers, size: .xSmall)
-            PBMultipleUsersStacked(users: multipleUsers, size: .xSmall)
+            PBMultipleUsersStacked(users: Mocks.oneUser, size: .xSmall)
+            PBMultipleUsersStacked(users: Mocks.twoUsers, size: .xSmall)
+            PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .xSmall)
           }
         }
 
         PBDoc(title: "Default") {
           HStack(spacing: Spacing.xSmall) {
-            PBMultipleUsersStacked(users: oneUser, size: .default)
-            PBMultipleUsersStacked(users: twoUsers, size: .default)
-            PBMultipleUsersStacked(users: multipleUsers, size: .default)
+            PBMultipleUsersStacked(users: Mocks.oneUser, size: .default)
+            PBMultipleUsersStacked(users: Mocks.twoUsers, size: .default)
+            PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .default)
           }
         }
       }

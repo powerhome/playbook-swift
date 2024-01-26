@@ -1,15 +1,17 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  DialogCatalog.swift
-//
-//
-//  Created by Isis Silva on 16/05/23.
 //
 
 import SwiftUI
 
 #if os(iOS)
   public struct DialogCatalog: View {
-    static let infoMessage = "This is a message for informational purposes only and requires no action."
+    static let infoMessage = "This is a message for informational purposes only."
 
     static func disableAnimation() {
       UIView.setAnimationsEnabled(false)
@@ -57,36 +59,36 @@ import SwiftUI
     struct ComplexButton: View {
       @State private var presentDialog: Bool = false
       @State private var message = ""
-
+     
       func closeToast() {
         presentDialog = false
       }
 
+      
       var body: some View {
         PBButton(title: "Complex") {
           disableAnimation()
           presentDialog.toggle()
         }
         .fullScreenCover(isPresented: $presentDialog) {
-          PBDialog(
-            title: "Send us your thoughts!",
-            cancelButton: ("Cancel", closeToast),
-            confirmButton: ("Submit", closeToast),
-            content: ({
-              ScrollView {
-                Text("Hello Complex Dialog!\nAnything can be placed here")
-                  .pbFont(.title2)
-                  .multilineTextAlignment(.leading)
+          VStack{
+            PBDialog(
+              title: "Send us your thoughts!",
+              cancelButton: ("Cancel", closeToast),
+              confirmButton: ("Submit", closeToast),
+              content: ({
+                ScrollView {
+                  complexTitle
 
-                PBTextInput("text", text: .constant("Some text"))
-                  .padding()
-              }
-            }))
+                  complexLabel
+                }
+              }))
             .backgroundViewModifier(alpha: 0.2)
+          }
         }
       }
     }
-
+    
     struct DialogButtonSize: View {
       let title: String
       let size: DialogSize
@@ -134,23 +136,25 @@ import SwiftUI
     struct StackedButton: View {
       @State private var presentDialog1: Bool = false
       @State private var presentDialog2: Bool = false
+      @State private var presentDialog3: Bool = false
 
       func closeToast() {
         presentDialog1 = false
         presentDialog2 = false
+        presentDialog3 = false
       }
 
       var body: some View {
         VStack(alignment: .leading, spacing: Spacing.small) {
-          PBButton(title: "Stacked") {
+          PBButton(title: "Default Status") {
             disableAnimation()
             presentDialog1.toggle()
           }
           .fullScreenCover(isPresented: $presentDialog1) {
             PBDialog(
-              title: "Success!",
+              title: "Are you sure?",
               message: infoMessage,
-              variant: .status(.success),
+              variant: .status(.default),
               isStacked: true,
               cancelButton: ("Cancel", closeToast),
               confirmButton: ("Okay", closeToast),
@@ -159,16 +163,34 @@ import SwiftUI
             .backgroundViewModifier(alpha: 0.2)
           }
 
-          PBButton(title: "Stacked Simple") {
+          PBButton(title: "Caution Status") {
             disableAnimation()
             presentDialog2.toggle()
           }
           .fullScreenCover(isPresented: $presentDialog2) {
             PBDialog(
-              title: "Error!",
+              title: "Are you sure?",
               message: infoMessage,
-              variant: .status(.error),
+              variant: .status(.caution),
               isStacked: true,
+              cancelButton: ("Cancel", closeToast),
+              confirmButton: ("Okay", closeToast),
+              size: .small
+            )
+            .backgroundViewModifier(alpha: 0.2)
+          }
+          
+          PBButton(title: "Delete Status") {
+            disableAnimation()
+            presentDialog3.toggle()
+          }
+          .fullScreenCover(isPresented: $presentDialog3) {
+            PBDialog(
+              title: "Delete?",
+              message: infoMessage,
+              variant: .status(.delete),
+              isStacked: true,
+              cancelButton: ("Cancel", closeToast),
               confirmButton: ("Okay", closeToast),
               size: .small
             )
@@ -208,6 +230,21 @@ import SwiftUI
       }
     }
   }
+
+extension DialogCatalog.ComplexButton {
+  var complexTitle: some View {
+    return Text("Complex Dialog!")
+      .pbFont(.title3)
+      .multilineTextAlignment(.leading)
+      .padding(.top, 25)
+  }
+  var complexLabel: some View {
+    return VStack(alignment: .leading, spacing: 5) {
+      PBTextInput("Description", text: $message, placeholder: "Let us know how we can improve...")
+    }
+    .padding(.all)
+  }
+}
 #elseif os(macOS)
   public struct DialogCatalog: View {
     @State private var presentSmallDialog: Bool = false

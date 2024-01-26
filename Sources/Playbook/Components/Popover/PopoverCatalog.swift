@@ -1,20 +1,27 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PopoverCatalog.swift
-//
-//
-//  Created by Carlos Lima on 8/21/23.
 //
 
 import SwiftUI
 
 public struct PopoverCatalog: View {
-  @State var viewFrame1: CGRect = .zero
-  @State var viewFrame2: CGRect = .zero
-  @State var viewFrame3: CGRect = .zero
-  @State var viewFrame4: CGRect = .zero
-  @State var viewFrame5: CGRect = .zero
-  @State var viewFrame6: CGRect = .zero
-  @State var popoverValue: AnyView?
+  @State private var isPresented: Bool = false
+  @State private var isPresented2: Bool = false
+  @State private var isPresented3: Bool = false
+  @State private var isPresented4: Bool = false
+  @State private var isPresented5: Bool = false
+  @State private var isPresented6: Bool = false
+  @State private var popoverValue: AnyView?
+  @State private var popoverValue2: AnyView?
+  @State private var popoverValue3: AnyView?
+  @State private var popoverValue4: AnyView?
+  @State private var popoverValue5: AnyView?
+  @State private var popoverValue6: AnyView?
 
   public init() {}
 
@@ -31,31 +38,29 @@ public struct PopoverCatalog: View {
     .background(Color.background(.light))
     .preferredColorScheme(.light)
     .withPopoverHandling(popoverValue)
+    .withPopoverHandling(popoverValue2)
+    .withPopoverHandling(popoverValue3)
+    .withPopoverHandling(popoverValue4)
+    .withPopoverHandling(popoverValue5)
+    .withPopoverHandling(popoverValue6)
     .navigationTitle("Popover")
-  }
-
-  private func closePopover() {
-    popoverValue = nil
   }
 
   private var defaultPopover: some View {
     HStack {
       Text("Click info for more details")
         .pbFont(.body, color: .text(.default))
-
       PBButton(
         variant: .secondary,
         shape: .circle,
         icon: .fontAwesome(.info)
       ) {
-        popoverValue = AnyView(
-          PBPopover(parentFrame: $viewFrame1, dismissAction: closePopover) {
-            Text("I'm a popover. I can show content of any size.")
-              .pbFont(.body, color: .text(.default))
-          }
-        )
+        isPresented.toggle()
       }
-      .frameGetter($viewFrame1)
+      .pbPopover(isPresented: $isPresented, $popoverValue) {
+        Text("I'm a popover. I can show content of any size.")
+          .pbFont(.body, color: .text(.default))
+      }
     }
   }
 
@@ -66,22 +71,27 @@ public struct PopoverCatalog: View {
       icon: .fontAwesome(.chevronDown),
       iconPosition: .right
     ) {
-      popoverValue = AnyView(
-        PBPopover(cardPadding: Spacing.none, parentFrame: $viewFrame2, dismissAction: closePopover) {
-          List {
-            PBButton(variant: .link, title: "Popularity")
-            PBButton(variant: .link, title: "Title")
-            PBButton(variant: .link, title: "Duration")
-            PBButton(variant: .link, title: "Date Started")
-            PBButton(variant: .link, title: "Date Ended")
-          }
-          .listStyle(.plain)
-          .frame(width: 150, height: 100)
-          .pbFont(.body, color: .text(.light))
-        }
-      )
+      isPresented2 = true
     }
-    .frameGetter($viewFrame2)
+    .pbPopover(isPresented: $isPresented2, $popoverValue2, cardPadding: 0) {
+      List {
+        VStack(spacing: Spacing.small) {
+          PBButton(variant: .link, title: "Popularity")
+            .frame(maxWidth: .infinity, alignment: .leading)
+          PBButton(variant: .link, title: "Title")
+            .frame(maxWidth: .infinity, alignment: .leading)
+          PBButton(variant: .link, title: "Duration")
+            .frame(maxWidth: .infinity, alignment: .leading)
+          PBButton(variant: .link, title: "Date Started")
+            .frame(maxWidth: .infinity, alignment: .leading)
+          PBButton(variant: .link, title: "Date Ended")
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }
+      .listStyle(.plain)
+      .frame(width: 150, height: 100)
+    }
   }
 
   private var onClosePopover: some View {
@@ -90,50 +100,34 @@ public struct PopoverCatalog: View {
         variant: .secondary,
         title: "Click Inside"
       ) {
-        popoverValue = AnyView(
-          PBPopover(shouldClosePopover: .inside, parentFrame: $viewFrame3, dismissAction: closePopover) {
-            Text("Click on me!")
-              .pbFont(.body, color: .text(.default))
-          }
-        )
+        isPresented3 = true
       }
-      .frameGetter($viewFrame3)
+      .pbPopover(isPresented: $isPresented3, $popoverValue3, clickToClose: .inside) {
+        Text("Click on me!")
+          .pbFont(.body, color: .text(.default))
+      }
 
       PBButton(
         variant: .secondary,
         title: "Click Outside"
       ) {
-        popoverValue = AnyView(
-          PBPopover(
-            position: .top,
-            shouldClosePopover: .outside,
-            parentFrame: $viewFrame4,
-            dismissAction: closePopover
-          ) {
-            Text("Click anywhere but me!")
-              .pbFont(.body, color: .text(.default))
-          }
-        )
+        isPresented4 = true
       }
-      .frameGetter($viewFrame4)
+      .pbPopover(isPresented: $isPresented4, $popoverValue4, position: .top, clickToClose: .outside) {
+        Text("Click anywhere but me!")
+          .pbFont(.body, color: .text(.default))
+      }
 
       PBButton(
         variant: .secondary,
         title: "Click Anywhere"
       ) {
-        popoverValue = AnyView(
-          PBPopover(
-            position: .right,
-            shouldClosePopover: .anywhere,
-            parentFrame: $viewFrame5,
-            dismissAction: closePopover
-          ) {
-            Text("Click anything!")
-              .pbFont(.body, color: .text(.default))
-          }
-        )
+        isPresented5 = true
       }
-      .frameGetter($viewFrame5)
+      .pbPopover(isPresented: $isPresented5, $popoverValue5, position: .right) {
+        Text("Click anything!")
+          .pbFont(.body, color: .text(.default))
+      }
     }
   }
 
@@ -142,26 +136,24 @@ public struct PopoverCatalog: View {
       variant: .secondary,
       title: "Click Me"
     ) {
-      popoverValue = AnyView(
-        PBPopover(position: .right, parentFrame: $viewFrame6, dismissAction: closePopover) {
-          ScrollView {
-            Text(
-                """
-                So many people live within unhappy circumstances and yet will not take
-                the initiative to change their situation
-                because they are conditioned to a life of security,
-                conformity, and conservation, all of which may appear to give one peace of mind,
-                but in reality, nothing is more damaging to the adventurous spirit.
-                - Christopher McCandless
-                """
-            )
-            .multilineTextAlignment(.leading)
-            .pbFont(.body, color: .text(.default))
-          }
-          .frame(width: 200, height: 150)
-        }
-      )
+      isPresented6 = true
     }
-    .frameGetter($viewFrame6)
+    .pbPopover(isPresented: $isPresented6, $popoverValue6, position: .right) {
+      ScrollView {
+        Text(
+            """
+            So many people live within unhappy circumstances and yet will not take
+            the initiative to change their situation
+            because they are conditioned to a life of security,
+            conformity, and conservation, all of which may appear to give one peace of mind,
+            but in reality, nothing is more damaging to the adventurous spirit.
+            - Christopher McCandless
+            """
+        )
+        .multilineTextAlignment(.leading)
+        .pbFont(.body, color: .text(.default))
+      }
+      .frame(width: 200, height: 150)
+    }
   }
 }

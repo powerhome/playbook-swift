@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  MessageCatalog.swift
-//
-//
-//  Created by Isis Silva on 16/05/23.
 //
 
 import SwiftUI
@@ -14,14 +16,14 @@ public struct MessageCatalog: View {
         PBDoc(title: "Default") {
           VStack(alignment: .leading, spacing: Spacing.small) {
             PBMessage(
-              avatar: AnyView(picAnna),
+              avatar: AnyView(Mocks.picAnna),
               label: "Anna Black",
               message: "How can we assist you today?",
               timestamp: Date().addingTimeInterval(-20)
             )
 
             PBMessage(
-              avatar: AnyView(picPatric),
+              avatar: AnyView(Mocks.picPatric),
               label: "Patrick Welch",
               message: "We will escalate this issue to a Senior Support agent.",
               timestamp: Date().addingTimeInterval(-540),
@@ -29,7 +31,7 @@ public struct MessageCatalog: View {
             )
 
             PBMessage(
-              avatar: AnyView(picLuccile),
+              avatar: AnyView(Mocks.picLuccile),
               label: "Lucille Sanchez",
               message: "Application for Kate Smith is waiting for your approval",
               timestamp: Date().addingTimeInterval(-200000)
@@ -68,18 +70,18 @@ public struct MessageCatalog: View {
         #if os(macOS)
           PBDoc(title: "With timestamp hover") {
             PBMessage(
-              avatar: AnyView(avatarXSmall),
-              label: userName,
-              message: message,
+              avatar: AnyView(Mocks.avatarXSmall),
+              label: Mocks.userName,
+              message: Mocks.message,
               timestamp: Date(),
               timestampAlignment: .leading,
               changeTimeStampOnHover: true
             )
 
             PBMessage(
-              avatar: AnyView(avatarXSmall),
-              label: userName,
-              message: message,
+              avatar: AnyView(Mocks.avatarXSmall),
+              label: Mocks.userName,
+              message: Mocks.message,
               timestamp: Date(),
               timestampAlignment: .trailing,
               changeTimeStampOnHover: true
