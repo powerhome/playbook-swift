@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  OnHover.swift
-//
-//
-//  Created by Gavin Huang on 4/11/23.
 //
 
 import SwiftUI

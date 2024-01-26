@@ -1,8 +1,10 @@
 //
-//  Font+Message.swift
-//  
+//  Playbook Swift Design System
 //
-//  Created by Isis Silva on 07/06/23.
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  Font+Message.swift
 //
 
 import SwiftUI

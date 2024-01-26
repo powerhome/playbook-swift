@@ -1,32 +1,13 @@
 //
-//  File.swift
+//  Playbook Swift Design System
 //
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
 //
-//  Created by Lucas C. Feijo on 30/07/21.
+//  PBNavItem.swift
 //
 
 import SwiftUI
-
-public enum NavigationIcon {
-  case pbIcon(PBIcon)
-  case custom(AnyView)
-  case image(PBImage)
-
-  var iconView: AnyView {
-    switch self {
-    case .pbIcon(let icon):
-      return AnyView(icon)
-    case .custom(let view):
-      return AnyView(view)
-    case .image(let image):
-      return AnyView(
-        image.image?
-          .resizable()
-          .frame(width: 24, height: 24)
-        )
-    }
-  }
-}
 
 public struct PBNavItem<Content: View>: View {
   @Environment(\.selected) var isSelected: Bool
@@ -282,6 +263,27 @@ struct PBNavItem_Previews: PreviewProvider {
       Section("Normal Variant Vertical") {
         VStack { allItemCombinations }
       }
+    }
+  }
+}
+
+public enum NavigationIcon {
+  case pbIcon(PBIcon)
+  case custom(AnyView)
+  case image(PBImage)
+
+  var iconView: AnyView {
+    switch self {
+    case .pbIcon(let icon):
+      return AnyView(icon)
+    case .custom(let view):
+      return AnyView(view)
+    case .image(let image):
+      return AnyView(
+        image.image?
+          .resizable()
+          .frame(width: 24, height: 24)
+        )
     }
   }
 }

@@ -1,10 +1,12 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  ToggleCatalog.swift
 //
-//
-//  Created by Nick Amantia on 7/5/23.
-//
-//
+
 import SwiftUI
 
 public struct ToggleCatalog: View {
