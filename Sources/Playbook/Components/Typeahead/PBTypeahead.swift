@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreGraphics
+import GameController
 
 public struct PBTypeahead<Content: View>: View {
   private let title: String
@@ -21,7 +22,10 @@ public struct PBTypeahead<Content: View>: View {
   @State private var isFocused: Bool = false
   @State private var isHovering: Bool = false
   @State private var hoveringItem: String = ""
-  
+  @State private var isDownArrowPressed: Bool = false
+  @State private var isUpArrowPressed: Bool = false
+  @State private var selectedIndex: Int = 0
+  @State private var hoverIndex: Int = 0
   public init(
     title: String,
     placeholder: String = "Select",
@@ -65,6 +69,49 @@ public struct PBTypeahead<Content: View>: View {
 }
 
 private extension PBTypeahead {
+  @ViewBuilder
+  var listView: some View {
+    if isPresented || !searchText.isEmpty {
+      PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
+     //   ScrollView {
+          List(searchResults, id: \.0, selection: $selectedIndex) { (result, value) in
+            
+         //   ForEach(searchResults, id: \.0) { (result, value) in
+              HStack {
+                if let value = value {
+                  value
+                } else {
+                  Text(result)
+                    .pbFont(.body)
+                    .padding(.vertical, 4)
+                    .tag(selectedIndex)
+                }
+                Spacer()
+                
+              }
+              .padding(.horizontal, Spacing.xSmall + 4)
+              .padding(.vertical, Spacing.xSmall)
+              .background(listBackgroundColor(item: result))
+              .onHover { _ in
+                hoveringItem = result
+                selectedIndex += 1
+                print("Selected: \(selectedIndex)")
+              }
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .onTapGesture {
+                onListSelection(selected: result)
+              } .onAppear{
+                keyboardControls()
+              }
+     ///       } // foreach end
+        } // list end
+          .listStyle(.plain)
+     ///   } // scrollview end
+  
+      }
+    }
+  }
+  
   var optionsToShow: [String] {
     return selectedOptions.map { $0.0 }
   }
@@ -83,15 +130,8 @@ private extension PBTypeahead {
    
   }
   
-  var clearText: Void {
-    if let action = clearAction {
-      action()
-    } else {
-      searchText = ""
-      options.append(contentsOf: selectedOptions)
-      selectedOptions.removeAll()
-      isPresented = false
-    }
+  func listBackgroundColor(item: String) -> Color {
+    hoveringItem == item ? .hover : .card
   }
   
   var onSelection: WrappedInputField.Selection {
@@ -101,6 +141,13 @@ private extension PBTypeahead {
       return selection.selectedOptions(options: optionsToShow, placeholder: placeholder)
     }
   }
+  
+  func onListSelection(selected element: String) {
+    selectedOptions = variantSelectedOptions(element)
+    isPresented.toggle()
+    searchText = ""
+  }
+  
   
   func variantSelectedOptions(_ result: String) -> [(String, Content?)] {
     if let index = options.firstIndex(where: { $0.0 == result }){
@@ -117,53 +164,22 @@ private extension PBTypeahead {
     return selectedOptions
   }
   
+  
+  var clearText: Void {
+    if let action = clearAction {
+      action()
+    } else {
+      searchText = ""
+      options.append(contentsOf: selectedOptions)
+      selectedOptions.removeAll()
+      isPresented = false
+    }
+  }
+  
   func removeSelected(_ element: String) {
     if let selectedElementIndex = selectedOptions.firstIndex(where: { $0.0 == element }) {
       let selectedElement = selectedOptions.remove(at: selectedElementIndex)
       options.append(selectedElement)
-    }
-  }
-  
-  func onListSelection(selected element: String) {
-    selectedOptions = variantSelectedOptions(element)
-    isPresented.toggle()
-    searchText = ""
-  }
-  
-  func listBackgroundColor(item: String) -> Color {
-    hoveringItem == item ? .hover : .card
-  }
-  
-  @ViewBuilder
-  var listView: some View {
-    if isPresented || !searchText.isEmpty {
-      PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
-        ScrollView {
-          VStack(spacing: 0) {
-            ForEach(searchResults, id: \.0) { (result, value) in
-              HStack {
-                if let value = value {
-                  value
-                } else {
-                  Text(result).pbFont(.body)
-                    .padding(.vertical, 4)
-                }
-                Spacer()
-              }
-              .padding(.horizontal, Spacing.xSmall + 4)
-              .padding(.vertical, Spacing.xSmall)
-              .background(listBackgroundColor(item: result))
-              .onHover { _ in hoveringItem = result }
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .onTapGesture {
-                onListSelection(selected: result)
-              } .onAppear{
-                selectOptionUsingKeys()
-              }
-            }
-          }
-        }
-      }
     }
   }
 }
@@ -171,7 +187,7 @@ private extension PBTypeahead {
 public extension PBTypeahead {
   enum Selection {
     case single, multiple
-  
+    
     func selectedOptions(options: [String], placeholder: String) -> WrappedInputField.Selection {
       switch self {
       case .single: return .single(options.first)
@@ -181,31 +197,60 @@ public extension PBTypeahead {
   }
   
 #if os(macOS)
-  func selectOptionUsingKeys() {
+  func keyboardControls() {
     let keys: [CGKeyCode: String] = [
-    .kVK_Tab: "Tab",
-    .kVK_Space: "Space",
-    .kVK_DownArrow: "DownArrow",
-    .kVK_UpArrow: "UpArrow",
-    .kVK_Return: "Return"
-  ]
+      .kVK_Tab: "Tab",
+      .kVK_Space: "Space",
+      .kVK_DownArrow: "DownArrow",
+      .kVK_UpArrow: "UpArrow",
+      .kVK_Return: "Return"
+    ]
+
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-     
+      
       if let keyMessage = keys[CGKeyCode(Int(event.keyCode))] {
         if keyMessage == "Tab" {
           isFocused = true
         }
         if keyMessage == "Space" || keyMessage == "Return" {
           onListSelection(selected: hoveringItem)
+          isDownArrowPressed = false
         }
         if keyMessage == "DownArrow" {
+          isDownArrowPressed = true
+          
+        // I NEED TO GET THE CURRENT COLOR ON DOWN ARROW PRESS/HOVER
+        // AND MAKE IT LOOK LIKE THE BACKGROUND COLOR IS MOVING DOWN WITH THE ARROW
+        // * OR *
+        //  ACTUALLY MOVE THE MOUSE USING KEY CODES & CURRENT MOUSE POSITION
+          
+          
+          // I need to be able to ->
+          // Visual: move hover/background color down
+          // Logical: select option by tapping, space bar, or enter
+          // use shorcut to move mouse using keyboard?
+          // Use game controller? pointer interactions?
+          // Use tags in the scrollviewreader to jump to list item when down arrow is pressed
           
         }
       }
-     return event
+      hoveringItem = ""
+      return event
     }
-
   }
+  
+//  @ViewBuilder
+//  var valueListView: some View {
+//    List(selection: $selectedIndex) {
+//    ForEach(Array(zip(searchResults.map{$0.0}.indices, searchResults.map{$0.0})), id: \.0) { value, result in
+//      HStack {
+//        Text(result)
+//         
+//      }
+//    }
+//  }
+//  }
+
 #endif
 }
 
