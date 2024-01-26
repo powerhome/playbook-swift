@@ -13,13 +13,13 @@
       "size" : "16x16"
     },
     {
-      "filename" : "32 1.png",
+      "filename" : "32.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "32.png",
+      "filename" : "32 1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
@@ -37,13 +37,13 @@
       "size" : "128x128"
     },
     {
-      "filename" : "256 1.png",
+      "filename" : "256.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "256.png",
+      "filename" : "256 1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
@@ -61,7 +61,7 @@
       "size" : "512x512"
     },
     {
-      "filename" : "PBIOS Icon 1.png",
+      "filename" : "1024.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
