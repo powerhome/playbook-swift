@@ -31,9 +31,10 @@ struct PBDialogActionView: View {
     AdaptiveStack(isStacked: isStacked) {
       if let confirmButton = confirmButton {
         PBButton(
+          fullWidth: true,
           title: confirmButton.0,
           action: confirmButton.1
-        )
+        ).padding(.bottom, Spacing.xxSmall)
       }
 
       if let cancelButton = cancelButton {
@@ -42,14 +43,18 @@ struct PBDialogActionView: View {
         }
 
         PBButton(
-          variant: (isStacked || variant != .default ? .secondary : .link),
+          fullWidth: true, variant: (isStacked || variant != .default ? .secondary : .link),
           title: cancelButton.0,
           action: cancelButton.1 ?? {}
         )
-        .padding(.top, isStacked ? -8 : 0)
+        .padding(.top, isStacked ? 5 : 0)
       }
     }
     .frame(maxWidth: .infinity)
+    .padding(.bottom, Spacing.small)
+    .padding(.leading, Spacing.small)
+    .padding(.trailing, Spacing.small)
+   
   }
 }
 
