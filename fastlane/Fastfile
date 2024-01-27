@@ -21,9 +21,16 @@ build_path = "BuildTemp/Archives"
 derived_data_path = "DerivedData"
 ios_plist = "./Info.plist"
 appcenter_token = "bf0ae509c985f2a1102c2ad53894b35a5fa5383e"
+project = './PlaybookShowcase/PlaybookShowcase.xcodeproj'
 
 def target_ios(suffix = nil)
   target = 'PlaybookShowcase-iOS'
+  # suffix ? "#{target}-#{suffix}" : target
+  target
+end
+
+def target_macos(suffix = nil)
+  target = 'PlaybookShowcase-macOS'
   # suffix ? "#{target}-#{suffix}" : target
   target
 end
@@ -41,7 +48,7 @@ lane :build_ios do |opts|
   target = target_ios(opts[:suffix])
 
   gym(
-    project: './PlaybookShowcase/PlaybookShowcase.xcodeproj',
+    project: project,
     scheme: target,
     skip_package_dependencies_resolution: false,
     export_method: export_method,
@@ -53,14 +60,39 @@ lane :build_ios do |opts|
   )
 end
 
-desc "Install provisioning profiles"
-lane :install_prov_profiles do
+desc "Build macOS"
+lane :build_macos do |opts|
+
+  export_method = 'developer-id'
+  target = target_macos(opts[:suffix])
+
+  gym(
+    project: project,
+    scheme: target,
+    skip_package_pkg: true,
+    skip_package_dependencies_resolution: false,
+    export_method: export_method,
+    output_name: "#{target}.app",
+    build_path: build_path,
+    derived_data_path: derived_data_path,
+    xcargs: '-skipPackagePluginValidation -skipMacroValidation',
+    xcconfig: './PlaybookShowcase/Versioning.xcconfig'
+  )
+end
+
+desc "Install provisioning profiles iOS"
+lane :install_prov_profiles_ios do
   sh 'rm -rf ./git_prov_profiles'
   sh 'cp -r ./../git_prov_profiles ./git_prov_profiles'
   Dir.glob("./git_prov_profiles/profiles/*.mobileprovision") do |item|
     install_provisioning_profile(path: item)
   end
+end
 
+desc "Install provisioning profiles macOS"
+lane :install_prov_profiles_macos do
+  sh 'rm -rf ./git_prov_profiles'
+  sh 'cp -r ./../git_prov_profiles ./git_prov_profiles'
   Dir.glob("./git_prov_profiles/profiles_macos/*.provisionprofile") do |item|
     install_provisioning_profile(path: item)
   end
@@ -96,6 +128,42 @@ lane :ship_ios_to_appcenter do |opts|
   )
 end
 
+desc "Upload macOS build"
+lane :upload_macos do |opts|
+  keep_trying {
+    ship_macos_to_appcenter(opts)
+  }
+end
+
+desc "Ship macOS to App Center"
+lane :ship_macos_to_appcenter do |opts|
+
+  app_name = "Playbook-Swift-Mac-Beta"
+  if opts[:type] == 'production'
+    app_name = "Playbook-Swift-Mac"
+  end
+
+  zip_file = zip(
+    path: build_path,
+    output_path: "#{target_macos(opts[:suffix])}.zip"
+  )
+
+  opts[:os] = 'macos'
+  appcenter_upload(
+    api_token: appcenter_token,
+    owner_name: "powerhome",
+    owner_type: "organization",
+    app_name: app_name,
+    app_os: "macOS",
+    file: "#{target_macos(opts[:suffix])}.app",
+    version: "#{opts[:build_number]}",
+    release_notes: "#{opts[:release_notes]}",
+    destinations: "Rebels",
+    destination_type: "group",
+    upload_build_only: false
+  )
+end
+
 desc "Create Runway comment"
 lane :create_runway_comment do |opts|
 
@@ -106,9 +174,14 @@ lane :create_runway_comment do |opts|
   build_number = opts[:build_number]
   release_notes = "#{opts[:release_notes]}"
 
-  app_name = "Playbook-Showcase-Beta"
+  ios_app_name = "Playbook-Showcase-Beta"
   if type == 'production'
     app_name = "Playbook-Showcase"
+  end
+
+  macos_app_name = "Playbook-Swift-Mac-Beta"
+  if type == 'production'
+    app_name = "Playbook-Swift-Mac"
   end
 
   merged_comment = ''
@@ -121,13 +194,14 @@ lane :create_runway_comment do |opts|
   version_info = appcenter_fetch_version_number(
     api_token: appcenter_token,
     owner_name: "powerhome",
-    app_name: app_name
+    app_name: ios_app_name
   )
 
   comment = <<~HEREDOC
   <p><b>#{merged_comment}#{type} build #{build_number}</b></p>
   <ul>
-    <li>PlaybookShowcase-iOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{app_name}/releases/#{version_info["id"]}"}>iOS</a></li>
+    <li>PlaybookShowcase-iOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{ios_app_name}/releases/#{version_info["id"]}"}>iOS</a></li>
+    <li>PlaybookShowcase-macOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{macos_app_name}/releases/#{version_info["id"]}"}>macOS</a></li>
   </ul>
   HEREDOC
 
