@@ -21,11 +21,8 @@ public struct PBTypeahead<Content: View>: View {
   @State private var isPresented: Bool = false
   @State private var isFocused: Bool = false
   @State private var isHovering: Bool = false
-  @State private var hoveringItem: String = ""
-  @State private var isDownArrowPressed: Bool = false
-  @State private var isUpArrowPressed: Bool = false
   @State private var selectedIndex: Int = 0
-  @State private var hoverIndex: Int = 0
+  @State private var isDownArrowPressed: Bool = false
   public init(
     title: String,
     placeholder: String = "Select",
@@ -63,7 +60,7 @@ public struct PBTypeahead<Content: View>: View {
     }
     .background(Color.white.opacity(0.02))
     .onTapGesture {
-      isPresented.toggle()
+      isPresented = true
     }
   }
 }
@@ -88,23 +85,36 @@ private extension PBTypeahead {
               }
               .padding(.horizontal, Spacing.xSmall + 4)
               .padding(.vertical, Spacing.xSmall)
-              .background(listBackgroundColor(item: result.0))
+              .background(listBackgroundColor(index: index))
               .onHover { _ in
-                hoveringItem = result.0
-                selectedIndex += 1
-                print("Selected: \(selectedIndex)")
+                selectedIndex = index
+                                    
               }
               .frame(maxWidth: .infinity, alignment: .leading)
-              .onTapGesture {
-                onListSelection(selected: result.0)
-              }
+//              .onTapGesture {
+//                (selected: result.0)
+            //              }
               .onAppear{
                 keyboardControls()
+             //  NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+//                  if event.keyCode == 125 { // arrow right
+//                    selectedIndex = selectedIndex < searchResults.count ? selectedIndex + 1 : 0
+//                  }
+//                  else {
+//                    if event.keyCode == 126 { // arrow left
+//                      selectedIndex = selectedIndex > 1 ? selectedIndex - 1 : 0
+//                    }
+//                  }
+//                  return event
+//                }
+                
               }
-            } // foreach end
-       //     .background(selectedIndex == value ? Color.red : Color.clear)
+            
+          //    .background(selectedIndex == index ? Color.red : Color.clear)
+          } // foreach end
+          
         } // scrollview end
-  
+        
       }
     }
   }
@@ -127,8 +137,8 @@ private extension PBTypeahead {
    
   }
   
-  func listBackgroundColor(item: String) -> Color {
-    hoveringItem == item ? .hover : .card
+  func listBackgroundColor(index: Int) -> Color {
+    selectedIndex == index ? .hover : .card
   }
   
   var onSelection: WrappedInputField.Selection {
@@ -195,47 +205,30 @@ public extension PBTypeahead {
   
 #if os(macOS)
   func keyboardControls() {
-    let keys: [CGKeyCode: String] = [
-      .kVK_Tab: "Tab",
-      .kVK_Space: "Space",
-      .kVK_DownArrow: "DownArrow",
-      .kVK_UpArrow: "UpArrow",
-      .kVK_Return: "Return"
-    ]
-
+    
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
       
-      if let keyMessage = keys[CGKeyCode(Int(event.keyCode))] {
-        if keyMessage == "Tab" {
-          isFocused = true
-        }
-        if keyMessage == "Space" || keyMessage == "Return" {
-          onListSelection(selected: hoveringItem)
-          isDownArrowPressed = false
-        }
-        if keyMessage == "DownArrow" {
-          isDownArrowPressed = true
-          
-        // I NEED TO GET THE CURRENT COLOR ON DOWN ARROW PRESS/HOVER
-        // AND MAKE IT LOOK LIKE THE BACKGROUND COLOR IS MOVING DOWN WITH THE ARROW
-        // * OR *
-        //  ACTUALLY MOVE THE MOUSE USING KEY CODES & CURRENT MOUSE POSITION
-          
-          
-          // I need to be able to ->
-          // Visual: move hover/background color down
-          // Logical: select option by tapping, space bar, or enter
-          // use shorcut to move mouse using keyboard?
-          // Use game controller? pointer interactions?
-          // Use tags in the scrollviewreader to jump to list item when down arrow is pressed
-          
-        }
+//        if keyMessage == "Tab" {
+//          isFocused = true
+//        }
+//
+//        if keyMessage == "Space" || keyMessage == "Return" {
+//          // onListSelection(selected: hoveringItem)
+//          isDownArrowPressed = false
+//        }
+       // if keyMessage == "DownArrow" {
+      if event.keyCode == 125 { // down arrow
+        selectedIndex = selectedIndex < searchResults.count ? selectedIndex + 1 : 0
+      } else {
+        if event.keyCode == 126 { // up arrow
+          selectedIndex = selectedIndex > 1 ? selectedIndex - 1 : 0
+         
+          }
       }
-      hoveringItem = ""
+     
       return event
-    }
+      }
   }
-  
 //  @ViewBuilder
 //  var valueListView: some View {
 //    List(selection: $selectedIndex) {
