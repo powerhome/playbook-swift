@@ -73,40 +73,37 @@ private extension PBTypeahead {
   var listView: some View {
     if isPresented || !searchText.isEmpty {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
-     //   ScrollView {
-          List(searchResults, id: \.0, selection: $selectedIndex) { (result, value) in
-            
-         //   ForEach(searchResults, id: \.0) { (result, value) in
+        ScrollView {
+          ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
               HStack {
-                if let value = value {
-                  value
+                if let customView = result.1 {
+                 customView
                 } else {
-                  Text(result)
+                Text(result.0)
                     .pbFont(.body)
                     .padding(.vertical, 4)
                     .tag(selectedIndex)
                 }
                 Spacer()
-                
               }
               .padding(.horizontal, Spacing.xSmall + 4)
               .padding(.vertical, Spacing.xSmall)
-              .background(listBackgroundColor(item: result))
+              .background(listBackgroundColor(item: result.0))
               .onHover { _ in
-                hoveringItem = result
+                hoveringItem = result.0
                 selectedIndex += 1
                 print("Selected: \(selectedIndex)")
               }
               .frame(maxWidth: .infinity, alignment: .leading)
               .onTapGesture {
-                onListSelection(selected: result)
-              } .onAppear{
+                onListSelection(selected: result.0)
+              }
+              .onAppear{
                 keyboardControls()
               }
-     ///       } // foreach end
-        } // list end
-          .listStyle(.plain)
-     ///   } // scrollview end
+            } // foreach end
+       //     .background(selectedIndex == value ? Color.red : Color.clear)
+        } // scrollview end
   
       }
     }
