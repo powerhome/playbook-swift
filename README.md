@@ -16,7 +16,7 @@ Follow our [installation guide](Installation.md) to setup Playbook Swift in your
 
 Playbook Swift contains the app named `PlaybookShowcase`; providing examples of each component. PlaybookShowcase can be launched within the XCode simulator, side-loaded, or downloaded to your device.
 
-<img src="./playbook-showcase.png" height="500px" />
+<img width="316" alt="playbook-showcase" src="https://github.com/powerhome/PlaybookSwift/assets/60269827/aea56f5f-3f36-475a-af8b-4563cd14b8ca">
 
 
 
@@ -28,4 +28,3 @@ Want to contribute to Playbook Swift? Check out our [contribution guidelines](Co
 # Copyright & License
 
 Code released under [ISC License](License.md)
-
