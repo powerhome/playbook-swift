@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import CoreGraphics
-import GameController
 
 public struct PBTypeahead<Content: View>: View {
   private let title: String
@@ -48,7 +46,7 @@ public struct PBTypeahead<Content: View>: View {
       WrappedInputField(
         title: title,
         placeholder: placeholder,
-        searchText: $searchText, 
+        searchText: $searchText,
         selection: onSelection,
         variant: variant,
         isFocused: $isFocused,
@@ -72,49 +70,46 @@ private extension PBTypeahead {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
           ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-              HStack {
-                if let customView = result.1 {
-                 customView
-                } else {
+            HStack {
+              if let customView = result.1 {
+                customView
+              } else {
                 Text(result.0)
-                    .pbFont(.body)
-                    .padding(.vertical, 4)
-                    .tag(selectedIndex)
-                }
-                Spacer()
+                  .pbFont(.body)
+                  .padding(.vertical, 4)
               }
-              .padding(.horizontal, Spacing.xSmall + 4)
-              .padding(.vertical, Spacing.xSmall)
-              .background(listBackgroundColor(index: index))
-              .onHover { _ in
-                selectedIndex = index
-                                    
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
-//              .onTapGesture {
-//                (selected: result.0)
+              Spacer()
+            }
+            .padding(.horizontal, Spacing.xSmall + 4)
+            .padding(.vertical, Spacing.xSmall)
+            .onHover { _ in
+              selectedIndex = index
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            //              .onTapGesture {
+            //                (selected: result.0)
             //              }
-              .onAppear{
-                keyboardControls()
-             //  NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-//                  if event.keyCode == 125 { // arrow right
-//                    selectedIndex = selectedIndex < searchResults.count ? selectedIndex + 1 : 0
-//                  }
-//                  else {
-//                    if event.keyCode == 126 { // arrow left
-//                      selectedIndex = selectedIndex > 1 ? selectedIndex - 1 : 0
-//                    }
-//                  }
-//                  return event
-//                }
-                
-              }
             
-          //    .background(selectedIndex == index ? Color.red : Color.clear)
-          } // foreach end
-          
-        } // scrollview end
-        
+            .background(listBackgroundColor(index: index))
+          }
+          .onAppear{
+            //                keyboardControls()
+            NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+              if event.keyCode == 125 {
+                selectedIndex = selectedIndex < searchResults.count ? selectedIndex + 1 : 0
+              }
+              else {
+                if event.keyCode == 126 { // arrow left
+                  selectedIndex = selectedIndex > 1 ? selectedIndex - 1 : 0
+                }
+              }
+              print("selectedIdex \(selectedIndex)")
+              print("event: \(event.keyCode)")
+              return event
+            }
+            
+          }
+        }
       }
     }
   }
@@ -122,19 +117,17 @@ private extension PBTypeahead {
   var optionsToShow: [String] {
     return selectedOptions.map { $0.0 }
   }
-
+  
   var searchResults: [(String, Content?)] {
-#if os(iOS)
+    #if os(iOS)
     return options.filter {
-            $0.0.localizedCaseInsensitiveContains(searchText)
-          }
-#endif
-#if os(macOS)
+      $0.0.localizedCaseInsensitiveContains(searchText)
+    }
+    #elseif os(macOS)
     return searchText.isEmpty ? options : options.filter {
       $0.0.localizedCaseInsensitiveContains(searchText)
     }
-#endif
-   
+    #endif
   }
   
   func listBackgroundColor(index: Int) -> Color {
@@ -206,41 +199,41 @@ public extension PBTypeahead {
 #if os(macOS)
   func keyboardControls() {
     
-    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+    NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { event in
       
-//        if keyMessage == "Tab" {
-//          isFocused = true
-//        }
-//
-//        if keyMessage == "Space" || keyMessage == "Return" {
-//          // onListSelection(selected: hoveringItem)
-//          isDownArrowPressed = false
-//        }
-       // if keyMessage == "DownArrow" {
-      if event.keyCode == 125 { // down arrow
+      //        if keyMessage == "Tab" {
+      //          isFocused = true
+      //        }
+      //
+      //        if keyMessage == "Space" || keyMessage == "Return" {
+      //          // onListSelection(selected: hoveringItem)
+      //          isDownArrowPressed = false
+      //        }
+      // if keyMessage == "DownArrow" {
+      
+      if event.keyCode == 125 { // arrow right
         selectedIndex = selectedIndex < searchResults.count ? selectedIndex + 1 : 0
       } else {
-        if event.keyCode == 126 { // up arrow
+        if event.keyCode == 126 { // arrow left
           selectedIndex = selectedIndex > 1 ? selectedIndex - 1 : 0
-         
-          }
+        }
       }
-     
       return event
-      }
+      
+    }
   }
-//  @ViewBuilder
-//  var valueListView: some View {
-//    List(selection: $selectedIndex) {
-//    ForEach(Array(zip(searchResults.map{$0.0}.indices, searchResults.map{$0.0})), id: \.0) { value, result in
-//      HStack {
-//        Text(result)
-//         
-//      }
-//    }
-//  }
-//  }
-
+  //  @ViewBuilder
+  //  var valueListView: some View {
+  //    List(selection: $selectedIndex) {
+  //    ForEach(Array(zip(searchResults.map{$0.0}.indices, searchResults.map{$0.0})), id: \.0) { value, result in
+  //      HStack {
+  //        Text(result)
+  //
+  //      }
+  //    }
+  //  }
+  //  }
+  
 #endif
 }
 
