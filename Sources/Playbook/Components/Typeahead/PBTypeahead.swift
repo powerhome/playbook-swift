@@ -20,7 +20,7 @@ public struct PBTypeahead<Content: View>: View {
   @State private var isFocused: Bool = false
   @State private var isHovering: Bool = false
   @State private var selectedIndex: Int = 0
-  @State private var isDownArrowPressed: Bool = false
+  @State private var hoverString: String = ""
   public init(
     title: String,
     placeholder: String = "Select",
@@ -58,7 +58,8 @@ public struct PBTypeahead<Content: View>: View {
     }
     .background(Color.white.opacity(0.02))
     .onTapGesture {
-      isPresented = true
+      isPresented.toggle()
+      isFocused.toggle()
     }
   }
 }
@@ -84,30 +85,16 @@ private extension PBTypeahead {
             .padding(.vertical, Spacing.xSmall)
             .onHover { _ in
               selectedIndex = index
+              hoverString = result.0
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            //              .onTapGesture {
-            //                (selected: result.0)
-            //              }
-            
+            .onTapGesture {
+              onListSelection(selected: result.0)
+            }
             .background(listBackgroundColor(index: index))
           }
           .onAppear{
-            //                keyboardControls()
-            NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-              if event.keyCode == 125 {
-                selectedIndex = selectedIndex < searchResults.count ? selectedIndex + 1 : 0
-              }
-              else {
-                if event.keyCode == 126 { // arrow left
-                  selectedIndex = selectedIndex > 1 ? selectedIndex - 1 : 0
-                }
-              }
-              print("selectedIdex \(selectedIndex)")
-              print("event: \(event.keyCode)")
-              return event
-            }
-            
+            keyboardControls()
           }
         }
       }
@@ -198,42 +185,31 @@ public extension PBTypeahead {
   
 #if os(macOS)
   func keyboardControls() {
-    
-    NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { event in
-      
-      //        if keyMessage == "Tab" {
-      //          isFocused = true
-      //        }
-      //
-      //        if keyMessage == "Space" || keyMessage == "Return" {
-      //          // onListSelection(selected: hoveringItem)
-      //          isDownArrowPressed = false
-      //        }
-      // if keyMessage == "DownArrow" {
-      
-      if event.keyCode == 125 { // arrow right
+    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+      if event.keyCode == 48  { // tab
+        isFocused = true
+      }
+      if event.keyCode == 49 || event.keyCode == 36 { // space bar
+      onListSelection(selected: hoverString)
+        isPresented.toggle()
+       print("Hovering String: \(hoverString)")
+      }
+      if event.keyCode == 51 && !selectedOptions.isEmpty { // delete
+            selectedOptions.removeLast()
+          print("Selected Options: \(String(describing: selectedOptions.last))")
+      }
+      if event.keyCode == 125 { // arrow down
         selectedIndex = selectedIndex < searchResults.count ? selectedIndex + 1 : 0
-      } else {
-        if event.keyCode == 126 { // arrow left
+      }
+      else {
+        if event.keyCode == 126 { // arrow up
           selectedIndex = selectedIndex > 1 ? selectedIndex - 1 : 0
         }
       }
       return event
-      
     }
+    
   }
-  //  @ViewBuilder
-  //  var valueListView: some View {
-  //    List(selection: $selectedIndex) {
-  //    ForEach(Array(zip(searchResults.map{$0.0}.indices, searchResults.map{$0.0})), id: \.0) { value, result in
-  //      HStack {
-  //        Text(result)
-  //
-  //      }
-  //    }
-  //  }
-  //  }
-  
 #endif
 }
 

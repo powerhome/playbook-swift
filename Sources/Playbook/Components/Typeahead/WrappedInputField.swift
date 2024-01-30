@@ -68,10 +68,10 @@ public struct WrappedInputField: View {
           .stroke(borderColor, lineWidth: 1.0)
       }
     }
-    .onHover { isHovering = $0 }
-    .onChange(of: focus) {
-      isFocused = $0
-    }
+ //   .onHover { isHovering = $0 }
+//    .onChange(of: focus) {
+//      isFocused = $0
+//    }
   }
 }
 
