@@ -69,16 +69,9 @@ private extension PBTypeahead {
   }
 
   var searchResults: [(String, Content?)] {
-//#if os(iOS)
-//    return options.filter {
-//      $0.0.localizedCaseInsensitiveContains(searchText)
-//          }
-//#endif
-//#if os(macOS)
     return searchText.isEmpty ? options : options.filter {
       $0.0.localizedCaseInsensitiveContains(searchText)
     }
-//#endif
   }
   
   var clearText: Void {
