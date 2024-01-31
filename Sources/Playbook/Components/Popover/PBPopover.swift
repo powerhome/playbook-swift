@@ -100,6 +100,7 @@ public struct PBPopover<T: View>: ViewModifier {
   let clickToClose: PopoverView<T>.Close
   let cardPadding: CGFloat
   let backgroundOpacity: Double
+  let dismissAction: (() -> Void)?
   @ViewBuilder var contentView: () -> T
 
   init(
@@ -109,6 +110,7 @@ public struct PBPopover<T: View>: ViewModifier {
     clickToClose: PopoverView<T>.Close,
     cardPadding: CGFloat,
     backgroundOpacity: Double,
+    dismissAction: (() -> Void)?,
     contentView: @escaping () -> T
   ) {
     self._isPresented = isPresented
@@ -117,6 +119,7 @@ public struct PBPopover<T: View>: ViewModifier {
     self.clickToClose = clickToClose
     self.cardPadding = cardPadding
     self.backgroundOpacity = backgroundOpacity
+    self.dismissAction = dismissAction
     self.contentView = contentView
   }
 
@@ -141,14 +144,20 @@ public struct PBPopover<T: View>: ViewModifier {
           }
         })
     } else {
-      content
+      content.onAppear {
+        view = nil
+      }
     }
   }
 
   private var dismiss: () -> Void {
-    return {
-      isPresented = false
-      view = nil
+    if let dismiss = dismissAction {
+      return dismiss
+    } else {
+      return {
+        isPresented = false
+        view = nil
+      }
     }
   }
 }
@@ -161,6 +170,7 @@ public extension View {
     clickToClose: PopoverView<T>.Close = .anywhere,
     cardPadding: CGFloat = Spacing.small,
     backgroundOpacity: Double = 0.001,
+    dismissAction: (() -> Void)? = nil,
     contentView: @escaping () -> T
   ) -> some View {
     modifier(
@@ -170,7 +180,8 @@ public extension View {
         position: position,
         clickToClose: clickToClose,
         cardPadding: cardPadding,
-        backgroundOpacity: backgroundOpacity,
+        backgroundOpacity: backgroundOpacity, 
+        dismissAction: dismissAction,
         contentView: contentView
       )
     )
