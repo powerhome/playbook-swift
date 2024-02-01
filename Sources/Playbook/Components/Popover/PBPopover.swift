@@ -100,6 +100,7 @@ public struct PBPopover<T: View>: ViewModifier {
   let clickToClose: PopoverView<T>.Close
   let cardPadding: CGFloat
   let backgroundOpacity: Double
+  let dismissAction: (() -> Void)?
   @ViewBuilder var contentView: () -> T
 
   init(
@@ -109,6 +110,7 @@ public struct PBPopover<T: View>: ViewModifier {
     clickToClose: PopoverView<T>.Close,
     cardPadding: CGFloat,
     backgroundOpacity: Double,
+    dismissAction: (() -> Void)?,
     contentView: @escaping () -> T
   ) {
     self._isPresented = isPresented
@@ -117,6 +119,7 @@ public struct PBPopover<T: View>: ViewModifier {
     self.clickToClose = clickToClose
     self.cardPadding = cardPadding
     self.backgroundOpacity = backgroundOpacity
+    self.dismissAction = dismissAction
     self.contentView = contentView
   }
 
@@ -141,14 +144,20 @@ public struct PBPopover<T: View>: ViewModifier {
           }
         })
     } else {
-      content
+      content.onAppear {
+        view = nil
+      }
     }
   }
 
   private var dismiss: () -> Void {
-    return {
-      isPresented = false
-      view = nil
+    if let dismiss = dismissAction {
+      return dismiss
+    } else {
+      return {
+        isPresented = false
+        view = nil
+      }
     }
   }
 }
@@ -157,10 +166,11 @@ public extension View {
   func pbPopover<T: View>(
     isPresented: Binding<Bool>,
     _ view: Binding<AnyView?>,
-    position: PopoverView<T>.Position = .bottom,
+    position: PopoverView<T>.Position = .bottom(),
     clickToClose: PopoverView<T>.Close = .anywhere,
     cardPadding: CGFloat = Spacing.small,
     backgroundOpacity: Double = 0.001,
+    dismissAction: (() -> Void)? = nil,
     contentView: @escaping () -> T
   ) -> some View {
     modifier(
@@ -170,7 +180,8 @@ public extension View {
         position: position,
         clickToClose: clickToClose,
         cardPadding: cardPadding,
-        backgroundOpacity: backgroundOpacity,
+        backgroundOpacity: backgroundOpacity, 
+        dismissAction: dismissAction,
         contentView: contentView
       )
     )
@@ -183,7 +194,7 @@ public extension PopoverView {
   }
 
   enum Position {
-    case top, bottom, left, right, center
+    case top(CGFloat = 0), bottom(CGFloat = 0), left, right, center(CGFloat = 0)
 
     func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
       let labelHeight = labelFrame.height
@@ -192,14 +203,14 @@ public extension PopoverView {
       let popWidth = popoverFrame.width
 
       switch self {
-      case .top:
+      case .top(let offset):
         return CGPoint(
-          x: offsetX(popoverFrame),
+          x: offsetX(popoverFrame) + offset,
           y: -(labelHeight/2 + popHeight/2) - Spacing.xSmall
         )
-      case .bottom:
+      case .bottom(let offset):
         return CGPoint(
-          x: offsetX(popoverFrame),
+          x: offsetX(popoverFrame) + offset,
           y: (labelHeight + popHeight)/2 + Spacing.xSmall
         )
       case .right:
@@ -214,9 +225,9 @@ public extension PopoverView {
           x: offsetX(popoverFrame, offset: offset),
           y: 0
         )
-      case .center:
+      case .center(let offset):
         return CGPoint(
-          x: offsetX(popoverFrame),
+          x: offsetX(popoverFrame) + offset,
           y: 0
         )
       }

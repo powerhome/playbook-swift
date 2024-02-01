@@ -113,7 +113,7 @@ public struct PopoverCatalog: View {
       ) {
         isPresented4 = true
       }
-      .pbPopover(isPresented: $isPresented4, $popoverValue4, position: .top, clickToClose: .outside) {
+      .pbPopover(isPresented: $isPresented4, $popoverValue4, position: .top(), clickToClose: .outside) {
         Text("Click anywhere but me!")
           .pbFont(.body, color: .text(.default))
       }
