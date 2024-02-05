@@ -133,7 +133,7 @@ private extension WrappedInputField {
     .frame(maxWidth: .infinity)
     .frame(height: Spacing.xLarge)
     .onTapGesture {
-      isFocused.toggle()
+      isPresented.toggle()
     }
     #endif
   }
