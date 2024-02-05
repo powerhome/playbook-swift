@@ -69,7 +69,7 @@ private extension PBTypeahead {
   }
 
   var searchResults: [(String, Content?)] {
-    return searchText.isEmpty ? options : options.filter {
+    return (searchText.isEmpty && isPresented) ? options : options.filter {
       $0.0.localizedCaseInsensitiveContains(searchText)
     }
   }

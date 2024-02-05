@@ -132,6 +132,9 @@ private extension WrappedInputField {
     .padding(.leading, Spacing.small)
     .frame(maxWidth: .infinity)
     .frame(height: Spacing.xLarge)
+    .onTapGesture {
+      isFocused.toggle()
+    }
     #endif
   }
   
