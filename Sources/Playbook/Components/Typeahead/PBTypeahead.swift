@@ -55,6 +55,7 @@ public struct PBTypeahead<Content: View>: View {
       )
       
       listView
+      
     }
     .background(Color.white.opacity(0.02))
     .onTapGesture {
@@ -93,10 +94,13 @@ private extension PBTypeahead {
             }
             .background(listBackgroundColor(index: index))
           }
-          .onAppear{
-            keyboardControls()
-          }
         }
+      }
+        .onAppear{
+         #if os(macOS)
+         deleteKeyboardControl()
+         keyboardControls()
+         #endif
       }
     }
   }
@@ -184,20 +188,86 @@ public extension PBTypeahead {
   }
   
 #if os(macOS)
-  func keyboardControls() {
+  func deleteKeyboardControl() {
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+      // if event.isARepeat == false {
+      if event.keyCode == 51 { // delete
+        if let lastElement = selectedOptions.indices.last {
+          selectedOptions.remove(at: lastElement)
+          
+          print("lastElement: \(lastElement)")
+        }
+      }
+      //   }
+      return event
+    }
+  }
+  func keyboardControls() {
+    
+    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+      
       if event.keyCode == 48  { // tab
         isFocused = true
       }
       if event.keyCode == 49 || event.keyCode == 36 { // space bar
-      onListSelection(selected: hoverString)
+        onListSelection(selected: hoverString)
         isPresented.toggle()
-       print("Hovering String: \(hoverString)")
       }
-      if event.keyCode == 51 && !selectedOptions.isEmpty { // delete
-            selectedOptions.removeLast()
-          print("Selected Options: \(String(describing: selectedOptions.last))")
-      }
+//      if event.isARepeat == false {
+//        if event.keyCode == 51 { // delete
+//          if let lastElement = selectedOptions.indices.last {
+//            selectedOptions.remove(at: lastElement)
+//            print("selectedOptions.indices.last: \(String(describing: selectedOptions.indices.last))")
+//            print("lastElement: \(lastElement)")
+//          }
+//        }
+//      }
+
+//        
+//     }
+//        if selection == .multiple {
+//          if let selectedElementIndex = selectedOptions.lastIndex(where: { $0.0 == optionsToShow.last }) {
+//            let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+//
+//            options.append(selectedElement)
+//          }
+//        } 
+////        else {
+////                    if let selectedElementIndex = selectedOptions.lastIndex(where: { $0.0 == optionsToShow.last }) {
+////                      let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+////                      options.append(selectedElement)
+////          
+////                    }
+////                    }
+//          
+//          
+//        
+//        
+//        // If there is an option selected in both fields they both get deleted
+////        if selection == .multiple {
+////        if let selectedElementIndex = selectedOptions.lastIndex(where: { $0.0 == optionsToShow.last }) {
+////          let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+////          options.append(selectedElement)
+////          print("selectedOptions: \(selectedOptions)")
+////          print("selectedElement: \(selectedElement)")
+////          print("selectedElementIndex: \(selectedElementIndex)")
+////        }
+////     
+//////            if optionsToShow.count >= 1 {
+//////              selectedOptions.remove(at: )
+//////
+//////            }
+//////            else {
+//////              selectedOptions.removeAll()
+//// //           }
+////        }else {
+////          if let selectedElementIndex = selectedOptions.lastIndex(where: { $0.0 == optionsToShow.last }) {
+////            let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+////            options.append(selectedElement)
+////            
+////          }
+////          }
+ //       }
       if event.keyCode == 125 { // arrow down
         selectedIndex = selectedIndex < searchResults.count ? selectedIndex + 1 : 0
       }
