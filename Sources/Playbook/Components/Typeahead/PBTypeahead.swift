@@ -12,18 +12,19 @@ import SwiftUI
 @available(iOS 17.0, *)
 @available(macOS 14.0, *)
 public struct PBTypeahead<Content: View>: View {
+  typealias Option = (String, Content?)
   private let title: String
   private let placeholder: String
   private let variant: WrappedInputField.Variant
-  private let clearAction: (() -> Void)?
   private let selection: Selection
-  @Binding var searchText: String
-  @State private var options: [(String, Content?)] = []
-  @State private var selectedOptions: [(String, Content?)] = []
+  private let clearAction: (() -> Void)?
+  @State private var options: [Option] = []
+  @State private var selectedOptions: [Option] = []
   @State private var showList: Bool = false
-  @FocusState private var isFocused
   @State private var isHovering: Bool = false
-  @State private var selectedIndex: Int?
+  @State private var selectedIndex: Int = 0
+  @Binding var searchText: String
+  @FocusState private var isFocused
 
   public init(
     title: String,
@@ -77,28 +78,29 @@ private extension PBTypeahead {
     if showList {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
-          ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-            HStack {
-              if let customView = result.1 {
-                customView
-              } else {
-                Text(result.0)
-                  .pbFont(.body)
-                  .padding(.vertical, 4)
+          VStack(spacing: 0) {
+            ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
+              HStack {
+                if let customView = result.1 {
+                  customView
+                } else {
+                  Text(result.0)
+                    .pbFont(.body)
+                }
+                Spacer()
               }
-              Spacer()
+              .padding(.horizontal, Spacing.xSmall + 4)
+              .padding(.vertical, Spacing.xSmall + 4)
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .background(listBackgroundColor(index: index))
+              .onHover {
+                isHovering = $0
+                selectedIndex = index
+              }
+              .onTapGesture {
+                onListSelection(selected: index)
+              }
             }
-            .padding(.horizontal, Spacing.xSmall + 4)
-            .padding(.vertical, Spacing.xSmall)
-            .onHover {
-              isHovering = $0
-              selectedIndex = index
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .onTapGesture {
-              onListSelection(selected: index)
-            }
-            .background(listBackgroundColor(index: index))
           }
         }
       }
@@ -109,14 +111,18 @@ private extension PBTypeahead {
     return selectedOptions.map { $0.0 }
   }
   
-  var searchResults: [(String, Content?)] {
+  var searchResults: [Option] {
     return searchText.isEmpty ? options : options.filter {
       $0.0.localizedCaseInsensitiveContains(searchText)
     }
   }
   
-  func listBackgroundColor(index: Int) -> Color {
+  func listBackgroundColor(index: Int?) -> Color {
+    #if os(macOS)
     selectedIndex == index ? .hover : .card
+    #elseif os(iOS)
+    .card
+    #endif
   }
   
   var onSelection: WrappedInputField.Selection {
@@ -127,14 +133,14 @@ private extension PBTypeahead {
     }
   }
   
-  func onListSelection(selected index: Int?) {
+  func onListSelection(selected index: Int) {
     selectedOptions = variantSelectedOptions(index)
     showList = false
     searchText = ""
   }
   
-  func variantSelectedOptions(_ index: Int?) -> [(String, Content?)] {
-    if let index = index, options.count > 0 {
+  func variantSelectedOptions(_ index: Int) -> [Option] {
+    if options.count > 0 {
       selectedOptions.append(options.remove(at: index))
     }
     switch variant {
@@ -172,10 +178,8 @@ private extension PBTypeahead {
       if event.keyCode == 48  { // tab
         isFocused = true
       }
-      if event.keyCode == 49 || event.keyCode == 36 { // space bar
-        if let index = selectedIndex {
-          onListSelection(selected: index)
-        }
+      if event.keyCode == 49 || event.keyCode == 36 { // space & return bar
+        onListSelection(selected: selectedIndex)
         showList.toggle()
       }
       if event.keyCode == 51 { // delete
@@ -185,11 +189,11 @@ private extension PBTypeahead {
         }
       }
       if event.keyCode == 125 { // arrow down
-        selectedIndex = selectedIndex ?? 0 < searchResults.count ? (selectedIndex ?? 0) + 1 : 0
+        selectedIndex = selectedIndex < searchResults.count ? (selectedIndex) + 1 : 0
       }
       else {
         if event.keyCode == 126 { // arrow up
-          selectedIndex = selectedIndex ?? 0 > 1 ? (selectedIndex ?? 0) - 1 : 0
+          selectedIndex = selectedIndex > 1 ? (selectedIndex - 1) : 0
         }
       }
       return event
