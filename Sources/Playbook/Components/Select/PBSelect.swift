@@ -45,6 +45,7 @@ public struct PBSelect: View {
             Text(value)
           }
         }
+        .pickerStyle(.inline)
       } label: {
         PBCard(padding: 0, style: style.card) {
           HStack {
