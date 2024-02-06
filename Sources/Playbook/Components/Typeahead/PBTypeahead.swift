@@ -16,11 +16,11 @@ public struct PBTypeahead<Content: View>: View {
   @Binding var searchText: String
   @State private var options: [(String, Content?)] = []
   @State private var selectedOptions: [(String, Content?)] = []
-  @State private var isPresented: Bool = false
-  @State private var isFocused: Bool = false
+  @State private var showList: Bool = false
+  @FocusState private var isFocused
   @State private var isHovering: Bool = false
-  @State private var selectedIndex: Int = 0
-  @State private var hoverString: String = ""
+  @State private var selectedIndex: Int?
+
   public init(
     title: String,
     placeholder: String = "Select",
@@ -44,23 +44,30 @@ public struct PBTypeahead<Content: View>: View {
       Text(title).pbFont(.caption)
         .padding(.bottom, Spacing.xxSmall)
       WrappedInputField(
-        title: title,
         placeholder: placeholder,
         searchText: $searchText,
         selection: onSelection,
         variant: variant,
-        isFocused: $isFocused,
+        isFocused: _isFocused,
         clearAction: { clearText },
         onItemTap: { removeSelected($0) }
       )
-      
+      .overlay {
+        Color.white
+          .padding(.trailing, 60)
+          .opacity(isFocused ? 0.001 : 0).onTapGesture {
+          if isFocused {
+            showList.toggle()
+          }
+        }
+      }
       listView
-      
     }
-    .background(Color.white.opacity(0.02))
-    .onTapGesture {
-      isPresented.toggle()
-      isFocused.toggle()
+    .onAppear {
+      showList = isFocused
+    }
+    .onChange(of: isFocused) {
+      showList = $1
     }
   }
 }
@@ -68,7 +75,7 @@ public struct PBTypeahead<Content: View>: View {
 private extension PBTypeahead {
   @ViewBuilder
   var listView: some View {
-    if isPresented || !searchText.isEmpty {
+    if showList {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
           ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
@@ -84,23 +91,20 @@ private extension PBTypeahead {
             }
             .padding(.horizontal, Spacing.xSmall + 4)
             .padding(.vertical, Spacing.xSmall)
-            .onHover { _ in
+            .onHover {
+              isHovering = $0
               selectedIndex = index
-              hoverString = result.0
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .onTapGesture {
-              onListSelection(selected: result.0)
+              onListSelection(selected: index)
             }
             .background(listBackgroundColor(index: index))
           }
         }
       }
-        .onAppear{
-         #if os(macOS)
-         deleteKeyboardControl()
-         keyboardControls()
-         #endif
+      .onAppear{
+        setKeyboardControls
       }
     }
   }
@@ -110,15 +114,9 @@ private extension PBTypeahead {
   }
   
   var searchResults: [(String, Content?)] {
-    #if os(iOS)
-    return options.filter {
-      $0.0.localizedCaseInsensitiveContains(searchText)
-    }
-    #elseif os(macOS)
     return searchText.isEmpty ? options : options.filter {
       $0.0.localizedCaseInsensitiveContains(searchText)
     }
-    #endif
   }
   
   func listBackgroundColor(index: Int) -> Color {
@@ -133,15 +131,14 @@ private extension PBTypeahead {
     }
   }
   
-  func onListSelection(selected element: String) {
-    selectedOptions = variantSelectedOptions(element)
-    isPresented.toggle()
+  func onListSelection(selected index: Int?) {
+    selectedOptions = variantSelectedOptions(index)
+    showList = false
     searchText = ""
   }
   
-  
-  func variantSelectedOptions(_ result: String) -> [(String, Content?)] {
-    if let index = options.firstIndex(where: { $0.0 == result }){
+  func variantSelectedOptions(_ index: Int?) -> [(String, Content?)] {
+    if let index = index, options.count > 0 {
       selectedOptions.append(options.remove(at: index))
     }
     switch variant {
@@ -154,8 +151,7 @@ private extension PBTypeahead {
     }
     return selectedOptions
   }
-  
-  
+
   var clearText: Void {
     if let action = clearAction {
       action()
@@ -163,12 +159,12 @@ private extension PBTypeahead {
       searchText = ""
       options.append(contentsOf: selectedOptions)
       selectedOptions.removeAll()
-      isPresented = false
+      showList = false
     }
   }
   
-  func removeSelected(_ element: String) {
-    if let selectedElementIndex = selectedOptions.firstIndex(where: { $0.0 == element }) {
+  func removeSelected(_ index: Int) {
+    if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
       let selectedElement = selectedOptions.remove(at: selectedElementIndex)
       options.append(selectedElement)
     }
@@ -186,102 +182,41 @@ public extension PBTypeahead {
       }
     }
   }
-  
-#if os(macOS)
-  func deleteKeyboardControl() {
+}
+
+public extension PBTypeahead {
+  var setKeyboardControls: Void {
+    #if os(macOS)
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-      // if event.isARepeat == false {
-      if event.keyCode == 51 { // delete
-        if let lastElement = selectedOptions.indices.last {
-          selectedOptions.remove(at: lastElement)
-          
-          print("lastElement: \(lastElement)")
-        }
-      }
-      //   }
-      return event
-    }
-  }
-  func keyboardControls() {
-    
-    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-      
       if event.keyCode == 48  { // tab
         isFocused = true
       }
       if event.keyCode == 49 || event.keyCode == 36 { // space bar
-        onListSelection(selected: hoverString)
-        isPresented.toggle()
+        if let index = selectedIndex {
+          onListSelection(selected: index)
+        }
+        showList.toggle()
       }
-//      if event.isARepeat == false {
-//        if event.keyCode == 51 { // delete
-//          if let lastElement = selectedOptions.indices.last {
-//            selectedOptions.remove(at: lastElement)
-//            print("selectedOptions.indices.last: \(String(describing: selectedOptions.indices.last))")
-//            print("lastElement: \(lastElement)")
-//          }
-//        }
-//      }
-
-//        
-//     }
-//        if selection == .multiple {
-//          if let selectedElementIndex = selectedOptions.lastIndex(where: { $0.0 == optionsToShow.last }) {
-//            let selectedElement = selectedOptions.remove(at: selectedElementIndex)
-//
-//            options.append(selectedElement)
-//          }
-//        } 
-////        else {
-////                    if let selectedElementIndex = selectedOptions.lastIndex(where: { $0.0 == optionsToShow.last }) {
-////                      let selectedElement = selectedOptions.remove(at: selectedElementIndex)
-////                      options.append(selectedElement)
-////          
-////                    }
-////                    }
-//          
-//          
-//        
-//        
-//        // If there is an option selected in both fields they both get deleted
-////        if selection == .multiple {
-////        if let selectedElementIndex = selectedOptions.lastIndex(where: { $0.0 == optionsToShow.last }) {
-////          let selectedElement = selectedOptions.remove(at: selectedElementIndex)
-////          options.append(selectedElement)
-////          print("selectedOptions: \(selectedOptions)")
-////          print("selectedElement: \(selectedElement)")
-////          print("selectedElementIndex: \(selectedElementIndex)")
-////        }
-////     
-//////            if optionsToShow.count >= 1 {
-//////              selectedOptions.remove(at: )
-//////
-//////            }
-//////            else {
-//////              selectedOptions.removeAll()
-//// //           }
-////        }else {
-////          if let selectedElementIndex = selectedOptions.lastIndex(where: { $0.0 == optionsToShow.last }) {
-////            let selectedElement = selectedOptions.remove(at: selectedElementIndex)
-////            options.append(selectedElement)
-////            
-////          }
-////          }
- //       }
+      if event.keyCode == 51 { // delete
+        if let lastElementIndex = selectedOptions.indices.last {
+          let selectedElement = selectedOptions.remove(at: lastElementIndex)
+          options.append(selectedElement)
+        }
+      }
       if event.keyCode == 125 { // arrow down
-        selectedIndex = selectedIndex < searchResults.count ? selectedIndex + 1 : 0
+        selectedIndex = selectedIndex ?? 0 < searchResults.count ? (selectedIndex ?? 0) + 1 : 0
       }
       else {
         if event.keyCode == 126 { // arrow up
-          selectedIndex = selectedIndex > 1 ? selectedIndex - 1 : 0
+          selectedIndex = selectedIndex ?? 0 > 1 ? (selectedIndex ?? 0) - 1 : 0
         }
       }
       return event
     }
-    
+  #endif
   }
-#endif
 }
+
 
 #Preview {
   registerFonts()
