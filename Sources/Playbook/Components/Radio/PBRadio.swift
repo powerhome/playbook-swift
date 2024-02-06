@@ -1,13 +1,13 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PBRadio.swift
-//
-//
-//  Created by mpc on 8/9/21.
 //
 
 import SwiftUI
-
-// MARK: - PBRadioItem
 
 public struct PBRadioItem: Identifiable, Equatable {
   public var title: String

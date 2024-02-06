@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PBCheckboxStyle.swift
-//
-//
-//  Created by Gavin Huang on 5/2/23.
 //
 
 import SwiftUI

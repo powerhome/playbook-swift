@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PBShadow.swift
-//
-//
-//  Created by Isis Silva on 09/02/23.
 //
 
 import SwiftUI

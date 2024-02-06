@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PBTooltip.swift
-//
-//
-//  Created by Stephen Marshall on 11/29/23.
 //
 
 import SwiftUI
@@ -121,17 +123,20 @@ public extension PBTooltip {
     HStack {
       if let icon = icon {
         PBIcon(icon)
-          .padding(.leading, Spacing.small)
+          .padding(.leading, Spacing.xSmall)
         Text(text)
-          .padding(.vertical, Spacing.small)
-          .padding(.trailing, Spacing.small)
+          .padding(.vertical, Spacing.xSmall)
+          .padding(.trailing, Spacing.xSmall)
+          .pbFont(.body)
           .presentationCompactAdaptation(.popover)
       } else {
         Text(text)
-          .padding()
+          .pbFont(.body)
+          .padding(.all, 10)
           .presentationCompactAdaptation(.popover)
       }
     }
+    .background(Color.black.padding(-80))
   }
 }
 

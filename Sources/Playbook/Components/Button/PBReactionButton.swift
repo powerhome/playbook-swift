@@ -1,8 +1,10 @@
 //
-//  PBReactionButton.swift
-//  
+//  Playbook Swift Design System
 //
-//  Created by Rachel Radford on 11/26/23.
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  PBReactionButton.swift
 //
 
 import SwiftUI

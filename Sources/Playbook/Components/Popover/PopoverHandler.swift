@@ -1,8 +1,10 @@
 //
-//  PopoverHandler.swift
-//  
+//  Playbook Swift Design System
 //
-//  Created by Isis Silva on 09/11/23.
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  PopoverHandler.swift
 //
 
 import SwiftUI

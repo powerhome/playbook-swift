@@ -1,8 +1,10 @@
 //
+//  Playbook Swift Design System
+//
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
 //  PopoverCatalog.swift
-//
-//
-//  Created by Carlos Lima on 8/21/23.
 //
 
 import SwiftUI
@@ -111,7 +113,7 @@ public struct PopoverCatalog: View {
       ) {
         isPresented4 = true
       }
-      .pbPopover(isPresented: $isPresented4, $popoverValue4, position: .top, clickToClose: .outside) {
+      .pbPopover(isPresented: $isPresented4, $popoverValue4, position: .top(), clickToClose: .outside) {
         Text("Click anywhere but me!")
           .pbFont(.body, color: .text(.default))
       }

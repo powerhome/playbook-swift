@@ -8,13 +8,12 @@
 
 ### Playbook Swift can be added via the Swift Package Manager
 
-<!--![Package Manager Popup](pkgmgr-pop.png)-->
-<img src="pkgmgr-pop.png" height=200px />
+![pkgmgr-pop](https://github.com/powerhome/PlaybookSwift/assets/60269827/6319e924-252f-4ee3-8a05-5dbffa498a6b)
+
 
 1. Search for: `git@github.com:powerhome/PlaybookSwift.git`
 1. Choose `Add Package`
 2. In Xcode, Choose `Packages > Resolve Package Versions`
-   <!-- ![Alt text](xcode-resolve-deps.png)-->
 3. In your Swift view file:
     ```swift
     import Playbook

@@ -1,8 +1,10 @@
 //
-//  PBStatusDialogView.swift
-//  
+//  Playbook Swift Design System
 //
-//  Created by Isis Silva on 03/04/23.
+//  Copyright © 2024 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  PBStatusDialogView.swift
 //
 
 import SwiftUI
@@ -14,7 +16,7 @@ struct PBStatusDialogView: View {
 
   var body: some View {
     VStack {
-      PBIconCircle(status.icon.0, size: .x3, color: status.icon.1)
+      PBIconCircle(status.icon.0, size: .x2, color: status.icon.1)
         .frame(width: 80)
       Text(title)
         .pbFont(.title3)
