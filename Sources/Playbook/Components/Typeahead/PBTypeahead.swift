@@ -9,6 +9,8 @@
 
 import SwiftUI
 
+@available(iOS 17.0, *)
+@available(macOS 14.0, *)
 public struct PBTypeahead<Content: View>: View {
   private let title: String
   private let placeholder: String
@@ -52,21 +54,14 @@ public struct PBTypeahead<Content: View>: View {
         variant: variant,
         isFocused: _isFocused,
         clearAction: { clearText },
-        onItemTap: { removeSelected($0) }
+        onItemTap: { removeSelected($0) },
+        onViewTap: { showList.toggle() }
       )
-      .overlay {
-        Color.white
-          .padding(.trailing, 60)
-          .opacity(isFocused ? 0.001 : 0).onTapGesture {
-          if isFocused {
-            showList.toggle()
-          }
-        }
-      }
       listView
     }
     .onAppear {
       showList = isFocused
+      setKeyboardControls
     }
     .onChange(of: isFocused) {
       showList = $1
@@ -74,6 +69,8 @@ public struct PBTypeahead<Content: View>: View {
   }
 }
 
+@available(iOS 17.0, *)
+@available(macOS 14.0, *)
 private extension PBTypeahead {
   @ViewBuilder
   var listView: some View {
@@ -104,9 +101,6 @@ private extension PBTypeahead {
             .background(listBackgroundColor(index: index))
           }
         }
-      }
-      .onAppear{
-        setKeyboardControls
       }
     }
   }
@@ -171,22 +165,7 @@ private extension PBTypeahead {
       options.append(selectedElement)
     }
   }
-}
-
-public extension PBTypeahead {
-  enum Selection {
-    case single, multiple
-    
-    func selectedOptions(options: [String], placeholder: String) -> WrappedInputField.Selection {
-      switch self {
-      case .single: return .single(options.first)
-      case .multiple: return .multiple(options)
-      }
-    }
-  }
-}
-
-public extension PBTypeahead {
+  
   var setKeyboardControls: Void {
     #if os(macOS)
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
@@ -219,10 +198,24 @@ public extension PBTypeahead {
   }
 }
 
+@available(iOS 17.0, *)
+@available(macOS 14.0, *)
+public extension PBTypeahead {
+  enum Selection {
+    case single, multiple
+    
+    func selectedOptions(options: [String], placeholder: String) -> WrappedInputField.Selection {
+      switch self {
+      case .single: return .single(options.first)
+      case .multiple: return .multiple(options)
+      }
+    }
+  }
+}
 
 #Preview {
   registerFonts()
-  if #available(iOS 16.0, *) {
+  if #available(iOS 17.0, *), #available(macOS 14.0, *) {
     return TypeaheadCatalog()
   } else {
     return EmptyView()

@@ -88,7 +88,12 @@ public enum Components: String, CaseIterable {
     case .textInput: PBTextInput_Previews.previews
     case .tooltip: TooltipCatalog()
     case .timeStamp: TimeStampCatalog()
-    case .typeahead: TypeaheadCatalog()
+    case .typeahead: 
+      if #available(iOS 17.0, *), #available(macOS 14.0, *) {
+        TypeaheadCatalog()
+      } else {
+        EmptyView()
+      }
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
     }

@@ -16,6 +16,7 @@ public struct WrappedInputField: View {
   private let variant: Variant
   private let clearAction: (() -> Void)?
   private let onItemTap: ((Int) -> Void)?
+  private let onViewTap: (() -> Void)?
   private let shape = RoundedRectangle(cornerRadius: BorderRadius.medium)
   @Binding var searchText: String
   @State private var isHovering: Bool = false
@@ -28,7 +29,8 @@ public struct WrappedInputField: View {
     variant: Variant = .pill,
     isFocused: FocusState<Bool>,
     clearAction: (() -> Void)? = nil,
-    onItemTap: ((Int) -> Void)? = nil
+    onItemTap: ((Int) -> Void)? = nil,
+    onViewTap: (() -> Void)? = nil
   ) {
     self.placeholder = placeholder
     self._searchText = searchText
@@ -37,6 +39,7 @@ public struct WrappedInputField: View {
     self._isFocused = isFocused
     self.clearAction = clearAction
     self.onItemTap = onItemTap
+    self.onViewTap = onViewTap
   }
   
   public var body: some View {
@@ -53,6 +56,14 @@ public struct WrappedInputField: View {
         }
         .onTapGesture {
           isFocused = true
+        }
+        .overlay {
+          Color.white
+            .opacity(isFocused ? 0.001 : 0).onTapGesture {
+              if isFocused {
+                onViewTap?()
+              }
+            }
         }
         
         dismissIconView
@@ -84,7 +95,6 @@ private extension WrappedInputField {
   
   @ViewBuilder
   var textfieldWithCustomPlaceholder: some View {
-    #if os(macOS)
     ZStack(alignment: .leading) {
       if searchText.isEmpty {
         Text(placeholderText)
@@ -96,27 +106,6 @@ private extension WrappedInputField {
     .frame(maxWidth: .infinity)
     .frame(height: Spacing.xLarge)
     .padding(.leading, Spacing.small)
-    .overlay(
-      HStack {
-        Color.white.opacity(isFocused ? 0 : 0.01)
-      }
-    )
-    #elseif os(iOS)
-    ZStack(alignment: .leading) {
-      if searchText.isEmpty {
-        Text(placeholderText)
-      }
-      TextField("", text: $searchText)
-        .textFieldStyle(.plain)
-        .focused($isFocused)
-        .frame( height: Spacing.xLarge)
-        .frame(maxWidth: .infinity)
-    }
-    .pbFont(.body, color: textColor)
-    .padding(.leading, Spacing.small)
-    .frame(maxWidth: .infinity)
-    .frame(height: Spacing.xLarge)
-    #endif
   }
   
   @ViewBuilder
