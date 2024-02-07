@@ -9,7 +9,8 @@
 
 import SwiftUI
 
-@available(iOS 16.0, *)
+@available(iOS 17.0, *)
+@available(macOS 14.0, *)
 public struct TypeaheadCatalog: View {
   @State private var searchTextColors: String = ""
   @State private var assetsColors = Mocks.assetsColors
