@@ -27,6 +27,7 @@ public struct PBTypeahead<Content: View>: View {
   @Binding var searchText: String
   @State var selectedOptions: [Option] = []
   @FocusState private var isFocused
+  @State private var focused: Bool = false
 
   public init(
     title: String,
@@ -63,6 +64,7 @@ public struct PBTypeahead<Content: View>: View {
       listView
     }
     .onAppear {
+      focused = isFocused
       listOptions = options
       showList = isFocused
       setKeyboardControls
@@ -203,7 +205,7 @@ private extension PBTypeahead {
     #if os(macOS)
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
       if event.keyCode == 48  { // tab
-        isFocused.toggle() 
+        focused = true
       }
       if event.keyCode == 49 || event.keyCode == 36 { // space & return bar
         guard let element = hoveringIndex else { return event }
