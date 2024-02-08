@@ -17,7 +17,7 @@ public struct PBUser: View {
   var size: UserAvatarSize = .medium
   var territory: String?
   var title: String?
-
+  var subtitle: BlockContent?
   var titleStyle: PBFont {
     switch size {
     case .large: return .title3
@@ -44,7 +44,8 @@ public struct PBUser: View {
     orientation: Orientation = .horizontal,
     size: UserAvatarSize = .medium,
     territory: String? = nil,
-    title: String? = nil
+    title: String? = nil,
+    subtitle: BlockContent? = .contact
   ) {
     self.name = name
     self.displayAvatar = displayAvatar
@@ -53,6 +54,7 @@ public struct PBUser: View {
     self.size = size
     self.territory = territory
     self.title = title
+    self.subtitle = subtitle
   }
 
   public var body: some View {
@@ -67,6 +69,9 @@ public struct PBUser: View {
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
           bodyText.pbFont(.body, color: .text(.light))
+          subtitleIconTitleBlock
+          subtitleContactBlock
+          contactIconTitle
         }
       }
     } else {
@@ -91,13 +96,53 @@ public extension PBUser {
     case small
     case medium
     case large
-
+    
     var avatarSize: PBAvatar.Size {
       switch self {
       case .small: return .small
       case .medium: return .medium
       case .large: return .large
       }
+    }
+  }
+    enum BlockContent {
+      case iconTitle, contact, contactIconTitle
+    }
+     @ViewBuilder
+      var contentBlock: some View {
+        switch subtitle {
+        case .contact: subtitleContactBlock
+        case .iconTitle: subtitleIconTitleBlock
+        case .contactIconTitle:
+          contactIconTitle
+        case .none:
+          EmptyView()
+       
+        }
+      }
+  @ViewBuilder
+  var subtitleIconTitleBlock: some View {
+    if subtitle == .iconTitle {
+      HStack {
+        PBIcon(FontAwesome.users, size: .small)
+        Text("ADMIN")
+          .pbFont(.subcaption, color: .text(.default))
+      }
+    }
+  }
+  @ViewBuilder
+  var subtitleContactBlock: some View {
+    if subtitle == .contact {
+      PBContact(type: .cell, value: "(349) 185-9988", detail: false)
+      PBContact(type: .home, value: "(555) 555-5555", detail: false)
+      PBContact(type: .email, value: "email@example.com", detail: false)
+    }
+  }
+  @ViewBuilder
+  var contactIconTitle: some View {
+    if subtitle == .contactIconTitle {
+      subtitleIconTitleBlock
+      subtitleContactBlock
     }
   }
 }
