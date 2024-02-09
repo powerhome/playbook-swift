@@ -82,20 +82,23 @@ public extension UserCatalog {
         image: img,
         orientation: .vertical,
         size: .small,
-        title: title
+        title: title,
+        subtitle: .none
       )
       PBUser(
         name: name,
         image: img,
         orientation: .vertical,
-        title: title
+        title: title,
+        subtitle: .none
       )
       PBUser(
         name: name,
         image: img,
         orientation: .vertical,
         size: .large,
-        title: title
+        title: title,
+        subtitle: .none
       )
     }
   }
@@ -156,7 +159,7 @@ public extension UserCatalog {
         size: .small, 
         territory: "PHL",
         title: "Remodeling Consultant",
-        subtitle: .iconTitle
+        subtitle: .iconRole
       )
       PBUser(
         name: "Anna Black",

@@ -69,9 +69,7 @@ public struct PBUser: View {
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
           bodyText.pbFont(.body, color: .text(.light))
-          subtitleIconTitleBlock
-          subtitleContactBlock
-          contactIconTitle
+          contentBlock
         }
       }
     } else {
@@ -85,6 +83,7 @@ public struct PBUser: View {
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
           bodyText.pbFont(.body, color: .text(.light))
+          contentBlock
         }
       }
     }
@@ -106,45 +105,35 @@ public extension PBUser {
     }
   }
     enum BlockContent {
-      case iconTitle, contact, contactIconTitle
+      case iconRole, contact, contactIconRole
     }
-     @ViewBuilder
-      var contentBlock: some View {
-        switch subtitle {
-        case .contact: subtitleContactBlock
-        case .iconTitle: subtitleIconTitleBlock
-        case .contactIconTitle:
-          contactIconTitle
-        case .none:
-          EmptyView()
-       
-        }
-      }
   @ViewBuilder
-  var subtitleIconTitleBlock: some View {
-    if subtitle == .iconTitle {
+   var contentBlock: some View {
+     switch subtitle {
+     case .contact: subtitleContactBlock
+     case .iconRole: subtitleIconRoleBlock
+     case .contactIconRole:
+       subtitleIconRoleBlock
+       subtitleContactBlock
+     case .none:
+       EmptyView()
+    
+     }
+   }
+  @ViewBuilder
+  var subtitleIconRoleBlock: some View {
       HStack {
         PBIcon(FontAwesome.users, size: .small)
         Text("ADMIN")
           .pbFont(.subcaption, color: .text(.default))
       }
-    }
   }
   @ViewBuilder
   var subtitleContactBlock: some View {
-    if subtitle == .contact {
       PBContact(type: .cell, value: "(349) 185-9988", detail: false)
       PBContact(type: .home, value: "(555) 555-5555", detail: false)
       PBContact(type: .email, value: "email@example.com", detail: false)
     }
-  }
-  @ViewBuilder
-  var contactIconTitle: some View {
-    if subtitle == .contactIconTitle {
-      subtitleIconTitleBlock
-      subtitleContactBlock
-    }
-  }
 }
 
 struct PBUser_Previews: PreviewProvider {
