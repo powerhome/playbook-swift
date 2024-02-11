@@ -22,11 +22,12 @@ public struct PBTypeahead<Content: View>: View {
 
   @State private var listOptions: [Option] = []
   @State private var showList: Bool = false
-  @State private var hoveringIndex: Int = 0
+  @State private var hoveringIndex: (Int, Option)?
   @State private var selectedIndex: Int?
   @Binding var searchText: String
   @State var selectedOptions: [Option] = []
   @FocusState private var isFocused
+  @State private var focused: Bool = false
 
   public init(
     title: String,
@@ -53,9 +54,9 @@ public struct PBTypeahead<Content: View>: View {
       WrappedInputField(
         placeholder: placeholder,
         searchText: $searchText,
-        selection: onSelection,
+        selection: optionsSelected,
         variant: variant,
-        isFocused: _isFocused,
+        isFocused: $isFocused,
         clearAction: { clearText },
         onItemTap: { removeSelected($0) },
         onViewTap: { showList.toggle() }
@@ -63,6 +64,7 @@ public struct PBTypeahead<Content: View>: View {
       listView
     }
     .onAppear {
+      focused = isFocused
       listOptions = options
       showList = isFocused
       setKeyboardControls
@@ -97,10 +99,13 @@ private extension PBTypeahead {
               .frame(maxWidth: .infinity, alignment: .leading)
               .background(listBackgroundColor(index))
               .onHover { _ in
-                hoveringIndex = index
+                if showList {
+                  hoveringIndex = (index, result)
+                  print("hovering: \(hoveringIndex)")
+                }
               }
               .onTapGesture {
-                onListSelection(selected: index)
+                onListSelection(index: index, option: result)
               }
             }
           }
@@ -116,15 +121,15 @@ private extension PBTypeahead {
   }
   
   func listBackgroundColor(_ index: Int?) -> Color {
-    #if os(macOS)
-    switch variant {
-    case .text:
+    switch selection {
+    case .single:
       if selectedIndex != nil, selectedIndex == index {
         return .pbPrimary
       }
     default: break
     }
-    return hoveringIndex == index ? .hover : .card
+    #if os(macOS)
+    return hoveringIndex?.0 == index ? .hover : .card
     #elseif os(iOS)
     return .card
     #endif
@@ -138,30 +143,36 @@ private extension PBTypeahead {
     }
   }
 
-  var onSelection: WrappedInputField.Selection {
-    let optionsSelected = selectedOptions.isEmpty ? [] : selectedOptions.map { $0.0 }
+  var optionsSelected: WrappedInputField.Selection {
+    let optionsSelected = selectedOptions.map { $0.0 }
     return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
   }
 
-  func onListSelection(selected index: Int) {
+  func onListSelection(index: Int, option: Option) {
+    if showList {
+      switch selection {
+      case .single:
+        onSingleSelection(option)
+      case .multiple:
+        onMultipleSelection(option)
+      }
+    }
     selectedIndex = index
-    selectedOptions = variantSelectedOptions(index)
     showList = false
     searchText = ""
+    hoveringIndex = nil
   }
   
-  func variantSelectedOptions(_ index: Int) -> [Option] {
-    switch variant {
-    case .text:
-      selectedOptions.removeAll()
-      selectedOptions.append(listOptions[index])
-    case .pill:
-      if listOptions.count > 0 {
-        selectedOptions.append(listOptions.remove(at: index))
-      }
-    default: break
-    }
-    return selectedOptions
+  func onSingleSelection(_ option: Option) {
+    selectedOptions.removeAll()
+    selectedOptions.append(option)
+    print("selected options: \(selectedOptions)")
+  }
+  
+  func onMultipleSelection(_ option: Option) {
+    selectedOptions.append(option)
+    listOptions.removeAll(where: { $0.0 == option.0 })
+    print("selected options: \(selectedOptions.count)")
   }
 
   var clearText: Void {
@@ -188,28 +199,30 @@ private extension PBTypeahead {
       selectedOptions.append(selectedElement)
     }
   }
-  
+
   var setKeyboardControls: Void {
     #if os(macOS)
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
       if event.keyCode == 48  { // tab
-        isFocused = true
+        focused = true
       }
       if event.keyCode == 49 || event.keyCode == 36 { // space & return bar
-        onListSelection(selected: hoveringIndex)
+        guard let element = hoveringIndex else { return event }
+        onListSelection(index: element.0, option: element.1)
       }
       if event.keyCode == 51 { // delete
         if let lastElementIndex = selectedOptions.indices.last {
-          let selectedElement = selectedOptions.remove(at: lastElementIndex)
-          listOptions.append(selectedElement)
+          removeSelected(lastElementIndex)
         }
       }
       if event.keyCode == 125 { // arrow down
-        hoveringIndex = hoveringIndex < searchResults.count ? (hoveringIndex) + 1 : 0
+        let index = hoveringIndex?.0 ?? 0
+        hoveringIndex?.0 = index < searchResults.count ? (index + 1) : 0
       }
       else {
         if event.keyCode == 126 { // arrow up
-          hoveringIndex = hoveringIndex > 1 ? (hoveringIndex - 1) : 0
+          let index = hoveringIndex?.0 ?? 0
+          hoveringIndex?.0 = index > 1 ? (index - 1) : 0
         }
       }
       return event
