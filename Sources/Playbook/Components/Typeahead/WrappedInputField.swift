@@ -20,14 +20,14 @@ public struct WrappedInputField: View {
   private let shape = RoundedRectangle(cornerRadius: BorderRadius.medium)
   @Binding var searchText: String
   @State private var isHovering: Bool = false
-  @FocusState private var isFocused
+  var isFocused: FocusState<Bool>.Binding
 
   init(
     placeholder: String = "Select",
     searchText: Binding<String>,
     selection: Selection,
     variant: Variant = .pill,
-    isFocused: FocusState<Bool>,
+    isFocused: FocusState<Bool>.Binding,
     clearAction: (() -> Void)? = nil,
     onItemTap: ((Int) -> Void)? = nil,
     onViewTap: (() -> Void)? = nil
@@ -36,7 +36,7 @@ public struct WrappedInputField: View {
     self._searchText = searchText
     self.selection = selection
     self.variant = variant
-    self._isFocused = isFocused
+    self.isFocused = isFocused
     self.clearAction = clearAction
     self.onItemTap = onItemTap
     self.onViewTap = onViewTap
@@ -55,12 +55,12 @@ public struct WrappedInputField: View {
           }
         }
         .onTapGesture {
-          isFocused = true
+          isFocused.wrappedValue = true
         }
         .overlay {
           Color.white
-            .opacity(isFocused ? 0.001 : 0).onTapGesture {
-              if isFocused {
+            .opacity(isFocused.wrappedValue ? 0.001 : 0).onTapGesture {
+              if isFocused.wrappedValue {
                 onViewTap?()
               }
             }
@@ -72,7 +72,7 @@ public struct WrappedInputField: View {
           }
           .padding(.trailing, Spacing.small)
       }
-      .focused($isFocused)
+      .focused(isFocused)
       .background(backgroundColor)
       .overlay {
         shape.stroke(borderColor, lineWidth: 1.0)
@@ -152,7 +152,7 @@ private extension WrappedInputField {
   }
   
   var borderColor: Color {
-    isFocused ? .pbPrimary : .border
+    isFocused.wrappedValue ? .pbPrimary : .border
   }
   
   @ViewBuilder
@@ -212,27 +212,27 @@ public struct WrappedInputFieldCatalog: View {
       WrappedInputField(
         searchText: $text,
         selection: .single(nil),
-        isFocused: _isFocused
+        isFocused: $isFocused
       )
 
       WrappedInputField(
         searchText: $text,
         selection: .multiple(["title1", "title2"]),
-        isFocused: _isFocused
+        isFocused: $isFocused
       )
       
       WrappedInputField(
         searchText: $text,
         selection: .multiple(["title1", "title2"]),
         variant: .other(AnyView(PBPill("oi", variant: .primary))),
-        isFocused: _isFocused
+        isFocused: $isFocused
       )
       
       WrappedInputField(
         searchText: $text,
         selection: .multiple(["title1", "title2"]),
         variant: .other(AnyView(PBBadge(text: "title", variant: .primary))),
-        isFocused: _isFocused
+        isFocused: $isFocused
       )
     }
     .padding()

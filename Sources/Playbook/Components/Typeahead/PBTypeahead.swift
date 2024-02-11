@@ -56,7 +56,7 @@ public struct PBTypeahead<Content: View>: View {
         searchText: $searchText,
         selection: optionsSelected,
         variant: variant,
-        isFocused: _isFocused,
+        isFocused: $isFocused,
         clearAction: { clearText },
         onItemTap: { removeSelected($0) },
         onViewTap: { showList.toggle() }
@@ -100,7 +100,6 @@ private extension PBTypeahead {
               .background(listBackgroundColor(index))
               .onHover { _ in
                 if showList {
-
                   hoveringIndex = (index, result)
                   print("hovering: \(hoveringIndex)")
                 }
@@ -122,7 +121,6 @@ private extension PBTypeahead {
   }
   
   func listBackgroundColor(_ index: Int?) -> Color {
-    #if os(macOS)
     switch selection {
     case .single:
       if selectedIndex != nil, selectedIndex == index {
@@ -130,6 +128,7 @@ private extension PBTypeahead {
       }
     default: break
     }
+    #if os(macOS)
     return hoveringIndex?.0 == index ? .hover : .card
     #elseif os(iOS)
     return .card
@@ -213,8 +212,7 @@ private extension PBTypeahead {
       }
       if event.keyCode == 51 { // delete
         if let lastElementIndex = selectedOptions.indices.last {
-          let selectedElement = selectedOptions.remove(at: lastElementIndex)
-          listOptions.append(selectedElement)
+          removeSelected(lastElementIndex)
         }
       }
       if event.keyCode == 125 { // arrow down
