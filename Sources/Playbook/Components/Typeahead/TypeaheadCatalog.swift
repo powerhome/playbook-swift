@@ -21,11 +21,22 @@ public struct TypeaheadCatalog: View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default", spacing: Spacing.small) {
-          PBTypeahead(title: "Colors", searchText: $searchTextColors, selection: .single, options: assetsColors, variant: .text)
+          PBTypeahead(
+            title: "Colors",
+            searchText: $searchTextColors,
+            selection: .single,
+            options: assetsColors
+          )
         }
 
         PBDoc(title: "With Pills", spacing: Spacing.small) {
-          PBTypeahead(title: "Users", placeholder: "type the name of a user", searchText: $searchTextUsers, selection: .multiple, options: assetsUsers, variant: .pill)
+          PBTypeahead(
+            title: "Users",
+            placeholder: "type the name of a user",
+            searchText: $searchTextUsers,
+            selection: .multiple(variant: .pill),
+            options: assetsUsers
+          )
         }
       }
       .padding(Spacing.medium)

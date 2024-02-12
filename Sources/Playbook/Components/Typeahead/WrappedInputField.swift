@@ -13,7 +13,6 @@ import WrappingHStack
 public struct WrappedInputField: View {
   private let placeholder: String
   private let selection: Selection
-  private let variant: Variant
   private let clearAction: (() -> Void)?
   private let onItemTap: ((Int) -> Void)?
   private let onViewTap: (() -> Void)?
@@ -26,7 +25,6 @@ public struct WrappedInputField: View {
     placeholder: String = "Select",
     searchText: Binding<String>,
     selection: Selection,
-    variant: Variant = .pill,
     isFocused: FocusState<Bool>.Binding,
     clearAction: (() -> Void)? = nil,
     onItemTap: ((Int) -> Void)? = nil,
@@ -35,7 +33,6 @@ public struct WrappedInputField: View {
     self.placeholder = placeholder
     self._searchText = searchText
     self.selection = selection
-    self.variant = variant
     self.isFocused = isFocused
     self.clearAction = clearAction
     self.onItemTap = onItemTap
@@ -88,7 +85,7 @@ public struct WrappedInputField: View {
 private extension WrappedInputField {
   var indices: Range<Int> {
     switch selection {
-    case .multiple(let options): return  Range(0...options.count)
+    case .multiple(_, let options): return  Range(0...options.count)
     case .single(_): return Range(0...1)
     }
   }
@@ -111,7 +108,7 @@ private extension WrappedInputField {
   @ViewBuilder
   func gridView(index: Int) -> some View {
     switch selection {
-    case .multiple(let options):
+    case .multiple(let variant, let options):
       let option = "\(options[index])"
       if options.count > 0 {
         variant.view(text: option)
@@ -126,26 +123,26 @@ private extension WrappedInputField {
   }
   
   var setupCursor: Void {
-    #if os(macOS)
+#if os(macOS)
     if isHovering {
       NSCursor.arrow.push()
     }
     else {
       NSCursor.arrow.pop()
     }
-    #endif
+#endif
   }
   
   var placeholderText: String {
     switch selection {
-    case .multiple(let elements): return elements.isEmpty ? placeholder : ""
+    case .multiple(_, let elements): return elements.isEmpty ? placeholder : ""
     case .single(let element): return element ?? placeholder
     }
   }
   
   var textColor: Color {
     switch selection {
-    case .multiple(_): return searchText.isEmpty ? .text(.light) : .text(.default)
+    case .multiple(_, _): return searchText.isEmpty ? .text(.light) : .text(.default)
     case .single(let element):
       return element == nil ? .text(.light) : .text(.default)
     }
@@ -158,7 +155,7 @@ private extension WrappedInputField {
   @ViewBuilder
   var dismissIconView: some View {
     switch selection {
-    case .multiple(let elements):
+    case .multiple(_, let elements):
       if !elements.isEmpty {
         dismissIcon
       }
@@ -181,18 +178,18 @@ private extension WrappedInputField {
 
 public extension WrappedInputField {
   enum Selection {
-    case single(String?), multiple([String])
-  }
-  
-  enum Variant {
-    case text, pill, other(AnyView)
+    case single(String?), multiple(Selection.Variant, [String])
     
-    @ViewBuilder
-    func view(text: String) -> some View {
-      switch self {
-      case .text: Text(text).pbFont(.body)
-      case .pill: TypeaheadPill(text)
-      case .other(let view): view
+    public enum Variant {
+      case text, pill, other(AnyView)
+      
+      @ViewBuilder
+      func view(text: String) -> some View {
+        switch self {
+        case .text: Text(text).pbFont(.body)
+        case .pill: TypeaheadPill(text)
+        case .other(let view): view
+        }
       }
     }
   }
@@ -217,21 +214,19 @@ public struct WrappedInputFieldCatalog: View {
 
       WrappedInputField(
         searchText: $text,
-        selection: .multiple(["title1", "title2"]),
+        selection: .multiple(.pill, ["title1", "title2"]),
         isFocused: $isFocused
       )
       
       WrappedInputField(
         searchText: $text,
-        selection: .multiple(["title1", "title2"]),
-        variant: .other(AnyView(PBPill("oi", variant: .primary))),
+        selection: .multiple(.other(AnyView(PBPill("oi", variant: .primary))), ["title1", "title2"]),
         isFocused: $isFocused
       )
       
       WrappedInputField(
         searchText: $text,
-        selection: .multiple(["title1", "title2"]),
-        variant: .other(AnyView(PBBadge(text: "title", variant: .primary))),
+        selection: .multiple(.other(AnyView(PBBadge(text: "title", variant: .primary))), ["title1", "title2"]),
         isFocused: $isFocused
       )
     }
