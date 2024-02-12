@@ -111,15 +111,17 @@ private extension PBTypeahead {
     }
   }
   
+ 
+  
   var searchResults: [Option] {
     switch selection{
     case .multiple:
       return searchText.isEmpty ? listOptions : listOptions.filter {
-        $0.0.localizedCaseInsensitiveContains(searchText)
+        $0.0.localizedCaseInsensitiveContains(searchText.trimmingCharacters(in: .whitespaces))
       }
     case .single:
       return searchText.isEmpty ? options : options.filter {
-        $0.0.localizedCaseInsensitiveContains(searchText)
+        $0.0.localizedCaseInsensitiveContains(searchText.trimmingCharacters(in: .whitespaces))
       }
     }
   
@@ -202,10 +204,19 @@ private extension PBTypeahead {
       if event.keyCode == 48  { // tab
         focused = true
       }
-      if event.keyCode == 49 || event.keyCode == 36 { // space & return bar
+      if event.keyCode == 36 { // return bar
         if hoveringIndex <= listOptions.count-1, isFocused {
           onListSelection(index: hoveringIndex, option: listOptions[hoveringIndex])
           hoveringIndex = 0
+        }
+      }
+      if event.keyCode == 49 { // space
+        if isFocused {
+          if hoveringIndex <= listOptions.count-1, showList {
+            onListSelection(index: hoveringIndex, option: listOptions[hoveringIndex])
+          } else {
+            showList = true
+          }
         }
       }
       if event.keyCode == 51 { // delete

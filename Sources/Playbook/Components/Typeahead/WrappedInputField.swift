@@ -98,6 +98,11 @@ private extension WrappedInputField {
           .pbFont(.body, color: placeholderTextColor)
       }
       TextField("", text: $searchText)
+        .onChange(of: searchText) { _ in
+          if searchText.first == " " {
+            searchText = searchText.replacingOccurrences(of: " ", with: "")
+          }
+        }
         .textFieldStyle(.plain)
         .pbFont(.body, color: textColor)
     }
@@ -124,14 +129,14 @@ private extension WrappedInputField {
   }
   
   var setupCursor: Void {
-#if os(macOS)
+    #if os(macOS)
     if isHovering {
       NSCursor.arrow.push()
     }
     else {
       NSCursor.arrow.pop()
     }
-#endif
+    #endif
   }
   
   var placeholderText: String {
