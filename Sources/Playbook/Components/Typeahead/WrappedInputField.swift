@@ -56,7 +56,8 @@ public struct WrappedInputField: View {
         }
         .overlay {
           Color.white
-            .opacity(isFocused.wrappedValue ? 0.001 : 0).onTapGesture {
+            .opacity(isFocused.wrappedValue ? 0.001 : 0)
+            .onTapGesture {
               if isFocused.wrappedValue {
                 onViewTap?()
               }

@@ -20,7 +20,7 @@ public struct PBTypeahead<Content: View>: View {
   private let clearAction: (() -> Void)?
   @State private var listOptions: [Option] = []
   @State private var showList: Bool = false
-  @State private var hoveringIndex: Int = 0
+  @State private var hoveringIndex: Int?
   @State private var hoveringOption: Option?
   @State private var selectedIndex: Int?
   @State private var selectedOptions: [Option] = []
@@ -68,9 +68,6 @@ public struct PBTypeahead<Content: View>: View {
     .onChange(of: isFocused) {
       showList = $1
     }
-    .onChange(of: hoveringIndex) {
-      print("index: \($0)")
-    }
   }
 }
 
@@ -117,11 +114,11 @@ private extension PBTypeahead {
     switch selection{
     case .multiple:
       return searchText.isEmpty ? listOptions : listOptions.filter {
-        $0.0.localizedCaseInsensitiveContains(searchText.trimmingCharacters(in: .whitespaces))
+        $0.0.localizedCaseInsensitiveContains(searchText)
       }
     case .single:
       return searchText.isEmpty ? options : options.filter {
-        $0.0.localizedCaseInsensitiveContains(searchText.trimmingCharacters(in: .whitespaces))
+        $0.0.localizedCaseInsensitiveContains(searchText)
       }
     }
   
@@ -166,7 +163,7 @@ private extension PBTypeahead {
     }
     showList = false
     searchText = ""
-    hoveringIndex = 0
+    hoveringIndex = nil
   }
   
   func onSingleSelection(index: Int, _ option: Option) {
@@ -205,15 +202,15 @@ private extension PBTypeahead {
         focused = true
       }
       if event.keyCode == 36 { // return bar
-        if hoveringIndex <= listOptions.count-1, isFocused {
-          onListSelection(index: hoveringIndex, option: listOptions[hoveringIndex])
+        if let index = hoveringIndex, index <= listOptions.count-1, isFocused {
+          onListSelection(index: index, option: listOptions[index])
           hoveringIndex = 0
         }
       }
       if event.keyCode == 49 { // space
         if isFocused {
-          if hoveringIndex <= listOptions.count-1, showList {
-            onListSelection(index: hoveringIndex, option: listOptions[hoveringIndex])
+          if let index = hoveringIndex, index <= listOptions.count-1, showList {
+            onListSelection(index: index, option: listOptions[index])
           } else {
             showList = true
           }
@@ -226,13 +223,17 @@ private extension PBTypeahead {
       }
       if event.keyCode == 125 { // arrow down
         if isFocused {
-          hoveringIndex = hoveringIndex < searchResults.count ? (hoveringIndex + 1) : 0
+          if let index = hoveringIndex {
+            hoveringIndex = index < searchResults.count ? (index + 1) : 0
+          } else {
+            hoveringIndex = 0
+          }
         }
       }
       else {
         if event.keyCode == 126 { // arrow up
-          if isFocused {
-            hoveringIndex = hoveringIndex > 1 ? (hoveringIndex - 1) : 0
+          if isFocused, let index = hoveringIndex {
+            hoveringIndex = index > 1 ? (index - 1) : 0
           }
         }
       }
