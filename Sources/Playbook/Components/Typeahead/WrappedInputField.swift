@@ -95,11 +95,12 @@ private extension WrappedInputField {
     ZStack(alignment: .leading) {
       if searchText.isEmpty {
         Text(placeholderText)
+          .pbFont(.body, color: placeholderTextColor)
       }
       TextField("", text: $searchText)
         .textFieldStyle(.plain)
+        .pbFont(.body, color: textColor)
     }
-    .pbFont(.body, color: textColor)
     .frame(maxWidth: .infinity)
     .frame(height: Spacing.xLarge)
     .padding(.leading, Spacing.small)
@@ -139,13 +140,17 @@ private extension WrappedInputField {
     case .single(let element): return element ?? placeholder
     }
   }
-  
-  var textColor: Color {
+
+  var placeholderTextColor: Color {
     switch selection {
-    case .multiple(_, _): return searchText.isEmpty ? .text(.light) : .text(.default)
+    case .multiple(_, _): return .text(.light)
     case .single(let element):
       return element == nil ? .text(.light) : .text(.default)
     }
+  }
+  
+  var textColor: Color {
+    return .text(.default)
   }
   
   var borderColor: Color {
