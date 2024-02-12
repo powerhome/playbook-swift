@@ -121,7 +121,6 @@ private extension PBTypeahead {
         $0.0.localizedCaseInsensitiveContains(searchText)
       }
     }
-  
   }
   
   func listBackgroundColor(_ index: Int?) -> Color {
@@ -163,18 +162,20 @@ private extension PBTypeahead {
     }
     showList = false
     searchText = ""
-    hoveringIndex = nil
   }
   
   func onSingleSelection(index: Int, _ option: Option) {
     selectedOptions.removeAll()
     selectedOptions.append(option)
     selectedIndex = index
+    hoveringIndex = index
   }
   
   func onMultipleSelection(_ option: Option) {
     selectedOptions.append(option)
     listOptions.removeAll(where: { $0.0 == option.0 })
+    hoveringIndex = nil
+    selectedIndex = nil
   }
 
   var clearText: Void {
@@ -182,9 +183,10 @@ private extension PBTypeahead {
       action()
     } else {
       searchText = ""
-      listOptions.append(contentsOf: selectedOptions)
       selectedOptions.removeAll()
-      showList = false
+      listOptions = options
+      selectedIndex = nil
+      hoveringIndex = nil
     }
   }
   
@@ -192,6 +194,7 @@ private extension PBTypeahead {
     if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
       let selectedElement = selectedOptions.remove(at: selectedElementIndex)
       listOptions.append(selectedElement)
+      selectedIndex = nil
     }
   }
 
@@ -204,7 +207,6 @@ private extension PBTypeahead {
       if event.keyCode == 36 { // return bar
         if let index = hoveringIndex, index <= listOptions.count-1, isFocused {
           onListSelection(index: index, option: listOptions[index])
-          hoveringIndex = 0
         }
       }
       if event.keyCode == 49 { // space

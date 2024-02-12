@@ -86,7 +86,7 @@ public struct WrappedInputField: View {
 private extension WrappedInputField {
   var indices: Range<Int> {
     switch selection {
-    case .multiple(_, let options): return  Range(0...options.count)
+    case .multiple(_, let options): return Range(0...options.count)
     case .single(_): return Range(0...1)
     }
   }
