@@ -51,26 +51,34 @@ public extension UserCatalog {
         image: img,
         territory: "PHL",
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
       PBUser(
         name: name,
         territory: "PHL",
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
       PBUser(
         name: name,
         image: img,
         size: .small,
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
       PBUser(
         name: name,
         image: img,
         size: .small,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
     }
   }
@@ -83,14 +91,18 @@ public extension UserCatalog {
         orientation: .vertical,
         size: .small,
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
       PBUser(
         name: name,
         image: img,
         orientation: .vertical,
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
       PBUser(
         name: name,
@@ -98,7 +110,9 @@ public extension UserCatalog {
         orientation: .vertical,
         size: .large,
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
     }
   }
@@ -111,14 +125,18 @@ public extension UserCatalog {
         size: .large,
         territory: "PHL",
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
       PBUser(
         name: name,
         displayAvatar: false,
         territory: "PHL",
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
     }
   }
@@ -131,14 +149,18 @@ public extension UserCatalog {
         size: .small,
         territory: "PHL",
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
       PBUser(
         name: name,
         image: img,
         territory: "PHL",
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
       PBUser(
         name: name,
@@ -146,12 +168,19 @@ public extension UserCatalog {
         size: .large,
         territory: "PHL",
         title: title,
-        subtitle: .none
+        subtitle: .none,
+        contacts: [],
+        content: {}
       )
     }
   }
   
   var userSubtitleBlockView: some View {
+    let contacts = [
+      PBContact(type: .cell, value: "(349) 185-9988", detail: false),
+      PBContact(type: .home, value: "(555) 555-5555", detail: false),
+      PBContact(type: .email, value: "email@example.com", detail: false)
+    ]
     return VStack(alignment: .leading, spacing: Spacing.small) {
       PBUser(
         name: "Anna Black",
@@ -159,13 +188,18 @@ public extension UserCatalog {
         size: .small, 
         territory: "PHL",
         title: "Remodeling Consultant",
-        subtitle: .iconRole
+        subtitle: .iconRole, 
+        role: "ADMIN",
+        contacts: [],
+        content: {}
       )
       PBUser(
         name: "Anna Black",
         image: Image("Anna", bundle: .module),
         size: .small,
-        subtitle: .contact
+        subtitle: .contact,
+        contacts: contacts,
+        content: {}
       )
     }
   }

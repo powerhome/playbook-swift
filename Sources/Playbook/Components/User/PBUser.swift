@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-public struct PBUser: View {
+public struct PBUser<Content: View>: View {
   var name: String
   var displayAvatar: Bool = true
   var image: Image?
@@ -18,13 +18,17 @@ public struct PBUser: View {
   var territory: String?
   var title: String?
   var subtitle: BlockContent?
+  var role: String?
+  var icon: FontAwesome?
+  var contacts: [PBContact]?
+  var content: Content?
   var titleStyle: PBFont {
     switch size {
     case .large: return .title3
     default: return .title4
     }
   }
-
+  
   var bodyText: Text? {
     if let territory = territory, !territory.isEmpty, let title = title, !title.isEmpty {
       return Text("\(territory) \u{2022} \(title)")
@@ -36,7 +40,7 @@ public struct PBUser: View {
       return nil
     }
   }
-
+  
   public init(
     name: String = "",
     displayAvatar: Bool = true,
@@ -45,7 +49,11 @@ public struct PBUser: View {
     size: UserAvatarSize = .medium,
     territory: String? = nil,
     title: String? = nil,
-    subtitle: BlockContent? = .contact
+    subtitle: BlockContent? = .contact,
+    role: String? = "",
+    icon: FontAwesome? = .users,
+    contacts: [PBContact]?,
+    @ViewBuilder content: () -> Content?
   ) {
     self.name = name
     self.displayAvatar = displayAvatar
@@ -55,21 +63,28 @@ public struct PBUser: View {
     self.territory = territory
     self.title = title
     self.subtitle = subtitle
+    self.role = role
+    self.icon = icon
+    self.contacts = contacts
+    self.content = content()
   }
-
+  
   public var body: some View {
     if orientation == .horizontal {
       HStack(spacing: Spacing.small) {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
-
+        
         VStack(alignment: .leading, spacing: Spacing.xSmall) {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
           bodyText.pbFont(.body, color: .text(.light))
           contentBlock
+          if let content = content {
+            content
+          }
         }
       }
     } else {
@@ -77,13 +92,16 @@ public struct PBUser: View {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
-
+        
         VStack(alignment: displayAvatar ? .center : .leading, spacing: Spacing.xSmall) {
           Text(name)
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
           bodyText.pbFont(.body, color: .text(.light))
           contentBlock
+          if let content = content {
+            content
+          }
         }
       }
     }
@@ -104,36 +122,61 @@ public extension PBUser {
       }
     }
   }
-    enum BlockContent {
-      case iconRole, contact, contactIconRole
-    }
-  @ViewBuilder
-   var contentBlock: some View {
-     switch subtitle {
-     case .contact: subtitleContactBlock
-     case .iconRole: subtitleIconRoleBlock
-     case .contactIconRole:
-       subtitleIconRoleBlock
-       subtitleContactBlock
-     case .none:
-       EmptyView()
-    
-     }
-   }
-  @ViewBuilder
-  var subtitleIconRoleBlock: some View {
-      HStack {
-        PBIcon(FontAwesome.users, size: .small)
-        Text("ADMIN")
-          .pbFont(.subcaption, color: .text(.default))
-      }
+  enum BlockContent {
+    case iconRole, contact, contactIconRole
   }
   @ViewBuilder
-  var subtitleContactBlock: some View {
-      PBContact(type: .cell, value: "(349) 185-9988", detail: false)
-      PBContact(type: .home, value: "(555) 555-5555", detail: false)
-      PBContact(type: .email, value: "email@example.com", detail: false)
+  var contentBlock: some View {
+    switch subtitle {
+    case .contact: subtitleContactBlock
+    case .iconRole: subtitleIconRoleBlock
+    case .contactIconRole:
+      subtitleIconRoleBlock
+      subtitleContactBlock
+    case .none:
+      EmptyView()
+      
     }
+  }
+  var subtitleIconRoleBlock: some View {
+    HStack {
+      PBIcon(icon ?? .users, size: .small)
+      Text(role ?? "ADMIN")
+        .pbFont(.subcaption, color: .text(.light))
+    }
+  }
+  var subtitleContactBlock: some View {
+    return ForEach(contacts ?? [], id: \.parsedValue) { contact in
+      PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
+    }
+  }
+}
+
+public extension PBUser where Content == AnyView {
+  init(
+    name: String = "",
+    displayAvatar: Bool = true,
+    image: Image? = nil,
+    orientation: Orientation = .horizontal,
+    size: UserAvatarSize = .medium,
+    territory: String? = nil,
+    title: String? = nil,
+    contacts: [PBContact]? = [],
+    subtitle: BlockContent? = .contact
+  ) {
+    self.init(
+      name: name,
+      displayAvatar: displayAvatar,
+      image: image ,
+      orientation: .horizontal,
+      size: .medium,
+      territory: nil,
+      title: nil,
+      subtitle: subtitle,
+      contacts: [],
+      content: { AnyView(_fromValue: (Any).self) }
+    )
+  }
 }
 
 struct PBUser_Previews: PreviewProvider {
