@@ -219,7 +219,7 @@ private extension PBTypeahead {
         }
       }
       if event.keyCode == 51 { // delete
-        if let lastElementIndex = selectedOptions.indices.last, isFocused {
+        if let lastElementIndex = selectedOptions.indices.last, isFocused, searchText.isEmpty {
           removeSelected(lastElementIndex)
         }
       }
