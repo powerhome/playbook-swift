@@ -16,8 +16,8 @@ struct TimeCatalog: View {
           PBDoc(title: "Default") {
             defaultView
           }
-          PBDoc(title: "Variants") {
-            
+          PBDoc(title: "Sizes") {
+            sizesView
           }
           PBDoc(title: "Alignment") {
            
@@ -40,6 +40,28 @@ extension TimeCatalog {
       PBTime(variant: .withTimeZone)
       PBTime(variant: .withIcon)
       PBTime(variant: .iconTimeZone)
+      
+      PBTime(variant: .time,
+             isLowercase: true,
+             isBold: true)
+      PBTime(variant: .withTimeZone,
+             isLowercase: true,
+             isBold: true
+      )
+      PBTime(variant: .withIcon,
+             isLowercase: true,
+             isBold: true)
+      PBTime(variant: .iconTimeZone,
+             isLowercase: true,
+             isBold: true
+      )
+    }
+  }
+  
+  var sizesView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBTime(variant: .withTimeZone)
+      PBTime(variant: .withTimeZone, isLowercase: true, isBold: true)
     }
   }
 }

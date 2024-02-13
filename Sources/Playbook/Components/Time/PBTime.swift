@@ -15,24 +15,27 @@ public struct PBTime: View {
   let showIcon: Bool
   let iconSize: PBIcon.IconSize
   let variant: Variant
-  let isLowercased: Bool?
-  var header: String
+  let isLowercase: Bool
+  let header: String
+  let isBold: Bool
   public init(
     date: Date = Date(),
     showTimeZone: Bool = false,
     showIcon: Bool = false,
     iconSize: PBIcon.IconSize = .small,
     variant: Variant = .withTimeZone,
-    isLowercased: Bool = false,
-    header: String = ""
+    isLowercase: Bool = false,
+    header: String = "",
+    isBold: Bool = false
   ) {
     self.date = date
     self.showTimeZone = showTimeZone
     self.showIcon = showIcon
     self.variant = variant
-    self.isLowercased = isLowercased
+    self.isLowercase = isLowercase
     self.iconSize = iconSize
     self.header = header
+    self.isBold = isBold
   }
     public var body: some View {
      versions
@@ -48,42 +51,52 @@ public extension PBTime {
     case iconTimeZone
     case all
   }
-  var withHeader: String {
-      return header
+  var time: some View {
+    Text("\(formattedTime)")
+      .pbFont(isBold ? .body : .caption, variant: isBold ? .bold : .light, color: isBold ? .text(.default) : .text(.light))
   }
   var withIcon: some View {
-    return HStack {
-     PBIcon(FontAwesome.clock, size: iconSize)
-      Text("\(formattedTime)" )
-    }.pbFont(.caption, variant: .light, color: .text(.light))
+    return PBIcon(FontAwesome.clock, size: iconSize)
+      .pbFont(.caption, variant: .light, color: .text(.light))
   }
   var formattedTime: String {
     let formatter = DateFormatter()
     formatter.dateFormat = "h:mma"
-    formatter.amSymbol = isLowercased == true ? "a" : "A"
-    formatter.pmSymbol = isLowercased == true ? "p" : "P"
+    formatter.amSymbol = isLowercase == true ? "a" : "A"
+    formatter.pmSymbol = isLowercase == true ? "p" : "P"
     return formatter.string(from: date ?? Date())
   }
-  var timeZone: String {
-      return TimeZone.current.localizedName(for: .shortStandard, locale: .current) ?? TimeZone.current.identifier
+  var withTimeZone: some View {
+    return HStack {
+      Text("\(formattedTime)" )
+        .pbFont(isBold ? .body : .caption, variant: isBold ? .bold : .light, color: isBold ? .text(.default) : .text(.light))
+      Text(TimeZone.current.localizedName(for: .shortStandard, locale: .current) ?? TimeZone.current.identifier)
+        .pbFont(isBold ? .body :.caption, variant: .light, color: .text(.light))
+    }
+  }
+  var iconTimeZone: some View {
+    HStack {
+      withIcon
+      withTimeZone
+    }
+  }
+  var withHeader: String {
+      return header
   }
   @ViewBuilder
   var versions: some View {
     switch variant {
     case .time:
-      Text("\(formattedTime)")
-        .pbFont(.caption, variant: .light, color: .text(.light))
+      time
     case .withTimeZone:
-      Text("\(formattedTime) \(timeZone)" )
-        .pbFont(.caption, variant: .light, color: .text(.light))
+        withTimeZone
     case .withIcon:
-      withIcon
-    case .iconTimeZone:
       HStack {
         withIcon
-        Text("\(timeZone)")
-          .pbFont(.caption, variant: .light, color: .text(.light))
+        time
       }
+    case .iconTimeZone:
+      iconTimeZone
     case .all:
       VStack {
         Text(header)
