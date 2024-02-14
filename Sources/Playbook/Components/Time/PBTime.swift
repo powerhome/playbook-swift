@@ -21,7 +21,7 @@ public struct PBTime: View {
   let alignment: Alignment
   let zone: Zones
   let isTimeZoneBold: Bool
-  let timeZoneSize: PBFont
+  let unstyled: PBFont
   public init(
     date: Date = Date(),
     showTimeZone: Bool = false,
@@ -34,7 +34,7 @@ public struct PBTime: View {
     alignment: Alignment = .leading,
     zone: Zones = .east,
     isTimeZoneBold: Bool = false,
-    timeZoneSize: PBFont = .caption
+    unstyled: PBFont = .caption
   ) {
     self.date = date
     self.showTimeZone = showTimeZone
@@ -47,7 +47,7 @@ public struct PBTime: View {
     self.alignment = alignment
     self.zone = zone
     self.isTimeZoneBold = isTimeZoneBold
-    self.timeZoneSize = timeZoneSize
+    self.unstyled = unstyled
   }
     public var body: some View {
      timeVariants
@@ -71,7 +71,7 @@ public extension PBTime {
   }
   var timeIcon: some View {
     return PBIcon(FontAwesome.clock, size: iconSize)
-      .pbFont(.caption, variant: .light, color: .text(.light))
+      .pbFont(.caption, variant: .light, color: isBold ? .text(.default) : .text(.light))
       
   }
   @ViewBuilder
@@ -105,8 +105,8 @@ public extension PBTime {
     return HStack {
       time
       timeZone
-        .pbFont(timeZoneSize, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
     }
+    .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
     .frame(maxWidth: .infinity, alignment: alignment)
   }
   var showIconTimeZoneView: some View {
@@ -114,8 +114,8 @@ public extension PBTime {
       timeIcon
       time
       timeZone
-        .pbFont(timeZoneSize, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
-    }
+       
+    } .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
     .frame(maxWidth: .infinity, alignment: alignment)
   }
   var iconTimeZone: some View {

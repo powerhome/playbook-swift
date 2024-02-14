@@ -26,7 +26,7 @@ struct TimeCatalog: View {
             alignmentView
           }
           PBDoc(title: "Unstyled") {
-            
+            unstyledView
           }
         }
         .padding(Spacing.medium)
@@ -56,7 +56,7 @@ extension TimeCatalog {
              variant: .iconTimeZone,
              isLowercase: true,
              isBold: true,
-             timeZoneSize: .body
+             unstyled: .body
       )
       PBTime(showIcon: true,
              variant: .iconTimeZone,
@@ -66,7 +66,7 @@ extension TimeCatalog {
       PBTime(variant: .iconTimeZone,
              isLowercase: true,
              isBold: true,
-             timeZoneSize: .body
+             unstyled: .body
       )
      
     }
@@ -80,10 +80,11 @@ extension TimeCatalog {
              variant: .iconTimeZone,
              isLowercase: true,
              isBold: true,
-             timeZoneSize: .body
+             unstyled: .body
       )
     }
   }
+  
   var handlingTimeZones: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBTime(showTimeZone: true, 
@@ -91,7 +92,7 @@ extension TimeCatalog {
              isLowercase: true,
              header: "East Coast",
              isBold: true,
-             timeZoneSize: .body
+             unstyled: .body
       )
       PBTime(showTimeZone: true, 
              variant: .withTimeZoneHeader,
@@ -115,28 +116,57 @@ extension TimeCatalog {
       )
     }
   }
+  
   var alignmentView: some View {
     VStack(spacing: Spacing.small) {
-      PBTime(showTimeZone: true,
-             variant: .iconTimeZone,
-             isLowercase: true,
-             isBold: true,
-             alignment: .leading,
-             timeZoneSize: .body
+      PBTime(
+        showTimeZone: true,
+        variant: .iconTimeZone,
+        isLowercase: true,
+        isBold: true,
+        alignment: .leading,
+        unstyled: .body
       )
       PBTime(showTimeZone: true,
-             variant: .iconTimeZone,
-             isLowercase: true,
-             isBold: true,
-             alignment: .center,
-             timeZoneSize: .body
+        variant: .iconTimeZone,
+        isLowercase: true,
+        isBold: true,
+        alignment: .center,
+        unstyled: .body
       )
-      PBTime(showTimeZone: true,
-             variant: .iconTimeZone,
-             isLowercase: true,
-             isBold: true,
-             alignment: .trailing,
-             timeZoneSize: .body
+      PBTime(
+        showTimeZone: true,
+        variant: .iconTimeZone,
+        isLowercase: true,
+        isBold: true,
+        alignment: .trailing,
+        unstyled: .body
+      )
+    }
+  }
+  
+  var unstyledView: some View {
+    VStack(spacing: Spacing.small) {
+      PBTime(
+        variant: .iconTimeZone,
+        isLowercase: true,
+        isBold: true,
+        isTimeZoneBold: true,
+        unstyled: .body
+      )
+      PBTime(
+        iconSize: .x3,
+        variant: .iconTimeZone,
+        isLowercase: true,
+        isBold: true,
+        isTimeZoneBold: true,
+        unstyled: .title1
+      )
+      PBTime(
+        iconSize: .xSmall,
+        variant: .iconTimeZone,
+        isLowercase: true,
+        unstyled: .subcaption
       )
     }
   }
