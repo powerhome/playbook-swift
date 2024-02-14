@@ -22,25 +22,7 @@ public struct PBUser<Content: View>: View {
   var icon: FontAwesome?
   var contacts: [PBContact]?
   var content: Content?
-  var titleStyle: PBFont {
-    switch size {
-    case .large: return .title3
-    default: return .title4
-    }
-  }
-  
-  var bodyText: Text? {
-    if let territory = territory, !territory.isEmpty, let title = title, !title.isEmpty {
-      return Text("\(territory) \u{2022} \(title)")
-    } else if let territory = territory, !territory.isEmpty {
-      return Text(territory)
-    } else if let title = title, !title.isEmpty {
-      return Text(title)
-    } else {
-      return nil
-    }
-  }
-  
+
   public init(
     name: String = "",
     displayAvatar: Bool = true,
@@ -52,8 +34,8 @@ public struct PBUser<Content: View>: View {
     subtitle: BlockContent? = .contact,
     role: String? = "",
     icon: FontAwesome? = .users,
-    contacts: [PBContact]?,
-    @ViewBuilder content: () -> Content?
+    contacts: [PBContact]? = nil,
+    @ViewBuilder content: () -> Content? = { nil }
   ) {
     self.name = name
     self.displayAvatar = displayAvatar
@@ -75,7 +57,6 @@ public struct PBUser<Content: View>: View {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
-        
         VStack(alignment: .leading, spacing: Spacing.xSmall) {
           Text(name)
             .font(titleStyle.font)
@@ -92,7 +73,6 @@ public struct PBUser<Content: View>: View {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize)
         }
-        
         VStack(alignment: displayAvatar ? .center : .leading, spacing: Spacing.xSmall) {
           Text(name)
             .font(titleStyle.font)
@@ -104,6 +84,54 @@ public struct PBUser<Content: View>: View {
           }
         }
       }
+    }
+  }
+}
+
+public extension PBUser {
+  var titleStyle: PBFont {
+    switch size {
+    case .large: return .title3
+    default: return .title4
+    }
+  }
+
+  var bodyText: Text? {
+    if let territory = territory, !territory.isEmpty, let title = title, !title.isEmpty {
+      return Text("\(territory) \u{2022} \(title)")
+    } else if let territory = territory, !territory.isEmpty {
+      return Text(territory)
+    } else if let title = title, !title.isEmpty {
+      return Text(title)
+    } else {
+      return nil
+    }
+  }
+
+  @ViewBuilder
+  var contentBlock: some View {
+    switch subtitle {
+    case .contact: subtitleContactBlock
+    case .iconRole: subtitleIconRoleBlock
+    case .contactIconRole:
+      subtitleIconRoleBlock
+      subtitleContactBlock
+    case .none:
+      EmptyView()
+    }
+  }
+
+  var subtitleIconRoleBlock: some View {
+    HStack {
+      PBIcon(icon ?? .users, size: .small)
+      Text(role ?? "ADMIN")
+        .pbFont(.caption, color: .text(.light))
+    }
+  }
+
+  var subtitleContactBlock: some View {
+    return ForEach(contacts ?? [], id: \.parsedValue) { contact in
+      PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
     }
   }
 }
@@ -122,33 +150,9 @@ public extension PBUser {
       }
     }
   }
+
   enum BlockContent {
     case iconRole, contact, contactIconRole
-  }
-  @ViewBuilder
-  var contentBlock: some View {
-    switch subtitle {
-    case .contact: subtitleContactBlock
-    case .iconRole: subtitleIconRoleBlock
-    case .contactIconRole:
-      subtitleIconRoleBlock
-      subtitleContactBlock
-    case .none:
-      EmptyView()
-      
-    }
-  }
-  var subtitleIconRoleBlock: some View {
-    HStack {
-      PBIcon(icon ?? .users, size: .small)
-      Text(role ?? "ADMIN")
-        .pbFont(.subcaption, color: .text(.light))
-    }
-  }
-  var subtitleContactBlock: some View {
-    return ForEach(contacts ?? [], id: \.parsedValue) { contact in
-      PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
-    }
   }
 }
 
@@ -161,7 +165,6 @@ public extension PBUser where Content == AnyView {
     size: UserAvatarSize = .medium,
     territory: String? = nil,
     title: String? = nil,
-    contacts: [PBContact]? = [],
     subtitle: BlockContent? = .contact
   ) {
     self.init(
@@ -174,7 +177,7 @@ public extension PBUser where Content == AnyView {
       title: nil,
       subtitle: subtitle,
       contacts: [],
-      content: { AnyView(_fromValue: (Any).self) }
+      content: { AnyView(EmptyView()) }
     )
   }
 }

@@ -16,7 +16,7 @@ public struct PBMultipleUsers: View {
   var maxDisplayedUsers: Int
 
   public init(
-    users: [PBUser<AnyView>] = [PBUser<AnyView>](),
+    users: [PBUser<AnyView>] = [],
     size: AvatarSize = .small,
     reversed: Bool = false,
     maxDisplayedUsers: Int = 4
