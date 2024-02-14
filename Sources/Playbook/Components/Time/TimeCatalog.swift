@@ -51,6 +51,7 @@ extension TimeCatalog {
       PBTime(variant: .time,
              isLowercase: true,
              isBold: true
+
       )
       PBTime(showTimeZone: true,
              variant: .iconTimeZone,
@@ -97,22 +98,26 @@ extension TimeCatalog {
       PBTime(showTimeZone: true, 
              variant: .withTimeZoneHeader,
              header: "Central",
-             zone: .central
+             zone: .central,
+             timeIdentifier: "CST"
       )
       PBTime(showTimeZone: true,
              variant: .withTimeZoneHeader,
              header: "Mountain",
-             zone: .mountain
+             zone: .mountain,
+             timeIdentifier: "MST"
       )
       PBTime(showTimeZone: true,
              variant: .withTimeZoneHeader,
              header: "West Coast",
-             zone: .pacific
+             zone: .pacific,
+             timeIdentifier: "PST"
       )
       PBTime(showTimeZone: true,
              variant: .withTimeZoneHeader,
              header: "Tokyo, Japan",
-             zone: .gmt
+             zone: .gmt,
+             timeIdentifier: "GMT"
       )
     }
   }

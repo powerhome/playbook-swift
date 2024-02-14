@@ -22,6 +22,7 @@ public struct PBTime: View {
   let zone: Zones
   let isTimeZoneBold: Bool
   let unstyled: PBFont
+  let timeIdentifier: String
   public init(
     date: Date = Date(),
     showTimeZone: Bool = false,
@@ -34,7 +35,8 @@ public struct PBTime: View {
     alignment: Alignment = .leading,
     zone: Zones = .east,
     isTimeZoneBold: Bool = false,
-    unstyled: PBFont = .caption
+    unstyled: PBFont = .caption,
+    timeIdentifier: String = "EST"
   ) {
     self.date = date
     self.showTimeZone = showTimeZone
@@ -48,6 +50,7 @@ public struct PBTime: View {
     self.zone = zone
     self.isTimeZoneBold = isTimeZoneBold
     self.unstyled = unstyled
+    self.timeIdentifier = timeIdentifier
   }
     public var body: some View {
      timeVariants
@@ -60,7 +63,6 @@ public extension PBTime {
     case time
     case iconTimeZone
     case withTimeZoneHeader
-   
   }
   enum Zones {
     case east, central, mountain, pacific, gmt
@@ -76,22 +78,13 @@ public extension PBTime {
   }
   @ViewBuilder
   var time: some View {
-      switch zone {
-      case .east: Text(getTime(timeZoneIdentifier: "EST"))
-      case .central: Text(getTime(timeZoneIdentifier: "CST"))
-      case .mountain: Text(getTime(timeZoneIdentifier: "MST"))
-      case .pacific: Text(getTime(timeZoneIdentifier: "PST"))
-      case .gmt: Text(getTime(timeZoneIdentifier: "GMT"))
-      }
+   Text(getTime(timeZoneIdentifier: timeIdentifier))
+      .pbFont(unstyled, variant: isBold ? .bold : .light, color: isBold ? .text(.default) : .text(.light))
   }
   @ViewBuilder
-  var timeZone: some View{
+  var timeZone: some View {
     switch zone {
-    case .east: Text("EST")
-    case .central: Text("CST")
-    case .mountain: Text("MST")
-    case .pacific: Text("PST")
-    case .gmt: Text("GMT")
+    case .east, .central, .mountain, .pacific, .gmt: Text(timeIdentifier)
     }
   }
   var showIconView: some View {
@@ -106,7 +99,6 @@ public extension PBTime {
       time
       timeZone
     }
-    .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
     .frame(maxWidth: .infinity, alignment: alignment)
   }
   var showIconTimeZoneView: some View {
@@ -114,8 +106,7 @@ public extension PBTime {
       timeIcon
       time
       timeZone
-       
-    } .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
+    }
     .frame(maxWidth: .infinity, alignment: alignment)
   }
   var iconTimeZone: some View {
@@ -127,13 +118,13 @@ public extension PBTime {
       } else {
         showIconTimeZoneView
       }
-    }
+    }.pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
   }
   var withTimeZoneHeader: some View {
     return VStack(alignment: .leading, spacing: Spacing.xSmall) {
       headerView
       iconTimeZone
-    }
+    } .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
   }
   @ViewBuilder
   var timeVariants: some View {
