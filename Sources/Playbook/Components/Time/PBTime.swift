@@ -54,7 +54,6 @@ public struct PBTime: View {
   }
     public var body: some View {
      timeVariants
-        .pbFont(isBold ? .body : .caption, variant: isBold ? .bold : .light, color: isBold ? .text(.default) : .text(.light))
     }
 }
 
@@ -66,6 +65,14 @@ public extension PBTime {
   }
   enum Zones {
     case east, central, mountain, pacific, gmt
+  }
+  @ViewBuilder
+  var timeVariants: some View {
+    switch variant {
+    case .time: time
+    case .iconTimeZone: iconTimeZone
+    case .withTimeZoneHeader: withTimeZoneHeader
+    }
   }
   var headerView: some View {
     return Text(header)
@@ -124,15 +131,8 @@ public extension PBTime {
     return VStack(alignment: .leading, spacing: Spacing.xSmall) {
       headerView
       iconTimeZone
-    } .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
-  }
-  @ViewBuilder
-  var timeVariants: some View {
-    switch variant {
-    case .time: time
-    case .iconTimeZone: iconTimeZone
-    case .withTimeZoneHeader: withTimeZoneHeader
     }
+    .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
   }
   func getTime(timeZoneIdentifier: String) -> String {
     if let timeZone = TimeZone(abbreviation: timeZoneIdentifier) {
