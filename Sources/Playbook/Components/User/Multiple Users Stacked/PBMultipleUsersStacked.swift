@@ -14,7 +14,7 @@ public struct PBMultipleUsersStacked: View {
   var size: Size
 
   public init(
-    users: [PBUser<AnyView>] = [PBUser<AnyView>](),
+    users: [PBUser<AnyView>] = [],
     size: Size = .small
   ) {
     self.users = users
