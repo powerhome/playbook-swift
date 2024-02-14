@@ -18,6 +18,7 @@ public struct PBTime: View {
   let isLowercase: Bool
   let header: String
   let isBold: Bool
+  let alignment: Alignment
   public init(
     date: Date = Date(),
     showTimeZone: Bool = false,
@@ -26,7 +27,8 @@ public struct PBTime: View {
     variant: Variant = .withTimeZone,
     isLowercase: Bool = false,
     header: String = "",
-    isBold: Bool = false
+    isBold: Bool = false,
+    alignment: Alignment = .leading
   ) {
     self.date = date
     self.showTimeZone = showTimeZone
@@ -36,9 +38,10 @@ public struct PBTime: View {
     self.iconSize = iconSize
     self.header = header
     self.isBold = isBold
+    self.alignment = alignment
   }
     public var body: some View {
-     versions
+     timeVariants
     }
 }
 
@@ -47,15 +50,14 @@ public extension PBTime {
     case time
     case withTimeZone
     case withIcon
-    case withHeader
+    case withTimeZoneHeader
     case iconTimeZone
-    case all
   }
   var time: some View {
     Text("\(formattedTime)")
       .pbFont(isBold ? .body : .caption, variant: isBold ? .bold : .light, color: isBold ? .text(.default) : .text(.light))
   }
-  var withIcon: some View {
+  var timeIcon: some View {
     return PBIcon(FontAwesome.clock, size: iconSize)
       .pbFont(.caption, variant: .light, color: .text(.light))
   }
@@ -76,36 +78,33 @@ public extension PBTime {
   }
   var iconTimeZone: some View {
     HStack {
-      withIcon
+      timeIcon
       withTimeZone
     }
   }
-  var withHeader: String {
-      return header
-  }
   @ViewBuilder
-  var versions: some View {
+  var timeVariants: some View {
     switch variant {
-    case .time:
-      time
-    case .withTimeZone:
-        withTimeZone
+    case .time: time
+    case .withTimeZone: withTimeZone
     case .withIcon:
       HStack {
-        withIcon
+        timeIcon
         time
       }
-    case .iconTimeZone:
-      iconTimeZone
-    case .all:
+    case .iconTimeZone: iconTimeZone
+    case .withTimeZoneHeader:
       VStack {
         Text(header)
-          .pbFont(.title4, variant: .bold, color:
-          .text(.default))
-        withIcon
-      }.pbFont(.title4, variant: .light, color: .text(.light))
-    default:
-      Text("")
+        withTimeZone
+      }
+//    case .all:
+//      VStack {
+//        Text(header)
+//          .pbFont(.title4, variant: .bold, color: .text(.default))
+//        timeIcon
+//      }
+//      .pbFont(.title4, variant: .light, color: .text(.light))
     }
   }
 }

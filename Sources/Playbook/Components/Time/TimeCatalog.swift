@@ -19,6 +19,9 @@ struct TimeCatalog: View {
           PBDoc(title: "Sizes") {
             sizesView
           }
+          PBDoc(title: "Time Zones") {
+            handlingTimeZones
+          }
           PBDoc(title: "Alignment") {
            
           }
@@ -62,6 +65,11 @@ extension TimeCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBTime(variant: .withTimeZone)
       PBTime(variant: .withTimeZone, isLowercase: true, isBold: true)
+    }
+  }
+  var handlingTimeZones: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBTime(variant: .withTimeZoneHeader, header: "East Coast")
     }
   }
 }
