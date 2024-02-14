@@ -23,7 +23,7 @@ struct TimeCatalog: View {
             handlingTimeZones
           }
           PBDoc(title: "Alignment") {
-           
+            alignmentView
           }
           PBDoc(title: "Unstyled") {
             
@@ -47,6 +47,7 @@ extension TimeCatalog {
              variant: .iconTimeZone
       )
       PBTime(variant: .iconTimeZone)
+      Spacer()
       PBTime(variant: .time,
              isLowercase: true,
              isBold: true
@@ -111,6 +112,31 @@ extension TimeCatalog {
              variant: .withTimeZoneHeader,
              header: "Tokyo, Japan",
              zone: .gmt
+      )
+    }
+  }
+  var alignmentView: some View {
+    VStack(spacing: Spacing.small) {
+      PBTime(showTimeZone: true,
+             variant: .iconTimeZone,
+             isLowercase: true,
+             isBold: true,
+             alignment: .leading,
+             timeZoneSize: .body
+      )
+      PBTime(showTimeZone: true,
+             variant: .iconTimeZone,
+             isLowercase: true,
+             isBold: true,
+             alignment: .center,
+             timeZoneSize: .body
+      )
+      PBTime(showTimeZone: true,
+             variant: .iconTimeZone,
+             isLowercase: true,
+             isBold: true,
+             alignment: .trailing,
+             timeZoneSize: .body
       )
     }
   }
