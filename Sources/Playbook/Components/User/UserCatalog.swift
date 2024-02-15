@@ -51,34 +51,26 @@ public extension UserCatalog {
         image: img,
         territory: "PHL",
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
       PBUser(
         name: name,
         territory: "PHL",
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
       PBUser(
         name: name,
         image: img,
         size: .small,
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
       PBUser(
         name: name,
         image: img,
         size: .small,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
     }
   }
@@ -91,18 +83,14 @@ public extension UserCatalog {
         orientation: .vertical,
         size: .small,
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
       PBUser(
         name: name,
         image: img,
         orientation: .vertical,
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
       PBUser(
         name: name,
@@ -110,9 +98,7 @@ public extension UserCatalog {
         orientation: .vertical,
         size: .large,
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
     }
   }
@@ -125,18 +111,14 @@ public extension UserCatalog {
         size: .large,
         territory: "PHL",
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
       PBUser(
         name: name,
         displayAvatar: false,
         territory: "PHL",
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
     }
   }
@@ -149,18 +131,14 @@ public extension UserCatalog {
         size: .small,
         territory: "PHL",
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
       PBUser(
         name: name,
         image: img,
         territory: "PHL",
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
       PBUser(
         name: name,
@@ -168,9 +146,7 @@ public extension UserCatalog {
         size: .large,
         territory: "PHL",
         title: title,
-        subtitle: .none,
-        contacts: [],
-        content: {}
+        subtitle: {}
       )
     }
   }
@@ -188,18 +164,23 @@ public extension UserCatalog {
         size: .small, 
         territory: "PHL",
         title: "Remodeling Consultant",
-        subtitle: .iconRole, 
-        role: "ADMIN",
-        contacts: [],
-        content: {}
+        subtitle: {
+          HStack {
+            PBIcon(FontAwesome.users, size: .small)
+            Text("ADMIN")
+              .pbFont(.caption, color: .text(.light))
+          }
+        }
       )
       PBUser(
         name: "Anna Black",
         image: Image("Anna", bundle: .module),
         size: .small,
-        subtitle: .contact,
-        contacts: contacts,
-        content: {}
+        subtitle: {
+          ForEach(contacts, id: \.parsedValue) { contact in
+                PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
+              }
+        }
       )
     }
   }

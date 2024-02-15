@@ -17,11 +17,7 @@ public struct PBUser<Content: View>: View {
   var size: UserAvatarSize = .medium
   var territory: String?
   var title: String?
-  var subtitle: BlockContent?
-  var role: String?
-  var icon: FontAwesome?
-  var contacts: [PBContact]?
-  var content: Content?
+  var subtitle: Content?
 
   public init(
     name: String = "",
@@ -31,11 +27,7 @@ public struct PBUser<Content: View>: View {
     size: UserAvatarSize = .medium,
     territory: String? = nil,
     title: String? = nil,
-    subtitle: BlockContent? = .contact,
-    role: String? = "",
-    icon: FontAwesome? = .users,
-    contacts: [PBContact]? = nil,
-    @ViewBuilder content: () -> Content? = { nil }
+    @ViewBuilder subtitle: () -> Content? = { nil }
   ) {
     self.name = name
     self.displayAvatar = displayAvatar
@@ -44,11 +36,7 @@ public struct PBUser<Content: View>: View {
     self.size = size
     self.territory = territory
     self.title = title
-    self.subtitle = subtitle
-    self.role = role
-    self.icon = icon
-    self.contacts = contacts
-    self.content = content()
+    self.subtitle = subtitle()
   }
   
   public var body: some View {
@@ -62,8 +50,7 @@ public struct PBUser<Content: View>: View {
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
           bodyText.pbFont(.body, color: .text(.light))
-          contentBlock
-          if let content = content {
+          if let content = subtitle {
             content
           }
         }
@@ -78,8 +65,7 @@ public struct PBUser<Content: View>: View {
             .font(titleStyle.font)
             .foregroundColor(.text(.default))
           bodyText.pbFont(.body, color: .text(.light))
-          contentBlock
-          if let content = content {
+          if let content = subtitle {
             content
           }
         }
@@ -95,7 +81,6 @@ public extension PBUser {
     default: return .title4
     }
   }
-
   var bodyText: Text? {
     if let territory = territory, !territory.isEmpty, let title = title, !title.isEmpty {
       return Text("\(territory) \u{2022} \(title)")
@@ -107,31 +92,11 @@ public extension PBUser {
       return nil
     }
   }
-
-  @ViewBuilder
-  var contentBlock: some View {
-    switch subtitle {
-    case .contact: subtitleContactBlock
-    case .iconRole: subtitleIconRoleBlock
-    case .contactIconRole:
-      subtitleIconRoleBlock
-      subtitleContactBlock
-    case .none:
-      EmptyView()
-    }
-  }
-
   var subtitleIconRoleBlock: some View {
     HStack {
-      PBIcon(icon ?? .users, size: .small)
-      Text(role ?? "ADMIN")
+      PBIcon(FontAwesome.users, size: .small)
+      Text("ADMIN")
         .pbFont(.caption, color: .text(.light))
-    }
-  }
-
-  var subtitleContactBlock: some View {
-    return ForEach(contacts ?? [], id: \.parsedValue) { contact in
-      PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
     }
   }
 }
@@ -150,10 +115,6 @@ public extension PBUser {
       }
     }
   }
-
-  enum BlockContent {
-    case iconRole, contact, contactIconRole
-  }
 }
 
 public extension PBUser where Content == AnyView {
@@ -164,8 +125,7 @@ public extension PBUser where Content == AnyView {
     orientation: Orientation = .horizontal,
     size: UserAvatarSize = .medium,
     territory: String? = nil,
-    title: String? = nil,
-    subtitle: BlockContent? = .contact
+    title: String? = nil
   ) {
     self.init(
       name: name,
@@ -175,9 +135,7 @@ public extension PBUser where Content == AnyView {
       size: .medium,
       territory: nil,
       title: nil,
-      subtitle: subtitle,
-      contacts: [],
-      content: { AnyView(EmptyView()) }
+      subtitle: { AnyView(EmptyView()) }
     )
   }
 }
