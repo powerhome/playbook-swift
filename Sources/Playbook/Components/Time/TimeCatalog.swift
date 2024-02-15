@@ -50,7 +50,8 @@ extension TimeCatalog {
       Spacer()
       PBTime(variant: .time,
              isLowercase: true,
-             isBold: true
+             isBold: true,
+             unstyled: .body
 
       )
       PBTime(showTimeZone: true,
@@ -62,7 +63,8 @@ extension TimeCatalog {
       PBTime(showIcon: true,
              variant: .iconTimeZone,
              isLowercase: true,
-             isBold: true
+             isBold: true,
+             unstyled: .body
       )
       PBTime(variant: .iconTimeZone,
              isLowercase: true,
