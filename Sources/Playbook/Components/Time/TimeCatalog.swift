@@ -63,8 +63,7 @@ extension TimeCatalog {
       PBTime(showIcon: true,
              variant: .iconTimeZone,
              isLowercase: true,
-             isBold: true,
-             unstyled: .body
+             isBold: true
       )
       PBTime(variant: .iconTimeZone,
              isLowercase: true,
@@ -158,6 +157,7 @@ extension TimeCatalog {
         variant: .iconTimeZone,
         isLowercase: true,
         isBold: true,
+        isIconBold: true,
         isTimeZoneBold: true,
         unstyled: .body
       )
@@ -166,6 +166,7 @@ extension TimeCatalog {
         variant: .iconTimeZone,
         isLowercase: true,
         isBold: true,
+        isIconBold: true,
         isTimeZoneBold: true,
         unstyled: .title1
       )

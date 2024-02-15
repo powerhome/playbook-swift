@@ -18,6 +18,7 @@ public struct PBTime: View {
   let isLowercase: Bool
   let header: String
   let isBold: Bool
+  let isIconBold: Bool
   let alignment: Alignment
   let zone: Zones
   let isTimeZoneBold: Bool
@@ -32,6 +33,7 @@ public struct PBTime: View {
     isLowercase: Bool = false,
     header: String = "",
     isBold: Bool = false,
+    isIconBold: Bool = false,
     alignment: Alignment = .leading,
     zone: Zones = .east,
     isTimeZoneBold: Bool = false,
@@ -46,6 +48,7 @@ public struct PBTime: View {
     self.iconSize = iconSize
     self.header = header
     self.isBold = isBold
+    self.isIconBold = isIconBold
     self.alignment = alignment
     self.zone = zone
     self.isTimeZoneBold = isTimeZoneBold
@@ -80,7 +83,7 @@ public extension PBTime {
   }
   var timeIcon: some View {
     return PBIcon(FontAwesome.clock, size: iconSize)
-      .pbFont(.caption, variant: .light, color: isBold ? .text(.default) : .text(.light))
+      .pbFont(.caption, variant: .light, color: isIconBold ? .text(.default) : .text(.light))
       
   }
   @ViewBuilder
