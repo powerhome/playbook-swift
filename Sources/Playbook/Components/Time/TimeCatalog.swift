@@ -147,7 +147,9 @@ extension TimeCatalog {
     }
   }
   var unstyledView: some View {
-    VStack(spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      Text("Basic unstyled example")
+        .pbFont(.subcaption, variant: .light, color:  .text(.light))
       PBTime(
         variant: .iconTimeZone,
         isLowercase: true,
@@ -156,6 +158,8 @@ extension TimeCatalog {
         isTimeZoneBold: true,
         unstyled: .body
       )
+      Text("Example with wrapping typography kit")
+        .pbFont(.subcaption, variant: .light, color:  .text(.light))
       PBTime(
         iconSize: .x3,
         variant: .iconTimeZone,
@@ -165,6 +169,8 @@ extension TimeCatalog {
         isTimeZoneBold: true,
         unstyled: .title1
       )
+      Text("Example with icon + subcaption")
+        .pbFont(.subcaption, variant: .light, color:  .text(.light))
       PBTime(
         iconSize: .xSmall,
         variant: .iconTimeZone,
