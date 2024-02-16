@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,8 +14,6 @@
 		F905151F29F03B0700F9B66D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F905152229F03B0700F9B66D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
 		F905157229F03B7600F9B66D /* Playbook in Frameworks */ = {isa = PBXBuildFile; productRef = F905157129F03B7600F9B66D /* Playbook */; };
-		F912E9482B801516008C448D /* playbook-icons in Frameworks */ = {isa = PBXBuildFile; productRef = F912E9472B801516008C448D /* playbook-icons */; };
-		F912E94A2B80151C008C448D /* playbook-icons in Frameworks */ = {isa = PBXBuildFile; productRef = F912E9492B80151C008C448D /* playbook-icons */; };
 		F943570829F070960051C650 /* PlaybookShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */; };
 		F943570929F070E90051C650 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F943570A29F070F10051C650 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
@@ -41,7 +39,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F912E9482B801516008C448D /* playbook-icons in Frameworks */,
 				F905157229F03B7600F9B66D /* Playbook in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,7 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F912E94A2B80151C008C448D /* playbook-icons in Frameworks */,
 				F99BAA1E2A17F79000006C1C /* Playbook in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,7 +138,6 @@
 			name = "PlaybookShowcase-iOS";
 			packageProductDependencies = (
 				F905157129F03B7600F9B66D /* Playbook */,
-				F912E9472B801516008C448D /* playbook-icons */,
 			);
 			productName = "PlaybookShowcase-iOS";
 			productReference = F905151829F03B0700F9B66D /* PlaybookShowcase-iOS.app */;
@@ -163,7 +158,6 @@
 			name = "PlaybookShowcase-macOS";
 			packageProductDependencies = (
 				F99BAA1D2A17F79000006C1C /* Playbook */,
-				F912E9492B80151C008C448D /* playbook-icons */,
 			);
 			productName = "PlaybookShowcase-macOS";
 			productReference = F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */;
@@ -197,7 +191,6 @@
 			);
 			mainGroup = F9370FC929EDCC0100FFD0DF;
 			packageReferences = (
-				F912E9462B8014F8008C448D /* XCLocalSwiftPackageReference "../../playbook-icons" */,
 			);
 			productRefGroup = F9370FD329EDCC0100FFD0DF /* Products */;
 			projectDirPath = "";
@@ -572,27 +565,10 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		F912E9462B8014F8008C448D /* XCLocalSwiftPackageReference "../../playbook-icons" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../playbook-icons";
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
 		F905157129F03B7600F9B66D /* Playbook */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Playbook;
-		};
-		F912E9472B801516008C448D /* playbook-icons */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F912E9462B8014F8008C448D /* XCLocalSwiftPackageReference "../../playbook-icons" */;
-			productName = "playbook-icons";
-		};
-		F912E9492B80151C008C448D /* playbook-icons */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F912E9462B8014F8008C448D /* XCLocalSwiftPackageReference "../../playbook-icons" */;
-			productName = "playbook-icons";
 		};
 		F94356FA29F0474D0051C650 /* SwiftLintPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
