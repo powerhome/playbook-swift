@@ -84,7 +84,6 @@ public extension PBTime {
   var timeIcon: some View {
     return PBIcon(FontAwesome.clock, size: iconSize)
       .pbFont(.caption, variant: .light, color: isIconBold ? .text(.default) : .text(.light))
-      
   }
   @ViewBuilder
   var time: some View {

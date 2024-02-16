@@ -10,30 +10,30 @@
 import SwiftUI
 
 struct TimeCatalog: View {
-    var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
-          PBDoc(title: "Sizes") {
-            sizesView
-          }
-          PBDoc(title: "Time Zones") {
-            handlingTimeZones
-          }
-          PBDoc(title: "Alignment") {
-            alignmentView
-          }
-          PBDoc(title: "Unstyled") {
-            unstyledView
-          }
+  var body: some View {
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          defaultView
         }
-        .padding(Spacing.medium)
+        PBDoc(title: "Sizes") {
+          sizesView
+        }
+        PBDoc(title: "Time Zones") {
+          handlingTimeZones
+        }
+        PBDoc(title: "Alignment") {
+          alignmentView
+        }
+        PBDoc(title: "Unstyled") {
+          unstyledView
+        }
       }
-      .background(Color.background(Color.BackgroundColor.light))
-      .navigationTitle("Time")
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Time")
+  }
 }
 
 extension TimeCatalog {
@@ -52,7 +52,7 @@ extension TimeCatalog {
              isLowercase: true,
              isBold: true,
              unstyled: .body
-
+             
       )
       PBTime(showTimeZone: true,
              variant: .iconTimeZone,
@@ -70,15 +70,13 @@ extension TimeCatalog {
              isBold: true,
              unstyled: .body
       )
-     
     }
   }
-  
   var sizesView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBTime(showTimeZone: true, 
+      PBTime(showTimeZone: true,
              variant: .iconTimeZone)
-      PBTime(showTimeZone: true, 
+      PBTime(showTimeZone: true,
              variant: .iconTimeZone,
              isLowercase: true,
              isBold: true,
@@ -86,10 +84,9 @@ extension TimeCatalog {
       )
     }
   }
-  
   var handlingTimeZones: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBTime(showTimeZone: true, 
+      PBTime(showTimeZone: true,
              variant: .withTimeZoneHeader,
              isLowercase: true,
              header: "East Coast",
@@ -122,7 +119,6 @@ extension TimeCatalog {
       )
     }
   }
-  
   var alignmentView: some View {
     VStack(spacing: Spacing.small) {
       PBTime(
@@ -150,7 +146,6 @@ extension TimeCatalog {
       )
     }
   }
-  
   var unstyledView: some View {
     VStack(spacing: Spacing.small) {
       PBTime(
