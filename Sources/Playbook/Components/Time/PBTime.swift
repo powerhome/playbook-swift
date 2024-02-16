@@ -109,7 +109,6 @@ public extension PBTime {
       time
       timeZone
     }
-    .frame(maxWidth: .infinity, alignment: alignment)
   }
   var showIconTimeZoneView: some View {
     return HStack {
@@ -117,7 +116,6 @@ public extension PBTime {
       time
       timeZone
     }
-    .frame(maxWidth: .infinity, alignment: alignment)
   }
   var iconTimeZone: some View {
    return HStack {
@@ -128,7 +126,9 @@ public extension PBTime {
       } else {
         showIconTimeZoneView
       }
-    }.pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
+    }
+   .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
+   .frame(maxWidth: .infinity, alignment: alignment)
   }
   var withTimeZoneHeader: some View {
     return VStack(alignment: .leading, spacing: Spacing.xSmall) {
