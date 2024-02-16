@@ -19,17 +19,21 @@ public struct PBHighlight: View {
     self.text = text
     self.highlightedText = highlightedText
   }
-   public var body: some View {
-     Text(emphasizedText)
-       .pbFont(.body, variant: .light, color: .text(.default))
-    }
+  public var body: some View {
+    emphasizedText
+  }
 }
 
 extension PBHighlight {
-  var emphasizedText: AttributedString {
+  var emphasizedText: some View {
+    return Text(textToHighlight)
+      .pbFont(.body, variant: .light, color: .text(.default))
+  }
+  var textToHighlight: AttributedString {
     return highlightedAttributedText(text: text, highlightedText: highlightedText)
   }
 }
+
 #Preview {
   registerFonts()
   return HighlightCatalog()
