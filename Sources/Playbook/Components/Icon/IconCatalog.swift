@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import playbook_icons
 
 public struct IconCatalog: View {
   public var body: some View {
@@ -46,6 +47,10 @@ public struct IconCatalog: View {
               }
             }
           }
+        }
+        
+        PBDoc(title: "Powergon") {
+          Icons.powergon.image
         }
       }
       .padding(Spacing.medium)

@@ -18,6 +18,7 @@ let package = Package(
     // Dependencies declare other packages that this package depends on.
     .package(url: "https://github.com/dkk/WrappingHStack", .upToNextMajor(from: "2.0.0")),
     .package(url: "https://github.com/marmelroy/PhoneNumberKit.git", from: "3.7.5"),
+    .package(url: "https://github.com/powerhome/playbook-icons", branch: "add-swift-package"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
       from: "1.14.2"
@@ -30,7 +31,8 @@ let package = Package(
       name: "Playbook",
       dependencies: [
         .product(name: "WrappingHStack", package: "WrappingHStack"),
-        .product(name: "PhoneNumberKit", package: "PhoneNumberKit")
+        .product(name: "PhoneNumberKit", package: "PhoneNumberKit"),
+        .product(name: "playbook-icons", package: "playbook-icons")
       ],
       resources: [.process("Resources/Assets/")]
     ),
