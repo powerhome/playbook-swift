@@ -1,7 +1,7 @@
 <h1 align="center">Playbook Swift Contribution Guidelines</h1><br />
 
 # Feature Request
-Before submitting a feature request be sure to review our [issue history](https://github.com/powerhome/PlaybookSwift/issues?q=is%3Aissue+) to confirm that your request is unique or not already in progress. 
+Before submitting a feature request be sure to review our [issue history](https://github.com/powerhome/playbook-swift/issues?q=is%3Aissue+) to confirm that your request is unique or not already in progress. 
 When you're ready to submit, be sure to use the following template: 
 
 | Name | About  | Title  | Labels | Assignees |
@@ -24,7 +24,7 @@ Add any other context or screenshots about the feature request here.
 <br/>
 
 # Bug Reporting
-Like Feature Requests, before submitting a bug report, be sure to review our [issue history](https://github.com/powerhome/PlaybookSwift/issues?q=is%3Aissue+) to confirm that your bug fix is not already resolved or in progress.
+Like Feature Requests, before submitting a bug report, be sure to review our [issue history](https://github.com/powerhome/playbook-swift/issues?q=is%3Aissue+) to confirm that your bug fix is not already resolved or in progress.
 When you're ready to submit, be sure to use the following template: 
 
 | Name | About  | Title  | Labels | Assignees |
@@ -72,22 +72,22 @@ In addition to the default linting rules, Playbook Swift enforces a indentation 
   * View all enforced rules via `swiftlint rules` in your Terminal
 * [SwiftFormat](https://github.com/nicklockwood/SwiftFormat), within the `.swiftformat` file, only allows the `indent` rule and sets it to `--indent 2`
   * To run SwiftFormat manually, use the plugin:
-    * Right click `PlaybookSwift` in the Project Navigator
+    * Right click `playbook-swift` in the Project Navigator
     * Click SwiftFormatPlugin
-<br />![swift-format-plugin](https://github.com/powerhome/PlaybookSwift/assets/60269827/fa5fdfcc-b430-46f4-b8cd-0b6f1758bbd0)
+<br />![swift-format-plugin](https://github.com/powerhome/playbook-swift/assets/60269827/fa5fdfcc-b430-46f4-b8cd-0b6f1758bbd0)
     * Click Run
-<br />![swift-format-click-run](https://github.com/powerhome/PlaybookSwift/assets/60269827/6f55d10a-39a3-43fc-8b66-6134f4186bea)
+<br />![swift-format-click-run](https://github.com/powerhome/playbook-swift/assets/60269827/6f55d10a-39a3-43fc-8b66-6134f4186bea)
 
 
 These rules will also be enforced before you commit via [pre-commit](https://pre-commit.com/).
 
 * After installing pre-commit via `brew install pre-commit && pre-commit install`, the first time you try to commit, it will take some time to install the hooks:
-<br /><br />![swift-rules](https://github.com/powerhome/PlaybookSwift/assets/60269827/43860663-900b-4ffc-9636-cc1770343efc)
+<br /><br />![swift-rules](https://github.com/powerhome/playbook-swift/assets/60269827/43860663-900b-4ffc-9636-cc1770343efc)
 
 
 
 * pre-commit will check for several rules and auto-corrects any violations. You will have to commit again if it finds an error. In the example below, one file did not have proper indentation which SwiftFormat detected and corrected:
-<br /><br />![swift-format-violations](https://github.com/powerhome/PlaybookSwift/assets/60269827/80d86b5b-bfdc-4be5-a10b-1744772f3d99)
+<br /><br />![swift-format-violations](https://github.com/powerhome/playbook-swift/assets/60269827/80d86b5b-bfdc-4be5-a10b-1744772f3d99)
 
 
 <br />

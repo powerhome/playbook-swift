@@ -16,7 +16,7 @@ targets:
     platform: iOS
     sources: [Shared]
     dependencies:
-      - package: PlaybookSwift
+      - package: playbook-swift
     settings:
       base:
         GENERATE_INFOPLIST_FILE: false
@@ -29,7 +29,7 @@ targets:
     sources: [Shared, macOS]
     scheme: {}
     dependencies:
-      - package: PlaybookSwift
+      - package: playbook-swift
     settings:
       base:
         GENERATE_INFOPLIST_FILE: false

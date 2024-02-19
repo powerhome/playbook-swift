@@ -2,12 +2,12 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: PlaybookSwift
+  name: playbook-swift
   title: Playbook Swift
   description: Playbook's library swift version
   annotations:
     backstage.io/techdocs-ref: dir:.
-    github.com/project-slug: powerhome/PlaybookSwift
+    github.com/project-slug: powerhome/playbook-swift
     nitro.powerhrg.com/deployment-connect-room: "72342"
     nitro.powerhrg.com/deployment-failure-connect-room: "72342"
     nitro.powerhrg.com/ci-build-connect-room: "72342"

@@ -35,7 +35,7 @@ fi
 
 function assertRelease {
   # It should prompt the dev with a message that they are about to create a new release and confirm to continue
-  echo "You are about to create a new PlaybookSwift release. Ready to begin?"
+  echo "You are about to create a new playbook-swift release. Ready to begin?"
   select yn in Yes No
   do
     case $yn in "Yes")
@@ -77,7 +77,7 @@ function setVersion {
   echo "Current version is ${currentVersion}. Please enter the new version number:"
   read v
   newVersion=$v
-  echo "Okay. We will create PlaybookSwift version $newVersion."
+  echo "Okay. We will create playbook-swift version $newVersion."
 }
 
 function updateMarketingVersion {
@@ -148,7 +148,7 @@ function createRelease {
 
 function assertConnectUpdate {
   # It should prompt the dev with a message that they are about to make changes to connect-apple repo and confirm to continue
-  echo "Ready to update PlaybookSwift version in connect-apple?"
+  echo "Ready to update playbook-swift version in connect-apple?"
   select yn in Yes No
   do
     case $yn in "Yes")
@@ -171,7 +171,7 @@ function updateConnect {
   cd ../connect-apple
 
   # It create a new branch and confirm to continue
-  connectBranch="PBIOS-$storyID-PlaybookSwift-update-$newVersion"
+  connectBranch="PBIOS-$storyID-playbook-swift-update-$newVersion"
   git checkout -b $connectBranch
 
   yq -i ".packages.Playbook.version = \"$newVersion\"" project_setup.yml
@@ -185,7 +185,7 @@ function createConnectPR {
   description=$releaseLink
 
   cd ../connect-apple
-  git commit -am "Update PlaybookSwift version"
+  git commit -am "Update playbook-swift version"
   git push -u origin $connectBranch
   gh repo sync -b $connectBranch
 
@@ -207,7 +207,7 @@ function createRunwayComment {
 function allDone {
   echo "🎉 Congrats! The release was successfully created!"
   echo "Please remember to create a comment with your PR link here: https://nitro.powerhrg.com/runway/backlog_items/PBIOS-$storyID"
-  echo "PlaybookSwift release url: $releaseLink"
+  echo "playbook-swift release url: $releaseLink"
   echo "connect-apple PR url: $connectPR"
 }
 

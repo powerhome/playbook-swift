@@ -8,10 +8,10 @@
 
 ### Playbook Swift can be added via the Swift Package Manager
 
-![pkgmgr-pop](https://github.com/powerhome/PlaybookSwift/assets/60269827/6319e924-252f-4ee3-8a05-5dbffa498a6b)
+![pkgmgr-pop](https://github.com/powerhome/playbook-swift/assets/60269827/6319e924-252f-4ee3-8a05-5dbffa498a6b)
 
 
-1. Search for: `git@github.com:powerhome/PlaybookSwift.git`
+1. Search for: `git@github.com:powerhome/playbook-swift.git`
 1. Choose `Add Package`
 2. In Xcode, Choose `Packages > Resolve Package Versions`
 3. In your Swift view file:
@@ -30,6 +30,6 @@
 ```yaml
 packages:
   Playbook:
-    url: git@github.com:powerhome/PlaybookSwift.git
+    url: git@github.com:powerhome/playbook-swift.git
     version x.x.x // Where x.x.x is the desired version
 ```
