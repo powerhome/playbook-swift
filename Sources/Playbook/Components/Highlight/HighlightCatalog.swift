@@ -31,14 +31,6 @@ extension HighlightCatalog {
         text: "This is the Highlight Kit.",
         highlightedText: ["Highlight Kit"]
       )
-      PBHighlight(
-        text: "Hello this is a highlight wrapped.",
-        highlightedText: ["highlight"]
-      )
-      PBHighlight(
-        text: "This is text highlighted in the Body Kit using the text prop.",
-        highlightedText: ["highlighted", "Body Kit"]
-      )
     }
   }
 }
