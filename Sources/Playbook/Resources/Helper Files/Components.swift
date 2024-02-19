@@ -81,7 +81,7 @@ public enum Components: String, CaseIterable {
     case .popover: PopoverCatalog()
     case .progressIndicator: PBSpinner_Previews.previews
     case .radio: RadioCatalog()
-    case .sectionSeparator: PBSectionSeparator_Previews.previews
+    case .sectionSeparator: SectionSeparatorCatalog()
     case .select: PBSelect_Previews.previews
     case .tabBar: TabBarCatalog()
     case .textArea: TextAreaCatalog()
