@@ -49,8 +49,15 @@ public struct IconCatalog: View {
           }
         }
         
+        let adaptiveColumn = [GridItem(.adaptive(minimum: 64))]
         PBDoc(title: "Powergon") {
-          Icons.powergon.image
+          VStack(alignment: .leading, spacing: Spacing.small) {
+            LazyVGrid(columns: adaptiveColumn, spacing: 20) {
+              ForEach(Icons.allCases) { icon in
+                icon.image
+              }
+            }
+          }
         }
       }
       .padding(Spacing.medium)
