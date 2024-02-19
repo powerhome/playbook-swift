@@ -9,8 +9,6 @@
 
 import SwiftUI
 
-@available(iOS 17.0, *)
-@available(macOS 14.0, *)
 public struct PBTypeahead<Content: View>: View {
   typealias Option = (String, Content?)
   private let title: String
@@ -65,14 +63,12 @@ public struct PBTypeahead<Content: View>: View {
       showList = isFocused
       setKeyboardControls
     }
-    .onChange(of: isFocused) {
-      showList = $1
+    .onChange(of: isFocused) { newValue in
+      showList = newValue
     }
   }
 }
 
-@available(iOS 17.0, *)
-@available(macOS 14.0, *)
 private extension PBTypeahead {
   @ViewBuilder
   var listView: some View {
@@ -107,9 +103,7 @@ private extension PBTypeahead {
       }
     }
   }
-  
- 
-  
+
   var searchResults: [Option] {
     switch selection{
     case .multiple:
@@ -245,8 +239,6 @@ private extension PBTypeahead {
   }
 }
 
-@available(iOS 17.0, *)
-@available(macOS 14.0, *)
 public extension PBTypeahead {
   enum Selection {
     case single, multiple(variant: WrappedInputField.Selection.Variant)
@@ -262,9 +254,5 @@ public extension PBTypeahead {
 
 #Preview {
   registerFonts()
-  if #available(iOS 17.0, *), #available(macOS 14.0, *) {
-    return TypeaheadCatalog()
-  } else {
-    return EmptyView()
-  }
+  return TypeaheadCatalog()
 }

@@ -9,8 +9,6 @@
 
 import SwiftUI
 
-@available(iOS 17.0, *)
-@available(macOS 14.0, *)
 public struct TypeaheadCatalog: View {
   @State private var searchTextColors: String = ""
   @State private var assetsColors = Mocks.assetsColors
@@ -41,8 +39,8 @@ public struct TypeaheadCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .scrollDismissesKeyboard(.immediately)
     .background(Color.background(.light))
     .navigationTitle("Typeahead")
+    .scrollDismissesKeyboard(.immediately)
   }
 }
