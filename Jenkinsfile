@@ -128,7 +128,7 @@ def getBuildNum() {
     dir('.buildnumber') {
       try {
         sh 'git clone --depth 5 git@github.com:powerhome/nitro-buildnumber.git .'
-        buildNum = sh(returnStdout: true, script: './increment PlaybookSwift-version').trim().toInteger()
+        buildNum = sh(returnStdout: true, script: './increment playbook-swift-version').trim().toInteger()
         print "Build number: ${buildNum}"
       }
       finally {
