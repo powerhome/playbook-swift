@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-public struct PBUser: View {
+public struct PBUser<Content: View>: View {
   var name: String
   var displayAvatar: Bool = true
   var image: Image?
@@ -17,14 +17,70 @@ public struct PBUser: View {
   var size: UserAvatarSize = .medium
   var territory: String?
   var title: String?
+  var subtitle: Content?
 
+  public init(
+    name: String = "",
+    displayAvatar: Bool = true,
+    image: Image? = nil,
+    orientation: Orientation = .horizontal,
+    size: UserAvatarSize = .medium,
+    territory: String? = nil,
+    title: String? = nil,
+    @ViewBuilder subtitle: () -> Content? = { nil }
+  ) {
+    self.name = name
+    self.displayAvatar = displayAvatar
+    self.image = image
+    self.orientation = orientation
+    self.size = size
+    self.territory = territory
+    self.title = title
+    self.subtitle = subtitle()
+  }
+  
+  public var body: some View {
+    if orientation == .horizontal {
+      HStack(spacing: Spacing.small) {
+        if displayAvatar {
+          PBAvatar(image: image, name: name, size: size.avatarSize)
+        }
+        VStack(alignment: .leading, spacing: Spacing.xSmall) {
+          Text(name)
+            .font(titleStyle.font)
+            .foregroundColor(.text(.default))
+          bodyText.pbFont(.body, color: .text(.light))
+          if let content = subtitle {
+            content
+          }
+        }
+      }
+    } else {
+      VStack(spacing: Spacing.xSmall) {
+        if displayAvatar {
+          PBAvatar(image: image, name: name, size: size.avatarSize)
+        }
+        VStack(alignment: displayAvatar ? .center : .leading, spacing: Spacing.xSmall) {
+          Text(name)
+            .font(titleStyle.font)
+            .foregroundColor(.text(.default))
+          bodyText.pbFont(.body, color: .text(.light))
+          if let content = subtitle {
+            content
+          }
+        }
+      }
+    }
+  }
+}
+
+public extension PBUser {
   var titleStyle: PBFont {
     switch size {
     case .large: return .title3
     default: return .title4
     }
   }
-
   var bodyText: Text? {
     if let territory = territory, !territory.isEmpty, let title = title, !title.isEmpty {
       return Text("\(territory) \u{2022} \(title)")
@@ -36,52 +92,11 @@ public struct PBUser: View {
       return nil
     }
   }
-
-  public init(
-    name: String = "",
-    displayAvatar: Bool = true,
-    image: Image? = nil,
-    orientation: Orientation = .horizontal,
-    size: UserAvatarSize = .medium,
-    territory: String? = nil,
-    title: String? = nil
-  ) {
-    self.name = name
-    self.displayAvatar = displayAvatar
-    self.image = image
-    self.orientation = orientation
-    self.size = size
-    self.territory = territory
-    self.title = title
-  }
-
-  public var body: some View {
-    if orientation == .horizontal {
-      HStack(spacing: Spacing.small) {
-        if displayAvatar {
-          PBAvatar(image: image, name: name, size: size.avatarSize)
-        }
-
-        VStack(alignment: .leading, spacing: Spacing.xSmall) {
-          Text(name)
-            .font(titleStyle.font)
-            .foregroundColor(.text(.default))
-          bodyText.pbFont(.body, color: .text(.light))
-        }
-      }
-    } else {
-      VStack(spacing: Spacing.xSmall) {
-        if displayAvatar {
-          PBAvatar(image: image, name: name, size: size.avatarSize)
-        }
-
-        VStack(alignment: displayAvatar ? .center : .leading, spacing: Spacing.xSmall) {
-          Text(name)
-            .font(titleStyle.font)
-            .foregroundColor(.text(.default))
-          bodyText.pbFont(.body, color: .text(.light))
-        }
-      }
+  var subtitleIconRoleBlock: some View {
+    HStack {
+      PBIcon(FontAwesome.users, size: .small)
+      Text("ADMIN")
+        .pbFont(.caption, color: .text(.light))
     }
   }
 }
@@ -91,7 +106,7 @@ public extension PBUser {
     case small
     case medium
     case large
-
+    
     var avatarSize: PBAvatar.Size {
       switch self {
       case .small: return .small
@@ -99,6 +114,29 @@ public extension PBUser {
       case .large: return .large
       }
     }
+  }
+}
+
+public extension PBUser where Content == AnyView {
+  init(
+    name: String = "",
+    displayAvatar: Bool = true,
+    image: Image? = nil,
+    orientation: Orientation = .horizontal,
+    size: UserAvatarSize = .medium,
+    territory: String? = nil,
+    title: String? = nil
+  ) {
+    self.init(
+      name: name,
+      displayAvatar: displayAvatar,
+      image: image ,
+      orientation: .horizontal,
+      size: .medium,
+      territory: nil,
+      title: nil,
+      subtitle: { AnyView(EmptyView()) }
+    )
   }
 }
 

@@ -10,13 +10,13 @@
 import SwiftUI
 
 public struct PBMultipleUsers: View {
-  var users: [PBUser]
+  var users: [PBUser<AnyView>]
   var size: AvatarSize
   var reversed: Bool
   var maxDisplayedUsers: Int
 
   public init(
-    users: [PBUser],
+    users: [PBUser<AnyView>] = [],
     size: AvatarSize = .small,
     reversed: Bool = false,
     maxDisplayedUsers: Int = 4
@@ -27,7 +27,7 @@ public struct PBMultipleUsers: View {
     self.maxDisplayedUsers = maxDisplayedUsers
   }
 
-  var filteredUsers: ([PBUser], Int?) {
+  var filteredUsers: ([PBUser<AnyView>], Int?) {
     var displayedUsers = users
     var additionalUsers = 0
 
