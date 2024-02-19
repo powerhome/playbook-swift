@@ -54,7 +54,7 @@ node(defaultNode) {
     stage(stg.setup) {
       updateBuildNum()
       jenkinsSetup()
-      getRunwayBacklogItemId()
+      // getRunwayBacklogItemId()
       getReleaseNotes()
     }
 
