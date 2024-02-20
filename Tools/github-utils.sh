@@ -15,7 +15,7 @@ function getCommitStatuses {
     -s \
     -X GET \
     -H "Authorization: token $GITHUB_API_TOKEN" \
-    "https://api.github.com/repos/powerhome/PlaybookSwift/commits/$COMMIT_SHA/statuses"
+    "https://api.github.com/repos/powerhome/playbook-swift/commits/$COMMIT_SHA/statuses"
 }
 
 function getPullRequestDetails {
@@ -29,7 +29,7 @@ function getPullRequestDetails {
     -s \
     -X GET \
     -H "Authorization: token $GITHUB_API_TOKEN" \
-    "https://api.github.com/repos/powerhome/PlaybookSwift/pulls/$PULL_REQUEST_ID"
+    "https://api.github.com/repos/powerhome/playbook-swift/pulls/$PULL_REQUEST_ID"
 }
 
 export -f getCommitStatuses getPullRequestDetails
