@@ -1,8 +1,10 @@
 //
-//  PlaybookShowcase_iOSApp.swift
-//  PlaybookShowcase-iOS
+//  Playbook Swift Design System
 //
-//  Created by Isis Silva on 4/19/23.
+//  Copyright © 2022 - 2023 Power Home Remodeling Group
+//  This software is distributed under the ISC License
+//
+//  PlaybookShowcaseApp.swift
 //
 
 import SwiftUI
