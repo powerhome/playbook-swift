@@ -10,26 +10,28 @@
 import SwiftUI
 
 public struct PBTypeahead<Content: View>: View {
+  typealias Option = (String, Content?)
   private let title: String
   private let placeholder: String
-  private let variant: WrappedInputField.Variant
-  private let clearAction: (() -> Void)?
+  private let options: [Option]
   private let selection: Selection
+  private let clearAction: (() -> Void)?
+  @State private var listOptions: [Option] = []
+  @State private var showList: Bool = false
+  @State private var hoveringIndex: Int?
+  @State private var hoveringOption: Option?
+  @State private var selectedIndex: Int?
+  @State private var selectedOptions: [Option] = []
+  @State private var focused: Bool = false
   @Binding var searchText: String
-  @State private var options: [(String, Content?)] = []
-  @State private var selectedOptions: [(String, Content?)] = []
-  @State private var isPresented: Bool = false
-  @State private var isFocused: Bool = false
-  @State private var isHovering: Bool = false
-  @State private var hoveringItem: String = ""
-  
+  @FocusState private var isFocused
+
   public init(
     title: String,
     placeholder: String = "Select",
     searchText: Binding<String>,
     selection: Selection,
-    options: [(String, Content?)] = [],
-    variant: WrappedInputField.Variant = .pill,
+    options: [(String, Content?)],
     clearAction: (() -> Void)? = nil
   ) {
     self.title = title
@@ -37,7 +39,6 @@ public struct PBTypeahead<Content: View>: View {
     self._searchText = searchText
     self.selection = selection
     self.options = options
-    self.variant = variant
     self.clearAction = clearAction
   }
   
@@ -46,110 +47,55 @@ public struct PBTypeahead<Content: View>: View {
       Text(title).pbFont(.caption)
         .padding(.bottom, Spacing.xxSmall)
       WrappedInputField(
-        title: title,
         placeholder: placeholder,
-        searchText: $searchText, 
-        selection: onSelection,
-        variant: variant,
+        searchText: $searchText,
+        selection: optionsSelected,
         isFocused: $isFocused,
         clearAction: { clearText },
-        onItemTap: { removeSelected($0) }
+        onItemTap: { removeSelected($0) },
+        onViewTap: { showList.toggle() }
       )
-      
       listView
     }
-    .background(Color.white.opacity(0.02))
-    .onTapGesture {
-      isPresented.toggle()
+    .onAppear {
+      focused = isFocused
+      listOptions = options
+      showList = isFocused
+      setKeyboardControls
+    }
+    .onChange(of: isFocused) { newValue in
+      showList = newValue
     }
   }
 }
 
 private extension PBTypeahead {
-  var optionsToShow: [String] {
-    return selectedOptions.map { $0.0 }
-  }
-
-  var searchResults: [(String, Content?)] {
-    return (searchText.isEmpty && isPresented) ? options  : options.filter {
-      $0.0.localizedCaseInsensitiveContains(searchText)
-    }
-  }
-  
-  var clearText: Void {
-    if let action = clearAction {
-      action()
-    } else {
-      searchText = ""
-      options.append(contentsOf: selectedOptions)
-      selectedOptions.removeAll()
-      isPresented = false
-    }
-  }
-  
-  var onSelection: WrappedInputField.Selection {
-    if selectedOptions.isEmpty {
-      return selection.selectedOptions(options: [], placeholder: placeholder)
-    } else {
-      return selection.selectedOptions(options: optionsToShow, placeholder: placeholder)
-    }
-  }
-  
-  func variantSelectedOptions(_ result: String) -> [(String, Content?)] {
-    if let index = options.firstIndex(where: { $0.0 == result }){
-      selectedOptions.append(options.remove(at: index))
-    }
-    switch variant {
-    case .text:
-      guard let lastOption = selectedOptions.last else { return [] }
-      options.append(contentsOf: selectedOptions.dropLast())
-      selectedOptions = []
-      selectedOptions.append(lastOption)
-    default: break
-    }
-    return selectedOptions
-  }
-  
-  func removeSelected(_ element: String) {
-    if let selectedElementIndex = selectedOptions.firstIndex(where: { $0.0 == element }) {
-      let selectedElement = selectedOptions.remove(at: selectedElementIndex)
-      options.append(selectedElement)
-    }
-  }
-  
-  func onListSelection(selected element: String) {
-    selectedOptions = variantSelectedOptions(element)
-    isPresented.toggle()
-    searchText = ""
-  }
-  
-  func listBackgroundColor(item: String) -> Color {
-    hoveringItem == item ? .hover : .card
-  }
-  
   @ViewBuilder
   var listView: some View {
-    if isPresented || !searchText.isEmpty {
+    if showList {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
           VStack(spacing: 0) {
-            ForEach(searchResults, id: \.0) { (result, value) in
+            ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
               HStack {
-                if let value = value {
-                  value
+                if let customView = result.1 {
+                  customView
                 } else {
-                  Text(result).pbFont(.body)
-                    .padding(.vertical, 4)
+                  Text(result.0)
+                    .pbFont(.body, color: listTextolor(index))
                 }
                 Spacer()
               }
               .padding(.horizontal, Spacing.xSmall + 4)
-              .padding(.vertical, Spacing.xSmall)
-              .background(listBackgroundColor(item: result))
-              .onHover { _ in hoveringItem = result }
+              .padding(.vertical, Spacing.xSmall + 4)
               .frame(maxWidth: .infinity, alignment: .leading)
+              .background(listBackgroundColor(index))
+              .onHover { _ in
+                hoveringIndex = index
+                hoveringOption = result
+              }
               .onTapGesture {
-                onListSelection(selected: result)
+                onListSelection(index: index, option: result)
               }
             }
           }
@@ -157,16 +103,150 @@ private extension PBTypeahead {
       }
     }
   }
+
+  var searchResults: [Option] {
+    switch selection{
+    case .multiple:
+      return searchText.isEmpty ? listOptions : listOptions.filter {
+        $0.0.localizedCaseInsensitiveContains(searchText)
+      }
+    case .single:
+      return searchText.isEmpty ? options : options.filter {
+        $0.0.localizedCaseInsensitiveContains(searchText)
+      }
+    }
+  }
+  
+  func listBackgroundColor(_ index: Int?) -> Color {
+    switch selection {
+    case .single:
+      if selectedIndex != nil, selectedIndex == index {
+        return .pbPrimary
+      }
+    default: break
+    }
+    #if os(macOS)
+    return hoveringIndex == index ? .hover : .card
+    #elseif os(iOS)
+    return .card
+    #endif
+  }
+  
+  func listTextolor(_ index: Int?) -> Color {
+    if selectedIndex != nil, selectedIndex == index {
+      return .white
+    } else {
+      return .text(.default)
+    }
+  }
+
+  var optionsSelected: WrappedInputField.Selection {
+    let optionsSelected = selectedOptions.map { $0.0 }
+    return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
+  }
+
+  func onListSelection(index: Int, option: Option) {
+    if showList {
+      switch selection {
+      case .single:
+        onSingleSelection(index: index, option)
+      case .multiple:
+        onMultipleSelection(option)
+      }
+    }
+    showList = false
+    searchText = ""
+  }
+  
+  func onSingleSelection(index: Int, _ option: Option) {
+    selectedOptions.removeAll()
+    selectedOptions.append(option)
+    selectedIndex = index
+    hoveringIndex = index
+  }
+  
+  func onMultipleSelection(_ option: Option) {
+    selectedOptions.append(option)
+    listOptions.removeAll(where: { $0.0 == option.0 })
+    hoveringIndex = nil
+    selectedIndex = nil
+  }
+
+  var clearText: Void {
+    if let action = clearAction {
+      action()
+    } else {
+      searchText = ""
+      selectedOptions.removeAll()
+      listOptions = options
+      selectedIndex = nil
+      hoveringIndex = nil
+    }
+  }
+  
+  func removeSelected(_ index: Int) {
+    if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
+      let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+      listOptions.append(selectedElement)
+      selectedIndex = nil
+    }
+  }
+
+  var setKeyboardControls: Void {
+    #if os(macOS)
+    NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+      if event.keyCode == 48  { // tab
+        focused = true
+      }
+      if event.keyCode == 36 { // return bar
+        if let index = hoveringIndex, index <= listOptions.count-1, isFocused {
+          onListSelection(index: index, option: listOptions[index])
+        }
+      }
+      if event.keyCode == 49 { // space
+        if isFocused {
+          if let index = hoveringIndex, index <= listOptions.count-1, showList {
+            onListSelection(index: index, option: listOptions[index])
+          } else {
+            showList = true
+          }
+        }
+      }
+      if event.keyCode == 51 { // delete
+        if let lastElementIndex = selectedOptions.indices.last, isFocused, searchText.isEmpty {
+          removeSelected(lastElementIndex)
+        }
+      }
+      if event.keyCode == 125 { // arrow down
+        if isFocused {
+          if let index = hoveringIndex {
+            hoveringIndex = index < searchResults.count ? (index + 1) : 0
+          } else {
+            hoveringIndex = 0
+          }
+        }
+      }
+      else {
+        if event.keyCode == 126 { // arrow up
+          if isFocused, let index = hoveringIndex {
+            hoveringIndex = index > 1 ? (index - 1) : 0
+          }
+        }
+      }
+      return event
+    }
+    #endif
+  }
 }
 
 public extension PBTypeahead {
   enum Selection {
-    case single, multiple
-  
+    case single, multiple(variant: WrappedInputField.Selection.Variant)
+
     func selectedOptions(options: [String], placeholder: String) -> WrappedInputField.Selection {
       switch self {
       case .single: return .single(options.first)
-      case .multiple: return .multiple(options)
+      case .multiple(let variant): return .multiple(variant, options)
       }
     }
   }
@@ -174,9 +254,5 @@ public extension PBTypeahead {
 
 #Preview {
   registerFonts()
-  if #available(iOS 16.0, *) {
-    return TypeaheadCatalog()
-  } else {
-    return EmptyView()
-  }
+  return TypeaheadCatalog()
 }
