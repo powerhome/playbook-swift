@@ -1,8 +1,8 @@
 ```swift
 VStack(alignment: .leading, spacing: Spacing.small) {
-      PBHighlight(
+       PBHighlight(
         text: "This is the Highlight Kit.",
         highlightedText: ["Highlight Kit"]
-      )
+       )
 }
 ```
