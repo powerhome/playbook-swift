@@ -20,4 +20,14 @@ extension View {
     }
     return attributedString
   }
+
+  func highlightedAttributedText(text: String, highlightedText: [String]) -> AttributedString {
+    var attributedString = AttributedString(text)
+    for text in highlightedText {
+      if let range = attributedString.range(of: text) {
+        attributedString[range].backgroundColor = Color.product(.product9, category: .highlight).opacity(0.25)
+      }
+    }
+    return attributedString
+  }
 }
