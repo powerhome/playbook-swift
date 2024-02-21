@@ -115,7 +115,7 @@ extension TimeCatalog {
              variant: .withTimeZoneHeader,
              header: "Tokyo, Japan",
              zone: .gmt,
-             timeIdentifier: "GMT"
+             timeIdentifier: "GMT+9"
       )
     }
   }
