@@ -1,5 +1,5 @@
 ```swift
- VStack(spacing: Spacing.small) {
+    VStack(spacing: Spacing.small) {
       PBTime(
         showTimeZone: true,
         variant: .iconTimeZone,
@@ -8,7 +8,8 @@
         alignment: .leading,
         unstyled: .body
       )
-      PBTime(showTimeZone: true,
+      PBTime(
+        showTimeZone: true,
         variant: .iconTimeZone,
         isLowercase: true,
         isBold: true,
@@ -23,4 +24,6 @@
         alignment: .trailing,
         unstyled: .body
       )
+    }
+
 ```
