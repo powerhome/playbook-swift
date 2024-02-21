@@ -31,7 +31,7 @@ struct TimeCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
+    .background(Color.background(.light))
     .navigationTitle("Time")
   }
 }

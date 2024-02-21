@@ -88,7 +88,7 @@ public extension PBTime {
   @ViewBuilder
   var time: some View {
    Text(getTime(timeZoneIdentifier: timeIdentifier))
-      .pbFont(unstyled, variant: isBold ? .bold : .light, color: isBold ? .text(.default) : .text(.light))
+      .pbFont(unstyled, variant: isBold ? .bold : .light, color: textColor)
   }
   @ViewBuilder
   var timeZone: some View {
@@ -135,6 +135,9 @@ public extension PBTime {
       iconTimeZone
     }
     .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
+  }
+  var textColor: Color {
+  isBold ? .text(.default) : .text(.light)
   }
   func getTime(timeZoneIdentifier: String) -> String {
     if let timeZone = TimeZone(abbreviation: timeZoneIdentifier) {
