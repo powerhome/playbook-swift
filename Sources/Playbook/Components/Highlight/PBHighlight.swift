@@ -14,7 +14,7 @@ public struct PBHighlight: View {
   let highlightedText: [String]
   public init(
     text: String = "",
-    highlightedText: [String] = [""]
+    highlightedText: [String] = []
   ) {
     self.text = text
     self.highlightedText = highlightedText
