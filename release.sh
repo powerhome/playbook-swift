@@ -148,7 +148,7 @@ function createRelease {
 
 function assertConnectUpdate {
   # It should prompt the dev with a message that they are about to make changes to connect-apple repo and confirm to continue
-  echo "Ready to update PlaybookSwift version in connect-apple?"
+  echo "Ready to update playbook-swift version in connect-apple?"
   select yn in Yes No
   do
     case $yn in "Yes")
@@ -171,7 +171,7 @@ function updateConnect {
   cd ../connect-apple
 
   # It create a new branch and confirm to continue
-  connectBranch="PBIOS-$storyID-PlaybookSwift-update-$newVersion"
+  connectBranch="PBIOS-$storyID-playbook-swift-update-$newVersion"
   git checkout -b $connectBranch
 
   yq -i ".packages.Playbook.version = \"$newVersion\"" project_setup.yml
