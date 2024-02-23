@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-public struct PBUser<Content: View>: View {
+public struct PBUser: View {
   var name: String
   var displayAvatar: Bool = true
   var image: Image?
@@ -17,7 +17,7 @@ public struct PBUser<Content: View>: View {
   var size: UserAvatarSize = .medium
   var territory: String?
   var title: String?
-  var subtitle: Content?
+  var subtitle: AnyView?
 
   public init(
     name: String = "",
@@ -27,7 +27,7 @@ public struct PBUser<Content: View>: View {
     size: UserAvatarSize = .medium,
     territory: String? = nil,
     title: String? = nil,
-    @ViewBuilder subtitle: () -> Content? = { nil }
+    subtitle: AnyView? = nil
   ) {
     self.name = name
     self.displayAvatar = displayAvatar
@@ -36,7 +36,7 @@ public struct PBUser<Content: View>: View {
     self.size = size
     self.territory = territory
     self.title = title
-    self.subtitle = subtitle()
+    self.subtitle = subtitle
   }
   
   public var body: some View {
@@ -114,29 +114,6 @@ public extension PBUser {
       case .large: return .large
       }
     }
-  }
-}
-
-public extension PBUser where Content == AnyView {
-  init(
-    name: String = "",
-    displayAvatar: Bool = true,
-    image: Image? = nil,
-    orientation: Orientation = .horizontal,
-    size: UserAvatarSize = .medium,
-    territory: String? = nil,
-    title: String? = nil
-  ) {
-    self.init(
-      name: name,
-      displayAvatar: displayAvatar,
-      image: image ,
-      orientation: .horizontal,
-      size: .medium,
-      territory: nil,
-      title: nil,
-      subtitle: { AnyView(EmptyView()) }
-    )
   }
 }
 

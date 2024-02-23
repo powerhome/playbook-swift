@@ -10,11 +10,11 @@
 import SwiftUI
 
 public struct PBMultipleUsersStacked: View {
-  var users: [PBUser<AnyView>]
+  var users: [PBUser]
   var size: Size
 
   public init(
-    users: [PBUser<AnyView>] = [],
+    users: [PBUser] = [],
     size: Size = .small
   ) {
     self.users = users
