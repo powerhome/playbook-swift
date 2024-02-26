@@ -49,6 +49,7 @@ public struct PBTimeRangeInline: View {
     public var body: some View {
       VStack(alignment: .leading, spacing: Spacing.medium) {
         timeRangeView
+       
       }
     }
 }
@@ -56,19 +57,17 @@ public extension PBTimeRangeInline {
   var timeRangeView: some View {
     return HStack {
       PBTime(showTimeZone: showTimeZone, showIcon: showIcon, isLowercase: isLowercase, isBold: isTimeBold, isIconBold: isIconBold, alignment: alignment, unstyled: size, timeIdentifier: startTime)
-       timeRangeIcon
-      PBTime(showTimeZone: showTimeZone, showIcon: showIcon, isLowercase: isLowercase, isBold: isTimeBold, isIconBold: isIconBold, alignment: alignment, unstyled: size, timeIdentifier: endTime)
+      timeRangeIcon
+      PBTime(showTimeZone: showTimeZone, showIcon: showIcon, variant: showTimeZone ? .iconTimeZone : .time, isLowercase: isLowercase, isBold: isTimeBold, isIconBold: isIconBold, alignment: alignment, unstyled: size, timeIdentifier: endTime)
     }.pbFont(size, color: fontIconColor)
+     .frame(maxWidth: .infinity, alignment: alignment)
   }
   var timeRangeIcon: some View {
-    return HStack {
       PBIcon(FontAwesome.arrowRight)
-        .pbFont(size, color: isArrowIconBold ? .text(.default) : .text(.light))
-    }
   }
   
   var fontIconColor: Color {
-    isTimeBold || isTimeZoneBold  ? .text(.default) : .text(.light)
+    isTimeBold || isTimeZoneBold  ? .text(.default) : isArrowIconBold ? .text(.default) : .text(.light)
   }
 }
 #Preview {

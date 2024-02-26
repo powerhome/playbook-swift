@@ -26,7 +26,7 @@ public struct TimeRangeInlineCatalog: View {
 
 extension TimeRangeInlineCatalog {
   var defaultView: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(spacing: Spacing.small) {
       PBTimeRangeInline(
         alignment: .leading,
         startTime: "MST",
@@ -38,6 +38,24 @@ extension TimeRangeInlineCatalog {
         startTime: "MST",
         endTime: "EST",
         size: .body,
+        isTimeBold: true,
+        isArrowIconBold: false,
+        isLowercase: true
+      )
+      
+      PBTimeRangeInline(
+        alignment: .center, 
+        startTime: "MST",
+        endTime: "EST",
+        size: .caption,
+        showTimeZone: true
+      )
+      PBTimeRangeInline(
+        alignment: .center, 
+        startTime: "MST",
+        endTime: "EST",
+        size: .body,
+        showTimeZone: true, 
         isTimeBold: true,
         isArrowIconBold: false,
         isLowercase: true

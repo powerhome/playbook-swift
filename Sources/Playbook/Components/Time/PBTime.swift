@@ -126,8 +126,8 @@ public extension PBTime {
         showIconTimeZoneView
       }
     }
-   .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
-   .frame(maxWidth: .infinity, alignment: alignment)
+    .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
+    .frame(alignment: alignment)
   }
   var withTimeZoneHeader: some View {
     return VStack(alignment: .leading, spacing: Spacing.xSmall) {
