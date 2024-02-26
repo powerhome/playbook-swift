@@ -53,17 +53,37 @@ public struct PBTimeRangeInline: View {
     self.endVariant = endVariant
   }
   public var body: some View {
-    VStack(alignment: .leading, spacing: Spacing.medium) {
       timeRangeView
-    }
   }
 }
 public extension PBTimeRangeInline {
   var timeRangeView: some View {
     return HStack {
-      PBTime(showTimeZone: showTimeZone, showIcon: showIcon, variant: startVariant ?? .iconTimeZone, isLowercase: isLowercase, isBold: isTimeBold, isIconBold: isIconBold, alignment: alignment, isTimeZoneBold: isTimeZoneBold, unstyled: size, timeIdentifier: startTime)
+      PBTime(
+        showTimeZone: showTimeZone,
+        showIcon: showIcon,
+        variant: startVariant ?? .iconTimeZone,
+        isLowercase: isLowercase,
+        isBold: isTimeBold,
+        isIconBold: isIconBold,
+        alignment: alignment,
+        isTimeZoneBold: isTimeZoneBold,
+        unstyled: size,
+        timeIdentifier: startTime
+      )
       timeRangeIcon
-      PBTime(showTimeZone: showTimeZone, showIcon: showIcon, variant: endVariant ?? .iconTimeZone, isLowercase: isLowercase, isBold: isTimeBold, isIconBold: isIconBold, alignment: alignment, isTimeZoneBold: isTimeZoneBold, unstyled: size, timeIdentifier: endTime)
+      PBTime(
+        showTimeZone: showTimeZone,
+        showIcon: showIcon,
+        variant: endVariant ?? .iconTimeZone,
+        isLowercase: isLowercase,
+        isBold: isTimeBold,
+        isIconBold: isIconBold,
+        alignment: alignment,
+        isTimeZoneBold: isTimeZoneBold,
+        unstyled: size,
+        timeIdentifier: endTime
+      )
     }
     .frame(maxWidth: .infinity, alignment: alignment)
     .pbFont(size, color: fontColor)
