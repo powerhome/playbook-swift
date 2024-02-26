@@ -63,6 +63,8 @@ public struct PBTime: View {
 public extension PBTime {
   enum Variant {
     case time
+    case clockIcon
+    case timeZone
     case iconTimeZone
     case withTimeZoneHeader
   }
@@ -73,6 +75,8 @@ public extension PBTime {
   var timeVariants: some View {
     switch variant {
     case .time: time
+    case .clockIcon: showIconView
+    case .timeZone: showTimeZoneView
     case .iconTimeZone: iconTimeZone
     case .withTimeZoneHeader: withTimeZoneHeader
     }
@@ -101,7 +105,6 @@ public extension PBTime {
       timeIcon
       time
     }
-    .frame(maxWidth: .infinity, alignment: alignment)
   }
   var showTimeZoneView: some View {
     return HStack {
@@ -110,7 +113,7 @@ public extension PBTime {
     }
   }
   var showIconTimeZoneView: some View {
-    return HStack {
+    HStack {
       timeIcon
       time
       timeZone
@@ -122,12 +125,14 @@ public extension PBTime {
       showIconView
       } else if showTimeZone {
         showTimeZoneView
+          .frame(maxWidth: .infinity, alignment: alignment)
       } else {
         showIconTimeZoneView
       }
     }
+   .frame(maxWidth: .infinity, alignment: alignment)
     .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
-    .frame(alignment: alignment)
+    
   }
   var withTimeZoneHeader: some View {
     return VStack(alignment: .leading, spacing: Spacing.xSmall) {

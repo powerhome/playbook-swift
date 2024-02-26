@@ -26,40 +26,84 @@ public struct TimeRangeInlineCatalog: View {
 
 extension TimeRangeInlineCatalog {
   var defaultView: some View {
-    VStack(spacing: Spacing.small) {
+    VStack(spacing: Spacing.large) {
       PBTimeRangeInline(
         alignment: .leading,
-        startTime: "MST",
+        size: .caption, startTime: "MST",
         endTime: "EST",
-        size: .caption
+        startVariant: .time
       )
       PBTimeRangeInline(
         alignment: .leading,
-        startTime: "MST",
+        size: .body, startTime: "MST",
         endTime: "EST",
-        size: .body,
+        showIcon: false,
         isTimeBold: true,
-        isArrowIconBold: false,
-        isLowercase: true
+        isLowercase: true,
+        startVariant: .time
       )
-      
-      PBTimeRangeInline(
-        alignment: .center, 
-        startTime: "MST",
-        endTime: "EST",
-        size: .caption,
-        showTimeZone: true
-      )
-      PBTimeRangeInline(
-        alignment: .center, 
-        startTime: "MST",
-        endTime: "EST",
-        size: .body,
-        showTimeZone: true, 
-        isTimeBold: true,
-        isArrowIconBold: false,
-        isLowercase: true
-      )
+      Spacer()
+        PBTimeRangeInline(
+          alignment: .center,
+          size: .caption, startTime: "MST",
+          endTime: "EDT",
+          showTimeZone: true,
+          endVariant: .timeZone
+        )
+        PBTimeRangeInline(
+          alignment: .center,
+          size: .body,
+          startTime: "MST",
+          endTime: "EDT",
+          showTimeZone: true,
+          isTimeBold: true,
+          isTimeZoneBold: false,
+          isLowercase: true,
+          endVariant: .timeZone
+        )
+      Spacer()
+        PBTimeRangeInline(
+          alignment: .center,
+          size: .caption, startTime: "MST",
+          endTime: "EST",
+          showIcon: true,
+          startVariant: .clockIcon
+          
+        )
+        PBTimeRangeInline(
+          alignment: .center,
+          size: .body, startTime: "MST",
+          endTime: "EST",
+          showIcon: true,
+          isTimeBold: true,
+          isLowercase: true,
+          startVariant: .clockIcon
+        )
+      Spacer()
+        PBTimeRangeInline(
+          alignment: .trailing,
+          size: .caption, 
+          startTime: "MST",
+          endTime: "EDT",
+          showIcon: true,
+          showTimeZone: true,
+          startVariant: .clockIcon,
+          endVariant: .timeZone
+        )
+        PBTimeRangeInline(
+          alignment: .trailing,
+          size: .body, 
+          startTime: "MST",
+          endTime: "EDT",
+          showIcon: true,
+          showTimeZone: true,
+          isTimeBold: true,
+          isTimeZoneBold: false,
+          isLowercase: true,
+          startVariant: .clockIcon,
+          endVariant: .timeZone
+        )
+      Spacer()
     }
   }
 }
