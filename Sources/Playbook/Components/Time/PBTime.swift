@@ -107,7 +107,7 @@ public extension PBTime {
     }
   }
   var showTimeZoneView: some View {
-    return HStack {
+    return HStack(spacing: Spacing.xxSmall) {
       time
       timeZone
     }
