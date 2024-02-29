@@ -39,6 +39,7 @@ public struct PBUser: View {
     self.territory = territory
     self.title = title
     self.subtitle = subtitle
+    self.presence = presence
   }
   
   public var body: some View {
