@@ -13,20 +13,22 @@ public struct PBCurrency: View {
   let dollarAmount: String?
   let decimalAmount: String?
   let label: String?
-  let size: PBFont?
+  let size: PBFont
   let symbol: String?
   let unit: String?
   let alignment: Alignment
   let isEmphasized: Bool
+  let hasUnit: Bool
   public init(
     dollarAmount: String? = nil,
     decimalAmount: String? = nil,
     label: String? = nil,
-    size: PBFont? = .body,
+    size: PBFont = .body,
     symbol: String? = nil,
     unit: String? = nil,
     alignment: Alignment = .leading,
-    isEmphasized: Bool = false
+    isEmphasized: Bool = false,
+    hasUnit: Bool = false
   ) {
     self.dollarAmount = dollarAmount
     self.decimalAmount = decimalAmount
@@ -36,6 +38,7 @@ public struct PBCurrency: View {
     self.unit = unit
     self.alignment = alignment
     self.isEmphasized = isEmphasized
+    self.hasUnit = hasUnit
   }
   public var body: some View {
     currencyView
@@ -45,24 +48,33 @@ public extension PBCurrency {
   var currencyView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text(label ?? "")
-        .pbFont(.caption, color: .text(.light))
+        .pbFont(.caption, variant: .bold, color: .text(.light))
       HStack(spacing: 0) {
-        Text(getCurrency(symbol: symbol ?? ""))
-          .pbFont(.body, color: .text(.light))
-        Text(formattedDollar + formattedDecimal)
-          .pbFont(.body, variant: .bold)
+        symbolView
+        dollarDecimalView
       }
     }
   }
+  var symbolView: some View {
+    Text(getCurrency(symbol: symbol ?? ""))
+      .pbFont(.body, color: .text(.light))
+      .baselineOffset(size == .title4  ? 0 : size == .title1 ? 21 : 9)
+  }
+  @ViewBuilder
+  var dollarDecimalView: some View {
+   HStack(spacing: 0) {
+     Text(formattedDollar)
+       .pbFont(size, variant: .bold)
+     Text(formattedDecimal)
+       .pbFont(.body, variant: .bold)
+       .baselineOffset(size == .title4 ? 0 : size == .title1 ? -16 : -5)
+   }
+  }
   var formattedDollar: AttributedString {
-    var amount = AttributedString(dollarAmount ?? "")
-    amount.foregroundColor = .text(.default)
-    return amount
+    return colorAttributedText(dollarAmount ?? "", characterToChange: dollarAmount ?? "", color: fontColor)
   }
   var formattedDecimal: AttributedString {
-    var amount = AttributedString(decimalAmount ?? "")
-    amount.foregroundColor = .text(.light)
-    return amount
+    return colorAttributedText(hasUnit ? unit ?? "" : decimalAmount ?? "", characterToChange: hasUnit ? unit ?? "" : decimalAmount ?? "", color: .text(.light))
   }
   var fontColor: Color {
     isEmphasized ? .text(.default) : .text(.light)
