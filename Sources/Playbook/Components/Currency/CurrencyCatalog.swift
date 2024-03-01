@@ -30,7 +30,7 @@ public extension CurrencyCatalog {
   var sizeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBCurrency(
-        dollarAmount: "2,000",
+        amount: "2,000",
         decimalAmount: ".50",
         label: "small",
         size: .title4,
@@ -38,7 +38,7 @@ public extension CurrencyCatalog {
         isEmphasized: true
       )
       PBCurrency(
-        dollarAmount: "342",
+        amount: "342",
         decimalAmount: ".00",
         label: "medium",
         size: .title3,
@@ -46,7 +46,7 @@ public extension CurrencyCatalog {
         isEmphasized: true
       )
       PBCurrency(
-        dollarAmount: "45",
+        amount: "45",
         label: "large",
         size: .title1,
         symbol: "en_US",
@@ -59,7 +59,7 @@ public extension CurrencyCatalog {
   var alignmentView: some View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       PBCurrency(
-        dollarAmount: "2,000",
+        amount: "2,000",
         decimalAmount: ".50",
         size: .title4,
         symbol: "en_US",
@@ -67,7 +67,7 @@ public extension CurrencyCatalog {
         isEmphasized: true
       )
       PBCurrency(
-        dollarAmount: "342",
+        amount: "342",
         decimalAmount: ".00",
         size: .title4,
         symbol: "en_EU",
@@ -75,7 +75,7 @@ public extension CurrencyCatalog {
         isEmphasized: true
       )
       PBCurrency(
-        dollarAmount: "45",
+        amount: "45",
         size: .title4,
         symbol: "en_US",
         unit: "/mo",

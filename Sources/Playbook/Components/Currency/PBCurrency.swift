@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBCurrency: View {
-  let dollarAmount: String?
+  let amount: String?
   let decimalAmount: String?
   let label: String?
   let size: PBFont
@@ -20,7 +20,7 @@ public struct PBCurrency: View {
   let isEmphasized: Bool
   let hasUnit: Bool
   public init(
-    dollarAmount: String? = nil,
+    amount: String? = nil,
     decimalAmount: String? = nil,
     label: String? = nil,
     size: PBFont = .body,
@@ -30,7 +30,7 @@ public struct PBCurrency: View {
     isEmphasized: Bool = false,
     hasUnit: Bool = false
   ) {
-    self.dollarAmount = dollarAmount
+    self.amount = amount
     self.decimalAmount = decimalAmount
     self.label = label
     self.size = size
@@ -75,7 +75,7 @@ public extension PBCurrency {
     }
   }
   var formattedDollar: AttributedString {
-    return colorAttributedText(dollarAmount ?? "", characterToChange: dollarAmount ?? "", color: fontColor)
+    return colorAttributedText(amount ?? "", characterToChange: amount ?? "", color: fontColor)
   }
   var formattedDecimal: AttributedString {
     return colorAttributedText(hasUnit ? unit ?? "" : decimalAmount ?? "", characterToChange: hasUnit ? unit ?? "" : decimalAmount ?? "", color: .text(.light))
