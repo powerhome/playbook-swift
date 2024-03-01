@@ -47,13 +47,17 @@ public struct PBCurrency: View {
 public extension PBCurrency {
   var currencyView: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
-      Text(label ?? "")
-        .pbFont(.caption, variant: .bold, color: .text(.light))
+        labelView
       HStack(spacing: 0) {
         symbolView
         dollarDecimalView
       }
     }
+    .frame(maxWidth: .infinity, alignment: alignment)
+  }
+  var labelView: some View {
+      Text(label ?? "")
+        .pbFont(.caption, variant: .bold, color: .text(.light))
   }
   var symbolView: some View {
     Text(getCurrency(symbol: symbol ?? ""))
@@ -62,13 +66,13 @@ public extension PBCurrency {
   }
   @ViewBuilder
   var dollarDecimalView: some View {
-   HStack(spacing: 0) {
-     Text(formattedDollar)
-       .pbFont(size, variant: .bold)
-     Text(formattedDecimal)
-       .pbFont(.body, variant: .bold)
-       .baselineOffset(size == .title4 ? 0 : size == .title1 ? -16 : -5)
-   }
+    HStack(spacing: 0) {
+      Text(formattedDollar)
+        .pbFont(size, variant: .bold)
+      Text(formattedDecimal)
+        .pbFont(.body, variant: .bold)
+        .baselineOffset(size == .title4 ? 0 : size == .title1 ? -16 : -5)
+    }
   }
   var formattedDollar: AttributedString {
     return colorAttributedText(dollarAmount ?? "", characterToChange: dollarAmount ?? "", color: fontColor)

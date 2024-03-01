@@ -16,6 +16,9 @@ public struct CurrencyCatalog: View {
           PBDoc(title: "Size") {
             sizeView
           }
+          PBDoc(title: "Alignment") {
+            alignmentView
+          }
         }
         .padding(Spacing.medium)
       }
@@ -48,6 +51,35 @@ public extension CurrencyCatalog {
         size: .title1,
         symbol: "en_US",
         unit: "/mo", 
+        isEmphasized: true,
+        hasUnit: true
+      )
+    }
+  }
+  var alignmentView: some View {
+    VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+      PBCurrency(
+        dollarAmount: "2,000",
+        decimalAmount: ".50",
+        size: .title4,
+        symbol: "en_US",
+        alignment: .leading, 
+        isEmphasized: true
+      )
+      PBCurrency(
+        dollarAmount: "342",
+        decimalAmount: ".00",
+        size: .title4,
+        symbol: "en_EU",
+        alignment: .center,
+        isEmphasized: true
+      )
+      PBCurrency(
+        dollarAmount: "45",
+        size: .title4,
+        symbol: "en_US",
+        unit: "/mo",
+        alignment: .trailing, 
         isEmphasized: true,
         hasUnit: true
       )
