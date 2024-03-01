@@ -19,6 +19,7 @@ public enum Components: String, CaseIterable {
   case checkbox
   case collapsible
   case contact
+  case currency = "Currency"
   case date
   case dialog
   case toast = "Fixed Confirmation Toast"
@@ -64,6 +65,7 @@ public enum Components: String, CaseIterable {
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
     case .contact: ContactCatalog()
+    case .currency: CurrencyCatalog()
     case .date: DateCatalog()
     case .dialog: DialogCatalog()
     case .toast: ToastCatalog()
