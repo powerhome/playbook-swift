@@ -22,7 +22,7 @@ public struct CurrencyCatalog: View {
         }
         .padding(Spacing.medium)
       }
-      .background(Color.background(Color.BackgroundColor.light))
+      .background(Color.background(.light))
       .navigationTitle("Currency")
     }
 }
