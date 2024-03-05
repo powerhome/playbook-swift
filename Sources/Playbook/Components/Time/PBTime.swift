@@ -153,7 +153,7 @@ public extension PBTime {
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
     if let timeZone = formatter.date(from: timeZoneIdentifier) {
       let timeFormatter = DateFormatter()
-      timeFormatter.dateFormat = showTimeZone ? "h:mma z" : "h:mma"
+      timeFormatter.dateFormat = "h:mma z"
       timeFormatter.amSymbol = isLowercase == true ? "a" : "A"
       timeFormatter.pmSymbol = isLowercase == true ? "p" : "P"
       let formattedString = timeFormatter.string(from: timeZone)
