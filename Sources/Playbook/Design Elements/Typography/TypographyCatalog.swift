@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import playbook_icons
 
 public struct TypographyCatalog: View {
   public var body: some View {
@@ -75,18 +76,22 @@ public struct TypographyCatalog: View {
       Text("I am a detail kit")
         .pbFont(.detail(true))
     }
+    
+    let power = PBDoc(title: "Power Fonts") {
+      Text("I am a Power Centra Font")
+        .font(.custom(PowerCentra.boldit.rawValue, size: 34))
+    }
 
     return ScrollView {
       VStack(spacing: Spacing.medium) {
         title
         titleLight
         body
-        if #available(iOS 16.0, *) {
-          letterSpacing
-        }
+        letterSpacing
         componentsText
         caption
         detail
+        power
       }
       .padding(Spacing.medium)
     }
