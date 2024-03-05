@@ -67,7 +67,7 @@ public extension PBTime {
     case withTimeZoneHeader
   }
   enum Zones {
-    case east, central, mountain, pacific, gmt
+    case east, central, mountain, pacific, gmt, utc
   }
   @ViewBuilder
   var timeVariants: some View {
@@ -94,7 +94,8 @@ public extension PBTime {
   var timeZone: some View {
     switch zone {
     case .east, .central, .mountain, .pacific, .gmt: Text(timeIdentifier)
-      
+    case .utc: Text("")
+
     }
   }
   var showIconView: some View {
@@ -150,12 +151,12 @@ public extension PBTime {
       return formatter.string(from: date ?? Date())
     }
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-    if let time = formatter.date(from: timeZoneIdentifier) {
+    if let timeZone = formatter.date(from: timeZoneIdentifier) {
       let timeFormatter = DateFormatter()
       timeFormatter.dateFormat = showTimeZone ? "h:mma z" : "h:mma"
       timeFormatter.amSymbol = isLowercase == true ? "a" : "A"
       timeFormatter.pmSymbol = isLowercase == true ? "p" : "P"
-      let formattedString = timeFormatter.string(from: time)
+      let formattedString = timeFormatter.string(from: timeZone)
       return formattedString
     }
     return timeZoneIdentifier
