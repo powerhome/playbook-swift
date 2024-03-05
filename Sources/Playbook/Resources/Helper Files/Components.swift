@@ -22,6 +22,7 @@ public enum Components: String, CaseIterable {
   case date
   case dialog
   case toast = "Fixed Confirmation Toast"
+  case highlight = "Highlight"
   case homeAddress = "Home Address Street"
   case icon
   case iconCircle = "Icon Circle"
@@ -66,6 +67,7 @@ public enum Components: String, CaseIterable {
     case .date: DateCatalog()
     case .dialog: DialogCatalog()
     case .toast: ToastCatalog()
+    case .highlight: HighlightCatalog()
     case .homeAddress: HomeAddressStreetCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()

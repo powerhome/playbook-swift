@@ -50,27 +50,23 @@ public extension UserCatalog {
         name: name,
         image: img,
         territory: "PHL",
-        title: title,
-        subtitle: {}
+        title: title
       )
       PBUser(
         name: name,
         territory: "PHL",
-        title: title,
-        subtitle: {}
+        title: title
       )
       PBUser(
         name: name,
         image: img,
         size: .small,
-        title: title,
-        subtitle: {}
+        title: title
       )
       PBUser(
         name: name,
         image: img,
-        size: .small,
-        subtitle: {}
+        size: .small
       )
     }
   }
@@ -82,23 +78,20 @@ public extension UserCatalog {
         image: img,
         orientation: .vertical,
         size: .small,
-        title: title,
-        subtitle: {}
+        title: title
       )
       PBUser(
         name: name,
         image: img,
         orientation: .vertical,
-        title: title,
-        subtitle: {}
+        title: title
       )
       PBUser(
         name: name,
         image: img,
         orientation: .vertical,
         size: .large,
-        title: title,
-        subtitle: {}
+        title: title
       )
     }
   }
@@ -110,15 +103,13 @@ public extension UserCatalog {
         displayAvatar: false,
         size: .large,
         territory: "PHL",
-        title: title,
-        subtitle: {}
+        title: title
       )
       PBUser(
         name: name,
         displayAvatar: false,
         territory: "PHL",
-        title: title,
-        subtitle: {}
+        title: title
       )
     }
   }
@@ -130,33 +121,47 @@ public extension UserCatalog {
         image: img,
         size: .small,
         territory: "PHL",
-        title: title,
-        subtitle: {}
+        title: title
       )
       PBUser(
         name: name,
         image: img,
         territory: "PHL",
-        title: title,
-        subtitle: {}
+        title: title
       )
       PBUser(
         name: name,
         image: img,
         size: .large,
         territory: "PHL",
-        title: title,
-        subtitle: {}
+        title: title
       )
     }
   }
   
-  var userSubtitleBlockView: some View {
+  var roleSubtitle: AnyView {
+    AnyView(
+      HStack {
+        PBIcon(FontAwesome.users, size: .small)
+        Text("ADMIN").pbFont(.caption, color: .text(.light))
+      }
+    )
+  }
+  
+  var contactSubtitle: AnyView {
     let contacts = [
       PBContact(type: .cell, value: "(349) 185-9988", detail: false),
       PBContact(type: .home, value: "(555) 555-5555", detail: false),
       PBContact(type: .email, value: "email@example.com", detail: false)
     ]
+    return AnyView (
+      ForEach(contacts, id: \.parsedValue) { contact in
+        PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
+      }
+    )
+  }
+  
+  var userSubtitleBlockView: some View {
     return VStack(alignment: .leading, spacing: Spacing.small) {
       PBUser(
         name: "Anna Black",
@@ -164,23 +169,13 @@ public extension UserCatalog {
         size: .small, 
         territory: "PHL",
         title: "Remodeling Consultant",
-        subtitle: {
-          HStack {
-            PBIcon(FontAwesome.users, size: .small)
-            Text("ADMIN")
-              .pbFont(.caption, color: .text(.light))
-          }
-        }
+        subtitle: roleSubtitle
       )
       PBUser(
         name: "Anna Black",
         image: Image("Anna", bundle: .module),
         size: .small,
-        subtitle: {
-          ForEach(contacts, id: \.parsedValue) { contact in
-                PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
-              }
-        }
+        subtitle: contactSubtitle
       )
     }
   }

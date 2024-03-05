@@ -60,6 +60,7 @@ public struct PBSelect: View {
           .background(style.backgroundColor)
         }
       }
+      .buttonStyle(.plain)
       .disabled(style == .disabled)
       .onChange(of: selected, perform: { newValue in
         selectedOption(newValue)
