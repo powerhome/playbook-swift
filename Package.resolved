@@ -12,7 +12,7 @@
     {
       "identity" : "playbook-icons",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/powerhome/playbook-icons",
+      "location" : "git@github.com:powerhome/playbook-icons",
       "state" : {
         "branch" : "add-swift-package",
         "revision" : "6265873be9a79e6895b908de1fa28a0cb3112cc5"
