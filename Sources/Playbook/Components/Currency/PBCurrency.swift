@@ -85,7 +85,7 @@ public extension PBCurrency {
   }
   func getCurrency(symbol: String) -> String {
     let locale = Locale(identifier: symbol)
-    let currencySymbol = locale.currencySymbol!
+    let currencySymbol = locale.currencySymbol ?? ""
     return currencySymbol
   }
 }
