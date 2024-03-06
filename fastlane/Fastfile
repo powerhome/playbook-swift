@@ -50,7 +50,7 @@ lane :build_ios do |opts|
   gym(
     project: project,
     scheme: target,
-    skip_package_dependencies_resolution: true,
+    skip_package_dependencies_resolution: false,
     export_method: export_method,
     output_name: "#{target}.ipa",
     build_path: build_path,
