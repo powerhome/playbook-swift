@@ -55,9 +55,9 @@ public struct PBTime: View {
     self.unstyled = unstyled
     self.timeIdentifier = timeIdentifier
   }
-    public var body: some View {
-     timeVariants
-    }
+  public var body: some View {
+    timeVariants
+  }
 }
 
 public extension PBTime {
@@ -91,7 +91,7 @@ public extension PBTime {
   }
   @ViewBuilder
   var time: some View {
-   Text(getTime(timeZoneIdentifier: timeIdentifier))
+    getTime(timeZoneIdentifier: timeIdentifier)
       .pbFont(unstyled, variant: isBold ? .bold : .light, color: textColor)
   }
   @ViewBuilder
@@ -120,20 +120,18 @@ public extension PBTime {
     }
   }
   var iconTimeZone: some View {
-   return HStack {
-    if showIcon {
-      showIconView
+    return HStack {
+      if showIcon {
+        showIconView
       } else if showTimeZone {
         showTimeZoneView
-          .frame(maxWidth: .infinity, alignment: alignment)
       } else {
         showIconTimeZoneView
       }
     }
    .frame(maxWidth: .infinity, alignment: alignment)
     .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
-    
-  }
+    }
   var withTimeZoneHeader: some View {
     return VStack(alignment: .leading, spacing: Spacing.xSmall) {
       headerView
@@ -142,18 +140,29 @@ public extension PBTime {
     .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
   }
   var textColor: Color {
-  isBold ? .text(.default) : .text(.light)
+    isBold ? .text(.default) : .text(.light)
   }
-  func getTime(timeZoneIdentifier: String) -> String {
-    if let timeZone = TimeZone(abbreviation: timeZoneIdentifier) {
-      let formatter = DateFormatter()
+  func getTime(timeZoneIdentifier: String) -> some View {
+    let formatter = DateFormatter()
+    if let timeZone = TimeZone(identifier: timeZoneIdentifier) {
       formatter.timeZone = timeZone
       formatter.dateFormat = "h:mma"
       formatter.amSymbol = isLowercase == true ? "a" : "A"
       formatter.pmSymbol = isLowercase == true ? "p" : "P"
-      return formatter.string(from: date ?? Date())
+      let formattedString = formatter.string(from: date ?? Date())
+      return Text(formattedString)
+    } 
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+    if let timeZone = formatter.date(from: timeZoneIdentifier) {
+      let timeFormatter = DateFormatter()
+      timeFormatter.dateFormat = showTimeZone ? "h:mma z" : "h:mma"
+      timeFormatter.amSymbol = isLowercase == true ? "a" : "A"
+      timeFormatter.pmSymbol = isLowercase == true ? "p" : "P"
+      let formattedString = timeFormatter.string(from: timeZone)
+      let tz = colorAttributedText(String(formattedString), characterToChange: String(formattedString.suffix(3)), color: .text(.light))
+      return Text(tz)
     }
-    return timeZoneIdentifier
+    return Text(timeZoneIdentifier)
   }
 }
 

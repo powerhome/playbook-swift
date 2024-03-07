@@ -30,75 +30,75 @@ extension TimeRangeInlineCatalog {
       PBTimeRangeInline(
         alignment: .leading,
         size: .caption, 
-        startTime: "MST",
-        endTime: "EST",
-        startVariant: .time
+        startTime: "2012-08-02T15:49:29Z",
+        endTime: "2012-08-02T17:49:29Z"
       )
       PBTimeRangeInline(
         alignment: .leading,
-        size: .body, 
-        startTime: "MST",
-        endTime: "EST",
+        size: .body,
+        startTime: "2012-08-02T15:49:29Z",
+        endTime: "2012-08-02T17:49:29Z",
         isTimeBold: true,
-        isLowercase: true,
-        startVariant: .time
+        isLowercase: true
       )
       Spacer()
-        PBTimeRangeInline(
-          alignment: .center,
-          size: .caption, 
-          startTime: "MST",
-          endTime: "EDT",
-          showTimeZone: true,
-          endVariant: .timeZone
-        )
-        PBTimeRangeInline(
-          alignment: .center,
-          size: .body,
-          startTime: "MST",
-          endTime: "EDT",
-          isTimeBold: true,
-          isTimeZoneBold: false,
-          isLowercase: true,
-          endVariant: .timeZone
-        )
+      PBTimeRangeInline(
+        alignment: .center,
+        size: .caption,
+        startTime: "2012-08-02T15:49:29Z",
+        endTime: "2012-08-02T17:49:29Z",
+        showEndTimeZone: true
+      )
+      PBTimeRangeInline(
+        alignment: .center,
+        size: .body,
+        startTime: "2012-08-02T15:49:29Z",
+        endTime: "2012-08-02T17:49:29Z",
+        showEndTimeZone: true,
+        isTimeBold: true,
+        isTimeZoneBold: false,
+        isLowercase: true
+      )
       Spacer()
-        PBTimeRangeInline(
-          alignment: .center,
-          size: .caption, 
-          startTime: "MST",
-          endTime: "EST",
-          startVariant: .clockIcon
-          
-        )
-        PBTimeRangeInline(
-          alignment: .center,
-          size: .body, startTime: "MST",
-          endTime: "EST",
-          isTimeBold: true,
-          isLowercase: true,
-          startVariant: .clockIcon
-        )
+      PBTimeRangeInline(
+        alignment: .center,
+        size: .caption,
+        startTime: "2012-08-02T15:49:29Z",
+        endTime: "2012-08-02T17:49:29Z",
+        showStartTimeZone: false,
+        startVariant: .clockIcon
+        
+      )
+      PBTimeRangeInline(
+        alignment: .center,
+        size: .body,
+        startTime: "2012-08-02T15:49:29Z",
+        endTime: "2012-08-02T17:49:29Z",
+        isTimeBold: true,
+        isLowercase: true,
+        startVariant: .clockIcon
+      )
       Spacer()
-        PBTimeRangeInline(
-          alignment: .trailing,
-          size: .caption, 
-          startTime: "MST",
-          endTime: "EDT",
-          startVariant: .clockIcon,
-          endVariant: .timeZone
-        )
-        PBTimeRangeInline(
-          alignment: .trailing,
-          size: .body, 
-          startTime: "MST",
-          endTime: "EDT",
-          isTimeBold: true,
-          isTimeZoneBold: false,
-          isLowercase: true,
-          startVariant: .clockIcon,
-          endVariant: .timeZone
-        )
+      PBTimeRangeInline(
+        alignment: .trailing,
+        size: .caption,
+        startTime: "2012-08-02T15:49:29Z",
+        endTime: "2012-08-02T17:49:29Z",
+        showIcon: true,
+        showEndTimeZone: true,
+        startVariant: .clockIcon
+      )
+      PBTimeRangeInline(
+        alignment: .trailing,
+        size: .body,
+        startTime: "2012-08-02T15:49:29Z",
+        endTime: "2012-08-02T17:49:29Z",
+        showIcon: true,
+        showEndTimeZone: true,
+        isTimeBold: true,
+        isTimeZoneBold: false,
+        startVariant: .clockIcon
+      )
       Spacer()
     }
   }
