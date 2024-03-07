@@ -55,9 +55,9 @@ public struct PBTime: View {
     self.unstyled = unstyled
     self.timeIdentifier = timeIdentifier
   }
-    public var body: some View {
-     timeVariants
-    }
+  public var body: some View {
+    timeVariants
+  }
 }
 
 public extension PBTime {
@@ -67,7 +67,7 @@ public extension PBTime {
     case withTimeZoneHeader
   }
   enum Zones {
-    case east, central, mountain, pacific, gmt
+    case east, central, mountain, pacific, gmt, utc
   }
   @ViewBuilder
   var timeVariants: some View {
@@ -87,13 +87,15 @@ public extension PBTime {
   }
   @ViewBuilder
   var time: some View {
-   Text(getTime(timeZoneIdentifier: timeIdentifier))
+    Text(getTime(timeZoneIdentifier: timeIdentifier))
       .pbFont(unstyled, variant: isBold ? .bold : .light, color: textColor)
   }
   @ViewBuilder
   var timeZone: some View {
     switch zone {
     case .east, .central, .mountain, .pacific, .gmt: Text(timeIdentifier)
+    case .utc: Text("")
+
     }
   }
   var showIconView: some View {
@@ -117,17 +119,17 @@ public extension PBTime {
     }
   }
   var iconTimeZone: some View {
-   return HStack {
-    if showIcon {
-      showIconView
+    return HStack {
+      if showIcon {
+        showIconView
       } else if showTimeZone {
         showTimeZoneView
       } else {
         showIconTimeZoneView
       }
     }
-   .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
-   .frame(maxWidth: .infinity, alignment: alignment)
+    .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
+    .frame(maxWidth: .infinity, alignment: alignment)
   }
   var withTimeZoneHeader: some View {
     return VStack(alignment: .leading, spacing: Spacing.xSmall) {
@@ -137,16 +139,25 @@ public extension PBTime {
     .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
   }
   var textColor: Color {
-  isBold ? .text(.default) : .text(.light)
+    isBold ? .text(.default) : .text(.light)
   }
   func getTime(timeZoneIdentifier: String) -> String {
-    if let timeZone = TimeZone(abbreviation: timeZoneIdentifier) {
-      let formatter = DateFormatter()
+    let formatter = DateFormatter()
+    if let timeZone = TimeZone(identifier: timeZoneIdentifier) {
       formatter.timeZone = timeZone
       formatter.dateFormat = "h:mma"
       formatter.amSymbol = isLowercase == true ? "a" : "A"
       formatter.pmSymbol = isLowercase == true ? "p" : "P"
       return formatter.string(from: date ?? Date())
+    }
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+    if let timeZone = formatter.date(from: timeZoneIdentifier) {
+      let timeFormatter = DateFormatter()
+      timeFormatter.dateFormat = "h:mma z"
+      timeFormatter.amSymbol = isLowercase == true ? "a" : "A"
+      timeFormatter.pmSymbol = isLowercase == true ? "p" : "P"
+      let formattedString = timeFormatter.string(from: timeZone)
+      return formattedString
     }
     return timeZoneIdentifier
   }
