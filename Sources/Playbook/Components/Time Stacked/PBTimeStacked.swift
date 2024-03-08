@@ -12,7 +12,7 @@ import SwiftUI
 public struct PBTimeStacked: View {
   let alignment: Alignment
   let date: Date
-  let time: PBTime.Variant
+  let timeVariant: PBTime.Variant
   let timeZone: PBTime.Variant
   let timeZoneIdentifier: String
   let isLowercase: Bool
@@ -21,7 +21,7 @@ public struct PBTimeStacked: View {
   public init(
     alignment: Alignment = .leading,
     date: Date = Date(),
-    time: PBTime.Variant = .time,
+    timeVariant: PBTime.Variant = .time,
     timeZone: PBTime.Variant = .timeZone,
     timeZoneIdentifier: String = "",
     isLowercase: Bool = false,
@@ -30,7 +30,7 @@ public struct PBTimeStacked: View {
   ) {
     self.alignment = alignment
     self.date = date
-    self.time = time
+    self.timeVariant = timeVariant
     self.timeZone = timeZone
     self.timeZoneIdentifier = timeZoneIdentifier
     self.isLowercase = isLowercase
@@ -51,7 +51,7 @@ public extension PBTimeStacked {
   }
   var timeView: some View {
     PBTime(
-      variant: time,
+      variant: timeVariant,
       isLowercase: isLowercase,
       unstyled: timeStyle,
       timeIdentifier: timeZoneIdentifier
@@ -64,7 +64,7 @@ public extension PBTimeStacked {
       variant: timeZone,
       timeIdentifier: timeZoneIdentifier
     )
-    .pbFont(timeZoneStyle, color: .text(.light))
+    .pbFont(timeZoneStyle)
     .frame(maxWidth: .infinity, alignment: alignment)
   }
 }

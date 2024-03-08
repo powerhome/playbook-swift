@@ -51,6 +51,4 @@ extension TimeStackedCatalog {
     }
   }
 }
-#Preview {
-    TimeStackedCatalog()
-}
+
