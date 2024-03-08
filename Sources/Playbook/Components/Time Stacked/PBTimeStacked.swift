@@ -13,7 +13,7 @@ public struct PBTimeStacked: View {
   let alignment: Alignment
   let date: Date
   let timeVariant: PBTime.Variant
-  let timeZone: PBTime.Variant
+  let timeZoneVariant: PBTime.Variant
   let timeZoneIdentifier: String
   let isLowercase: Bool
   let timeStyle: PBFont
@@ -22,7 +22,7 @@ public struct PBTimeStacked: View {
     alignment: Alignment = .leading,
     date: Date = Date(),
     timeVariant: PBTime.Variant = .time,
-    timeZone: PBTime.Variant = .timeZone,
+    timeZoneVariant: PBTime.Variant = .timeZone,
     timeZoneIdentifier: String = "",
     isLowercase: Bool = false,
     timeStyle: PBFont = .caption,
@@ -31,7 +31,7 @@ public struct PBTimeStacked: View {
     self.alignment = alignment
     self.date = date
     self.timeVariant = timeVariant
-    self.timeZone = timeZone
+    self.timeZoneVariant = timeZoneVariant
     self.timeZoneIdentifier = timeZoneIdentifier
     self.isLowercase = isLowercase
     self.timeStyle = timeStyle
@@ -61,7 +61,7 @@ public extension PBTimeStacked {
   
   var timeZoneView: some View {
     PBTime(
-      variant: timeZone,
+      variant: timeZoneVariant,
       timeIdentifier: timeZoneIdentifier
     )
     .pbFont(timeZoneStyle)
