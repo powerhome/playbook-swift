@@ -18,7 +18,7 @@ public struct PBUser: View {
   var territory: String?
   var title: String?
   var subtitle: AnyView?
-
+  var status: PBAvatar.PresenceStatus?
   public init(
     name: String = "",
     displayAvatar: Bool = true,
@@ -27,7 +27,8 @@ public struct PBUser: View {
     size: UserAvatarSize = .medium,
     territory: String? = nil,
     title: String? = nil,
-    subtitle: AnyView? = nil
+    subtitle: AnyView? = nil,
+    status: PBAvatar.PresenceStatus? = .none
   ) {
     self.name = name
     self.displayAvatar = displayAvatar
@@ -37,13 +38,14 @@ public struct PBUser: View {
     self.territory = territory
     self.title = title
     self.subtitle = subtitle
+    self.status = status
   }
   
   public var body: some View {
     if orientation == .horizontal {
       HStack(spacing: Spacing.small) {
         if displayAvatar {
-          PBAvatar(image: image, name: name, size: size.avatarSize)
+          PBAvatar(image: image, name: name, size: size.avatarSize, status: status)
         }
         VStack(alignment: .leading, spacing: Spacing.xSmall) {
           Text(name)
@@ -58,7 +60,7 @@ public struct PBUser: View {
     } else {
       VStack(spacing: Spacing.xSmall) {
         if displayAvatar {
-          PBAvatar(image: image, name: name, size: size.avatarSize)
+          PBAvatar(image: image, name: name, size: size.avatarSize, status: status)
         }
         VStack(alignment: displayAvatar ? .center : .leading, spacing: Spacing.xSmall) {
           Text(name)

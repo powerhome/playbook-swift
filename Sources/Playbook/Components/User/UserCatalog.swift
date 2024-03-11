@@ -35,6 +35,10 @@ public struct UserCatalog: View {
         PBDoc(title: "Block Content Subtitle") {
           userSubtitleBlockView
         }
+        
+        PBDoc(title: "Presence Indicator") {
+          presenceIndicatorView
+        }
       }
       .padding(Spacing.medium)
     }
@@ -70,7 +74,6 @@ public extension UserCatalog {
       )
     }
   }
-  
   var userVerticalView: some View {
     return VStack(alignment: .leading, spacing: Spacing.small) {
       PBUser(
@@ -95,7 +98,6 @@ public extension UserCatalog {
       )
     }
   }
-  
   var userTextOnlyView: some View {
     return VStack(spacing: Spacing.small) {
       PBUser(
@@ -113,7 +115,6 @@ public extension UserCatalog {
       )
     }
   }
-  
   var userHorizontalSizesView: some View {
     return VStack(alignment: .leading, spacing: Spacing.small) {
       PBUser(
@@ -138,7 +139,6 @@ public extension UserCatalog {
       )
     }
   }
-  
   var roleSubtitle: AnyView {
     AnyView(
       HStack {
@@ -147,7 +147,6 @@ public extension UserCatalog {
       }
     )
   }
-  
   var contactSubtitle: AnyView {
     let contacts = [
       PBContact(type: .cell, value: "(349) 185-9988", detail: false),
@@ -160,7 +159,6 @@ public extension UserCatalog {
       }
     )
   }
-  
   var userSubtitleBlockView: some View {
     return VStack(alignment: .leading, spacing: Spacing.small) {
       PBUser(
@@ -176,6 +174,33 @@ public extension UserCatalog {
         image: Image("Anna", bundle: .module),
         size: .small,
         subtitle: contactSubtitle
+      )
+    }
+  }
+  var presenceIndicatorView: some View {
+    return VStack(alignment: .leading, spacing: Spacing.small) {
+      PBUser(
+        name: name,
+        image: img,
+        size: .small,
+        territory: "PHL",
+        title: title,
+        status: .online
+      )
+      PBUser(
+        name: name,
+        image: img,
+        territory: "PHL",
+        title: title,
+        status: .away
+      )
+      PBUser(
+        name: name,
+        image: img,
+        size: .large,
+        territory: "PHL",
+        title: title,
+        status: .offline
       )
     }
   }
