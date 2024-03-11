@@ -26,15 +26,13 @@ public struct TimeRangeInlineCatalog: View {
 
 extension TimeRangeInlineCatalog {
   var defaultView: some View {
-    VStack(spacing: Spacing.large) {
+    VStack(alignment: .leading, spacing: Spacing.large) {
       PBTimeRangeInline(
-        alignment: .leading,
         size: .caption, 
         startTime: "2012-08-02T15:49:29Z",
         endTime: "2012-08-02T17:49:29Z"
       )
       PBTimeRangeInline(
-        alignment: .leading,
         size: .body,
         startTime: "2012-08-02T15:49:29Z",
         endTime: "2012-08-02T17:49:29Z",
@@ -43,14 +41,12 @@ extension TimeRangeInlineCatalog {
       )
       Spacer()
       PBTimeRangeInline(
-        alignment: .center,
         size: .caption,
         startTime: "2012-08-02T15:49:29Z",
         endTime: "2012-08-02T17:49:29Z",
         showEndTimeZone: true
       )
       PBTimeRangeInline(
-        alignment: .center,
         size: .body,
         startTime: "2012-08-02T15:49:29Z",
         endTime: "2012-08-02T17:49:29Z",
@@ -61,7 +57,6 @@ extension TimeRangeInlineCatalog {
       )
       Spacer()
       PBTimeRangeInline(
-        alignment: .center,
         size: .caption,
         startTime: "2012-08-02T15:49:29Z",
         endTime: "2012-08-02T17:49:29Z",
@@ -70,7 +65,6 @@ extension TimeRangeInlineCatalog {
         
       )
       PBTimeRangeInline(
-        alignment: .center,
         size: .body,
         startTime: "2012-08-02T15:49:29Z",
         endTime: "2012-08-02T17:49:29Z",
@@ -80,7 +74,6 @@ extension TimeRangeInlineCatalog {
       )
       Spacer()
       PBTimeRangeInline(
-        alignment: .trailing,
         size: .caption,
         startTime: "2012-08-02T15:49:29Z",
         endTime: "2012-08-02T17:49:29Z",
@@ -89,7 +82,6 @@ extension TimeRangeInlineCatalog {
         startVariant: .clockIcon
       )
       PBTimeRangeInline(
-        alignment: .trailing,
         size: .body,
         startTime: "2012-08-02T15:49:29Z",
         endTime: "2012-08-02T17:49:29Z",

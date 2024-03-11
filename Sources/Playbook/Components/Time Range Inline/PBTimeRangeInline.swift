@@ -10,7 +10,6 @@
 import SwiftUI
 
 public struct PBTimeRangeInline: View {
-  let alignment: Alignment
   let size: PBFont
   let startTime: String
   let endTime: String
@@ -26,7 +25,6 @@ public struct PBTimeRangeInline: View {
   var endVariant: PBTime.Variant?
   var zone: PBTime.Zones?
   public init(
-    alignment: Alignment = .leading,
     size: PBFont = .caption,
     startTime: String = "",
     endTime: String = "",
@@ -42,7 +40,6 @@ public struct PBTimeRangeInline: View {
     endVariant: PBTime.Variant? = .time,
     zone: PBTime.Zones? = .east
   ){
-    self.alignment = alignment
     self.size = size
     self.startTime = startTime
     self.endTime = endTime
@@ -71,7 +68,6 @@ public extension PBTimeRangeInline {
         isLowercase: isLowercase,
         isBold: isTimeBold,
         isIconBold: isIconBold,
-        alignment: alignment,
         zone: zone ?? .east,
         isTimeZoneBold: isTimeZoneBold,
         unstyled: size,
@@ -85,14 +81,13 @@ public extension PBTimeRangeInline {
         isLowercase: isLowercase,
         isBold: isTimeBold,
         isIconBold: isIconBold,
-        alignment: alignment,
         zone: zone ?? .east,
         isTimeZoneBold: isTimeZoneBold,
         unstyled: size,
         timeIdentifier: endTime
       )
     }
-    .frame(maxWidth: .infinity, alignment: alignment)
+    .frame(maxWidth: .infinity, alignment: .leading)
     .pbFont(size, color: fontColor)
     
     
