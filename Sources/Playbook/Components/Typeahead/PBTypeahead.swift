@@ -112,14 +112,27 @@ private extension PBTypeahead {
   }
 
   var results: [Option] {
-    switch selection{
-    case .multiple:
-      return searchText.isEmpty ? listOptions : listOptions.filter {
-        $0.0.localizedCaseInsensitiveContains(searchText)
+    if debounce.numberOfCharacters == 0 {
+      switch selection{
+      case .multiple:
+        return searchText.isEmpty ? listOptions : listOptions.filter {
+          $0.0.localizedCaseInsensitiveContains(searchText)
+        }
+      case .single:
+        return searchText.isEmpty ? options : options.filter {
+          $0.0.localizedCaseInsensitiveContains(searchText)
+        }
       }
-    case .single:
-      return searchText.isEmpty ? options : options.filter {
-        $0.0.localizedCaseInsensitiveContains(searchText)
+    } else {
+      switch selection{
+      case .multiple:
+        return listOptions.filter {
+          $0.0.localizedCaseInsensitiveContains(searchText)
+        }
+      case .single:
+        return options.filter {
+          $0.0.localizedCaseInsensitiveContains(searchText)
+        }
       }
     }
   }
