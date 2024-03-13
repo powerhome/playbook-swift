@@ -20,6 +20,7 @@ public enum Components: String, CaseIterable {
   case collapsible
   case contact
   case date
+  case dateTime = "Date Time"
   case dialog
   case toast = "Fixed Confirmation Toast"
   case highlight = "Highlight"
@@ -65,6 +66,7 @@ public enum Components: String, CaseIterable {
     case .collapsible: CollapsibleCatalog()
     case .contact: ContactCatalog()
     case .date: DateCatalog()
+    case .dateTime: DateTimeCatalog()
     case .dialog: DialogCatalog()
     case .toast: ToastCatalog()
     case .highlight: HighlightCatalog()

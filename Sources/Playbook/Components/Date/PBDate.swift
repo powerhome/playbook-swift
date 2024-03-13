@@ -14,20 +14,17 @@ public struct PBDate: View {
   let variant: Variant
   let typography: PBFont
   let iconSize: PBIcon.IconSize
-  let alignment: Alignment
 
   public init(
     _ datestamp: Date,
     variant: Variant = .short,
     typography: PBFont = .caption,
-    iconSize: PBIcon.IconSize = .x1,
-    alignment: Alignment = .leading
+    iconSize: PBIcon.IconSize = .x1
   ) {
     self.datestamp = datestamp
     self.variant = variant
     self.typography = typography
     self.iconSize = iconSize
-    self.alignment = alignment
   }
 
   public var body: some View {
@@ -36,7 +33,6 @@ public struct PBDate: View {
       Text(formattedDate)
         .pbFont(typography)
     }
-    .frame(maxWidth: .infinity, alignment: alignment)
   }
 }
 
