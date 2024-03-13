@@ -112,31 +112,18 @@ private extension PBTypeahead {
   }
 
   var results: [Option] {
-    if debounce.numberOfCharacters == 0 {
-      switch selection{
-      case .multiple:
-        return searchText.isEmpty ? listOptions : listOptions.filter {
-          $0.0.localizedCaseInsensitiveContains(searchText)
-        }
-      case .single:
-        return searchText.isEmpty ? options : options.filter {
-          $0.0.localizedCaseInsensitiveContains(searchText)
-        }
+    switch selection{
+    case .multiple:
+      return searchText.isEmpty && debounce.numberOfCharacters == 0  ? listOptions : listOptions.filter {
+        $0.0.localizedCaseInsensitiveContains(searchText)
       }
-    } else {
-      switch selection{
-      case .multiple:
-        return listOptions.filter {
-          $0.0.localizedCaseInsensitiveContains(searchText)
-        }
-      case .single:
-        return options.filter {
-          $0.0.localizedCaseInsensitiveContains(searchText)
-        }
+    case .single:
+      return searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
+        $0.0.localizedCaseInsensitiveContains(searchText)
       }
     }
   }
-  
+
   func listBackgroundColor(_ index: Int?) -> Color {
     switch selection {
     case .single:
