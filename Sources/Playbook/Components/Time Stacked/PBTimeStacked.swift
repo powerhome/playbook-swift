@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBTimeStacked: View {
-  let alignment: Alignment
+  let alignment: HorizontalAlignment
   let date: Date
   let timeVariant: PBTime.Variant
   let timeZoneVariant: PBTime.Variant
@@ -19,7 +19,7 @@ public struct PBTimeStacked: View {
   let timeStyle: PBFont
   let timeZoneStyle: PBFont
   public init(
-    alignment: Alignment = .leading,
+    alignment:  HorizontalAlignment = .leading,
     date: Date = Date(),
     timeVariant: PBTime.Variant = .time,
     timeZoneVariant: PBTime.Variant = .timeZone,
@@ -38,34 +38,37 @@ public struct PBTimeStacked: View {
     self.timeZoneStyle = timeZoneStyle
   }
   public var body: some View {
-    timeAndZoneView
+      timeAndZoneView
   }
 }
 
 public extension PBTimeStacked {
   var timeAndZoneView: some View {
-    VStack(spacing: Spacing.xxSmall) {
-      timeView
-      timeZoneView
+    VStack(alignment: alignment,spacing: Spacing.xxSmall) {
+        timeView
+        timeZoneView
     }
   }
   var timeView: some View {
-    PBTime(
-      variant: timeVariant,
-      isLowercase: isLowercase,
-      unstyled: timeStyle,
-      timeIdentifier: timeZoneIdentifier
-    )
-    .frame(maxWidth: .infinity, alignment: alignment)
+    HStack {
+      PBTime(
+        variant: timeVariant,
+        isLowercase: isLowercase,
+        unstyled: timeStyle,
+        timeIdentifier: timeZoneIdentifier
+      )
+    }
   }
   
   var timeZoneView: some View {
-    PBTime(
-      variant: timeZoneVariant,
-      timeIdentifier: timeZoneIdentifier
-    )
-    .pbFont(timeZoneStyle)
-    .frame(maxWidth: .infinity, alignment: alignment)
+    HStack {
+      PBTime(
+        variant: timeZoneVariant,
+        timeIdentifier: timeZoneIdentifier
+      )
+      .pbFont(timeZoneStyle)
+
+    }
   }
 }
 #Preview {

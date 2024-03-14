@@ -27,13 +27,16 @@ public struct TimeStackedCatalog: View {
 extension TimeStackedCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBTimeStacked(
-        alignment: .leading,
-        timeZoneIdentifier: "EST",
-        isLowercase: true,
-        timeStyle: .body,
-        timeZoneStyle: .caption
-      )
+      HStack {
+        PBTimeStacked(
+          alignment: .leading,
+          timeZoneIdentifier: "EST",
+          isLowercase: true,
+          timeStyle: .body,
+          timeZoneStyle: .caption
+        )
+        .frame(maxWidth: .infinity, alignment: .leading)
+      }
       PBTimeStacked(
         alignment: .center,
         timeZoneIdentifier: "EST",
@@ -41,6 +44,7 @@ extension TimeStackedCatalog {
         timeStyle: .body,
         timeZoneStyle: .caption
       )
+      .frame(maxWidth: .infinity, alignment: .center)
       PBTimeStacked(
         alignment: .trailing, 
         timeZoneIdentifier: "EST", 
@@ -48,6 +52,7 @@ extension TimeStackedCatalog {
         timeStyle: .body, 
         timeZoneStyle: .caption
       )
+      .frame(maxWidth: .infinity, alignment: .trailing)
     }
   }
 }
