@@ -47,6 +47,7 @@ public enum Components: String, CaseIterable {
   case textInput = "Text Input"
   case time = "Time"
   case timeStamp = "TimeStamp"
+  case timeStacked = "Time Stacked"
   case typeahead
   case tooltip = "Tooltip"
   case toggle
@@ -94,6 +95,7 @@ public enum Components: String, CaseIterable {
     case .tooltip: TooltipCatalog()
     case .time: TimeCatalog()
     case .timeStamp: TimeStampCatalog()
+    case.timeStacked: TimeStackedCatalog()
     case .typeahead: TypeaheadCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
