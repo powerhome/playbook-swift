@@ -38,37 +38,31 @@ public struct PBTimeStacked: View {
     self.timeZoneStyle = timeZoneStyle
   }
   public var body: some View {
-      timeAndZoneView
+    timeAndZoneView
   }
 }
 
 public extension PBTimeStacked {
   var timeAndZoneView: some View {
     VStack(alignment: alignment,spacing: Spacing.xxSmall) {
-        timeView
-        timeZoneView
+      timeView
+      timeZoneView
     }
   }
   var timeView: some View {
-    HStack {
-      PBTime(
-        variant: timeVariant,
-        isLowercase: isLowercase,
-        unstyled: timeStyle,
-        timeIdentifier: timeZoneIdentifier
-      )
-    }
+    PBTime(
+      variant: timeVariant,
+      isLowercase: isLowercase,
+      unstyled: timeStyle,
+      timeIdentifier: timeZoneIdentifier
+    )
   }
-  
   var timeZoneView: some View {
-    HStack {
-      PBTime(
-        variant: timeZoneVariant,
-        timeIdentifier: timeZoneIdentifier
-      )
-      .pbFont(timeZoneStyle)
-
-    }
+    PBTime(
+      variant: timeZoneVariant,
+      timeIdentifier: timeZoneIdentifier
+    )
+    .pbFont(timeZoneStyle)
   }
 }
 #Preview {
