@@ -87,10 +87,7 @@ public extension PBTimeRangeInline {
         timeIdentifier: endTime
       )
     }
-    .frame(maxWidth: .infinity, alignment: .leading)
     .pbFont(size, color: fontColor)
-    
-    
   }
   var timeRangeIcon: some View {
     PBIcon(FontAwesome.arrowRight)
