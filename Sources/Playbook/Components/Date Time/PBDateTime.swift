@@ -62,7 +62,6 @@ extension PBDateTime {
       dateView
       timeView
     }
-    .frame(maxWidth: .infinity, alignment: .leading)
   }
   var dateView: some View {
     PBDate(
