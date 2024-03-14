@@ -63,6 +63,8 @@ public struct PBTime: View {
 public extension PBTime {
   enum Variant {
     case time
+    case clockIcon
+    case timeZone
     case iconTimeZone
     case withTimeZoneHeader
   }
@@ -73,6 +75,8 @@ public extension PBTime {
   var timeVariants: some View {
     switch variant {
     case .time: time
+    case .clockIcon: timeIcon
+    case .timeZone: timeZone
     case .iconTimeZone: iconTimeZone
     case .withTimeZoneHeader: withTimeZoneHeader
     }
@@ -95,7 +99,6 @@ public extension PBTime {
     switch zone {
     case .east, .central, .mountain, .pacific, .gmt: Text(timeIdentifier)
     case .utc: Text("")
-
     }
   }
   var showIconView: some View {
