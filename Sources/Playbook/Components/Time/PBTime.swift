@@ -69,19 +69,14 @@ public extension PBTime {
     case withTimeZoneHeader
   }
   enum Zones {
-    case east, central, mountain, pacific, gmt
+    case east, central, mountain, pacific, gmt, utc
   }
   @ViewBuilder
   var timeVariants: some View {
     switch variant {
     case .time: time
-<<<<<<< HEAD
-    case .clockIcon: showIconView
-    case .timeZone: showTimeZoneView
-=======
     case .clockIcon: timeIcon
     case .timeZone: timeZone
->>>>>>> main
     case .iconTimeZone: iconTimeZone
     case .withTimeZoneHeader: withTimeZoneHeader
     }
@@ -103,10 +98,7 @@ public extension PBTime {
   var timeZone: some View {
     switch zone {
     case .east, .central, .mountain, .pacific, .gmt: Text(timeIdentifier)
-<<<<<<< HEAD
-=======
     case .utc: Text("")
->>>>>>> main
     }
   }
   var showIconView: some View {

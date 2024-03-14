@@ -47,11 +47,8 @@ public enum Components: String, CaseIterable {
   case textInput = "Text Input"
   case time = "Time"
   case timeStamp = "TimeStamp"
-<<<<<<< HEAD
   case timeRangeInline = "Time Range Inline"
-=======
   case timeStacked = "Time Stacked"
->>>>>>> main
   case typeahead
   case tooltip = "Tooltip"
   case toggle
@@ -99,11 +96,8 @@ public enum Components: String, CaseIterable {
     case .tooltip: TooltipCatalog()
     case .time: TimeCatalog()
     case .timeStamp: TimeStampCatalog()
-<<<<<<< HEAD
     case .timeRangeInline: TimeRangeInlineCatalog()
-=======
-    case.timeStacked: TimeStackedCatalog()
->>>>>>> main
+    case .timeStacked: TimeStackedCatalog()
     case .typeahead: TypeaheadCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
