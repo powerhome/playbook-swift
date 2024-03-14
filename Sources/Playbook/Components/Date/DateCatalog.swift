@@ -38,70 +38,119 @@ public struct DateCatalog: View {
 public extension DateCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBDate(Date(), variant: .short)
-      PBDate(Date().makeDate(year: 2012, month: 8, day: 3), variant: .standard)          
-      PBDate(Date().makeDate(year: 2017, month: 12, day: 3), variant: .dayDate)
+      PBDate(
+        Date(),
+        variant: .short
+      )
+      PBDate(
+        Date().makeDate(year: 2012, month: 8, day: 3),
+        variant: .standard
+      )
+      PBDate(
+        Date().makeDate(year: 2017, month: 12, day: 3),
+        variant: .dayDate(showYear: true)
+      )
       Spacer()
-      PBDate(Date(), variant: .short, typography: .title4)        
-      PBDate(Date().makeDate(year: 2012, month: 8, day: 3), variant: .standard, typography: .title4)
-      PBDate(Date().makeDate(year: 2017, month: 12, day: 3), variant: .dayDate, typography: .title4)
+      PBDate(
+        Date(), variant: .short, 
+        typography: .title4
+      )
+      PBDate(
+        Date().makeDate(year: 2012, month: 8, day: 3),
+        variant: .standard, 
+        typography: .title4
+      )
+      PBDate(
+        Date().makeDate(year: 2017, month: 12, day: 3),
+        variant: .dayDate(showYear: true),
+        typography: .title4
+      )
+  
     }
   }
 
 
   var variantView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+      PBDate(
+        Date().makeDate(year: 1995, month: 12, day: 25),
         variant: .withIcon(isStandard: true),
         typography: .caption,
-        iconSize: .xSmall)
-      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        iconSize: .xSmall
+      )
+      PBDate(
+        Date().makeDate(year: 1995, month: 12, day: 25),
         variant: .standard,
-        typography: .title4)
-      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        typography: .title4
+      )
+      PBDate(
+        Date().makeDate(year: 1995, month: 12, day: 25),
         variant: .withIcon(isStandard: true),
         typography: .title4,
-        iconSize: .x1)
-      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
-        variant: .dayDate,
-        typography: .title4)
-      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        iconSize: .x1
+      )
+      PBDate(
+        Date().makeDate(year: 1995, month: 12, day: 25),
+        variant: .dayDate(showYear: true),
+        typography: .title4
+      )
+      PBDate(
+        Date().makeDate(year: 1995, month: 12, day: 25),
         variant: .withIcon(isStandard: false),
         typography: .title4,
-        iconSize: .x1)
+        iconSize: .x1
+      )
     }
   }
 
   var alignmentView: some View {
     VStack(spacing: Spacing.small) {
-      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
-        variant: .standard,
-        typography: .title4,
-        alignment: .leading)
-      PBDate(Date().makeDate(year: 2020, month: 12, day: 25),
-        variant: .withIcon(isStandard: true),
-        typography: .title4,
-        iconSize: .x1,
-        alignment: .center)
-      PBDate(Date(),
-        variant: .short,
-        typography: .title4,
-        alignment: .trailing)
+      HStack {
+        PBDate(
+          Date().makeDate(year: 1995, month: 12, day: 25),
+          variant: .standard,
+          typography: .title4
+        )
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      HStack {
+        PBDate(
+          Date().makeDate(year: 2020, month: 12, day: 25),
+          variant: .withIcon(isStandard: true),
+          typography: .title4,
+          iconSize: .x1
+        )
+      }
+      .frame(maxWidth: .infinity, alignment: .center)
+      HStack {
+        PBDate(
+          Date(),
+          variant: .short,
+          typography: .title4
+        )
+      }
+      .frame(maxWidth: .infinity, alignment: .trailing)
     }
   }
 
   var unstyledView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBDate(Date(),
+      PBDate(
+        Date(),
         variant: .short,
-        typography: .body)
-      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        typography: .body
+      )
+      PBDate(
+        Date().makeDate(year: 1995, month: 12, day: 25),
         variant: .standard,
-        typography: .title1)
-      PBDate(Date().makeDate(year: 1995, month: 12, day: 25),
+        typography: .title1
+      )
+      PBDate(
+        Date().makeDate(year: 1995, month: 12, day: 25),
         variant: .withIcon(isStandard: false),
         typography: .subcaption,
-        iconSize: .xSmall)
+        iconSize: .xSmall
+      )
     }
   }
 }
