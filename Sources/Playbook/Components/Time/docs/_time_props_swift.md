@@ -5,7 +5,7 @@
 | **showTimeZone** | `Bool` | Determines whether or not the time zone is displayed | `false` | `true` `false` |
 | **showIcon** | `Bool` | Determines whether or not the clock icon is displayed | `false` | `true` `false` |
 | **iconSize** | `PBIcon.IconSize` | Allows user to change the size of the icon | `.small` | `.xSmall` `.small` `.large` |
-| **variant** | `Variant` | Allows user to choose how they would like the time to be displayed | `.time` | `.time` `.iconTimeZone` `.withTimeZoneHeader` |
+| **variant** | `Variant` | Allows user to choose how they would like the time to be displayed | `.time` | `.time` `clockIcon` `timeZone` `.iconTimeZone` `.withTimeZoneHeader` |
 | **isLowercase** | `Bool` | Determines whether or not am/pm is capitalized | `false` | `true` `false` |
 | **header** | `String` | A string value for the header variant |  | |
 | **isBold** | `Bool` | Determines whether or not the time is bold | `false` | `true` `false` |
