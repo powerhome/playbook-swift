@@ -29,35 +29,45 @@ extension DateTimeCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDateTime(
         iconSize: .x3,
-        dateVariant: .dayDate,
+        dateVariant: .dayDate(showYear: true),
         timeVariant: .iconTimeZone,
         fontSize: .body,
         isLowercase: true,
-        isBold: true
+        isBold: true,
+        timeZoneIdentifier: "EST"
+      )
+      PBDateTime(
+        iconSize: .x3,
+        dateVariant: .dayDate(showYear: false),
+        timeVariant: .iconTimeZone,
+        fontSize: .body,
+        isLowercase: true,
+        isBold: true,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z"
       )
       PBDateTime(
         iconSize: .x3,
         dateVariant: .short,
-        timeVariant: .time,
+        timeVariant: .iconTimeZone,
         fontSize: .body,
         isLowercase: true,
-        isBold: true
-      )
-      PBDateTime(
-        iconSize: .x3,
-        dateVariant: .short,
-        timeVariant: .time,
-        fontSize: .body,
-        isLowercase: true,
-        isBold: true
+        isBold: true,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z",
+        showIcon: true
       )
       PBDateTime(
         iconSize: .x3,
         dateVariant: .standard,
-        timeVariant: .time,
+        timeVariant: .iconTimeZone,
         fontSize: .body,
         isLowercase: true,
-        isBold: true
+        isBold: true,
+        showTimeZone: true,
+        timeZoneIdentifier: "GMT+9"
       )
     }
   }

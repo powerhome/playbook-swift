@@ -13,7 +13,6 @@ public struct PBDateTime: View {
   let alignment: Alignment
   let dateTime: Date
   let iconSize: PBIcon.IconSize
-  let showDayOfWeek: Bool
   let timeZone: String
   let dateVariant: PBDate.Variant
   let timeVariant: PBTime.Variant
@@ -22,24 +21,28 @@ public struct PBDateTime: View {
   let isBold: Bool
   let isTimeZoneBold: Bool
   let zone: PBTime.Zones
+  let showTimeZone: Bool
+  let timeZoneIdentifier: String
+  let showIcon: Bool
   public init(
     alignment: Alignment = .leading,
     dateTime: Date = Date(),
     iconSize: PBIcon.IconSize = .x3,
-    showDayOfWeek: Bool = false,
     timeZone: String = "",
-    dateVariant: PBDate.Variant = .dayDate,
+    dateVariant: PBDate.Variant = .dayDate(showYear: false),
     timeVariant: PBTime.Variant = .time,
     fontSize: PBFont = .body,
     isLowercase: Bool = false,
     isBold: Bool = false,
     isTimeZoneBold: Bool = false,
-    zone: PBTime.Zones = .east
+    zone: PBTime.Zones = .east,
+    showTimeZone: Bool = false,
+    timeZoneIdentifier: String = "",
+    showIcon: Bool = false
   ) {
     self.alignment = alignment
     self.dateTime = dateTime
     self.iconSize = iconSize
-    self.showDayOfWeek = showDayOfWeek
     self.timeZone = timeZone
     self.dateVariant = dateVariant
     self.timeVariant = timeVariant
@@ -48,11 +51,12 @@ public struct PBDateTime: View {
     self.isBold = isBold
     self.isTimeZoneBold = isTimeZoneBold
     self.zone = zone
+    self.showTimeZone = showTimeZone
+    self.timeZoneIdentifier = timeZoneIdentifier
+    self.showIcon = showIcon
   }
   public var body: some View {
     dateTimeView
-    
-    // Need changes from time range inline kit for the color attributed string and the .time, .timeZone variants
   }
 }
 
@@ -73,14 +77,15 @@ extension PBDateTime {
   }
   var timeView: some View {
     PBTime(
-      showTimeZone: false,
-     // showIcon: false,
+      showTimeZone: showTimeZone,
+      showIcon: showIcon,
       variant: timeVariant,
       isLowercase: isLowercase,
       isBold: isBold,
       zone: zone,
       isTimeZoneBold: isTimeZoneBold,
-      unstyled: fontSize
+      unstyled: fontSize,
+      timeIdentifier: timeZoneIdentifier
     )
   }
 }
