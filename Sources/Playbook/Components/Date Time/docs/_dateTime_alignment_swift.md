@@ -5,7 +5,7 @@ VStack(spacing: Spacing.small) {
       dateVariant: .short,
       timeVariant: .iconTimeZone,
       isLowercase: true,
-      isBold: true,
+      isTimeBold: true,
       zone: .utc,
       showTimeZone: true,
       timeZoneIdentifier: "2012-08-02T17:49:29Z"
@@ -16,7 +16,7 @@ VStack(spacing: Spacing.small) {
         dateVariant: .short,
         timeVariant: .iconTimeZone,
         isLowercase: true,
-        isBold: true,
+        isTimeBold: true,
         zone: .utc,
         showTimeZone: true,
         timeZoneIdentifier: "2012-08-02T17:49:29Z"
@@ -26,7 +26,7 @@ VStack(spacing: Spacing.small) {
       dateVariant: .short,
       timeVariant: .iconTimeZone,
       isLowercase: true,
-      isBold: true,
+      isTimeBold: true,
       zone: .utc,
       showTimeZone: true,
       timeZoneIdentifier: "2012-08-02T17:49:29Z"
