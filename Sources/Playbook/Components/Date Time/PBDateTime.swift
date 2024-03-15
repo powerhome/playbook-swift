@@ -12,12 +12,11 @@ import SwiftUI
 public struct PBDateTime: View {
   let dateTime: Date
   let iconSize: PBIcon.IconSize
-  let timeZone: String
   let dateVariant: PBDate.Variant
   let timeVariant: PBTime.Variant
   let fontSize: PBFont
   let isLowercase: Bool
-  let isBold: Bool
+  let isTimeBold: Bool
   let isTimeZoneBold: Bool
   let zone: PBTime.Zones
   let showTimeZone: Bool
@@ -26,12 +25,11 @@ public struct PBDateTime: View {
   public init(
     dateTime: Date = Date(),
     iconSize: PBIcon.IconSize = .x3,
-    timeZone: String = "",
     dateVariant: PBDate.Variant = .dayDate(showYear: false),
     timeVariant: PBTime.Variant = .time,
     fontSize: PBFont = .body,
     isLowercase: Bool = false,
-    isBold: Bool = false,
+    isTimeBold: Bool = false,
     isTimeZoneBold: Bool = false,
     zone: PBTime.Zones = .east,
     showTimeZone: Bool = false,
@@ -40,12 +38,11 @@ public struct PBDateTime: View {
   ) {
     self.dateTime = dateTime
     self.iconSize = iconSize
-    self.timeZone = timeZone
     self.dateVariant = dateVariant
     self.timeVariant = timeVariant
     self.fontSize = fontSize
     self.isLowercase = isLowercase
-    self.isBold = isBold
+    self.isTimeBold = isTimeBold
     self.isTimeZoneBold = isTimeZoneBold
     self.zone = zone
     self.showTimeZone = showTimeZone
@@ -78,7 +75,7 @@ extension PBDateTime {
       showIcon: showIcon,
       variant: timeVariant,
       isLowercase: isLowercase,
-      isBold: isBold,
+      isBold: isTimeBold,
       zone: zone,
       isTimeZoneBold: isTimeZoneBold,
       unstyled: fontSize,
