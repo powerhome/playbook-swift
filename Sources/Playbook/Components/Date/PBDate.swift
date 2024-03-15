@@ -67,25 +67,25 @@ private extension PBDate {
 
 public extension PBDate {
   enum Variant: CaseIterable, Hashable {
-    case short, standard, dayDate, withIcon(isStandard: Bool)
+    case short, standard, dayDate(showYear: Bool), withIcon(isStandard: Bool)
 
     public static var allCases: [PBDate.Variant] = [
       .short,
-      .dayDate,
+      .dayDate(showYear: false),
       .standard,
       .withIcon(isStandard: true),
       .withIcon(isStandard: false)
     ]
 
     public static var showCases: [PBDate.Variant] {
-      return [.short, .standard, .dayDate]
+      return [.short, .standard]
     }
 
     var dateStyle: String {
       switch self {
       case .short: return "MMM d"
       case .standard: return "MMM d, YYYY"
-      case .dayDate: return "EEE • MMM d, YYYY"
+      case .dayDate(let showYear): return showYear ? "EEE • MMM d, YYYY" : "EEE • MMM d"
       case .withIcon(let isStandard): return isStandard ? "MMM d, YYYY" : "EEE • MMM d, YYYY"
       }
     }
