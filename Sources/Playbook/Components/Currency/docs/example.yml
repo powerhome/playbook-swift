@@ -1,0 +1,4 @@
+ swift:
+  - currency_size_swift: Size
+  - currency_alignment_swift: Alignment
+  - currency_props_swift: ""
