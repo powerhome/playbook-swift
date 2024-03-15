@@ -10,7 +10,6 @@
 import SwiftUI
 
 public struct PBDateTime: View {
-  let alignment: Alignment
   let dateTime: Date
   let iconSize: PBIcon.IconSize
   let timeZone: String
@@ -25,7 +24,6 @@ public struct PBDateTime: View {
   let timeZoneIdentifier: String
   let showIcon: Bool
   public init(
-    alignment: Alignment = .leading,
     dateTime: Date = Date(),
     iconSize: PBIcon.IconSize = .x3,
     timeZone: String = "",
@@ -40,7 +38,6 @@ public struct PBDateTime: View {
     timeZoneIdentifier: String = "",
     showIcon: Bool = false
   ) {
-    self.alignment = alignment
     self.dateTime = dateTime
     self.iconSize = iconSize
     self.timeZone = timeZone
@@ -56,7 +53,7 @@ public struct PBDateTime: View {
     self.showIcon = showIcon
   }
   public var body: some View {
-    dateTimeView
+      dateTimeView
   }
 }
 
@@ -68,12 +65,12 @@ extension PBDateTime {
     }
   }
   var dateView: some View {
-    PBDate(
-      dateTime,
-      variant: dateVariant,
-      typography: fontSize,
-      iconSize: iconSize
-    )
+      PBDate(
+        dateTime,
+        variant: dateVariant,
+        typography: fontSize,
+        iconSize: iconSize
+      )
   }
   var timeView: some View {
     PBTime(
