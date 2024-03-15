@@ -19,6 +19,10 @@ public struct DateTimeCatalog: View {
         PBDoc(title: "Alignment") {
           alignmentView
         }
+        PBDoc(title: "Size") {
+          sizeView
+        }
+
       }
       .padding(Spacing.medium)
     }
@@ -101,6 +105,83 @@ extension DateTimeCatalog {
         )
       }
       .frame(maxWidth: .infinity, alignment: .trailing)
+    }
+  }
+  var sizeView: some View {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
+      PBDateTime(
+        dateVariant: .dayDate(showYear: false), 
+        timeVariant: .iconTimeZone,
+        fontSize: .caption,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z",
+        showIcon: true
+      )
+      PBDateTime(
+        dateVariant: .dayDate(showYear: false),
+        timeVariant: .iconTimeZone,
+        fontSize: .caption,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z"
+      )
+      PBDateTime(
+        dateVariant: .short,
+        timeVariant: .iconTimeZone,
+        fontSize: .caption,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z",
+        showIcon: true
+      )
+      PBDateTime(
+        dateVariant: .short,
+        timeVariant: .iconTimeZone,
+        fontSize: .caption,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z"
+      )
+      Spacer()
+      PBDateTime(
+        dateVariant: .dayDate(showYear: false),
+        timeVariant: .iconTimeZone,
+        isLowercase: true,
+        isBold: true,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z",
+        showIcon: true
+      )
+      PBDateTime(
+        dateVariant: .dayDate(showYear: false),
+        timeVariant: .iconTimeZone,
+        isLowercase: true,
+        isBold: true,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z"
+      )
+      PBDateTime(
+        dateVariant: .short,
+        timeVariant: .iconTimeZone,
+        isLowercase: true,
+        isBold: true,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z",
+        showIcon: true
+      )
+      PBDateTime(
+        dateVariant: .short,
+        timeVariant: .iconTimeZone,
+        isLowercase: true,
+        isBold: true,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z"
+      )
     }
   }
 }
