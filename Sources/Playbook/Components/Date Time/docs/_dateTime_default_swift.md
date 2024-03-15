@@ -4,14 +4,14 @@ VStack(alignment: .leading, spacing: Spacing.small) {
     dateVariant: .dayDate(showYear: true),
     timeVariant: .iconTimeZone,
     isLowercase: true,
-    isBold: true,
+    isTimeBold: true,
     timeZoneIdentifier: "EST"
   )
   PBDateTime(
     dateVariant: .dayDate(showYear: false),
     timeVariant: .iconTimeZone,
     isLowercase: true,
-    isBold: true,
+    isTimeBold: true,
     zone: .utc,
     showTimeZone: true,
     timeZoneIdentifier: "2012-08-02T17:49:29Z"
@@ -20,7 +20,7 @@ VStack(alignment: .leading, spacing: Spacing.small) {
     dateVariant: .short,
     timeVariant: .iconTimeZone,
     isLowercase: true,
-    isBold: true,
+    isTimeBold: true,
     zone: .utc,
     showTimeZone: true,
     timeZoneIdentifier: "2012-08-02T17:49:29Z",
@@ -30,7 +30,7 @@ VStack(alignment: .leading, spacing: Spacing.small) {
     dateVariant: .standard,
     timeVariant: .iconTimeZone,
     isLowercase: true,
-    isBold: true,
+    isTimeBold: true,
     showTimeZone: true,
     timeZoneIdentifier: "GMT+9"
   )
