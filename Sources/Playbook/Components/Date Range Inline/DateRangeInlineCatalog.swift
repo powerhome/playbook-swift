@@ -27,8 +27,24 @@ public struct DateRangeInlineCatalog: View {
 
 extension DateRangeInlineCatalog {
   var defaultView: some View  {
-    VStack(alignment: .leading, spacing: Spacing.small) {
-      PBDateRangeInline(alignment: .leading, size: .caption, startDate: "18 Jun 2013", endDate: "20 Mar 2015", variant: .standard)
+    VStack(alignment: .leading, spacing: Spacing.medium) {
+      VStack(spacing: Spacing.small) {
+        PBDateRangeInline(size: .caption, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .standard)
+        PBDateRangeInline(size: .body, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .standard)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      VStack(spacing: Spacing.small) {
+        PBDateRangeInline(alignment: .center, size: .caption, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .short(showIcon: true), endVariant: .short(showIcon: false))
+        PBDateRangeInline(alignment: .center, size: .body, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .short(showIcon: true), endVariant: .short(showIcon: false))
+      }
+      .frame(maxWidth: .infinity, alignment: .center)
+      
+      VStack(spacing: Spacing.small) {
+        PBDateRangeInline(alignment: .center, size: .caption, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .short(showIcon: true), endVariant: .short(showIcon: false))
+        PBDateRangeInline(alignment: .center, size: .body, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .short(showIcon: true), endVariant: .short(showIcon: false))
+      }
+      .frame(maxWidth: .infinity, alignment: .trailing)
+      
     }
   }
 }

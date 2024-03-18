@@ -15,7 +15,8 @@ public struct PBDateRangeInline: View {
   let size: PBFont
   let endDate: String
   let startDate: String
-  let variant: PBDate.Variant
+  let startVariant: PBDate.Variant
+  let endVariant: PBDate.Variant
   let isArrowIconBold: Bool
   public init(
     date: Date = Date(),
@@ -23,7 +24,8 @@ public struct PBDateRangeInline: View {
     size: PBFont = .body,
     startDate: String = "",
     endDate: String = "",
-    variant: PBDate.Variant = .standard,
+    startVariant: PBDate.Variant = .standard,
+    endVariant: PBDate.Variant = .standard,
     isArrowIconBold: Bool = false
     
   ) {
@@ -32,21 +34,22 @@ public struct PBDateRangeInline: View {
     self.size = size
     self.startDate = startDate
     self.endDate = endDate
-    self.variant = variant
+    self.startVariant = startVariant
+    self.endVariant = endVariant
     self.isArrowIconBold = isArrowIconBold
   }
-    public var body: some View {
-      VStack(alignment: alignment, spacing: Spacing.xSmall) {
-          dateView
-      }
+  public var body: some View {
+    VStack(spacing: Spacing.medium) {
+      dateView
+    }
     }
 }
 extension PBDateRangeInline {
   var dateView: some View {
     HStack {
-      PBDate(getDate(dateString: startDate), variant: variant, typography: size)
+      PBDate(getDate(dateString: startDate), variant: startVariant, typography: size)
       dateRangeIcon
-      PBDate(getDate(dateString: endDate), variant: variant, typography: size)
+      PBDate(getDate(dateString: endDate), variant: endVariant, typography: size)
     }
   }
   var dateRangeIcon: some View {
