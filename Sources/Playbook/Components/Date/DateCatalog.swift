@@ -40,7 +40,7 @@ public extension DateCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDate(
         Date(),
-        variant: .short
+        variant: .short(showIcon: false)
       )
       PBDate(
         Date().makeDate(year: 2012, month: 8, day: 3),
@@ -52,7 +52,7 @@ public extension DateCatalog {
       )
       Spacer()
       PBDate(
-        Date(), variant: .short, 
+        Date(), variant: .short(showIcon: false), 
         typography: .title4
       )
       PBDate(
@@ -125,7 +125,7 @@ public extension DateCatalog {
       HStack {
         PBDate(
           Date(),
-          variant: .short,
+          variant: .short(showIcon: false),
           typography: .title4
         )
       }
@@ -137,7 +137,7 @@ public extension DateCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDate(
         Date(),
-        variant: .short,
+        variant: .short(showIcon: false),
         typography: .body
       )
       PBDate(
