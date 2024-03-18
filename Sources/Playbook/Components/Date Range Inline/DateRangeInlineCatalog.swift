@@ -10,41 +10,78 @@
 import SwiftUI
 
 public struct DateRangeInlineCatalog: View {
-    public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
-          
+  public var body: some View {
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          defaultView
         }
-        .padding(Spacing.medium)
       }
-      .background(Color.background(Color.BackgroundColor.light))
-      .navigationTitle("Date Range Inline")
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Date Range Inline")
+  }
 }
 
 extension DateRangeInlineCatalog {
   var defaultView: some View  {
-    VStack(alignment: .leading, spacing: Spacing.medium) {
+    VStack(alignment: .leading, spacing: Spacing.large) {
       VStack(spacing: Spacing.small) {
-        PBDateRangeInline(size: .caption, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .standard)
-        PBDateRangeInline(size: .body, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .standard)
+        PBDateRangeInline(
+          size: .caption,
+          iconSize: .xSmall,
+          startDate: "18 Jun 2013",
+          endDate: "20 Mar 2015",
+          startVariant: .standard
+        )
+        PBDateRangeInline(
+          size: .body, 
+          iconSize: .x1,
+          startDate: "18 Jun 2013",
+          endDate: "20 Mar 2015", 
+          startVariant: .standard
+        )
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       VStack(spacing: Spacing.small) {
-        PBDateRangeInline(alignment: .center, size: .caption, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .short(showIcon: true), endVariant: .short(showIcon: false))
-        PBDateRangeInline(alignment: .center, size: .body, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .short(showIcon: true), endVariant: .short(showIcon: false))
+        PBDateRangeInline(
+          size: .caption, 
+          iconSize: .xSmall,
+          startDate: "15 Jan 2013",
+          endDate: "15 Aug 2015",
+          startVariant: .short(showIcon: true),
+          endVariant: .short(showIcon: false)
+        )
+        PBDateRangeInline(
+          size: .body, 
+          iconSize: .x1,
+          startDate: "15 Jan 2013",
+          endDate: "15 Aug 2015",
+          startVariant: .short(showIcon: true),
+          endVariant: .short(showIcon: false)
+        )
       }
       .frame(maxWidth: .infinity, alignment: .center)
-      
       VStack(spacing: Spacing.small) {
-        PBDateRangeInline(alignment: .center, size: .caption, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .short(showIcon: true), endVariant: .short(showIcon: false))
-        PBDateRangeInline(alignment: .center, size: .body, startDate: "18 Jun 2013", endDate: "20 Mar 2015", startVariant: .short(showIcon: true), endVariant: .short(showIcon: false))
+        PBDateRangeInline(
+          size: .caption, 
+          iconSize: .xSmall,
+          startDate: "15 Jan 2013",
+          endDate: "15 Aug 2015",
+          startVariant: .short(showIcon: true),
+          endVariant: .short(showIcon: false)
+        )
+        PBDateRangeInline(
+          size: .body, 
+          iconSize: .x1,
+          startDate: "15 Jan 2013",
+          endDate: "15 Aug 2015",
+          startVariant: .short(showIcon: true),
+          endVariant: .short(showIcon: false)
+        )
       }
       .frame(maxWidth: .infinity, alignment: .trailing)
-      
     }
   }
 }
