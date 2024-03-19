@@ -44,32 +44,47 @@ extension PBDateStacked {
     formattedDate
     
   }
- 
-@ViewBuilder
+  /// **** You still need this for the isReversed
+  var dateMonthView: some View {
+    VStack(alignment: alignment, spacing: Spacing.xSmall) {
+      if !isReversed {
+        monthView
+        dateView
+      } else {
+        dateView
+        monthView
+      }
+    }
+  }
+  var fullDateView: some View {
+    VStack(alignment: alignment, spacing: Spacing.xSmall) {
+      monthView
+      dateView
+      yearView
+    }
+  }
+  var monthView: some View {
+    Text(dateStamp.formatted(.dateTime.month()))
+      .pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
+  }
+  var dateView: some View {
+    Text(dateStamp.formatted(.dateTime.day()))
+      .pbFont(fontSize, variant: .bold, color: .text(.default))
+  }
+  var yearView: some View {
+    Text(dateStamp.formatted(.dateTime.year())).pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
+  }
+  @ViewBuilder
   var formattedDate: some View {
     switch variant {
     case .short:
-      VStack(alignment: alignment, spacing: Spacing.xxSmall) {
-        if !isReversed {
-          Text(dateStamp.formatted(.dateTime.month())).pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
-          
-          Text(dateStamp.formatted(.dateTime.day())).pbFont(fontSize, variant: .bold, color: isBold ? .text(.default) : .text(.default))
-        } else {
-          Text(dateStamp.formatted(.dateTime.day())).pbFont(fontSize, variant: .bold, color: isBold ? .text(.default) : .text(.default))
-          Text(dateStamp.formatted(.dateTime.month())).pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
-          
-        }
-      }
+      dateMonthView
     case .standard:
-        Text(dateStamp.formatted(.dateTime.month())).pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
-      
-        Text(dateStamp.formatted(.dateTime.day())).pbFont(fontSize, variant: .bold, color: isBold ? .text(.default) : .text(.default))
-        Text(dateStamp.formatted(.dateTime.year())).pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
+      fullDateView
     default:
       Text("MMM \nd")
     }
   }
-  
   var dateStyle: String {
     switch variant {
     case .short: return "MMM \nd"

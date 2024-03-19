@@ -52,8 +52,9 @@ extension DateStackedCatalog {
     }
   }
   var notCurrentYearView: some View {
-    VStack(alignment: .leading, spacing: Spacing.xSmall) {
+    VStack(alignment: .leading, spacing: Spacing.small) {
       PBDateStacked(
+        alignment: .leading,
         dateStamp: Date().makeDate(year: 2018, month: 3, day: 20),
         variant: .standard,
         fontSize: .title4
@@ -103,16 +104,14 @@ extension DateStackedCatalog {
           fontSize: .title4,
           isBold: true
         )
-      VStack(alignment: .center) {
         PBDateStacked(
+          alignment: .center,
           dateStamp: Date().makeDate(year: 2018, month: 3, day: 20),
           variant: .standard,
           fontSize: .title4,
           isBold: true
         )
-      }
-      .frame(maxWidth: .infinity, alignment: .center)
-      VStack(alignment: .trailing) {
+        .frame(maxWidth: .infinity, alignment: .center)
         PBDateStacked(
           alignment: .trailing, 
           dateStamp: Date(),
@@ -120,8 +119,7 @@ extension DateStackedCatalog {
           fontSize: .title4,
           isBold: true
         )
-      }
-      .frame(maxWidth: .infinity, alignment: .trailing)
+        .frame(maxWidth: .infinity, alignment: .trailing)
     }
   }
 }
