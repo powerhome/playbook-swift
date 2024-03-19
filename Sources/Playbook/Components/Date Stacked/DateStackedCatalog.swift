@@ -41,13 +41,15 @@ extension DateStackedCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDateStacked(
         dateStamp: Date(),
-        variant: .short,
-        fontSize: .title4
+        variant: .short(showIcon: false),
+        fontSize: .title4,
+        isMonthStacked: true
       )
       PBDateStacked(
         dateStamp: Date(),
-        variant: .short,
-        fontSize: .title3
+        variant: .short(showIcon: false),
+        fontSize: .title3,
+        isMonthStacked: true
       )
     }
   }
@@ -57,12 +59,15 @@ extension DateStackedCatalog {
         alignment: .leading,
         dateStamp: Date().makeDate(year: 2018, month: 3, day: 20),
         variant: .standard,
-        fontSize: .title4
+        fontSize: .title4,
+        isStandardStacked: true
       )
       PBDateStacked(
+        alignment: .leading,
         dateStamp: Date().makeDate(year: 2018, month: 3, day: 20),
         variant: .standard,
-        fontSize: .title3
+        fontSize: .title3,
+        isStandardStacked: true
       )
     }
   }
@@ -70,13 +75,13 @@ extension DateStackedCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDateStacked(
         dateStamp: Date(),
-        variant: .short,
+        variant: .short(showIcon: false),
         fontSize: .title4,
         isReversed: true
       )
       PBDateStacked(
         dateStamp: Date(),
-        variant: .short,
+        variant: .short(showIcon: false),
         fontSize: .title3,
         isReversed: true
       )
@@ -86,13 +91,15 @@ extension DateStackedCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDateStacked(
         dateStamp: Date(),
-        variant: .short,
-        fontSize: .title4
+        variant: .short(showIcon: false),
+        fontSize: .title4,
+        isMonthStacked: true
       )
       PBDateStacked(
         dateStamp: Date(),
-        variant: .short,
-        fontSize: .title3
+        variant: .short(showIcon: false),
+        fontSize: .title3,
+        isMonthStacked: true
       )
     }
   }
@@ -100,24 +107,27 @@ extension DateStackedCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
         PBDateStacked(
           dateStamp: Date(),
-          variant: .short,
+          variant: .short(showIcon: false),
           fontSize: .title4,
-          isBold: true
+          isBold: true,
+          isMonthStacked: true
         )
         PBDateStacked(
           alignment: .center,
           dateStamp: Date().makeDate(year: 2018, month: 3, day: 20),
           variant: .standard,
           fontSize: .title4,
-          isBold: true
+          isBold: true,
+          isStandardStacked: true
         )
         .frame(maxWidth: .infinity, alignment: .center)
         PBDateStacked(
           alignment: .trailing, 
           dateStamp: Date(),
-          variant: .short,
+          variant: .short(showIcon: false),
           fontSize: .title4,
-          isBold: true
+          isBold: true,
+          isMonthStacked: true
         )
         .frame(maxWidth: .infinity, alignment: .trailing)
     }
