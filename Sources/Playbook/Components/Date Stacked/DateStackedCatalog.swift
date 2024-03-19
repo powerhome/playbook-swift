@@ -19,12 +19,15 @@ public struct DateStackedCatalog: View {
           PBDoc(title: "Not Current Year") {
             notCurrentYearView
           }
-//          PBDoc(title: "Alignment") {
-//            alignmentView
-//          }
-//          PBDoc(title: "Unstyled") {
-//            unstyledView
-//          }
+          PBDoc(title: "Day & Month Reverse") {
+            dayMonthReversedView
+          }
+          PBDoc(title: "Sizes") {
+            sizesView
+          }
+          PBDoc(title: "Bold") {
+            boldView
+          }
         }
         .padding(Spacing.medium)
       }
@@ -49,10 +52,10 @@ extension DateStackedCatalog {
     }
   }
   var notCurrentYearView: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
       PBDateStacked(
-        dateStamp: Date().makeDate(year: 2018, month: 3, day: 20)
-        , variant: .standard,
+        dateStamp: Date().makeDate(year: 2018, month: 3, day: 20),
+        variant: .standard,
         fontSize: .title4
       )
       PBDateStacked(
@@ -60,6 +63,65 @@ extension DateStackedCatalog {
         variant: .standard,
         fontSize: .title3
       )
+    }
+  }
+  var dayMonthReversedView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBDateStacked(
+        dateStamp: Date(),
+        variant: .short,
+        fontSize: .title4,
+        isReversed: true
+      )
+      PBDateStacked(
+        dateStamp: Date(),
+        variant: .short,
+        fontSize: .title3,
+        isReversed: true
+      )
+    }
+  }
+  var sizesView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBDateStacked(
+        dateStamp: Date(),
+        variant: .short,
+        fontSize: .title4
+      )
+      PBDateStacked(
+        dateStamp: Date(),
+        variant: .short,
+        fontSize: .title3
+      )
+    }
+  }
+  var boldView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+        PBDateStacked(
+          dateStamp: Date(),
+          variant: .short,
+          fontSize: .title4,
+          isBold: true
+        )
+      VStack(alignment: .center) {
+        PBDateStacked(
+          dateStamp: Date().makeDate(year: 2018, month: 3, day: 20),
+          variant: .standard,
+          fontSize: .title4,
+          isBold: true
+        )
+      }
+      .frame(maxWidth: .infinity, alignment: .center)
+      VStack(alignment: .trailing) {
+        PBDateStacked(
+          alignment: .trailing, 
+          dateStamp: Date(),
+          variant: .short,
+          fontSize: .title4,
+          isBold: true
+        )
+      }
+      .frame(maxWidth: .infinity, alignment: .trailing)
     }
   }
 }
