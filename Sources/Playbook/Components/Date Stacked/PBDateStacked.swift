@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct PBDateStacked: View {
   let alignment: HorizontalAlignment
-  let dateStamp: Date
+  let date: Date
   let variant: PBDate.Variant
   let fontSize: PBFont
   let isReversed: Bool
@@ -20,7 +20,7 @@ public struct PBDateStacked: View {
   let isStandardStacked: Bool
   public init(
     alignment: HorizontalAlignment = .leading,
-    dateStamp: Date = Date(),
+    date: Date = Date(),
     variant: PBDate.Variant = .standard,
     fontSize: PBFont = .body,
     isReversed: Bool = false,
@@ -30,7 +30,7 @@ public struct PBDateStacked: View {
   ){
     self.alignment = alignment
     self.variant = variant
-    self.dateStamp = dateStamp
+    self.date = date
     self.fontSize = fontSize
     self.isReversed = isReversed
     self.isBold = isBold
@@ -62,15 +62,15 @@ extension PBDateStacked {
        }
      }
      var monthView: some View {
-       Text(dateStamp.formatted(.dateTime.month()))
+       Text(date.formatted(.dateTime.month()))
          .pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
      }
      var dateView: some View {
-       Text(dateStamp.formatted(.dateTime.day()))
+       Text(date.formatted(.dateTime.day()))
          .pbFont(fontSize, variant: .bold, color: .text(.default))
      }
      var yearView: some View {
-       Text(dateStamp.formatted(.dateTime.year())).pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
+       Text(date.formatted(.dateTime.year())).pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
      }
   @ViewBuilder
     var dateStackedStyle: some View {
