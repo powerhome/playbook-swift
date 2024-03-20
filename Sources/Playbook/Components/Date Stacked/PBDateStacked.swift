@@ -12,7 +12,6 @@ import SwiftUI
 public struct PBDateStacked: View {
   let alignment: HorizontalAlignment
   let dateStamp: Date
-  let dateString: String
   let variant: PBDate.Variant
   let fontSize: PBFont
   let isReversed: Bool
@@ -22,7 +21,6 @@ public struct PBDateStacked: View {
   public init(
     alignment: HorizontalAlignment = .leading,
     dateStamp: Date = Date(),
-    dateString: String = "",
     variant: PBDate.Variant = .standard,
     fontSize: PBFont = .body,
     isReversed: Bool = false,
@@ -33,7 +31,6 @@ public struct PBDateStacked: View {
     self.alignment = alignment
     self.variant = variant
     self.dateStamp = dateStamp
-    self.dateString = dateString
     self.fontSize = fontSize
     self.isReversed = isReversed
     self.isBold = isBold
@@ -41,32 +38,49 @@ public struct PBDateStacked: View {
     self.isStandardStacked = isStandardStacked
   }
     public var body: some View {
-      Text(formattedDate)
-        .pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
+      dateStackedStyle
     }
 }
 
 extension PBDateStacked {
-  var dateStackedStyle: String {
-      switch variant {
-      case .short: return isMonthStacked && alignment == .leading ? "MMM \nd" : isReversed ? "d \nMMM" : "MMM  \n    d"
-      case .standard: return isStandardStacked || alignment == .leading ?  "MMM\nd \nYYYY" : isStandardStacked || alignment == .center ? "MMM\n d \nYYYY" : "MMM \n d \nYYYY"
-      default:
-        return "MMM \nd"
-      }
-  }
-  var dateStackedFont: PBFont {
-    switch variant {
-    case .short: return .title3
-    case .standard: return .title4
-    default: return .title3
+  var dateMonthView: some View {
+       VStack(alignment: alignment, spacing: Spacing.xSmall) {
+         if !isReversed {
+           monthView
+           dateView
+         } else {
+           dateView
+           monthView
+         }
+       }
+     }
+     var fullDateView: some View {
+       VStack(alignment: alignment, spacing: Spacing.xSmall) {
+         monthView
+         dateView
+         yearView
+       }
+     }
+     var monthView: some View {
+       Text(dateStamp.formatted(.dateTime.month()))
+         .pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
+     }
+     var dateView: some View {
+       Text(dateStamp.formatted(.dateTime.day()))
+         .pbFont(fontSize, variant: .bold, color: .text(.default))
+     }
+     var yearView: some View {
+       Text(dateStamp.formatted(.dateTime.year())).pbFont(.caption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
+     }
+  @ViewBuilder
+    var dateStackedStyle: some View {
+        switch variant {
+        case .short: dateMonthView
+        case .standard: fullDateView
+        default:
+           dateMonthView
+        }
     }
-  }
-  var formattedDate: AttributedString {
-    let formatter = DateFormatter()
-    formatter.dateFormat = isMonthStacked || isReversed || isStandardStacked ? dateStackedStyle : dateStackedStyle
-    return colorAttributedText(formatter.string(from: dateStamp), characterToChange: "•", color: .text(.light))
-  }
 }
 #Preview {
   registerFonts()

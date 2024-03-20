@@ -106,6 +106,7 @@ extension DateStackedCatalog {
   var boldView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
         PBDateStacked(
+          alignment: .leading,
           dateStamp: Date(),
           variant: .short(showIcon: false),
           fontSize: .title4,
