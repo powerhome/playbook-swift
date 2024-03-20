@@ -27,7 +27,7 @@ public struct DateRangeInlineCatalog: View {
 extension DateRangeInlineCatalog {
   var defaultView: some View  {
     VStack(alignment: .leading, spacing: Spacing.large) {
-      VStack(spacing: Spacing.small) {
+      VStack(alignment: .leading, spacing: Spacing.small) {
         PBDateRangeInline(
           size: .caption,
           iconSize: .xSmall,
@@ -44,7 +44,7 @@ extension DateRangeInlineCatalog {
         )
       }
       .frame(maxWidth: .infinity, alignment: .leading)
-      VStack(spacing: Spacing.small) {
+      VStack(alignment: .center, spacing: Spacing.small) {
         PBDateRangeInline(
           size: .caption, 
           iconSize: .xSmall,
@@ -63,7 +63,7 @@ extension DateRangeInlineCatalog {
         )
       }
       .frame(maxWidth: .infinity, alignment: .center)
-      VStack(spacing: Spacing.small) {
+      VStack(alignment: .trailing, spacing: Spacing.small) {
         PBDateRangeInline(
           size: .caption, 
           iconSize: .xSmall,
