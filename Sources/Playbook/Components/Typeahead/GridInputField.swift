@@ -8,9 +8,8 @@
 //
 
 import SwiftUI
-import WrappingHStack
 
-public struct WrappedInputField: View {
+public struct GridInputField: View {
   private let placeholder: String
   private let selection: Selection
   private let clearAction: (() -> Void)?
@@ -43,7 +42,7 @@ public struct WrappedInputField: View {
     VStack(alignment: .leading) {
       HStack {
         HStack {
-          PBGrid {
+          PBGrid(alignment: .leading, horizontalSpacing: 0) {
             ForEach(indices, id: \.self) { index in
               if indices.last != index {
                 gridView(index: index)
@@ -84,7 +83,7 @@ public struct WrappedInputField: View {
   }
 }
 
-private extension WrappedInputField {
+private extension GridInputField {
   var indices: Range<Int> {
     switch selection {
     case .multiple(_, let options): return Range(0...(options?.count ?? 0))
@@ -189,7 +188,7 @@ private extension WrappedInputField {
   }
 }
 
-public extension WrappedInputField {
+public extension GridInputField {
   enum Selection {
     case single(String?), multiple(Selection.Variant, [String]?)
     
@@ -219,25 +218,25 @@ public struct WrappedInputFieldCatalog: View {
 
   public var body: some View {
     VStack(spacing: Spacing.medium) {
-      WrappedInputField(
+      GridInputField(
         searchText: $text,
         selection: .single(nil),
         isFocused: $isFocused
       )
 
-      WrappedInputField(
+      GridInputField(
         searchText: $text,
         selection: .multiple(.pill, ["title1", "title2"]),
         isFocused: $isFocused
       )
       
-      WrappedInputField(
+      GridInputField(
         searchText: $text,
         selection: .multiple(.other(AnyView(PBPill("oi", variant: .primary))), ["title1", "title2"]),
         isFocused: $isFocused
       )
       
-      WrappedInputField(
+      GridInputField(
         searchText: $text,
         selection: .multiple(.other(AnyView(PBBadge(text: "title", variant: .primary))), ["title1", "title2"]),
         isFocused: $isFocused

@@ -68,7 +68,6 @@ public struct PBGrid: Layout {
         let x: CGFloat = element.xOffset + anchor.x * (bounds.width - row.width)
         let y: CGFloat = row.yOffset + anchor.y * (row.height - element.size.height)
         let point = CGPoint(x: x + bounds.minX, y: y + bounds.minY)
-        
         subviews[element.index].place(at: point, anchor: .topLeading, proposal: proposal)
       }
     }
