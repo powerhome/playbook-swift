@@ -60,6 +60,7 @@ extension DateStackedCatalog {
         date: Date().makeDate(year: 2018, month: 3, day: 20),
         variant: .standard,
         fontSize: .title4,
+        isBold: true, 
         isStandardStacked: true
       )
       PBDateStacked(
@@ -67,6 +68,7 @@ extension DateStackedCatalog {
         date: Date().makeDate(year: 2018, month: 3, day: 20),
         variant: .standard,
         fontSize: .title3,
+        isBold: true, 
         isStandardStacked: true
       )
     }
@@ -111,7 +113,8 @@ extension DateStackedCatalog {
           variant: .short(showIcon: false),
           fontSize: .title4,
           isBold: true,
-          isMonthStacked: true
+          isMonthStacked: true, 
+          isMonthBold: true
         )
         PBDateStacked(
           alignment: .center,
@@ -119,7 +122,9 @@ extension DateStackedCatalog {
           variant: .standard,
           fontSize: .title4,
           isBold: true,
-          isStandardStacked: true
+          isStandardStacked: true,
+          isYearBold: true,
+          isMonthBold: true
         )
         .frame(maxWidth: .infinity, alignment: .center)
         PBDateStacked(
@@ -128,7 +133,8 @@ extension DateStackedCatalog {
           variant: .short(showIcon: false),
           fontSize: .title4,
           isBold: true,
-          isMonthStacked: true
+          isMonthStacked: true,
+          isMonthBold: true
         )
         .frame(maxWidth: .infinity, alignment: .trailing)
     }
