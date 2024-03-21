@@ -17,7 +17,7 @@ public struct PBDate: View {
 
   public init(
     _ datestamp: Date,
-    variant: Variant = .short,
+    variant: Variant = .standard,
     typography: PBFont = .caption,
     iconSize: PBIcon.IconSize = .x1
   ) {
@@ -45,7 +45,7 @@ private extension PBDate {
 
   var iconView: AnyView? {
     switch variant {
-    case .withIcon:
+    case .withIcon, .short(showIcon: true):
       return AnyView(PBIcon.fontAwesome(.calendarAlt, size: iconSize).foregroundStyle(Color.text(.light)))
     default:
       return nil
@@ -67,10 +67,10 @@ private extension PBDate {
 
 public extension PBDate {
   enum Variant: CaseIterable, Hashable {
-    case short, standard, dayDate(showYear: Bool), withIcon(isStandard: Bool)
+    case short(showIcon: Bool), standard, dayDate(showYear: Bool), withIcon(isStandard: Bool)
 
     public static var allCases: [PBDate.Variant] = [
-      .short,
+      .short(showIcon: false),
       .dayDate(showYear: false),
       .standard,
       .withIcon(isStandard: true),
@@ -78,7 +78,7 @@ public extension PBDate {
     ]
 
     public static var showCases: [PBDate.Variant] {
-      return [.short, .standard]
+      return [.standard]
     }
 
     var dateStyle: String {

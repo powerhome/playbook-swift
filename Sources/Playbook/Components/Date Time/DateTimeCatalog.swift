@@ -51,7 +51,7 @@ extension DateTimeCatalog {
         timeZoneIdentifier: "2012-08-02T17:49:29Z"
       )
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
         isLowercase: true,
         isTimeBold: true,
@@ -74,7 +74,7 @@ extension DateTimeCatalog {
     VStack(spacing: Spacing.small) {
       HStack {
         PBDateTime(
-          dateVariant: .short,
+          dateVariant: .short(showIcon: false),
           timeVariant: .iconTimeZone,
           isLowercase: true,
           isTimeBold: true,
@@ -85,7 +85,7 @@ extension DateTimeCatalog {
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
         isLowercase: true,
         isTimeBold: true,
@@ -95,7 +95,7 @@ extension DateTimeCatalog {
       )
       HStack {
         PBDateTime(
-          dateVariant: .short,
+          dateVariant: .short(showIcon: false),
           timeVariant: .iconTimeZone,
           isLowercase: true,
           isTimeBold: true,
@@ -127,7 +127,7 @@ extension DateTimeCatalog {
         timeZoneIdentifier: "2012-08-02T17:49:29Z"
       )
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
         fontSize: .caption,
         zone: .utc,
@@ -136,7 +136,7 @@ extension DateTimeCatalog {
         showIcon: true
       )
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
         fontSize: .caption,
         zone: .utc,
@@ -164,7 +164,7 @@ extension DateTimeCatalog {
         timeZoneIdentifier: "2012-08-02T17:49:29Z"
       )
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
         isLowercase: true,
         isTimeBold: true,
@@ -174,7 +174,7 @@ extension DateTimeCatalog {
         showIcon: true
       )
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
         isLowercase: true,
         isTimeBold: true,
