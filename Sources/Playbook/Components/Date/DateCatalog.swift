@@ -69,7 +69,6 @@ public extension DateCatalog {
     }
   }
   
-  
   var variantView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDate(
