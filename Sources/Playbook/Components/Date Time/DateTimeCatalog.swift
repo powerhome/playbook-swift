@@ -37,36 +37,44 @@ extension DateTimeCatalog {
       PBDateTime(
         dateVariant: .dayDate(showYear: true),
         timeVariant: .iconTimeZone,
+        timeFontSize: .body,
         isLowercase: true,
         isTimeBold: true,
-        timeZoneIdentifier: "EST"
+        timeZoneIdentifier: "EST",
+        dateFontSize: .title4
       )
       PBDateTime(
         dateVariant: .dayDate(showYear: false),
         timeVariant: .iconTimeZone,
-        isLowercase: true,
-        isTimeBold: true,
-        zone: .utc,
-        showTimeZone: true,
-        timeZoneIdentifier: "2012-08-02T17:49:29Z"
-      )
-      PBDateTime(
-        dateVariant: .short,
-        timeVariant: .iconTimeZone,
+        timeFontSize: .body,
         isLowercase: true,
         isTimeBold: true,
         zone: .utc,
         showTimeZone: true,
         timeZoneIdentifier: "2012-08-02T17:49:29Z",
-        showIcon: true
+        dateFontSize: .title4
+      )
+      PBDateTime(
+        dateVariant: .short(showIcon: false),
+        timeVariant: .iconTimeZone,
+        timeFontSize: .body,
+        isLowercase: true,
+        isTimeBold: true,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z",
+        showIcon: true,
+        dateFontSize: .title4
       )
       PBDateTime(
         dateVariant: .standard,
         timeVariant: .iconTimeZone,
+        timeFontSize: .body,
         isLowercase: true,
         isTimeBold: true,
         showTimeZone: true,
-        timeZoneIdentifier: "GMT+9"
+        timeZoneIdentifier: "GMT+9",
+        dateFontSize: .title4
       )
     }
   }
@@ -74,19 +82,22 @@ extension DateTimeCatalog {
     VStack(spacing: Spacing.small) {
       HStack {
         PBDateTime(
-          dateVariant: .short,
+          dateVariant: .short(showIcon: false),
           timeVariant: .iconTimeZone,
+          timeFontSize: .body,
           isLowercase: true,
           isTimeBold: true,
           zone: .utc,
           showTimeZone: true,
-          timeZoneIdentifier: "2012-08-02T17:49:29Z"
+          timeZoneIdentifier: "2012-08-02T17:49:29Z",
+          dateFontSize: .title4
         )
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
+        timeFontSize: .body,
         isLowercase: true,
         isTimeBold: true,
         zone: .utc,
@@ -95,8 +106,9 @@ extension DateTimeCatalog {
       )
       HStack {
         PBDateTime(
-          dateVariant: .short,
+          dateVariant: .short(showIcon: false),
           timeVariant: .iconTimeZone,
+          timeFontSize: .body,
           isLowercase: true,
           isTimeBold: true,
           zone: .utc,
@@ -112,36 +124,40 @@ extension DateTimeCatalog {
       PBDateTime(
         dateVariant: .dayDate(showYear: false), 
         timeVariant: .iconTimeZone,
-        fontSize: .caption,
+        timeFontSize: .caption,
         zone: .utc,
         showTimeZone: true,
         timeZoneIdentifier: "2012-08-02T17:49:29Z",
-        showIcon: true
+        showIcon: true,
+        dateFontSize: .caption
       )
       PBDateTime(
         dateVariant: .dayDate(showYear: false),
         timeVariant: .iconTimeZone,
-        fontSize: .caption,
-        zone: .utc,
-        showTimeZone: true,
-        timeZoneIdentifier: "2012-08-02T17:49:29Z"
-      )
-      PBDateTime(
-        dateVariant: .short,
-        timeVariant: .iconTimeZone,
-        fontSize: .caption,
+        timeFontSize: .caption,
         zone: .utc,
         showTimeZone: true,
         timeZoneIdentifier: "2012-08-02T17:49:29Z",
-        showIcon: true
+        dateFontSize: .caption
       )
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
-        fontSize: .caption,
+        timeFontSize: .caption,
         zone: .utc,
         showTimeZone: true,
-        timeZoneIdentifier: "2012-08-02T17:49:29Z"
+        timeZoneIdentifier: "2012-08-02T17:49:29Z",
+        showIcon: true,
+        dateFontSize: .caption
+      )
+      PBDateTime(
+        dateVariant: .short(showIcon: false),
+        timeVariant: .iconTimeZone,
+        timeFontSize: .caption,
+        zone: .utc,
+        showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z",
+        dateFontSize: .caption
       )
       Spacer()
       PBDateTime(
@@ -164,7 +180,7 @@ extension DateTimeCatalog {
         timeZoneIdentifier: "2012-08-02T17:49:29Z"
       )
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
         isLowercase: true,
         isTimeBold: true,
@@ -174,7 +190,7 @@ extension DateTimeCatalog {
         showIcon: true
       )
       PBDateTime(
-        dateVariant: .short,
+        dateVariant: .short(showIcon: false),
         timeVariant: .iconTimeZone,
         isLowercase: true,
         isTimeBold: true,
