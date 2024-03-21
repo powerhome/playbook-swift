@@ -42,13 +42,13 @@ extension DateStackedCatalog {
       PBDateStacked(
         date: Date(),
         variant: .short(showIcon: false),
-        fontSize: .title4,
+        dateSize: .title4,
         isMonthStacked: true
       )
       PBDateStacked(
         date: Date(),
         variant: .short(showIcon: false),
-        fontSize: .title3,
+        dateSize: .title3,
         isMonthStacked: true
       )
     }
@@ -59,16 +59,14 @@ extension DateStackedCatalog {
         alignment: .leading,
         date: Date().makeDate(year: 2018, month: 3, day: 20),
         variant: .standard,
-        fontSize: .title4,
-       // isBold: true,
+        dateSize: .title4,
         isStandardStacked: true
       )
       PBDateStacked(
         alignment: .leading,
         date: Date().makeDate(year: 2018, month: 3, day: 20),
         variant: .standard,
-        fontSize: .title3,
-       // isBold: true,
+        dateSize: .title3,
         isStandardStacked: true
       )
     }
@@ -78,13 +76,13 @@ extension DateStackedCatalog {
       PBDateStacked(
         date: Date(),
         variant: .short(showIcon: false),
-        fontSize: .title4,
+        dateSize: .title4,
         isReversed: true
       )
       PBDateStacked(
         date: Date(),
         variant: .short(showIcon: false),
-        fontSize: .title3,
+        dateSize: .title3,
         isReversed: true
       )
     }
@@ -94,13 +92,13 @@ extension DateStackedCatalog {
       PBDateStacked(
         date: Date(),
         variant: .short(showIcon: false),
-        fontSize: .title4,
+        dateSize: .title4,
         isMonthStacked: true
       )
       PBDateStacked(
         date: Date(),
         variant: .short(showIcon: false),
-        fontSize: .title3,
+        dateSize: .title3,
         isMonthStacked: true
       )
     }
@@ -111,7 +109,7 @@ extension DateStackedCatalog {
           alignment: .leading,
           date: Date(),
           variant: .short(showIcon: false),
-          fontSize: .title4,
+          dateSize: .title4,
           isMonthStacked: true,
           isMonthBold: true
         )
@@ -119,7 +117,7 @@ extension DateStackedCatalog {
           alignment: .center,
           date: Date().makeDate(year: 2018, month: 3, day: 20),
           variant: .standard,
-          fontSize: .title4,
+          dateSize: .title4,
           isStandardStacked: true,
           isYearBold: true,
           isMonthBold: true
@@ -129,7 +127,7 @@ extension DateStackedCatalog {
           alignment: .trailing, 
           date: Date(),
           variant: .short(showIcon: false),
-          fontSize: .title4,
+          dateSize: .title4,
           isMonthStacked: true,
           isMonthBold: true
         )
