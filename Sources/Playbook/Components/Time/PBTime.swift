@@ -130,7 +130,6 @@ public extension PBTime {
         showIconTimeZoneView
       }
     }
-   .frame(maxWidth: .infinity, alignment: alignment)
     .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
     }
   var withTimeZoneHeader: some View {
