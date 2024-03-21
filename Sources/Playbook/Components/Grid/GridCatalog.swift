@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-struct GridCatalog: View {
+public struct GridCatalog: View {
   @State private var count = 1
   let tagCache: TagCache = TagCache()
   
@@ -24,7 +24,7 @@ struct GridCatalog: View {
     })
   }
   
-  var body: some View {
+  public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") { defaultView }
