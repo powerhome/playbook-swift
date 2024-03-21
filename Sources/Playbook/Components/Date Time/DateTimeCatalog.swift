@@ -33,7 +33,7 @@ public struct DateTimeCatalog: View {
 
 extension DateTimeCatalog {
   var defaultView: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.medium) {
       PBDateTime(
         dateVariant: .dayDate(showYear: true),
         timeVariant: .iconTimeZone,
@@ -79,7 +79,7 @@ extension DateTimeCatalog {
     }
   }
   var alignmentView: some View {
-    VStack(spacing: Spacing.small) {
+    VStack(spacing: Spacing.medium) {
       HStack {
         PBDateTime(
           dateVariant: .short(showIcon: false),
@@ -120,7 +120,7 @@ extension DateTimeCatalog {
     }
   }
   var sizeView: some View {
-    VStack(alignment: .leading, spacing: Spacing.xSmall) {
+    VStack(alignment: .leading, spacing: Spacing.medium) {
       PBDateTime(
         dateVariant: .dayDate(showYear: false), 
         timeVariant: .iconTimeZone,
