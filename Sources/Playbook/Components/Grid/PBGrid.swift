@@ -16,8 +16,8 @@ public struct PBGrid: Layout {
   let fitContent: Bool
   
   public init(
-    alignment: Alignment = .center,
-    horizontalSpacing: CGFloat? = nil,
+    alignment: Alignment = .leading,
+    horizontalSpacing: CGFloat? = 8,
     verticalSpacing: CGFloat? = nil,
     fitContent: Bool = true
   ) {
