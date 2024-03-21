@@ -1,16 +1,16 @@
-4.12.0
+# 4.12.0
 
-MARCH 18, 2024
+##### MARCH 18, 2024
 
 List of changes:
 
-** Kit Enhancements: **
+**Kit Enhancements:**
+- Time Stacked kit [#298](https://github.com/powerhome/playbook-swift/pull/298) [Rachel](https://github.com/RachelRadford21)
+- Time Range Inline kit [#298](https://github.com/powerhome/playbook-swift/pull/297) [Rachel](https://github.com/RachelRadford21)
+- Currency Kit [#291](https://github.com/powerhome/playbook-swift/pull/293) [Rachel](https://github.com/RachelRadford21)
 
-Time Stacked kit #298 Rachel
-Time Range Inline kit #298 Rachel
-Currency Kit #291 Rachel
-** Improvements: **
 
-Time Kit function rework #294 Rachel
-Add Presence Indicator to User Kit #292 Rachel
-Remove Year From Date Kit When Current #300 Rachel
+**Improvements:**
+- Time Kit function rework [#294](https://github.com/powerhome/playbook-swift/pull/294) [Rachel](https://github.com/RachelRadford21)
+- Add Presence Indicator to User Kit [#292](https://github.com/powerhome/playbook-swift/pull/292) [Rachel](https://github.com/RachelRadford21)
+- Remove Year From Date Kit When Current [#300](https://github.com/powerhome/playbook-swift/pull/300) [Rachel](https://github.com/RachelRadford21)
