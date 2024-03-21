@@ -15,7 +15,6 @@ public struct PBDateStacked: View {
   let variant: PBDate.Variant
   let fontSize: PBFont
   let isReversed: Bool
-  let isBold: Bool
   let isMonthStacked: Bool
   let isStandardStacked: Bool
   let isYearBold: Bool
@@ -26,7 +25,6 @@ public struct PBDateStacked: View {
     variant: PBDate.Variant = .standard,
     fontSize: PBFont = .body,
     isReversed: Bool = false,
-    isBold: Bool = false,
     isMonthStacked: Bool = false,
     isStandardStacked: Bool = false,
     isYearBold: Bool = false,
@@ -37,7 +35,6 @@ public struct PBDateStacked: View {
     self.date = date
     self.fontSize = fontSize
     self.isReversed = isReversed
-    self.isBold = isBold
     self.isMonthStacked = isMonthStacked
     self.isStandardStacked = isStandardStacked
     self.isYearBold = isYearBold
@@ -76,7 +73,7 @@ extension PBDateStacked {
          .pbFont(fontSize, variant: .bold, color: .text(.default))
      }
      var yearView: some View {
-       Text(date.formatted(.dateTime.year())).pbFont(isYearBold ? .title4 : .subcaption, variant: .bold, color: isBold ? .text(.default) : .text(.light))
+       Text(date.formatted(.dateTime.year())).pbFont(isYearBold ? .title4 : .subcaption, variant: .bold, color: isYearBold ? .text(.default) : .text(.light))
      }
   @ViewBuilder
     var dateStackedStyle: some View {
