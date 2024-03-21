@@ -50,7 +50,7 @@ public struct PBDateStacked: View {
 
 extension PBDateStacked {
   var dateMonthView: some View {
-       VStack(alignment: alignment, spacing: Spacing.xSmall) {
+       VStack(alignment: alignment, spacing: Spacing.xxSmall) {
          if !isReversed {
            monthView
            dateView
@@ -61,7 +61,7 @@ extension PBDateStacked {
        }
      }
      var fullDateView: some View {
-       VStack(alignment: alignment, spacing: Spacing.xSmall) {
+       VStack(alignment: alignment, spacing: Spacing.xxSmall) {
          monthView
          dateView
          yearView
@@ -69,7 +69,7 @@ extension PBDateStacked {
      }
      var monthView: some View {
        Text(date.formatted(.dateTime.month()))
-         .pbFont(.caption, variant: .bold, color: isMonthBold ? .text(.default) : .text(.light))
+         .pbFont(isMonthBold ? .title4 : .caption, variant: .bold, color: isMonthBold ? .text(.default) : .text(.light))
      }
      var dateView: some View {
        Text(date.formatted(.dateTime.day()))
