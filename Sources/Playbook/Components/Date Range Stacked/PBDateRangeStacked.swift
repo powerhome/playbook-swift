@@ -10,18 +10,48 @@
 import SwiftUI
 
 public struct PBDateRangeStacked: View {
-  let date: Date
+  let startDate: Date
+  let endDate: Date
+  let startAlignment: HorizontalAlignment
+  let endAlignment: HorizontalAlignment
+  let startVariant: PBDate.Variant
+  let endVariant: PBDate.Variant
   public init(
-    date: Date = Date()
+    startDate: Date = Date(),
+    endDate: Date = Date(),
+    startAlignment: HorizontalAlignment = .leading,
+    endAlignment: HorizontalAlignment = .leading,
+    startVariant: PBDate.Variant = .short(showIcon: false),
+    endVariant: PBDate.Variant = .short(showIcon: false)
+   
   ) {
-    self.date = date
+    self.startDate = startDate
+    self.endDate = endDate
+    self.startAlignment = startAlignment
+    self.endAlignment = endAlignment
+    self.startVariant = startVariant
+    self.endVariant = endVariant
   }
     public var body: some View {
-      Text("")
+      fullDateRangeView
     }
 }
 
+extension PBDateRangeStacked {
+  var fullDateRangeView: some View {
+    HStack(spacing: Spacing.small) {
+      PBDateYearStacked(date: startDate, alignment: startAlignment, variant: startVariant)
+      arrowIconView
+      PBDateYearStacked(date: endDate, alignment: endAlignment, variant: endVariant)
+    }
+
+  }
+  var arrowIconView: some View {
+    PBIcon(FontAwesome.arrowRight)
+      .pbFont(.body, variant: .bold, color: .text(.light))
+  }
+}
 #Preview {
   registerFonts()
-   return PBDateRangeStacked()
+   return  DateRangeStackedCatalog()
 }
