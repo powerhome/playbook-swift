@@ -14,6 +14,7 @@ public struct PBDate: View {
   let variant: Variant
   let typography: PBFont
   let iconSize: PBIcon.IconSize
+
   public init(
     _ datestamp: Date,
     variant: Variant = .standard,
@@ -45,7 +46,7 @@ private extension PBDate {
   var iconView: AnyView? {
     switch variant {
     case .withIcon, .short(showIcon: true):
-      return AnyView(PBIcon.fontAwesome(.calendarAlt, size: iconSize).foregroundStyle( Color.text(.light)))
+      return AnyView(PBIcon.fontAwesome(.calendarAlt, size: iconSize).foregroundStyle(Color.text(.light)))
     default:
       return nil
     }

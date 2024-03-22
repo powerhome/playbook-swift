@@ -10,37 +10,65 @@
 import SwiftUI
 
 public struct TypeaheadCatalog: View {
-  @State private var searchTextColors: String = ""
   @State private var assetsColors = Mocks.assetsColors
-  @State private var searchTextUsers: String = ""
   @State private var assetsUsers = Mocks.multipleUsersDictionary
-
+  @State private var searchTextUsers: String = ""
+  @State private var searchTextColors: String = ""
+  @State private var searchTextDebounce: String = ""
+  @State private var searchTextDebounce2: String = ""
+  
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default", spacing: Spacing.small) {
-          PBTypeahead(
-            title: "Colors",
-            searchText: $searchTextColors,
-            selection: .single,
-            options: assetsColors
-          )
-        }
-
-        PBDoc(title: "With Pills", spacing: Spacing.small) {
-          PBTypeahead(
-            title: "Users",
-            placeholder: "type the name of a user",
-            searchText: $searchTextUsers,
-            selection: .multiple(variant: .pill),
-            options: assetsUsers
-          )
-        }
+        PBDoc(title: "Default", spacing: Spacing.small) { colors }
+        PBDoc(title: "With Pills", spacing: Spacing.small) { users }
+        PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
       }
       .padding(Spacing.medium)
     }
     .background(Color.background(.light))
     .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)
+  }
+}
+
+extension TypeaheadCatalog {
+  var colors: some View {
+    PBTypeahead(
+      title: "Colors",
+      searchText: $searchTextColors,
+      selection: .single,
+      options: assetsColors
+    )
+  }
+  
+  var users: some View {
+    PBTypeahead(
+      title: "Users",
+      placeholder: "type the name of a user",
+      searchText: $searchTextUsers,
+      selection: .multiple(variant: .pill),
+      options: assetsUsers
+    )
+  }
+  
+  var debounce: some View {
+    VStack(spacing: Spacing.small) {
+      PBTypeahead(
+        title: "Debounce, 2 characters, 1 second",
+        searchText: $searchTextDebounce,
+        selection: .single,
+        options: assetsColors,
+        debounce: (1, 2)
+      )
+      
+      PBTypeahead(
+        title: "Debounce, 2 characters, 0 second",
+        searchText: $searchTextDebounce2,
+        selection: .single,
+        options: assetsColors,
+        debounce: (0, 2)
+      )
+    }
   }
 }

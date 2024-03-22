@@ -8,9 +8,8 @@
 //
 
 import SwiftUI
-import WrappingHStack
 
-public struct WrappedInputField: View {
+public struct GridInputField: View {
   private let placeholder: String
   private let selection: Selection
   private let clearAction: (() -> Void)?
@@ -42,14 +41,15 @@ public struct WrappedInputField: View {
   public var body: some View {
     VStack(alignment: .leading) {
       HStack {
-        WrappingHStack(indices, spacing: .constant(0)) { index in
-          if indices.last == index {
-            HStack(spacing: 0) {
-              textfieldWithCustomPlaceholder
+        HStack {
+          PBGrid(alignment: .leading, horizontalSpacing: 0) {
+            ForEach(indices, id: \.self) { index in
+              if indices.last != index {
+                gridView(index: index)
+              }
             }
-          } else {
-            gridView(index: index)
           }
+          textfieldWithCustomPlaceholder
         }
         .onTapGesture {
           isFocused.wrappedValue = true
@@ -83,10 +83,10 @@ public struct WrappedInputField: View {
   }
 }
 
-private extension WrappedInputField {
+private extension GridInputField {
   var indices: Range<Int> {
     switch selection {
-    case .multiple(_, let options): return Range(0...options.count)
+    case .multiple(_, let options): return Range(0...(options?.count ?? 0))
     case .single(_): return Range(0...1)
     }
   }
@@ -113,11 +113,10 @@ private extension WrappedInputField {
   }
   
   @ViewBuilder
-  func gridView(index: Int) -> some View {
+  func gridView(index: Int?) -> some View {
     switch selection {
     case .multiple(let variant, let options):
-      let option = "\(options[index])"
-      if options.count > 0 {
+      if let index = index, let option = options?[index] {
         variant.view(text: option)
           .onTapGesture { onItemTap?(index) }
           .padding(.leading, Spacing.xSmall)
@@ -142,7 +141,7 @@ private extension WrappedInputField {
   
   var placeholderText: String {
     switch selection {
-    case .multiple(_, let elements): return elements.isEmpty ? placeholder : ""
+    case .multiple(_, let elements): return elements?.isEmpty ?? true ? placeholder : ""
     case .single(let element): return element ?? placeholder
     }
   }
@@ -167,7 +166,7 @@ private extension WrappedInputField {
   var dismissIconView: some View {
     switch selection {
     case .multiple(_, let elements):
-      if !elements.isEmpty {
+      if !(elements?.isEmpty ?? true) {
         dismissIcon
       }
     case .single(let element):
@@ -187,9 +186,9 @@ private extension WrappedInputField {
   }
 }
 
-public extension WrappedInputField {
+public extension GridInputField {
   enum Selection {
-    case single(String?), multiple(Selection.Variant, [String])
+    case single(String?), multiple(Selection.Variant, [String]?)
     
     public enum Variant {
       case text, pill, other(AnyView)
@@ -217,25 +216,25 @@ public struct WrappedInputFieldCatalog: View {
 
   public var body: some View {
     VStack(spacing: Spacing.medium) {
-      WrappedInputField(
+      GridInputField(
         searchText: $text,
         selection: .single(nil),
         isFocused: $isFocused
       )
 
-      WrappedInputField(
+      GridInputField(
         searchText: $text,
         selection: .multiple(.pill, ["title1", "title2"]),
         isFocused: $isFocused
       )
       
-      WrappedInputField(
+      GridInputField(
         searchText: $text,
         selection: .multiple(.other(AnyView(PBPill("oi", variant: .primary))), ["title1", "title2"]),
         isFocused: $isFocused
       )
       
-      WrappedInputField(
+      GridInputField(
         searchText: $text,
         selection: .multiple(.other(AnyView(PBBadge(text: "title", variant: .primary))), ["title1", "title2"]),
         isFocused: $isFocused

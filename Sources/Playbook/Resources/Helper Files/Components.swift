@@ -24,7 +24,10 @@ public enum Components: String, CaseIterable {
   case dateRangeInline = "Date Range Inline"
   case dateRangeStacked = "Date Range Stacked"
   case dateStacked = "Date Stacked"
+  case dateTime = "Date Time"
+  case dateYearStacked = "Date Year Stacked"
   case dialog
+  case grid
   case toast = "Fixed Confirmation Toast"
   case highlight = "Highlight"
   case homeAddress = "Home Address Street"
@@ -75,7 +78,10 @@ public enum Components: String, CaseIterable {
     case .dateRangeInline: DateRangeInlineCatalog()
     case .dateRangeStacked: DateRangeStackedCatalog()
     case .dateStacked: DateStackedCatalog()
+    case .dateTime: DateTimeCatalog()
+    case .dateYearStacked: DateYearStackedCatalog()
     case .dialog: DialogCatalog()
+    case .grid: GridCatalog()
     case .toast: ToastCatalog()
     case .highlight: HighlightCatalog()
     case .homeAddress: HomeAddressStreetCatalog()
