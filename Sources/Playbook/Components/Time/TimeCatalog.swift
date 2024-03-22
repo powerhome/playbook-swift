@@ -139,30 +139,39 @@ extension TimeCatalog {
   }
   var alignmentView: some View {
     VStack(spacing: Spacing.small) {
-      PBTime(
-        showTimeZone: true,
-        variant: .iconTimeZone,
-        isLowercase: true,
-        isBold: true,
-        alignment: .leading,
-        unstyled: .body
-      )
-      PBTime(
-        showTimeZone: true,
-        variant: .iconTimeZone,
-        isLowercase: true,
-        isBold: true,
-        alignment: .center,
-        unstyled: .body
-      )
-      PBTime(
-        showTimeZone: true,
-        variant: .iconTimeZone,
-        isLowercase: true,
-        isBold: true,
-        alignment: .trailing,
-        unstyled: .body
-      )
+      HStack {
+        PBTime(
+          showTimeZone: true,
+          variant: .iconTimeZone,
+          isLowercase: true,
+          isBold: true,
+          alignment: .leading,
+          unstyled: .body
+        )
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      HStack {
+        PBTime(
+          showTimeZone: true,
+          variant: .iconTimeZone,
+          isLowercase: true,
+          isBold: true,
+          alignment: .center,
+          unstyled: .body
+        )
+      }
+      .frame(maxWidth: .infinity, alignment: .center)
+      HStack {
+        PBTime(
+          showTimeZone: true,
+          variant: .iconTimeZone,
+          isLowercase: true,
+          isBold: true,
+          alignment: .trailing,
+          unstyled: .body
+        )
+      }
+      .frame(maxWidth: .infinity, alignment: .trailing)
     }
   }
   var unstyledView: some View {
