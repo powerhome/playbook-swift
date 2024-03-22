@@ -26,6 +26,7 @@ public enum Components: String, CaseIterable {
   case dateTime = "Date Time"
   case dateYearStacked = "Date Year Stacked"
   case dialog
+  case grid
   case toast = "Fixed Confirmation Toast"
   case highlight = "Highlight"
   case homeAddress = "Home Address Street"
@@ -78,6 +79,7 @@ public enum Components: String, CaseIterable {
     case .dateTime: DateTimeCatalog()
     case .dateYearStacked: DateYearStackedCatalog()
     case .dialog: DialogCatalog()
+    case .grid: GridCatalog()
     case .toast: ToastCatalog()
     case .highlight: HighlightCatalog()
     case .homeAddress: HomeAddressStreetCatalog()
