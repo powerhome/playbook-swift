@@ -16,6 +16,7 @@ public struct PBDateRangeStacked: View {
   let endAlignment: HorizontalAlignment
   let startVariant: PBDate.Variant
   let endVariant: PBDate.Variant
+
   public init(
     startDate: Date = Date(),
     endDate: Date = Date(),
@@ -23,7 +24,6 @@ public struct PBDateRangeStacked: View {
     endAlignment: HorizontalAlignment = .leading,
     startVariant: PBDate.Variant = .short(showIcon: false),
     endVariant: PBDate.Variant = .short(showIcon: false)
-   
   ) {
     self.startDate = startDate
     self.endDate = endDate
@@ -32,9 +32,10 @@ public struct PBDateRangeStacked: View {
     self.startVariant = startVariant
     self.endVariant = endVariant
   }
-    public var body: some View {
-      fullDateRangeView
-    }
+
+  public var body: some View {
+    fullDateRangeView
+  }
 }
 
 extension PBDateRangeStacked {
@@ -46,11 +47,13 @@ extension PBDateRangeStacked {
     }
 
   }
+
   var arrowIconView: some View {
     PBIcon(FontAwesome.arrowRight)
       .pbFont(.body, variant: .bold, color: .text(.light))
   }
 }
+
 #Preview {
   registerFonts()
    return  DateRangeStackedCatalog()
