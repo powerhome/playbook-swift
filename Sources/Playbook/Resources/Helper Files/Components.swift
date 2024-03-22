@@ -22,6 +22,7 @@ public enum Components: String, CaseIterable {
   case currency = "Currency"
   case date
   case dateRangeInline = "Date Range Inline"
+  case dateRangeStacked = "Date Range Stacked"
   case dateStacked = "Date Stacked"
   case dialog
   case toast = "Fixed Confirmation Toast"
@@ -72,6 +73,7 @@ public enum Components: String, CaseIterable {
     case .currency: CurrencyCatalog()
     case .date: DateCatalog()
     case .dateRangeInline: DateRangeInlineCatalog()
+    case .dateRangeStacked: DateRangeStackedCatalog()
     case .dateStacked: DateStackedCatalog()
     case .dialog: DialogCatalog()
     case .toast: ToastCatalog()
