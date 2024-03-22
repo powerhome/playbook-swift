@@ -41,7 +41,6 @@ public struct PBLabelValue: View {
 
   public var body: some View {
     let textVariant: Typography.Variant = active == true ? .link : .none
-
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       Text(label)
         .padding(.bottom, 5.3)
@@ -53,18 +52,15 @@ public struct PBLabelValue: View {
             PBIcon(icon, size: .small)
               .foregroundColor(.text(.light))
           }
-
           if let description = description {
             Text(description)
               .foregroundColor(.text(.light))
               .pbFont(.body)
           }
-
           if let title = title {
             Text(title)
               .pbFont(.title4, variant: textVariant)
           }
-
           if let date = date {
             Text(formatDate(date))
               .pbFont(.title4, variant: textVariant)
@@ -90,7 +86,6 @@ public extension PBLabelValue {
   func formatDate(_ date: Date) -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = "MM/dd"
-
     return "· " + formatter.string(from: date)
   }
 }

@@ -40,7 +40,7 @@ public extension DateCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDate(
         Date(),
-        variant: .short
+        variant: .short(showIcon: false)
       )
       PBDate(
         Date().makeDate(year: 2012, month: 8, day: 3),
@@ -52,7 +52,7 @@ public extension DateCatalog {
       )
       Spacer()
       PBDate(
-        Date(), variant: .short, 
+        Date(), variant: .short(showIcon: false), 
         typography: .title4
       )
       PBDate(
@@ -68,8 +68,7 @@ public extension DateCatalog {
   
     }
   }
-
-
+  
   var variantView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDate(
@@ -102,7 +101,7 @@ public extension DateCatalog {
       )
     }
   }
-
+  
   var alignmentView: some View {
     VStack(spacing: Spacing.small) {
       HStack {
@@ -111,6 +110,7 @@ public extension DateCatalog {
           variant: .standard,
           typography: .title4
         )
+        .frame(maxWidth: .infinity, alignment: .leading)
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       HStack {
@@ -125,19 +125,19 @@ public extension DateCatalog {
       HStack {
         PBDate(
           Date(),
-          variant: .short,
+          variant: .short(showIcon: false),
           typography: .title4
         )
       }
       .frame(maxWidth: .infinity, alignment: .trailing)
     }
   }
-
+  
   var unstyledView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBDate(
         Date(),
-        variant: .short,
+        variant: .short(showIcon: false),
         typography: .body
       )
       PBDate(
