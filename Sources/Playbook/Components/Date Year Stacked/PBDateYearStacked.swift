@@ -13,6 +13,7 @@ public struct PBDateYearStacked: View {
   let date: Date
   let alignment: HorizontalAlignment
   let variant: PBDate.Variant
+
   public init(
     date: Date = Date(),
     alignment: HorizontalAlignment = .leading,
@@ -22,9 +23,10 @@ public struct PBDateYearStacked: View {
     self.alignment = alignment
     self.variant = variant
   }
-    public var body: some View {
-      fullDateView
-    }
+  
+  public var body: some View {
+    fullDateView
+  }
 }
 
 extension PBDateYearStacked {
@@ -34,14 +36,15 @@ extension PBDateYearStacked {
       yearView
     }
   }
+
   var dateMonthView: some View {
     HStack(spacing: Spacing.xxSmall) {
       Text(date.formatted(.dateTime.day()))
       Text(date.formatted(.dateTime.month()))
     }
     .pbFont(.title4, variant: .bold, color: .text(.default))
-   
   }
+
   var yearView: some View {
     HStack(spacing: Spacing.xxSmall) {
       Text(date.formatted(.dateTime.year()))
@@ -49,6 +52,7 @@ extension PBDateYearStacked {
     .pbFont(.body, variant: .bold, color: .text(.light))
   }
 }
+
 #Preview {
   registerFonts()
    return  DateYearStackedCatalog()

@@ -24,6 +24,7 @@ public struct PBTime: View {
   let isTimeZoneBold: Bool
   let unstyled: PBFont
   let timeIdentifier: String
+
   public init(
     date: Date = Date(),
     showTimeZone: Bool = false,
@@ -55,6 +56,7 @@ public struct PBTime: View {
     self.unstyled = unstyled
     self.timeIdentifier = timeIdentifier
   }
+
   public var body: some View {
     timeVariants
   }
@@ -68,9 +70,11 @@ public extension PBTime {
     case iconTimeZone
     case withTimeZoneHeader
   }
+
   enum Zones {
     case east, central, mountain, pacific, gmt, utc
   }
+
   @ViewBuilder
   var timeVariants: some View {
     switch variant {
@@ -81,38 +85,45 @@ public extension PBTime {
     case .withTimeZoneHeader: withTimeZoneHeader
     }
   }
+
   var headerView: some View {
     return Text(header)
       .pbFont(.title4, variant: .bold, color: .text(.default))
   }
+
   var timeIcon: some View {
     return PBIcon(FontAwesome.clock, size: iconSize)
       .pbFont(.caption, variant: .light, color: isIconBold ? .text(.default) : .text(.light))
   }
-  @ViewBuilder
+
   var time: some View {
     getTime(timeZoneIdentifier: timeIdentifier)
       .pbFont(unstyled, variant: isBold ? .bold : .light, color: textColor)
   }
+
   @ViewBuilder
   var timeZone: some View {
     switch zone {
     case .east, .central, .mountain, .pacific, .gmt: Text(timeIdentifier)
-    case .utc: Text("")
+    case .utc: 
+      Text("")
     }
   }
+
   var showIconView: some View {
     return HStack {
       timeIcon
       time
     }
   }
+
   var showTimeZoneView: some View {
     return HStack(spacing: Spacing.xxSmall) {
       time
       timeZone
     }
   }
+
   var showIconTimeZoneView: some View {
     HStack {
       timeIcon
@@ -120,6 +131,7 @@ public extension PBTime {
       timeZone
     }
   }
+
   var iconTimeZone: some View {
     return HStack {
       if showIcon {
@@ -130,9 +142,9 @@ public extension PBTime {
         showIconTimeZoneView
       }
     }
-   .frame(maxWidth: .infinity, alignment: alignment)
     .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
     }
+
   var withTimeZoneHeader: some View {
     return VStack(alignment: .leading, spacing: Spacing.xSmall) {
       headerView
@@ -140,9 +152,11 @@ public extension PBTime {
     }
     .pbFont(unstyled, variant: isTimeZoneBold ? .bold : .light, color: isTimeZoneBold ? .text(.default) : .text(.light))
   }
+
   var textColor: Color {
     isBold ? .text(.default) : .text(.light)
   }
+
   func getTime(timeZoneIdentifier: String) -> some View {
     let formatter = DateFormatter()
     if let timeZone = TimeZone(identifier: timeZoneIdentifier) {
