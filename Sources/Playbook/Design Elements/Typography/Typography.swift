@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import playbook_icons
 
 public struct Typography: ViewModifier {
   var font: PBFont
@@ -118,6 +119,7 @@ public extension View {
 public struct Typography_Previews: PreviewProvider {
   public static var previews: some View {
     registerFonts()
+    registerPowerFonts()
     return TypographyCatalog()
   }
 }

@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import playbook_icons
 
 public struct IconCatalog: View {
   public var body: some View {
@@ -43,6 +44,17 @@ public struct IconCatalog: View {
               HStack(spacing: Spacing.xSmall) {
                 PBIcon.fontAwesome(.atlas, size: size)
                 Text(size.rawValue)
+              }
+            }
+          }
+        }
+        
+        let adaptiveColumn = [GridItem(.adaptive(minimum: 64))]
+        PBDoc(title: "Powergon") {
+          VStack(alignment: .leading, spacing: Spacing.small) {
+            LazyVGrid(columns: adaptiveColumn, spacing: 20) {
+              ForEach(Icons.allCases) { icon in
+                icon.image
               }
             }
           }
