@@ -15,6 +15,7 @@ public struct PBTypeahead<Content: View>: View {
   private let placeholder: String
   private let options: [Option]
   private let selection: Selection
+  private let debounce: (time: TimeInterval, numberOfCharacters: Int)
   private let clearAction: (() -> Void)?
   @State private var listOptions: [Option] = []
   @State private var showList: Bool = false
@@ -23,6 +24,7 @@ public struct PBTypeahead<Content: View>: View {
   @State private var selectedIndex: Int?
   @State private var selectedOptions: [Option] = []
   @State private var focused: Bool = false
+  @State private var searchResults: [Option] = []
   @Binding var searchText: String
   @FocusState private var isFocused
 
@@ -32,6 +34,7 @@ public struct PBTypeahead<Content: View>: View {
     searchText: Binding<String>,
     selection: Selection,
     options: [(String, Content?)],
+    debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
     clearAction: (() -> Void)? = nil
   ) {
     self.title = title
@@ -39,6 +42,7 @@ public struct PBTypeahead<Content: View>: View {
     self._searchText = searchText
     self.selection = selection
     self.options = options
+    self.debounce = debounce
     self.clearAction = clearAction
   }
   
@@ -46,7 +50,7 @@ public struct PBTypeahead<Content: View>: View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text(title).pbFont(.caption)
         .padding(.bottom, Spacing.xxSmall)
-      WrappedInputField(
+      GridInputField(
         placeholder: placeholder,
         searchText: $searchText,
         selection: optionsSelected,
@@ -65,6 +69,9 @@ public struct PBTypeahead<Content: View>: View {
     }
     .onChange(of: isFocused) { newValue in
       showList = newValue
+    }
+    .onChange(of: searchText, debounce: debounce) { _ in
+      searchResults = results
     }
   }
 }
@@ -104,19 +111,19 @@ private extension PBTypeahead {
     }
   }
 
-  var searchResults: [Option] {
+  var results: [Option] {
     switch selection{
     case .multiple:
-      return searchText.isEmpty ? listOptions : listOptions.filter {
+      return searchText.isEmpty && debounce.numberOfCharacters == 0  ? listOptions : listOptions.filter {
         $0.0.localizedCaseInsensitiveContains(searchText)
       }
     case .single:
-      return searchText.isEmpty ? options : options.filter {
+      return searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
         $0.0.localizedCaseInsensitiveContains(searchText)
       }
     }
   }
-  
+
   func listBackgroundColor(_ index: Int?) -> Color {
     switch selection {
     case .single:
@@ -140,7 +147,7 @@ private extension PBTypeahead {
     }
   }
 
-  var optionsSelected: WrappedInputField.Selection {
+  var optionsSelected: GridInputField.Selection {
     let optionsSelected = selectedOptions.map { $0.0 }
     return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
   }
@@ -241,9 +248,9 @@ private extension PBTypeahead {
 
 public extension PBTypeahead {
   enum Selection {
-    case single, multiple(variant: WrappedInputField.Selection.Variant)
+    case single, multiple(variant: GridInputField.Selection.Variant)
 
-    func selectedOptions(options: [String], placeholder: String) -> WrappedInputField.Selection {
+    func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
       switch self {
       case .single: return .single(options.first)
       case .multiple(let variant): return .multiple(variant, options)
