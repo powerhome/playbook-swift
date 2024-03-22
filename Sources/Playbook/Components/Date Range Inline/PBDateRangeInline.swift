@@ -18,6 +18,7 @@ public struct PBDateRangeInline: View {
   let startVariant: PBDate.Variant
   let endVariant: PBDate.Variant
   let isArrowIconBold: Bool
+
   public init(
     date: Date = Date(),
     size: PBFont = .body,
@@ -37,12 +38,14 @@ public struct PBDateRangeInline: View {
     self.endVariant = endVariant
     self.isArrowIconBold = isArrowIconBold
   }
+
   public var body: some View {
     VStack(spacing: Spacing.medium) {
       dateView
     }
   }
 }
+
 extension PBDateRangeInline {
   var dateView: some View {
     HStack {
@@ -51,10 +54,12 @@ extension PBDateRangeInline {
       PBDate(getDate(dateString: endDate), variant: endVariant, typography: size, iconSize: iconSize)
     }
   }
+
   var dateRangeIcon: some View {
     PBIcon(FontAwesome.arrowRight, size: iconSize)
       .pbFont(size, color: isArrowIconBold ? .text(.default) : .text(.light))
   }
+
   func getDate(dateString: String) -> Date {
     let formatter = DateFormatter()
     formatter.dateFormat = "dd MMM yyyy"

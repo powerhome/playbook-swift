@@ -51,6 +51,15 @@ extension DateTimeCatalog {
         isTimeBold: true,
         zone: .utc,
         showTimeZone: true,
+        timeZoneIdentifier: "2012-08-02T17:49:29Z"
+      )
+      PBDateTime(
+        dateVariant: .short(showIcon: false),
+        timeVariant: .iconTimeZone,
+        isLowercase: true,
+        isTimeBold: true,
+        zone: .utc,
+        showTimeZone: true,
         timeZoneIdentifier: "2012-08-02T17:49:29Z",
         dateFontSize: .title4
       )

@@ -22,6 +22,7 @@ public struct PBDateTime: View {
   let timeZoneIdentifier: String
   let showIcon: Bool
   let dateFontSize: PBFont
+
   public init(
     dateTime: Date = Date(),
     iconSize: PBIcon.IconSize = .x3,
@@ -49,6 +50,7 @@ public struct PBDateTime: View {
     self.showIcon = showIcon
     self.dateFontSize = dateFontSize
   }
+
   public var body: some View {
       dateTimeView
   }
@@ -60,16 +62,17 @@ extension PBDateTime {
       dateView
       timeView
     }
-   
   }
+
   var dateView: some View {
-      PBDate(
-        dateTime,
-        variant: dateVariant,
-        typography: dateFontSize,
-        iconSize: iconSize
-      )
+    PBDate(
+      dateTime,
+      variant: dateVariant,
+      typography: dateFontSize,
+      iconSize: iconSize
+    )
   }
+
   var timeView: some View {
     PBTime(
       showTimeZone: showTimeZone,
