@@ -1,0 +1,6 @@
+ swift:
+  - tooltip_default_swift: Default
+  - tooltip_with_icon_swift: Tooltip With Icon
+  - tooltip_delay_swift: Delay
+  - tooltip_show_swift: Show Tooltip
+  - tooltip_props_swift: ""
