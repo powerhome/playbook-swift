@@ -50,7 +50,7 @@ public struct PBTypeahead<Content: View>: View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text(title).pbFont(.caption)
         .padding(.bottom, Spacing.xxSmall)
-      WrappedInputField(
+      GridInputField(
         placeholder: placeholder,
         searchText: $searchText,
         selection: optionsSelected,
@@ -147,7 +147,7 @@ private extension PBTypeahead {
     }
   }
 
-  var optionsSelected: WrappedInputField.Selection {
+  var optionsSelected: GridInputField.Selection {
     let optionsSelected = selectedOptions.map { $0.0 }
     return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
   }
@@ -248,9 +248,9 @@ private extension PBTypeahead {
 
 public extension PBTypeahead {
   enum Selection {
-    case single, multiple(variant: WrappedInputField.Selection.Variant)
+    case single, multiple(variant: GridInputField.Selection.Variant)
 
-    func selectedOptions(options: [String], placeholder: String) -> WrappedInputField.Selection {
+    func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
       switch self {
       case .single: return .single(options.first)
       case .multiple(let variant): return .multiple(variant, options)

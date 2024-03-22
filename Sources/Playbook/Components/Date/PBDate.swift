@@ -14,20 +14,16 @@ public struct PBDate: View {
   let variant: Variant
   let typography: PBFont
   let iconSize: PBIcon.IconSize
-  let alignment: Alignment
-
   public init(
     _ datestamp: Date,
     variant: Variant = .short,
     typography: PBFont = .caption,
-    iconSize: PBIcon.IconSize = .x1,
-    alignment: Alignment = .leading
+    iconSize: PBIcon.IconSize = .x1
   ) {
     self.datestamp = datestamp
     self.variant = variant
     self.typography = typography
     self.iconSize = iconSize
-    self.alignment = alignment
   }
 
   public var body: some View {
@@ -36,7 +32,6 @@ public struct PBDate: View {
       Text(formattedDate)
         .pbFont(typography)
     }
-    .frame(maxWidth: .infinity, alignment: alignment)
   }
 }
 
@@ -71,25 +66,25 @@ private extension PBDate {
 
 public extension PBDate {
   enum Variant: CaseIterable, Hashable {
-    case short, standard, dayDate, withIcon(isStandard: Bool)
+    case short, standard, dayDate(showYear: Bool), withIcon(isStandard: Bool)
 
     public static var allCases: [PBDate.Variant] = [
       .short,
-      .dayDate,
+      .dayDate(showYear: false),
       .standard,
       .withIcon(isStandard: true),
       .withIcon(isStandard: false)
     ]
 
     public static var showCases: [PBDate.Variant] {
-      return [.short, .standard, .dayDate]
+      return [.short, .standard]
     }
 
     var dateStyle: String {
       switch self {
       case .short: return "MMM d"
       case .standard: return "MMM d, YYYY"
-      case .dayDate: return "EEE • MMM d, YYYY"
+      case .dayDate(let showYear): return showYear ? "EEE • MMM d, YYYY" : "EEE • MMM d"
       case .withIcon(let isStandard): return isStandard ? "MMM d, YYYY" : "EEE • MMM d, YYYY"
       }
     }

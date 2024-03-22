@@ -19,8 +19,10 @@ public enum Components: String, CaseIterable {
   case checkbox
   case collapsible
   case contact
+  case currency = "Currency"
   case date
   case dialog
+  case grid
   case toast = "Fixed Confirmation Toast"
   case highlight = "Highlight"
   case homeAddress = "Home Address Street"
@@ -46,6 +48,8 @@ public enum Components: String, CaseIterable {
   case textInput = "Text Input"
   case time = "Time"
   case timeStamp = "TimeStamp"
+  case timeRangeInline = "Time Range Inline"
+  case timeStacked = "Time Stacked"
   case typeahead
   case tooltip = "Tooltip"
   case toggle
@@ -64,8 +68,10 @@ public enum Components: String, CaseIterable {
     case .checkbox: CheckboxCatalog()
     case .collapsible: CollapsibleCatalog()
     case .contact: ContactCatalog()
+    case .currency: CurrencyCatalog()
     case .date: DateCatalog()
     case .dialog: DialogCatalog()
+    case .grid: GridCatalog()
     case .toast: ToastCatalog()
     case .highlight: HighlightCatalog()
     case .homeAddress: HomeAddressStreetCatalog()
@@ -92,6 +98,8 @@ public enum Components: String, CaseIterable {
     case .tooltip: TooltipCatalog()
     case .time: TimeCatalog()
     case .timeStamp: TimeStampCatalog()
+    case .timeRangeInline: TimeRangeInlineCatalog()
+    case .timeStacked: TimeStackedCatalog()
     case .typeahead: TypeaheadCatalog()
     case .toggle: ToggleCatalog()
     case .user: UserCatalog()
