@@ -9,6 +9,7 @@
 
 import SwiftUI
 import Playbook
+import playbook_icons
 #if os(iOS)
   import UIKit
 #endif
