@@ -90,7 +90,6 @@ public extension PBLabelValue {
   func formatDate(_ date: Date) -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = "MM/dd"
-
     return "· " + formatter.string(from: date)
   }
 }
