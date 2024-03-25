@@ -159,7 +159,7 @@ public extension PBTime {
 
   func getTime(timeZoneIdentifier: String) -> some View {
     let formatter = DateFormatter()
-    if let timeZone = TimeZone(identifier: timeZoneIdentifier) {
+    if let timeZone = TimeZone(abbreviation: timeZoneIdentifier) {
       formatter.timeZone = timeZone
       formatter.dateFormat = "h:mma"
       formatter.amSymbol = isLowercase == true ? "a" : "A"
