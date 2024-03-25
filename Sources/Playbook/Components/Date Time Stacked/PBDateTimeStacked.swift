@@ -64,7 +64,7 @@ public struct PBDateTimeStacked: View {
 }
 extension PBDateTimeStacked {
   var dateTimeView: some View {
-    HStack {
+    HStack(spacing: Spacing.small) {
       dateView
       dividerView
       timeView
@@ -72,8 +72,11 @@ extension PBDateTimeStacked {
   }
   var dateView: some View {
     VStack(spacing: Spacing.xxSmall) {
+      if isYearDisplayed {
+        Spacer()
+      }
       PBDateStacked(
-        alignment: dateAlignment, 
+        alignment: dateAlignment,
         date: dateTime,
         variant: dateVariant,
         dateSize: dateSize,
@@ -81,6 +84,9 @@ extension PBDateTimeStacked {
         isYearBold: isYearBold,
         isMonthBold: isMonthBold
       )
+      if isYearDisplayed {
+        Spacer()
+      }
     }
   }
   var dividerView: some View {
@@ -88,7 +94,10 @@ extension PBDateTimeStacked {
       .frame(height: isYearDisplayed ? 57.56 : 41.19)
   }
   var timeView: some View {
-    VStack {
+    VStack(spacing: Spacing.xxSmall) {
+      if isYearDisplayed {
+        Spacer()
+      }
       PBTimeStacked(
         alignment: timeAlignment,
         date: timeDate,
@@ -98,11 +107,13 @@ extension PBDateTimeStacked {
         timeStyle: timeStyle,
         timeZoneStyle: timeZoneStyle
       )
-      Spacer()
+      if isYearDisplayed {
+        Spacer(minLength: 30)
+      }
     }
   }
 }
 #Preview {
   registerFonts()
-   return DateTimeStackedCatalog()
+  return DateTimeStackedCatalog()
 }

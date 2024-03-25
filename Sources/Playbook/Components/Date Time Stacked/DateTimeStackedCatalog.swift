@@ -26,7 +26,7 @@ public struct DateTimeStackedCatalog: View {
 
 extension DateTimeStackedCatalog {
   var defaultView: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.medium) {
       PBDateTimeStacked(
         timeZoneIdentifier: "EDT",
         isLowercase: true,
