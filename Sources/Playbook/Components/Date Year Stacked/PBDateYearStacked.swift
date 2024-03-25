@@ -23,7 +23,7 @@ public struct PBDateYearStacked: View {
     self.alignment = alignment
     self.variant = variant
   }
-  
+
   public var body: some View {
     fullDateView
   }
@@ -43,6 +43,7 @@ extension PBDateYearStacked {
       Text(date.formatted(.dateTime.month()))
     }
     .pbFont(.title4, variant: .bold, color: .text(.default))
+   
   }
 
   var yearView: some View {
