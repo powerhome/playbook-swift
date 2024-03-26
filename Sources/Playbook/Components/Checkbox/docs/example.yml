@@ -1,0 +1,6 @@
+swift:
+ - checkbox_default_swift: Default
+ - checkbox_error_swift: Default w/ Error
+ - checkbox_indeterminate_swift: Indeterminate Checkbox
+ - checkbox_props_swift: ""
+    
