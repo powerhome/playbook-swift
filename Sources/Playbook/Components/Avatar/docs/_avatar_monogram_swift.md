@@ -1,4 +1,4 @@
-<img width="1326" alt="Avatar (Monogram)" src="https://github.com/powerhome/playbook-swift/assets/54749071/b1dec4db-3f49-4671-8a96-895b1375f8e3">
+![avatar-monogram](https://github.com/powerhome/playbook-swift/assets/54749071/77813f19-0bfb-416d-8183-d57bff5b1dd4)
 
 ```swift
 VStack(alignment: .leading, spacing: Spacing.small) {
