@@ -14,7 +14,7 @@ public struct Position<T: View>: ViewModifier {
   var left: CGFloat
   var right: CGFloat
   var bottom: CGFloat
-  
+  var spacing: CGFloat?
   var view: () -> T
   
   public init(
@@ -22,26 +22,25 @@ public struct Position<T: View>: ViewModifier {
     left: CGFloat = 0,
     right: CGFloat = 0,
     bottom: CGFloat = 0,
+    spacing: CGFloat? = 0,
     view: @escaping () -> T
   ){
     self.top = top
     self.left = left
     self.right = right
     self.bottom = bottom
+    self.spacing = spacing
     self.view = view
   }
   
   public func body(content: Content) -> some View {
-   
-      content
-        .overlay {
-          GeometryReader { geo in
-          view()
-            .offset(x: left - right, y: top - bottom)
-        }
-    }
-  }
-}
+    content
+      .overlay {
+        view()
+          .position(x: left - right, y: top - bottom)
+      }
+   }
+ }
 
 extension View {
   func position<T: View>(
@@ -49,17 +48,16 @@ extension View {
     left: CGFloat = 0,
     bottom: CGFloat = 0,
     right: CGFloat = 0,
-    geometry: GeometryProxy? = .none,
     view: @escaping (() -> T)
   ) -> some View{
     self.modifier(
-        Position(
-          top: top,
-          left: left,
-          right: right,
-          bottom: bottom,
-          view: view
-        )
+      Position(
+        top: top,
+        left: left,
+        right: right,
+        bottom: bottom,
+        view: view
+      )
     )
   }
 }

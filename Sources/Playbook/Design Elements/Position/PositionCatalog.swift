@@ -14,6 +14,7 @@ public struct PositionCatalog: View {
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
+      
         PBDoc(title: "Avatar") {
           avatarStatusView
         }
@@ -39,16 +40,16 @@ extension PositionCatalog {
   var avatarStatusView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBAvatar(image: Image("andrew", bundle: .module), size: .large)
-        .position(top: 65, left: 5, bottom: 0, right: 0) {
+        .position(top: 75, left: 40) {
           PBBadge(text: "On Roadtrip", rounded: true, variant: .neutral)
             .background(Color.card)
         }
       PBAvatar(image: Image("Anna", bundle: .module), size: .large)
-        .position(top: 0, left: 5, bottom: 0, right: 0) {
+        .position(top: 10, left: 10) {
           PBBadge(text: "5", rounded: true, variant: .chat)
         }
       PBAvatar(image: Image("Anna", bundle: .module), size: .large)
-        .position(top: 65, left: 10, bottom: 0, right: 0) {
+        .position(top: 75, left: 40) {
           PBBadge(text: "On Roadtrip", rounded: true, variant: .neutral)
             .background(Color.card)
         }
@@ -57,27 +58,27 @@ extension PositionCatalog {
   var imageBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBImage(image: nil, placeholder: Image("Forest", bundle: .module), size: .xSmall, rounded: .sharp)
-        .position(top: 25, left:50, bottom: 30, right: 0) {
+        .position(top: 25, left: 55, bottom: 25) {
           PBBadge(text: "3", rounded: true, variant: .chat)
         }
     }
   }
   var cardWithBadgeView: some View {
-    VStack(spacing: Spacing.xSmall) {
+    VStack(spacing: Spacing.small) {
       PBCard{
-        Text("A bunch of awesome content goes here. Yeah! It sure does! Okay!")
+        Text("A bunch of awesome content goes here. ")
       }
-      .position(top: 102, left: 0, bottom: 0, right: 5) {
+      .position(top: 90) {
         PBBadge(text: "+1", variant: .primary)
       }
       PBCard {
-        Text("A bunch of awesome content goes here. Yeah! It sure does! Okay!")
+        Text("A bunch of awesome content goes here. ")
           
       }
-      .position(top: 95, left: 0, bottom: 0, right: 15) {
-        PBIconCircle(FontAwesome.rocket, size: .small, color: .orange.opacity(1.2))
+      .position(top: 90) {
+        PBIconCircle(FontAwesome.rocket, size: .small, color: .orange.opacity(1.3))
       }
-    }
+    }.padding(.all, 10)
   }
   var navView: some View {
     PBNav(
@@ -86,7 +87,7 @@ extension PositionCatalog {
       orientation: .horizontal
     ) {
       PBNavItem("First")
-        .position(top: 6, left: 53, bottom: 0, right: 0) {
+        .position(top: 12, left: 60) {
           PBBadge(text: "3", rounded: true, variant: .chat)
         }
       PBNavItem("Second")
