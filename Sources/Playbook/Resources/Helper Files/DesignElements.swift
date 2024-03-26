@@ -10,7 +10,7 @@
 import SwiftUI
 
 public enum DesignElements: String, CaseIterable {
-  case borderRadius, color, iconography, spacing, shadows, typography
+  case borderRadius, color, iconography, position, spacing, shadows, typography
   public static let title: String = "Design Elements"
 
   @ViewBuilder
@@ -19,6 +19,7 @@ public enum DesignElements: String, CaseIterable {
     case .borderRadius: BorderRadiusCatalog()
     case .color: ColorCatalog()
     case .iconography: Iconography()
+    case .position: PositionCatalog()
     case .spacing: SpacingCatalog()
     case .shadows: PBShadow_Previews.previews
     case .typography: TypographyCatalog()
@@ -33,6 +34,7 @@ public enum DesignElements: String, CaseIterable {
     case .spacing: return .spaceShuttle
     case .shadows: return .cloud
     case .typography: return .textHeight
+    case .position: return .crosshairs
     }
   }
 }

@@ -30,7 +30,7 @@ public struct PositionCatalog: View {
       .padding(Spacing.large)
     }
     .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Global Position")
+    .navigationTitle("Global Positioning")
 
   }
 }
@@ -62,17 +62,17 @@ extension PositionCatalog {
   }
   var cardWithBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
-      PBCard(alignment: .center, backgroundColor: .card, border: true, borderRadius: 0, style: .default, width: 350) {
+      PBCard {
         Text("A bunch of awesome content goes here. Yeah! It sure does! Okay!")
-      }.position(top: 55, left: 0, bottom: 0, right: 145) {
+      }.position(top: 60, left: 0, bottom: 0, right: 165) {
         PBBadge(text: "+1", variant: .primary)
       }
-      PBCard(alignment: .center, backgroundColor: .card, border: true, borderRadius: 0, style: .default, width: 350) {
+      PBCard {
         Text("A bunch of awesome content goes here. Yeah! It sure does! Okay!")
-      }.position(top: 55, left: 0, bottom: 0, right: 145) {
+          
+      }.position(top: 60, left: 0, bottom: 0, right: 165) {
         PBIconCircle(FontAwesome.rocket, size: .small, color: .orange.opacity(1.2))
       }
-      Spacer(minLength: 0)
     }
   }
   var navView: some View {
@@ -82,7 +82,7 @@ extension PositionCatalog {
       orientation: .horizontal
     ) {
       PBNavItem("First")
-        .position(top: 0, left: 20, bottom: 10, right: 0) {
+        .position(top: 0, left: 25, bottom: 10, right: 0) {
           PBBadge(text: "3", rounded: true, variant: .chat)
         }
       PBNavItem("Second")
