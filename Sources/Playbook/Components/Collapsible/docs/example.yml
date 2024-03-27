@@ -1,0 +1,5 @@
+ swift:
+  - collapsible_default_swift: Default
+  - collapsible_sizes_swift: Sizes
+  - collapsible_colors_swift: Colors
+  - collapsible_props_table: ""
