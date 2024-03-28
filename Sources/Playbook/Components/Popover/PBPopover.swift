@@ -211,25 +211,24 @@ struct PopoverModifier<T: View>: ViewModifier {
   }
   
   func body(content: Content) -> some View {
-    content
-      .frameReader { frame in
-        contentFrame = frame
-      }
-      .onChange(of: isPresented) { _, newValue in
-        if newValue, let frame = contentFrame {
-          popoverManager.view = AnyView(
-            PopoverView(popover: popoverView())
-              .sizeReader { size in
-                let popoverFrame = position.calculateFrame(from: frame, size: size)
-                popoverManager.position = popoverFrame.point(at: .center)
-              }
-          )
-          popoverManager.isPresented = true
-        } else {
-          popoverManager.isPresented = false
+      content
+      .background(GeometryReader { geo in
+        Color.clear.onAppear { contentFrame = geo.frame(in: .scrollView) }})
+        .onChange(of: isPresented) { _, newValue in
+          if newValue, let frame = contentFrame {
+            popoverManager.view = AnyView(
+              PopoverView(popover: popoverView())
+                .sizeReader { size in
+                  let popoverFrame = position.calculateFrame(from: frame, size: size)
+                  popoverManager.position = popoverFrame.point(at: .center)
+                }
+            )
+            popoverManager.isPresented = true
+          } else {
+            popoverManager.isPresented = false
+          }
         }
-      }
-  }
+    }
 }
 
 #Preview {

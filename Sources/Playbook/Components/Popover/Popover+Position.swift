@@ -169,7 +169,7 @@ public extension View {
   func frameReader(in coordinateSpace: CoordinateSpace = .global, rect: @escaping (CGRect) -> Void) -> some View {
     return background(
       GeometryReader { geometry in
-        let frame = geometry.frame(in: .scrollView)
+        let frame = geometry.frame(in: coordinateSpace)
         Color.clear
           .onChange(of: frame) { _, newValue in
             rect(newValue)
