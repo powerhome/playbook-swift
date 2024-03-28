@@ -11,54 +11,46 @@ import SwiftUI
 
 public struct PopoverView<Content: View>: View {
   let popover: Content
-  let position: Position
-  let parentFrame: CGRect
-  let clickToClose: Close
-  let cardPadding: CGFloat
-  let backgroundOpacity: Double
-  let dismissAction: (() -> Void)
+//  let position: Position
+//  let parentFrame: CGRect
+//  let clickToClose: Close
+  let cardPadding: CGFloat = Spacing.small
+  let backgroundOpacity: Double = 0
+//  let dismissAction: (() -> Void)
 
-  @State private var yOffset: CGFloat = .zero
-  @State private var xOffset: CGFloat = .zero
+//  @State private var yOffset: CGFloat = .zero
+//  @State private var xOffset: CGFloat = .zero
 
-  public init(
-    position: Position,
-    clickToClose: Close,
-    cardPadding: CGFloat,
-    backgroundOpacity: Double,
-    parentFrame: CGRect,
-    dismissAction: @escaping (() -> Void),
-    @ViewBuilder popover: () -> Content
-  ) {
-    self.position = position
-    self.clickToClose = clickToClose
-    self.cardPadding = cardPadding
-    self.backgroundOpacity = backgroundOpacity
-    self.parentFrame = parentFrame
-    self.dismissAction = dismissAction
-    self.popover = popover()
-  }
+//  public init(
+//    position: Position,
+//    clickToClose: Close,
+//    cardPadding: CGFloat,
+//    backgroundOpacity: Double,
+//    parentFrame: CGRect,
+//    dismissAction: @escaping (() -> Void),
+//    @ViewBuilder popover: () -> Content
+//  ) {
+//    self.position = position
+//    self.clickToClose = clickToClose
+//    self.cardPadding = cardPadding
+//    self.backgroundOpacity = backgroundOpacity
+//    self.parentFrame = parentFrame
+//    self.dismissAction = dismissAction
+//    self.popover = popover()
+//  }
 
   public var body: some View {
-    let positionX = parentFrame.midX + xOffset
-    let positionY = parentFrame.midY + yOffset
-
-    ZStack {
       popoverView
-        .position(
-          x: positionX,
-          y: positionY
-        )
-    }
     .background(Color.black.opacity(backgroundOpacity))
-    .onTapGesture {
-      switch clickToClose {
-      case .outside, .anywhere:
-        dismissAction()
-      case .inside:
-        break
-      }
-    }
+    
+//    .onTapGesture {
+//      switch clickToClose {
+//      case .outside, .anywhere:
+//        dismissAction()
+//      case .inside:
+//        break
+//      }
+//    }
   }
 
   private var popoverView: some View {
@@ -70,198 +62,198 @@ public struct PopoverView<Content: View>: View {
     ) {
       popover
     }
-    .onTapGesture {
-      switch clickToClose {
-      case .inside, .anywhere:
-        dismissAction()
-      case .outside:
-        break
-      }
-    }
-    .background(GeometryReader { geo in
-      Color.clear.onAppear {
-        let popoverFrame = geo.frame(in: .global)
-        let offset = position.offset(
-          labelFrame: parentFrame.size,
-          popoverFrame: popoverFrame
-        )
-        yOffset = parentFrame.midY - popoverFrame.midY + offset.y
-        xOffset = offset.x
-      }
-    })
+//    .onTapGesture {
+//      switch clickToClose {
+//      case .inside, .anywhere:
+//        dismissAction()
+//      case .outside:
+//        break
+//      }
+//    }
     .preferredColorScheme(.light)
   }
 }
 
-public struct PBPopover<T: View>: ViewModifier {
-  @Binding var isPresented: Bool
-  @Binding var view: AnyView?
-  let position: PopoverView<T>.Position
-  let clickToClose: PopoverView<T>.Close
-  let cardPadding: CGFloat
-  let backgroundOpacity: Double
-  let dismissAction: (() -> Void)?
-  @ViewBuilder var contentView: () -> T
+//public struct PBPopover<T: View>: ViewModifier {
+//  @Binding var isPresented: Bool
+//  @State private var position: CGPoint = .zero
+//  let clickToClose: PopoverView<T>.Close
+//  let cardPadding: CGFloat
+//  let backgroundOpacity: Double
+//  let popoverManager: PopoverManager
+//  let dismissAction: (() -> Void)?
+//  @ViewBuilder var popoverView: () -> T
+//
+//  init(
+//    isPresented: Binding<Bool>,
+//    position: PopoverView<T>.Position,
+//    clickToClose: PopoverView<T>.Close,
+//    cardPadding: CGFloat,
+//    backgroundOpacity: Double,
+//    popoverManager: PopoverManager,
+//    dismissAction: (() -> Void)?,
+//    popoverView: @escaping () -> T
+//  ) {
+//    self._isPresented = isPresented
+////    self.position = position
+//    self.clickToClose = clickToClose
+//    self.cardPadding = cardPadding
+//    self.backgroundOpacity = backgroundOpacity
+//    self.popoverManager = popoverManager
+//    self.dismissAction = dismissAction
+//    self.popoverView = popoverView
+//  }
+//
+//  public func body(content: Content) -> some View {
+//    content.background(GeometryReader { geometry in
+//      let frame = geometry.frame(in: .global)
+//      Color.clear
+//        .onChange(of: isPresented) { newValue in
+//          print("is presented value \(newValue)")
+//          if newValue {
+//            position = CGPoint(x: frame.midX, y: frame.midY - 100)
+//            popoverManager.view = AnyView(
+////              PopoverView(
+////                position: .bottom(40),
+////                clickToClose: clickToClose,
+////                cardPadding: cardPadding,
+////                backgroundOpacity: backgroundOpacity,
+////                parentFrame: frame,
+////                dismissAction: dismiss
+////              ) {
+//                popoverView()
+////              }
+//            )
+//            popoverManager.isPresented = true
+//          } else {
+//            popoverManager.isPresented = false
+//          }
+//        }
+//    })
+//  }
+//
+//  private var dismiss: () -> Void {
+//    if let dismiss = dismissAction {
+//      return dismiss
+//    } else {
+//      return {
+//        isPresented = false
+////        view = nil
+//      }
+//    }
+//  }
+//}
 
-  init(
-    isPresented: Binding<Bool>,
-    view: Binding<AnyView?>,
-    position: PopoverView<T>.Position,
-    clickToClose: PopoverView<T>.Close,
-    cardPadding: CGFloat,
-    backgroundOpacity: Double,
-    dismissAction: (() -> Void)?,
-    contentView: @escaping () -> T
-  ) {
-    self._isPresented = isPresented
-    self._view = view
-    self.position = position
-    self.clickToClose = clickToClose
-    self.cardPadding = cardPadding
-    self.backgroundOpacity = backgroundOpacity
-    self.dismissAction = dismissAction
-    self.contentView = contentView
-  }
+//public extension View {
+//  func pbPopover<T: View>(
+//    isPresented: Binding<Bool>,
+//    position: PopoverView<T>.Position = .bottom(),
+//    clickToClose: PopoverView<T>.Close = .anywhere,
+//    cardPadding: CGFloat = Spacing.small,
+//    backgroundOpacity: Double = 0.001,
+//    popoverManager: PopoverManager,
+//    dismissAction: (() -> Void)? = nil,
+//    contentView: @escaping () -> T
+//  ) -> some View {
+//    modifier(
+//      PBPopover(
+//        isPresented: isPresented,
+//        position: position,
+//        clickToClose: clickToClose,
+//        cardPadding: cardPadding,
+//        backgroundOpacity: backgroundOpacity,
+//        popoverManager: popoverManager,
+//        dismissAction: dismissAction,
+//        popoverView: contentView
+//      )
+//    )
+//  }
+//}
+//
+//public extension PopoverView {
+//  enum Close {
+//    case inside, outside, anywhere
+//  }
+//}
 
-  public func body(content: Content) -> some View {
-    if isPresented {
-      content
-        .background(GeometryReader { proxy  in
-          let frame = proxy.frame(in: .global)
-          Color.clear.onAppear {
-            view = AnyView(
-              PopoverView(
-                position: position,
-                clickToClose: clickToClose,
-                cardPadding: cardPadding,
-                backgroundOpacity: backgroundOpacity,
-                parentFrame: frame,
-                dismissAction: dismiss
-              ) {
-                contentView()
-              }
-            )
-          }
-        })
-    } else {
-      content.onAppear {
-        view = nil
-      }
-    }
-  }
-
-  private var dismiss: () -> Void {
-    if let dismiss = dismissAction {
-      return dismiss
-    } else {
-      return {
-        isPresented = false
-        view = nil
-      }
-    }
-  }
-}
-
-public extension View {
+extension View {
   func pbPopover<T: View>(
     isPresented: Binding<Bool>,
-    _ view: Binding<AnyView?>,
-    position: PopoverView<T>.Position = .bottom(),
-    clickToClose: PopoverView<T>.Close = .anywhere,
-    cardPadding: CGFloat = Spacing.small,
-    backgroundOpacity: Double = 0.001,
-    dismissAction: (() -> Void)? = nil,
-    contentView: @escaping () -> T
+    popoverManager: PopoverManager,
+    popoverView: @escaping () -> T
   ) -> some View {
     modifier(
-      PBPopover(
-        isPresented: isPresented,
-        view: view,
-        position: position,
-        clickToClose: clickToClose,
-        cardPadding: cardPadding,
-        backgroundOpacity: backgroundOpacity, 
-        dismissAction: dismissAction,
-        contentView: contentView
-      )
+      PopoverModifier(
+      isPresented: isPresented,
+      popoverManager: popoverManager,
+      popoverView: popoverView)
     )
   }
 }
 
-public extension PopoverView {
-  enum Close {
-    case inside, outside, anywhere
+struct PopoverModifier<T: View>: ViewModifier {
+  @Binding var isPresented: Bool
+  @State var contentFrame: CGRect?
+  private var position: Position
+  var popoverManager: PopoverManager
+  var popoverView: () -> T
+  
+  public init(
+    isPresented: Binding<Bool>,
+    position: Position = .absolute(originAnchor: .bottom, popoverAnchor: .top),
+    popoverManager: PopoverManager,
+    popoverView: @escaping (() -> T)
+  ) {
+    self._isPresented = isPresented
+    self.position = position
+    self.popoverManager = popoverManager
+    self.popoverView = popoverView
   }
-
-  enum Position {
-    case top(CGFloat = 0), bottom(CGFloat = 0), left, right, center(CGFloat = 0)
-
-    func offset(labelFrame: CGSize, popoverFrame: CGRect) -> CGPoint {
-      let labelHeight = labelFrame.height
-      let labelWidth = labelFrame.width
-      let popHeight = popoverFrame.height
-      let popWidth = popoverFrame.width
-
-      switch self {
-      case .top(let offset):
-        return CGPoint(
-          x: offsetX(popoverFrame) + offset,
-          y: -(labelHeight/2 + popHeight/2) - Spacing.xSmall
-        )
-      case .bottom(let offset):
-        return CGPoint(
-          x: offsetX(popoverFrame) + offset,
-          y: (labelHeight + popHeight)/2 + Spacing.xSmall
-        )
-      case .right:
-        let offset = (labelWidth + popWidth)/2 + Spacing.xSmall
-        return CGPoint(
-          x: offsetX(popoverFrame, offset: offset),
-          y: 0
-        )
-      case .left:
-        let offset = -(labelWidth + popWidth)/2 - Spacing.xSmall
-        return CGPoint(
-          x: offsetX(popoverFrame, offset: offset),
-          y: 0
-        )
-      case .center(let offset):
-        return CGPoint(
-          x: offsetX(popoverFrame) + offset,
-          y: 0
-        )
+  
+  func body(content: Content) -> some View {
+    content
+      .frameReader { frame in
+        contentFrame = frame
       }
-    }
-
-    private func offsetX(_ frame: CGRect, offset: CGFloat = 0) -> CGFloat {
-      let space: CGFloat = Spacing.xSmall
-      let viewWidth = Screen.deviceWidth
-      let frameMaxX = frame.maxX
-      let frameMinX = frame.minX
-
-      switch self {
-      case .bottom, .top, .center:
-        if viewWidth.isLess(than: frameMaxX) && !frameMinX.isLess(than: 0) {
-          return -(frameMaxX - viewWidth) - space
-        } else if frameMinX.isLessThanOrEqualTo(0) {
-          return -frameMinX + space
+      .onChange(of: isPresented) { _, newValue in
+        if newValue, let frame = contentFrame {
+          popoverManager.view = AnyView(
+            PopoverView(popover: popoverView())
+              .sizeReader { size in
+                let popoverFrame = position.calculateFrame(from: frame, size: size)
+                popoverManager.position = popoverFrame.point(at: .center)
+              }
+          )
+          popoverManager.isPresented = true
         } else {
-          return 0
-        }
-      case .left, .right:
-        if viewWidth.isLess(than: frameMaxX + offset) {
-          return -(frameMaxX - viewWidth) - space
-        } else if (frameMinX + offset).isLess(than: 0) {
-          return -frameMinX + space
-        } else {
-          return offset
+          popoverManager.isPresented = false
         }
       }
-    }
   }
 }
 
 #Preview {
   registerFonts()
   return PopoverCatalog()
+}
+
+
+struct FramePreferenceKey: PreferenceKey {
+    static var defaultValue: CGRect = .zero
+
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+        value = nextValue()
+    }
+}
+
+struct FrameModifier: ViewModifier {
+    private var sizeView: some View {
+        GeometryReader { geometry in
+          Color.clear.preference(key: FramePreferenceKey.self, value: geometry.frame(in: .global))
+        }
+    }
+
+    func body(content: Content) -> some View {
+        content.background(sizeView)
+    }
 }

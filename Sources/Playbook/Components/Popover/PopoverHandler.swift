@@ -10,15 +10,29 @@
 import SwiftUI
 
 struct PopoverHandler: ViewModifier {
-  var popover: AnyView?
+  var popoverManager: PopoverManager
 
   func body(content: Content) -> some View {
-    content.overlay(VStack { popover })
+    content.overlay(
+      Group {
+        if popoverManager.isPresented {
+          popoverManager.view
+            .position(popoverManager.position ?? .zero)
+        }
+      }
+    )
   }
 }
 
 public extension View {
-  func withPopoverHandling(_ popover: AnyView?) -> some View {
-    self.modifier(PopoverHandler(popover: popover))
+  func withPopoverHandling(_ manager: PopoverManager) -> some View {
+    self.modifier(PopoverHandler(popoverManager: manager))
   }
+}
+
+@Observable
+public final class PopoverManager {
+  var isPresented: Bool = false
+  var position: CGPoint?
+  var view: AnyView?
 }
