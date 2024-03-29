@@ -44,7 +44,7 @@ public struct Popover<T: View>: ViewModifier {
             view
               .frame(width: width)
               .sizeReader { size in
-                let popoverFrame = position.calculateFrame(from: frameYOffset(frame), size: size)
+                let popoverFrame = position.calculateFrame(from: offset(frame), size: size)
                 popoverManager.position = popoverFrame.point(at: .center())
               }
               
@@ -56,12 +56,38 @@ public struct Popover<T: View>: ViewModifier {
       }
   }
   
-  private func frameYOffset(_ frame: CGRect) -> CGRect {
+  private func offset(_ frame: CGRect) -> CGRect {
     switch variant {
     case .default, .custom:
-      return CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y/* + Spacing.small*/), size: frame.size)
+      return CGRect(
+        origin: CGPoint(
+          x: frame.origin.x + space(Spacing.small).x,
+          y: frame.origin.y + space(Spacing.small).y
+        ),
+        size: frame.size
+      )
     case .dropdown:
-      return CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y/* + Spacing.xxSmall*/), size: frame.size)
+      return CGRect(
+        origin: CGPoint(
+          x: frame.origin.x + space(Spacing.xSmall).x,
+          y: frame.origin.y + space(Spacing.xSmall).y
+        ),
+        size: frame.size)
+    }
+  }
+  
+  private func space(_ space: CGFloat) -> CGPoint {
+    switch position {
+    case .top(let xOffset, let yOffset):
+      return CGPoint(x: xOffset, y:  yOffset - space)
+    case .trailing(let xOffset, let yOffset):
+      return CGPoint(x: xOffset + space, y:  yOffset)
+    case .bottom(let xOffset, let yOffset):
+      return CGPoint(x: xOffset, y:  yOffset + space)
+    case .leading(let xOffset, let yOffset):
+      return CGPoint(x: xOffset, y:  yOffset - space)
+    case .center(let xOffset, let yOffset):
+      return CGPoint(x: xOffset, y:  yOffset)
     }
   }
   
