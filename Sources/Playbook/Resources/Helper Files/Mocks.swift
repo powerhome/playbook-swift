@@ -32,6 +32,11 @@ enum Mocks {
     ("Red", nil),
     ("Green", nil),
     ("Blue", nil),
-    ("Pink", nil)
+    ("Pink", nil),
+    ("Orange1", nil),
+    ("Red1", nil),
+    ("Green1", nil),
+    ("Blue1", nil),
+    ("Pink1", nil)
   ]
 }

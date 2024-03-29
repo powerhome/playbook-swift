@@ -9,123 +9,6 @@
 
 import SwiftUI
 
-//public struct PBPopover<T: View>: ViewModifier {
-//  @Binding var isPresented: Bool
-//  @State private var position: CGPoint = .zero
-//  let clickToClose: PopoverView<T>.Close
-//  let cardPadding: CGFloat
-//  let backgroundOpacity: Double
-//  let popoverManager: PopoverManager
-//  let dismissAction: (() -> Void)?
-//  @ViewBuilder var popoverView: () -> T
-//
-//  init(
-//    isPresented: Binding<Bool>,
-//    position: PopoverView<T>.Position,
-//    clickToClose: PopoverView<T>.Close,
-//    cardPadding: CGFloat,
-//    backgroundOpacity: Double,
-//    popoverManager: PopoverManager,
-//    dismissAction: (() -> Void)?,
-//    popoverView: @escaping () -> T
-//  ) {
-//    self._isPresented = isPresented
-////    self.position = position
-//    self.clickToClose = clickToClose
-//    self.cardPadding = cardPadding
-//    self.backgroundOpacity = backgroundOpacity
-//    self.popoverManager = popoverManager
-//    self.dismissAction = dismissAction
-//    self.popoverView = popoverView
-//  }
-//
-//  public func body(content: Content) -> some View {
-//    content.background(GeometryReader { geometry in
-//      let frame = geometry.frame(in: .global)
-//      Color.clear
-//        .onChange(of: isPresented) { newValue in
-//          print("is presented value \(newValue)")
-//          if newValue {
-//            position = CGPoint(x: frame.midX, y: frame.midY - 100)
-//            popoverManager.view = AnyView(
-////              PopoverView(
-////                position: .bottom(40),
-////                clickToClose: clickToClose,
-////                cardPadding: cardPadding,
-////                backgroundOpacity: backgroundOpacity,
-////                parentFrame: frame,
-////                dismissAction: dismiss
-////              ) {
-//                popoverView()
-////              }
-//            )
-//            popoverManager.isPresented = true
-//          } else {
-//            popoverManager.isPresented = false
-//          }
-//        }
-//    })
-//  }
-//
-//  private var dismiss: () -> Void {
-//    if let dismiss = dismissAction {
-//      return dismiss
-//    } else {
-//      return {
-//        isPresented = false
-////        view = nil
-//      }
-//    }
-//  }
-//}
-
-//public extension View {
-//  func pbPopover<T: View>(
-//    isPresented: Binding<Bool>,
-//    position: PopoverView<T>.Position = .bottom(),
-//    clickToClose: PopoverView<T>.Close = .anywhere,
-//    cardPadding: CGFloat = Spacing.small,
-//    backgroundOpacity: Double = 0.001,
-//    popoverManager: PopoverManager,
-//    dismissAction: (() -> Void)? = nil,
-//    contentView: @escaping () -> T
-//  ) -> some View {
-//    modifier(
-//      PBPopover(
-//        isPresented: isPresented,
-//        position: position,
-//        clickToClose: clickToClose,
-//        cardPadding: cardPadding,
-//        backgroundOpacity: backgroundOpacity,
-//        popoverManager: popoverManager,
-//        dismissAction: dismissAction,
-//        popoverView: contentView
-//      )
-//    )
-//  }
-//}
-//
-
-public extension View {
-  func pbPopover<T: View>(
-    isPresented: Binding<Bool>,
-    variant: Popover<T>.Variant = .default,
-    popoverManager: PopoverManager,
-    clickToClose: Popover<T>.Close = .anywhere,
-    popoverView: @escaping () -> T
-  ) -> some View {
-    modifier(
-      Popover(
-      isPresented: isPresented,
-      variant: variant,
-      popoverManager: popoverManager,
-      clickToClose: clickToClose,
-      popoverView: popoverView
-      )
-    )
-  }
-}
-
 public struct Popover<T: View>: ViewModifier {
   @Binding var isPresented: Bool
   private let position: Position
@@ -134,10 +17,10 @@ public struct Popover<T: View>: ViewModifier {
   private let clickToClose: Popover<T>.Close
   private var popoverView: () -> T
   @State private var contentFrame: CGRect?
-
+  
   public init(
     isPresented: Binding<Bool>,
-    position: Position = .absolute(originAnchor: .bottom, popoverAnchor: .top),
+    position: Position,
     variant: Variant,
     popoverManager: PopoverManager,
     clickToClose: Close,
@@ -155,22 +38,32 @@ public struct Popover<T: View>: ViewModifier {
     content
       .background(GeometryReader { geo in
         Color.clear.onAppear { contentFrame = geo.frame(in: .scrollView) }})
-        .onChange(of: isPresented) { _, newValue in
-          if newValue, let frame = contentFrame {
-            popoverManager.view = AnyView(
-              view
-                .frame(width: width)
-                .sizeReader { size in
-                  let popoverFrame = position.calculateFrame(from: frame, size: size)
-                  popoverManager.position = popoverFrame.point(at: .center)
-                }
-            )
-            popoverManager.isPresented = true
-          } else {
-            popoverManager.isPresented = false
-          }
+      .onChange(of: isPresented) { _, newValue in
+        if newValue, let frame = contentFrame {
+          popoverManager.view = AnyView(
+            view
+              .frame(width: width)
+              .sizeReader { size in
+                let popoverFrame = position.calculateFrame(from: frameYOffset(frame), size: size)
+                popoverManager.position = popoverFrame.point(at: .center())
+              }
+              
+          )
+          popoverManager.isPresented = true
+        } else {
+          popoverManager.isPresented = false
         }
+      }
+  }
+  
+  private func frameYOffset(_ frame: CGRect) -> CGRect {
+    switch variant {
+    case .default, .custom:
+      return CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y/* + Spacing.small*/), size: frame.size)
+    case .dropdown:
+      return CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y/* + Spacing.xxSmall*/), size: frame.size)
     }
+  }
   
   private var width: CGFloat? {
     switch variant {
@@ -216,6 +109,7 @@ public struct Popover<T: View>: ViewModifier {
     case .inside:
       break
     case .outside, .anywhere:
+        isPresented = false
       break
     }
   }
@@ -228,6 +122,28 @@ public extension Popover {
   
   enum Close {
     case inside, outside((() -> Void)?), anywhere
+  }
+}
+
+public extension View {
+  func pbPopover<T: View>(
+    isPresented: Binding<Bool>,
+    position: Position = .bottom(),
+    variant: Popover<T>.Variant = .default,
+    popoverManager: PopoverManager,
+    clickToClose: Popover<T>.Close = .anywhere,
+    popoverView: @escaping () -> T
+  ) -> some View {
+    modifier(
+      Popover(
+        isPresented: isPresented,
+        position: position,
+        variant: variant,
+        popoverManager: popoverManager,
+        clickToClose: clickToClose,
+        popoverView: popoverView
+      )
+    )
   }
 }
 

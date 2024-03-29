@@ -59,7 +59,10 @@ public struct PopoverCatalog: View {
       ) {
         isPresented.toggle()
       }
-      .pbPopover(isPresented: $isPresented, popoverManager: popoverManager) {
+      .pbPopover(
+        isPresented: $isPresented,
+        popoverManager: popoverManager
+      ) {
         Text("I'm a popover. I can show content of any size.")
           .pbFont(.body, color: .text(.default))
       }
@@ -75,7 +78,11 @@ public struct PopoverCatalog: View {
     ) {
       isPresented2.toggle()
     }
-    .pbPopover(isPresented: $isPresented2, popoverManager: popoverManager) {
+    .pbPopover(
+      isPresented: $isPresented2,
+      position: .center(),
+      popoverManager: popoverManager
+    ) {
       List {
         VStack(spacing: Spacing.small) {
           PBButton(variant: .link, title: "Popularity")
@@ -104,7 +111,10 @@ public struct PopoverCatalog: View {
       ) {
         isPresented3.toggle()
       }
-      .pbPopover(isPresented: $isPresented3, popoverManager: popoverManager) {
+      .pbPopover(
+        isPresented: $isPresented3,
+        popoverManager: popoverManager
+      ) {
         Text("Click on me!")
           .pbFont(.body, color: .text(.default))
       }
@@ -115,7 +125,11 @@ public struct PopoverCatalog: View {
       ) {
         isPresented4.toggle()
       }
-      .pbPopover(isPresented: $isPresented4, popoverManager: popoverManager) {
+      .pbPopover(
+        isPresented: $isPresented4,
+        position: .top(),
+        popoverManager: popoverManager
+      ) {
         Text("Click anywhere but me!")
           .pbFont(.body, color: .text(.default))
       }
@@ -126,7 +140,10 @@ public struct PopoverCatalog: View {
       ) {
         isPresented5.toggle()
       }
-      .pbPopover(isPresented: $isPresented5, popoverManager: popoverManager) {
+      .pbPopover(
+        isPresented: $isPresented5,
+        position: .trailing(),
+        popoverManager: popoverManager) {
         Text("Click anything!")
           .pbFont(.body, color: .text(.default))
       }

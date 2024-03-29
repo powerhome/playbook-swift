@@ -10,28 +10,28 @@
 import SwiftUI
 
 public enum Position {
-  case absolute(originAnchor: Anchor, popoverAnchor: Anchor)
-
-  public enum Anchor {
-    case topLeft
-    case top
-    case topRight
-    case right
-    case bottomRight
-    case bottom
-    case bottomLeft
-    case left
-    case center
+  case top(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
+  case trailing(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
+  case bottom(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
+  case leading(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
+  case center(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
+  
+  
+  var popoverAnchor: Position {
+    switch self {
+    case .top: return .bottom()
+    case .trailing: return .leading()
+    case .bottom: return .top()
+    case .leading: return .trailing()
+    case .center: return .top()
+    }
   }
 }
 
 public extension Position {
   func calculateFrame(from originFrame: CGRect?, size: CGSize?) -> CGRect {
-    switch self {
-    case let .absolute(originAnchor, popoverAnchor):
       var popoverFrame = self.absoluteFrame(
-        originAnchor: originAnchor,
-        popoverAnchor: popoverAnchor,
+        position: self,
         originFrame: originFrame ?? .zero,
         popoverSize: size ?? .zero
       )
@@ -56,60 +56,38 @@ public extension Position {
         popoverFrame.origin.y -= difference
       }
       return popoverFrame
-    }
   }
   
   private func absoluteFrame(
-    originAnchor: Anchor,
-    popoverAnchor: Anchor,
+    position: Position,
     originFrame: CGRect,
     popoverSize: CGSize
   ) -> CGRect {
-    let popoverOrigin = originFrame.point(at: originAnchor)
-    switch popoverAnchor {
-    case .topLeft:
+    let popoverOrigin = originFrame.point(at: position)
+    switch position.popoverAnchor {
+    case .top(let xOffset, let yOffset):
       return CGRect(
-        origin: popoverOrigin,
+        origin: CGPoint(x: popoverOrigin.x - popoverSize.width / 2 + xOffset, y: popoverOrigin.y - 0 + yOffset),
         size: popoverSize
       )
-    case .top:
+    case .trailing(let xOffset, let yOffset):
       return CGRect(
-        origin: CGPoint(x: popoverOrigin.x - popoverSize.width / 2, y: popoverOrigin.y - 0),
+        origin: CGPoint(x: popoverOrigin.x - popoverSize.width + xOffset, y: popoverOrigin.y - popoverSize.height / 2 + yOffset),
         size: popoverSize
       )
-    case .topRight:
+    case .bottom(let xOffset, let yOffset):
       return CGRect(
-        origin: CGPoint(x: popoverOrigin.x - popoverSize.width, y: popoverOrigin.y - 0),
+        origin: CGPoint(x: popoverOrigin.x - popoverSize.width / 2 + xOffset, y: popoverOrigin.y - popoverSize.height + yOffset),
         size: popoverSize
       )
-    case .right:
+    case .leading(let xOffset, let yOffset):
       return CGRect(
-        origin: CGPoint(x: popoverOrigin.x - popoverSize.width, y: popoverOrigin.y - popoverSize.height / 2),
+        origin: CGPoint(x: popoverOrigin.x + xOffset, y: popoverOrigin.y - popoverSize.height / 2 + yOffset),
         size: popoverSize
       )
-    case .bottomRight:
+    case .center(let xOffset, let yOffset):
       return CGRect(
-        origin: CGPoint(x: popoverOrigin.x - popoverSize.width, y: popoverOrigin.y - popoverSize.height),
-        size: popoverSize
-      )
-    case .bottom:
-      return CGRect(
-        origin: CGPoint(x: popoverOrigin.x - popoverSize.width / 2, y: popoverOrigin.y - popoverSize.height),
-        size: popoverSize
-      )
-    case .bottomLeft:
-      return CGRect(
-        origin: CGPoint(x: popoverOrigin.x, y: popoverOrigin.y - popoverSize.height),
-        size: popoverSize
-      )
-    case .left:
-      return CGRect(
-        origin: CGPoint(x: popoverOrigin.x, y: popoverOrigin.y - popoverSize.height / 2),
-        size: popoverSize
-      )
-    case .center:
-      return CGRect(
-        origin: CGPoint(x: popoverOrigin.x - popoverSize.width / 2, y: popoverOrigin.y - popoverSize.height / 2),
+        origin: CGPoint(x: popoverOrigin.x - popoverSize.width / 2 + xOffset, y: popoverOrigin.y - popoverSize.height / 2 + yOffset),
         size: popoverSize
       )
     }
@@ -117,41 +95,24 @@ public extension Position {
 }
 
 public extension CGRect {
-  func point(at anchor: Position.Anchor) -> CGPoint {
+  func point(at anchor: Position) -> CGPoint {
     switch anchor {
-    case .topLeft:
-      return origin
     case .top:
       return CGPoint(
         x: origin.x + width / 2,
         y: origin.y
       )
-    case .topRight:
-      return CGPoint(
-        x: origin.x + width,
-        y: origin.y
-      )
-    case .right:
+    case .trailing:
       return CGPoint(
         x: origin.x + width,
         y: origin.y + height / 2
-      )
-    case .bottomRight:
-      return CGPoint(
-        x: origin.x + width,
-        y: origin.y + height
       )
     case .bottom:
       return CGPoint(
         x: origin.x + width / 2,
         y: origin.y + height
       )
-    case .bottomLeft:
-      return CGPoint(
-        x: origin.x,
-        y: origin.y + height
-      )
-    case .left:
+    case .leading:
       return CGPoint(
         x: origin.x,
         y: origin.y + height / 2
