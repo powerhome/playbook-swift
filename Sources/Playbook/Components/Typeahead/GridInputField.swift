@@ -49,6 +49,7 @@ public struct GridInputField: View {
               }
             }
           }
+          .layoutPriority(1)
           textfieldWithCustomPlaceholder
         }
         .onTapGesture {
@@ -107,8 +108,8 @@ private extension GridInputField {
         .textFieldStyle(.plain)
         .pbFont(.body, color: textColor)
     }
-    .frame(maxWidth: .infinity)
     .frame(height: Spacing.xLarge)
+    .frame(minWidth: Spacing.xLarge)
     .padding(.leading, Spacing.small)
   }
   

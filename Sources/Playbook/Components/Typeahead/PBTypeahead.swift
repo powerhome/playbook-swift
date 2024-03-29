@@ -16,6 +16,8 @@ public struct PBTypeahead<Content: View>: View {
   private let options: [Option]
   private let selection: Selection
   private let debounce: (time: TimeInterval, numberOfCharacters: Int)
+  private let dropdownMaxHeight: CGFloat?
+  private let popoverManager: PopoverManager
   private let clearAction: (() -> Void)?
   @State private var listOptions: [Option] = []
   @State private var showList: Bool = false
@@ -27,7 +29,6 @@ public struct PBTypeahead<Content: View>: View {
   @State private var searchResults: [Option] = []
   @Binding var searchText: String
   @FocusState private var isFocused
-  let popoverManager: PopoverManager
 
   public init(
     title: String,
@@ -37,6 +38,7 @@ public struct PBTypeahead<Content: View>: View {
     options: [(String, Content?)],
     debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
     popoverManager: PopoverManager,
+    dropdownMaxHeight: CGFloat? = nil,
     clearAction: (() -> Void)? = nil
   ) {
     self.title = title
@@ -46,6 +48,7 @@ public struct PBTypeahead<Content: View>: View {
     self.options = options
     self.debounce = debounce
     self.popoverManager = popoverManager
+    self.dropdownMaxHeight = dropdownMaxHeight
     self.clearAction = clearAction
   }
   
@@ -62,10 +65,13 @@ public struct PBTypeahead<Content: View>: View {
         onItemTap: { removeSelected($0) },
         onViewTap: { showList.toggle() }
       )
-      .pbPopover(isPresented: $showList, popoverManager: popoverManager) {
+      .pbPopover(
+        isPresented: $showList,
+        variant: .dropdown,
+        popoverManager: popoverManager
+      ) {
         listView
       }
-      
     }
     .onAppear {
       focused = isFocused
@@ -73,7 +79,7 @@ public struct PBTypeahead<Content: View>: View {
       showList = isFocused
       setKeyboardControls
     }
-    .onChange(of: isFocused) { newValue in
+    .onChange(of: isFocused) { _, newValue in
       showList = newValue
     }
     .onChange(of: searchText, debounce: debounce) { _ in
@@ -113,10 +119,10 @@ private extension PBTypeahead {
             }
           }
         }
-        .frame(maxHeight: 200)
+        .frame(maxHeight: dropdownMaxHeight)
         .fixedSize(horizontal: false, vertical: true)
-       
-        }.frame(maxWidth: .infinity)
+        }
+      .frame(maxWidth: .infinity)
     }
   }
 
