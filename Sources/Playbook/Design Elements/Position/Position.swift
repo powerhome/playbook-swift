@@ -40,7 +40,7 @@ public struct Position<T: View>: ViewModifier {
           .position(x: left - right, y: top - bottom)
       }
    }
- }
+}
 
 extension View {
   func position<T: View>(

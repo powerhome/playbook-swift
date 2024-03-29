@@ -14,7 +14,7 @@ public struct PositionCatalog: View {
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
-      
+        
         PBDoc(title: "Avatar") {
           avatarStatusView
         }
@@ -32,13 +32,13 @@ public struct PositionCatalog: View {
     }
     .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Global Positioning")
-
+    
   }
 }
 
 extension PositionCatalog {
   var avatarStatusView: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.small) {      
       PBAvatar(image: Image("andrew", bundle: .module), size: .large)
         .position(top: 75, left: 40) {
           PBBadge(text: "On Roadtrip", rounded: true, variant: .neutral)
@@ -73,12 +73,12 @@ extension PositionCatalog {
       }
       PBCard {
         Text("A bunch of awesome content goes here. ")
-          
       }
       .position(top: 90) {
         PBIconCircle(FontAwesome.rocket, size: .small, color: .orange.opacity(1.3))
       }
-    }.padding(.all, 10)
+    }
+    .padding(.all, 10)
   }
   var navView: some View {
     PBNav(
