@@ -9,71 +9,6 @@
 
 import SwiftUI
 
-public struct PopoverView<Content: View>: View {
-  let popover: Content
-//  let position: Position
-//  let parentFrame: CGRect
-//  let clickToClose: Close
-  let cardPadding: CGFloat = Spacing.small
-  let backgroundOpacity: Double = 0
-//  let dismissAction: (() -> Void)
-
-//  @State private var yOffset: CGFloat = .zero
-//  @State private var xOffset: CGFloat = .zero
-
-//  public init(
-//    position: Position,
-//    clickToClose: Close,
-//    cardPadding: CGFloat,
-//    backgroundOpacity: Double,
-//    parentFrame: CGRect,
-//    dismissAction: @escaping (() -> Void),
-//    @ViewBuilder popover: () -> Content
-//  ) {
-//    self.position = position
-//    self.clickToClose = clickToClose
-//    self.cardPadding = cardPadding
-//    self.backgroundOpacity = backgroundOpacity
-//    self.parentFrame = parentFrame
-//    self.dismissAction = dismissAction
-//    self.popover = popover()
-//  }
-
-  public var body: some View {
-      popoverView
-    .background(Color.black.opacity(backgroundOpacity))
-    
-//    .onTapGesture {
-//      switch clickToClose {
-//      case .outside, .anywhere:
-//        dismissAction()
-//      case .inside:
-//        break
-//      }
-//    }
-  }
-
-  private var popoverView: some View {
-    PBCard(
-      border: false,
-      padding: cardPadding,
-      shadow: .deeper,
-      width: nil
-    ) {
-      popover
-    }
-//    .onTapGesture {
-//      switch clickToClose {
-//      case .inside, .anywhere:
-//        dismissAction()
-//      case .outside:
-//        break
-//      }
-//    }
-    .preferredColorScheme(.light)
-  }
-}
-
 //public struct PBPopover<T: View>: ViewModifier {
 //  @Binding var isPresented: Bool
 //  @State private var position: CGPoint = .zero
@@ -176,48 +111,55 @@ public struct PopoverView<Content: View>: View {
 //  }
 //}
 
-extension View {
+public extension View {
   func pbPopover<T: View>(
     isPresented: Binding<Bool>,
+    variant: Popover<T>.Variant = .default,
     popoverManager: PopoverManager,
     popoverView: @escaping () -> T
   ) -> some View {
     modifier(
-      PopoverModifier(
+      Popover(
       isPresented: isPresented,
+      variant: variant,
       popoverManager: popoverManager,
-      popoverView: popoverView)
+      popoverView: popoverView
+      )
     )
   }
 }
 
-struct PopoverModifier<T: View>: ViewModifier {
+public struct Popover<T: View>: ViewModifier {
   @Binding var isPresented: Bool
-  @State var contentFrame: CGRect?
   private var position: Position
-  var popoverManager: PopoverManager
-  var popoverView: () -> T
-  
+  private var variant: Variant
+  private var popoverManager: PopoverManager
+  private var popoverView: () -> T
+  @State private var contentFrame: CGRect?
+
   public init(
     isPresented: Binding<Bool>,
     position: Position = .absolute(originAnchor: .bottom, popoverAnchor: .top),
+    variant: Variant,
     popoverManager: PopoverManager,
     popoverView: @escaping (() -> T)
   ) {
     self._isPresented = isPresented
     self.position = position
+    self.variant = variant
     self.popoverManager = popoverManager
     self.popoverView = popoverView
   }
   
-  func body(content: Content) -> some View {
-      content
+  public func body(content: Content) -> some View {
+    content
       .background(GeometryReader { geo in
         Color.clear.onAppear { contentFrame = geo.frame(in: .scrollView) }})
         .onChange(of: isPresented) { _, newValue in
           if newValue, let frame = contentFrame {
             popoverManager.view = AnyView(
-              PopoverView(popover: popoverView())
+              view
+                .frame(width: width)
                 .sizeReader { size in
                   let popoverFrame = position.calculateFrame(from: frame, size: size)
                   popoverManager.position = popoverFrame.point(at: .center)
@@ -229,30 +171,39 @@ struct PopoverModifier<T: View>: ViewModifier {
           }
         }
     }
+  
+  private var width: CGFloat? {
+    switch variant {
+    case .default, .custom:
+      return nil
+    case .dropdown:
+      return contentFrame?.width
+    }
+  }
+  
+  private var view: any View {
+    switch variant {
+    case .default:
+      return PBCard(
+        border: false,
+        padding: Spacing.small,
+        shadow: .deeper,
+        width: nil,
+        content: { popoverView() }
+      )
+    case .dropdown, .custom:
+      return popoverView()
+    }
+  }
+}
+
+public extension Popover {
+  enum Variant {
+    case `default`, dropdown, custom
+  }
 }
 
 #Preview {
   registerFonts()
   return PopoverCatalog()
-}
-
-
-struct FramePreferenceKey: PreferenceKey {
-    static var defaultValue: CGRect = .zero
-
-    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
-        value = nextValue()
-    }
-}
-
-struct FrameModifier: ViewModifier {
-    private var sizeView: some View {
-        GeometryReader { geometry in
-          Color.clear.preference(key: FramePreferenceKey.self, value: geometry.frame(in: .global))
-        }
-    }
-
-    func body(content: Content) -> some View {
-        content.background(sizeView)
-    }
 }

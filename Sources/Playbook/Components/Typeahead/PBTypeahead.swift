@@ -27,6 +27,7 @@ public struct PBTypeahead<Content: View>: View {
   @State private var searchResults: [Option] = []
   @Binding var searchText: String
   @FocusState private var isFocused
+  let popoverManager: PopoverManager
 
   public init(
     title: String,
@@ -35,6 +36,7 @@ public struct PBTypeahead<Content: View>: View {
     selection: Selection,
     options: [(String, Content?)],
     debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
+    popoverManager: PopoverManager,
     clearAction: (() -> Void)? = nil
   ) {
     self.title = title
@@ -43,6 +45,7 @@ public struct PBTypeahead<Content: View>: View {
     self.selection = selection
     self.options = options
     self.debounce = debounce
+    self.popoverManager = popoverManager
     self.clearAction = clearAction
   }
   
@@ -59,7 +62,10 @@ public struct PBTypeahead<Content: View>: View {
         onItemTap: { removeSelected($0) },
         onViewTap: { showList.toggle() }
       )
-      listView
+      .pbPopover(isPresented: $showList, popoverManager: popoverManager) {
+        listView
+      }
+      
     }
     .onAppear {
       focused = isFocused
@@ -107,7 +113,10 @@ private extension PBTypeahead {
             }
           }
         }
-      }
+        .frame(maxHeight: 200)
+        .fixedSize(horizontal: false, vertical: true)
+       
+        }.frame(maxWidth: .infinity)
     }
   }
 

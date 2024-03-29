@@ -16,16 +16,18 @@ public struct TypeaheadCatalog: View {
   @State private var searchTextColors: String = ""
   @State private var searchTextDebounce: String = ""
   @State private var searchTextDebounce2: String = ""
+  var popoverManager = PopoverManager()
   
   public var body: some View {
-    ScrollView {
+//    ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default", spacing: Spacing.small) { colors }
         PBDoc(title: "With Pills", spacing: Spacing.small) { users }
         PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
       }
       .padding(Spacing.medium)
-    }
+      .withPopoverHandling(popoverManager)
+//    }
     .background(Color.background(.light))
     .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)
@@ -38,7 +40,7 @@ extension TypeaheadCatalog {
       title: "Colors",
       searchText: $searchTextColors,
       selection: .single,
-      options: assetsColors
+      options: assetsColors, popoverManager: popoverManager
     )
   }
   
@@ -48,7 +50,7 @@ extension TypeaheadCatalog {
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
       selection: .multiple(variant: .pill),
-      options: assetsUsers
+      options: assetsUsers, popoverManager: popoverManager
     )
   }
   
@@ -59,7 +61,7 @@ extension TypeaheadCatalog {
         searchText: $searchTextDebounce,
         selection: .single,
         options: assetsColors,
-        debounce: (1, 2)
+        debounce: (1, 2), popoverManager: popoverManager
       )
       
       PBTypeahead(
@@ -67,7 +69,7 @@ extension TypeaheadCatalog {
         searchText: $searchTextDebounce2,
         selection: .single,
         options: assetsColors,
-        debounce: (0, 2)
+        debounce: (0, 2), popoverManager: popoverManager
       )
     }
   }

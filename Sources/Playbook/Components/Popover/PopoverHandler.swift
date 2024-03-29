@@ -32,7 +32,16 @@ public extension View {
 
 @Observable
 public final class PopoverManager {
-  var isPresented: Bool = false
+  public init(
+    isPresented: Bool = true,
+    position: CGPoint? = nil,
+    view: AnyView? = nil
+  ) {
+    self.isPresented = isPresented
+    self.position = position
+    self.view = view
+  }
+  var isPresented: Bool
   var position: CGPoint?
   var view: AnyView?
 }
