@@ -80,7 +80,7 @@ public struct PopoverCatalog: View {
     }
     .pbPopover(
       isPresented: $isPresented2,
-      position: .center(),
+      position: .center(0, 4),
       popoverManager: popoverManager
     ) {
       List {
@@ -113,7 +113,8 @@ public struct PopoverCatalog: View {
       }
       .pbPopover(
         isPresented: $isPresented3,
-        popoverManager: popoverManager
+        popoverManager: popoverManager,
+        clickToClose: (.inside, action: { print("close action") })
       ) {
         Text("Click on me!")
           .pbFont(.body, color: .text(.default))
@@ -128,7 +129,8 @@ public struct PopoverCatalog: View {
       .pbPopover(
         isPresented: $isPresented4,
         position: .top(),
-        popoverManager: popoverManager
+        popoverManager: popoverManager,
+        clickToClose: (.outside, action: { print("close action") })
       ) {
         Text("Click anywhere but me!")
           .pbFont(.body, color: .text(.default))
@@ -143,7 +145,9 @@ public struct PopoverCatalog: View {
       .pbPopover(
         isPresented: $isPresented5,
         position: .trailing(),
-        popoverManager: popoverManager) {
+        popoverManager: popoverManager,
+        clickToClose: (.anywhere, action: { print("close action") })
+      ) {
         Text("Click anything!")
           .pbFont(.body, color: .text(.default))
       }

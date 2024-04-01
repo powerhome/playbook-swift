@@ -14,7 +14,7 @@ public struct Popover<T: View>: ViewModifier {
   private let position: Position
   private let variant: Variant
   private let popoverManager: PopoverManager
-  private let clickToClose: Popover<T>.Close
+  private let clickToClose: (PopoverManager.Close, action: (() -> Void)?)
   private var popoverView: () -> T
   @State private var contentFrame: CGRect?
   
@@ -23,7 +23,7 @@ public struct Popover<T: View>: ViewModifier {
     position: Position,
     variant: Variant,
     popoverManager: PopoverManager,
-    clickToClose: Close,
+    clickToClose: (PopoverManager.Close, action: (() -> Void)?),
     popoverView: @escaping (() -> T)
   ) {
     self._isPresented = isPresented
@@ -47,11 +47,20 @@ public struct Popover<T: View>: ViewModifier {
                 let popoverFrame = position.calculateFrame(from: offset(frame), size: size)
                 popoverManager.position = popoverFrame.point(at: .center())
               }
-              
           )
           popoverManager.isPresented = true
         } else {
           popoverManager.isPresented = false
+        }
+      }
+      .onChange(of: isPresented) { _, newValue in
+        if newValue {
+          popoverManager.close = clickToClose
+        }
+      }
+      .onChange(of: popoverManager.isPresented) { _, newValue in
+        if !newValue {
+          isPresented = newValue
         }
       }
   }
@@ -110,33 +119,8 @@ public struct Popover<T: View>: ViewModifier {
         width: nil,
         content: { popoverView() }
       )
-      .onTapGesture {
-        closeInside
-      }
     case .dropdown, .custom:
       return popoverView()
-        .onTapGesture {
-          closeInside
-        }
-    }
-  }
-  
-  private var closeInside: Void {
-    switch clickToClose {
-    case .inside, .anywhere:
-      isPresented = false
-    case .outside:
-      break
-    }
-  }
-  
-  private var closeOutside: Void {
-    switch clickToClose {
-    case .inside:
-      break
-    case .outside, .anywhere:
-        isPresented = false
-      break
     }
   }
 }
@@ -144,10 +128,6 @@ public struct Popover<T: View>: ViewModifier {
 public extension Popover {
   enum Variant {
     case `default`, dropdown, custom
-  }
-  
-  enum Close {
-    case inside, outside((() -> Void)?), anywhere
   }
 }
 
@@ -157,7 +137,7 @@ public extension View {
     position: Position = .bottom(),
     variant: Popover<T>.Variant = .default,
     popoverManager: PopoverManager,
-    clickToClose: Popover<T>.Close = .anywhere,
+    clickToClose: (PopoverManager.Close, action: (() -> Void)?) = (.outside, action: nil),
     popoverView: @escaping () -> T
   ) -> some View {
     modifier(

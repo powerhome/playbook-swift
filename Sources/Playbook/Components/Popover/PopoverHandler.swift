@@ -14,13 +14,47 @@ struct PopoverHandler: ViewModifier {
 
   func body(content: Content) -> some View {
     content.overlay(
-      Group {
+      ZStack {
         if popoverManager.isPresented {
           popoverManager.view
             .position(popoverManager.position ?? .zero)
+            .onTapGesture {
+              closeInside
+            }
         }
       }
+        .background(Color.white.opacity(0.01))
+        .onTapGesture {
+          closeOutside
+        }
     )
+  }
+  
+  private var closeInside: Void {
+    switch popoverManager.close.0 {
+    case .inside, .anywhere:
+      onClose()
+    case .outside:
+      break
+    }
+  }
+  
+  private var closeOutside: Void {
+    switch popoverManager.close.0 {
+    case .inside:
+      break
+    case .outside, .anywhere:
+      onClose()
+    }
+  }
+  
+  private func onClose() {
+    if let closeAction = popoverManager.close.action {
+      popoverManager.isPresented = false
+      closeAction()
+    } else {
+      popoverManager.isPresented = false
+    }
   }
 }
 
@@ -33,15 +67,22 @@ public extension View {
 @Observable
 public final class PopoverManager {
   public init(
-    isPresented: Bool = true,
+    isPresented: Bool = false,
     position: CGPoint? = nil,
-    view: AnyView? = nil
+    view: AnyView? = nil,
+    close: (Close, action: (() -> Void)?) = (.anywhere, nil)
   ) {
     self.isPresented = isPresented
     self.position = position
     self.view = view
+    self.close = close
   }
   var isPresented: Bool
   var position: CGPoint?
   var view: AnyView?
+  var close: (Close, action: (() -> Void)?)
+  
+  public enum Close {
+    case inside, outside, anywhere
+  }
 }
