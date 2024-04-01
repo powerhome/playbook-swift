@@ -10,13 +10,14 @@
 import SwiftUI
 
 public struct Popover<T: View>: ViewModifier {
-  @Binding var isPresented: Bool
   private let position: Position
   private let variant: Variant
-  private let popoverManager: PopoverManager
   private let clickToClose: (PopoverManager.Close, action: (() -> Void)?)
   private var popoverView: () -> T
+
+  @Binding var isPresented: Bool
   @State private var contentFrame: CGRect?
+  @ObservedObject var popoverManager: PopoverManager
   
   public init(
     isPresented: Binding<Bool>,
@@ -37,8 +38,15 @@ public struct Popover<T: View>: ViewModifier {
   public func body(content: Content) -> some View {
     content
       .background(GeometryReader { geo in
-        Color.clear.onAppear { contentFrame = geo.frame(in: .scrollView) }})
-      .onChange(of: isPresented) { _, newValue in
+        Color.clear.onAppear {
+          if #available(iOS 17.0, *), #available(macOS 14.0, *) {
+            contentFrame = geo.frame(in: .scrollView)
+          } else {
+            contentFrame = geo.frame(in: .global)
+          }
+        }
+      })
+      .onChange(of: isPresented) { newValue in
         if newValue, let frame = contentFrame {
           popoverManager.view = AnyView(
             view
@@ -53,12 +61,12 @@ public struct Popover<T: View>: ViewModifier {
           popoverManager.isPresented = false
         }
       }
-      .onChange(of: isPresented) { _, newValue in
+      .onChange(of: isPresented) { newValue in
         if newValue {
           popoverManager.close = clickToClose
         }
       }
-      .onChange(of: popoverManager.isPresented) { _, newValue in
+      .onChange(of: popoverManager.isPresented) { newValue in
         if !newValue {
           isPresented = newValue
         }
@@ -137,7 +145,7 @@ public extension View {
     position: Position = .bottom(),
     variant: Popover<T>.Variant = .default,
     popoverManager: PopoverManager,
-    clickToClose: (PopoverManager.Close, action: (() -> Void)?) = (.outside, action: nil),
+    clickToClose: (PopoverManager.Close, action: (() -> Void)?) = (.anywhere, action: nil),
     popoverView: @escaping () -> T
   ) -> some View {
     modifier(

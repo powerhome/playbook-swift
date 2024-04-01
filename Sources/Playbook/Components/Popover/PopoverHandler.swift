@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct PopoverHandler: ViewModifier {
-  var popoverManager: PopoverManager
+  @StateObject var popoverManager: PopoverManager
 
   func body(content: Content) -> some View {
     content.overlay(
@@ -64,8 +64,7 @@ public extension View {
   }
 }
 
-@Observable
-public final class PopoverManager {
+public final class PopoverManager: ObservableObject {
   public init(
     isPresented: Bool = false,
     position: CGPoint? = nil,
@@ -77,10 +76,10 @@ public final class PopoverManager {
     self.view = view
     self.close = close
   }
-  var isPresented: Bool
-  var position: CGPoint?
-  var view: AnyView?
-  var close: (Close, action: (() -> Void)?)
+  @Published var isPresented: Bool
+  @Published var position: CGPoint?
+  @Published var view: AnyView?
+  @Published var close: (Close, action: (() -> Void)?)
   
   public enum Close {
     case inside, outside, anywhere

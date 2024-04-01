@@ -79,7 +79,7 @@ public struct PBTypeahead<Content: View>: View {
       showList = isFocused
       setKeyboardControls
     }
-    .onChange(of: isFocused) { _, newValue in
+    .onChange(of: isFocused) { newValue in
       showList = newValue
     }
     .onChange(of: searchText, debounce: debounce) { _ in

@@ -15,7 +15,7 @@ public extension View {
       GeometryReader { geometry in
         let frame = geometry.frame(in: coordinateSpace)
         Color.clear
-          .onChange(of: frame) { _, newValue in
+          .onChange(of: frame) { newValue in
             rect(newValue)
           }
           .onAppear {
@@ -36,7 +36,7 @@ public extension View {
               size(newValue)
             }
           }
-          .onChange(of: transaction?.animation) { _, _ in
+          .onChange(of: transaction?.animation) { _ in
             DispatchQueue.main.async {
               size(geometry.size)
             }

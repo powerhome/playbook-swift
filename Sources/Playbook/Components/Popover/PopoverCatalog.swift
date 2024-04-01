@@ -16,7 +16,7 @@ public struct PopoverCatalog: View {
   @State private var isPresented4: Bool = false
   @State private var isPresented5: Bool = false
   @State private var isPresented6: Bool = false
-  var popoverManager = PopoverManager()
+  @StateObject var popoverManager = PopoverManager()
 
   public init() {}
 
