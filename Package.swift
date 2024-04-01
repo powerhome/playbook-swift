@@ -16,10 +16,10 @@ let package = Package(
   ],
   dependencies: [
     // Dependencies declare other packages that this package depends on.
-    .package(url: "https://github.com/marmelroy/PhoneNumberKit.git", from: "3.7.5"),
+    .package(url: "https://github.com/marmelroy/PhoneNumberKit.git", from: "3.7.9"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
-      from: "1.14.2"
+      from: "1.15.4"
     )
   ],
   targets: [

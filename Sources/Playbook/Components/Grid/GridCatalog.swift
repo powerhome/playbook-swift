@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct GridCatalog: View {
   @State private var count = 1
-  let tagCache: TagCache = TagCache()
+  let tagCache: TagCache = TagCache.shared
   
   init() {
     self.tagCache.saveTagsList(Color.ProductColor.allCases.map {

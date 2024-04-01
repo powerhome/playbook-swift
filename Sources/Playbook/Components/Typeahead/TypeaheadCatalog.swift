@@ -40,7 +40,8 @@ extension TypeaheadCatalog {
       title: "Colors",
       searchText: $searchTextColors,
       selection: .single,
-      options: assetsColors, popoverManager: popoverManager
+      options: assetsColors, 
+      popoverManager: popoverManager
     )
   }
   
@@ -50,7 +51,8 @@ extension TypeaheadCatalog {
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
       selection: .multiple(variant: .pill),
-      options: assetsUsers, popoverManager: popoverManager
+      options: assetsUsers, 
+      popoverManager: popoverManager
     )
   }
   
@@ -61,7 +63,8 @@ extension TypeaheadCatalog {
         searchText: $searchTextDebounce,
         selection: .single,
         options: assetsColors,
-        debounce: (1, 2), popoverManager: popoverManager
+        debounce: (1, 2), 
+        popoverManager: popoverManager
       )
       
       PBTypeahead(
@@ -69,7 +72,8 @@ extension TypeaheadCatalog {
         searchText: $searchTextDebounce2,
         selection: .single,
         options: assetsColors,
-        debounce: (0, 2), popoverManager: popoverManager
+        debounce: (0, 2), 
+        popoverManager: popoverManager
       )
     }
   }

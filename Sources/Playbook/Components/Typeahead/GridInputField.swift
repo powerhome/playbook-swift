@@ -118,13 +118,11 @@ private extension GridInputField {
     switch selection {
     case .multiple(let variant, let options):
       if let index = index, let option = options?[index] {
-//        if options?.count > 0 {
-          variant.view(text: option)
-            .onTapGesture { onItemTap?(index) }
-            .padding(.leading, Spacing.xSmall)
-            .padding(.vertical, Spacing.xSmall)
-            .fixedSize()
-//        }
+        variant.view(text: option)
+          .onTapGesture { onItemTap?(index) }
+          .padding(.leading, Spacing.xSmall)
+          .padding(.vertical, Spacing.xSmall)
+          .fixedSize()
       }
     case .single:
       EmptyView()
