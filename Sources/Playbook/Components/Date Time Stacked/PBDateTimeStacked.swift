@@ -91,7 +91,7 @@ extension PBDateTimeStacked {
   }
   var dividerView: some View {
     Divider()
-      .frame(height: isYearDisplayed ? 57.56 : 41.19)
+      .padding(.vertical, isYearDisplayed ? 9.96 : -0.5)
   }
   var timeView: some View {
     VStack(spacing: Spacing.xxSmall) {
