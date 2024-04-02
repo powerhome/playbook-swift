@@ -7,5 +7,4 @@ PBCheckbox(
   text: "Indeterminate",
   action: {}
 )
-
 ```
