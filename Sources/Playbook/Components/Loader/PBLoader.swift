@@ -53,7 +53,8 @@ extension PBLoader {
     HStack(spacing: Spacing.small) {
       loaderView
       loaderLabel
-    }.pbFont(spinnerFont, color: .text(.light))
+    }
+    .pbFont(spinnerFont, color: .text(.light))
   }
   var loaderView: some View {
     GeometryReader { geo in
@@ -72,7 +73,8 @@ extension PBLoader {
           contentSize = geo.size
         }
       }
-    }.frame(maxWidth: contentSize.width)
+    }
+    .frame(maxWidth: contentSize.width)
   }
   var loaderLabel: some View {
     Text(spinnerLabel)
