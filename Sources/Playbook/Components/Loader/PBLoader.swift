@@ -10,64 +10,83 @@
 import SwiftUI
 
 struct PBLoader: View {
-  @Binding var rotationAngle: Double
-  var icon: PBIcon
-  var iconSize: PBIcon.IconSize
-  var iconFont: PBFont
-  var loaderText: String
+  @State private var rotationAngle: Double
+  @State private var dotIndex: Int
+  @State private var contentSize: CGSize = .zero
+  let dotsCount: Int
+  let dotSize: CGFloat
+  let circleRadius: CGFloat
+  let spinnerFont: PBFont
+  let spinnerSpeed: TimeInterval
+  let spinnerLabel: String
+  let alignment: HorizontalAlignment
   public init(
-    rotationAngle: Binding<Double> = .constant(0),
-    icon: PBIcon = .fontAwesome(.spinner),
-    iconSize: PBIcon.IconSize = .x1,
-    iconFont: PBFont = .body,
-    loaderText: String = "Loading"
+    rotationAngle: Double = 0,
+    dotIndex: Int = 0,
+    dotsCount: Int = 7,
+    dotSize: CGFloat = 2,
+    circleRadius: CGFloat = 7,
+    spinnerFont: PBFont = .body,
+    spinnerSpeed: TimeInterval = 0.1,
+    spinnerLabel: String = "Loading",
+    alignment: HorizontalAlignment = .center
   ) {
-    self._rotationAngle = rotationAngle
-    self.icon = icon
-    self.iconSize = iconSize
-    self.iconFont = iconFont
-    self.loaderText = loaderText
+    self.rotationAngle = rotationAngle
+    self.dotIndex = dotIndex
+    self.dotsCount = dotsCount
+    self.dotSize = dotSize
+    self.circleRadius = circleRadius
+    self.spinnerFont = spinnerFont
+    self.spinnerSpeed = spinnerSpeed
+    self.spinnerLabel = spinnerLabel
+    self.alignment = alignment
   }
   var body: some View {
-    iconView
+    loaderLabelView
   }
 }
 
 extension PBLoader {
-  var iconView: some View {
-    HStack {
-      icon
-        .loaderSpeed(rotationAngle: rotationAngle)
-        .onAppear {
-          withAnimation {
-            rotationAngle += 360
-          }
+  var loaderLabelView: some View {
+    HStack(spacing: Spacing.small) {
+      loaderView
+      loaderLabel
+    }.pbFont(spinnerFont, color: .text(.light))
+  }
+  var loaderView: some View {
+    GeometryReader { geo in
+      ZStack {
+        ForEach(0..<dotsCount, id: \.self) { index in
+          Circle()
+            .pbFont(.body, color: index == dotIndex ? Color.clear : Color.text(.light))
+            .frame(width: dotSize, height: dotSize)
+            .offset(circleOffset(for: index, in: contentSize))
+            .animation(.linear(duration: 5).repeatForever(autoreverses: false), value: rotationAngle)
         }
-      textView
-    }
-    .pbFont(iconFont, variant: .bold, color: .text(.light))
+      }
+      .frame(width: contentSize.width)
+      .onAppear {
+        Timer.scheduledTimer(withTimeInterval: spinnerSpeed, repeats: true) { _ in
+          dotIndex = (dotIndex + 1) % dotsCount
+          contentSize = geo.size
+        }
+      }
+    }.frame(maxWidth: contentSize.width)
   }
-  var textView: some View {
-    Text(loaderText)
+  var loaderLabel: some View {
+    Text(spinnerLabel)
+  }
+  func circleOffset(for index: Int, in size: CGSize) -> CGSize {
+    let currentAngle = rotationAngle + 2 * .pi / Double(dotsCount) * Double(index)
+    let centerX = size.width / 2
+    let centerY = size.height / 2
+    let x = centerX + circleRadius * cos(currentAngle)
+    let y = centerY + circleRadius * sin(currentAngle)
+    return CGSize(width: x, height: y)
   }
 }
 
-struct Loader: ViewModifier {
-  var rotationAngle: Double = 0
-  func body(content: Content) -> some View {
-    VStack {
-      content
-        .rotationEffect(Angle(degrees: rotationAngle))
-      .animation(.linear(duration: 2.5).repeatForever(autoreverses: false), value: rotationAngle)
-    }
-  }
-}
 
-extension View {
-  func loaderSpeed(rotationAngle: Double) -> some View {
-    self.modifier(Loader(rotationAngle: rotationAngle))
-  }
-}
 #Preview {
   registerFonts()
    return LoaderCatalog()

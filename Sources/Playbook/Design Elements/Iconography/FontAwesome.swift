@@ -1219,7 +1219,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
   case speakerDeck = "fa-speaker-deck"
   case spellCheck = "fa-spell-check"
   case spider = "fa-spider"
-  case spinner = "fa-spinner"
+  case spinner = "fa-spinner-pulse"
   case splotch = "fa-splotch"
   case spotify = "fa-spotify"
   case sprayCan = "fa-spray-can"

@@ -27,17 +27,17 @@ struct LoaderCatalog: View {
 
 extension LoaderCatalog {
   var defaultView: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(spacing: Spacing.small) {
       HStack {
-        PBLoader(rotationAngle: $rotationAngle)
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
+        PBLoader()
+              }
+              .frame(maxWidth: .infinity, alignment: .leading)
       HStack {
-        PBLoader(rotationAngle: $rotationAngle)
-      }
-      .frame(maxWidth: .infinity, alignment: .center)
+        PBLoader()
+              }
+              .frame(maxWidth: .infinity, alignment: .center)
       HStack {
-        PBLoader(rotationAngle: $rotationAngle)
+        PBLoader()
       }
       .frame(maxWidth: .infinity, alignment: .trailing)
     }
