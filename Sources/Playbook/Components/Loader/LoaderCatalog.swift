@@ -11,18 +11,18 @@ import SwiftUI
 
 struct LoaderCatalog: View {
   @State private var rotationAngle: Double = 0
-    var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
+  var body: some View {
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          defaultView
         }
-        .padding(Spacing.medium)
       }
-      .background(Color.background(Color.BackgroundColor.light))
-      .navigationTitle("Loader")
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Loader")
+  }
 }
 
 extension LoaderCatalog {
@@ -30,12 +30,12 @@ extension LoaderCatalog {
     VStack(spacing: Spacing.small) {
       HStack {
         PBLoader()
-              }
-              .frame(maxWidth: .infinity, alignment: .leading)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
       HStack {
         PBLoader()
-              }
-              .frame(maxWidth: .infinity, alignment: .center)
+      }
+      .frame(maxWidth: .infinity, alignment: .center)
       HStack {
         PBLoader()
       }

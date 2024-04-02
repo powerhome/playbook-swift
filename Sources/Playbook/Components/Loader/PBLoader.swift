@@ -89,5 +89,5 @@ extension PBLoader {
 
 #Preview {
   registerFonts()
-   return LoaderCatalog()
+  return LoaderCatalog()
 }
