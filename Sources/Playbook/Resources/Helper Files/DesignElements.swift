@@ -19,7 +19,7 @@ public enum DesignElements: String, CaseIterable {
     case .borderRadius: BorderRadiusCatalog()
     case .color: ColorCatalog()
     case .iconography: Iconography()
-    case .position: PositionCatalog()
+    case .position: GlobalPositionCatalog()
     case .spacing: SpacingCatalog()
     case .shadows: PBShadow_Previews.previews
     case .typography: TypographyCatalog()
