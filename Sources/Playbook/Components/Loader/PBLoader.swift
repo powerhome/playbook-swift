@@ -64,7 +64,6 @@ extension PBLoader {
             .animation(.linear(duration: 5).repeatForever(autoreverses: false), value: rotationAngle)
         }
       }
-      .frame(width: contentSize.width)
       .onAppear {
         Timer.scheduledTimer(withTimeInterval: spinnerSpeed, repeats: true) { _ in
           dotIndex = (dotIndex + 1) % dotsCount
