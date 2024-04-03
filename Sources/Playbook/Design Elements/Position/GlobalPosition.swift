@@ -11,56 +11,86 @@ import SwiftUI
 
 public struct GlobalPosition<T: View>: ViewModifier {
   let alignment: Alignment
+  let top: CGFloat?
+  let leading: CGFloat?
+  let bottom: CGFloat?
+  let trailing: CGFloat?
   @Binding var contentSize: CGSize
   var overlay: () -> T
   public init(
     alignment: Alignment = .leading,
     contentSize: Binding<CGSize> = .constant(.zero),
+    top: CGFloat? = 0,
+    leading: CGFloat? = 0,
+    bottom: CGFloat? = 0,
+    trailing: CGFloat? = 0,
     overlay: @escaping () -> T
   ) {
     self.alignment = alignment
     _contentSize = contentSize
+    self.top = top
+    self.leading = leading
+    self.bottom = bottom
+    self.trailing = trailing
     self.overlay = overlay
   }
   
   
   public func body(content: Content) -> some View {
-        content
-          .overlay {
-            GeometryReader { geometry in
-              let frame = geometry.frame(in: .local)
-              overlay()
+    content
+      .overlay {
+        GeometryReader { geometry in
+          let frame = geometry.frame(in: .local)
+          overlay()
+            .edgeInsets(EdgeInsets(top: top ?? 0, leading: leading ?? 0, bottom: bottom ?? 0, trailing: trailing ?? 0))
+            .onAppear {
+              contentSize = geometry.size
             }
-          }
-     }
+            .position(x: frame.width, y: frame.height)
+        }
+      }
+      .frame(alignment: alignment)
+  }
+}
+
+struct EdgeInsetModifier: ViewModifier {
+  let insets: EdgeInsets
+  
+  func body(content: Content) -> some View {
+    content
+      .padding(insets)
+  }
 }
 
 extension View {
-  func globalPosition<T: View>(overlay: @escaping (() -> T), alignment: Alignment) -> some View {
-    self.modifier(GlobalPosition(alignment: alignment, overlay: overlay))
+  func globalPosition<T: View>(overlay: @escaping (() -> T), alignment: Alignment, top: CGFloat = 0, leading: CGFloat = 0, bottom: CGFloat = 0, trailing: CGFloat = 0) -> some View {
+    self.modifier(GlobalPosition(alignment: alignment, top: top, leading: leading, bottom: bottom, trailing: trailing, overlay: overlay))
+  }
+  func edgeInsets(_ insets: EdgeInsets) -> some View {
+    self.modifier(EdgeInsetModifier(insets: insets))
   }
 }
 
 
 /*** Isis
-
-public struct GlobalPositionS<T: View>: ViewModifier {
-//  var top: CGFloat
-//  var left: CGFloat
-//  var right: CGFloat
-//  var bottom: CGFloat
-//  var spacing: CGFloat?
-  var view: () -> T
-  
-  var position: Position = .bottomTrailing
-  
-//  var shape: Shape = Circle
-  
-//  public init(
-//    top: CGFloat = 0,
-//    left: CGFloat = 0,
-//    right: CGFloat = 0,
-//    bottom: CGFloat = 0,
+ 
+ public struct GlobalPositionS<T: View>: ViewModifier {
+ //  var top: CGFloat
+ //  var left: CGFloat
+ //  var right: CGFloat
+ //  var bottom: CGFloat
+ //  var spacing: CGFloat?
+ var view: () -> T
+ 
+ var position: Position = .bottomTrailing
+ 
+ //  var shape: Shape = Circle
+ 
+ //  public init(
+ //    top: CGFloat = 0,
+ //    left: CGFloat = 0,
+ //    right: CGFloat = 0,
+ //    bottom: CGFloat = 0,
 //    spacing: CGFloat? = 0,
 //    view: @escaping () -> T
 //  ){

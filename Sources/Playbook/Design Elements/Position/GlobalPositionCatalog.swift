@@ -71,8 +71,8 @@ extension GlobalPositionCatalog {
       )
       .globalPosition(overlay: {
         PBBadge(text: "On Roadtrip", rounded: true, variant: .chat)
-      }, alignment: .bottom)
-
+      }, alignment: .bottom, top: 0, leading: -30, bottom: 0, trailing:  Spacing.small)
+      
       PBAvatar(
         image: Image("Anna", bundle: .module),
         size: .medium
