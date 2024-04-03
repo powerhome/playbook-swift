@@ -10,6 +10,48 @@
 import SwiftUI
 
 public struct GlobalPosition<T: View>: ViewModifier {
+  var overlay: () -> T
+  let alignment: Alignment
+//  @State private var contentSize: CGSize = .zero
+  @Binding var contentSize: CGSize
+  public init(
+    overlay: @escaping () -> T,
+    alignment: Alignment = .leading,
+    contentSize: Binding<CGSize> = .constant(.zero)
+  ) {
+    self.overlay = overlay
+    self.alignment = alignment
+    _contentSize = contentSize
+  }
+  
+  
+  public func body(content: Content) -> some View {
+    ZStack(alignment: alignment) {
+      content
+          .background(
+          GeometryReader { geometry in
+            Color.clear
+              .onAppear {
+                contentSize = geometry.size
+              }
+          }
+          )
+      overlay()
+      
+    }
+  }
+}
+
+extension View {
+  func globalPosition<T: View>(overlay: @escaping (() -> T), alignment: Alignment) -> some View {
+    self.modifier(GlobalPosition(overlay: overlay, alignment: alignment))
+  }
+}
+
+
+/*** Isis
+
+public struct GlobalPositionS<T: View>: ViewModifier {
 //  var top: CGFloat
 //  var left: CGFloat
 //  var right: CGFloat
@@ -17,7 +59,7 @@ public struct GlobalPosition<T: View>: ViewModifier {
 //  var spacing: CGFloat?
   var view: () -> T
   
-  var position: Positiona = .bottonTrailing
+  var position: Position = .bottomTrailing
   
 //  var shape: Shape = Circle
   
@@ -42,11 +84,14 @@ public struct GlobalPosition<T: View>: ViewModifier {
         .overlay {
           GeometryReader { geometry in
             let frame = geometry.frame(in: .local)
-            view().position(position.circlePosition(with: frame))
+            view()
+              .position(position.circlePosition(with: frame))
+              
           }
         } 
    }
 }
+
 
 extension GlobalPosition {
   enum ContentShape {
@@ -54,15 +99,15 @@ extension GlobalPosition {
   }
 }
   
-enum Positiona: String, CaseIterable, Identifiable {
+enum Position: String, CaseIterable, Identifiable {
   var id: UUID { UUID() }
     case topLeading
     case top
     case topTrailing
     case trailing
-    case bottonTrailing
-    case botton
-    case bottonLeading
+    case bottomTrailing
+    case bottom
+    case bottomLeading
     case leading
 
     func circlePosition(with frame: CGRect) -> CGPoint {
@@ -90,17 +135,17 @@ enum Positiona: String, CaseIterable, Identifiable {
           x: radius * 2,
           y: center.y
         )
-      case .bottonTrailing:
+      case .bottomTrailing:
         return CGPoint(
           x: radius * sin(Angle(degrees: 45).degrees) + center.x,
           y: radius * cos(Angle(degrees: 45).degrees) + center.y
         )
-      case .botton:
+      case .bottom:
         return CGPoint(
           x: center.x,
           y: radius * 2
         )
-      case .bottonLeading:
+      case .bottomLeading:
         return CGPoint(
           x: radius * sin(Angle(degrees: 45).degrees) + center.x,
           y: radius * cos(Angle(degrees: 45).degrees) + center.y
@@ -115,13 +160,13 @@ enum Positiona: String, CaseIterable, Identifiable {
 }
 
 extension View {
-  func globalPosition<T: View>(
-    position: Positiona,
+  func globalPositionS<T: View>(
+    position: Position,
     view: @escaping (() -> T)
   ) -> some View{
     self.modifier(
-      GlobalPosition(
-        view: view, 
+      GlobalPositionS(
+        view: view,
         position: position
       
       )
@@ -129,7 +174,10 @@ extension View {
   }
 }
 
+*/
+
 #Preview {
   registerFonts()
   return GlobalPositionCatalog()
+ 
 }
