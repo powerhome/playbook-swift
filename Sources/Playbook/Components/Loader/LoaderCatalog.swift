@@ -28,18 +28,8 @@ struct LoaderCatalog: View {
 extension LoaderCatalog {
   var defaultView: some View {
     VStack(spacing: Spacing.small) {
-      HStack {
         PBLoader()
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      HStack {
-        PBLoader()
-      }
-      .frame(maxWidth: .infinity, alignment: .center)
-      HStack {
-        PBLoader()
-      }
-      .frame(maxWidth: .infinity, alignment: .trailing)
     }
+    .padding(.leading, Spacing.xSmall)
   }
 }

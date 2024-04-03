@@ -18,7 +18,6 @@ struct PBLoader: View {
   let circleRadius: CGFloat
   let spinnerFont: PBFont
   let spinnerSpeed: TimeInterval
-  let spinnerLabel: String
   let alignment: HorizontalAlignment
   public init(
     rotationAngle: Double = 0,
@@ -29,7 +28,6 @@ struct PBLoader: View {
     circleRadius: CGFloat = 7,
     spinnerFont: PBFont = .body,
     spinnerSpeed: TimeInterval = 0.1,
-    spinnerLabel: String = "Loading",
     alignment: HorizontalAlignment = .center
   ) {
     self.rotationAngle = rotationAngle
@@ -40,22 +38,14 @@ struct PBLoader: View {
     self.circleRadius = circleRadius
     self.spinnerFont = spinnerFont
     self.spinnerSpeed = spinnerSpeed
-    self.spinnerLabel = spinnerLabel
     self.alignment = alignment
   }
   var body: some View {
-    loaderLabelView
+    loaderView
   }
 }
 
 extension PBLoader {
-  var loaderLabelView: some View {
-    HStack(spacing: Spacing.small) {
-      loaderView
-      loaderLabel
-    }
-    .pbFont(spinnerFont, color: .text(.light))
-  }
   var loaderView: some View {
     GeometryReader { geo in
       ZStack {
@@ -75,9 +65,6 @@ extension PBLoader {
       }
     }
     .frame(maxWidth: contentSize.width)
-  }
-  var loaderLabel: some View {
-    Text(spinnerLabel)
   }
   func circleOffset(for index: Int, in size: CGSize) -> CGSize {
     let currentAngle = rotationAngle + 2 * .pi / Double(dotsCount) * Double(index)
