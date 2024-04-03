@@ -26,7 +26,7 @@ public struct PBTypeahead<Content: View>: View {
   @State private var selectedIndex: Int?
   @State private var selectedOptions: [Option] = []
   @State private var focused: Bool = false
-  @State private var searchResults: [Option] = []
+//  @State private var searchResults: [Option] = []
   @Binding var searchText: String
   @FocusState private var isFocused
 
@@ -82,8 +82,11 @@ public struct PBTypeahead<Content: View>: View {
     .onChange(of: isFocused) { newValue in
       showList = newValue
     }
-    .onChange(of: searchText, debounce: debounce) { _ in
-      searchResults = results
+    .task(
+      id: searchText,
+      nanoseconds: 000
+    ) {
+      _ = searchResults
     }
   }
 }
@@ -126,7 +129,7 @@ private extension PBTypeahead {
     }
   }
 
-  var results: [Option] {
+  var searchResults: [Option] {
     switch selection{
     case .multiple:
       return searchText.isEmpty && debounce.numberOfCharacters == 0  ? listOptions : listOptions.filter {
