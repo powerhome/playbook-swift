@@ -10,13 +10,18 @@
 import SwiftUI
 
 public extension View {
-  func frameReader(in coordinateSpace: CoordinateSpace = .global, rect: @escaping (CGRect) -> Void) -> some View {
+  func frameReader(isPresented: Bool, in rect: @escaping (CGRect) -> Void) -> some View {
     return background(
       GeometryReader { geometry in
-        let frame = geometry.frame(in: coordinateSpace)
+        var frame: CGRect = .zero
         Color.clear
-          .onChange(of: frame) { newValue in
-            rect(newValue)
+          .onChange(of: isPresented) { _ in
+            if #available(iOS 17.0, *), #available(macOS 14.0, *) {
+              frame = geometry.frame(in: .scrollView)
+            } else {
+              frame = geometry.frame(in: .global)
+            }
+            rect(frame)
           }
           .onAppear {
             rect(frame)

@@ -37,15 +37,9 @@ public struct Popover<T: View>: ViewModifier {
   
   public func body(content: Content) -> some View {
     content
-      .background(GeometryReader { geo in
-        Color.clear.onAppear {
-          if #available(iOS 17.0, *), #available(macOS 14.0, *) {
-            contentFrame = geo.frame(in: .scrollView)
-          } else {
-            contentFrame = geo.frame(in: .global)
-          }
-        }
-      })
+      .frameReader(isPresented: isPresented) { frame in
+        contentFrame = frame
+      }
       .onChange(of: isPresented) { newValue in
         if newValue, let frame = contentFrame {
           popoverManager.view = AnyView(
