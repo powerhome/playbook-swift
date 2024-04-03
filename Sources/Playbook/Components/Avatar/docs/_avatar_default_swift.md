@@ -1,5 +1,4 @@
-
-<img width="1326" alt="Avatar (Default)" src="https://github.com/powerhome/playbook-swift/assets/54749071/9ab09b2d-fb9a-4b61-8c2e-3845e6f4ecc4">
+![avatar-default](https://github.com/powerhome/playbook-swift/assets/54749071/6005a0b6-8ab2-4c24-ac99-e9e590602849)
 
 ```swift
 VStack(alignment: .leading, spacing: Spacing.small) {
