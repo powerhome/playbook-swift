@@ -24,7 +24,7 @@ public struct GlobalPositionCatalog: View {
         PBDoc(title: "Card With Badge", spacing: Spacing.small) {
           cardWithBadgeView
         }
-        PBDoc(title: "NAv", spacing: Spacing.small) {
+        PBDoc(title: "Nav", spacing: Spacing.small) {
           navView
         }
       }

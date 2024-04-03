@@ -10,41 +10,34 @@
 import SwiftUI
 
 public struct GlobalPosition<T: View>: ViewModifier {
-  var overlay: () -> T
   let alignment: Alignment
-//  @State private var contentSize: CGSize = .zero
   @Binding var contentSize: CGSize
+  var overlay: () -> T
   public init(
-    overlay: @escaping () -> T,
     alignment: Alignment = .leading,
-    contentSize: Binding<CGSize> = .constant(.zero)
+    contentSize: Binding<CGSize> = .constant(.zero),
+    overlay: @escaping () -> T
   ) {
-    self.overlay = overlay
     self.alignment = alignment
     _contentSize = contentSize
+    self.overlay = overlay
   }
   
   
   public func body(content: Content) -> some View {
-    ZStack(alignment: alignment) {
-      content
-          .background(
-          GeometryReader { geometry in
-            Color.clear
-              .onAppear {
-                contentSize = geometry.size
-              }
+        content
+          .overlay {
+            GeometryReader { geometry in
+              let frame = geometry.frame(in: .local)
+              overlay()
+            }
           }
-          )
-      overlay()
-      
-    }
-  }
+     }
 }
 
 extension View {
   func globalPosition<T: View>(overlay: @escaping (() -> T), alignment: Alignment) -> some View {
-    self.modifier(GlobalPosition(overlay: overlay, alignment: alignment))
+    self.modifier(GlobalPosition(alignment: alignment, overlay: overlay))
   }
 }
 
