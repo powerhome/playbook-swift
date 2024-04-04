@@ -16,6 +16,7 @@ public struct TypeaheadCatalog: View {
   @State private var searchTextColors: String = ""
   @State private var searchTextDebounce: String = ""
   @State private var searchTextDebounce2: String = ""
+  @State private var didTapOutside: Bool? = false
   var popoverManager = PopoverManager()
   
   public var body: some View {
@@ -28,7 +29,23 @@ public struct TypeaheadCatalog: View {
       .padding(Spacing.medium)
       .withPopoverHandling(popoverManager)
     }
+   
     .background(Color.background(.light))
+    .onTapGesture {
+      #if os(iOS)
+      UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+      #elseif os(macOS)
+      NSApplication.shared.sendAction(#selector(NSResponder.resignFirstResponder), to: nil, from: nil)
+      #endif
+    }
+//    .gesture(
+//      DragGesture(minimumDistance: 0, coordinateSpace: .global).onEnded({ gesture in
+//        if gesture.translation.height > 0 {
+//          UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//          print("did tap outside")
+//        }
+//      }))
+    
     .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)
   }

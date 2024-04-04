@@ -26,10 +26,10 @@ public struct PBTypeahead<Content: View>: View {
   @State private var selectedIndex: Int?
   @State private var selectedOptions: [Option] = []
   @State private var focused: Bool = false
-//  @State private var searchResults: [Option] = []
+  //  @State private var searchResults: [Option] = []
   @Binding var searchText: String
   @FocusState private var isFocused
-
+  
   public init(
     title: String,
     placeholder: String = "Select",
@@ -87,6 +87,11 @@ public struct PBTypeahead<Content: View>: View {
       nanoseconds: 000
     ) {
       _ = searchResults
+    }
+    .onChange(of: showList) { newValue in
+      if !newValue {
+        isFocused = false
+      }
     }
   }
 }
@@ -238,7 +243,7 @@ private extension PBTypeahead {
         }
       }
       if event.keyCode == 51 { // delete
-        if let lastElementIndex = selectedOptions.indices.last, isFocused, searchText.isEmpty {
+        if let lastElementIndex = selectedOptions.indices.last, isFocused, searchText.isEmpty, !selectedOptions.isEmpty {
           removeSelected(lastElementIndex)
         }
       }
