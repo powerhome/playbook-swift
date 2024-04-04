@@ -41,13 +41,12 @@ struct PBLoader: View {
     self.alignment = alignment
   }
   var body: some View {
-    loaderView
+      loaderView
   }
 }
 
 extension PBLoader {
   var loaderView: some View {
-    GeometryReader { geo in
       ZStack {
         ForEach(0..<dotsCount, id: \.self) { index in
           Circle()
@@ -60,11 +59,8 @@ extension PBLoader {
       .onAppear {
         Timer.scheduledTimer(withTimeInterval: spinnerSpeed, repeats: true) { _ in
           dotIndex = (dotIndex + 1) % dotsCount
-          contentSize = geo.size
         }
       }
-    }
-    .frame(maxWidth: contentSize.width)
   }
   func circleOffset(for index: Int, in size: CGSize) -> CGSize {
     let currentAngle = rotationAngle + 2 * .pi / Double(dotsCount) * Double(index)
