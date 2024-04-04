@@ -51,20 +51,22 @@ public struct GridInputField: View {
           }
           .layoutPriority(1)
           textfieldWithCustomPlaceholder
+            .overlay {
+              Color.white
+                .opacity(isFocused.wrappedValue ? 0.001 : 0)
+                .onTapGesture {
+                  if isFocused.wrappedValue {
+                    onViewTap?()
+                  }
+                }
+            }
         }
         .onTapGesture {
           isFocused.wrappedValue = true
+          if isFocused.wrappedValue {
+            onViewTap?()
+          }
         }
-        .overlay {
-          Color.white
-            .opacity(isFocused.wrappedValue ? 0.001 : 0)
-            .onTapGesture {
-              if isFocused.wrappedValue {
-                onViewTap?()
-              }
-            }
-        }
-        
         dismissIconView
           .onTapGesture {
             clearAction?()
