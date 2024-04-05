@@ -50,6 +50,7 @@ public struct GlobalPosition<T: View>: ViewModifier {
           // Fallback on earlier versions
         }
       }
+     
   }
 }
 

@@ -81,7 +81,8 @@ extension GlobalPositionCatalog {
       )
       .globalPosition(overlay: {
         PBBadge(text: "On Roadtrip", rounded: true, variant: .chat)
-      }, alignment: .bottom, top: 20, leading: -10, bottom: 0, trailing: 0)
+          .scaledToFill()
+      }, alignment: .bottom, top: Spacing.medium, leading: -Spacing.medium, bottom: 0, trailing: 0)
       
       PBAvatar(
         image: Image("Anna", bundle: .module),
@@ -103,7 +104,7 @@ extension GlobalPositionCatalog {
                 rounded: true,
                 variant: .chat
         )
-      }, alignment: Alignment.bottom, top: 0, leading: -20, bottom: 0, trailing: 0)
+      }, alignment: Alignment.bottom, top: 0, leading: -Spacing.medium, bottom: 0, trailing: 0)
     }
   }
   var imageBadgeView: some View {
@@ -120,7 +121,7 @@ extension GlobalPositionCatalog {
           rounded: true,
           variant: .chat
         )
-      }, alignment: .topTrailing, top: -10, leading: 0, bottom: 0, trailing: 0)
+      }, alignment: .topTrailing, top: -Spacing.xSmall, leading: 0, bottom: 0, trailing: 0)
     }
   }
   
@@ -135,7 +136,7 @@ extension GlobalPositionCatalog {
           rounded: true,
           variant: .info
         )
-      }, alignment: .bottomLeading, top: 0, leading: -10, bottom: 0, trailing: 0)
+      }, alignment: .bottomLeading, top: 0, leading: -Spacing.xSmall, bottom: 0, trailing: 0)
       PBCard{
         Text("A bunch of awesome content goes here. ")
       }
@@ -145,7 +146,7 @@ extension GlobalPositionCatalog {
           size: .small,
           color: .orange.opacity(1.3)
         )
-      }, alignment: .bottomLeading, top: 0, leading: -20, bottom: -5, trailing: 0)
+      }, alignment: .bottomLeading, top: 0, leading: -Spacing.small, bottom: -Spacing.xxSmall, trailing: 0)
     }
   }
   var navView: some View {
@@ -161,7 +162,7 @@ extension GlobalPositionCatalog {
             rounded: true,
             variant: .chat
           )
-        }, alignment: .topTrailing, top: 0, leading: -25, bottom: 0, trailing: 0)
+        }, alignment: .topTrailing, top: 0, leading: -Spacing.medium, bottom: 0, trailing: 0)
       PBNavItem("Second")
       PBNavItem("Third")
     }
