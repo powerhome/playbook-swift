@@ -88,11 +88,6 @@ public struct PBTypeahead<Content: View>: View {
     ) {
       _ = searchResults
     }
-    .onChange(of: showList) { newValue in
-      if !newValue {
-        isFocused = false
-      }
-    }
   }
 }
 

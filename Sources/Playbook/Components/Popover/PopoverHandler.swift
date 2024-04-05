@@ -23,7 +23,7 @@ struct PopoverHandler: ViewModifier {
             }
         }
       }
-        .background(Color.white.opacity(0.01))
+        .background(Color.black.opacity(popoverManager.background))
         .onTapGesture {
           closeOutside
         }
@@ -69,18 +69,22 @@ public final class PopoverManager: ObservableObject {
     isPresented: Bool = false,
     position: CGPoint? = nil,
     view: AnyView? = nil,
+    background: CGFloat = 0,
     close: (Close, action: (() -> Void)?) = (.anywhere, nil)
   ) {
     self.isPresented = isPresented
     self.position = position
     self.view = view
+    self.background = background
     self.close = close
   }
+
   @Published var isPresented: Bool
   @Published var position: CGPoint?
   @Published var view: AnyView?
   @Published var close: (Close, action: (() -> Void)?)
-  
+  @Published var background: CGFloat
+
   public enum Close {
     case inside, outside, anywhere
   }

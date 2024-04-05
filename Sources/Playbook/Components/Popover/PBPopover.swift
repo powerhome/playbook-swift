@@ -14,7 +14,7 @@ public struct Popover<T: View>: ViewModifier {
   private let variant: Variant
   private let clickToClose: (PopoverManager.Close, action: (() -> Void)?)
   private var popoverView: () -> T
-
+  
   @Binding var isPresented: Bool
   @State private var contentFrame: CGRect?
   @ObservedObject var popoverManager: PopoverManager
@@ -57,6 +57,7 @@ public struct Popover<T: View>: ViewModifier {
       }
       .onChange(of: isPresented) { newValue in
         if newValue {
+          popoverManager.background = background
           popoverManager.close = clickToClose
         }
       }
@@ -66,7 +67,9 @@ public struct Popover<T: View>: ViewModifier {
         }
       }
   }
-  
+}
+
+extension Popover {
   private func offset(_ frame: CGRect) -> CGRect {
     switch variant {
     case .default, .custom:
@@ -86,7 +89,7 @@ public struct Popover<T: View>: ViewModifier {
         size: frame.size)
     }
   }
-  
+
   private func space(_ space: CGFloat) -> CGPoint {
     switch position {
     case .top(let xOffset, let yOffset):
@@ -101,7 +104,7 @@ public struct Popover<T: View>: ViewModifier {
       return CGPoint(x: xOffset, y:  yOffset)
     }
   }
-  
+
   private var width: CGFloat? {
     switch variant {
     case .default, .custom:
@@ -110,7 +113,7 @@ public struct Popover<T: View>: ViewModifier {
       return contentFrame?.width
     }
   }
-  
+
   private var view: any View {
     switch variant {
     case .default:
@@ -123,6 +126,15 @@ public struct Popover<T: View>: ViewModifier {
       )
     case .dropdown, .custom:
       return popoverView()
+    }
+  }
+  
+  private var background: CGFloat {
+    switch variant {
+    case .default, .custom:
+      return 0.01
+    case .dropdown:
+      return 0
     }
   }
 }
