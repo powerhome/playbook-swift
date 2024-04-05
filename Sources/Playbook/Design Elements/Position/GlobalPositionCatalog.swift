@@ -13,50 +13,60 @@ public struct GlobalPositionCatalog: View {
   @State private var selected: Int = 1
   @State private var contentSize: CGSize = .zero
   public var body: some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: Spacing.medium) {
-        PBDoc(title: "Default", spacing: Spacing.small) {
-          avatarStatusView
+    if #available(iOS 17.0, *) {
+      ScrollView {
+        if #available(iOS 17.0, *) {
+          VStack(alignment: .leading, spacing: Spacing.medium) {
+            PBDoc(title: "Default", spacing: Spacing.small) {
+              avatarStatusView
+            }
+            PBDoc(title: "Image", spacing: Spacing.small) {
+              imageBadgeView
+            }
+            PBDoc(title: "Card With Badge", spacing: Spacing.small) {
+              cardWithBadgeView
+            }
+            PBDoc(title: "Nav", spacing: Spacing.small) {
+              navView
+            }
+          }
+          .scrollTargetLayout()
+        } else {
+          // Fallback on earlier versions
         }
-        PBDoc(title: "Image", spacing: Spacing.small) {
-          imageBadgeView
-        }
-        PBDoc(title: "Card With Badge", spacing: Spacing.small) {
-          cardWithBadgeView
-        }
-        PBDoc(title: "Nav", spacing: Spacing.small) {
-          navView
-        }
+        /*** Isis
+         //        ForEach(Positiona.allCases, id: \.id) { pos in
+         //
+         //          Text(pos.rawValue).pbFont(.caption)
+         //          HStack(spacing: Spacing.medium) {
+         //
+         
+         
+         //
+         //            PBAvatar(image: Image("andrew", bundle: .module), size: .medium)
+         //              .globalPosition(position: pos) {
+         //                PBBadge(text: "5", rounded: true, variant: .chat)
+         //              }
+         //              .background(Color.pink)
+         //
+         //            PBAvatar(image: Image("andrew", bundle: .module), size: .small)
+         //              .globalPosition(position: pos) {
+         //                PBBadge(text: "5", rounded: true, variant: .chat)
+         //              }
+         //              .background(Color.pink)
+         //
+         //          }
+         //          .padding()
+         //          .background(Color.blue)
+         //
+         //        }
+         
+         //      }
+         */
       }
-      /*** Isis
-      //        ForEach(Positiona.allCases, id: \.id) { pos in
-      //
-      //          Text(pos.rawValue).pbFont(.caption)
-      //          HStack(spacing: Spacing.medium) {
-      //
-      
-      
-      //
-      //            PBAvatar(image: Image("andrew", bundle: .module), size: .medium)
-      //              .globalPosition(position: pos) {
-      //                PBBadge(text: "5", rounded: true, variant: .chat)
-      //              }
-      //              .background(Color.pink)
-      //
-      //            PBAvatar(image: Image("andrew", bundle: .module), size: .small)
-      //              .globalPosition(position: pos) {
-      //                PBBadge(text: "5", rounded: true, variant: .chat)
-      //              }
-      //              .background(Color.pink)
-      //
-      //          }
-      //          .padding()
-      //          .background(Color.blue)
-      //
-      //        }
-      
-      //      }
-     */
+      .scrollTargetBehavior(.viewAligned)
+    } else {
+      // Fallback on earlier versions
     }
   }
 }
@@ -71,7 +81,7 @@ extension GlobalPositionCatalog {
       )
       .globalPosition(overlay: {
         PBBadge(text: "On Roadtrip", rounded: true, variant: .chat)
-      }, alignment: .bottom, top: 0, leading: -30, bottom: 0, trailing:  Spacing.small)
+      }, alignment: .bottom, top: 20, leading: -10, bottom: 0, trailing: 0)
       
       PBAvatar(
         image: Image("Anna", bundle: .module),
@@ -90,10 +100,10 @@ extension GlobalPositionCatalog {
       )
       .globalPosition(overlay: {
         PBBadge(text: "On Roadtrip",
-          rounded: true,
-          variant: .chat
-       )
-      }, alignment: Alignment.bottom)
+                rounded: true,
+                variant: .chat
+        )
+      }, alignment: Alignment.bottom, top: 0, leading: -20, bottom: 0, trailing: 0)
     }
   }
   var imageBadgeView: some View {
@@ -110,10 +120,10 @@ extension GlobalPositionCatalog {
           rounded: true,
           variant: .chat
         )
-      }, alignment: .topTrailing)
+      }, alignment: .topTrailing, top: -10, leading: 0, bottom: 0, trailing: 0)
     }
   }
-
+  
   var cardWithBadgeView: some View {
     VStack(spacing: Spacing.small) {
       PBCard{
@@ -125,7 +135,7 @@ extension GlobalPositionCatalog {
           rounded: true,
           variant: .info
         )
-      }, alignment: .bottomLeading)
+      }, alignment: .bottomLeading, top: 0, leading: -10, bottom: 0, trailing: 0)
       PBCard{
         Text("A bunch of awesome content goes here. ")
       }
@@ -135,7 +145,7 @@ extension GlobalPositionCatalog {
           size: .small,
           color: .orange.opacity(1.3)
         )
-      }, alignment: .bottomLeading)
+      }, alignment: .bottomLeading, top: 0, leading: -20, bottom: -5, trailing: 0)
     }
   }
   var navView: some View {
@@ -151,7 +161,7 @@ extension GlobalPositionCatalog {
             rounded: true,
             variant: .chat
           )
-        }, alignment: .topTrailing)
+        }, alignment: .topTrailing, top: 0, leading: -25, bottom: 0, trailing: 0)
       PBNavItem("Second")
       PBNavItem("Third")
     }

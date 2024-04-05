@@ -38,18 +38,18 @@ public struct GlobalPosition<T: View>: ViewModifier {
   
   public func body(content: Content) -> some View {
     content
-      .overlay {
-        GeometryReader { geometry in
-          let frame = geometry.frame(in: .local)
+      .overlay(alignment: alignment) {
+        if #available(iOS 17.0, *) {
           overlay()
             .edgeInsets(EdgeInsets(top: top ?? 0, leading: leading ?? 0, bottom: bottom ?? 0, trailing: trailing ?? 0))
-            .onAppear {
-              contentSize = geometry.size
+            .visualEffect { content, geo in
+              content
+                .offset(x: geo.size.width / 4, y: geo.size.height / 4)
             }
-            .position(x: frame.width, y: frame.height)
+        } else {
+          // Fallback on earlier versions
         }
       }
-      .frame(alignment: alignment)
   }
 }
 
