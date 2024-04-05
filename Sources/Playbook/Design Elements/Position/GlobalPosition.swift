@@ -41,6 +41,7 @@ public struct GlobalPosition<T: View>: ViewModifier {
       .overlay(alignment: alignment) {
         if #available(iOS 17.0, *) {
           overlay()
+            .scaledToFill()
             .edgeInsets(EdgeInsets(top: top ?? 0, leading: leading ?? 0, bottom: bottom ?? 0, trailing: trailing ?? 0))
             .visualEffect { content, geo in
               content
