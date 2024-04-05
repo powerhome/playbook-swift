@@ -67,6 +67,12 @@ public extension View {
 }
 
 public final class PopoverManager: ObservableObject {
+  @Published var isPresented: Bool
+  @Published var position: CGPoint?
+  @Published var view: AnyView?
+  @Published var close: (Close, action: (() -> Void)?)
+  @Published var background: CGFloat
+
   public init(
     isPresented: Bool = false,
     position: CGPoint? = nil,
@@ -80,12 +86,6 @@ public final class PopoverManager: ObservableObject {
     self.background = background
     self.close = close
   }
-
-  @Published var isPresented: Bool
-  @Published var position: CGPoint?
-  @Published var view: AnyView?
-  @Published var close: (Close, action: (() -> Void)?)
-  @Published var background: CGFloat
 
   public enum Close {
     case inside, outside, anywhere

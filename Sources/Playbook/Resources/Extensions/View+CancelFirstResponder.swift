@@ -16,7 +16,11 @@ struct CancelFirstResponder: ViewModifier {
         #if os(iOS)
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         #elseif os(macOS)
-        NSApplication.shared.sendAction(#selector(NSResponder.resignFirstResponder), to: nil, from: nil)
+        NSEvent.addLocalMonitorForEvents(matching: .leftMouseUp) { event in
+          event.window?.makeFirstResponder(nil)
+          event.window?.makeFirstResponder(event.window)
+          return event
+        }
         #endif
         }
   }
