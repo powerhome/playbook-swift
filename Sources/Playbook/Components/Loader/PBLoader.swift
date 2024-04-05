@@ -10,25 +10,21 @@
 import SwiftUI
 
 struct PBLoader: View {
-  @State private var rotationAngle: Double
   @State private var dotIndex: Int
-  @State private var contentSize: CGSize
+  var rotationAngle: Double
+  var contentSize: CGSize
   let dotsCount: Int
   let dotSize: CGFloat
   let circleRadius: CGFloat
-  let spinnerFont: PBFont
   let spinnerSpeed: TimeInterval
-  let alignment: HorizontalAlignment
   public init(
     rotationAngle: Double = 0,
     dotIndex: Int = 0,
     contentSize: CGSize = .zero,
-    dotsCount: Int = 7,
+    dotsCount: Int = 8,
     dotSize: CGFloat = 2,
     circleRadius: CGFloat = 7,
-    spinnerFont: PBFont = .body,
-    spinnerSpeed: TimeInterval = 0.1,
-    alignment: HorizontalAlignment = .center
+    spinnerSpeed: TimeInterval = 0.1
   ) {
     self.rotationAngle = rotationAngle
     self.dotIndex = dotIndex
@@ -36,12 +32,10 @@ struct PBLoader: View {
     self.dotsCount = dotsCount
     self.dotSize = dotSize
     self.circleRadius = circleRadius
-    self.spinnerFont = spinnerFont
     self.spinnerSpeed = spinnerSpeed
-    self.alignment = alignment
   }
   var body: some View {
-      loaderView
+        loaderView
   }
 }
 
@@ -54,6 +48,7 @@ extension PBLoader {
             .frame(width: dotSize, height: dotSize)
             .offset(circleOffset(for: index, in: contentSize))
             .animation(.linear(duration: 5).repeatForever(autoreverses: false), value: rotationAngle)
+         
         }
       }
       .onAppear {
@@ -71,7 +66,6 @@ extension PBLoader {
     return CGSize(width: x, height: y)
   }
 }
-
 
 #Preview {
   registerFonts()
