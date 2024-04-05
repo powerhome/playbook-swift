@@ -26,7 +26,6 @@ public struct PBTypeahead<Content: View>: View {
   @State private var selectedIndex: Int?
   @State private var selectedOptions: [Option] = []
   @State private var focused: Bool = false
-  //  @State private var searchResults: [Option] = []
   @Binding var searchText: String
   @FocusState private var isFocused
   

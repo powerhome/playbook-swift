@@ -31,21 +31,6 @@ public struct TypeaheadCatalog: View {
     }
    
     .background(Color.background(.light))
-    .onTapGesture {
-      #if os(iOS)
-      UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-      #elseif os(macOS)
-      NSApplication.shared.sendAction(#selector(NSResponder.resignFirstResponder), to: nil, from: nil)
-      #endif
-    }
-//    .gesture(
-//      DragGesture(minimumDistance: 0, coordinateSpace: .global).onEnded({ gesture in
-//        if gesture.translation.height > 0 {
-//          UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-//          print("did tap outside")
-//        }
-//      }))
-    
     .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)
   }

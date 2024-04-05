@@ -13,21 +13,23 @@ struct PopoverHandler: ViewModifier {
   @StateObject var popoverManager: PopoverManager
 
   func body(content: Content) -> some View {
-    content.overlay(
-      ZStack {
-        if popoverManager.isPresented {
-          popoverManager.view
-            .position(popoverManager.position ?? .zero)
-            .onTapGesture {
-              closeInside
-            }
+    content
+      .overlay(
+        ZStack {
+          if popoverManager.isPresented {
+            popoverManager.view
+              .position(popoverManager.position ?? .zero)
+              .onTapGesture {
+                closeInside
+              }
+          }
         }
-      }
-        .background(Color.black.opacity(popoverManager.background))
-        .onTapGesture {
-          closeOutside
-        }
-    )
+          .background(Color.black.opacity(popoverManager.background))
+          .onTapGesture {
+            closeOutside
+          }
+      )
+      .cancelFirstResponder()
   }
   
   private var closeInside: Void {
