@@ -36,6 +36,7 @@ public enum Components: String, CaseIterable {
   case iconCircle = "Icon Circle"
   case image
   case label = "Label Value"
+  case loader = "Loader"
   case message
   case multipleUser = "Multiple Users"
   case multipleUsersIndicator = "Multiple Users Indicator"
@@ -91,6 +92,7 @@ public enum Components: String, CaseIterable {
     case .iconCircle: IconCircleCatalog()
     case .image: PBImage_Previews.previews
     case .label: PBLabelValue_Previews.previews
+    case .loader: LoaderCatalog()
     case .message: PBMessage_Previews.previews
     case .multipleUser: MultipleUsersCatalog()
     case .multipleUsersIndicator: MultipleUsersIndicatorCatalog()
