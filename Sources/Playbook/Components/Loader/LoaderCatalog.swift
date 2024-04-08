@@ -10,8 +10,6 @@
 import SwiftUI
 
 struct LoaderCatalog: View {
-  @State private var rotationAngle: Double = 0
-  @State private var isLoading: Bool = false
   var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
@@ -29,8 +27,7 @@ struct LoaderCatalog: View {
 extension LoaderCatalog {
   var defaultView: some View {
     VStack(spacing: Spacing.small) {
-      PBLoader()
+        PBLoader()
     }
-    .padding(.leading, Spacing.xSmall)
   }
 }

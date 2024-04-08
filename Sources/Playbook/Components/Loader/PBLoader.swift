@@ -11,27 +11,18 @@ import SwiftUI
 
 struct PBLoader: View {
   @State private var dotIndex: Int
-  var rotationAngle: Double
-  var contentSize: CGSize
   let dotsCount: Int
   let dotSize: CGFloat
-  let circleRadius: CGFloat
   let spinnerSpeed: TimeInterval
   public init(
-    rotationAngle: Double = 0,
     dotIndex: Int = 0,
-    contentSize: CGSize = .zero,
     dotsCount: Int = 8,
     dotSize: CGFloat = 2,
-    circleRadius: CGFloat = 7,
     spinnerSpeed: TimeInterval = 0.1
   ) {
-    self.rotationAngle = rotationAngle
     self.dotIndex = dotIndex
-    self.contentSize = contentSize
     self.dotsCount = dotsCount
     self.dotSize = dotSize
-    self.circleRadius = circleRadius
     self.spinnerSpeed = spinnerSpeed
   }
   var body: some View {
@@ -41,29 +32,34 @@ struct PBLoader: View {
 
 extension PBLoader {
   var loaderView: some View {
-      ZStack {
-        ForEach(0..<dotsCount, id: \.self) { index in
-          Circle()
-            .pbFont(.body, color: index == dotIndex ? Color.clear : Color.text(.light))
-            .frame(width: dotSize, height: dotSize)
-            .offset(circleOffset(for: index, in: contentSize))
-            .animation(.linear(duration: 5).repeatForever(autoreverses: false), value: rotationAngle)
-         
-        }
+    CircularLayout {
+      ForEach(0..<dotsCount, id: \.self) { index in
+        dotView(index)
       }
-      .onAppear {
-        Timer.scheduledTimer(withTimeInterval: spinnerSpeed, repeats: true) { _ in
-          dotIndex = (dotIndex + 1) % dotsCount
-        }
+    }
+    .animation(
+      .linear(duration: 5)
+      .repeatForever(autoreverses: false),
+      value: 360
+    )
+    .onAppear {
+      Timer.scheduledTimer(
+        withTimeInterval: spinnerSpeed,
+        repeats: true) { _ in
+        dotIndex = (dotIndex + 1) % dotsCount
       }
+    }
   }
-  func circleOffset(for index: Int, in size: CGSize) -> CGSize {
-    let currentAngle = rotationAngle + 2 * .pi / Double(dotsCount) * Double(index)
-    let centerX = size.width / 2
-    let centerY = size.height / 2
-    let x = centerX + circleRadius * cos(currentAngle)
-    let y = centerY + circleRadius * sin(currentAngle)
-    return CGSize(width: x, height: y)
+}
+
+extension PBLoader {
+  func dotView(_ index: Int) -> some View {
+    Circle()
+      .foregroundStyle(dotColor(index))
+      .frame(width: dotSize, height: dotSize)
+  }
+  func dotColor(_ index: Int) -> Color {
+    index == dotIndex ? Color.clear : Color.text(.light)
   }
 }
 
