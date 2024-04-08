@@ -32,6 +32,3 @@ struct CircularLayout: Layout {
     }
   }
 }
-
-
-

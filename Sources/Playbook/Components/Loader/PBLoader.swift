@@ -14,6 +14,7 @@ struct PBLoader: View {
   let dotsCount: Int
   let dotSize: CGFloat
   let spinnerSpeed: TimeInterval
+
   public init(
     dotIndex: Int = 0,
     dotsCount: Int = 8,
@@ -26,7 +27,7 @@ struct PBLoader: View {
     self.spinnerSpeed = spinnerSpeed
   }
   var body: some View {
-        loaderView
+    loaderView
   }
 }
 
