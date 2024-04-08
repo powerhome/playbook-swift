@@ -62,7 +62,7 @@ public struct PBTypeahead<Content: View>: View {
         isFocused: $isFocused,
         clearAction: { clearText },
         onItemTap: { removeSelected($0) },
-        onViewTap: { showList.toggle() }
+        onViewTap: { onViewTap }
       )
       .pbPopover(
         isPresented: $showList,
@@ -141,59 +141,9 @@ private extension PBTypeahead {
     }
   }
 
-  func listBackgroundColor(_ index: Int?) -> Color {
-    switch selection {
-    case .single:
-      if selectedIndex != nil, selectedIndex == index {
-        return .pbPrimary
-      }
-    default: break
-    }
-    #if os(macOS)
-    return hoveringIndex == index ? .hover : .card
-    #elseif os(iOS)
-    return .card
-    #endif
-  }
-  
-  func listTextolor(_ index: Int?) -> Color {
-    if selectedIndex != nil, selectedIndex == index {
-      return .white
-    } else {
-      return .text(.default)
-    }
-  }
-
   var optionsSelected: GridInputField.Selection {
     let optionsSelected = selectedOptions.map { $0.0 }
     return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
-  }
-
-  func onListSelection(index: Int, option: Option) {
-    if showList {
-      switch selection {
-      case .single:
-        onSingleSelection(index: index, option)
-      case .multiple:
-        onMultipleSelection(option)
-      }
-    }
-    showList = false
-    searchText = ""
-  }
-  
-  func onSingleSelection(index: Int, _ option: Option) {
-    selectedOptions.removeAll()
-    selectedOptions.append(option)
-    selectedIndex = index
-    hoveringIndex = index
-  }
-  
-  func onMultipleSelection(_ option: Option) {
-    selectedOptions.append(option)
-    listOptions.removeAll(where: { $0.0 == option.0 })
-    hoveringIndex = nil
-    selectedIndex = nil
   }
 
   var clearText: Void {
@@ -205,14 +155,7 @@ private extension PBTypeahead {
       listOptions = options
       selectedIndex = nil
       hoveringIndex = nil
-    }
-  }
-  
-  func removeSelected(_ index: Int) {
-    if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
-      let selectedElement = selectedOptions.remove(at: selectedElementIndex)
-      listOptions.append(selectedElement)
-      selectedIndex = nil
+      showList = false
     }
   }
 
@@ -260,6 +203,69 @@ private extension PBTypeahead {
       return event
     }
     #endif
+  }
+
+  var onViewTap: Void {
+    showList.toggle()
+    isFocused = true
+  }
+
+  func onListSelection(index: Int, option: Option) {
+    if showList {
+      switch selection {
+      case .single:
+        onSingleSelection(index: index, option)
+      case .multiple:
+        onMultipleSelection(option)
+      }
+    }
+    showList = false
+    searchText = ""
+  }
+
+  func onSingleSelection(index: Int, _ option: Option) {
+    selectedOptions.removeAll()
+    selectedOptions.append(option)
+    selectedIndex = index
+    hoveringIndex = index
+  }
+
+  func onMultipleSelection(_ option: Option) {
+    selectedOptions.append(option)
+    listOptions.removeAll(where: { $0.0 == option.0 })
+    hoveringIndex = nil
+    selectedIndex = nil
+  }
+
+  func removeSelected(_ index: Int) {
+    if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
+      let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+      listOptions.append(selectedElement)
+      selectedIndex = nil
+    }
+  }
+
+  func listBackgroundColor(_ index: Int?) -> Color {
+    switch selection {
+    case .single:
+      if selectedIndex != nil, selectedIndex == index {
+        return .pbPrimary
+      }
+    default: break
+    }
+    #if os(macOS)
+    return hoveringIndex == index ? .hover : .card
+    #elseif os(iOS)
+    return .card
+    #endif
+  }
+
+  func listTextolor(_ index: Int?) -> Color {
+    if selectedIndex != nil, selectedIndex == index {
+      return .white
+    } else {
+      return .text(.default)
+    }
   }
 }
 
