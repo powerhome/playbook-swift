@@ -32,7 +32,7 @@ public enum PBFont: Equatable {
     case .title1:
       return Font.custom(
         PBFont.proximaNovaLight,
-        size: 46,
+        size: size,
         relativeTo: .largeTitle
       )
     case .title2:
@@ -110,7 +110,7 @@ public enum PBFont: Equatable {
     case .messageBody:
       return Font.custom(
         PBFont.proximaNovaLight,
-        size: 15,
+        size: size,
         relativeTo: .body
       )
     }
