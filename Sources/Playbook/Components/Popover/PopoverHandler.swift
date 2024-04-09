@@ -28,7 +28,6 @@ struct PopoverHandler: ViewModifier {
           .onTapGesture {
             closeOutside
           }
-          .animation(.easeIn(duration: 0.1), value: popoverManager.isPresented)
       )
       .cancelFirstResponder()
   }
