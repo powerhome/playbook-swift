@@ -11,22 +11,28 @@ import SwiftUI
 
 public struct GlobalPositionCatalog: View {
   @State private var selected: Int = 1
-  @State private var contentSize: CGSize = .zero
   
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default", spacing: Spacing.small) {
-          avatarStatusView
-        }
         PBDoc(title: "Image", spacing: Spacing.small) {
           imageBadgeView
         }
-        PBDoc(title: "Card With Badge", spacing: Spacing.small) {
-          cardWithBadgeView.padding(Spacing.xxSmall)
+        PBDoc(title: "Card With Icon Circle", spacing: Spacing.small) {
+          cardWithBadgeView
+            .padding(Spacing.xxSmall)
+          
         }
         PBDoc(title: "Nav", spacing: Spacing.small) {
           navView
+          
+        }
+        PBDoc(title: "Avatar With Badge", spacing: Spacing.small) {
+          avatarBadgeView
+        }
+        PBDoc(title: "Avatar With Card And Badge", spacing: Spacing.small) {
+          avatarCardBadgeView
+//            .padding(Spacing.small)
         }
       }
       .padding(Spacing.medium)
@@ -37,47 +43,31 @@ public struct GlobalPositionCatalog: View {
 }
 
 extension GlobalPositionCatalog {
-  var avatarStatusView: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
-      PBAvatar(
-        image: Image("andrew", bundle: .module),
-        size: .small
-      )
-      .globalPosition(
-        alignment: .bottom
-      ) {
-        PBBadge(text: "On Roadtrip", rounded: true, variant: .chat)
-      }
-
-      PBAvatar(
-        image: Image("Anna", bundle: .module),
-        size: .medium
-      )
-      .globalPosition(alignment: .topLeading) {
-        PBBadge(
-          text: "3",
-          rounded: true,
-          variant: .chat
-        )
-      }
-      
-      PBAvatar(
-        image: Image("Lu", bundle: .module),
-        size: .large
-      )
-      .globalPosition(
-        alignment: Alignment.bottom,
-        bottom: -Spacing.xxSmall
-      ) {
-        PBBadge(
-          text: "On Roadtrip",
-          rounded: true,
-          variant: .chat
-        )
-      }
+  
+  var navView: some View {
+    PBNav(
+      selected: $selected,
+      variant: .normal,
+      orientation: .horizontal
+    ) {
+      PBNavItem("First")
+        .globalPosition(
+          alignment: .topTrailing,
+          top: 0,
+          leading: -Spacing.medium,
+          bottom: 0,
+          trailing: 0
+        ) {
+          PBBadge(
+            text: "3",
+            rounded: true,
+            variant: .chat
+          )
+        }
+      PBNavItem("Second")
+      PBNavItem("Third")
     }
   }
-  
   var imageBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBImage(
@@ -88,7 +78,7 @@ extension GlobalPositionCatalog {
       )
       .globalPosition(
         alignment: .topTrailing,
-        top: -Spacing.xSmall, 
+        top: -Spacing.xSmall,
         trailing: -Spacing.xxSmall
         
       ) {
@@ -135,28 +125,33 @@ extension GlobalPositionCatalog {
     }
   }
   
-  var navView: some View {
-    PBNav(
-      selected: $selected,
-      variant: .normal,
-      orientation: .horizontal
-    ) {
-      PBNavItem("First")
-        .globalPosition(
-          alignment: .topTrailing,
-          top: 0,
-          leading: -Spacing.medium,
-          bottom: 0,
-          trailing: 0
-        ) {
-          PBBadge(
-            text: "3",
-            rounded: true,
-            variant: .chat
-          )
-        }
-      PBNavItem("Second")
-      PBNavItem("Third")
+  var avatarBadgeView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBAvatar(
+        image: Image("Anna", bundle: .module),
+        size: .large
+      )
+      .globalPosition(alignment: .topLeading) {
+        PBBadge(
+          text: "5",
+          rounded: true,
+          variant: .chat
+        )
+      }
+    }
+  }
+  var avatarCardBadgeView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBAvatar(
+        image: Image("andrew", bundle: .module),
+        size: .large
+      )
+      .globalPosition(
+        alignment: .bottom
+      ) {
+        PBBadge(text: "On Roadtrip", rounded: true, variant: .chat)
+         
+      }
     }
   }
 }
