@@ -71,6 +71,7 @@ public struct PBTypeahead<Content: View>: View {
       ) {
         listView
       }
+     
     }
     .onAppear {
       focused = isFocused
@@ -83,9 +84,19 @@ public struct PBTypeahead<Content: View>: View {
     }
     .task(
       id: searchText,
-      nanoseconds: 000
+      nanoseconds: UInt64(debounce.time)
     ) {
       _ = searchResults
+    }
+    .onChange(of: listOptions.count) { _ in
+      if showList {
+        showList = false
+        Timer.scheduledTimer(withTimeInterval: 0.001, repeats: false) { timer in
+          withAnimation(.easeIn(duration: 0.1)) {
+            showList = true
+          }
+        }
+      }
     }
   }
 }
@@ -124,7 +135,8 @@ private extension PBTypeahead {
         .frame(maxHeight: dropdownMaxHeight)
         .fixedSize(horizontal: false, vertical: true)
         }
-      .frame(maxWidth: .infinity)
+      .frame(maxWidth: .infinity, alignment: .top)
+      .transition(.opacity)
     }
   }
 
