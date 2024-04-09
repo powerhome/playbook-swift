@@ -40,23 +40,27 @@ public struct GlobalPosition<T: View>: ViewModifier {
     content
       .overlay(alignment: alignment) {
         if #available(iOS 17.0, *) {
-          view()
-            .scaledToFill()
-            .visualEffect { content, geo in
-              if isCard {
-                content.offset(x: -geo.size.width/2, y: geo.size.height/2)
-              } else {
-                content.offset(x: 0, y: 0)
+          if #available(macOS 14.0, *) {
+            view()
+              .scaledToFill()
+              .visualEffect { content, geo in
+                if isCard {
+                  content.offset(x: -geo.size.width/2, y: geo.size.height/2)
+                } else {
+                  content.offset(x: 0, y: 0)
+                }
               }
-            }
-            .edgeInsets(
-              EdgeInsets(
-                top: top,
-                leading: leading,
-                bottom: bottom,
-                trailing: trailing
+              .edgeInsets(
+                EdgeInsets(
+                  top: top,
+                  leading: leading,
+                  bottom: bottom,
+                  trailing: trailing
+                )
               )
-            )
+          } else {
+            // Fallback on earlier versions
+          }
         } else {
           view()
             .scaledToFill()
