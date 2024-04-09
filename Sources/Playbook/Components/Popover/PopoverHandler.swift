@@ -18,7 +18,7 @@ struct PopoverHandler: ViewModifier {
         ZStack {
           if popoverManager.isPresented {
             popoverManager.view
-              .position(popoverManager.position ?? .zero)
+              .position(popoverManager.position ?? CGPoint(x: 100, y: 100))
               .onTapGesture {
                 closeInside
               }

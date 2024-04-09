@@ -50,7 +50,7 @@ public struct Popover<T: View>: ViewModifier {
                 popoverManager.position = popoverFrame.point(at: .center())
               }
           )
-          Timer.scheduledTimer(withTimeInterval: 0.25, repeats: false) { timer in
+          Timer.scheduledTimer(withTimeInterval: 0.08, repeats: false) { _ in
             popoverManager.isPresented = true
           }
         } else {

@@ -27,17 +27,6 @@ public struct PopoverCatalog: View {
         PBDoc(title: "Dropdrown") { dropdownPopover }
         PBDoc(title: "Scroll") { scrollPopover }
         PBDoc(title: "Close options") { onClosePopover }
-        
-        PBDoc(title: "Default") { defaultPopover }
-        PBDoc(title: "Dropdrown") { dropdownPopover }
-        PBDoc(title: "Scroll") { scrollPopover }
-        PBDoc(title: "Close options") { onClosePopover }
-        
-        
-        PBDoc(title: "Default") { defaultPopover }
-        PBDoc(title: "Dropdrown") { dropdownPopover }
-        PBDoc(title: "Scroll") { scrollPopover }
-        PBDoc(title: "Close options") { onClosePopover }
       }
       .padding(Spacing.medium)
       .withPopoverHandling(popoverManager)

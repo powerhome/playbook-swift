@@ -81,22 +81,12 @@ public struct PBTypeahead<Content: View>: View {
     .onChange(of: isFocused) { newValue in
       showList = newValue
     }
-    .onChange(of: searchText, debounce: debounce) { newValue in
+    .onChange(of: searchText, debounce: debounce) { _ in
       _ = searchResults
-      if showList {
-        showList = false
-        Timer.scheduledTimer(withTimeInterval: 0.001, repeats: false) { timer in
-          showList = true
-        }
-      }
+      reloadList
     }
     .onChange(of: listOptions.count) { _ in
-      if showList {
-        showList = false
-        Timer.scheduledTimer(withTimeInterval: 0.001, repeats: false) { timer in
-          showList = true
-        }
-      }
+      reloadList
     }
   }
 }
@@ -220,6 +210,15 @@ private extension PBTypeahead {
   var onViewTap: Void {
     showList.toggle()
     isFocused = true
+  }
+  
+  var reloadList: Void {
+    if showList {
+      showList = false
+      Timer.scheduledTimer(withTimeInterval: 0.001, repeats: false) { _ in
+        showList = true
+      }
+    }
   }
 
   func onListSelection(index: Int, option: Option) {
