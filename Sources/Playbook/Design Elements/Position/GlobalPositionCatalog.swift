@@ -12,65 +12,29 @@ import SwiftUI
 public struct GlobalPositionCatalog: View {
   @State private var selected: Int = 1
   @State private var contentSize: CGSize = .zero
+  
   public var body: some View {
-    if #available(iOS 17.0, *) {
-      ScrollView {
-        if #available(iOS 17.0, *) {
-          VStack(alignment: .leading, spacing: Spacing.medium) {
-            PBDoc(title: "Default", spacing: Spacing.small) {
-              avatarStatusView
-            }
-            PBDoc(title: "Image", spacing: Spacing.small) {
-              imageBadgeView
-            }
-            PBDoc(title: "Card With Badge", spacing: Spacing.small) {
-              cardWithBadgeView
-            }
-            PBDoc(title: "Nav", spacing: Spacing.small) {
-              navView
-            }
-          }
-          .scrollTargetLayout()
-        } else {
-          // Fallback on earlier versions
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default", spacing: Spacing.small) {
+          avatarStatusView
         }
-        /*** Isis
-         //        ForEach(Positiona.allCases, id: \.id) { pos in
-         //
-         //          Text(pos.rawValue).pbFont(.caption)
-         //          HStack(spacing: Spacing.medium) {
-         //
-         
-         
-         //
-         //            PBAvatar(image: Image("andrew", bundle: .module), size: .medium)
-         //              .globalPosition(position: pos) {
-         //                PBBadge(text: "5", rounded: true, variant: .chat)
-         //              }
-         //              .background(Color.pink)
-         //
-         //            PBAvatar(image: Image("andrew", bundle: .module), size: .small)
-         //              .globalPosition(position: pos) {
-         //                PBBadge(text: "5", rounded: true, variant: .chat)
-         //              }
-         //              .background(Color.pink)
-         //
-         //          }
-         //          .padding()
-         //          .background(Color.blue)
-         //
-         //        }
-         
-         //      }
-         */
+        PBDoc(title: "Image", spacing: Spacing.small) {
+          imageBadgeView
+        }
+        PBDoc(title: "Card With Badge", spacing: Spacing.small) {
+          cardWithBadgeView.padding(Spacing.xxSmall)
+        }
+        PBDoc(title: "Nav", spacing: Spacing.small) {
+          navView
+        }
       }
-      .scrollTargetBehavior(.viewAligned)
-    } else {
-      // Fallback on earlier versions
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Global Position")
   }
 }
-
 
 extension GlobalPositionCatalog {
   var avatarStatusView: some View {
@@ -79,33 +43,41 @@ extension GlobalPositionCatalog {
         image: Image("andrew", bundle: .module),
         size: .small
       )
-      .globalPosition(overlay: {
+      .globalPosition(
+        alignment: .bottom
+      ) {
         PBBadge(text: "On Roadtrip", rounded: true, variant: .chat)
-      }, alignment: .bottom, top: Spacing.medium, leading: -Spacing.medium, bottom: 0, trailing: 0)
-      
+      }
+
       PBAvatar(
         image: Image("Anna", bundle: .module),
         size: .medium
       )
-      .globalPosition(overlay: {
+      .globalPosition(alignment: .topLeading) {
         PBBadge(
           text: "3",
           rounded: true,
           variant: .chat
         )
-      }, alignment: .topLeading)
+      }
+      
       PBAvatar(
         image: Image("Lu", bundle: .module),
         size: .large
       )
-      .globalPosition(overlay: {
-        PBBadge(text: "On Roadtrip",
-                rounded: true,
-                variant: .chat
+      .globalPosition(
+        alignment: Alignment.bottom,
+        bottom: -Spacing.medium
+      ) {
+        PBBadge(
+          text: "On Roadtrip",
+          rounded: true,
+          variant: .chat
         )
-      }, alignment: Alignment.bottom, top: 0, leading: -Spacing.medium, bottom: 0, trailing: 0)
+      }
     }
   }
+  
   var imageBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBImage(
@@ -114,13 +86,15 @@ extension GlobalPositionCatalog {
         size: .xSmall,
         rounded: .sharp
       )
-      .globalPosition(overlay: {
+      .globalPosition(
+        alignment: .topTrailing
+      ) {
         PBBadge(
           text: "3",
           rounded: true,
           variant: .chat
         )
-      }, alignment: .topTrailing, top: -Spacing.xSmall, leading: 0, bottom: 0, trailing: 0)
+      }
     }
   }
   
@@ -129,25 +103,35 @@ extension GlobalPositionCatalog {
       PBCard{
         Text("A bunch of awesome content goes here. ")
       }
-      .globalPosition(overlay: {
+      .globalPosition(
+        alignment: .bottomLeading,
+        isCard: true
+      ) {
         PBBadge(
           text: "+1",
-          rounded: true,
-          variant: .info
+          rounded: false,
+          variant: .primary
         )
-      }, alignment: .bottomLeading, top: 0, leading: -Spacing.xSmall, bottom: 0, trailing: 0)
+        .background(Color.white)
+      }
+      
       PBCard{
         Text("A bunch of awesome content goes here. ")
       }
-      .globalPosition(overlay: {
+      .globalPosition(
+        alignment: .bottomLeading,
+        isCard: true
+      ) {
         PBIconCircle(
           FontAwesome.rocket,
           size: .small,
-          color: .orange.opacity(1.3)
+          color: .data(.data5)
         )
-      }, alignment: .bottomLeading, top: 0, leading: -Spacing.small, bottom: -Spacing.xxSmall, trailing: 0)
+        .background(Color.white)
+      }
     }
   }
+  
   var navView: some View {
     PBNav(
       selected: $selected,
@@ -155,13 +139,19 @@ extension GlobalPositionCatalog {
       orientation: .horizontal
     ) {
       PBNavItem("First")
-        .globalPosition(overlay: {
+        .globalPosition(
+          alignment: .topTrailing,
+          top: 0,
+          leading: -Spacing.medium,
+          bottom: 0,
+          trailing: 0
+        ) {
           PBBadge(
             text: "3",
             rounded: true,
             variant: .chat
           )
-        }, alignment: .topTrailing, top: 0, leading: -Spacing.medium, bottom: 0, trailing: 0)
+        }
       PBNavItem("Second")
       PBNavItem("Third")
     }
