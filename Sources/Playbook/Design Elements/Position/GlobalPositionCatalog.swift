@@ -67,7 +67,7 @@ extension GlobalPositionCatalog {
       )
       .globalPosition(
         alignment: Alignment.bottom,
-        bottom: -Spacing.medium
+        bottom: -Spacing.xxSmall
       ) {
         PBBadge(
           text: "On Roadtrip",
@@ -87,7 +87,10 @@ extension GlobalPositionCatalog {
         rounded: .sharp
       )
       .globalPosition(
-        alignment: .topTrailing
+        alignment: .topTrailing,
+        top: -Spacing.xSmall, 
+        trailing: -Spacing.xxSmall
+        
       ) {
         PBBadge(
           text: "3",
