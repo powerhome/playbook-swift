@@ -20,7 +20,8 @@ public struct PBMessage<Content: View>: View {
   let horizontalPadding: CGFloat
   let content: Content?
   let timestampVariant: PBTimestamp.Variant
-
+  @Binding var isLoading: Bool
+  //@State private var isLoading: Bool = false
   @State private var isHovering: Bool = false
 
   public init(
@@ -33,6 +34,7 @@ public struct PBMessage<Content: View>: View {
     changeTimeStampOnHover: Bool = false,
     verticalPadding: CGFloat = Spacing.xSmall,
     horizontalPadding: CGFloat = Spacing.xSmall,
+    isLoading: Binding<Bool> = .constant(false),
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.avatar = avatar
@@ -44,36 +46,48 @@ public struct PBMessage<Content: View>: View {
     self.changeTimeStampOnHover = changeTimeStampOnHover
     self.verticalPadding = verticalPadding
     self.horizontalPadding = horizontalPadding
+    _isLoading = isLoading
     self.content = content()
   }
-
+  
   public var body: some View {
     HStack(alignment: .top, spacing: nil) {
       if let avatar = avatar {
         avatar
+          .opacity(isLoading ? 0.8 : 1)
       }
       VStack(alignment: .leading, spacing: Spacing.xxSmall) {
         HStack(spacing: Spacing.xSmall) {
           Text(label)
-            .pbFont(.messageTitle)
+            .pbFont(.messageTitle, color: isLoading ? .text(.light) : .text(.default))
           if timestampAlignment == .trailing {
             Spacer()
           }
           if let timestamp = timestamp {
-            PBTimestamp(
-              timestamp,
-              amPmStyle: .full,
-              showDate: false,
-              showUser: false,
-              variant: returnTimestamp(isHovering: isHovering)
-            )
+            if isLoading {
+              PBLoader()
+            } else {
+              PBTimestamp(
+                timestamp,
+                amPmStyle: .full,
+                showDate: false,
+                showUser: false,
+                variant: returnTimestamp(isHovering: isHovering)
+              )
+            }
           }
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
-
+        .onAppear {
+          isLoading = true
+          Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
+              self.isLoading = false
+          }
+        }
+        
         if let message = message {
           Text(message)
-            .pbFont(.messageBody)
+            .pbFont(.messageBody, color: isLoading ? .text(.light) : .text(.default))
             .fontWeight(FontWeight.regular)
             .lineSpacing(6)
         }
@@ -87,7 +101,7 @@ public struct PBMessage<Content: View>: View {
     .padding(.horizontal, horizontalPadding)
     .frame(maxWidth: .infinity, alignment: .topLeading)
   }
-
+  
   func returnTimestamp(isHovering: Bool) -> PBTimestamp.Variant {
     if changeTimeStampOnHover {
       return isHovering ? .standard : .hideUserElapsed
