@@ -20,19 +20,15 @@ public struct GlobalPositionCatalog: View {
         }
         PBDoc(title: "Card With Icon Circle", spacing: Spacing.small) {
           cardWithBadgeView
-            .padding(Spacing.xxSmall)
-          
         }
         PBDoc(title: "Nav", spacing: Spacing.small) {
           navView
-          
         }
         PBDoc(title: "Avatar With Badge", spacing: Spacing.small) {
           avatarBadgeView
         }
         PBDoc(title: "Avatar With Card And Badge", spacing: Spacing.small) {
           avatarCardBadgeView
-//            .padding(Spacing.small)
         }
       }
       .padding(Spacing.medium)
@@ -43,7 +39,6 @@ public struct GlobalPositionCatalog: View {
 }
 
 extension GlobalPositionCatalog {
-  
   var navView: some View {
     PBNav(
       selected: $selected,
@@ -53,10 +48,10 @@ extension GlobalPositionCatalog {
       PBNavItem("First")
         .globalPosition(
           alignment: .topTrailing,
-          top: 0,
-          leading: -Spacing.medium,
+          top: Spacing.xSmall - 1,
+          leading: 0,
           bottom: 0,
-          trailing: 0
+          trailing: Spacing.xSmall + 1
         ) {
           PBBadge(
             text: "3",
@@ -68,6 +63,7 @@ extension GlobalPositionCatalog {
       PBNavItem("Third")
     }
   }
+
   var imageBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBImage(
@@ -79,8 +75,7 @@ extension GlobalPositionCatalog {
       .globalPosition(
         alignment: .topTrailing,
         top: -Spacing.xSmall,
-        trailing: -Spacing.xxSmall
-        
+        trailing: -Spacing.xSmall + 2
       ) {
         PBBadge(
           text: "3",
@@ -123,6 +118,7 @@ extension GlobalPositionCatalog {
         .background(Color.white)
       }
     }
+    .padding(Spacing.xSmall)
   }
   
   var avatarBadgeView: some View {
@@ -131,7 +127,11 @@ extension GlobalPositionCatalog {
         image: Image("Anna", bundle: .module),
         size: .large
       )
-      .globalPosition(alignment: .topLeading) {
+      .globalPosition(
+        alignment: .topLeading,
+        top: Spacing.xxSmall,
+        leading: Spacing.xxSmall
+      ) {
         PBBadge(
           text: "5",
           rounded: true,
@@ -149,8 +149,7 @@ extension GlobalPositionCatalog {
       .globalPosition(
         alignment: .bottom
       ) {
-        PBBadge(text: "On Roadtrip", rounded: true, variant: .chat)
-         
+        PBBadge(text: "On Roadtrip", rounded: true, variant: .neutral)
       }
     }
   }
