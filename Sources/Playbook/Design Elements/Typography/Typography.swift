@@ -32,10 +32,16 @@ public struct Typography: ViewModifier {
   var spacing: CGFloat {
     switch font {
     case .title1: return 4.6
-    case .title2: return 3.4
-    case .title3, .detail: return 2.8
-    case .title4, .body: return 1.6
-    default: return 0
+    case .title2: return -0.7
+    case .title3: return 2.8
+    case .title4: return 1.6
+    case .body: return 3.2
+    case .detail: return 2.8
+    case .caption, .subcaption: return 3
+    case .largeCaption: return 5
+    case .messageTitle: return 1.4
+    case .messageBody: return 3
+    default: return 3.2
     }
   }
 
@@ -64,29 +70,21 @@ public struct Typography: ViewModifier {
   var fontWeight: Font.Weight {
     switch font {
     case .title1, .title2, .title3: return variant == .light ? FontWeight.light : FontWeight.bolder
-    case .title4, .buttonText, .badgeText: return FontWeight.bolder
+    case .title4, .buttonText, .badgeText, .messageTitle: return FontWeight.bolder
     case .caption: return FontWeight.bold
     case .detail(true): return FontWeight.bold
     default: return FontWeight.regular
     }
   }
-
+  
   public func body(content: Content) -> some View {
-    if #available(iOS 16.0, *) {
-      content
-        .font(font.font)
-        .tracking(letterSpacing)
-        .fontWeight(fontWeight)
-        .lineSpacing(spacing)
-        .textCase(casing)
-        .foregroundColor(foregroundColor)
-    } else {
-      content
-        .font(font.font)
-        .lineSpacing(spacing)
-        .textCase(casing)
-        .foregroundColor(foregroundColor)
-    }
+    content
+      .font(font.font)
+      .tracking(letterSpacing)
+      .fontWeight(fontWeight)
+      .padding(.vertical, spacing)
+      .textCase(casing)
+      .foregroundColor(foregroundColor)
   }
 }
 

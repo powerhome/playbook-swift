@@ -41,7 +41,6 @@ public struct TypographyCatalog: View {
       ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
         Text("Text size \(Int(size.rawValue)) px")
           .pbFont(.monogram(size.rawValue))
-          .padding(6)
       }
     }
 
@@ -75,18 +74,24 @@ public struct TypographyCatalog: View {
       Text("I am a detail kit")
         .pbFont(.detail(true))
     }
+    
+    let message = PBDoc(title: "Message") {
+      Text("Message Title")
+        .pbFont(.messageTitle)
+      Text("Message Body")
+        .pbFont(.messageBody)
+    }
 
     return ScrollView {
       VStack(spacing: Spacing.medium) {
         title
         titleLight
         body
-        if #available(iOS 16.0, *) {
-          letterSpacing
-        }
+        letterSpacing
         componentsText
         caption
         detail
+        message
       }
       .padding(Spacing.medium)
     }
