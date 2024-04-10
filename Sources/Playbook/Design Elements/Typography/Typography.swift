@@ -23,7 +23,6 @@ public struct Typography: ViewModifier {
       .lineSpacing(lineSpacing)
       .textCase(casing)
       .foregroundColor(foregroundColor)
-      .border(Color.pink, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
   }
 }
 
@@ -55,22 +54,21 @@ private extension Typography {
     case .largeCaption: return 5
     case .messageTitle: return 1.4
     case .messageBody: return 3
-    case .badgeText: return 0
-    default: return 3.2
+    default: return 0
     }
   }
-  
+
   var lineSpacing: CGFloat {
     switch font {
-    case .title1: return 4.6
-    case .title2: return -0.7
-    case .title3: return 2.8
-    case .title4: return 1.6
-    case .body: return 3.2
-    case .detail: return 2.8
-    case .caption, .subcaption: return 3
-    case .largeCaption: return 5
-    case .messageTitle: return 1.4
+    case .title1: return 9
+    case .title2: return 0
+    case .title3: return 5.4
+    case .title4: return 3
+    case .body: return 6.2
+    case .detail: return 5.4
+    case .caption, .subcaption: return 5.8
+    case .largeCaption: return 9.8
+    case .messageTitle: return 2.6
     case .messageBody: return 6
     default: return 0
     }

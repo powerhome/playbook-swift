@@ -31,7 +31,7 @@ public struct TypographyCatalog: View {
 
 private extension TypographyCatalog {
   var title: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("Title 1")
         .pbFont(.title1)
       Text("Title 2")
@@ -46,7 +46,7 @@ private extension TypographyCatalog {
   }
   
   var titleLight: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("Title 1")
         .pbFont(.title1, variant: .light)
       Text("Title 2")
@@ -57,20 +57,24 @@ private extension TypographyCatalog {
   }
   
   var textSize: some View {
-    ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
-      Text("Text size \(Int(size.rawValue)) px")
-        .pbFont(.monogram(size.rawValue))
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
+      ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
+        Text("Text size \(Int(size.rawValue)) px")
+          .pbFont(.monogram(size.rawValue))
+      }
     }
   }
   
   var letterSpacing: some View {
-    ForEach(LetterSpacing.allCases, id: \.rawValue) { space in
-      Text(space.rawValue).tracking(PBFont.body.space(space, font: .body))
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
+      ForEach(LetterSpacing.allCases, id: \.rawValue) { space in
+        Text(space.rawValue).tracking(PBFont.body.space(space, font: .body))
+      }
     }
   }
   
   var componentsText: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("Button Text")
         .pbFont(.buttonText())
       Text("Badge Text")
@@ -79,7 +83,7 @@ private extension TypographyCatalog {
   }
   
   var caption: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("Large Caption")
         .pbFont(.largeCaption)
       Text("Caption")
@@ -92,7 +96,7 @@ private extension TypographyCatalog {
   }
   
   var detail: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("I am a detail kit")
         .pbFont(.detail(false))
       Text("I am a detail kit")
@@ -101,17 +105,11 @@ private extension TypographyCatalog {
   }
   
   var message: some View {
-    VStack(spacing: Spacing.none) {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("Message Title")
         .pbFont(.messageTitle)
-      
-      Text("Message Body Message Body Message Body Message Body Message Body ")
+      Text("Message Body")
         .pbFont(.messageBody)
-        .background(GeometryReader(content: { geometry in
-          Color.pink.opacity(0.2).onAppear {
-            print("Size message body: \(geometry.size)")
-          }
-        }))
     }
   }
 }
@@ -119,4 +117,18 @@ private extension TypographyCatalog {
 #Preview {
   registerFonts()
   return TypographyCatalog()
+}
+
+extension View {
+  func sizeReader(_ title: String) -> some View {
+      self.background(GeometryReader(content: { geometry in
+        HStack {
+          Color.pink.opacity(0.2).onAppear {
+            print("Size of \(title): \nwidth: \(geometry.size.width), height: \(geometry.size.height)\n")
+          }
+          
+          Text("Height: \(String(format: "%.1f", geometry.size.height))").pbFont(.badgeText)
+        }
+      }))
+  }
 }
