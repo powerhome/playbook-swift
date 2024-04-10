@@ -20,7 +20,6 @@ public struct PBMessage<Content: View>: View {
   let horizontalPadding: CGFloat
   let content: Content?
   let timestampVariant: PBTimestamp.Variant
-
   @State private var isHovering: Bool = false
 
   public init(
@@ -31,8 +30,8 @@ public struct PBMessage<Content: View>: View {
     timestampAlignment: TimestampAlignment? = .trailing,
     timestampVariant: PBTimestamp.Variant = .standard,
     changeTimeStampOnHover: Bool = false,
-    verticalPadding: CGFloat = Spacing.xSmall,
-    horizontalPadding: CGFloat = Spacing.xSmall,
+    verticalPadding: CGFloat = Spacing.none,
+    horizontalPadding: CGFloat = Spacing.none,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.avatar = avatar
@@ -54,8 +53,7 @@ public struct PBMessage<Content: View>: View {
       }
       VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: Spacing.xSmall) {
-          Text(label)
-            .pbFont(.messageTitle)
+          Text(label).pbFont(.messageTitle)
           if timestampAlignment == .trailing {
             Spacer()
           }
@@ -72,10 +70,7 @@ public struct PBMessage<Content: View>: View {
         .frame(maxWidth: .infinity, alignment: .topLeading)
 
         if let message = message {
-          Text(message)
-            .pbFont(.messageBody)
-            .fontWeight(FontWeight.regular)
-            .lineSpacing(Spacing.xxSmall + 2)
+          Text(message).pbFont(.messageBody)
         }
         content
       }
@@ -103,9 +98,7 @@ public extension PBMessage {
   }
 }
 
-struct PBMessage_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return MessageCatalog()
-  }
+#Preview {
+  registerFonts()
+  return MessageCatalog()
 }

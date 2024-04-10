@@ -11,53 +11,75 @@ import SwiftUI
 
 public struct TypographyCatalog: View {
   public var body: some View {
-    let title = PBDoc(title: "Title") {
-      VStack(alignment: .leading, spacing: Spacing.small) {
-        Text("Title 1")
-          .pbFont(.title1)
-        Text("Title 2")
-          .pbFont(.title2)
-        Text("Title 3")
-          .pbFont(.title3)
-        Text("Title 4")
-          .pbFont(.title4)
-        Text("Title 4 Link Variant")
-          .pbFont(.title4, variant: .link)
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Title") { title }
+        PBDoc(title: "Title Light Weight") { titleLight }
+        PBDoc(title: "Text size") { textSize }
+        PBDoc(title: "Letter spacing") { letterSpacing }
+        PBDoc(title: "Components Text") { componentsText }
+        PBDoc(title: "Caption") { caption }
+        PBDoc(title: "Detail") { detail }
+        PBDoc(title: "Message") { message }
       }
+      .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
+    .navigationTitle("Typography")
+  }
+}
 
-    let titleLight = PBDoc(title: "Title Light Weight") {
-      VStack(alignment: .leading, spacing: Spacing.small) {
-        Text("Title 1")
-          .pbFont(.title1, variant: .light)
-        Text("Title 2")
-          .pbFont(.title2, variant: .light)
-        Text("Title 3")
-          .pbFont(.title3, variant: .light)
-      }
+private extension TypographyCatalog {
+  var title: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      Text("Title 1")
+        .pbFont(.title1)
+      Text("Title 2")
+        .pbFont(.title2)
+      Text("Title 3")
+        .pbFont(.title3)
+      Text("Title 4")
+        .pbFont(.title4)
+      Text("Title 4 Link Variant")
+        .pbFont(.title4, variant: .link)
     }
-
-    let body = PBDoc(title: "Text size") {
-      ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
-        Text("Text size \(Int(size.rawValue)) px")
-          .pbFont(.monogram(size.rawValue))
-      }
+  }
+  
+  var titleLight: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      Text("Title 1")
+        .pbFont(.title1, variant: .light)
+      Text("Title 2")
+        .pbFont(.title2, variant: .light)
+      Text("Title 3")
+        .pbFont(.title3, variant: .light)
     }
-
-    let letterSpacing = PBDoc(title: "Letter spacing") {
-      ForEach(LetterSpacing.allCases, id: \.rawValue) { space in
-        Text(space.rawValue).tracking(PBFont.body.space(space, font: .body))
-      }
+  }
+  
+  var textSize: some View {
+    ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
+      Text("Text size \(Int(size.rawValue)) px")
+        .pbFont(.monogram(size.rawValue))
     }
-
-    let componentsText = PBDoc(title: "Components Text") {
+  }
+  
+  var letterSpacing: some View {
+    ForEach(LetterSpacing.allCases, id: \.rawValue) { space in
+      Text(space.rawValue).tracking(PBFont.body.space(space, font: .body))
+    }
+  }
+  
+  var componentsText: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
       Text("Button Text")
         .pbFont(.buttonText())
       Text("Badge Text")
         .pbFont(.badgeText)
     }
-
-    let caption = PBDoc(title: "Caption") {
+  }
+  
+  var caption: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
       Text("Large Caption")
         .pbFont(.largeCaption)
       Text("Caption")
@@ -67,35 +89,34 @@ public struct TypographyCatalog: View {
       Text("Subcaption Link Variant")
         .pbFont(.subcaption, variant: .link)
     }
-
-    let detail = PBDoc(title: "Detail") {
+  }
+  
+  var detail: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
       Text("I am a detail kit")
         .pbFont(.detail(false))
       Text("I am a detail kit")
         .pbFont(.detail(true))
     }
-    
-    let message = PBDoc(title: "Message") {
+  }
+  
+  var message: some View {
+    VStack(spacing: Spacing.none) {
       Text("Message Title")
         .pbFont(.messageTitle)
-      Text("Message Body")
+      
+      Text("Message Body Message Body Message Body Message Body Message Body ")
         .pbFont(.messageBody)
+        .background(GeometryReader(content: { geometry in
+          Color.pink.opacity(0.2).onAppear {
+            print("Size message body: \(geometry.size)")
+          }
+        }))
     }
-
-    return ScrollView {
-      VStack(spacing: Spacing.medium) {
-        title
-        titleLight
-        body
-        letterSpacing
-        componentsText
-        caption
-        detail
-        message
-      }
-      .padding(Spacing.medium)
-    }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Typography")
   }
+}
+
+#Preview {
+  registerFonts()
+  return TypographyCatalog()
 }
