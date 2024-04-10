@@ -23,7 +23,6 @@ public struct CardCatalog: View {
     let defaultSection =  PBCard {
       Text(text).pbFont(.body)
     }
-
     let cardBackgrounds = VStack(alignment: .leading) {
       VStack(alignment: .leading, spacing: Spacing.small) {
         Text("Background Colors")

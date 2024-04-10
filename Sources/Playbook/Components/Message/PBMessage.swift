@@ -52,7 +52,7 @@ public struct PBMessage<Content: View>: View {
       if let avatar = avatar {
         avatar
       }
-      VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+      VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: Spacing.xSmall) {
           Text(label)
             .pbFont(.messageTitle)
@@ -75,7 +75,7 @@ public struct PBMessage<Content: View>: View {
           Text(message)
             .pbFont(.messageBody)
             .fontWeight(FontWeight.regular)
-            .lineSpacing(6)
+            .lineSpacing(Spacing.xxSmall + 2)
         }
         content
       }
