@@ -65,6 +65,7 @@ public struct PBMessage<Content: View>: View {
               showUser: false,
               variant: returnTimestamp(isHovering: isHovering)
             )
+            .frame(height: 16.8)
           }
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
