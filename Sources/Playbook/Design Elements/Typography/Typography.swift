@@ -41,6 +41,7 @@ public struct Typography: ViewModifier {
     case .largeCaption: return 5
     case .messageTitle: return 1.4
     case .messageBody: return 3
+    case .badgeText: return 0
     default: return 3.2
     }
   }

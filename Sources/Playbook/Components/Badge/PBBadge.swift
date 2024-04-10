@@ -30,6 +30,7 @@ public struct PBBadge: View {
       .frame(minWidth: 8)
       .foregroundColor(variant.foregroundColor())
       .background(variant.backgroundColor())
+      .background(.white)
       .pbFont(.badgeText)
       .cornerRadius(rounded ? 9 : 4)
   }
@@ -50,7 +51,7 @@ public extension PBBadge {
       case .chat: return .white
       case .error: return .status(.error)
       case .info: return .status(.info)
-      case .neutral: return .status(.neutral)
+      case .neutral: return .text(.light)
       case .success: return .text(.successSmall)
       case .warning: return .status(.warning)
       default: return .pbPrimary
@@ -67,10 +68,7 @@ public extension PBBadge {
   }
 }
 
-private struct PBBadge_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return BadgeCatalog()
-      .background(Color.white)
-  }
+#Preview {
+  registerFonts()
+  return BadgeCatalog()
 }
