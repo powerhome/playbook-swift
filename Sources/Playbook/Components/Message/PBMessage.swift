@@ -21,7 +21,6 @@ public struct PBMessage<Content: View>: View {
   let content: Content?
   let timestampVariant: PBTimestamp.Variant
   @Binding var isLoading: Bool
-  //@State private var isLoading: Bool = false
   @State private var isHovering: Bool = false
 
   public init(
