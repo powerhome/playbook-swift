@@ -22,24 +22,9 @@ public struct MessageCatalog: View {
           messsagingLoadingView
         }
         #if os(macOS)
-          PBDoc(title: "With timestamp hover") {
-            PBMessage(
-              avatar: AnyView(Mocks.avatarXSmall),
-              label: Mocks.userName,
-              message: Mocks.message,
-              timestamp: Date(),
-              timestampAlignment: .leading,
-              changeTimeStampOnHover: true
-            )
-            PBMessage(
-              avatar: AnyView(Mocks.avatarXSmall),
-              label: Mocks.userName,
-              message: Mocks.message,
-              timestamp: Date(),
-              timestampAlignment: .trailing,
-              changeTimeStampOnHover: true
-            )
-          }
+        PBDoc(title: "With timestamp hover") {
+          hoveringView
+        }
         #endif
       }
       .padding(Spacing.medium)
@@ -134,6 +119,28 @@ extension MessageCatalog {
           }
         }
       }
+    }
+  }
+  
+  var hoveringView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBMessage(
+        avatar: AnyView(Mocks.avatarXSmall),
+        label: Mocks.userName,
+        message: Mocks.message,
+        timestamp: Date(),
+        timestampAlignment: .leading,
+        changeTimeStampOnHover: true
+      )
+
+      PBMessage(
+        avatar: AnyView(Mocks.avatarXSmall),
+        label: Mocks.userName,
+        message: Mocks.message,
+        timestamp: Date(),
+        timestampAlignment: .trailing,
+        changeTimeStampOnHover: true
+      )
     }
   }
 }
