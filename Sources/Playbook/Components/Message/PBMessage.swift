@@ -12,7 +12,7 @@ import SwiftUI
 public struct PBMessage<Content: View>: View {
   let avatar: AnyView?
   let label: String
-  let message: String?
+  let message: AttributedString?
   let timestamp: Date?
   let timestampAlignment: TimestampAlignment?
   let changeTimeStampOnHover: Bool
@@ -20,18 +20,20 @@ public struct PBMessage<Content: View>: View {
   let horizontalPadding: CGFloat
   let content: Content?
   let timestampVariant: PBTimestamp.Variant
+  @Binding var isLoading: Bool
   @State private var isHovering: Bool = false
 
   public init(
     avatar: AnyView? = nil,
     label: String = "",
-    message: String? = nil,
+    message: AttributedString? = nil,
     timestamp: Date? = nil,
     timestampAlignment: TimestampAlignment? = .trailing,
     timestampVariant: PBTimestamp.Variant = .standard,
     changeTimeStampOnHover: Bool = false,
     verticalPadding: CGFloat = Spacing.none,
     horizontalPadding: CGFloat = Spacing.none,
+    isLoading: Binding<Bool> = .constant(false),
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.avatar = avatar
@@ -43,35 +45,43 @@ public struct PBMessage<Content: View>: View {
     self.changeTimeStampOnHover = changeTimeStampOnHover
     self.verticalPadding = verticalPadding
     self.horizontalPadding = horizontalPadding
+    _isLoading = isLoading
     self.content = content()
   }
 
   public var body: some View {
     HStack(alignment: .top, spacing: nil) {
       if let avatar = avatar {
-        avatar
+        avatar.opacity(isLoading ? 0.8 : 1)
       }
       VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: Spacing.xSmall) {
-          Text(label).pbFont(.messageTitle)
+          Text(label)
+            .pbFont(.messageTitle, color: isLoading ? .text(.light) : .text(.default))
           if timestampAlignment == .trailing {
             Spacer()
           }
-          if let timestamp = timestamp {
-            PBTimestamp(
-              timestamp,
-              amPmStyle: .full,
-              showDate: false,
-              showUser: false,
-              variant: returnTimestamp(isHovering: isHovering)
-            )
-            .frame(height: 16.8)
+          Group {
+            if let timestamp = timestamp {
+              if isLoading {
+                PBLoader()
+              } else {
+                PBTimestamp(
+                  timestamp,
+                  amPmStyle: .full,
+                  showDate: false,
+                  showUser: false,
+                  variant: returnTimestamp(isHovering: isHovering)
+                )
+              }
+            }
           }
+          .frame(height: 16.8)
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
-
         if let message = message {
-          Text(message).pbFont(.messageBody)
+          Text(message)
+            .pbFont(.messageBody, color: isLoading ? .text(.light) : .text(.default))
         }
         content
       }
