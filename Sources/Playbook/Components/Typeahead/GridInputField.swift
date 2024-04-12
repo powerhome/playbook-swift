@@ -49,21 +49,24 @@ public struct GridInputField: View {
               }
             }
           }
+          .layoutPriority(1)
           textfieldWithCustomPlaceholder
+            .overlay {
+              Color.white
+                .opacity(isFocused.wrappedValue ? 0.001 : 0)
+                .onTapGesture {
+                  if isFocused.wrappedValue {
+                    onViewTap?()
+                  }
+                }
+            }
         }
         .onTapGesture {
           isFocused.wrappedValue = true
+          if isFocused.wrappedValue {
+            onViewTap?()
+          }
         }
-        .overlay {
-          Color.white
-            .opacity(isFocused.wrappedValue ? 0.001 : 0)
-            .onTapGesture {
-              if isFocused.wrappedValue {
-                onViewTap?()
-              }
-            }
-        }
-        
         dismissIconView
           .onTapGesture {
             clearAction?()
@@ -107,8 +110,8 @@ private extension GridInputField {
         .textFieldStyle(.plain)
         .pbFont(.body, color: textColor)
     }
-    .frame(maxWidth: .infinity)
     .frame(height: Spacing.xLarge)
+    .frame(minWidth: Spacing.xLarge)
     .padding(.leading, Spacing.small)
   }
   
