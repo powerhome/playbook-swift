@@ -14,6 +14,19 @@ public struct Typography: ViewModifier {
   var variant: Variant
   var color: Color?
 
+  public func body(content: Content) -> some View {
+    content
+      .font(font.font)
+      .tracking(letterSpacing)
+      .fontWeight(fontWeight)
+      .padding(.vertical, spacing)
+      .lineSpacing(lineSpacing)
+      .textCase(casing)
+      .foregroundColor(foregroundColor)
+  }
+}
+
+private extension Typography {
   var foregroundColor: Color {
     if let color = color {
       return color
@@ -41,8 +54,23 @@ public struct Typography: ViewModifier {
     case .largeCaption: return 5
     case .messageTitle: return 1.4
     case .messageBody: return 3
-    case .badgeText: return 0
-    default: return 3.2
+    default: return 0
+    }
+  }
+
+  var lineSpacing: CGFloat {
+    switch font {
+    case .title1: return 9
+    case .title2: return 0
+    case .title3: return 5.4
+    case .title4: return 3
+    case .body: return 6.2
+    case .detail: return 5.4
+    case .caption, .subcaption: return 5.8
+    case .largeCaption: return 9.8
+    case .messageTitle: return 2.6
+    case .messageBody: return 6
+    default: return 0
     }
   }
 
@@ -77,16 +105,6 @@ public struct Typography: ViewModifier {
     default: return FontWeight.regular
     }
   }
-  
-  public func body(content: Content) -> some View {
-    content
-      .font(font.font)
-      .tracking(letterSpacing)
-      .fontWeight(fontWeight)
-      .padding(.vertical, spacing)
-      .textCase(casing)
-      .foregroundColor(foregroundColor)
-  }
 }
 
 public extension Typography {
@@ -114,9 +132,7 @@ public extension View {
   }
 }
 
-public struct Typography_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return TypographyCatalog()
-  }
+#Preview {
+  registerFonts()
+  return TypographyCatalog()
 }

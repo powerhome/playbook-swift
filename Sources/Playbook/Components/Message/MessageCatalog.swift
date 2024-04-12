@@ -95,3 +95,8 @@ public struct MessageCatalog: View {
     .navigationTitle("Message")
   }
 }
+
+#Preview {
+  registerFonts()
+  return MessageCatalog()
+}
