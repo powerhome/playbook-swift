@@ -17,6 +17,7 @@ public struct Popover<T: View>: ViewModifier {
   
   @Binding var isPresented: Bool
   @State private var contentFrame: CGRect?
+  @Binding var refreshView: Bool
   @ObservedObject var popoverManager: PopoverManager
   
   public init(
@@ -25,6 +26,7 @@ public struct Popover<T: View>: ViewModifier {
     variant: Variant,
     popoverManager: PopoverManager,
     clickToClose: (PopoverManager.Close, action: (() -> Void)?),
+    refreshView: Binding<Bool> = .constant(false),
     popoverView: @escaping (() -> T)
   ) {
     self._isPresented = isPresented
@@ -32,6 +34,7 @@ public struct Popover<T: View>: ViewModifier {
     self.variant = variant
     self.popoverManager = popoverManager
     self.clickToClose = clickToClose
+    self._refreshView = refreshView
     self.popoverView = popoverView
   }
   
@@ -44,6 +47,7 @@ public struct Popover<T: View>: ViewModifier {
         if newValue, let frame = contentFrame {
           popoverManager.view = AnyView(
             view
+              .onHover { refreshView = $0 }
               .frame(width: width)
               .sizeReader { size in
                 let popoverFrame = position.calculateFrame(from: offset(frame), size: size)
@@ -68,10 +72,27 @@ public struct Popover<T: View>: ViewModifier {
           isPresented = newValue
         }
       }
+      .onChange(of: refreshView) { _ in
+        if let frame = contentFrame {
+          updateView(frame)
+        }
+      }
   }
 }
 
 extension Popover {
+  private func updateView(_ frame: CGRect) {
+    popoverManager.view = AnyView(
+      view
+        .onHover { refreshView = $0 }
+        .frame(width: width)
+        .sizeReader { size in
+          let popoverFrame = position.calculateFrame(from: offset(frame), size: size)
+          popoverManager.position = popoverFrame.point(at: .center())
+        }
+    )
+  }
+  
   private func offset(_ frame: CGRect) -> CGRect {
     switch variant {
     case .default, .custom:
@@ -154,6 +175,7 @@ public extension View {
     variant: Popover<T>.Variant = .default,
     popoverManager: PopoverManager,
     clickToClose: (PopoverManager.Close, action: (() -> Void)?) = (.anywhere, action: nil),
+    refreshView: Binding<Bool> = .constant(false),
     popoverView: @escaping () -> T
   ) -> some View {
     modifier(
@@ -163,6 +185,7 @@ public extension View {
         variant: variant,
         popoverManager: popoverManager,
         clickToClose: clickToClose,
+        refreshView: refreshView,
         popoverView: popoverView
       )
     )

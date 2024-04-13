@@ -23,6 +23,8 @@ public struct PBTypeahead<Content: View>: View {
   @State private var showList: Bool = false
   @State private var hoveringIndex: Int?
   @State private var hoveringOption: Option?
+  @State private var isHovering: Bool = false
+  @State private var contentSize: CGSize = .zero
   @State private var selectedIndex: Int?
   @State private var selectedOptions: [Option] = []
   @State private var focused: Bool = false
@@ -64,10 +66,12 @@ public struct PBTypeahead<Content: View>: View {
         onItemTap: { removeSelected($0) },
         onViewTap: { onViewTap }
       )
+      .sizeReader { contentSize = $0 }
       .pbPopover(
         isPresented: $showList,
         variant: .dropdown,
-        popoverManager: popoverManager
+        popoverManager: popoverManager,
+        refreshView: $isHovering
       ) {
         listView
       }
@@ -87,6 +91,12 @@ public struct PBTypeahead<Content: View>: View {
     }
     .onChange(of: listOptions.count) { _ in
       reloadList
+    }
+    .onChange(of: contentSize) { _ in
+      reloadListFrame
+    }
+    .onChange(of: hoveringIndex) { _ in
+      isHovering.toggle()
     }
   }
 }
@@ -112,9 +122,12 @@ private extension PBTypeahead {
               .padding(.vertical, Spacing.xSmall + 4)
               .frame(maxWidth: .infinity, alignment: .leading)
               .background(listBackgroundColor(index))
-              .onHover { _ in
+              .onHover { hover in
+                isHovering = hover
                 hoveringIndex = index
                 hoveringOption = result
+                reloadList
+                isHovering.toggle()
               }
               .onTapGesture {
                 onListSelection(index: index, option: result)
@@ -212,13 +225,17 @@ private extension PBTypeahead {
     isFocused = true
   }
   
-  var reloadList: Void {
+  var reloadListFrame: Void {
     if showList {
       showList = false
       Timer.scheduledTimer(withTimeInterval: 0.001, repeats: false) { _ in
         showList = true
       }
     }
+  }
+  
+  var reloadList: Void {
+    isHovering.toggle()
   }
 
   func onListSelection(index: Int, option: Option) {
