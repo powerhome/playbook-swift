@@ -18,6 +18,7 @@ public struct PBTypeahead<Content: View>: View {
   private let debounce: (time: TimeInterval, numberOfCharacters: Int)
   private let dropdownMaxHeight: CGFloat?
   private let popoverManager: PopoverManager
+  private let onSelection: (([(String, Content?)]) -> Void)?
   private let clearAction: (() -> Void)?
   @State private var listOptions: [Option] = []
   @State private var showList: Bool = false
@@ -40,6 +41,7 @@ public struct PBTypeahead<Content: View>: View {
     debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
     popoverManager: PopoverManager,
     dropdownMaxHeight: CGFloat? = nil,
+    onSelection: @escaping (([(String, Content?)]) -> Void),
     clearAction: (() -> Void)? = nil
   ) {
     self.title = title
@@ -51,6 +53,7 @@ public struct PBTypeahead<Content: View>: View {
     self.popoverManager = popoverManager
     self.dropdownMaxHeight = dropdownMaxHeight
     self.clearAction = clearAction
+    self.onSelection = onSelection
   }
   
   public var body: some View {
@@ -256,10 +259,13 @@ private extension PBTypeahead {
     selectedOptions.append(option)
     selectedIndex = index
     hoveringIndex = index
+  
+    onSelection?(selectedOptions)
   }
 
   func onMultipleSelection(_ option: Option) {
     selectedOptions.append(option)
+    onSelection?(selectedOptions)
     listOptions.removeAll(where: { $0.0 == option.0 })
     hoveringIndex = nil
     selectedIndex = nil

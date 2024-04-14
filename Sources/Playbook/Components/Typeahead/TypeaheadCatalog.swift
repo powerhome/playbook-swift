@@ -43,8 +43,9 @@ extension TypeaheadCatalog {
       searchText: $searchTextColors,
       selection: .single,
       options: assetsColors, 
-      popoverManager: popoverManager
-    )
+      popoverManager: popoverManager) { options in
+        print("Selected options \(options)")
+      }
   }
   
   var users: some View {
@@ -54,8 +55,9 @@ extension TypeaheadCatalog {
       searchText: $searchTextUsers,
       selection: .multiple(variant: .pill),
       options: assetsUsers, 
-      popoverManager: popoverManager
-    )
+      popoverManager: popoverManager) { options in
+        print("Selected options \(options)")
+      }
   }
   
   var debounce: some View {
@@ -67,7 +69,9 @@ extension TypeaheadCatalog {
         options: assetsColors,
         debounce: (1, 2), 
         popoverManager: popoverManager
-      )
+      ) { options in
+        print("Selected options \(options)")
+      }
       
       PBTypeahead(
         title: "Debounce, 2 characters, 0 second",
@@ -76,7 +80,9 @@ extension TypeaheadCatalog {
         options: assetsColors,
         debounce: (0, 2), 
         popoverManager: popoverManager
-      )
+      ) { options in
+        print("Selected options \(options)")
+      }
     }
   }
 }
