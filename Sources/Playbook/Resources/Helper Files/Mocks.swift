@@ -8,7 +8,7 @@
 //
 
 
-import SwiftUI
+public import SwiftUI
 
 enum Mocks {
   static let andrew = PBUser(name: "Andrew Black", image: Image("andrew", bundle: .module), size: .small, title: "Senior User Experience Engineer")
