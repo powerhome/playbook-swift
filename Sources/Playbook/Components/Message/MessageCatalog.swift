@@ -21,6 +21,10 @@ public struct MessageCatalog: View {
         PBDoc(title: "Message Loading") {
           messsagingLoadingView
         }
+        
+        PBDoc(title: "Message Loading") {
+          botView
+        }
         #if os(macOS)
         PBDoc(title: "With timestamp hover") {
           hoveringView
@@ -141,6 +145,34 @@ extension MessageCatalog {
         timestampAlignment: .trailing,
         changeTimeStampOnHover: true
       )
+    }
+  }
+  
+  var botView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+        Text("Bot").pbFont(.caption)
+        PBMessage(
+          avatar: AnyView(Mocks.picPatric),
+          label: "Patrick Welch",
+          message: "We will escalate this issue to a Senior Support agent.",
+          timestamp: Date().addingTimeInterval(-540),
+          timestampAlignment: .leading,
+          variant: .bot
+        )
+      }
+      VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+        Text("User").pbFont(.caption)
+        PBMessage(
+          avatar: AnyView(Mocks.picPatric),
+          label: "Patrick Welch",
+          message: "We will escalate this issue to a Senior Support agent.",
+          timestamp: Date().addingTimeInterval(-540),
+          timestampAlignment: .leading,
+          variant: .user
+        )
+      
+      }
     }
   }
 }

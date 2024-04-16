@@ -109,7 +109,7 @@ public struct PBIcon_Previews: PreviewProvider {
   }
 }
 
-extension View {
+public extension View {
   func flipped(_ axis: [Axis]? = nil) -> some View {
     switch axis {
     case [.horizontal]:

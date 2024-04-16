@@ -18,6 +18,7 @@ public struct PBTimestamp: View {
   let text: String?
   let timeZone: String?
   let variant: Variant
+  let color: Color
 
   public init(
     _ timestamp: Date,
@@ -27,7 +28,8 @@ public struct PBTimestamp: View {
     showUser: Bool = false,
     text: String? = nil,
     timeZone: String? = nil,
-    variant: Variant = .standard
+    variant: Variant = .standard,
+    color: Color = .text(.light)
   ) {
     self.timestamp = timestamp
     self.amPmStyle = amPmStyle
@@ -37,6 +39,7 @@ public struct PBTimestamp: View {
     self.text = text
     self.timeZone = timeZone
     self.variant = variant
+    self.color = color
   }
 
   var editedTimestamp: String {
@@ -114,7 +117,7 @@ public struct PBTimestamp: View {
   }
 
   public var body: some View {
-    Text(editedTimestamp).pbFont(.subcaption)
+    Text(editedTimestamp).pbFont(.subcaption, color: color)
   }
 }
 
