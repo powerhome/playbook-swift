@@ -97,8 +97,11 @@ public extension PBNav {
       ForEach(views.indices, id: \.self) { index in
         item(views[index], index)
           .scaledToFill()
-          .background(Rectangle().fill(Color.white))
-          .foregroundStyle(Color.white)
+          .background(
+            Rectangle()
+               .fill(Color.clear)
+          )
+//          .foregroundStyle(Color.white)
       }
     }
   }
@@ -117,10 +120,26 @@ public extension PBNav {
     }
   }
 }
+//
+//public struct PBNav_Previews: PreviewProvider {
+//  public static var previews: some View {
+//    registerFonts()
+//    return NavCatalog()
+//  }
+//}
 
-public struct PBNav_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return NavCatalog()
-  }
+#Preview {
+    ZStack {
+        Color.pink
+        VStack {
+            PBNav(orientation: .horizontal) {
+                PBNavItem("Oi")
+                PBNavItem("Tudo")
+                PBNavItem("Bem")
+            }
+            .padding()
+        }
+    }
+   
+
 }

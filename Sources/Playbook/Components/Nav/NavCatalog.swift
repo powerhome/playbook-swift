@@ -225,6 +225,7 @@ struct NavCatalog: View {
           PBNavItem("Files")
         }
       }
+      .foregroundStyle(Color.pink)
     }
 
     let subtle = PBDoc(title: "Subtle Horizontal Nav") {
