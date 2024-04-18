@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-struct PBLoader: View {
+public struct PBLoader: View {
   @State private var dotIndex: Int
   let dotsCount: Int
   let dotSize: CGFloat
@@ -26,12 +26,13 @@ struct PBLoader: View {
     self.dotSize = dotSize
     self.spinnerSpeed = spinnerSpeed
   }
-  var body: some View {
+
+  public var body: some View {
     loaderView
   }
 }
 
-extension PBLoader {
+public extension PBLoader {
   var loaderView: some View {
     CircularLayout {
       ForEach(0..<dotsCount, id: \.self) { index in

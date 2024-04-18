@@ -40,7 +40,7 @@ public struct PBNavItem<Content: View>: View {
           .foregroundColor(iconColor)
 
         Text(label)
-          .pbFont(font, color: captionForegroundColor)
+              .pbFont(font, color: .white)
 
         if orientation == .vertical {
           Spacer()
@@ -224,7 +224,7 @@ extension PBNavItem {
       } else {
         Rectangle()
           .frame(height: variant == .normal ? 3 : 0)
-          .foregroundColor(isSelected ? .pbPrimary : .shadow)
+          .foregroundColor(isSelected ? .pbPrimary : .white)
       }
     }
   }

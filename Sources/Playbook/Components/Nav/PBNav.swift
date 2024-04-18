@@ -97,7 +97,8 @@ public extension PBNav {
       ForEach(views.indices, id: \.self) { index in
         item(views[index], index)
           .scaledToFill()
-          .contentShape(Rectangle())
+          .background(Rectangle().fill(Color.white))
+          .foregroundStyle(Color.white)
       }
     }
   }
