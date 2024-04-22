@@ -120,9 +120,7 @@ public extension PBButton {
   }
 }
 
-private struct PBButton_Previews: PreviewProvider {
-  static var previews: some View {
+#Preview {
     registerFonts()
     return ButtonsCatalog()
-  }
 }

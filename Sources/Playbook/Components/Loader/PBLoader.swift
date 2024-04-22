@@ -14,13 +14,13 @@ public struct PBLoader: View {
     let dotsCount: Int
     let dotSize: CGFloat
     let spinnerSpeed: TimeInterval
-    let variant: PBButton.Variant?
+    let variant: PBButton.Variant
     public init(
         dotIndex: Int = 0,
         dotsCount: Int = 8,
         dotSize: CGFloat = 2,
         spinnerSpeed: TimeInterval = 0.1,
-        variant: PBButton.Variant? = .link
+        variant: PBButton.Variant = .link
     ) {
         self.dotIndex = dotIndex
         self.dotsCount = dotsCount
@@ -62,15 +62,7 @@ extension PBLoader {
             .frame(width: dotSize, height: dotSize)
     }
     func dotColor(_ index: Int) -> Color {
-        index == dotIndex ? Color.clear : variantDotColor
-    }
-    var variantDotColor: Color {
-        switch variant {
-        case .primary: return Color.white
-        case .link, .secondary, .disabled: return .pbPrimary
-        case .none:
-            return  Color.white
-        }
+        index == dotIndex ? Color.clear : .text(.light)
     }
 }
 
