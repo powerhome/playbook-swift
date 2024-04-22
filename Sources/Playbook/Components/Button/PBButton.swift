@@ -17,8 +17,9 @@ public struct PBButton: View {
   var title: String?
   var icon: PBIcon?
   var iconPosition: IconPosition?
+  let isLoading: Bool
   let action: (() -> Void)?
-
+   
   public init(
     fullWidth: Bool = false,
     variant: Variant = .primary,
@@ -27,6 +28,7 @@ public struct PBButton: View {
     title: String? = nil,
     icon: PBIcon? = nil,
     iconPosition: IconPosition? = .left,
+    isLoading: Bool = false,
     action: (() -> Void)? = {}
   ) {
     self.fullWidth = fullWidth
@@ -36,6 +38,7 @@ public struct PBButton: View {
     self.title = title
     self.icon = icon
     self.iconPosition = iconPosition
+    self.isLoading = isLoading
     self.action = action
   }
 
@@ -49,6 +52,9 @@ public struct PBButton: View {
         if let title = title, shape == .primary {
           Text(title)
         }
+          if isLoading {
+              PBLoader()
+          }
       }
       .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
       .frame(maxWidth: fullWidth ? .infinity : nil)

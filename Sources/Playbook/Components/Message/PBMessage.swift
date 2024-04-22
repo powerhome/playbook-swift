@@ -64,7 +64,7 @@ public struct PBMessage<Content: View>: View {
           Group {
             if let timestamp = timestamp {
               if isLoading {
-                PBLoader()
+                  PBLoader()
               } else {
                 PBTimestamp(
                   timestamp,

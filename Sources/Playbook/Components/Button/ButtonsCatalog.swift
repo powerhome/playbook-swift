@@ -94,6 +94,32 @@ public struct ButtonsCatalog: View {
             )
           }
         }
+          PBDoc(title: "Button Loading") {
+              VStack(alignment: .leading, spacing: Spacing.small) {
+                  
+                  PBButton(
+                    fullWidth: true,
+                    variant: .primary,
+                    title: "",
+                    isLoading: true,
+                    action: {}
+                  )
+                  PBButton(
+                    fullWidth: true,
+                    variant: .secondary,
+                    title: "",
+                    isLoading: true,
+                    action: {}
+                  )
+                  PBButton(
+                    fullWidth: true,
+                    variant: .link,
+                    title: "",
+                    isLoading: true,
+                    action: {}
+                  )
+              }
+          }
       }
       .padding(Spacing.medium)
     }
