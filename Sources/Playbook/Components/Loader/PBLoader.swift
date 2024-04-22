@@ -9,18 +9,18 @@
 
 import SwiftUI
 
-struct PBLoader: View {
+public struct PBLoader: View {
     @State private var dotIndex: Int
     let dotsCount: Int
     let dotSize: CGFloat
     let spinnerSpeed: TimeInterval
-    let variant: PBButton.Variant
+    let variant: PBButton.Variant?
     public init(
         dotIndex: Int = 0,
         dotsCount: Int = 8,
         dotSize: CGFloat = 2,
         spinnerSpeed: TimeInterval = 0.1,
-        variant: PBButton.Variant = .primary
+        variant: PBButton.Variant? = .link
     ) {
         self.dotIndex = dotIndex
         self.dotsCount = dotsCount
@@ -28,12 +28,12 @@ struct PBLoader: View {
         self.spinnerSpeed = spinnerSpeed
         self.variant = variant
     }
-    var body: some View {
+   public var body: some View {
         loaderView
     }
 }
 
-extension PBLoader {
+public extension PBLoader {
     var loaderView: some View {
         CircularLayout {
             ForEach(0..<dotsCount, id: \.self) { index in
@@ -62,12 +62,14 @@ extension PBLoader {
             .frame(width: dotSize, height: dotSize)
     }
     func dotColor(_ index: Int) -> Color {
-        index == dotIndex ? Color.clear : .text(.light)
+        index == dotIndex ? Color.clear : variantDotColor
     }
     var variantDotColor: Color {
         switch variant {
-        case .primary: return .white
+        case .primary: return Color.white
         case .link, .secondary, .disabled: return .pbPrimary
+        case .none:
+            return  Color.white
         }
     }
 }
