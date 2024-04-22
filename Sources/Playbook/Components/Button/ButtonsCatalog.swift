@@ -40,85 +40,24 @@ public struct ButtonsCatalog: View {
         PBDoc(title: "Simple") { simpleButtons }
 
         PBDoc(title: "Reaction Button") {
-          HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 12) {
-            PBReactionButton(
-              count: $count,
-              icon: "\u{1F389}", isInteractive: true)
-            PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
-            PBReactionButton(isInteractive: false)
-            PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false)
-          }
+            reactionButtonView
         }
 
         PBDoc(title: "Full Width") {
-          PBButton(
-            fullWidth: true,
-            title: "Full Width",
-            action: {}
-          )
+            fullWidthButtonView
         }
 
         PBDoc(title: "Button Icon Positions") {
-          VStack(alignment: .leading, spacing: Spacing.small) {
-            PBButton(
-              title: "Button with Icon on Left",
-              icon: PBIcon.fontAwesome(.user, size: .x1),
-              action: {}
-            )
-            PBButton(
-              title: "Button with Icon on Right",
-              icon: PBIcon.fontAwesome(.user, size: .x1),
-              iconPosition: .right,
-              action: {}
-            )
-          }
+            buttonIconView
         }
 
         PBDoc(title: "Circle Buttons") { PBCircleStyle_Previews.previews }
 
         PBDoc(title: "Button Sizes") {
-          VStack(alignment: .leading, spacing: Spacing.small) {
-            PBButton(
-              size: .small,
-              title: "Button sm",
-              action: {}
-            )
-            PBButton(
-              title: "Button md",
-              action: {}
-            )
-            PBButton(
-              size: .large,
-              title: "Button lg",
-              action: {}
-            )
-          }
+            buttonSizeView
         }
           PBDoc(title: "Button Loading") {
-              VStack(alignment: .leading, spacing: Spacing.small) {
-                  
-                  PBButton(
-                    fullWidth: true,
-                    variant: .primary,
-                    title: "",
-                    isLoading: true,
-                    action: {}
-                  )
-                  PBButton(
-                    fullWidth: true,
-                    variant: .secondary,
-                    title: "",
-                    isLoading: true,
-                    action: {}
-                  )
-                  PBButton(
-                    fullWidth: true,
-                    variant: .link,
-                    title: "",
-                    isLoading: true,
-                    action: {}
-                  )
-              }
+              buttonLoadingView
           }
       }
       .padding(Spacing.medium)
@@ -126,4 +65,82 @@ public struct ButtonsCatalog: View {
     .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Button")
   }
+}
+
+extension ButtonsCatalog {
+    var reactionButtonView: some View {
+        HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 12) {
+          PBReactionButton(
+            count: $count,
+            icon: "\u{1F389}", isInteractive: true)
+          PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
+          PBReactionButton(isInteractive: false)
+          PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false)
+        }
+    }
+    var fullWidthButtonView: some View {
+        PBButton(
+          fullWidth: true,
+          title: "Full Width",
+          action: {}
+        )
+    }
+    var buttonIconView: some View {
+        VStack(alignment: .leading, spacing: Spacing.small) {
+          PBButton(
+            title: "Button with Icon on Left",
+            icon: PBIcon.fontAwesome(.user, size: .x1),
+            action: {}
+          )
+          PBButton(
+            title: "Button with Icon on Right",
+            icon: PBIcon.fontAwesome(.user, size: .x1),
+            iconPosition: .right,
+            action: {}
+          )
+        }
+    }
+    var buttonSizeView: some View {
+        VStack(alignment: .leading, spacing: Spacing.small) {
+          PBButton(
+            size: .small,
+            title: "Button sm",
+            action: {}
+          )
+          PBButton(
+            title: "Button md",
+            action: {}
+          )
+          PBButton(
+            size: .large,
+            title: "Button lg",
+            action: {}
+          )
+        }
+    }
+    var buttonLoadingView:  some View {
+        VStack(alignment: .leading, spacing: Spacing.small) {
+            PBButton(
+              fullWidth: true,
+              variant: .primary,
+              title: "",
+              isLoading: true,
+              action: {}
+            )
+            PBButton(
+              fullWidth: true,
+              variant: .secondary,
+              title: "",
+              isLoading: true,
+              action: {}
+            )
+            PBButton(
+              fullWidth: true,
+              variant: .link,
+              title: "",
+              isLoading: true,
+              action: {}
+            )
+        }
+    }
 }
