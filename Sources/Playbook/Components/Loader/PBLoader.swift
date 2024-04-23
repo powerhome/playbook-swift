@@ -15,18 +15,21 @@ public struct PBLoader: View {
     let dotSize: CGFloat
     let spinnerSpeed: TimeInterval
     let variant: PBButton.Variant
+    let loaderColor: Color
     public init(
         dotIndex: Int = 0,
         dotsCount: Int = 8,
         dotSize: CGFloat = 2,
         spinnerSpeed: TimeInterval = 0.1,
-        variant: PBButton.Variant = .link
+        variant: PBButton.Variant = .link,
+        loaderColor: Color = .text(.light)
     ) {
         self.dotIndex = dotIndex
         self.dotsCount = dotsCount
         self.dotSize = dotSize
         self.spinnerSpeed = spinnerSpeed
         self.variant = variant
+        self.loaderColor = loaderColor
     }
    public var body: some View {
         loaderView
@@ -62,7 +65,7 @@ extension PBLoader {
             .frame(width: dotSize, height: dotSize)
     }
     func dotColor(_ index: Int) -> Color {
-        index == dotIndex ? Color.clear : .text(.light)
+        index == dotIndex ? Color.clear : loaderColor
     }
 }
 

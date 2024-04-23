@@ -53,7 +53,7 @@ public struct PBButton: View {
           Text(title)
         }
           if isLoading {
-              PBLoader()
+              PBLoader(loaderColor: variant.foregroundColor)
           }
       }
       .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
