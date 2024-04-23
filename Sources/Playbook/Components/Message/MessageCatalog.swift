@@ -97,7 +97,7 @@ extension MessageCatalog {
           avatar: AnyView(Mocks.picPatric),
           label: "Patrick Welch",
           message: "We will escalate this issue to a Senior Support agent.",
-          timestamp: Date().addingTimeInterval(-540),
+          timestamp: nil,
           timestampAlignment: .leading,
           isLoading: .constant(true)
         )
