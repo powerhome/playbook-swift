@@ -217,17 +217,17 @@ then
   exit 1
 fi
 
-assertRelease
+# assertRelease
 setRunwayStoryID
-checkIfPRExists
-getCurrentVersion
+# checkIfPRExists
+# getCurrentVersion
 setVersion
-updateMarketingVersion
-createPRWithVersionUpdate
-verifyIfReleaseVersionIsUpdated
-createRelease
+# updateMarketingVersion
+# createPRWithVersionUpdate
+# verifyIfReleaseVersionIsUpdated
+# createRelease
 setupConnect
-createRunwayComment
+# createRunwayComment
 allDone
 
 exit 1

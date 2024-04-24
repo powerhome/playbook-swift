@@ -18,7 +18,7 @@ public struct PBCurrency: View {
   let unit: String?
   let isEmphasized: Bool
   let hasUnit: Bool
-
+  let alignment: HorizontalAlignment
   public init(
     amount: String? = nil,
     decimalAmount: String? = nil,
@@ -27,7 +27,8 @@ public struct PBCurrency: View {
     symbol: String? = nil,
     unit: String? = nil,
     isEmphasized: Bool = false,
-    hasUnit: Bool = false
+    hasUnit: Bool = false,
+    alignment: HorizontalAlignment = .leading
   ) {
     self.amount = amount
     self.decimalAmount = decimalAmount
@@ -37,6 +38,7 @@ public struct PBCurrency: View {
     self.unit = unit
     self.isEmphasized = isEmphasized
     self.hasUnit = hasUnit
+    self.alignment = alignment
   }
 
   public var body: some View {
@@ -46,19 +48,20 @@ public struct PBCurrency: View {
 
 public extension PBCurrency {
   var currencyView: some View {
-    VStack(alignment: .leading, spacing: Spacing.xSmall) {
-        labelView
+    VStack(alignment: alignment) {
+      labelView
       HStack(spacing: 0) {
         symbolView
         dollarDecimalView
       }
     }
-    
   }
 
   var labelView: some View {
       Text(label ?? "")
         .pbFont(.caption, variant: .bold, color: .text(.light))
+        
+   
   }
 
   var symbolView: some View {
