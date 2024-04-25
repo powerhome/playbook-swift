@@ -28,7 +28,6 @@ public struct GridCatalog: View {
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") { defaultView }
         PBDoc(title: "Alignment") { alignmentView }
         PBDoc(title: "Spacing") { spacingView }
       }
@@ -40,27 +39,6 @@ public struct GridCatalog: View {
 }
 
 extension GridCatalog {
-  var defaultView: some View {
-    VStack(alignment: .leading) {
-      PBGrid {
-        ForEach(0..<count, id: \.self) { index in
-          if count <= 4 {
-            tagView(users[index].name)
-          }
-        }
-      }
-      .border(Color.pbPrimary, width: 1)
-      Spacer()
-      Stepper("Count: \(count)", value: $count, in: 0...tagCache.tags.count)
-        .frame(maxWidth: .infinity)
-        .padding()
-        .onChange(of: count) { value in
-          if value > 4 {
-            count = 1
-          }
-        }
-    }
-  }
   
   var alignmentView: some View {
     return VStack(alignment: .leading, spacing: Spacing.medium) {
