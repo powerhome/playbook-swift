@@ -10,42 +10,53 @@
 import SwiftUI
 import Playbook
 #if os(iOS)
-  import UIKit
+import UIKit
 #endif
 
 @available(iOS 16.4, *)
 struct ContentListView: View {
   let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
   @State var selectedItem: Int = 0
-
-  #if os(iOS)
+  //@AppStorage("darkMode") var darkMode = false
+  @Environment(\.colorScheme) var colorScheme
+  @State var checked: Bool = false
+#if os(iOS)
   init() {
     let appearance = UINavigationBarAppearance()
     appearance.configureWithOpaqueBackground()
-    appearance.backgroundColor = .white
+    appearance.backgroundColor = .systemBackground
     appearance.titleTextAttributes = [.foregroundColor: UIColor(Color.text(.default))]
     appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color.pbPrimary)]
     UINavigationBar.appearance().standardAppearance = appearance
     UINavigationBar.appearance().compactAppearance = appearance
     UINavigationBar.appearance().scrollEdgeAppearance = appearance
   }
-  #endif
-
+#endif
   var body: some View {
     NavigationStack {
       contentView.padding(.bottom, 80)
         .toolbar {
           ToolbarItem(placement: .cancellationAction) {
-            HStack(spacing: Spacing.small) {
-              playbookLogo
-              if let version = version {
-                PBBadge(text: version, variant: .success)
+            VStack {
+              HStack(spacing: Spacing.xLarge) {
+                HStack(spacing: Spacing.small) {
+                  playbookLogo
+                  if let version = version {
+                    PBBadge(text: version, variant: .success)
+                  }
+                  Spacer(minLength: 30)
+                }
+                HStack(spacing: Spacing.small) {
+                  PBIcon(FontAwesome.moon, size: .xSmall)
+                    .pbFont(.body, color: .text(.lighter))
+                  PBToggle(checked: $checked)
+                }
               }
             }
           }
         }
         .background {
-          Color.background(.light)
+          checked ? Color.background(.dark) : Color.background(.light)
         }
         .overlay {
           VStack {
@@ -55,11 +66,11 @@ struct ContentListView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
     }
-    #if os(iOS)
+    .preferredColorScheme(checked ? .dark : .light)
+  #if os(iOS)
     .navigationViewStyle(.stack)
-    #endif
+  #endif
   }
-
   var bottomBar: some View {
     HStack(alignment: .center) {
       PBNav(
@@ -71,10 +82,8 @@ struct ContentListView: View {
         PBNavItem(Components.title)
       }
       .frame(maxWidth: .infinity, minHeight: 80)
-      .background(Color.white)
     }
   }
-
   @ViewBuilder
   private var contentView: some View {
     if selectedItem == 0 {
@@ -83,7 +92,6 @@ struct ContentListView: View {
       componentsView
     }
   }
-
   private var playbookLogo: some View {
     HStack {
       Image("Playbook")
@@ -91,7 +99,6 @@ struct ContentListView: View {
         .pbFont(.title4, variant: .link)
     }
   }
-
   private var componentsView: some View {
     ScrollView(showsIndicators: false) {
       VStack(alignment: .leading) {
@@ -114,12 +121,10 @@ struct ContentListView: View {
             .buttonStyle(.plain)
           }
         }
-
       }
     }
     .padding()
   }
-
   private var designElementsView: some View {
     ScrollView(showsIndicators: false) {
       VStack(alignment: .leading) {
