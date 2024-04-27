@@ -10,20 +10,23 @@
 import SwiftUI
 
 public struct AvatarCatalog: View {
+  @AppStorage("darkMode") var darkMode = false
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultAvatars
+    ZStack {
+      ScrollView {
+        VStack(spacing: Spacing.medium) {
+          PBDoc(title: "Default") {
+            defaultAvatars
+          }
+          PBDoc(title: "Monogram") {
+            monograms
+          }
         }
-        PBDoc(title: "Monogram") {
-          monograms
-        }
+        .padding(Spacing.medium)
       }
-      .padding(Spacing.medium)
+      .navigationTitle("Avatar")
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Avatar")
+    .preferredColorScheme(darkMode ? .dark : .light)
   }
 
   var defaultAvatars: some View {

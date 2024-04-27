@@ -17,8 +17,7 @@ import UIKit
 struct ContentListView: View {
   let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
   @State var selectedItem: Int = 0
-  //@AppStorage("darkMode") var darkMode = false
-  @Environment(\.colorScheme) var colorScheme
+  @AppStorage("darkMode") var darkMode = false
   @State var checked: Bool = false
 #if os(iOS)
   init() {
@@ -50,6 +49,9 @@ struct ContentListView: View {
                   PBIcon(FontAwesome.moon, size: .xSmall)
                     .pbFont(.body, color: .text(.lighter))
                   PBToggle(checked: $checked)
+                    .onTapGesture {
+                      darkMode.toggle()
+                    }
                 }
               }
             }
