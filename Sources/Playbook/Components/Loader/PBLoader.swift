@@ -90,7 +90,7 @@ extension PBLoader {
         .rotationEffect(Angle(degrees: isAnimating ? 360 : 0))
         .frame(width: dotSize, height: dotSize)
         .animation(
-          .linear(duration: spinnerSpeed)
+          .linear(duration: 0.8)
           .repeatForever(autoreverses: false),
           value: isAnimating
         )

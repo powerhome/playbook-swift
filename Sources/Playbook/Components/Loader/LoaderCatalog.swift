@@ -37,8 +37,7 @@ extension LoaderCatalog {
     VStack(spacing: Spacing.small) {
       PBLoader(
         dotSize: 15,
-        isLoaderSolid: true,
-        spinnerSpeed: 0.8
+        isLoaderSolid: true
       )
     }
   }
