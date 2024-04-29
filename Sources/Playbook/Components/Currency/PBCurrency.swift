@@ -60,8 +60,6 @@ public extension PBCurrency {
   var labelView: some View {
       Text(label ?? "")
         .pbFont(.caption, variant: .bold, color: .text(.light))
-        
-   
   }
 
   var symbolView: some View {
