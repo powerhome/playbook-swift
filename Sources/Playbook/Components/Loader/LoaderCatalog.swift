@@ -38,7 +38,7 @@ extension LoaderCatalog {
       PBLoader(
         dotSize: 15,
         isLoaderSolid: true,
-        spinnerSpeed: 0.95
+        spinnerSpeed: 0.8
       )
     }
   }
