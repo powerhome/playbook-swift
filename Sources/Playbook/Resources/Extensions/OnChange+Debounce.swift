@@ -29,7 +29,6 @@ private struct DebouncedChangeViewModifier<Value>: ViewModifier where Value: Equ
     if debounce.numberOfCharacters != 0 {
       content.onChange(of: trigger) { newValue in
         debouncedTask?.cancel()
-        
         if newValue.count >= debounce.numberOfCharacters {
           debouncedTask = Task.delayed(seconds: debounce.time) { @MainActor in
             action(newValue)
@@ -38,7 +37,7 @@ private struct DebouncedChangeViewModifier<Value>: ViewModifier where Value: Equ
           if newValue.count >= debounce.numberOfCharacters {
             action(newValue)
           } else if newValue.count == 0 {
-            action(" " as? Value)
+            action("" as? Value)
           }
         }
       }
@@ -71,5 +70,55 @@ extension Task {
         await operation()
       } catch {}
     }
+  }
+}
+
+
+
+struct DebouncingTaskViewModifier<ID: Equatable>: ViewModifier {
+  let id: ID
+  let priority: TaskPriority
+  let nanoseconds: UInt64
+  let task: @Sendable () async -> Void
+  
+  init(
+    id: ID,
+    priority: TaskPriority = .high,
+    nanoseconds: UInt64 = 0,
+    task: @Sendable @escaping () async -> Void
+  ) {
+    self.id = id
+    self.priority = priority
+    self.nanoseconds = nanoseconds
+    self.task = task
+  }
+  
+  func body(content: Content) -> some View {
+    content.task(id: id, priority: priority) {
+      do {
+        try await Task.sleep(nanoseconds: nanoseconds)
+        await task()
+      } catch {
+        // Ignore cancellation
+      }
+    }
+  }
+}
+
+extension View {
+  func task<ID: Equatable>(
+    id: ID,
+    priority: TaskPriority = .userInitiated,
+    nanoseconds: UInt64 = 0,
+    task: @Sendable @escaping () async -> Void
+  ) -> some View {
+    modifier(
+      DebouncingTaskViewModifier(
+        id: id,
+        priority: priority,
+        nanoseconds: nanoseconds,
+        task: task
+      )
+    )
   }
 }
