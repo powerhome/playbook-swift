@@ -19,7 +19,7 @@ public struct PBButton: View {
   var iconPosition: IconPosition?
   let isLoading: Bool
   let action: (() -> Void)?
-   
+  
   public init(
     fullWidth: Bool = false,
     variant: Variant = .primary,
@@ -41,20 +41,20 @@ public struct PBButton: View {
     self.isLoading = isLoading
     self.action = action
   }
-
+  
   public var body: some View {
     Button {
       action?()
     } label: {
       HStack {
         icon
-
-        if let title = title, shape == .primary {
-          Text(title)
-        }
-          if isLoading {
-              PBLoader(loaderColor: variant.foregroundColor)
+        if isLoading {
+          PBLoader(loaderColor: variant.foregroundColor)
+        } else {
+          if let title = title, shape == .primary {
+            Text(title)
           }
+        }
       }
       .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
       .frame(maxWidth: fullWidth ? .infinity : nil)
@@ -73,12 +73,12 @@ public extension PBButton {
     case primary
     case circle
   }
-
+  
   enum Size {
     case small
     case medium
     case large
-
+    
     public var fontSize: CGFloat {
       switch self {
       case .small:
@@ -89,15 +89,15 @@ public extension PBButton {
         return 18
       }
     }
-
+    
     func verticalPadding(_ variant: PBButton.Variant) -> CGFloat {
       return variant == .link ? 0 : fontSize / 2
     }
-
+    
     func horizontalPadding(_ variant: PBButton.Variant) -> CGFloat {
       return variant == .link ? 0 : fontSize * 2.42
     }
-
+    
     func minHeight(_ variant: PBButton.Variant) -> CGFloat {
       if variant != .link {
         switch self {
@@ -113,7 +113,7 @@ public extension PBButton {
       }
     }
   }
-
+  
   enum IconPosition {
     case left
     case right
@@ -121,6 +121,6 @@ public extension PBButton {
 }
 
 #Preview {
-    registerFonts()
-    return ButtonsCatalog()
+  registerFonts()
+  return ButtonsCatalog()
 }
