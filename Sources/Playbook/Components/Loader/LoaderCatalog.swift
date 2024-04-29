@@ -16,6 +16,9 @@ struct LoaderCatalog: View {
         PBDoc(title: "Default") {
           defaultView
         }
+        PBDoc(title: "Solid") {
+          solidLoaderView
+        }
       }
       .padding(Spacing.medium)
     }
@@ -28,6 +31,15 @@ extension LoaderCatalog {
   var defaultView: some View {
     VStack(spacing: Spacing.small) {
         PBLoader()
+    }
+  }
+  var solidLoaderView: some View {
+    VStack(spacing: Spacing.small) {
+      PBLoader(
+        dotSize: 15,
+        isLoaderSolid: true,
+        spinnerSpeed: 0.95
+      )
     }
   }
 }

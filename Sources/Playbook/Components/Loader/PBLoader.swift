@@ -14,16 +14,22 @@ struct PBLoader: View {
   let dotsCount: Int
   let dotSize: CGFloat
   let spinnerSpeed: TimeInterval
-
+  let isLoaderSolid: Bool
+  let solidLoaderColor: Color
+  @State private var isAnimating: Bool = false
   public init(
     dotIndex: Int = 0,
     dotsCount: Int = 8,
     dotSize: CGFloat = 2,
+    isLoaderSolid: Bool = false,
+    solidLoaderColor: Color = .text(.light),
     spinnerSpeed: TimeInterval = 0.1
   ) {
     self.dotIndex = dotIndex
     self.dotsCount = dotsCount
     self.dotSize = dotSize
+    self.isLoaderSolid = isLoaderSolid
+    self.solidLoaderColor = solidLoaderColor
     self.spinnerSpeed = spinnerSpeed
   }
   var body: some View {
@@ -33,9 +39,16 @@ struct PBLoader: View {
 
 extension PBLoader {
   var loaderView: some View {
+   
     CircularLayout {
-      ForEach(0..<dotsCount, id: \.self) { index in
-        dotView(index)
+      if isLoaderSolid {
+        solidLoader
+        
+      } else {
+        ForEach(0..<dotsCount, id: \.self) { index in
+          dotView(index)
+          
+        }
       }
     }
     .animation(
@@ -44,6 +57,7 @@ extension PBLoader {
       value: 360
     )
     .onAppear {
+      isAnimating.toggle()
       Timer.scheduledTimer(
         withTimeInterval: spinnerSpeed,
         repeats: true) { _ in
@@ -61,6 +75,26 @@ extension PBLoader {
   }
   func dotColor(_ index: Int) -> Color {
     index == dotIndex ? Color.clear : Color.text(.light)
+  }
+  var solidLoader: some View {
+    VStack {
+      Circle()
+        .trim(from: 0.2, to: 1)
+        .stroke(
+          LinearGradient(
+            gradient: Gradient(colors: [solidLoaderColor, solidLoaderColor]),
+            startPoint: .topTrailing, endPoint: .bottomLeading
+          ),
+          style: StrokeStyle(lineWidth: 2, lineCap: .round)
+        )
+        .rotationEffect(Angle(degrees: isAnimating ? 360 : 0))
+        .frame(width: dotSize, height: dotSize)
+        .animation(
+          .linear(duration: spinnerSpeed)
+          .repeatForever(autoreverses: false),
+          value: isAnimating
+        )
+    }
   }
 }
 
