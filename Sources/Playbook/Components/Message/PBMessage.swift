@@ -22,7 +22,7 @@ public struct PBMessage<Content: View>: View {
   let timestampVariant: PBTimestamp.Variant
   @Binding var isLoading: Bool
   @State private var isHovering: Bool = false
-
+  
   public init(
     avatar: AnyView? = nil,
     label: String = "",
@@ -61,11 +61,11 @@ public struct PBMessage<Content: View>: View {
           if timestampAlignment == .trailing {
             Spacer()
           }
-          Group {
-            if let timestamp = timestamp {
-              if isLoading {
-                  PBLoader()
-              } else {
+          Group { 
+            if isLoading {
+              PBLoader()
+            } else {
+              if let timestamp = timestamp {
                 PBTimestamp(
                   timestamp,
                   amPmStyle: .full,
@@ -93,7 +93,7 @@ public struct PBMessage<Content: View>: View {
     .padding(.horizontal, horizontalPadding)
     .frame(maxWidth: .infinity, alignment: .topLeading)
   }
-
+  
   func returnTimestamp(isHovering: Bool) -> PBTimestamp.Variant {
     if changeTimeStampOnHover {
       return isHovering ? .standard : .hideUserElapsed
