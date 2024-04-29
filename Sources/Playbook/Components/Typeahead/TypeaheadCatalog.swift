@@ -16,6 +16,8 @@ public struct TypeaheadCatalog: View {
   @State private var searchTextColors: String = ""
   @State private var searchTextDebounce: String = ""
   @State private var searchTextDebounce2: String = ""
+  @State private var didTapOutside: Bool? = false
+  var popoverManager = PopoverManager()
   
   public var body: some View {
     ScrollView {
@@ -25,6 +27,7 @@ public struct TypeaheadCatalog: View {
         PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
       }
       .padding(Spacing.medium)
+      .withPopoverHandling(popoverManager)
     }
     .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)
@@ -37,8 +40,10 @@ extension TypeaheadCatalog {
       title: "Colors",
       searchText: $searchTextColors,
       selection: .single,
-      options: assetsColors
-    )
+      options: assetsColors, 
+      popoverManager: popoverManager) { options in
+        print("Selected options \(options)")
+      }
   }
   
   var users: some View {
@@ -47,8 +52,10 @@ extension TypeaheadCatalog {
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
       selection: .multiple(variant: .pill),
-      options: assetsUsers
-    )
+      options: assetsUsers, 
+      popoverManager: popoverManager) { options in
+        print("Selected options \(options)")
+      }
   }
   
   var debounce: some View {
@@ -58,16 +65,22 @@ extension TypeaheadCatalog {
         searchText: $searchTextDebounce,
         selection: .single,
         options: assetsColors,
-        debounce: (1, 2)
-      )
+        debounce: (1, 2), 
+        popoverManager: popoverManager
+      ) { options in
+        print("Selected options \(options)")
+      }
       
       PBTypeahead(
         title: "Debounce, 2 characters, 0 second",
         searchText: $searchTextDebounce2,
         selection: .single,
         options: assetsColors,
-        debounce: (0, 2)
-      )
+        debounce: (0, 2), 
+        popoverManager: popoverManager
+      ) { options in
+        print("Selected options \(options)")
+      }
     }
   }
 }
