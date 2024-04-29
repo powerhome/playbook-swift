@@ -33,7 +33,6 @@ public struct GlobalPositionCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Global Position")
   }
 }

@@ -19,7 +19,6 @@ public struct PersonCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(.light))
     .navigationTitle("Person")
   }
 }

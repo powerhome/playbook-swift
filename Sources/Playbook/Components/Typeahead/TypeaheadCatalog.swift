@@ -26,7 +26,6 @@ public struct TypeaheadCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(.light))
     .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)
   }

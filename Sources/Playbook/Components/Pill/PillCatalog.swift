@@ -30,7 +30,6 @@ public struct PillCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Pill")
   }
 }

@@ -161,7 +161,7 @@ public struct CardCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
+   // .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Card")
   }
 }

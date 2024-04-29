@@ -19,7 +19,6 @@ public struct DateRangeInlineCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Date Range Inline")
   }
 }

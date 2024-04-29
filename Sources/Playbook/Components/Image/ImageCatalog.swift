@@ -51,7 +51,6 @@ public struct ImageCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Image")
   }
 }

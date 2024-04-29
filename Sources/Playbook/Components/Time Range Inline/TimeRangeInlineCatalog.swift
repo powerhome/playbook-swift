@@ -19,7 +19,6 @@ public struct TimeRangeInlineCatalog: View {
         }
         .padding(Spacing.medium)
       }
-      .background(Color.background(.light))
       .navigationTitle("Time Range Inline")
     }
 }

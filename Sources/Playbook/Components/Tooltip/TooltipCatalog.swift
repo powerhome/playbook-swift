@@ -34,7 +34,6 @@ public struct TooltipCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(.light))
     .navigationTitle("Tooltip")
     #endif
   }

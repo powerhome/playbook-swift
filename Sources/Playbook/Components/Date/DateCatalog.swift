@@ -30,7 +30,6 @@ public struct DateCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Date")
   }
 }

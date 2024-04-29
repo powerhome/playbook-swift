@@ -10,9 +10,7 @@
 import SwiftUI
 
 public struct BadgeCatalog: View {
-  @AppStorage("darkMode") var darkMode = false
   public var body: some View {
-    ZStack {
       ScrollView {
         VStack(spacing: Spacing.medium) {
           PBDoc(title: "Rectangle") {
@@ -54,7 +52,5 @@ public struct BadgeCatalog: View {
         .padding(Spacing.medium)
       }
       .navigationTitle("Badge")
-    }
-    .preferredColorScheme(darkMode ? .dark : .light)
   }
 }

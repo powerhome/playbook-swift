@@ -17,7 +17,6 @@ import UIKit
 struct ContentListView: View {
   let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
   @State var selectedItem: Int = 0
-  @AppStorage("darkMode") var darkMode = false
   @State var checked: Bool = false
 #if os(iOS)
   init() {
@@ -36,26 +35,24 @@ struct ContentListView: View {
       contentView.padding(.bottom, 80)
         .toolbar {
           ToolbarItem(placement: .cancellationAction) {
-            VStack {
-              HStack(spacing: Spacing.xLarge) {
-                HStack(spacing: Spacing.small) {
-                  playbookLogo
-                  if let version = version {
-                    PBBadge(text: version, variant: .success)
-                  }
-                  Spacer(minLength: 30)
+            HStack(alignment: .center, spacing: Spacing.xLarge) {
+              HStack(spacing: Spacing.xxSmall) {
+                playbookLogo
+                if let version = version {
+                  PBBadge(text: version, variant: .success)
                 }
-                HStack(spacing: Spacing.small) {
-                  PBIcon(FontAwesome.moon, size: .xSmall)
-                    .pbFont(.body, color: .text(.lighter))
-                  PBToggle(checked: $checked)
-                    .onTapGesture {
-                      darkMode.toggle()
-                    }
-                }
+              }
+              Spacer()
+              Spacer()
+              Spacer(minLength: 0)
+              HStack(spacing: Spacing.xxSmall) {
+                PBIcon(FontAwesome.moon, size: .xSmall)
+                  .pbFont(.body, color: .text(.lighter))
+                PBToggle(checked: $checked)
               }
             }
           }
+          
         }
         .background {
           checked ? Color.background(.dark) : Color.background(.light)
@@ -138,7 +135,7 @@ struct ContentListView: View {
             } label: {
               PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
                 HStack {
-                  PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(.black)
+                  PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(checked ? .white : .black)
                   Text(element.rawValue.capitalized).pbFont(.buttonText(16))
                     .multilineTextAlignment(.leading)
                   PBIcon.fontAwesome(.chevronRight, size: .small)

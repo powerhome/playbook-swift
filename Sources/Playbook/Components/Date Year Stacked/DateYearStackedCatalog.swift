@@ -19,7 +19,6 @@ public struct DateYearStackedCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Date Year Stacked")
   }
 }

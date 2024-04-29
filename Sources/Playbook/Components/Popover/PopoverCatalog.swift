@@ -35,7 +35,6 @@ public struct PopoverCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(.light))
     .preferredColorScheme(.light)
     .withPopoverHandling(popoverValue)
     .withPopoverHandling(popoverValue2)

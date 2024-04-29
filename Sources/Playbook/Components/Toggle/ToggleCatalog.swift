@@ -33,7 +33,6 @@ public struct ToggleCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Toggle")
   }
 }

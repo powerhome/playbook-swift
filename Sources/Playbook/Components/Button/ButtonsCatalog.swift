@@ -10,7 +10,6 @@
 import SwiftUI
 
 public struct ButtonsCatalog: View {
-  @AppStorage("darkMode") var darkMode = false
   @State private var count: Int = 153
   @State private var count1: Int = 5
   let simpleButtons: some View = VStack(alignment: .leading, spacing: Spacing.small) {
@@ -36,8 +35,6 @@ public struct ButtonsCatalog: View {
     .previewDisplayName("Button Variants")
   
   public var body: some View {
-    
-    ZStack {
       ScrollView {
         VStack(spacing: Spacing.medium) {
           PBDoc(title: "Simple") { simpleButtons }
@@ -101,8 +98,5 @@ public struct ButtonsCatalog: View {
         .padding(Spacing.medium)
       }
       .navigationTitle("Button")
-      
-    }
-    .preferredColorScheme(darkMode ? .dark : .light)
   }
 }

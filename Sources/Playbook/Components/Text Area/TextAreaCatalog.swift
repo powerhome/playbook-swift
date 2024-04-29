@@ -56,7 +56,6 @@ public struct TextAreaCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Textarea")
   }
 

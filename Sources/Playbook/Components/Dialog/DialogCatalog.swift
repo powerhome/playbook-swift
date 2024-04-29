@@ -28,7 +28,6 @@ import SwiftUI
         }
         .padding(Spacing.medium)
       }
-      .background(Color.background(Color.BackgroundColor.light))
       .navigationTitle("Dialog")
     }
 

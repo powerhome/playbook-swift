@@ -10,9 +10,7 @@
 import SwiftUI
 
 public struct AvatarCatalog: View {
-  @AppStorage("darkMode") var darkMode = false
   public var body: some View {
-    ZStack {
       ScrollView {
         VStack(spacing: Spacing.medium) {
           PBDoc(title: "Default") {
@@ -25,8 +23,6 @@ public struct AvatarCatalog: View {
         .padding(Spacing.medium)
       }
       .navigationTitle("Avatar")
-    }
-    .preferredColorScheme(darkMode ? .dark : .light)
   }
 
   var defaultAvatars: some View {

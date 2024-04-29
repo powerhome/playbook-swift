@@ -30,7 +30,6 @@ public struct MultipleUsersCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Multiple Users")
   }
 }
