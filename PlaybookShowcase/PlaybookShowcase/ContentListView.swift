@@ -52,7 +52,6 @@ struct ContentListView: View {
               }
             }
           }
-          
         }
         .background {
           checked ? Color.background(.dark) : Color.background(.light)
