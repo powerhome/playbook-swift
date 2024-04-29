@@ -39,15 +39,13 @@ struct PBLoader: View {
 
 extension PBLoader {
   var loaderView: some View {
-   
+    
     CircularLayout {
       if isLoaderSolid {
         solidLoader
-        
       } else {
         ForEach(0..<dotsCount, id: \.self) { index in
           dotView(index)
-          
         }
       }
     }
@@ -61,8 +59,8 @@ extension PBLoader {
       Timer.scheduledTimer(
         withTimeInterval: spinnerSpeed,
         repeats: true) { _ in
-        dotIndex = (dotIndex + 1) % dotsCount
-      }
+          dotIndex = (dotIndex + 1) % dotsCount
+        }
     }
   }
 }
