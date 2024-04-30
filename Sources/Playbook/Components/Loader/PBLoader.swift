@@ -18,6 +18,7 @@ struct PBLoader: View {
   let isLoaderSolid: Bool
   let solidLoaderColor: Color
   let solidLoaderSize: CGFloat
+  let loaderColor: Color
   public init(
     dotIndex: Int = 0,
     dotsCount: Int = 8,
@@ -25,7 +26,8 @@ struct PBLoader: View {
     isLoaderSolid: Bool = false,
     solidLoaderColor: Color = .text(.light),
     solidLoaderSize: CGFloat = 15,
-    spinnerSpeed: TimeInterval = 0.1
+    spinnerSpeed: TimeInterval = 0.1,
+    loaderColor: Color = .text(.light)
   ) {
     self.dotIndex = dotIndex
     self.dotsCount = dotsCount
@@ -34,6 +36,7 @@ struct PBLoader: View {
     self.solidLoaderColor = solidLoaderColor
     self.solidLoaderSize = solidLoaderSize
     self.spinnerSpeed = spinnerSpeed
+    self.loaderColor = loaderColor
   }
   var body: some View {
     if isLoaderSolid {
@@ -73,7 +76,7 @@ extension PBLoader {
       .frame(width: dotSize, height: dotSize)
   }
   func dotColor(_ index: Int) -> Color {
-    index == dotIndex ? Color.clear : Color.text(.light)
+    index == dotIndex ? Color.clear : loaderColor
   }
   @ViewBuilder
   var solidLoaderView: some View {
