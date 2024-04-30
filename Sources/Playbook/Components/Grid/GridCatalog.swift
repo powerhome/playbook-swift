@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct GridCatalog: View {
   @State private var count = 1
+  @State private var users = Mocks.multipleUsers
   let tagCache: TagCache = TagCache.shared
   
   init() {
@@ -27,10 +28,8 @@ public struct GridCatalog: View {
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") { defaultView }
         PBDoc(title: "Alignment") { alignmentView }
         PBDoc(title: "Spacing") { spacingView }
-        PBDoc(title: "Fit Content") { fitContentView }
       }
       .padding(Spacing.medium)
     }
@@ -40,20 +39,6 @@ public struct GridCatalog: View {
 }
 
 extension GridCatalog {
-  var defaultView: some View {
-    VStack(alignment: .leading) {
-      PBGrid {
-        ForEach(0..<count, id: \.self) { index in
-          tagView(tagCache.tags[index])
-        }
-      }
-      .border(Color.pbPrimary, width: 1)
-      Spacer()
-      Stepper("Count: \(count)", value: $count, in: 0...tagCache.tags.count)
-        .frame(maxWidth: .infinity)
-        .padding()
-    }
-  }
   
   var alignmentView: some View {
     return VStack(alignment: .leading, spacing: Spacing.medium) {
@@ -86,21 +71,24 @@ extension GridCatalog {
     VStack(alignment: .leading) {
       Text(title).pbFont(.caption)
       PBGrid(alignment: alignment, horizontalSpacing: hSpace, verticalSpacing: vSpace, fitContent: fitContent) {
-        ForEach(tagCache.tags) { tag in
-          tagView(tag)
+        ForEach(users, id: \.name) { user in
+          tagView("\(user.name)")
         }
       }
-      .border(Color.pbPrimary, width: 1)
+      .overlay {
+        RoundedRectangle(cornerRadius: BorderRadius.medium)
+          .stroke(Color.text(.light), lineWidth: 1)
+      }
+      .clipShape(RoundedRectangle(cornerRadius: BorderRadius.medium, style: .circular))
     }
   }
-
-  func tagView(_ tag: TagModel) -> some View {
-    Text(tag.text)
+  func tagView(_ tag: String) -> some View {
+    Text(tag)
       .pbFont(.title4, variant: .bold, color: .white)
       .foregroundColor(Color.white)
-      .padding(.horizontal, tag.horizontalPadding)
-      .padding(.vertical, tag.verticalPadding)
-      .background(tag.color)
+      .padding(.horizontal, CGFloat.random(in: 4...14))
+      .padding(.vertical,  CGFloat.random(in: 4...14))
+      .background(Color.text(.default))
       .cornerRadius(16)
   }
 
