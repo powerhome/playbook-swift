@@ -42,15 +42,11 @@ struct ContentListView: View {
                   PBBadge(text: version, variant: .success)
                 }
               }
-              Spacer()
-              Spacer()
-              Spacer(minLength: 0)
-              HStack(spacing: Spacing.xxSmall) {
-                PBIcon(FontAwesome.moon, size: .xSmall)
-                  .pbFont(.body, color: .text(.lighter))
-                PBToggle(checked: $checked)
-              }
             }
+          }
+          
+          ToolbarItem {
+           darkmodeToggle
           }
         }
         .background {
@@ -65,10 +61,14 @@ struct ContentListView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
     .preferredColorScheme(checked ? .dark : .light)
-  #if os(iOS)
+    #if os(iOS)
     .navigationViewStyle(.stack)
-  #endif
+    #endif
   }
+}
+
+@available(iOS 16.4, *)
+extension ContentListView {
   var bottomBar: some View {
     HStack(alignment: .center) {
       PBNav(
@@ -105,6 +105,11 @@ struct ContentListView: View {
           ForEach(Components.allCases, id: \.self) { element in
             NavigationLink {
               element.destination
+                .toolbar {
+                  ToolbarItem {
+                    darkmodeToggle
+                  }
+                }
             } label: {
               PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
                 HStack {
@@ -131,6 +136,11 @@ struct ContentListView: View {
           ForEach(DesignElements.allCases, id: \.self) { element in
             NavigationLink {
               element.destination
+                .toolbar {
+                  ToolbarItem {
+                    darkmodeToggle
+                  }
+                }
             } label: {
               PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
                 HStack {
@@ -150,12 +160,21 @@ struct ContentListView: View {
     }
     .padding()
   }
+  
+  private var darkmodeToggle: some View {
+    HStack(spacing: Spacing.xxSmall) {
+      PBIcon(FontAwesome.moon, size: .xSmall)
+        .pbFont(.body, color: .text(.lighter))
+      PBToggle(checked: $checked)
+    }
+  }
 }
 
-@available(iOS 16.4, *)
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
+#Preview {
+  registerFonts()
+  if #available(iOS 16.4, *) {
     return ContentListView()
+  } else {
+    return EmptyView()
   }
 }

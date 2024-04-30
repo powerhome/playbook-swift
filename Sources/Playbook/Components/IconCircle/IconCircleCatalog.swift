@@ -37,6 +37,7 @@ public struct IconCircleCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Icon Circle")
   }
 }

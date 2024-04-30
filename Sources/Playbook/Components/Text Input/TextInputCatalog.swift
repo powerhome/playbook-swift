@@ -143,6 +143,7 @@ struct TextInputCatalog: View {
         }
         .padding(Spacing.medium)
       }
+      .background(Color.background(Color.BackgroundColor.light))
       .navigationTitle("Text Input")
 
     #elseif os(macOS)
@@ -243,6 +244,7 @@ struct TextInputCatalog: View {
         }
         .padding(Spacing.medium)
       }
+      .background(Color.background(Color.BackgroundColor.light))
     #endif
     return pbTextInputView
   }

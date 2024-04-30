@@ -19,6 +19,7 @@ struct HighlightCatalog: View {
         }
         .padding(Spacing.medium)
       }
+      .background(Color.background(.light))
       .navigationTitle("Highlight")
     }
 }

@@ -19,6 +19,7 @@ public struct TimeStackedCatalog: View {
         }
         .padding(Spacing.medium)
       }
+      .background(Color.background(.light))
       .navigationTitle("Time Stacked")
     }
 }

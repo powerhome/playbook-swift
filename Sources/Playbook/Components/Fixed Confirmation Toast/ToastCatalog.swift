@@ -27,6 +27,7 @@ public struct ToastCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Fixed Confirmation Toast")
     .withToastHandling(toastView, position: position)
   }

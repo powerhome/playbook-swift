@@ -19,6 +19,7 @@ public struct DateTimeStackedCatalog: View {
         }
         .padding(Spacing.medium)
       }
+      .background(Color.background(Color.BackgroundColor.light))
       .navigationTitle("Date Time Stacked")
     }
 }

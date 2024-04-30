@@ -58,6 +58,7 @@ public struct SectionSeparatorCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Section Separator")
   }
 }

@@ -207,6 +207,7 @@ struct NavCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Nav")
   }
 
@@ -278,6 +279,7 @@ struct NavCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Nav")
   }
 
@@ -322,6 +324,7 @@ struct NavCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Nav")
   }
 }

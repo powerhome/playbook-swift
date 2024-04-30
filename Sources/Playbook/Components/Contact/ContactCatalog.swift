@@ -22,6 +22,7 @@ public struct ContactCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(.light))
     .navigationTitle("Contact")
   }
 }

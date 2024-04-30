@@ -11,18 +11,19 @@ import SwiftUI
 
 public struct AvatarCatalog: View {
   public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultAvatars
-          }
-          PBDoc(title: "Monogram") {
-            monograms
-          }
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          defaultAvatars
         }
-        .padding(Spacing.medium)
+        PBDoc(title: "Monogram") {
+          monograms
+        }
       }
-      .navigationTitle("Avatar")
+      .padding(Spacing.medium)
+    }
+    .background(Color.background(.default))
+    .navigationTitle("Avatar")
   }
 
   var defaultAvatars: some View {

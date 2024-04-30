@@ -30,6 +30,7 @@ public struct HomeAddressStreetCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(.light))
     .navigationTitle("Home Address Street")
   }
 

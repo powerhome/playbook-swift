@@ -10,7 +10,6 @@
 import SwiftUI
 
 public struct GlobalPosition<T: View>: ViewModifier {
- 
   let alignment: Alignment
   let top: CGFloat
   let leading: CGFloat
@@ -18,6 +17,7 @@ public struct GlobalPosition<T: View>: ViewModifier {
   let trailing: CGFloat
   let isCard: Bool
   var view: () -> T
+  
   public init(
     alignment: Alignment = .center,
     top: CGFloat = 0,

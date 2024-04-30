@@ -41,6 +41,7 @@ public struct TabBarCatalog: View {
       }.pbFont(.caption, variant: .light, color: .text(.light))
         .padding(.top, Spacing.medium)
     }
+    .background(Color.background(.light))
     .navigationTitle("Tab Bar")
   }
 }

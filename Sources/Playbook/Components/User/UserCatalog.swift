@@ -42,6 +42,7 @@ public struct UserCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("User")
   }
 }

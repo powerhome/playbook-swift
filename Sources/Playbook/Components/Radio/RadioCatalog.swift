@@ -63,6 +63,7 @@ public struct RadioCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Radio")
   }
 

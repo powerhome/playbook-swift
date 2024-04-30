@@ -26,6 +26,7 @@ public struct DateTimeCatalog: View {
       }
       .padding(Spacing.medium)
     }
+    .background(Color.background(.light))
     .navigationTitle("Date Time")
   }
 }
