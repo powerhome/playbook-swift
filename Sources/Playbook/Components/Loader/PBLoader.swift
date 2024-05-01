@@ -9,40 +9,38 @@
 
 import SwiftUI
 
-struct PBLoader: View {
+public struct PBLoader: View {
   @State private var dotIndex: Int
   @State private var isAnimating: Bool = false
   let dotsCount: Int
   let dotSize: CGFloat
   let spinnerSpeed: TimeInterval
-  let isLoaderSolid: Bool
-  let solidLoaderColor: Color
+  let variant: Variant
   let solidLoaderSize: CGFloat
-  let loaderColor: Color
+  let color: Color
+
   public init(
     dotIndex: Int = 0,
     dotsCount: Int = 8,
     dotSize: CGFloat = 2,
-    isLoaderSolid: Bool = false,
-    solidLoaderColor: Color = .text(.light),
+    variant: Variant = .default,
     solidLoaderSize: CGFloat = 15,
     spinnerSpeed: TimeInterval = 0.1,
-    loaderColor: Color = .text(.light)
+    color: Color = .text(.light)
   ) {
     self.dotIndex = dotIndex
     self.dotsCount = dotsCount
     self.dotSize = dotSize
-    self.isLoaderSolid = isLoaderSolid
-    self.solidLoaderColor = solidLoaderColor
+    self.variant = variant
     self.solidLoaderSize = solidLoaderSize
     self.spinnerSpeed = spinnerSpeed
-    self.loaderColor = loaderColor
+    self.color = color
   }
-  var body: some View {
-    if isLoaderSolid {
-      solidLoaderView
-    } else {
-      loaderView
+  
+  public var body: some View {
+    switch variant {
+    case .default: loaderView
+    case .solid: solidLoaderView
     }
   }
 }
@@ -67,18 +65,7 @@ extension PBLoader {
         }
     }
   }
-}
-
-extension PBLoader {
-  func dotView(_ index: Int) -> some View {
-    Circle()
-      .foregroundStyle(dotColor(index))
-      .frame(width: dotSize, height: dotSize)
-  }
-  func dotColor(_ index: Int) -> Color {
-    index == dotIndex ? Color.clear : loaderColor
-  }
-  @ViewBuilder
+  
   var solidLoaderView: some View {
     Circle()
       .trim(from: 0, to: 0.8)
@@ -95,6 +82,22 @@ extension PBLoader {
           isAnimating = true
       }
     }
+  }
+  
+  func dotView(_ index: Int) -> some View {
+    Circle()
+      .foregroundStyle(dotColor(index))
+      .frame(width: dotSize, height: dotSize)
+  }
+  
+  func dotColor(_ index: Int) -> Color {
+    index == dotIndex ? Color.clear : color
+  }
+}
+
+public extension PBLoader {
+  enum Variant {
+    case `default`, solid
   }
 }
 

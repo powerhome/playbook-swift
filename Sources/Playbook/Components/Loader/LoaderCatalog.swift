@@ -9,8 +9,8 @@
 
 import SwiftUI
 
-struct LoaderCatalog: View {
-  var body: some View {
+public struct LoaderCatalog: View {
+  public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") {
@@ -34,9 +34,7 @@ extension LoaderCatalog {
   }
   var solidLoaderView: some View {
     VStack(spacing: Spacing.small) {
-      PBLoader(
-        isLoaderSolid: true
-      )
+      PBLoader(variant: .solid)
     }
   }
 }
