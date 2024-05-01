@@ -22,7 +22,7 @@ enum Mocks {
   static let avatarXSmall = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall)
   static let avatarXSmallStatus = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .online)
   static let userName = "Andrew Black"
-  static let message = "How can we assist you today?"
+  static let message: AttributedString = "How can we assist you today?"
   static let timestamp =  PBTimestamp(Date(), showDate: false)
   static let picAnna = PBAvatar(image: Image("Anna", bundle: .module), size: .xSmall, status: .online)
   static let picPatric = PBAvatar(image: Image("Pat", bundle: .module), size: .xSmall)

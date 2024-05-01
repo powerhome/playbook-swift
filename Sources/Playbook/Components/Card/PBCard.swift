@@ -52,12 +52,11 @@ public struct PBCard<Content: View>: View {
     }
     .frame(maxWidth: width, alignment: alignment)
     .border(width: 5, edges: highlight.edge, color: highlight.color)
-    .cornerRadius(borderRadius)
-    .background(
+    .background(backgroundColor)
+    .clipShape(
       RoundedRectangle(cornerRadius: borderRadius, style: .circular)
-        .fill(backgroundColor)
-        .pbShadow(shadow ?? .none)
     )
+    .pbShadow(shadow ?? .none)
     .overlay(
       RoundedRectangle(cornerRadius: borderRadius, style: .circular)
         .stroke(
