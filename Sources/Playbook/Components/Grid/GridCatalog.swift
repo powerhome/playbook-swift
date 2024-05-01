@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct GridCatalog: View {
   @State private var count = 1
-  @State private var colors = Mocks.assetsColors
+  @State private var cities = Mocks.cities
  
   public var body: some View {
     ScrollView {
@@ -59,8 +59,8 @@ extension GridCatalog {
     VStack(alignment: .leading) {
       Text(title).pbFont(.caption)
       PBGrid(alignment: alignment, horizontalSpacing: hSpace, verticalSpacing: vSpace, fitContent: fitContent) {
-        ForEach(colors, id: \.0) { color in
-          tagView("\(color.0)")
+        ForEach(cities, id: \.count) { city in
+          tagView("\(city)")
         }
       }
       .overlay {

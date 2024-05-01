@@ -38,4 +38,16 @@ enum Mocks {
     ("Indigo", nil),
     ("Magenta", nil)
   ]
+  static let cities: [String] = [
+    "Philadelphia",
+    "New York",
+    "Chicago",
+    "Los Angeles",
+    "San Francisco",
+    "Boston",
+    "Miami",
+    "Seattle",
+    "Dallas"
+  
+  ]
 }
