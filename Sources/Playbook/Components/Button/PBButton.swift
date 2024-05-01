@@ -49,7 +49,7 @@ public struct PBButton: View {
       HStack {
         icon
         if isLoading {
-          PBLoader(loaderColor: variant.foregroundColor)
+          PBLoader(color: variant.foregroundColor)
         } else {
           if let title = title, shape == .primary {
             Text(title)

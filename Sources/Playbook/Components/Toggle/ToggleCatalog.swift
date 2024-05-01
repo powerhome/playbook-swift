@@ -10,26 +10,29 @@
 import SwiftUI
 
 public struct ToggleCatalog: View {
+  @State private var checked: Bool = true
+  @State private var checked1: Bool = false
+  @State private var checked2: Bool = false
+  @State private var checked3: Bool = false
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") {
           VStack(spacing: Spacing.small) {
-            PBToggle(checked: true)
-            PBToggle(checked: false)
+            PBToggle(checked: $checked)
+            PBToggle(checked: $checked1)
           }
         }
 
         PBDoc(title: "Name") {
           VStack(spacing: Spacing.small) {
-            PBToggle(label: "car", checked: false)
-            PBToggle(label: "bike", checked: false)
+            PBToggle(label: "car", checked: $checked2)
+            PBToggle(label: "bike", checked: $checked3)
           }
         }
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Toggle")
   }
 }
