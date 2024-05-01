@@ -22,7 +22,7 @@ public struct AvatarCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
+    .background(Color.background(.default))
     .navigationTitle("Avatar")
   }
 

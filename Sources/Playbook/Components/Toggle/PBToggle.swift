@@ -13,14 +13,13 @@ import SwiftUI
 public struct PBToggle: View {
   @State var isHovering: Bool = false
   @State var label: String?
-  @State var checked: Bool
-
+  @Binding var checked: Bool
   public init(
     label: String? = nil,
-    checked: Bool
+    checked: Binding<Bool> = .constant(false)
   ) {
     self.label = label
-    self.checked = checked
+    self._checked = checked
   }
 
   public var body: some View {
@@ -53,7 +52,7 @@ public struct PBToggle: View {
       }
       .onTapGesture {
         withAnimation {
-          checked = !checked
+          checked.toggle()
         }
       }
     }
