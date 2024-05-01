@@ -17,7 +17,6 @@ struct PlaybookShowcaseApp: App {
     registerFonts()
     return WindowGroup {
       ContentListView()
-        .environment(\.colorScheme, .light)
     }
   }
 }
