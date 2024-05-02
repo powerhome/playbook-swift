@@ -48,7 +48,7 @@ public struct PBMessage<Content: View>: View {
     _isLoading = isLoading
     self.content = content()
   }
-  
+
   public var body: some View {
     HStack(alignment: .top, spacing: nil) {
       if let avatar = avatar {
@@ -61,7 +61,7 @@ public struct PBMessage<Content: View>: View {
           if timestampAlignment == .trailing {
             Spacer()
           }
-          Group {
+          Group { 
             if isLoading {
               PBLoader()
             } else {

@@ -75,7 +75,7 @@ public extension PBButton {
       : variant.backgroundColor
       #endif
     }
-
+      
     public func foregroundAnimation(
       configuration: ButtonStyleConfiguration,
       variant: PBButton.Variant,
