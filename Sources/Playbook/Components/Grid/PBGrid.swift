@@ -74,7 +74,7 @@ public struct PBGrid: Layout {
   }
 }
 
-public extension PBGrid {
+public  extension PBGrid {
   struct Row {
     var elements: [(index: Int, size: CGSize, xOffset: CGFloat)] = []
     var yOffset: CGFloat = .zero

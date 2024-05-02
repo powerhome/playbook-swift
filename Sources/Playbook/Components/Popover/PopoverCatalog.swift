@@ -16,7 +16,12 @@ public struct PopoverCatalog: View {
   @State private var isPresented4: Bool = false
   @State private var isPresented5: Bool = false
   @State private var isPresented6: Bool = false
-  @StateObject var popoverManager = PopoverManager()
+  @State private var popoverValue: AnyView?
+  @State private var popoverValue2: AnyView?
+  @State private var popoverValue3: AnyView?
+  @State private var popoverValue4: AnyView?
+  @State private var popoverValue5: AnyView?
+  @State private var popoverValue6: AnyView?
 
   public init() {}
 
@@ -29,11 +34,15 @@ public struct PopoverCatalog: View {
         PBDoc(title: "Close options") { onClosePopover }
       }
       .padding(Spacing.medium)
-      .withPopoverHandling(popoverManager)
     }
     .background(Color.background(.light))
     .preferredColorScheme(.light)
-  
+    .withPopoverHandling(popoverValue)
+    .withPopoverHandling(popoverValue2)
+    .withPopoverHandling(popoverValue3)
+    .withPopoverHandling(popoverValue4)
+    .withPopoverHandling(popoverValue5)
+    .withPopoverHandling(popoverValue6)
     .navigationTitle("Popover")
   }
 
@@ -48,10 +57,7 @@ public struct PopoverCatalog: View {
       ) {
         isPresented.toggle()
       }
-      .pbPopover(
-        isPresented: $isPresented,
-        popoverManager: popoverManager
-      ) {
+      .pbPopover(isPresented: $isPresented, $popoverValue) {
         Text("I'm a popover. I can show content of any size.")
           .pbFont(.body, color: .text(.default))
       }
@@ -65,13 +71,9 @@ public struct PopoverCatalog: View {
       icon: .fontAwesome(.chevronDown),
       iconPosition: .right
     ) {
-      isPresented2.toggle()
+      isPresented2 = true
     }
-    .pbPopover(
-      isPresented: $isPresented2,
-      position: .center(0, 4),
-      popoverManager: popoverManager
-    ) {
+    .pbPopover(isPresented: $isPresented2, $popoverValue2, cardPadding: 0) {
       List {
         VStack(spacing: Spacing.small) {
           PBButton(variant: .link, title: "Popularity")
@@ -98,13 +100,9 @@ public struct PopoverCatalog: View {
         variant: .secondary,
         title: "Click Inside"
       ) {
-        isPresented3.toggle()
+        isPresented3 = true
       }
-      .pbPopover(
-        isPresented: $isPresented3,
-        popoverManager: popoverManager,
-        clickToClose: (.inside, action: { print("close action") })
-      ) {
+      .pbPopover(isPresented: $isPresented3, $popoverValue3, clickToClose: .inside) {
         Text("Click on me!")
           .pbFont(.body, color: .text(.default))
       }
@@ -113,14 +111,9 @@ public struct PopoverCatalog: View {
         variant: .secondary,
         title: "Click Outside"
       ) {
-        isPresented4.toggle()
+        isPresented4 = true
       }
-      .pbPopover(
-        isPresented: $isPresented4,
-        position: .top(),
-        popoverManager: popoverManager,
-        clickToClose: (.outside, action: { print("close action") })
-      ) {
+      .pbPopover(isPresented: $isPresented4, $popoverValue4, position: .top(), clickToClose: .outside) {
         Text("Click anywhere but me!")
           .pbFont(.body, color: .text(.default))
       }
@@ -129,14 +122,9 @@ public struct PopoverCatalog: View {
         variant: .secondary,
         title: "Click Anywhere"
       ) {
-        isPresented5.toggle()
+        isPresented5 = true
       }
-      .pbPopover(
-        isPresented: $isPresented5,
-        position: .trailing(),
-        popoverManager: popoverManager,
-        clickToClose: (.anywhere, action: { print("close action") })
-      ) {
+      .pbPopover(isPresented: $isPresented5, $popoverValue5, position: .right) {
         Text("Click anything!")
           .pbFont(.body, color: .text(.default))
       }
@@ -148,9 +136,9 @@ public struct PopoverCatalog: View {
       variant: .secondary,
       title: "Click Me"
     ) {
-      isPresented6.toggle()
+      isPresented6 = true
     }
-    .pbPopover(isPresented: $isPresented6, popoverManager: popoverManager) {
+    .pbPopover(isPresented: $isPresented6, $popoverValue6, position: .right) {
       ScrollView {
         Text(
             """
