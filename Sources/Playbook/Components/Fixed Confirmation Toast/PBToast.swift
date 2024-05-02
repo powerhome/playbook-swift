@@ -107,7 +107,3 @@ public extension PBToast {
     }
   }
 }
-
-#Preview {
-  ToastCatalog()
-}
