@@ -17,8 +17,9 @@ public struct PBButton: View {
   var title: String?
   var icon: PBIcon?
   var iconPosition: IconPosition?
+  let isLoading: Bool
   let action: (() -> Void)?
-
+  
   public init(
     fullWidth: Bool = false,
     variant: Variant = .primary,
@@ -27,6 +28,7 @@ public struct PBButton: View {
     title: String? = nil,
     icon: PBIcon? = nil,
     iconPosition: IconPosition? = .left,
+    isLoading: Bool = false,
     action: (() -> Void)? = {}
   ) {
     self.fullWidth = fullWidth
@@ -36,18 +38,22 @@ public struct PBButton: View {
     self.title = title
     self.icon = icon
     self.iconPosition = iconPosition
+    self.isLoading = isLoading
     self.action = action
   }
-
+  
   public var body: some View {
     Button {
       action?()
     } label: {
       HStack {
         icon
-
-        if let title = title, shape == .primary {
-          Text(title)
+        if isLoading {
+          PBLoader(color: variant.foregroundColor)
+        } else {
+          if let title = title, shape == .primary {
+            Text(title)
+          }
         }
       }
       .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
@@ -67,12 +73,12 @@ public extension PBButton {
     case primary
     case circle
   }
-
+  
   enum Size {
     case small
     case medium
     case large
-
+    
     public var fontSize: CGFloat {
       switch self {
       case .small:
@@ -83,15 +89,15 @@ public extension PBButton {
         return 18
       }
     }
-
+    
     func verticalPadding(_ variant: PBButton.Variant) -> CGFloat {
       return variant == .link ? 0 : fontSize / 2
     }
-
+    
     func horizontalPadding(_ variant: PBButton.Variant) -> CGFloat {
       return variant == .link ? 0 : fontSize * 2.42
     }
-
+    
     func minHeight(_ variant: PBButton.Variant) -> CGFloat {
       if variant != .link {
         switch self {
@@ -107,16 +113,14 @@ public extension PBButton {
       }
     }
   }
-
+  
   enum IconPosition {
     case left
     case right
   }
 }
 
-private struct PBButton_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return ButtonsCatalog()
-  }
+#Preview {
+  registerFonts()
+  return ButtonsCatalog()
 }

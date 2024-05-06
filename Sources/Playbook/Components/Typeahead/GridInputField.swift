@@ -18,8 +18,10 @@ public struct GridInputField: View {
   private let shape = RoundedRectangle(cornerRadius: BorderRadius.medium)
   @Binding var searchText: String
   @State private var isHovering: Bool = false
+  @State private var clearButtonIsHovering: Bool = false
+  @State private var indicatorIsHovering: Bool = false
   var isFocused: FocusState<Bool>.Binding
-
+  
   init(
     placeholder: String = "Select",
     searchText: Binding<String>,
@@ -49,25 +51,31 @@ public struct GridInputField: View {
               }
             }
           }
+          .layoutPriority(1)
           textfieldWithCustomPlaceholder
-        }
-        .onTapGesture {
-          isFocused.wrappedValue = true
-        }
-        .overlay {
-          Color.white
-            .opacity(isFocused.wrappedValue ? 0.001 : 0)
-            .onTapGesture {
-              if isFocused.wrappedValue {
-                onViewTap?()
+              .overlay {
+                Color.white
+                  .opacity(isFocused.wrappedValue ? 0.001 : 0)
+                  .onTapGesture {
+                    if isFocused.wrappedValue {
+                      onViewTap?()
+                    }
+                  }
               }
+          }
+          .onTapGesture {
+            isFocused.wrappedValue = true
+            if isFocused.wrappedValue {
+              onViewTap?()
             }
-        }
+          }
         
         dismissIconView
           .onTapGesture {
             clearAction?()
           }
+          .padding(.trailing, Spacing.xSmall)
+        indicatorView
           .padding(.trailing, Spacing.small)
       }
       .focused(isFocused)
@@ -177,12 +185,43 @@ private extension GridInputField {
   }
   
   var dismissIcon: some View {
-    PBIcon.fontAwesome(.times)
-      .foregroundStyle(Color.text(.light))
+    PBIcon(FontAwesome.times, size: .xSmall)
+      .foregroundStyle(iconColor(on: clearButtonIsHovering))
+      .onHover {
+        clearButtonIsHovering = $0
+        setupCursor
+        isHovering = true
+      }
   }
   
   var backgroundColor: Color {
-    isHovering ? .background(.light) : .card
+    (isHovering || isFocused.wrappedValue) ? .background(.light) : .card
+  }
+  
+  var indicatorView: some View {
+    PBIcon(FontAwesome.chevronDown, size: .xSmall)
+      .foregroundStyle(iconColor(on: indicatorIsHovering))
+      .onHover {
+        indicatorIsHovering = $0
+        setupCursor
+        isHovering = true
+      }
+      .onTapGesture {
+        isFocused.wrappedValue = true
+        onViewTap?()
+      }
+  }
+  
+  func iconColor(on hover: Bool) -> Color {
+    if isFocused.wrappedValue, !hover {
+      return Color.text(.light)
+    } else if !isFocused.wrappedValue, hover {
+      return Color.text(.light)
+    } else if isFocused.wrappedValue, hover {
+      return Color.text(.default)
+    } else {
+      return Color.text(.lighter)
+    }
   }
 }
 
@@ -213,7 +252,7 @@ public extension GridInputField {
 public struct WrappedInputFieldCatalog: View {
   @FocusState private var isFocused
   @State private var text: String = ""
-
+  
   public var body: some View {
     VStack(spacing: Spacing.medium) {
       GridInputField(

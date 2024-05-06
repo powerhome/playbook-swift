@@ -36,6 +36,7 @@ public enum Components: String, CaseIterable {
   case iconCircle = "Icon Circle"
   case image
   case label = "Label Value"
+  case loader = "Loader"
   case message
   case multipleUser = "Multiple Users"
   case multipleUsersIndicator = "Multiple Users Indicator"
@@ -89,13 +90,14 @@ public enum Components: String, CaseIterable {
     case .homeAddress: HomeAddressStreetCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
-    case .image: PBImage_Previews.previews
-    case .label: PBLabelValue_Previews.previews
-    case .message: PBMessage_Previews.previews
+    case .image: ImageCatalog()
+    case .label: LabelValueCatalog()
+    case .loader: LoaderCatalog()
+    case .message: MessageCatalog()
     case .multipleUser: MultipleUsersCatalog()
     case .multipleUsersIndicator: MultipleUsersIndicatorCatalog()
     case .multipleUserStacked: MultipleUsersStackedCatalog()
-    case .nav: PBNav_Previews.previews
+    case .nav: NavCatalog()
     case .person: PersonCatalog()
     case .personContact: PersonContactCatalog()
     case .pill: PillCatalog()
@@ -103,10 +105,10 @@ public enum Components: String, CaseIterable {
     case .progressIndicator: PBSpinner_Previews.previews
     case .radio: RadioCatalog()
     case .sectionSeparator: SectionSeparatorCatalog()
-    case .select: PBSelect_Previews.previews
+    case .select: SelectCatalog()
     case .tabBar: TabBarCatalog()
     case .textArea: TextAreaCatalog()
-    case .textInput: PBTextInput_Previews.previews
+    case .textInput: TextInputCatalog()
     case .tooltip: TooltipCatalog()
     case .time: TimeCatalog()
     case .timeStamp: TimeStampCatalog()

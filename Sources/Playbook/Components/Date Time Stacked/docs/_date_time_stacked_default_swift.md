@@ -1,3 +1,5 @@
+![Date-Time-Stacked-Default](https://github.com/powerhome/playbook-swift/assets/54749071/6bd21380-dcf8-46d6-a32e-8d1d529b273c)
+
 ```swift
 VStack(alignment: .leading, spacing: Spacing.small) {
   PBDateTimeStacked(
