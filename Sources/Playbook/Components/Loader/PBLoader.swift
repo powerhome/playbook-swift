@@ -41,7 +41,12 @@ public struct PBLoader: View {
   }
   
   public var body: some View {
+    HStack {
       loaderVariantView
+      if let text = text {
+        Text(text).pbFont(.body, color: color)
+      }
+    }
   }
 }
 
@@ -49,23 +54,14 @@ extension PBLoader {
   @ViewBuilder
   var loaderVariantView: some View {
     switch variant {
-    case .default: 
-      HStack {
-        loaderView
-        loaderText
-      }
-    case .solid: 
-      HStack {
-        solidLoaderView
-        loaderText
-      }
+    case .default:
+      loaderSpinnerView
+    case .solid:
+      solidLoaderView
     }
   }
-  var loaderText: some View {
-    Text(text ?? "")
-      .pbFont(.body, color: color)
-  }
-  var loaderView: some View {
+
+  var loaderSpinnerView: some View {
     CircularLayout {
       ForEach(0..<dotsCount, id: \.self) { index in
         dotView(index)
@@ -99,8 +95,8 @@ extension PBLoader {
       .onAppear {
         DispatchQueue.main.async {
           isAnimating = true
+        }
       }
-    }
   }
   
   func dotView(_ index: Int) -> some View {
