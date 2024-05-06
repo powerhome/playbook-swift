@@ -32,7 +32,7 @@ public struct LoaderCatalog: View {
 extension LoaderCatalog {
   var defaultView: some View {
     VStack(spacing: Spacing.small) {
-        PBLoader()
+      PBLoader()
     }
   }
   var solidLoaderView: some View {

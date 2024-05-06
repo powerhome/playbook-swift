@@ -19,7 +19,7 @@ public struct PBLoader: View {
   let solidLoaderSize: CGFloat
   let color: Color
   let text: String?
-
+  
   public init(
     dotIndex: Int = 0,
     dotsCount: Int = 8,
@@ -51,6 +51,28 @@ public struct PBLoader: View {
 }
 
 extension PBLoader {
+  var loaderView: some View {
+    CircularLayout {
+      ForEach(0..<dotsCount, id: \.self) { index in
+        dotView(index)
+      }
+    }
+    .animation(
+      .linear(duration: 5)
+      .repeatForever(autoreverses: false),
+      value: 360
+    )
+    .onAppear {
+      Timer.scheduledTimer(
+        withTimeInterval: spinnerSpeed,
+        repeats: true) { _ in
+          dotIndex = (dotIndex + 1) % dotsCount
+        }
+    }
+  }
+}
+
+extension PBLoader {
   @ViewBuilder
   var loaderVariantView: some View {
     switch variant {
@@ -60,7 +82,7 @@ extension PBLoader {
       solidLoaderView
     }
   }
-
+  
   var loaderSpinnerView: some View {
     CircularLayout {
       ForEach(0..<dotsCount, id: \.self) { index in
