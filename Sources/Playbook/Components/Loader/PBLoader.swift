@@ -41,7 +41,7 @@ public struct PBLoader: View {
   }
   
   public var body: some View {
-    loaderVariantView
+      loaderVariantView
   }
 }
 
@@ -63,7 +63,7 @@ extension PBLoader {
   }
   var loaderText: some View {
     Text(text ?? "")
-      .pbFont(.body, color: .text(.light))
+      .pbFont(.body, color: color)
   }
   var loaderView: some View {
     CircularLayout {
@@ -88,7 +88,7 @@ extension PBLoader {
   var solidLoaderView: some View {
     Circle()
       .trim(from: 0, to: 0.8)
-      .stroke(Color.text(.light), lineWidth: 2)
+      .stroke(color, lineWidth: 2)
       .rotationEffect(.degrees(isAnimating ? 360 : 0))
       .frame(width: solidLoaderSize, height: solidLoaderSize)
       .animation(

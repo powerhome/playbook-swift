@@ -16,11 +16,11 @@ public struct LoaderCatalog: View {
         PBDoc(title: "Default") {
           defaultView
         }
-        PBDoc(title: "Custom Text") {
-          customTextView
-        }
         PBDoc(title: "Solid") {
           solidLoaderView
+        }
+        PBDoc(title: "With Text") {
+          customTextView
         }
       }
       .padding(Spacing.medium)
@@ -42,8 +42,8 @@ extension LoaderCatalog {
   }
   var customTextView: some View {
     VStack(spacing: Spacing.small) {
-      PBLoader(text: "Saving")
-      PBLoader(variant: .solid, text: "Saving")
+      PBLoader(text: "Loading")
+      PBLoader(variant: .solid, text: "Loading")
     }
   }
 }
