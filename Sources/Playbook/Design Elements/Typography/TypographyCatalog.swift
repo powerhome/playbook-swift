@@ -118,17 +118,3 @@ private extension TypographyCatalog {
   registerFonts()
   return TypographyCatalog()
 }
-
-extension View {
-  func sizeReader(_ title: String) -> some View {
-      self.background(GeometryReader(content: { geometry in
-        HStack {
-          Color.pink.opacity(0.2).onAppear {
-            print("Size of \(title): \nwidth: \(geometry.size.width), height: \(geometry.size.height)\n")
-          }
-          
-          Text("Height: \(String(format: "%.1f", geometry.size.height))").pbFont(.badgeText)
-        }
-      }))
-  }
-}
