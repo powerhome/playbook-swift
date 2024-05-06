@@ -19,10 +19,13 @@ public struct LoaderCatalog: View {
         PBDoc(title: "Solid") {
           solidLoaderView
         }
+        PBDoc(title: "With Text") {
+          customTextView
+        }
       }
       .padding(Spacing.medium)
     }
-    .navigationTitle("Loader")
+    .navigationTitle("Loading Inline")
   }
 }
 
@@ -35,6 +38,12 @@ extension LoaderCatalog {
   var solidLoaderView: some View {
     VStack(spacing: Spacing.small) {
       PBLoader(variant: .solid)
+    }
+  }
+  var customTextView: some View {
+    VStack(spacing: Spacing.small) {
+      PBLoader(text: "Loading")
+      PBLoader(variant: .solid, text: "Loading")
     }
   }
 }
