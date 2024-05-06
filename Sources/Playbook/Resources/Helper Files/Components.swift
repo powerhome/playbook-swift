@@ -36,7 +36,7 @@ public enum Components: String, CaseIterable {
   case iconCircle = "Icon Circle"
   case image
   case label = "Label Value"
-  case loader = "Loader"
+  case loader = "Loading Inline"
   case message
   case multipleUser = "Multiple Users"
   case multipleUsersIndicator = "Multiple Users Indicator"

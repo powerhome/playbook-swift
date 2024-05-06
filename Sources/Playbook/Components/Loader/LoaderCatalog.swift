@@ -9,8 +9,8 @@
 
 import SwiftUI
 
-struct LoaderCatalog: View {
-  var body: some View {
+public struct LoaderCatalog: View {
+  public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") {
@@ -19,24 +19,31 @@ struct LoaderCatalog: View {
         PBDoc(title: "Solid") {
           solidLoaderView
         }
+        PBDoc(title: "With Text") {
+          customTextView
+        }
       }
       .padding(Spacing.medium)
     }
-    .navigationTitle("Loader")
+    .navigationTitle("Loading Inline")
   }
 }
 
 extension LoaderCatalog {
   var defaultView: some View {
     VStack(spacing: Spacing.small) {
-        PBLoader()
+      PBLoader()
     }
   }
   var solidLoaderView: some View {
     VStack(spacing: Spacing.small) {
-      PBLoader(
-        isLoaderSolid: true
-      )
+      PBLoader(variant: .solid)
+    }
+  }
+  var customTextView: some View {
+    VStack(spacing: Spacing.small) {
+      PBLoader(text: "Loading")
+      PBLoader(variant: .solid, text: "Loading")
     }
   }
 }
