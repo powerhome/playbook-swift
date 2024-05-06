@@ -29,7 +29,6 @@ private struct DebouncedChangeViewModifier<Value>: ViewModifier where Value: Equ
     if debounce.numberOfCharacters != 0 {
       content.onChange(of: trigger) { newValue in
         debouncedTask?.cancel()
-        
         if newValue.count >= debounce.numberOfCharacters {
           debouncedTask = Task.delayed(seconds: debounce.time) { @MainActor in
             action(newValue)
@@ -38,7 +37,7 @@ private struct DebouncedChangeViewModifier<Value>: ViewModifier where Value: Equ
           if newValue.count >= debounce.numberOfCharacters {
             action(newValue)
           } else if newValue.count == 0 {
-            action(" " as? Value)
+            action("" as? Value)
           }
         }
       }
@@ -74,12 +73,14 @@ extension Task {
   }
 }
 
+
+
 struct DebouncingTaskViewModifier<ID: Equatable>: ViewModifier {
   let id: ID
   let priority: TaskPriority
   let nanoseconds: UInt64
   let task: @Sendable () async -> Void
-
+  
   init(
     id: ID,
     priority: TaskPriority = .high,
@@ -91,7 +92,7 @@ struct DebouncingTaskViewModifier<ID: Equatable>: ViewModifier {
     self.nanoseconds = nanoseconds
     self.task = task
   }
-
+  
   func body(content: Content) -> some View {
     content.task(id: id, priority: priority) {
       do {
