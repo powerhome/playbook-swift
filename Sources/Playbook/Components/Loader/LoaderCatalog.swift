@@ -16,6 +16,9 @@ public struct LoaderCatalog: View {
         PBDoc(title: "Default") {
           defaultView
         }
+        PBDoc(title: "Custom Text") {
+          customTextView
+        }
         PBDoc(title: "Solid") {
           solidLoaderView
         }
@@ -35,6 +38,11 @@ extension LoaderCatalog {
   var solidLoaderView: some View {
     VStack(spacing: Spacing.small) {
       PBLoader(variant: .solid)
+    }
+  }
+  var customTextView: some View {
+    VStack(spacing: Spacing.small) {
+      PBLoader(text: "Saving")
     }
   }
 }

@@ -18,6 +18,7 @@ public struct PBLoader: View {
   let variant: Variant
   let solidLoaderSize: CGFloat
   let color: Color
+  let text: String?
 
   public init(
     dotIndex: Int = 0,
@@ -26,7 +27,8 @@ public struct PBLoader: View {
     variant: Variant = .default,
     solidLoaderSize: CGFloat = 15,
     spinnerSpeed: TimeInterval = 0.1,
-    color: Color = .text(.light)
+    color: Color = .text(.light),
+    text: String? = nil
   ) {
     self.dotIndex = dotIndex
     self.dotsCount = dotsCount
@@ -35,17 +37,30 @@ public struct PBLoader: View {
     self.solidLoaderSize = solidLoaderSize
     self.spinnerSpeed = spinnerSpeed
     self.color = color
+    self.text = text
   }
   
   public var body: some View {
-    switch variant {
-    case .default: loaderView
-    case .solid: solidLoaderView
-    }
+    loaderVariantView
   }
 }
 
 extension PBLoader {
+  @ViewBuilder
+  var loaderVariantView: some View {
+    switch variant {
+    case .default: 
+      HStack {
+        loaderView
+        Text(text ?? "")
+      }
+    case .solid: 
+      HStack {
+        solidLoaderView
+        Text(text ?? "")
+      }
+    }
+  }
   var loaderView: some View {
     CircularLayout {
       ForEach(0..<dotsCount, id: \.self) { index in
