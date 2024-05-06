@@ -25,7 +25,7 @@ public struct LoaderCatalog: View {
       }
       .padding(Spacing.medium)
     }
-    .navigationTitle("Loader")
+    .navigationTitle("Loading Inline")
   }
 }
 
