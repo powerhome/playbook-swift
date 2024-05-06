@@ -43,6 +43,7 @@ extension LoaderCatalog {
   var customTextView: some View {
     VStack(spacing: Spacing.small) {
       PBLoader(text: "Saving")
+      PBLoader(variant: .solid, text: "Saving")
     }
   }
 }
