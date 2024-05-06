@@ -52,14 +52,18 @@ extension PBLoader {
     case .default: 
       HStack {
         loaderView
-        Text(text ?? "")
+        loaderText
       }
     case .solid: 
       HStack {
         solidLoaderView
-        Text(text ?? "")
+        loaderText
       }
     }
+  }
+  var loaderText: some View {
+    Text(text ?? "")
+      .pbFont(.body, color: .text(.light))
   }
   var loaderView: some View {
     CircularLayout {
