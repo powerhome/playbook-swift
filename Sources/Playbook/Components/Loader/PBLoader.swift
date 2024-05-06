@@ -18,6 +18,7 @@ public struct PBLoader: View {
   let variant: Variant
   let solidLoaderSize: CGFloat
   let color: Color
+  let text: String?
 
   public init(
     dotIndex: Int = 0,
@@ -26,7 +27,8 @@ public struct PBLoader: View {
     variant: Variant = .default,
     solidLoaderSize: CGFloat = 15,
     spinnerSpeed: TimeInterval = 0.1,
-    color: Color = .text(.light)
+    color: Color = .text(.light),
+    text: String? = nil
   ) {
     self.dotIndex = dotIndex
     self.dotsCount = dotsCount
@@ -35,18 +37,31 @@ public struct PBLoader: View {
     self.solidLoaderSize = solidLoaderSize
     self.spinnerSpeed = spinnerSpeed
     self.color = color
+    self.text = text
   }
   
   public var body: some View {
-    switch variant {
-    case .default: loaderView
-    case .solid: solidLoaderView
+    HStack {
+      loaderVariantView
+      if let text = text {
+        Text(text).pbFont(.body, color: color)
+      }
     }
   }
 }
 
 extension PBLoader {
-  var loaderView: some View {
+  @ViewBuilder
+  var loaderVariantView: some View {
+    switch variant {
+    case .default:
+      loaderSpinnerView
+    case .solid:
+      solidLoaderView
+    }
+  }
+
+  var loaderSpinnerView: some View {
     CircularLayout {
       ForEach(0..<dotsCount, id: \.self) { index in
         dotView(index)
@@ -69,7 +84,7 @@ extension PBLoader {
   var solidLoaderView: some View {
     Circle()
       .trim(from: 0, to: 0.8)
-      .stroke(Color.text(.light), lineWidth: 2)
+      .stroke(color, lineWidth: 2)
       .rotationEffect(.degrees(isAnimating ? 360 : 0))
       .frame(width: solidLoaderSize, height: solidLoaderSize)
       .animation(
@@ -80,8 +95,8 @@ extension PBLoader {
       .onAppear {
         DispatchQueue.main.async {
           isAnimating = true
+        }
       }
-    }
   }
   
   func dotView(_ index: Int) -> some View {
