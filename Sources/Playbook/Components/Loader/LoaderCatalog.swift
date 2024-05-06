@@ -9,17 +9,19 @@
 
 import SwiftUI
 
-struct LoaderCatalog: View {
-  var body: some View {
+public struct LoaderCatalog: View {
+  public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") {
           defaultView
         }
+        PBDoc(title: "Solid") {
+          solidLoaderView
+        }
       }
       .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Loader")
   }
 }
@@ -28,6 +30,11 @@ extension LoaderCatalog {
   var defaultView: some View {
     VStack(spacing: Spacing.small) {
         PBLoader()
+    }
+  }
+  var solidLoaderView: some View {
+    VStack(spacing: Spacing.small) {
+      PBLoader(variant: .solid)
     }
   }
 }
