@@ -29,7 +29,7 @@ public struct TypeaheadCatalog: View {
       .padding(Spacing.medium)
       .withPopoverHandling(popoverManager)
     }
-   
+    
     .background(Color.background(.light))
     .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)
@@ -42,10 +42,11 @@ extension TypeaheadCatalog {
       title: "Colors",
       searchText: $searchTextColors,
       selection: .single,
-      options: assetsColors, 
-      popoverManager: popoverManager) { options in
-        print("Selected options \(options)")
-      }
+      options: assetsColors,
+      popoverManager: popoverManager
+    ) { options in
+      print("Selected options \(options)")
+    }
   }
   
   var users: some View {
@@ -54,10 +55,11 @@ extension TypeaheadCatalog {
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
       selection: .multiple(variant: .pill),
-      options: assetsUsers, 
-      popoverManager: popoverManager) { options in
-        print("Selected options \(options)")
-      }
+      options: assetsUsers,
+      popoverManager: popoverManager
+    ) { options in
+      print("Selected options \(options)")
+    }
   }
   
   var debounce: some View {
@@ -67,7 +69,7 @@ extension TypeaheadCatalog {
         searchText: $searchTextDebounce,
         selection: .single,
         options: assetsColors,
-        debounce: (1, 2), 
+        debounce: (1, 2),
         popoverManager: popoverManager
       ) { options in
         print("Selected options \(options)")
@@ -78,7 +80,7 @@ extension TypeaheadCatalog {
         searchText: $searchTextDebounce2,
         selection: .single,
         options: assetsColors,
-        debounce: (0, 2), 
+        debounce: (0, 2),
         popoverManager: popoverManager
       ) { options in
         print("Selected options \(options)")
