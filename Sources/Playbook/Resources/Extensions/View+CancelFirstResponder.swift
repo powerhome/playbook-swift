@@ -15,12 +15,12 @@ struct CancelFirstResponder: ViewModifier {
       .onTapGesture {
         #if os(iOS)
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        #elseif os(macOS)
-        NSEvent.addLocalMonitorForEvents(matching: .leftMouseUp) { event in
-          event.window?.makeFirstResponder(nil)
-          event.window?.makeFirstResponder(event.window)
-          return event
-        }
+//        #elseif os(macOS)
+//        NSEvent.addLocalMonitorForEvents(matching: .leftMouseUp) { event in
+//          event.window?.makeFirstResponder(nil)
+//          event.window?.makeFirstResponder(event.window)
+//          return event
+//        }
         #endif
         }
   }
