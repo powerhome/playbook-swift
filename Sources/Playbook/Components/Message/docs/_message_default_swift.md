@@ -1,3 +1,5 @@
+![Message-Default](https://github.com/powerhome/playbook-swift/assets/112719604/26db10f0-3f82-4360-8359-f968f6e71e27)
+
 ```swift
 VStack(alignment: .leading, spacing: Spacing.small) {
   PBMessage(
