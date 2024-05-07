@@ -1,0 +1,6 @@
+  swift:
+  - text_area_default_swift: Default
+  - text_area_inline_swift: Inline
+  - text_area_with_error_swift: With Error
+  - text_area_character_counter_swift: Character Counter
+  - text_area_props_swift: “”
