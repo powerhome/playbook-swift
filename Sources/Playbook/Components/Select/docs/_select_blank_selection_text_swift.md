@@ -3,8 +3,7 @@ PBSelect(
   title: "Favorite Food",
   options: blankOptions,
   style: .default
-) {
-  selected in
+) { selected in
   blankState = selected
 }
 ```
