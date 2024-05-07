@@ -24,12 +24,12 @@ struct PopoverHandler: ViewModifier {
               }
           }
         }
-          .background(Color.black.opacity(popoverManager.background))
-          .onTapGesture {
-            closeOutside
-          }
+//          .background(Color.black.opacity(popoverManager.background))
+//          .onTapGesture {
+//            closeOutside
+//          }
       )
-      .cancelFirstResponder()
+//      .cancelFirstResponder()
   }
   
   private var closeInside: Void {
