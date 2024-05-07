@@ -1,0 +1,3 @@
+```swift
+PBSectionSeparator(variant: .dashed)
+```
