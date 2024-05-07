@@ -61,12 +61,12 @@ public struct Popover<T: View>: ViewModifier {
           popoverManager.isPresented = false
         }
       }
-      .onChange(of: isPresented) { newValue in
-        if newValue {
-          popoverManager.background = background
-          popoverManager.close = clickToClose
-        }
-      }
+//      .onChange(of: isPresented) { newValue in
+//        if newValue {
+//          popoverManager.background = background
+////          popoverManager.close = clickToClose
+//        }
+//      }
       .onChange(of: popoverManager.isPresented) { newValue in
         if !newValue {
           isPresented = newValue
