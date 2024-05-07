@@ -14,5 +14,4 @@ VStack(alignment: .leading, spacing: Spacing.small) {
     text: $customText
   )
 }
-
 ```
