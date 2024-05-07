@@ -19,9 +19,9 @@ struct PopoverHandler: ViewModifier {
           if popoverManager.isPresented {
             popoverManager.view
               .position(popoverManager.position ?? CGPoint(x: 100, y: 100))
-              .onTapGesture {
-                closeInside
-              }
+//              .onTapGesture {
+//                closeInside
+//              }
           }
         }
 //          .background(Color.black.opacity(popoverManager.background))
