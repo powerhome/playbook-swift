@@ -12,7 +12,7 @@ import SwiftUI
 public struct Popover<T: View>: ViewModifier {
   private let position: Position
   private let variant: Variant
-//  private let clickToClose: (PopoverManager.Close, action: (() -> Void)?)
+  private let clickToClose: (PopoverManager.Close, action: (() -> Void)?)
   private var popoverView: () -> T
   
   @Binding var isPresented: Bool
@@ -24,16 +24,14 @@ public struct Popover<T: View>: ViewModifier {
     isPresented: Binding<Bool>,
     position: Position,
     variant: Variant,
- 
-//    clickToClose: (PopoverManager.Close, action: (() -> Void)?),
+    clickToClose: (PopoverManager.Close, action: (() -> Void)?),
     refreshView: Binding<Bool> = .constant(false),
     popoverView: @escaping (() -> T)
   ) {
     self._isPresented = isPresented
     self.position = position
     self.variant = variant
-//    self.popoverManager = popoverManager
-//    self.clickToClose = clickToClose
+    self.clickToClose = clickToClose
     self._refreshView = refreshView
     self.popoverView = popoverView
   }
@@ -61,12 +59,12 @@ public struct Popover<T: View>: ViewModifier {
           popoverManager.isPresented = false
         }
       }
-//      .onChange(of: isPresented) { newValue in
-//        if newValue {
+      .onChange(of: isPresented) { newValue in
+        if newValue {
 //          popoverManager.background = background
-////          popoverManager.close = clickToClose
-//        }
-//      }
+          popoverManager.close = clickToClose
+        }
+      }
       .onChange(of: popoverManager.isPresented) { newValue in
         if !newValue {
           isPresented = newValue
@@ -173,8 +171,7 @@ public extension View {
     isPresented: Binding<Bool>,
     position: Position = .bottom(),
     variant: Popover<T>.Variant = .default,
-//    popoverManager: PopoverManager,
-//    clickToClose: (PopoverManager.Close, action: (() -> Void)?) = (.anywhere, action: nil),
+    clickToClose: (PopoverManager.Close, action: (() -> Void)?) = (.anywhere, action: nil),
     refreshView: Binding<Bool> = .constant(false),
     popoverView: @escaping () -> T
   ) -> some View {
@@ -183,8 +180,7 @@ public extension View {
         isPresented: isPresented,
         position: position,
         variant: variant,
-//        popoverManager: popoverManager,
-//        clickToClose: clickToClose,
+        clickToClose: clickToClose,
         refreshView: refreshView,
         popoverView: popoverView
       )
