@@ -1,0 +1,8 @@
+  swift:
+  - text_input_default_swift: Default
+  - text_input_event_handler_swift: Event Handler
+  - text_input_with_error_swift: With Error
+  - text_input_disabled_swift: Disabled
+  - text_input_add_on_swift: Event Handler
+  - text_input_inline_swift: With Error
+  - text_input_props_swift: “”
