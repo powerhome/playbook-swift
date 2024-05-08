@@ -29,7 +29,7 @@ public struct PopoverCatalog: View {
       }
       .padding(Spacing.medium)
       .edgesIgnoringSafeArea(.all)
-      .withPopoverHandling()
+      .popoverHandler()
 
     }
     .background(Color.background(.light))

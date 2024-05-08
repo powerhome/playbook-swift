@@ -43,7 +43,7 @@ public struct Popover<T: View>: ViewModifier {
       }
       .onChange(of: isPresented) { newValue in
         if newValue, let frame = contentFrame {
-          popoverManager.popoverContent = AnyView(
+          popoverManager.view = AnyView(
             view
               .onHover { refreshView = $0 }
               .frame(width: width)
@@ -61,7 +61,6 @@ public struct Popover<T: View>: ViewModifier {
       }
       .onChange(of: isPresented) { newValue in
         if newValue {
-//          popoverManager.background = background
           popoverManager.close = clickToClose
         }
       }
@@ -80,7 +79,7 @@ public struct Popover<T: View>: ViewModifier {
 
 extension Popover {
   private func updateView(_ frame: CGRect) {
-    popoverManager.popoverContent = AnyView(
+    popoverManager.view = AnyView(
       view
         .onHover { refreshView = $0 }
         .frame(width: width)

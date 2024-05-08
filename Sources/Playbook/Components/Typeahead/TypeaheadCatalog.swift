@@ -27,7 +27,7 @@ public struct TypeaheadCatalog: View {
         PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
       }
       .padding(Spacing.medium)
-      .withPopoverHandling()
+      .popoverHandler()
     }
     
     .background(Color.background(.light))
