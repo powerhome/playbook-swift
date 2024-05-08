@@ -35,11 +35,6 @@ struct GlobalPopoverView: View {
   var body: some View {
     ZStack {
       if popoverManager.isPresented, let content = popoverManager.view {
-        Color.black.opacity(background)
-          .onTapGesture {
-            closeOutside
-          }
-
         content
           .position(popoverManager.position)
           .onTapGesture {
@@ -47,7 +42,10 @@ struct GlobalPopoverView: View {
           }
       }
     }
-    .edgesIgnoringSafeArea(.all)
+    .background(Color.black.opacity(background))
+    .onTapGesture {
+      closeOutside
+    }
   }
   
   private var background: CGFloat {
