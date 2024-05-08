@@ -27,7 +27,7 @@ public struct TypeaheadCatalog: View {
         PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
       }
       .padding(Spacing.medium)
-      .withPopoverHandling(popoverManager)
+      .withPopoverHandling()
     }
     
     .background(Color.background(.light))
@@ -42,8 +42,7 @@ extension TypeaheadCatalog {
       title: "Colors",
       searchText: $searchTextColors,
       selection: .single,
-      options: assetsColors,
-      popoverManager: popoverManager
+      options: assetsColors
     ) { options in
       print("Selected options \(options)")
     }
@@ -55,8 +54,7 @@ extension TypeaheadCatalog {
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
       selection: .multiple(variant: .pill),
-      options: assetsUsers,
-      popoverManager: popoverManager
+      options: assetsUsers
     ) { options in
       print("Selected options \(options)")
     }
@@ -69,8 +67,7 @@ extension TypeaheadCatalog {
         searchText: $searchTextDebounce,
         selection: .single,
         options: assetsColors,
-        debounce: (1, 2),
-        popoverManager: popoverManager
+        debounce: (1, 2)
       ) { options in
         print("Selected options \(options)")
       }
@@ -80,8 +77,7 @@ extension TypeaheadCatalog {
         searchText: $searchTextDebounce2,
         selection: .single,
         options: assetsColors,
-        debounce: (0, 2),
-        popoverManager: popoverManager
+        debounce: (0, 2)
       ) { options in
         print("Selected options \(options)")
       }
