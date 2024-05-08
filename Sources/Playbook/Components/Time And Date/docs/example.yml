@@ -1,0 +1,7 @@
+  swift:
+  - time_date_default_swift: Default
+  - time_date_alignment_swift: Alignment
+  - time_date_time_zones_swift: Time Zones
+  - time_date_last_updated_by_swift: Last Updated By
+  - time_date_time_ago_swift: Time Ago
+  - time_date_props_swift: “”
