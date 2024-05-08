@@ -29,7 +29,6 @@ public struct TypeaheadCatalog: View {
       .padding(Spacing.medium)
       .popoverHandler()
     }
-    
     .background(Color.background(.light))
     .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)

@@ -30,7 +30,6 @@ public extension View {
 
 struct GlobalPopoverView: View {
   @EnvironmentObject var popoverManager: PopoverManager
-  private let position: Position = .bottom()
 
   var body: some View {
     ZStack {
@@ -42,19 +41,12 @@ struct GlobalPopoverView: View {
           }
       }
     }
-    .background(Color.black.opacity(background))
+    .background(Color.black.opacity(popoverManager.background))
     .onTapGesture {
       closeOutside
     }
   }
-  
-  private var background: CGFloat {
-    switch popoverManager.close.0 {
-    case .outside, .anywhere: return 0.001
-    case .inside: return 0
-    }
-  }
-  
+
   private var closeInside: Void {
     switch popoverManager.close.0 {
     case .inside, .anywhere:

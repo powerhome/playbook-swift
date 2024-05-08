@@ -61,6 +61,7 @@ public struct Popover<T: View>: ViewModifier {
       }
       .onChange(of: isPresented) { newValue in
         if newValue {
+          popoverManager.background = background
           popoverManager.close = clickToClose
         }
       }
@@ -78,6 +79,13 @@ public struct Popover<T: View>: ViewModifier {
 }
 
 extension Popover {
+  private var background: CGFloat {
+    switch clickToClose.0 {
+    case .outside, .anywhere: return variant == .dropdown ? 0 : 0.001
+    case .inside: return 0
+    }
+  }
+
   private func updateView(_ frame: CGRect) {
     popoverManager.view = AnyView(
       view
@@ -146,15 +154,6 @@ extension Popover {
       )
     case .dropdown, .custom:
       return popoverView()
-    }
-  }
-  
-  private var background: CGFloat {
-    switch variant {
-    case .default, .custom:
-      return 0.01
-    case .dropdown:
-      return 0
     }
   }
 }

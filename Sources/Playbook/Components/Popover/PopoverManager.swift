@@ -14,6 +14,7 @@ public class PopoverManager: ObservableObject {
   @Published var view: AnyView?
   @Published var position: CGPoint = .zero
   @Published var close: (Close, action: (() -> Void)?) = (.anywhere, nil)
+  var background: CGFloat = 0
   private let id = UUID()
   static let shared = PopoverManager()
 
