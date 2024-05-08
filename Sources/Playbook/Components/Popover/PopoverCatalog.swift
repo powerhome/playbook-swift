@@ -29,12 +29,12 @@ public struct PopoverCatalog: View {
       }
       .padding(Spacing.medium)
       .edgesIgnoringSafeArea(.all)
-      .popoverHandler()
+     
 
     }
     .background(Color.background(.light))
     .preferredColorScheme(.light)
-  
+    .popoverHandler()
     .navigationTitle("Popover")
   }
 
