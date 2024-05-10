@@ -16,8 +16,8 @@ public struct Popover<T: View>: ViewModifier {
   private var popoverView: () -> T
   
   @Binding var isPresented: Bool
-  @State private var contentFrame: CGRect?
   @Binding var refreshView: Bool
+  @State private var contentFrame: CGRect?
   @EnvironmentObject var popoverManager: PopoverManager
   
   public init(
@@ -38,21 +38,11 @@ public struct Popover<T: View>: ViewModifier {
   
   public func body(content: Content) -> some View {
     content
-      .frameReader(isPresented: isPresented) { frame in
-        contentFrame = frame
-      }
+      .frameReader { contentFrame = $0 }
       .onChange(of: isPresented) { newValue in
         if newValue, let frame = contentFrame {
-          popoverManager.view = AnyView(
-            view
-              .onHover { refreshView = $0 }
-              .frame(width: width)
-              .sizeReader { size in
-                let popoverFrame = position.calculateFrame(from: offset(frame), size: size)
-                popoverManager.position = popoverFrame.point(at: .center())
-              }
-          )
-          Timer.scheduledTimer(withTimeInterval: 0.08, repeats: false) { _ in
+         updateView(frame)
+          Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { _ in
             popoverManager.isPresented = true
           }
         } else {
@@ -74,6 +64,14 @@ public struct Popover<T: View>: ViewModifier {
         if let frame = contentFrame {
           updateView(frame)
         }
+      }
+      .onChange(of: contentFrame ?? .zero) { frame in
+        updateViewOnResize(frame)
+      }
+      .onDisappear {
+        popoverManager.isPresented = false
+        isPresented = false
+        popoverManager.view = nil
       }
   }
 }
@@ -98,38 +96,32 @@ extension Popover {
     )
   }
   
+  private func updateViewOnResize(_ frame: CGRect) {
+    if isPresented {
+      isPresented = false
+      Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { _ in
+        isPresented = true
+      }
+    }
+  }
+  
   private func offset(_ frame: CGRect) -> CGRect {
     switch variant {
     case .default, .custom:
       return CGRect(
         origin: CGPoint(
-          x: frame.origin.x + space(Spacing.small).x,
-          y: frame.origin.y + space(Spacing.small).y
+          x: frame.origin.x + position.space(Spacing.small).x,
+          y: frame.origin.y + position.space(Spacing.small).y
         ),
         size: frame.size
       )
     case .dropdown:
       return CGRect(
         origin: CGPoint(
-          x: frame.origin.x + space(Spacing.xSmall).x,
-          y: frame.origin.y + space(Spacing.xSmall).y
+          x: frame.origin.x + position.space(Spacing.xSmall).x,
+          y: frame.origin.y + position.space(Spacing.xSmall).y
         ),
         size: frame.size)
-    }
-  }
-
-  private func space(_ space: CGFloat) -> CGPoint {
-    switch position {
-    case .top(let xOffset, let yOffset):
-      return CGPoint(x: xOffset, y:  yOffset - space)
-    case .trailing(let xOffset, let yOffset):
-      return CGPoint(x: xOffset + space, y:  yOffset)
-    case .bottom(let xOffset, let yOffset):
-      return CGPoint(x: xOffset, y:  yOffset + space)
-    case .leading(let xOffset, let yOffset):
-      return CGPoint(x: xOffset, y:  yOffset - space)
-    case .center(let xOffset, let yOffset):
-      return CGPoint(x: xOffset, y:  yOffset)
     }
   }
 

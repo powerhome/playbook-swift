@@ -29,6 +29,21 @@ public enum Position {
 }
 
 public extension Position {
+  func space(_ space: CGFloat) -> CGPoint {
+    switch self {
+    case .top(let xOffset, let yOffset):
+      return CGPoint(x: xOffset, y:  yOffset - space)
+    case .trailing(let xOffset, let yOffset):
+      return CGPoint(x: xOffset + space, y:  yOffset)
+    case .bottom(let xOffset, let yOffset):
+      return CGPoint(x: xOffset, y:  yOffset + space)
+    case .leading(let xOffset, let yOffset):
+      return CGPoint(x: xOffset, y:  yOffset - space)
+    case .center(let xOffset, let yOffset):
+      return CGPoint(x: xOffset, y:  yOffset)
+    }
+  }
+
   func calculateFrame(from originFrame: CGRect?, size: CGSize?) -> CGRect {
       var popoverFrame = self.absoluteFrame(
         position: self,
