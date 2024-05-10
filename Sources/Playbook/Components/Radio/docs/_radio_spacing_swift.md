@@ -1,3 +1,5 @@
+![Radio-Spacing](https://github.com/powerhome/playbook-swift/assets/112719604/a0d246c0-9635-49f0-a2d5-5a6a19a5086c)
+
 ```swift
 HStack(alignment: .top) {
   PBRadio(
