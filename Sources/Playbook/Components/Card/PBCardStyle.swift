@@ -33,7 +33,7 @@ public enum PBCardStyle {
     case .default, .error:
       return 1
     case .selected(let type):
-      return type == .card ? 1.6 : 1
+      return type == .card ? 2 : 1
     case .inline:
       return 0
     }

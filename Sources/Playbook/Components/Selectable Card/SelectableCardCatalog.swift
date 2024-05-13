@@ -46,7 +46,9 @@ public extension SelectableCardCatalog {
   }
   var blockView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
-      PBSelectableCard(cardText: "Block This uses block", boldText: "Block", isSelected: $isSelected3, isBlockText: $isBlockText)
+      PBSelectableCard(
+        variant: .block,
+        cardText: "Block \nThis uses block", blockBoldText: "Block", isSelected: $isSelected3, isBlockText: $isBlockText)
     }
   }
 }

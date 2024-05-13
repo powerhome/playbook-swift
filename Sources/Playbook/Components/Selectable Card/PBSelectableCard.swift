@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct PBSelectableCard: View {
   let alignment: Alignment
+  let variant: Variant
   let backgroundColor: Color
   let border: Bool
   let borderRadius: CGFloat
@@ -22,7 +23,7 @@ public struct PBSelectableCard: View {
   let icon: FontAwesome
   let iconSize: PBIcon.IconSize
   let iconPosition: Alignment
-  let boldText: String?
+  let blockBoldText: String?
   let iconOffsetX: CGFloat?
   let iconOffsetY: CGFloat?
   @Binding var isSelected: Bool
@@ -31,6 +32,7 @@ public struct PBSelectableCard: View {
   @Binding var isBlockText: Bool
   public init(
     alignment: Alignment = .center,
+    variant: Variant = .default,
     backgroundColor: Color = .card,
     border: Bool = true,
     borderRadius: CGFloat = BorderRadius.medium,
@@ -40,9 +42,9 @@ public struct PBSelectableCard: View {
     fontSize: PBFont = .body,
     cardText: String = "Selected",
     icon: FontAwesome = .check,
-    iconSize: PBIcon.IconSize = .x1,
+    iconSize: PBIcon.IconSize = .small,
     iconPosition: Alignment = .topTrailing,
-    boldText: String? = nil,
+    blockBoldText: String? = nil,
     iconOffsetX: CGFloat? = 10,
     iconOffsetY: CGFloat? = -10,
     isSelected: Binding<Bool> = .constant(false),
@@ -51,6 +53,7 @@ public struct PBSelectableCard: View {
     isBlockText: Binding<Bool> = .constant(false)
   ) {
     self.alignment = alignment
+    self.variant = variant
     self.backgroundColor = backgroundColor
     self.border = border
     self.borderRadius = borderRadius
@@ -62,7 +65,7 @@ public struct PBSelectableCard: View {
     self.icon = icon
     self.iconSize = iconSize
     self.iconPosition = iconPosition
-    self.boldText = boldText
+    self.blockBoldText = blockBoldText
     self.iconOffsetX = iconOffsetX
     self.iconOffsetY = iconOffsetY
     self._isSelected = isSelected
@@ -71,14 +74,18 @@ public struct PBSelectableCard: View {
     self._isBlockText = isBlockText
   }
   public var body: some View {
+    //  PBCard(alignment: <#T##Alignment#>, backgroundColor: <#T##Color#>, border: <#T##Bool#>, borderRadius: <#T##CGFloat#>, highlight: <#T##PBCard<View>.Highlight#>, padding: <#T##CGFloat#>, style: <#T##PBCardStyle#>, shadow: <#T##Shadow?#>, width: <#T##CGFloat?#>, content: <#T##() -> View#>)
+    
     cardView
   }
-  var textToBold: AttributedString {
-    return colorAttributedText(cardText, characterToChange: boldText ?? "", color: .text(.light))
-  }
+  
 }
 
 extension PBSelectableCard {
+  public enum Variant {
+    case `default`, block
+  }
+  
   var cardView : some View {
     VStack(spacing: Spacing.medium) {
       PBCard(
@@ -91,6 +98,7 @@ extension PBSelectableCard {
         width: frameReader(isPresented: false, in: { _ in}) as? CGFloat
       ) {
         cardTextView
+        
       }
       .globalPosition(alignment: iconPosition) {
         iconView
@@ -100,12 +108,6 @@ extension PBSelectableCard {
         hasIcon.toggle()
       }
       .disabled(isDisabled)
-      .onAppear {
-        // might not need this
-        if isBlockText {
-          isBlockText = true
-        }
-      }
     }
   }
   var iconView: some View {
@@ -117,10 +119,26 @@ extension PBSelectableCard {
       .offset(x: iconOffsetX ?? 0, y: iconOffsetY ?? 0)
       .opacity(isSelected && hasIcon ? 1 : 0)
   }
+  @ViewBuilder
   var cardTextView: some View {
-    Text(cardText)
-      .pbFont(fontSize, variant: .bold, color: isDisabled ? .text(.light) : .text(.default))
+    VStack(alignment: .leading, spacing: 0) {
+      
+      switch variant {
+      case .default: Text(cardText)
+      case .block: blockText
+      }
+    }
   }
+  @ViewBuilder
+  var blockText: some View {
+    let wholeText = cardText.split { $0.isNewline }
+    let blockTitle = wholeText[0]
+    let blockSubText = wholeText[1]
+    Text(blockTitle).pbFont(.title4)
+    Text(blockSubText).pbFont(.body)
+  }
+  
+  
 }
 
 
