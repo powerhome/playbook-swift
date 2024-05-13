@@ -47,6 +47,7 @@ public enum Components: String, CaseIterable {
   case pill
   case popover
   case radio
+  case selectableCard = "Selectable Card"
   case sectionSeparator = "Section Separator"
   case select
   case tabBar = "Tab Bar"
@@ -102,6 +103,7 @@ public enum Components: String, CaseIterable {
     case .pill: PillCatalog()
     case .popover: PopoverCatalog()
     case .radio: RadioCatalog()
+    case .selectableCard: SelectableCardCatalog()
     case .sectionSeparator: SectionSeparatorCatalog()
     case .select: SelectCatalog()
     case .tabBar: TabBarCatalog()
