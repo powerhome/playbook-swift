@@ -1,3 +1,5 @@
+![Text-Input-Addon](https://github.com/powerhome/playbook-swift/assets/112719604/7fdfaaea-b46f-4041-9c0c-2d4aefdedc89)
+
 ```swift
  PBTextInput(
   "ADD ON WITH DEFAULTS",
