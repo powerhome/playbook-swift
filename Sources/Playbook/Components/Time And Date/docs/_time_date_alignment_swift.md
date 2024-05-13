@@ -1,3 +1,5 @@
+![Timestamp-Alignment](https://github.com/powerhome/playbook-swift/assets/112719604/ef85a6f4-cf2a-4c73-9640-28139a47370f)
+
 ```swift
 VStack(alignment: .leading, spacing: Spacing.small) {
   Group {
