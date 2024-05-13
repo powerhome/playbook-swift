@@ -1,4 +1,4 @@
-  swift:
+swift:
   - radio_default_swift: Default
   - radio_custom_swift: Custom
   - radio_with_error_swift: With Error
