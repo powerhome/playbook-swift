@@ -1,4 +1,4 @@
-  swift:
+swift:
   - toggle_default_swift: Default
   - toggle_name_swift: Name
-  - toggle_props_swift: “”
+  - toggle_props_swift: ""
