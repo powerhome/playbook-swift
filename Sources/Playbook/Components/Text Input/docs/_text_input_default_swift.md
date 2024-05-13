@@ -1,3 +1,5 @@
+![Text-Input-Default](https://github.com/powerhome/playbook-swift/assets/112719604/2c43b941-69cc-426f-a39d-c619d621a898)
+
 ```swift
 PBTextInput(
   "First name",
