@@ -1,3 +1,6 @@
+![Text-Input-Error](https://github.com/powerhome/playbook-swift/assets/112719604/4fc91c69-81b3-492e-9416-2a5e8fa8defb)
+
+
 ```swift
 PBTextInput(
   "Email address",
