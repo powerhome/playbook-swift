@@ -1,3 +1,5 @@
+![Timestamp-Default](https://github.com/powerhome/playbook-swift/assets/112719604/ee388049-004f-498b-b922-97d548b756f7)
+
 ```swift
 VStack(alignment: .leading, spacing: Spacing.small) {
   PBTimestamp(
