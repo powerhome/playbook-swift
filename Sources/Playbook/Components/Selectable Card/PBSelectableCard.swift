@@ -13,7 +13,6 @@ public struct PBSelectableCard: View {
   let alignment: Alignment
   let variant: Variant
   let backgroundColor: Color
-  let border: Bool
   let borderRadius: CGFloat
   let padding: CGFloat
   let shadow: Shadow?
@@ -26,6 +25,7 @@ public struct PBSelectableCard: View {
   let blockBoldText: String?
   let iconOffsetX: CGFloat?
   let iconOffsetY: CGFloat?
+  @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
@@ -34,7 +34,6 @@ public struct PBSelectableCard: View {
     alignment: Alignment = .center,
     variant: Variant = .default,
     backgroundColor: Color = .card,
-    border: Bool = true,
     borderRadius: CGFloat = BorderRadius.medium,
     padding: CGFloat = Spacing.small,
     shadow: Shadow? = nil,
@@ -55,7 +54,6 @@ public struct PBSelectableCard: View {
     self.alignment = alignment
     self.variant = variant
     self.backgroundColor = backgroundColor
-    self.border = border
     self.borderRadius = borderRadius
     self.padding = padding
     self.shadow = shadow
@@ -74,11 +72,8 @@ public struct PBSelectableCard: View {
     self._isBlockText = isBlockText
   }
   public var body: some View {
-    //  PBCard(alignment: <#T##Alignment#>, backgroundColor: <#T##Color#>, border: <#T##Bool#>, borderRadius: <#T##CGFloat#>, highlight: <#T##PBCard<View>.Highlight#>, padding: <#T##CGFloat#>, style: <#T##PBCardStyle#>, shadow: <#T##Shadow?#>, width: <#T##CGFloat?#>, content: <#T##() -> View#>)
-    
     cardView
   }
-  
 }
 
 extension PBSelectableCard {
@@ -91,14 +86,13 @@ extension PBSelectableCard {
       PBCard(
         alignment: alignment,
         backgroundColor: backgroundColor,
-        border: border,
         borderRadius: borderRadius,
         padding: padding,
         style: isSelected ? .selected(type: .card) : .default,
+        shadow: shadowStyle,
         width: frameReader(isPresented: false, in: { _ in}) as? CGFloat
       ) {
         cardTextView
-        
       }
       .globalPosition(alignment: iconPosition) {
         iconView
@@ -108,6 +102,16 @@ extension PBSelectableCard {
         hasIcon.toggle()
       }
       .disabled(isDisabled)
+      .onHover { hovering in
+        isHovering.toggle()
+     #if os(macOS)
+     if hovering {
+       NSCursor.pointingHand.push()
+     } else {
+       NSCursor.pointingHand.pop()
+     }
+     #endif
+   }
     }
   }
   var iconView: some View {
@@ -122,7 +126,6 @@ extension PBSelectableCard {
   @ViewBuilder
   var cardTextView: some View {
     VStack(alignment: .leading, spacing: 0) {
-      
       switch variant {
       case .default: Text(cardText)
       case .block: blockText
@@ -137,8 +140,9 @@ extension PBSelectableCard {
     Text(blockTitle).pbFont(.title4)
     Text(blockSubText).pbFont(.body)
   }
-  
-  
+  var shadowStyle: Shadow {
+    isHovering ? .deep : Shadow.none
+  }
 }
 
 

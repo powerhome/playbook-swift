@@ -17,6 +17,7 @@ public struct SelectableCardCatalog: View {
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
   @State private var isBlockText: Bool = true
+  @State private var isHovering: Bool = false
     public var body: some View {
       ScrollView {
         VStack(spacing: Spacing.medium) {
