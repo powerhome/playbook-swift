@@ -90,7 +90,7 @@ extension PBSelectableCard {
         padding: padding,
         style: isSelected ? .selected(type: .card) : .default,
         shadow: shadowStyle,
-        width: frameReader(isPresented: false, in: { _ in}) as? CGFloat
+        width: frameReader(isPresented: true, in: { _ in}) as? CGFloat
       ) {
         cardTextView
       }
