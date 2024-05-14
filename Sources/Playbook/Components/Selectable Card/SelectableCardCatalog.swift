@@ -16,7 +16,6 @@ public struct SelectableCardCatalog: View {
   @State private var isSelected3: Bool = true
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
-  @State private var isBlockText: Bool = true
   @State private var isHovering: Bool = false
     public var body: some View {
       ScrollView {
@@ -39,17 +38,32 @@ public struct SelectableCardCatalog: View {
 public extension SelectableCardCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
-      PBSelectableCard(cardText: "Selected, with icon", isSelected: $isSelected, hasIcon: $hasIcon)
-      PBSelectableCard(cardText: "Selected, without icon", isSelected: $isSelected1)
-      PBSelectableCard(cardText: "Unselected", isSelected: $isSelected2)
-      PBSelectableCard(cardText: "Disabled", isDisabled: $isDisabled)
+      PBSelectableCard(
+        cardText: "Selected, with icon",
+        isSelected: $isSelected,
+        hasIcon: $hasIcon
+      )
+      PBSelectableCard(
+        cardText: "Selected, without icon",
+        isSelected: $isSelected1
+      )
+      PBSelectableCard(
+        cardText: "Unselected", 
+        isSelected: $isSelected2
+      )
+      PBSelectableCard(
+        cardText: "Disabled",
+        isDisabled: $isDisabled
+      )
     }
   }
   var blockView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBSelectableCard(
         variant: .block,
-        cardText: "Block \nThis uses block", blockBoldText: "Block", isSelected: $isSelected3, isBlockText: $isBlockText)
+        cardText: "Block \nThis uses block",
+        isSelected: $isSelected3
+      )
     }
   }
 }

@@ -22,14 +22,12 @@ public struct PBSelectableCard: View {
   let icon: FontAwesome
   let iconSize: PBIcon.IconSize
   let iconPosition: Alignment
-  let blockBoldText: String?
   let iconOffsetX: CGFloat?
   let iconOffsetY: CGFloat?
   @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
-  @Binding var isBlockText: Bool
   public init(
     alignment: Alignment = .center,
     variant: Variant = .default,
@@ -43,13 +41,11 @@ public struct PBSelectableCard: View {
     icon: FontAwesome = .check,
     iconSize: PBIcon.IconSize = .small,
     iconPosition: Alignment = .topTrailing,
-    blockBoldText: String? = nil,
     iconOffsetX: CGFloat? = 10,
     iconOffsetY: CGFloat? = -10,
     isSelected: Binding<Bool> = .constant(false),
     hasIcon: Binding<Bool> = .constant(false),
-    isDisabled: Binding<Bool> = .constant(false),
-    isBlockText: Binding<Bool> = .constant(false)
+    isDisabled: Binding<Bool> = .constant(false)
   ) {
     self.alignment = alignment
     self.variant = variant
@@ -63,13 +59,11 @@ public struct PBSelectableCard: View {
     self.icon = icon
     self.iconSize = iconSize
     self.iconPosition = iconPosition
-    self.blockBoldText = blockBoldText
     self.iconOffsetX = iconOffsetX
     self.iconOffsetY = iconOffsetY
     self._isSelected = isSelected
     self._hasIcon = hasIcon
     self._isDisabled = isDisabled
-    self._isBlockText = isBlockText
   }
   public var body: some View {
     cardView
@@ -125,23 +119,27 @@ extension PBSelectableCard {
   }
   @ViewBuilder
   var cardTextView: some View {
-    VStack(alignment: .leading, spacing: 0) {
+    VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       switch variant {
       case .default: Text(cardText)
       case .block: blockText
       }
     }
+    .pbFont(.body, color: defaultFontColor)
   }
   @ViewBuilder
   var blockText: some View {
     let wholeText = cardText.split { $0.isNewline }
     let blockTitle = wholeText[0]
     let blockSubText = wholeText[1]
-    Text(blockTitle).pbFont(.title4)
-    Text(blockSubText).pbFont(.body)
+    Text(blockTitle).pbFont(.title4, color: defaultFontColor)
+    Text(blockSubText)
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : Shadow.none
+  }
+  var defaultFontColor: Color {
+    isDisabled ? .text(.light) : .text(.default)
   }
 }
 
