@@ -26,7 +26,6 @@ public struct PBSelectableCard: View {
   let iconOffsetX: CGFloat?
   let iconOffsetY: CGFloat?
   @State private var isHovering: Bool = false
-  @State private var isPresented: Bool = false
   @Binding var isSelected: Bool
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
@@ -91,7 +90,7 @@ extension PBSelectableCard {
         padding: padding,
         style: isSelected ? .selected(type: .card) : .default,
         shadow: shadowStyle,
-        width: frameReader(isPresented: isPresented, in: { _ in}) as? CGFloat
+        width: frameReader(in: { _ in}) as? CGFloat
       ) {
         cardTextView
       }
