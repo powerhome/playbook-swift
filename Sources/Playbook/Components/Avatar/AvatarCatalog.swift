@@ -11,21 +11,18 @@ import SwiftUI
 
 public struct AvatarCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultAvatars
-        }
-        PBDoc(title: "Monogram") {
-          monograms
-        }
+    PBDocStack(title: "Avatar") {
+      PBDoc(title: "Default") {
+        defaultAvatars
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Monogram") {
+        monograms
+      }
     }
-    .background(Color.background(.default))
-    .navigationTitle("Avatar")
   }
+}
 
+extension AvatarCatalog {
   var defaultAvatars: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online)
@@ -36,7 +33,7 @@ public struct AvatarCatalog: View {
       PBAvatar(image: Image("andrew", bundle: .module), size: .xLarge, status: .offline)
     }
   }
-
+  
   var monograms: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBAvatar(name: "Tim Wenhold", size: .xxSmall, status: .online)

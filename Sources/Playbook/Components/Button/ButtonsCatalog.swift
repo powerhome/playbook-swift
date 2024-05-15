@@ -15,31 +15,26 @@ public struct ButtonsCatalog: View {
   
   
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Simple") { simpleButtons }
-        PBDoc(title: "Reaction Button") { reactionButtonView }
-        PBDoc(title: "Full Width") {
-          fullWidthButtonView
-        }
-        
-        PBDoc(title: "Button Icon Positions") {
-          buttonIconView
-        }
-        
-        PBDoc(title: "Circle Buttons") { PBCircleStyle_Previews.previews }
-        
-        PBDoc(title: "Button Sizes") {
-          buttonSizeView
-        }
-        PBDoc(title: "Button Loading") {
-          buttonLoadingView
-        }
+    PBDocStack(title: "Button") {
+      PBDoc(title: "Simple") { simpleButtons }
+      PBDoc(title: "Reaction Button") { reactionButtonView }
+      PBDoc(title: "Full Width") {
+        fullWidthButtonView
       }
-      .padding(Spacing.medium)
+      
+      PBDoc(title: "Button Icon Positions") {
+        buttonIconView
+      }
+      
+      PBDoc(title: "Circle Buttons") { PBCircleStyle_Previews.previews }
+      
+      PBDoc(title: "Button Sizes") {
+        buttonSizeView
+      }
+      PBDoc(title: "Button Loading") {
+        buttonLoadingView
+      }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Button")
   }
 }
 
