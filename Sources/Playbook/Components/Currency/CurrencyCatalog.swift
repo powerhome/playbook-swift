@@ -10,21 +10,16 @@
 import SwiftUI
 
 public struct CurrencyCatalog: View {
-    public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Size") {
-            sizeView
-          }
-          PBDoc(title: "Alignment") {
-            alignmentView
-          }
-        }
-        .padding(Spacing.medium)
+  public var body: some View {
+    PBDocStack(title: "Currency") {
+      PBDoc(title: "Size") {
+        sizeView
       }
-      .background(Color.background(.light))
-      .navigationTitle("Currency")
+      PBDoc(title: "Alignment") {
+        alignmentView
+      }
     }
+  }
 }
 public extension CurrencyCatalog {
   var sizeView: some View {
