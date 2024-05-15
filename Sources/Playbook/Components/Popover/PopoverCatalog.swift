@@ -20,7 +20,7 @@ public struct PopoverCatalog: View {
   public init() {}
 
   public var body: some View {
-    return ScrollView {
+    return PBDocStack(title: "Popover") {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") { defaultPopover }
         PBDoc(title: "Dropdrown") { dropdownPopover }
@@ -29,8 +29,6 @@ public struct PopoverCatalog: View {
       }
       .padding(Spacing.medium)
       .edgesIgnoringSafeArea(.all)
-     
-
     }
     .background(Color.background(.light))
     .preferredColorScheme(.light)
