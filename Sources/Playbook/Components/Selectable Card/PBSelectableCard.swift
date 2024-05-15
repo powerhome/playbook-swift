@@ -97,16 +97,18 @@ extension PBSelectableCard {
         hasIcon.toggle()
       }
       .onHover { hovering in
-        if !isDisabled {
           isHovering.toggle()
+        #if os(macOS)
+        if hovering {
+          NSCursor.pointingHand.push()
+          if isDisabled {
+            NSCursor.operationNotAllowed.push()
+          }
+        } else {
+          NSCursor.pointingHand.pop()
+          NSCursor.operationNotAllowed.pop()
         }
-     #if os(macOS)
-     if hovering && !isDisabled {
-       NSCursor.pointingHand.push()
-     } else {
-       NSCursor.pointingHand.pop()
-     }
-     #endif
+        #endif
    }
   }
 }
@@ -138,7 +140,7 @@ extension PBSelectableCard {
     Text(blockSubText)
   }
   var shadowStyle: Shadow {
-    isHovering ? .deeper : isDisabled ? Shadow.none : Shadow.none
+    isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
   }
 }
 
