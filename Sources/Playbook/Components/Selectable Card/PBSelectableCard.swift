@@ -138,7 +138,7 @@ extension PBSelectableCard {
     Text(blockSubText)
   }
   var shadowStyle: Shadow {
-    isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
+    isHovering ? .deeper : isDisabled ? Shadow.none : Shadow.none
   }
 }
 
