@@ -88,6 +88,7 @@ extension PBSelectableCard {
       ) {
         cardTextView
       }
+      .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
         iconView
       }
@@ -95,11 +96,12 @@ extension PBSelectableCard {
         isSelected.toggle()
         hasIcon.toggle()
       }
-      .disabled(isDisabled)
       .onHover { hovering in
-        isHovering.toggle()
+        if !isDisabled {
+          isHovering.toggle()
+        }
      #if os(macOS)
-     if hovering {
+     if hovering && !isDisabled {
        NSCursor.pointingHand.push()
      } else {
        NSCursor.pointingHand.pop()
@@ -125,21 +127,18 @@ extension PBSelectableCard {
       case .block: blockText
       }
     }
-    .pbFont(.body, color: defaultFontColor)
+    .pbFont(.body, color: .text(.default))
   }
   @ViewBuilder
   var blockText: some View {
     let wholeText = cardText.split { $0.isNewline }
     let blockTitle = wholeText[0]
     let blockSubText = wholeText[1]
-    Text(blockTitle).pbFont(.title4, color: defaultFontColor)
+    Text(blockTitle).pbFont(.title4)
     Text(blockSubText)
   }
   var shadowStyle: Shadow {
-    isHovering ? .deep : Shadow.none
-  }
-  var defaultFontColor: Color {
-    isDisabled ? .text(.light) : .text(.default)
+    isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
   }
 }
 
