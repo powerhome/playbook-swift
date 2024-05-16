@@ -11,26 +11,32 @@ import SwiftUI
 
 public struct MultipleUsersCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "xSmall") {
-          PBMultipleUsers(users: Mocks.twoUsers, size: .xSmall)
-        }
-
-        PBDoc(title: "Small") {
-          PBMultipleUsers(users: Mocks.multipleUsers, size: .small)
-        }
-
-        PBDoc(title: "Small Reverse") {
-          VStack(alignment: .leading, spacing: Spacing.small) {
-            PBMultipleUsers(users: Mocks.multipleUsers, size: .small, reversed: true)
-            PBMultipleUsers(users: Mocks.twoUsers, size: .small, reversed: true)
-          }
-        }
+    PBDocStack(title: "Multiple Users") {
+      PBDoc(title: "xSmall") {
+        xsmallView
       }
-      .padding(Spacing.medium)
+      
+      PBDoc(title: "Small") {
+        smallView
+      }
+      
+      PBDoc(title: "Small Reverse") {
+        smallReverseView
+      }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Multiple Users")
+  }
+}
+extension MultipleUsersCatalog {
+  var xsmallView: some View {
+    PBMultipleUsers(users: Mocks.twoUsers, size: .xSmall)
+  }
+  var smallView: some View {
+    PBMultipleUsers(users: Mocks.multipleUsers, size: .small)
+  }
+  var smallReverseView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBMultipleUsers(users: Mocks.multipleUsers, size: .small, reversed: true)
+      PBMultipleUsers(users: Mocks.twoUsers, size: .small, reversed: true)
+    }
   }
 }

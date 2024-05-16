@@ -258,9 +258,8 @@ public extension PBTextInput {
     case typeahead(AnyView)
   }
 }
-
-public struct PBTextInput_Previews: PreviewProvider {
-  public static var previews: some View {
-    TextInputCatalog()
-  }
+#Preview {
+  registerFonts()
+  return TextInputCatalog()
 }
+

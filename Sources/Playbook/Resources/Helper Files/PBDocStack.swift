@@ -12,15 +12,18 @@ import SwiftUI
 struct PBDocStack<Content: View>: View {
   let title: String
   let spacing: CGFloat
+  let padding: CGFloat
   let content: Content
 
   public init(
     title: String,
     spacing: CGFloat = Spacing.medium,
+    padding: CGFloat = Spacing.medium,
     @ViewBuilder content: () -> Content
   ) {
     self.title = title
     self.spacing = spacing
+    self.padding = padding
     self.content = content()
   }
   var body: some View {
@@ -28,7 +31,7 @@ struct PBDocStack<Content: View>: View {
       VStack(spacing: spacing) {
          content
       }
-      .padding(spacing)
+      .padding(padding)
     }
     .background(Color.background(.default))
     .navigationTitle(title)
