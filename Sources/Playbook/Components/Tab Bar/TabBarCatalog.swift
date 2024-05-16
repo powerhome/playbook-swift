@@ -92,7 +92,12 @@ public extension TabBarCatalog {
         selectedTab: $selectedTab3,
         border: false,
         shadow: true,
-        icons: TabBarCatalog.icons.prefix(5).dropLast()
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications"),
+          TabIcon(icon: .search, name: "Search")
+        ]
       )
     }
   }
@@ -102,7 +107,11 @@ public extension TabBarCatalog {
         selectedTab: $selectedTab4,
         border: false,
         shadow: true,
-        icons: TabBarCatalog.icons.prefix(4).dropLast()
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications")
+        ]
       )
     }
   }
