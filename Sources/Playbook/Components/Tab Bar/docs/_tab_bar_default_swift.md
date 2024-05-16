@@ -7,6 +7,12 @@ PBTabBar(
   selectedTab: $selectedTab,
   border: false,
   shadow: true,
-  icons: TabBarCatalog.icons
+  icons:  icons: [
+    TabIcon(icon: .home, name: "Home"),
+    TabIcon(icon: .calendar, name: "Calendar"),
+    TabIcon(icon: .bell, name: "Notfications"),
+    TabIcon(icon: .search, name: "Search"),
+    TabIcon(icon: .ellipsisH, name: "More")
+  ]
 )
 ```
