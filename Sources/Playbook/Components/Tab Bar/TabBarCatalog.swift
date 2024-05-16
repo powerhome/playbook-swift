@@ -47,20 +47,19 @@ public struct TabBarCatalog: View {
 }
 
 public extension TabBarCatalog {
-  static let icons: [TabIcon] = [
-      .init(icon: .home, name: "Home"),
-      .init(icon: .calendar, name: "Calendar"),
-      .init(icon: .bell, name: "Notfications"),
-      .init(icon: .search, name: "Search"),
-      .init(icon: .ellipsisH, name: "More"),
-    ]
   var defaultShadow: some View {
     return HStack {
       PBTabBar(
         selectedTab: $selectedTab,
         border: false,
         shadow: true,
-        icons: TabBarCatalog.icons
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications"),
+          TabIcon(icon: .search, name: "Search"),
+          TabIcon(icon: .ellipsisH, name: "More")
+        ]
        )
     }
   }
@@ -70,8 +69,13 @@ public extension TabBarCatalog {
         selectedTab: $selectedTab1,
         border: false,
         shadow: false,
-        icons: TabBarCatalog.icons
-
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications"),
+          TabIcon(icon: .search, name: "Search"),
+          TabIcon(icon: .ellipsisH, name: "More")
+        ]
       )
     }
   }
@@ -81,8 +85,13 @@ public extension TabBarCatalog {
         selectedTab: $selectedTab2,
         border: true,
         shadow: false,
-        icons: TabBarCatalog.icons
-        
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications"),
+          TabIcon(icon: .search, name: "Search"),
+          TabIcon(icon: .ellipsisH, name: "More")
+        ]
       )
     }
   }
@@ -141,7 +150,3 @@ fileprivate struct TabBarDoc<Content: View>: View {
     }
   }
 }
- 
-//#Preview {
-//    TabBarCatalog()
-//}
