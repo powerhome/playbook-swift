@@ -59,7 +59,7 @@ public struct PBTextInput: View {
       .onTapGesture {
         selected = true
       }
-      .onHover { isHovering in
+      .onHover(disabled: false) { isHovering in
         self.isHovering = isHovering
       }
 
