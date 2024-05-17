@@ -94,4 +94,7 @@ public extension CurrencyCatalog {
   }
 }
 
-
+#Preview {
+  registerFonts()
+  return  CurrencyCatalog()
+}

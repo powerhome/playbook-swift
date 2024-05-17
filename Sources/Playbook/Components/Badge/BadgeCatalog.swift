@@ -65,3 +65,8 @@ extension BadgeCatalog {
     }
   }
 }
+
+#Preview {
+  registerFonts()
+  return BadgeCatalog()
+}

@@ -58,3 +58,8 @@ extension CheckboxCatalog {
     )
   }
 }
+
+#Preview {
+  registerFonts()
+  return CheckboxCatalog()
+}

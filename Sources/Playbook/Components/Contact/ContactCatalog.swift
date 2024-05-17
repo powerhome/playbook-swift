@@ -42,3 +42,8 @@ public extension ContactCatalog {
     }
   }
 }
+
+#Preview {
+  registerFonts()
+  return ContactCatalog()
+}

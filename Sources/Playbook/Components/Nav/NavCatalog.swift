@@ -311,13 +311,5 @@ struct NavCatalog: View {
     return PBDocStack(title: "Nav") {
       navUsers
     }
-//    ScrollView {
-//      VStack(spacing: Spacing.medium) {
-//        navUsers
-//      }
-//      .padding(Spacing.medium)
-//    }
-//    .background(Color.background(Color.BackgroundColor.light))
-//    .navigationTitle("Nav")
   }
 }

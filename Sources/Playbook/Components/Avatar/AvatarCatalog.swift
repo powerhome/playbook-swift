@@ -45,3 +45,7 @@ extension AvatarCatalog {
     }
   }
 }
+
+#Preview {
+  AvatarCatalog()
+}
