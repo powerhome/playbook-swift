@@ -32,8 +32,8 @@ VStack(alignment: .leading, spacing: Spacing.small) {
     PBTimestamp(Date().addingTimeInterval(addThreeYear))
       .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
 
-        PBTimestamp(Date().addingTimeInterval(subOneYear))
-          .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
+    PBTimestamp(Date().addingTimeInterval(subOneYear))
+      .frame(minWidth: minWidth, maxWidth: .infinity, alignment: .center)
   }
 
   Group {
