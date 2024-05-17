@@ -18,11 +18,11 @@ public extension View {
     }
   }
 
-  func frameReader(isPresented: Bool, in rect: @escaping (CGRect) -> Void) -> some View {
+  func frameReader(in rect: @escaping (CGRect) -> Void) -> some View {
     return background(
       GeometryReader { geometry in
         Color.clear
-          .onChange(of: isPresented) { _ in
+          .onChange(of: geometry.frame(in: .global)) { _ in
             rect(coordinateSpace(in: geometry))
           }
           .onAppear {
