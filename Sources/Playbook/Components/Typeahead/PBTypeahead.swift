@@ -17,7 +17,7 @@ public struct PBTypeahead<Content: View>: View {
   private let selection: Selection
   private let debounce: (time: TimeInterval, numberOfCharacters: Int)
   private let dropdownMaxHeight: CGFloat?
-  private let popoverManager: PopoverManager
+  private let popoverManager = PopoverManager()
   private let onSelection: (([(String, Content?)]) -> Void)?
   private let clearAction: (() -> Void)?
   @State private var listOptions: [Option] = []
@@ -39,7 +39,7 @@ public struct PBTypeahead<Content: View>: View {
     selection: Selection,
     options: [(String, Content?)],
     debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
-    popoverManager: PopoverManager,
+ 
     dropdownMaxHeight: CGFloat? = nil,
     onSelection: @escaping (([(String, Content?)]) -> Void),
     clearAction: (() -> Void)? = nil
@@ -50,7 +50,6 @@ public struct PBTypeahead<Content: View>: View {
     self.selection = selection
     self.options = options
     self.debounce = debounce
-    self.popoverManager = popoverManager
     self.dropdownMaxHeight = dropdownMaxHeight
     self.clearAction = clearAction
     self.onSelection = onSelection
@@ -73,7 +72,6 @@ public struct PBTypeahead<Content: View>: View {
       .pbPopover(
         isPresented: $showList,
         variant: .dropdown,
-        popoverManager: popoverManager,
         refreshView: $isHovering
       ) {
         listView
