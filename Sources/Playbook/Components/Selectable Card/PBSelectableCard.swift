@@ -87,7 +87,6 @@ extension PBSelectableCard {
         width: frameReader(in: { _ in}) as? CGFloat
       ) {
         cardTextView
-        
       }
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
@@ -99,7 +98,7 @@ extension PBSelectableCard {
       }
       .onHover { hovering in
         isHovering.toggle()
-#if os(macOS)
+        #if os(macOS)
         if hovering {
           NSCursor.pointingHand.push()
           if isDisabled {
@@ -109,7 +108,7 @@ extension PBSelectableCard {
           NSCursor.pointingHand.pop()
           NSCursor.operationNotAllowed.pop()
         }
-#endif
+        #endif
       }
     }
   }
@@ -122,10 +121,8 @@ extension PBSelectableCard {
         PBIcon(icon, size: iconSize)
           .foregroundStyle(Color.white)
       }
-    
       .offset(x: iconOffsetX ?? 0, y: iconOffsetY ?? 0)
       .opacity(isSelected && hasIcon ? 1 : 0)
-    
   }
   @ViewBuilder
   var cardTextView: some View {
