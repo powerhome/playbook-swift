@@ -38,8 +38,8 @@ public struct PBSelectableCard: View {
     width: CGFloat? = .infinity,
     fontSize: PBFont = .body,
     cardText: String = "Selected",
-    icon: FontAwesome = .checkCircle,
-    iconSize: PBIcon.IconSize = .large,
+    icon: FontAwesome = .check,
+    iconSize: PBIcon.IconSize = .small,
     iconPosition: Alignment = .topTrailing,
     iconOffsetX: CGFloat? = 10,
     iconOffsetY: CGFloat? = -10,
@@ -87,7 +87,7 @@ extension PBSelectableCard {
         width: frameReader(in: { _ in}) as? CGFloat
       ) {
         cardTextView
-         
+        
       }
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
@@ -98,8 +98,8 @@ extension PBSelectableCard {
         hasIcon.toggle()
       }
       .onHover { hovering in
-          isHovering.toggle()
-        #if os(macOS)
+        isHovering.toggle()
+#if os(macOS)
         if hovering {
           NSCursor.pointingHand.push()
           if isDisabled {
@@ -109,17 +109,23 @@ extension PBSelectableCard {
           NSCursor.pointingHand.pop()
           NSCursor.operationNotAllowed.pop()
         }
-        #endif
-   }
+#endif
+      }
+    }
   }
-}
   var iconView: some View {
-    PBIcon(icon, size: iconSize)
-      .background(Color.pbPrimary)
-      .clipShape(Circle())
-      .foregroundStyle(Color.white)
+    Circle()
+      .stroke(Color.white, lineWidth: 2)
+      .background(Circle().fill(Color.pbPrimary))
+      .frame(width: 24, height: 24)
+      .overlay {
+        PBIcon(icon, size: iconSize)
+          .foregroundStyle(Color.white)
+      }
+    
       .offset(x: iconOffsetX ?? 0, y: iconOffsetY ?? 0)
       .opacity(isSelected && hasIcon ? 1 : 0)
+    
   }
   @ViewBuilder
   var cardTextView: some View {
