@@ -16,7 +16,6 @@ public struct PopoverCatalog: View {
   @State private var isPresented4: Bool = false
   @State private var isPresented5: Bool = false
   @State private var isPresented6: Bool = false
-  @StateObject var popoverManager = PopoverManager()
 
   public init() {}
 
@@ -29,11 +28,13 @@ public struct PopoverCatalog: View {
         PBDoc(title: "Close options") { onClosePopover }
       }
       .padding(Spacing.medium)
-      .withPopoverHandling(popoverManager)
+      .edgesIgnoringSafeArea(.all)
+     
+
     }
     .background(Color.background(.light))
     .preferredColorScheme(.light)
-  
+    .popoverHandler()
     .navigationTitle("Popover")
   }
 
@@ -49,8 +50,7 @@ public struct PopoverCatalog: View {
         isPresented.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented,
-        popoverManager: popoverManager
+        isPresented: $isPresented
       ) {
         Text("I'm a popover. I can show content of any size.")
           .pbFont(.body, color: .text(.default))
@@ -69,8 +69,7 @@ public struct PopoverCatalog: View {
     }
     .pbPopover(
       isPresented: $isPresented2,
-      position: .center(0, 4),
-      popoverManager: popoverManager
+      position: .center(0, 4)
     ) {
       List {
         VStack(spacing: Spacing.small) {
@@ -102,7 +101,6 @@ public struct PopoverCatalog: View {
       }
       .pbPopover(
         isPresented: $isPresented3,
-        popoverManager: popoverManager,
         clickToClose: (.inside, action: { print("close action") })
       ) {
         Text("Click on me!")
@@ -118,7 +116,6 @@ public struct PopoverCatalog: View {
       .pbPopover(
         isPresented: $isPresented4,
         position: .top(),
-        popoverManager: popoverManager,
         clickToClose: (.outside, action: { print("close action") })
       ) {
         Text("Click anywhere but me!")
@@ -134,7 +131,6 @@ public struct PopoverCatalog: View {
       .pbPopover(
         isPresented: $isPresented5,
         position: .trailing(),
-        popoverManager: popoverManager,
         clickToClose: (.anywhere, action: { print("close action") })
       ) {
         Text("Click anything!")
@@ -150,7 +146,7 @@ public struct PopoverCatalog: View {
     ) {
       isPresented6.toggle()
     }
-    .pbPopover(isPresented: $isPresented6, popoverManager: popoverManager) {
+    .pbPopover(isPresented: $isPresented6) {
       ScrollView {
         Text(
             """
