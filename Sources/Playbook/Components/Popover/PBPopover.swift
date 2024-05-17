@@ -87,7 +87,7 @@ extension Popover {
   private func updateView(_ frame: CGRect) {
     popoverManager.view = AnyView(
       view
-        .onHover { refreshView = $0 }
+        .onHover(disabled: false) { refreshView = $0 }
         .frame(width: width)
         .sizeReader { size in
           let popoverFrame = position.calculateFrame(from: offset(frame), size: size)
