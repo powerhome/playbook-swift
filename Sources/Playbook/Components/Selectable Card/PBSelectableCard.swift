@@ -38,8 +38,8 @@ public struct PBSelectableCard: View {
     width: CGFloat? = .infinity,
     fontSize: PBFont = .body,
     cardText: String = "Selected",
-    icon: FontAwesome = .check,
-    iconSize: PBIcon.IconSize = .small,
+    icon: FontAwesome = .checkCircle,
+    iconSize: PBIcon.IconSize = .large,
     iconPosition: Alignment = .topTrailing,
     iconOffsetX: CGFloat? = 10,
     iconOffsetY: CGFloat? = -10,
@@ -87,6 +87,7 @@ extension PBSelectableCard {
         width: frameReader(in: { _ in}) as? CGFloat
       ) {
         cardTextView
+         
       }
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
@@ -114,7 +115,6 @@ extension PBSelectableCard {
 }
   var iconView: some View {
     PBIcon(icon, size: iconSize)
-      .frame(width: 24, height: 24)
       .background(Color.pbPrimary)
       .clipShape(Circle())
       .foregroundStyle(Color.white)
@@ -128,8 +128,7 @@ extension PBSelectableCard {
       case .default: Text(cardText)
       case .block: blockText
       }
-    }
-    .pbFont(.body, color: .text(.default))
+    } .pbFont(.body, color: .text(.default))
   }
   @ViewBuilder
   var blockText: some View {
