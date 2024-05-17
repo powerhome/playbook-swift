@@ -3,7 +3,6 @@
 ```swift
 @State var selectedTab3: Int? = 0
 
-
 PBTabBar(
   selectedTab: $selectedTab3,
   border: false,
