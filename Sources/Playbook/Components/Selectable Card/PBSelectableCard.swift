@@ -72,7 +72,7 @@ public struct PBSelectableCard: View {
 
 extension PBSelectableCard {
   public enum Variant {
-    case `default`, block
+    case `default`, block, input
   }
   
   var cardView : some View {
@@ -127,9 +127,9 @@ extension PBSelectableCard {
       switch variant {
       case .default: Text(cardText)
       case .block: blockText
+      case .input: inputView
       }
-    }
-    .pbFont(.body, color: .text(.default))
+    }.pbFont(.body, color: .text(.default))
   }
   @ViewBuilder
   var blockText: some View {
@@ -138,6 +138,21 @@ extension PBSelectableCard {
     let blockSubText = wholeText[1]
     Text(blockTitle).pbFont(.title4)
     Text(blockSubText)
+  }
+  var inputView: some View {
+      HStack(spacing: Spacing.small) {
+        PBCheckbox(checked: true, checkboxType: .default)
+        separatorView
+        Text(cardText)
+        Spacer()
+      }
+  }
+  var separatorView: some View {
+    PBSectionSeparator(orientation: .vertical)
+      .frame(width: 2)
+      
+      .background(Color.pbPrimary)
+      
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none

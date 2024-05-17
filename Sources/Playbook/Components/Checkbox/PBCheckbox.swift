@@ -14,7 +14,7 @@ public struct PBCheckbox: View {
   @State var checkboxType: CheckboxType
   var text: String?
   let action: (() -> Void)?
-
+  
   public init(
     checked: Bool = false,
     checkboxType: CheckboxType = .default,
@@ -25,6 +25,7 @@ public struct PBCheckbox: View {
     self.checkboxType = checkboxType
     self.text = text
     self.action = action
+   
   }
 
   public var body: some View {
