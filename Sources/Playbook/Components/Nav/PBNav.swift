@@ -43,7 +43,7 @@ public struct PBNav: View {
 
     return view
       .contentShape(Rectangle())
-      .onHover { hovering in
+      .onHover(disabled: false) { hovering in
         if hovering {
           currentHover = index
         } else if currentHover == index {

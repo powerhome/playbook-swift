@@ -32,9 +32,7 @@ public struct PBReactionButton: View {
   public var body: some View {
     reactionButtonView
       .clipShape(Capsule())
-      .onHover(perform: { hovering in
-        isHovering = hovering
-      })
+      .onHover(disabled: false) { isHovering = $0 }
   }
 }
 

@@ -10,6 +10,7 @@
 import SwiftUI
 
 extension View {
+  @inlinable
   func onHover(disabled: Bool, action: @escaping (Bool) -> Void) -> some View {
     return AnyView(
       self.onHover { hovering in
