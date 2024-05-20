@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-public struct PBSelectableCard: View {
+public struct PBSelectableCard<Content: View>: View {
   let alignment: Alignment
   let variant: Variant
   let backgroundColor: Color
@@ -24,6 +24,7 @@ public struct PBSelectableCard: View {
   let iconPosition: Alignment
   let iconOffsetX: CGFloat?
   let iconOffsetY: CGFloat?
+  let content: Content
   @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
   @Binding var hasIcon: Bool
@@ -45,7 +46,8 @@ public struct PBSelectableCard: View {
     iconOffsetY: CGFloat? = -10,
     isSelected: Binding<Bool> = .constant(false),
     hasIcon: Binding<Bool> = .constant(false),
-    isDisabled: Binding<Bool> = .constant(false)
+    isDisabled: Binding<Bool> = .constant(false),
+    @ViewBuilder content: () -> Content
   ) {
     self.alignment = alignment
     self.variant = variant
@@ -64,6 +66,7 @@ public struct PBSelectableCard: View {
     self._isSelected = isSelected
     self._hasIcon = hasIcon
     self._isDisabled = isDisabled
+    self.content = content()
   }
   public var body: some View {
     cardView
@@ -72,7 +75,7 @@ public struct PBSelectableCard: View {
 
 extension PBSelectableCard {
   public enum Variant {
-    case `default`, block
+    case `default`, block, custom
   }
   
   var cardView : some View {
@@ -86,7 +89,7 @@ extension PBSelectableCard {
         shadow: shadowStyle,
         width: frameReader(in: { _ in}) as? CGFloat
       ) {
-        cardTextView
+          cardTextView
       }
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
@@ -130,8 +133,10 @@ extension PBSelectableCard {
       switch variant {
       case .default: Text(cardText)
       case .block: blockText
+      case .custom: content
       }
-    } .pbFont(.body, color: .text(.default))
+    }
+    .pbFont(.body, color: .text(.default))
   }
   @ViewBuilder
   var blockText: some View {
@@ -145,7 +150,6 @@ extension PBSelectableCard {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
   }
 }
-
 
 #Preview {
   registerFonts()

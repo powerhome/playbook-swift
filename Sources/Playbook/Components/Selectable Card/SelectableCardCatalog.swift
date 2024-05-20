@@ -42,19 +42,19 @@ public extension SelectableCardCatalog {
         cardText: "Selected, with icon",
         isSelected: $isSelected,
         hasIcon: $hasIcon
-      )
+      ) {}
       PBSelectableCard(
         cardText: "Selected, without icon",
         isSelected: $isSelected1
-      )
+      ) {}
       PBSelectableCard(
         cardText: "Unselected", 
         isSelected: $isSelected2
-      )
+      ) {}
       PBSelectableCard(
         cardText: "Disabled",
         isDisabled: $isDisabled
-      )
+      ) {}
     }
   }
   var blockView: some View {
@@ -63,7 +63,7 @@ public extension SelectableCardCatalog {
         variant: .block,
         cardText: "Block \nThis uses block",
         isSelected: $isSelected3
-      )
+      ) {}
     }
   }
 }
