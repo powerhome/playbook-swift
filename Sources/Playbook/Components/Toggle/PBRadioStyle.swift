@@ -45,7 +45,7 @@ public struct PBRadioStyle: ToggleStyle {
         }
         .buttonStyle(.borderless)
       }
-      .onHover { hovering in
+      .onHover(disabled: false) { hovering in
         withAnimation {
           isHovering = hovering
         }

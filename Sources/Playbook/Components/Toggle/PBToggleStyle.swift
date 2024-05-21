@@ -40,7 +40,7 @@ public struct PBToggleStyle: ToggleStyle {
           .frame(width: 20, height: 20, alignment: .center)
           .offset(x: configuration.isOn ? 12 : -12, y: 0)
       }
-      .onHover { hovering in
+      .onHover(disabled: false) { hovering in
         withAnimation {
           isHovering = hovering
         }
