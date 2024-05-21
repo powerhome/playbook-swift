@@ -155,13 +155,12 @@ extension PBSelectableCard {
       case .radioInput: radioInputView(text)
       }
     }
-    .pbFont(.body, color: .text(.default))
+   // .pbFont(.body, color: .text(.default))
   }
 
   func blockText(_ text: String) -> some View {
     let wholeText = text.split { $0.isNewline }
     let blockTitle = wholeText[0]
-    //let blockSubText = wholeText[1]
     let blockSubText = wholeText.dropFirst().joined(separator: "\n")
     return VStack(alignment: .leading) {
       Text(blockTitle).pbFont(.title4)

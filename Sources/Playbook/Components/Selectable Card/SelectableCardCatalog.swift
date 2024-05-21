@@ -70,11 +70,8 @@ public extension SelectableCardCatalog {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBSelectableCard(
         variant: .block,
-        cardText: """
-                  Block
-                  This uses block
-                  This uses block\nThis uses block
-                  """,
+        cardText: "Block \nThis uses block \nThis uses block\nThis uses block",
+                 
         isSelected: $isSelected3
       ) {}
     }

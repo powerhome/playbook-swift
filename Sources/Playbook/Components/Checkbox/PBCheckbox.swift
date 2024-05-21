@@ -10,7 +10,6 @@
 import SwiftUI
 
 public struct PBCheckbox: View {
- // @State var checked: Bool
   @Binding var checked: Bool
   @State var checkboxType: CheckboxType
   var text: String?
