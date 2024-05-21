@@ -86,7 +86,7 @@ public struct GridInputField: View {
     }
     .onHover {
       isHovering = $0
-      setupCursor
+      setupCursor(hover: $0)
     }
   }
 }
@@ -136,9 +136,9 @@ private extension GridInputField {
     }
   }
   
-  var setupCursor: Void {
+  func setupCursor(hover: Bool) {
     #if os(macOS)
-    if isHovering {
+    if hover {
       NSCursor.arrow.push()
     }
     else {
@@ -187,9 +187,8 @@ private extension GridInputField {
   var dismissIcon: some View {
     PBIcon(FontAwesome.times, size: .xSmall)
       .foregroundStyle(iconColor(on: clearButtonIsHovering))
-      .onHover {
+      .onHover(disabled: false) {
         clearButtonIsHovering = $0
-        setupCursor
         isHovering = true
       }
   }
@@ -201,9 +200,8 @@ private extension GridInputField {
   var indicatorView: some View {
     PBIcon(FontAwesome.chevronDown, size: .xSmall)
       .foregroundStyle(iconColor(on: indicatorIsHovering))
-      .onHover {
+      .onHover(disabled: false) {
         indicatorIsHovering = $0
-        setupCursor
         isHovering = true
       }
       .onTapGesture {

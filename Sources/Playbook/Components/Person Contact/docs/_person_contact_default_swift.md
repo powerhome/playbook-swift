@@ -1,3 +1,5 @@
+![Person-Contact_Default](https://github.com/powerhome/playbook-swift/assets/54749071/7da40c0d-ba83-43ad-8cf9-8b2da293fc4e)
+
 ```swift
 let contacts = [
   PBContact(type: .email, value: "email@example.com", detail: false),

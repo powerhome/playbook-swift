@@ -71,8 +71,7 @@ public struct PBTypeahead<Content: View>: View {
       .sizeReader { contentSize = $0 }
       .pbPopover(
         isPresented: $showList,
-        variant: .dropdown,
-        refreshView: $isHovering
+        variant: .dropdown
       ) {
         listView
       }
@@ -123,7 +122,7 @@ private extension PBTypeahead {
               .padding(.vertical, Spacing.xSmall + 4)
               .frame(maxWidth: .infinity, alignment: .leading)
               .background(listBackgroundColor(index))
-              .onHover { hover in
+              .onHover(disabled: false) { hover in
                 isHovering = hover
                 hoveringIndex = index
                 hoveringOption = result
