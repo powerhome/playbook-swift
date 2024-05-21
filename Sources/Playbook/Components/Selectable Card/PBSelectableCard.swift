@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-public struct PBSelectableCard: View {
+public struct PBSelectableCard<Content: View>: View {
   let alignment: Alignment
   let variant: Variant
   let backgroundColor: Color
@@ -24,6 +24,7 @@ public struct PBSelectableCard: View {
   let iconPosition: Alignment
   let iconOffsetX: CGFloat?
   let iconOffsetY: CGFloat?
+  let content: Content
   @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
   @Binding var hasIcon: Bool
@@ -45,7 +46,8 @@ public struct PBSelectableCard: View {
     iconOffsetY: CGFloat? = -10,
     isSelected: Binding<Bool> = .constant(false),
     hasIcon: Binding<Bool> = .constant(false),
-    isDisabled: Binding<Bool> = .constant(false)
+    isDisabled: Binding<Bool> = .constant(false),
+    @ViewBuilder content: () -> Content
   ) {
     self.alignment = alignment
     self.variant = variant
@@ -64,6 +66,7 @@ public struct PBSelectableCard: View {
     self._isSelected = isSelected
     self._hasIcon = hasIcon
     self._isDisabled = isDisabled
+    self.content = content()
   }
   public var body: some View {
     cardView
@@ -72,6 +75,7 @@ public struct PBSelectableCard: View {
 
 extension PBSelectableCard {
   public enum Variant {
+    case `default`, block, custom
     case `default`, block, checkedInput
   }
   
@@ -98,7 +102,7 @@ extension PBSelectableCard {
         hasIcon.toggle()
       }
       .onHover { hovering in
-          isHovering.toggle()
+        isHovering.toggle()
         #if os(macOS)
         if hovering {
           NSCursor.pointingHand.push()
@@ -110,15 +114,18 @@ extension PBSelectableCard {
           NSCursor.operationNotAllowed.pop()
         }
         #endif
-   }
+      }
+    }
   }
-}
   var iconView: some View {
-    PBIcon(icon, size: iconSize)
+    Circle()
+      .stroke(Color.white, lineWidth: 2)
+      .background(Circle().fill(Color.pbPrimary))
       .frame(width: 24, height: 24)
-      .background(Color.pbPrimary)
-      .clipShape(Circle())
-      .foregroundStyle(Color.white)
+      .overlay {
+        PBIcon(icon, size: iconSize)
+          .foregroundStyle(Color.white)
+      }
       .offset(x: iconOffsetX ?? 0, y: iconOffsetY ?? 0)
       .opacity(isSelected && hasIcon ? 1 : 0)
   }
@@ -129,6 +136,7 @@ extension PBSelectableCard {
       case .default: Text(cardText)
       case .block: blockText
       case .checkedInput: checkedInputView
+      case .custom: content
       }
     }.pbFont(.body, color: .text(.default))
   }
@@ -159,7 +167,6 @@ extension PBSelectableCard {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
   }
 }
-
 
 #Preview {
   registerFonts()
