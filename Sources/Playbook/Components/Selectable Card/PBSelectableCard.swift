@@ -155,7 +155,7 @@ extension PBSelectableCard {
       case .radioInput: radioInputView(text)
       }
     }
-   // .pbFont(.body, color: .text(.default))
+    .pbFont(.body, color: .text(.default))
   }
 
   func blockText(_ text: String) -> some View {
@@ -173,9 +173,10 @@ extension PBSelectableCard {
         .padding()
       separatorView
       Text(text)
-        .padding(.horizontal, cardPadding)
+        .padding(.horizontal, isSelected ? cardPadding : cardPadding + 1)
+        
     }
-   
+    .padding(.vertical, -4)
   }
   func radioInputView(_ text: String) -> some View {
     HStack(spacing: Spacing.none) {
@@ -192,7 +193,7 @@ extension PBSelectableCard {
     }
   }
   var separatorView: some View {
-    PBSectionSeparator(orientation: .vertical)
+    PBSectionSeparator(orientation: .vertical, margin: 0) {}
         .frame(width: isSelected ? 2 : 1)
         .background(isSelected ? Color.pbPrimary : .border)
   }
