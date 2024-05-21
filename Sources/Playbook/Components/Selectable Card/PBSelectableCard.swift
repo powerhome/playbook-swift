@@ -14,7 +14,7 @@ public struct PBSelectableCard<Content: View>: View {
   let variant: Variant
   let backgroundColor: Color
   let borderRadius: CGFloat
-  let padding: CGFloat
+  let cardPadding: CGFloat
   let shadow: Shadow?
   let width: CGFloat?
   let fontSize: PBFont
@@ -37,7 +37,7 @@ public struct PBSelectableCard<Content: View>: View {
     variant: Variant = .default,
     backgroundColor: Color = .card,
     borderRadius: CGFloat = BorderRadius.medium,
-    padding: CGFloat = Spacing.small,
+    cardPadding: CGFloat = Spacing.small,
     shadow: Shadow? = nil,
     width: CGFloat? = .infinity,
     fontSize: PBFont = .body,
@@ -58,7 +58,7 @@ public struct PBSelectableCard<Content: View>: View {
     self.variant = variant
     self.backgroundColor = backgroundColor
     self.borderRadius = borderRadius
-    self.padding = padding
+    self.cardPadding = cardPadding
     self.shadow = shadow
     self.width = width
     self.fontSize = fontSize
@@ -84,7 +84,13 @@ extension PBSelectableCard {
   public enum Variant {
     case `default`, block, checkedInput, radioInput
   }
-  
+  var padding: CGFloat {
+    switch variant {
+    case .checkedInput, .radioInput: 0
+    default:
+      cardPadding
+    }
+  }
   var cardView : some View {
     VStack(spacing: Spacing.medium) {
       PBCard(
@@ -162,14 +168,17 @@ extension PBSelectableCard {
     }
   }
   func checkedInputView(_ text: String) -> some View {
-    HStack(spacing: Spacing.small) {
+    HStack(spacing: Spacing.none) {
       PBCheckbox(checked: $isSelected, checkboxType: .default)
+        .padding()
       separatorView
       Text(text)
+        .padding(.horizontal, cardPadding)
     }
+   
   }
   func radioInputView(_ text: String) -> some View {
-    HStack(spacing: Spacing.small) {
+    HStack(spacing: Spacing.none) {
       PBRadio(
         items: [
           PBRadioItem(radioItem),
@@ -177,15 +186,15 @@ extension PBSelectableCard {
         orientation: .vertical,
         selected: $isRadioSelected
       )
+      .padding(cardPadding)
       separatorView
       Text(text)
     }
   }
   var separatorView: some View {
     PBSectionSeparator(orientation: .vertical)
-      .frame(width: 2)
-      .background(isSelected ? Color.pbPrimary : .white)
-    
+        .frame(width: isSelected ? 2 : 1)
+        .background(isSelected ? Color.pbPrimary : .border)
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
