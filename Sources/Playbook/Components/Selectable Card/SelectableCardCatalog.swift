@@ -33,9 +33,9 @@ public struct SelectableCardCatalog: View {
           PBDoc(title: "Block") {
             blockView
           }
-          PBDoc(title: "Input") {
-            checkedInputView
-          }
+//          PBDoc(title: "Input") {
+//            checkedInputView
+//          }
         }
         .padding(Spacing.medium)
       }
