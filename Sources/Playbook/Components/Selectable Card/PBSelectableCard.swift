@@ -161,7 +161,8 @@ extension PBSelectableCard {
   func blockText(_ text: String) -> some View {
     let wholeText = text.split { $0.isNewline }
     let blockTitle = wholeText[0]
-    let blockSubText = wholeText[1]
+    //let blockSubText = wholeText[1]
+    let blockSubText = wholeText.dropFirst().joined(separator: "\n")
     return VStack(alignment: .leading) {
       Text(blockTitle).pbFont(.title4)
       Text(blockSubText)

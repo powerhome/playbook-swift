@@ -55,22 +55,26 @@ public extension SelectableCardCatalog {
       PBSelectableCard(
         cardText: "Selected, without icon",
         isSelected: $isSelected1
-      ) 
+      )
       PBSelectableCard(
         cardText: "Unselected", 
         isSelected: $isSelected2
-      ) 
+      )
       PBSelectableCard(
         cardText: "Disabled",
         isDisabled: $isDisabled
-      ) 
+      )
     }
   }
   var blockView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBSelectableCard(
         variant: .block,
-        cardText: "Block \nThis uses block",
+        cardText: """
+                  Block
+                  This uses block
+                  This uses block\nThis uses block
+                  """,
         isSelected: $isSelected3
       ) {}
     }
