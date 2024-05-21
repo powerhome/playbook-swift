@@ -18,6 +18,8 @@ public struct SelectableCardCatalog: View {
   @State private var isSelected5: Bool = true
   @State private var isSelected6: Bool = false
   @State private var isSelected7: Bool = false
+  @State private var radioItem: String = "5"
+  @State private var radioItemSelected: PBRadioItem? = PBRadioItem("")
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
   @State private var isHovering: Bool = false
@@ -79,22 +81,27 @@ public extension SelectableCardCatalog {
         variant: .checkedInput,
         cardText: "Ruby",
         isSelected: $isSelected4
-      )
+      ) {}
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "JavaScript",
         isSelected: $isSelected5
-      )
+      ) {}
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "TypeScript",
         isSelected: $isSelected6
-      )
+      ) {}
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "Swift",
         isSelected: $isSelected7
-      )
+      ) {}
+      PBSelectableCard(
+        variant: .radioInput,
+        radioItem: $radioItem,
+        isRadioSelected: $radioItemSelected
+      ) {}
     }
   }
 }

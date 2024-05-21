@@ -27,8 +27,11 @@ public struct PBSelectableCard<Content: View>: View {
   let content: Content
   @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
+  @Binding var radioItem: String
+  @Binding var isRadioSelected: PBRadioItem?
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
+
   public init(
     alignment: Alignment = .center,
     variant: Variant = .default,
@@ -38,13 +41,15 @@ public struct PBSelectableCard<Content: View>: View {
     shadow: Shadow? = nil,
     width: CGFloat? = .infinity,
     fontSize: PBFont = .body,
-    cardText: String = "Selected",
+    cardText: String = "",
     icon: FontAwesome = .check,
     iconSize: PBIcon.IconSize = .small,
     iconPosition: Alignment = .topTrailing,
     iconOffsetX: CGFloat? = 10,
     iconOffsetY: CGFloat? = -10,
     isSelected: Binding<Bool> = .constant(false),
+    radioItem: Binding<String> = .constant(""),
+    isRadioSelected: Binding<PBRadioItem?> = .constant(.none),
     hasIcon: Binding<Bool> = .constant(false),
     isDisabled: Binding<Bool> = .constant(false),
     @ViewBuilder content: () -> Content
@@ -64,6 +69,8 @@ public struct PBSelectableCard<Content: View>: View {
     self.iconOffsetX = iconOffsetX
     self.iconOffsetY = iconOffsetY
     self._isSelected = isSelected
+    self._radioItem = radioItem
+    self._isRadioSelected = isRadioSelected
     self._hasIcon = hasIcon
     self._isDisabled = isDisabled
     self.content = content()
@@ -75,8 +82,7 @@ public struct PBSelectableCard<Content: View>: View {
 
 extension PBSelectableCard {
   public enum Variant {
-    case `default`, block, custom
-    case `default`, block, checkedInput
+    case `default`, block, checkedInput, radioInput, custom
   }
   
   var cardView : some View {
@@ -136,6 +142,7 @@ extension PBSelectableCard {
       case .default: Text(cardText)
       case .block: blockText
       case .checkedInput: checkedInputView
+      case .radioInput: radioInputView
       case .custom: content
       }
     }.pbFont(.body, color: .text(.default))
@@ -155,7 +162,20 @@ extension PBSelectableCard {
       Text(cardText)
       Spacer()
     }
-    .frame(maxHeight: .infinity)
+  }
+  var radioInputView: some View {
+    HStack(spacing: Spacing.small) {
+      PBRadio(
+        items: [
+          PBRadioItem(radioItem),
+        ],
+        orientation: .vertical,
+        selected: $isRadioSelected
+      )
+      separatorView
+      Text(cardText)
+      Spacer()
+    }
   }
   var separatorView: some View {
     PBSectionSeparator(orientation: .vertical)
