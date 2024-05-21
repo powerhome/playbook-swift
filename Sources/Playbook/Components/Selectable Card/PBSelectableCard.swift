@@ -18,13 +18,13 @@ public struct PBSelectableCard<Content: View>: View {
   let shadow: Shadow?
   let width: CGFloat?
   let fontSize: PBFont
-  let cardText: String
+  let cardText: String?
   let icon: FontAwesome
   let iconSize: PBIcon.IconSize
   let iconPosition: Alignment
   let iconOffsetX: CGFloat?
   let iconOffsetY: CGFloat?
-  let content: Content
+  let content: Content?
   @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
   @Binding var radioItem: String
@@ -41,7 +41,7 @@ public struct PBSelectableCard<Content: View>: View {
     shadow: Shadow? = nil,
     width: CGFloat? = .infinity,
     fontSize: PBFont = .body,
-    cardText: String = "",
+    cardText: String? = nil,
     icon: FontAwesome = .check,
     iconSize: PBIcon.IconSize = .small,
     iconPosition: Alignment = .topTrailing,
@@ -52,7 +52,7 @@ public struct PBSelectableCard<Content: View>: View {
     isRadioSelected: Binding<PBRadioItem?> = .constant(.none),
     hasIcon: Binding<Bool> = .constant(false),
     isDisabled: Binding<Bool> = .constant(false),
-    @ViewBuilder content: () -> Content
+    @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.alignment = alignment
     self.variant = variant
@@ -82,7 +82,7 @@ public struct PBSelectableCard<Content: View>: View {
 
 extension PBSelectableCard {
   public enum Variant {
-    case `default`, block, checkedInput, radioInput, custom
+    case `default`, block, checkedInput, radioInput
   }
   
   var cardView : some View {
@@ -96,8 +96,12 @@ extension PBSelectableCard {
         shadow: shadowStyle,
         width: frameReader(in: { _ in}) as? CGFloat
       ) {
-        cardTextView
-         
+        if let text = cardText {
+          cardTextView(text)
+        }
+        if let content = content {
+          content
+        }
       }
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
@@ -136,34 +140,35 @@ extension PBSelectableCard {
       .opacity(isSelected && hasIcon ? 1 : 0)
   }
   @ViewBuilder
-  var cardTextView: some View {
-    VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+  func cardTextView(_ text: String) -> some View {
+    Group {
       switch variant {
-      case .default: Text(cardText)
-      case .block: blockText
-      case .checkedInput: checkedInputView
-      case .radioInput: radioInputView
-      case .custom: content
+      case .default: Text(text)
+      case .block: blockText(text)
+      case .checkedInput: checkedInputView(text)
+      case .radioInput: radioInputView(text)
       }
-    }.pbFont(.body, color: .text(.default))
+    }
+    .pbFont(.body, color: .text(.default))
   }
-  @ViewBuilder
-  var blockText: some View {
-    let wholeText = cardText.split { $0.isNewline }
+
+  func blockText(_ text: String) -> some View {
+    let wholeText = text.split { $0.isNewline }
     let blockTitle = wholeText[0]
     let blockSubText = wholeText[1]
-    Text(blockTitle).pbFont(.title4)
-    Text(blockSubText)
+    return VStack(alignment: .leading) {
+      Text(blockTitle).pbFont(.title4)
+      Text(blockSubText)
+    }
   }
-  var checkedInputView: some View {
+  func checkedInputView(_ text: String) -> some View {
     HStack(spacing: Spacing.small) {
       PBCheckbox(checked: $isSelected, checkboxType: .default)
       separatorView
-      Text(cardText)
-      Spacer()
+      Text(text)
     }
   }
-  var radioInputView: some View {
+  func radioInputView(_ text: String) -> some View {
     HStack(spacing: Spacing.small) {
       PBRadio(
         items: [
@@ -173,8 +178,7 @@ extension PBSelectableCard {
         selected: $isRadioSelected
       )
       separatorView
-      Text(cardText)
-      Spacer()
+      Text(text)
     }
   }
   var separatorView: some View {

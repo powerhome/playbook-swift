@@ -51,19 +51,19 @@ public extension SelectableCardCatalog {
         cardText: "Selected, with icon",
         isSelected: $isSelected,
         hasIcon: $hasIcon
-      ) {}
+      )
       PBSelectableCard(
         cardText: "Selected, without icon",
         isSelected: $isSelected1
-      ) {}
+      ) 
       PBSelectableCard(
         cardText: "Unselected", 
         isSelected: $isSelected2
-      ) {}
+      ) 
       PBSelectableCard(
         cardText: "Disabled",
         isDisabled: $isDisabled
-      ) {}
+      ) 
     }
   }
   var blockView: some View {
@@ -81,27 +81,27 @@ public extension SelectableCardCatalog {
         variant: .checkedInput,
         cardText: "Ruby",
         isSelected: $isSelected4
-      ) {}
+      )
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "JavaScript",
         isSelected: $isSelected5
-      ) {}
+      )
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "TypeScript",
         isSelected: $isSelected6
-      ) {}
+      )
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "Swift",
         isSelected: $isSelected7
-      ) {}
+      )
       PBSelectableCard(
         variant: .radioInput,
         radioItem: $radioItem,
         isRadioSelected: $radioItemSelected
-      ) {}
+      )
     }
   }
 }
