@@ -14,7 +14,10 @@ public struct SelectableCardCatalog: View {
   @State private var isSelected1: Bool = true
   @State private var isSelected2: Bool = false
   @State private var isSelected3: Bool = true
-  @State private var isSelected4: Bool = false
+  @State private var isSelected4: Bool = true
+  @State private var isSelected5: Bool = true
+  @State private var isSelected6: Bool = false
+  @State private var isSelected7: Bool = false
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
   @State private var isHovering: Bool = false
@@ -29,7 +32,7 @@ public struct SelectableCardCatalog: View {
             blockView
           }
           PBDoc(title: "Input") {
-            inputView
+            checkedInputView
           }
         }
         .padding(Spacing.medium)
@@ -70,13 +73,27 @@ public extension SelectableCardCatalog {
       )
     }
   }
-  var inputView: some View {
+  var checkedInputView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBSelectableCard(
-        variant: .input,
-//        cardText: "Block \nThis uses block",
-        cardText: "JavaScript",
+        variant: .checkedInput,
+        cardText: "Ruby",
         isSelected: $isSelected4
+      )
+      PBSelectableCard(
+        variant: .checkedInput,
+        cardText: "JavaScript",
+        isSelected: $isSelected5
+      )
+      PBSelectableCard(
+        variant: .checkedInput,
+        cardText: "TypeScript",
+        isSelected: $isSelected6
+      )
+      PBSelectableCard(
+        variant: .checkedInput,
+        cardText: "Swift",
+        isSelected: $isSelected7
       )
     }
   }

@@ -10,19 +10,23 @@
 import SwiftUI
 
 public struct CheckboxCatalog: View {
+  @State private var checked: Bool = false
+  @State private var checked1: Bool = true
+  @State private var checked2: Bool = false
+  @State private var checked3: Bool = true
   public var body: some View {
     ScrollView {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default") {
-          PBCheckbox(checked: false, text: "Unchecked", action: {})
+          PBCheckbox(checked: $checked, text: "Unchecked", action: {})
             .padding(.bottom, Spacing.small)
 
-          PBCheckbox(checked: true, text: "Checked", action: {})
+          PBCheckbox(checked: $checked1, text: "Checked", action: {})
         }
 
         PBDoc(title: "Error") {
           PBCheckbox(
-            checked: false,
+            checked: $checked2,
             checkboxType: .error,
             text: "Error",
             action: {}
@@ -31,7 +35,7 @@ public struct CheckboxCatalog: View {
 
         PBDoc(title: "Indeterminate") {
           PBCheckbox(
-            checked: true,
+            checked: $checked3,
             checkboxType: .indeterminate,
             text: "Indeterminate",
             action: {}

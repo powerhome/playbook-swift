@@ -72,7 +72,7 @@ public struct PBSelectableCard: View {
 
 extension PBSelectableCard {
   public enum Variant {
-    case `default`, block, input
+    case `default`, block, checkedInput
   }
   
   var cardView : some View {
@@ -87,6 +87,7 @@ extension PBSelectableCard {
         width: frameReader(in: { _ in}) as? CGFloat
       ) {
         cardTextView
+         
       }
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
@@ -127,7 +128,7 @@ extension PBSelectableCard {
       switch variant {
       case .default: Text(cardText)
       case .block: blockText
-      case .input: inputView
+      case .checkedInput: checkedInputView
       }
     }.pbFont(.body, color: .text(.default))
   }
@@ -139,20 +140,20 @@ extension PBSelectableCard {
     Text(blockTitle).pbFont(.title4)
     Text(blockSubText)
   }
-  var inputView: some View {
-      HStack(spacing: Spacing.small) {
-        PBCheckbox(checked: true, checkboxType: .default)
-        separatorView
-        Text(cardText)
-        Spacer()
-      }
+  var checkedInputView: some View {
+    HStack(spacing: Spacing.small) {
+      PBCheckbox(checked: $isSelected, checkboxType: .default)
+      separatorView
+      Text(cardText)
+      Spacer()
+    }
+    .frame(maxHeight: .infinity)
   }
   var separatorView: some View {
     PBSectionSeparator(orientation: .vertical)
       .frame(width: 2)
-      
-      .background(Color.pbPrimary)
-      
+      .background(isSelected ? Color.pbPrimary : .white)
+    
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
