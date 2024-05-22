@@ -27,8 +27,6 @@ public struct PBSelectableCard<Content: View>: View {
   let content: Content?
   @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
-  @Binding var radioItem: String
-  @Binding var isRadioSelected: PBRadioItem?
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
 
@@ -48,8 +46,6 @@ public struct PBSelectableCard<Content: View>: View {
     iconOffsetX: CGFloat? = 10,
     iconOffsetY: CGFloat? = -10,
     isSelected: Binding<Bool> = .constant(false),
-    radioItem: Binding<String> = .constant(""),
-    isRadioSelected: Binding<PBRadioItem?> = .constant(.none),
     hasIcon: Binding<Bool> = .constant(false),
     isDisabled: Binding<Bool> = .constant(false),
     @ViewBuilder content: (() -> Content) = { EmptyView() }
@@ -69,8 +65,6 @@ public struct PBSelectableCard<Content: View>: View {
     self.iconOffsetX = iconOffsetX
     self.iconOffsetY = iconOffsetY
     self._isSelected = isSelected
-    self._radioItem = radioItem
-    self._isRadioSelected = isRadioSelected
     self._hasIcon = hasIcon
     self._isDisabled = isDisabled
     self.content = content()
@@ -103,12 +97,13 @@ extension PBSelectableCard {
         width: frameReader(in: { _ in}) as? CGFloat
       ) {
         if let text = cardText {
-          cardTextView(text)
+          AnyView(cardTextView(text))
         }
         if let content = content {
           content
         }
       }
+      .pbFont(.body, color: .text(.default))
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
         iconView
@@ -145,19 +140,15 @@ extension PBSelectableCard {
       .offset(x: iconOffsetX ?? 0, y: iconOffsetY ?? 0)
       .opacity(isSelected && hasIcon ? 1 : 0)
   }
-  @ViewBuilder
-  func cardTextView(_ text: String) -> some View {
-    Group {
-      switch variant {
-      case .default: Text(text)
-      case .block: blockText(text)
-      case .checkedInput: checkedInputView(text)
-      case .radioInput: radioInputView(text)
-      }
+  func cardTextView(_ text: String) -> any View {
+    switch variant {
+    case .default: return Text(text)
+    case .block: return blockText(text)
+    case .checkedInput: return checkedInputView(text)
+    case .radioInput: return radioInputView(text)
     }
-    .pbFont(.body, color: .text(.default))
   }
-
+  
   func blockText(_ text: String) -> some View {
     let wholeText = text.split { $0.isNewline }
     let blockTitle = wholeText[0]
@@ -174,28 +165,42 @@ extension PBSelectableCard {
       separatorView
       Text(text)
         .padding(.horizontal, isSelected ? cardPadding : cardPadding + 1)
-        
+      
     }
     .padding(.vertical, -4)
   }
   func radioInputView(_ text: String) -> some View {
     HStack(spacing: Spacing.none) {
-      PBRadio(
-        items: [
-          PBRadioItem(radioItem),
-        ],
-        orientation: .vertical,
-        selected: $isRadioSelected
+      Button("") {
+        //if isSelected
+        isSelected.toggle()
+      }
+      .buttonStyle(
+        radioButtonStyle
       )
-      .padding(cardPadding)
+      .padding(.horizontal, 10)
       separatorView
       Text(text)
+        .padding(cardPadding)
+        .padding(.horizontal, isSelected ? padding - 1 : 0)
+        
     }
+    .padding(.vertical, -4)
+   
+  }
+  var radioButtonStyle: PBRadioButtonStyle {
+    PBRadioButtonStyle(
+      subtitle: nil,
+      isSelected: isSelected,
+      textAlignment: .horizontal,
+      padding: padding,
+      errorState: false
+    )
   }
   var separatorView: some View {
     PBSectionSeparator(orientation: .vertical, margin: 0) {}
-        .frame(width: isSelected ? 2 : 1)
-        .background(isSelected ? Color.pbPrimary : .border)
+      .frame(width: isSelected ? 2 : 1)
+      .background(isSelected ? Color.pbPrimary : .border)
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none

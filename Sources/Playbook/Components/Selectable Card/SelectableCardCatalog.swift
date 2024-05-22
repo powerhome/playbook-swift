@@ -18,23 +18,30 @@ public struct SelectableCardCatalog: View {
   @State private var isSelected5: Bool = true
   @State private var isSelected6: Bool = false
   @State private var isSelected7: Bool = false
-  @State private var radioItem: String = "5"
+  @State private var isSelected8: Bool = false
+  @State private var isSelected9: Bool = false
+  @State private var isSelected10: Bool = false
+  @State private var isSelected11: Bool = false
+  @State private var isSelected12: Bool = false
+  @State private var radioItem: String = "4"
+  @State private var radioItem1: String = "5"
   @State private var radioItemSelected: PBRadioItem? = PBRadioItem("")
+  @State private var radioItemSelected1: PBRadioItem? = PBRadioItem("")
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
   @State private var isHovering: Bool = false
     public var body: some View {
       ScrollView {
         VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
-
-          PBDoc(title: "Block") {
-            blockView
-          }
+//          PBDoc(title: "Default") {
+//            defaultView
+//          }
+//
+//          PBDoc(title: "Block") {
+//            blockView
+//          }
           PBDoc(title: "Input") {
-            checkedInputView
+            inputView
           }
         }
         .padding(Spacing.medium)
@@ -75,8 +82,10 @@ public extension SelectableCardCatalog {
       ) 
     }
   }
-  var checkedInputView: some View {
+  var inputView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
+      Text("What programming languages do you know?")
+        .pbFont(.title3, variant: .bold, color: .text(.default))
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "Ruby",
@@ -97,10 +106,33 @@ public extension SelectableCardCatalog {
         cardText: "Swift",
         isSelected: $isSelected7
       )
+      Spacer()
+      Text("How likely are you to recommend Playbook to a friend?")
+        .pbFont(.title3)
       PBSelectableCard(
         variant: .radioInput,
-        radioItem: $radioItem,
-        isRadioSelected: $radioItemSelected
+        cardText: "5",
+       isSelected: $isSelected8
+      )
+      PBSelectableCard(
+        variant: .radioInput,
+        cardText: "4",
+       isSelected: $isSelected9
+      )
+      PBSelectableCard(
+        variant: .radioInput,
+        cardText: "3",
+       isSelected: $isSelected10
+      )
+      PBSelectableCard(
+        variant: .radioInput,
+        cardText: "2",
+       isSelected: $isSelected11
+      )
+      PBSelectableCard(
+        variant: .radioInput,
+        cardText: "1",
+       isSelected: $isSelected12
       )
     }
   }
