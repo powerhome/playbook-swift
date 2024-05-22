@@ -14,6 +14,7 @@ public struct Popover<T: View>: ViewModifier {
   private let variant: Variant
   private let clickToClose: (PopoverManager.Close, action: (() -> Void)?)
   private var popoverView: () -> T
+  let id = UUID()
   
   @Binding var isPresented: Bool
   @Binding var refreshView: Bool
@@ -40,13 +41,16 @@ public struct Popover<T: View>: ViewModifier {
     content
       .frameReader { contentFrame = $0 }
       .onChange(of: isPresented) { newValue in
+        print("count view \(popoverManager.popovers.count)")
+        print("count pressented \(popoverManager.isPresented.count)")
+        print("count position \(popoverManager.position.count)")
         if newValue, let frame = contentFrame {
-         updateView(frame)
-          Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { _ in
-            popoverManager.isPresented = true
+         generateView(frame)
+          Timer.scheduledTimer(withTimeInterval: 0.04, repeats: false) { _ in
+            popoverManager.isPresented[id.hashValue] = true
           }
         } else {
-          popoverManager.isPresented = false
+          popoverManager.isPresented[id.hashValue] = false
         }
       }
       .onChange(of: isPresented) { newValue in
@@ -55,23 +59,24 @@ public struct Popover<T: View>: ViewModifier {
           popoverManager.close = clickToClose
         }
       }
-      .onChange(of: popoverManager.isPresented) { newValue in
-        if !newValue {
-          isPresented = newValue
+      .onChange(of: popoverManager.isPresented[id.hashValue]) {
+        if let value = $0 {
+          isPresented = value
+        
         }
       }
-      .onChange(of: refreshView) { _ in
-        if let frame = contentFrame {
-          updateView(frame)
-        }
-      }
-      .onChange(of: contentFrame ?? .zero) { frame in
-        updateViewOnResize(frame)
-      }
+//      .onChange(of: refreshView) { _ in
+//        if let frame = contentFrame {
+//          updateView(frame)
+//        }
+//      }
+//      .onChange(of: contentFrame ?? .zero) { frame in
+//        updateViewOnResize(frame)
+//      }
       .onDisappear {
-        popoverManager.isPresented = false
+        popoverManager.isPresented.removeValue(forKey: id.hashValue)
         isPresented = false
-        popoverManager.view = nil
+        popoverManager.popovers.removeValue(forKey: id.hashValue)
       }
   }
 }
@@ -84,16 +89,20 @@ extension Popover {
     }
   }
 
-  private func updateView(_ frame: CGRect) {
-    popoverManager.view = AnyView(
-      view
-        .onHover { refreshView = $0 }
-        .frame(width: width)
+  private func generateView(_ frame: CGRect) {
+    let anyView = AnyView(
+      variant.view(popoverView())
+        .frame(width: variant.width(contentFrame?.width))
         .sizeReader { size in
-          let popoverFrame = position.calculateFrame(from: offset(frame), size: size)
-          popoverManager.position = popoverFrame.point(at: .center())
+          let popoverFrame = position.calculateFrame(from: variant.offset(frame, position: position), size: size)
+          let popoverPosition = popoverFrame.point(at: .center())
+         
+          popoverManager.position[id.hashValue] = popoverPosition
         }
     )
+
+    popoverManager.popovers[id.hashValue] = anyView
+    print("view id: \(id.hashValue)")
   }
   
   private func updateViewOnResize(_ frame: CGRect) {
@@ -105,54 +114,60 @@ extension Popover {
     }
   }
   
-  private func offset(_ frame: CGRect) -> CGRect {
-    switch variant {
-    case .default, .custom:
-      return CGRect(
-        origin: CGPoint(
-          x: frame.origin.x + position.space(Spacing.small).x,
-          y: frame.origin.y + position.space(Spacing.small).y
-        ),
-        size: frame.size
-      )
-    case .dropdown:
-      return CGRect(
-        origin: CGPoint(
-          x: frame.origin.x + position.space(Spacing.xSmall).x,
-          y: frame.origin.y + position.space(Spacing.xSmall).y
-        ),
-        size: frame.size)
-    }
-  }
+ 
 
-  private var width: CGFloat? {
-    switch variant {
-    case .default, .custom:
-      return nil
-    case .dropdown:
-      return contentFrame?.width
-    }
-  }
+ 
 
-  private var view: any View {
-    switch variant {
-    case .default:
-      return PBCard(
-        border: false,
-        padding: Spacing.small,
-        shadow: .deeper,
-        width: nil,
-        content: { popoverView() }
-      )
-    case .dropdown, .custom:
-      return popoverView()
-    }
-  }
+
 }
 
 public extension Popover {
   enum Variant {
     case `default`, dropdown, custom
+    
+    func view(_ popoverView: some View) -> any View {
+      switch self {
+      case .default:
+        return PBCard(
+          border: false,
+          padding: Spacing.small,
+          shadow: .deeper,
+          width: nil,
+          content: { popoverView }
+        )
+      case .dropdown, .custom:
+        return popoverView
+      }
+    }
+    
+    func width(_ width: CGFloat?) -> CGFloat? {
+      switch self {
+      case .default, .custom:
+        return nil
+      case .dropdown:
+        return width
+      }
+    }
+    
+    func offset(_ frame: CGRect, position: Position) -> CGRect {
+      switch self {
+      case .default, .custom:
+        return CGRect(
+          origin: CGPoint(
+            x: frame.origin.x + position.space(Spacing.small).x,
+            y: frame.origin.y + position.space(Spacing.small).y
+          ),
+          size: frame.size
+        )
+      case .dropdown:
+        return CGRect(
+          origin: CGPoint(
+            x: frame.origin.x + position.space(Spacing.xSmall).x,
+            y: frame.origin.y + position.space(Spacing.xSmall).y
+          ),
+          size: frame.size)
+      }
+    }
   }
 }
 

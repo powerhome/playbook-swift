@@ -14,11 +14,10 @@ struct PopoverHandler: ViewModifier {
 
   func body(content: Content) -> some View {
     content
-      .environmentObject(popoverManager)
       .overlay(
         GlobalPopoverView()
-          .environmentObject(popoverManager)
       )
+      .environmentObject(popoverManager)
   }
 }
 
@@ -33,44 +32,56 @@ struct GlobalPopoverView: View {
 
   var body: some View {
     ZStack {
-      if popoverManager.isPresented, let content = popoverManager.view {
-        content
-          .position(popoverManager.position)
-          .onTapGesture {
-            closeInside
+      let list = popoverManager.popovers.sorted(by: { $0.key <= $1.key} )
+      ForEach(list, id: \.key) { key, popover in
+      
+          ZStack {
+            Color.clear
+              .onTapGesture {
+                closeOutside(key)
+              }
+              popover
+                .position(popoverManager.position[key] ?? .zero)
+            .onTapGesture {
+              closeInside(key)
+             
+            }
           }
+        
       }
-    }
-    .background(Color.black.opacity(popoverManager.background))
-    .onTapGesture {
-      closeOutside
     }
   }
 
-  private var closeInside: Void {
+  private func closeInside(_ key: Int) -> Void {
     switch popoverManager.close.0 {
     case .inside, .anywhere:
-      onClose()
+      popoverManager.position.removeValue(forKey: key)
+      popoverManager.popovers.removeValue(forKey: key)
+      popoverManager.isPresented.removeValue(forKey:key)
+      onClose(key)
     case .outside:
       break
     }
   }
   
-  private var closeOutside: Void {
+  private func closeOutside(_ key: Int) -> Void {
     switch popoverManager.close.0 {
     case .inside:
       break
     case .outside, .anywhere:
-      onClose()
+      popoverManager.position.removeValue(forKey: key)
+      popoverManager.popovers.removeValue(forKey: key)
+      popoverManager.isPresented.removeValue(forKey:key)
+      onClose(key)
     }
   }
   
-  private func onClose() {
+  private func onClose(_ key: Int) {
     if let closeAction = popoverManager.close.action {
-      popoverManager.isPresented = false
+      popoverManager.isPresented[key] = false
       closeAction()
     } else {
-      popoverManager.isPresented = false
+      popoverManager.isPresented[key] = false
     }
   }
 }

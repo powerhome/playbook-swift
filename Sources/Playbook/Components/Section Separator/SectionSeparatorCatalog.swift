@@ -47,7 +47,13 @@ public struct SectionSeparatorCatalog: View {
 
         PBDoc(title: "Vertical separator") {
           HStack(spacing: Spacing.none) {
+            
+            
+            
+            
             loremIpsum
+            PBSectionSeparator(orientation: .vertical) {}
+              .background(Color.blue)
             PBSectionSeparator(orientation: .vertical)
             loremIpsum
           }
@@ -61,4 +67,9 @@ public struct SectionSeparatorCatalog: View {
     .background(Color.background(Color.BackgroundColor.light))
     .navigationTitle("Section Separator")
   }
+}
+
+#Preview {
+  registerFonts()
+  return SectionSeparatorCatalog()
 }

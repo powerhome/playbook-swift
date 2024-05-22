@@ -16,12 +16,14 @@ public struct PopoverCatalog: View {
   @State private var isPresented4: Bool = false
   @State private var isPresented5: Bool = false
   @State private var isPresented6: Bool = false
+  @State private var isHovering: Bool = false
 
   public init() {}
 
   public var body: some View {
     return ScrollView {
       VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") { usefulPopoverExamples }
         PBDoc(title: "Default") { defaultPopover }
         PBDoc(title: "Dropdrown") { dropdownPopover }
         PBDoc(title: "Scroll") { scrollPopover }
@@ -36,6 +38,62 @@ public struct PopoverCatalog: View {
     .preferredColorScheme(.light)
     .popoverHandler()
     .navigationTitle("Popover")
+  }
+  
+  private var usefulPopoverExamples: some View {
+    VStack {
+      HStack {
+        Text("Click info for more details")
+          .pbFont(.body, color: .text(.default))
+        PBButton(
+          variant: .secondary,
+          shape: .circle,
+          icon: .fontAwesome(.info)
+        ) {
+          isPresented.toggle()
+        }
+        .pbPopover(
+          isPresented: $isPresented
+        ) {
+          VStack {
+            Text("I'm a popover. Hover over me")
+              .pbFont(.body, color: .text(.default))
+              .background(isHovering ? Color.pink : Color.clear)
+              .onHover(perform: { hovering in
+                isHovering = hovering
+                isPresented2 = hovering
+                print("Im hovering \(hovering)")
+              })
+            
+            PBButton(
+              variant: .secondary,
+              shape: .circle,
+              icon: .fontAwesome(.info)
+            ) {
+              isPresented = false
+            }
+          }
+        }
+      }
+      
+      HStack {
+        Text("Click info for more details")
+          .pbFont(.body, color: .text(.default))
+        PBButton(
+          variant: .secondary,
+          shape: .circle,
+          icon: .fontAwesome(.info)
+        ) {
+          isPresented.toggle()
+        }
+        .pbPopover(
+          isPresented: $isPresented
+        ) {
+          Text("I'm a popover. Hover over me")
+            .pbFont(.body, color: .text(.default))
+        }
+      }
+    }
   }
 
   private var defaultPopover: some View {
@@ -164,4 +222,9 @@ public struct PopoverCatalog: View {
       .frame(width: 200, height: 150)
     }
   }
+}
+
+#Preview {
+  registerFonts()
+  return PopoverCatalog()
 }

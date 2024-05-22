@@ -10,13 +10,16 @@
 import SwiftUI
 
 public class PopoverManager: ObservableObject {
-  @Published var isPresented: Bool = false
-  @Published var view: AnyView?
-  @Published var position: CGPoint = .zero
+  @Published var isPresented: [Int : Bool] = [:]
+  @Published var popovers: [Int : AnyView] = [:]
+
+  @Published var position: [Int : CGPoint] = [:]
   @Published var close: (Close, action: (() -> Void)?) = (.anywhere, nil)
   var background: CGFloat = 0
-  private let id = UUID()
+  
   static let shared = PopoverManager()
+  
+  
 
   public enum Close {
     case inside, outside, anywhere
