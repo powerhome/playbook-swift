@@ -11,6 +11,8 @@ import SwiftUI
 
 public struct PopoverCatalog: View {
   @State private var isPresented: Bool = false
+  @State private var isPresented0: Bool = false
+  @State private var isPresented1: Bool = false
   @State private var isPresented2: Bool = false
   @State private var isPresented3: Bool = false
   @State private var isPresented4: Bool = false
@@ -50,10 +52,10 @@ public struct PopoverCatalog: View {
           shape: .circle,
           icon: .fontAwesome(.info)
         ) {
-          isPresented.toggle()
+          isPresented0.toggle()
         }
         .pbPopover(
-          isPresented: $isPresented,
+          isPresented: $isPresented0,
           id: 1
         ) {
           VStack {
@@ -71,7 +73,8 @@ public struct PopoverCatalog: View {
               shape: .circle,
               icon: .fontAwesome(.info)
             ) {
-              isPresented = false
+              isPresented0.toggle()
+              isPresented1.toggle()
             }
           }
         }
@@ -85,10 +88,10 @@ public struct PopoverCatalog: View {
           shape: .circle,
           icon: .fontAwesome(.info)
         ) {
-          isPresented.toggle()
+          isPresented1.toggle()
         }
         .pbPopover(
-          isPresented: $isPresented, id: 2
+          isPresented: $isPresented1, id: 2
         ) {
           Text("I'm a popover. Hover over me")
             .pbFont(.body, color: .text(.default))
