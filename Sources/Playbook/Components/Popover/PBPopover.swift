@@ -14,7 +14,7 @@ public struct Popover<T: View>: ViewModifier {
   private let variant: Variant
   private let clickToClose: (PopoverManager.Close, action: (() -> Void)?)
   private var popoverView: () -> T
-  let id = UUID()
+  let id: Int
   
   @Binding var isPresented: Bool
   @Binding var refreshView: Bool
@@ -25,6 +25,7 @@ public struct Popover<T: View>: ViewModifier {
   
   public init(
     isPresented: Binding<Bool>,
+    id: Int = 0,
     position: Position,
     variant: Variant,
     clickToClose: (PopoverManager.Close, action: (() -> Void)?),
@@ -37,6 +38,7 @@ public struct Popover<T: View>: ViewModifier {
     self.clickToClose = clickToClose
     self._refreshView = refreshView
     self.popoverView = popoverView
+    self.id = id
   }
   
   public func body(content: Content) -> some View {
@@ -45,8 +47,15 @@ public struct Popover<T: View>: ViewModifier {
         popoverFrameView = generateView($0)
       }
       .onChange(of: isPresented) { newValue in
-        //        if newValue, let view = popoverFrameView, let position = popoverPosition {
-        popoverManager.popovers[id.hashValue] = PopoverManager.Popover(view: popoverFrameView ?? AnyView(Color.pink), position: popoverPosition)
+        
+        if newValue, let view = popoverFrameView {
+          popoverManager.isPresented[id.hashValue] = true
+          popoverManager.popovers[id.hashValue] = PopoverManager.Popover(view: view, position: popoverPosition)
+          
+        } else {
+          popoverManager.isPresented[id.hashValue] = false
+          popoverManager.popovers.removeValue(forKey: id.hashValue)
+        }
         print("count view \(popoverManager.popovers.count)")
         print("view id: \(id.hashValue)")
         print("popover: \(popoverManager.popovers[id.hashValue]?.position) key: \(id.hashValue)")
@@ -75,6 +84,7 @@ public struct Popover<T: View>: ViewModifier {
       .onDisappear {
         isPresented = false
         popoverManager.popovers.removeValue(forKey: id.hashValue)
+        print("on disappear count: \(popoverManager.popovers.count)")
       }
   }
 }
@@ -180,6 +190,7 @@ public extension Popover {
 public extension View {
   func pbPopover<T: View>(
     isPresented: Binding<Bool>,
+    id: Int,
     position: Position = .bottom(),
     variant: Popover<T>.Variant = .default,
     clickToClose: (PopoverManager.Close, action: (() -> Void)?) = (.anywhere, action: nil),
@@ -189,6 +200,7 @@ public extension View {
     modifier(
       Popover(
         isPresented: isPresented,
+        id: id,
         position: position,
         variant: variant,
         clickToClose: clickToClose,

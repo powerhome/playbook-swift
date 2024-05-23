@@ -53,7 +53,8 @@ public struct PopoverCatalog: View {
           isPresented.toggle()
         }
         .pbPopover(
-          isPresented: $isPresented
+          isPresented: $isPresented,
+          id: 1
         ) {
           VStack {
             Text("I'm a popover. Hover over me")
@@ -87,7 +88,7 @@ public struct PopoverCatalog: View {
           isPresented.toggle()
         }
         .pbPopover(
-          isPresented: $isPresented
+          isPresented: $isPresented, id: 2
         ) {
           Text("I'm a popover. Hover over me")
             .pbFont(.body, color: .text(.default))
@@ -108,7 +109,7 @@ public struct PopoverCatalog: View {
         isPresented.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented
+        isPresented: $isPresented, id: 3
       ) {
         Text("I'm a popover. I can show content of any size.")
           .pbFont(.body, color: .text(.default))
@@ -126,7 +127,7 @@ public struct PopoverCatalog: View {
       isPresented2.toggle()
     }
     .pbPopover(
-      isPresented: $isPresented2,
+      isPresented: $isPresented2, id: 4,
       position: .center(0, 4)
     ) {
       List {
@@ -158,7 +159,7 @@ public struct PopoverCatalog: View {
         isPresented3.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented3,
+        isPresented: $isPresented3, id: 5,
         clickToClose: (.inside, action: { print("close action") })
       ) {
         Text("Click on me!")
@@ -172,7 +173,7 @@ public struct PopoverCatalog: View {
         isPresented4.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented4,
+        isPresented: $isPresented4, id: 8,
         position: .top(),
         clickToClose: (.outside, action: { print("close action") })
       ) {
@@ -187,7 +188,7 @@ public struct PopoverCatalog: View {
         isPresented5.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented5,
+        isPresented: $isPresented5, id: 9,
         position: .trailing(),
         clickToClose: (.anywhere, action: { print("close action") })
       ) {
@@ -204,7 +205,7 @@ public struct PopoverCatalog: View {
     ) {
       isPresented6.toggle()
     }
-    .pbPopover(isPresented: $isPresented6) {
+    .pbPopover(isPresented: $isPresented6, id: 6) {
       ScrollView {
         Text(
             """
