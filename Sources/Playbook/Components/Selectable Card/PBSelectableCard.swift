@@ -25,10 +25,12 @@ public struct PBSelectableCard<Content: View>: View {
   let iconOffsetX: CGFloat?
   let iconOffsetY: CGFloat?
   let content: Content?
+  let id: Int
   @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
+  @Binding var radioId: Int
 
   public init(
     alignment: Alignment = .center,
@@ -48,6 +50,8 @@ public struct PBSelectableCard<Content: View>: View {
     isSelected: Binding<Bool> = .constant(false),
     hasIcon: Binding<Bool> = .constant(false),
     isDisabled: Binding<Bool> = .constant(false),
+    radioId: Binding<Int> = .constant(0),
+    id: Int = 0,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.alignment = alignment
@@ -64,9 +68,11 @@ public struct PBSelectableCard<Content: View>: View {
     self.iconPosition = iconPosition
     self.iconOffsetX = iconOffsetX
     self.iconOffsetY = iconOffsetY
+    self.id = id
     self._isSelected = isSelected
     self._hasIcon = hasIcon
     self._isDisabled = isDisabled
+    self._radioId = radioId
     self.content = content()
   }
   public var body: some View {
@@ -109,7 +115,9 @@ extension PBSelectableCard {
         iconView
       }
       .onTapGesture {
-        isSelected.toggle()
+        if variant != .radioInput {
+          isSelected.toggle()
+        }
         hasIcon.toggle()
       }
       .onHover { hovering in
@@ -165,16 +173,17 @@ extension PBSelectableCard {
       separatorView
       Text(text)
         .padding(.horizontal, isSelected ? cardPadding : cardPadding + 1)
-      
     }
     .padding(.vertical, -4)
   }
   func radioInputView(_ text: String) -> some View {
     HStack(spacing: Spacing.none) {
       Button("") {
-        //if isSelected
-        isSelected.toggle()
+        radioId = id
       }
+      .onChange(of: radioId, perform: { _ in
+        isSelected.toggle()
+      })
       .buttonStyle(
         radioButtonStyle
       )
@@ -186,7 +195,6 @@ extension PBSelectableCard {
         
     }
     .padding(.vertical, -4)
-   
   }
   var radioButtonStyle: PBRadioButtonStyle {
     PBRadioButtonStyle(
@@ -196,6 +204,9 @@ extension PBSelectableCard {
       padding: padding,
       errorState: false
     )
+  }
+  var selected: Bool {
+    radioId == id
   }
   var separatorView: some View {
     PBSectionSeparator(orientation: .vertical, margin: 0) {}

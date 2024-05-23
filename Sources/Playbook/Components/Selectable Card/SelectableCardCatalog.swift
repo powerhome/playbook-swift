@@ -18,15 +18,15 @@ public struct SelectableCardCatalog: View {
   @State private var isSelected5: Bool = true
   @State private var isSelected6: Bool = false
   @State private var isSelected7: Bool = false
-  @State private var isSelected8: Bool = false
+  @State private var isSelected8: Bool = true
   @State private var isSelected9: Bool = false
   @State private var isSelected10: Bool = false
   @State private var isSelected11: Bool = false
   @State private var isSelected12: Bool = false
-  @State private var radioItem: String = "4"
-  @State private var radioItem1: String = "5"
-  @State private var radioItemSelected: PBRadioItem? = PBRadioItem("")
-  @State private var radioItemSelected1: PBRadioItem? = PBRadioItem("")
+  @State private var selectedRadioIndex: Int = 0
+  @State private var selectedRadioIndex1: Int = 0
+  @State private var radioIndex: String = ""
+  @State private var radioId: Int = 0
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
   @State private var isHovering: Bool = false
@@ -112,27 +112,37 @@ public extension SelectableCardCatalog {
       PBSelectableCard(
         variant: .radioInput,
         cardText: "5",
-       isSelected: $isSelected8
+        isSelected: $isSelected8,
+        radioId: $radioId,
+        id: 1
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "4",
-       isSelected: $isSelected9
+        isSelected: $isSelected9,
+        radioId: $radioId,
+        id: 2
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "3",
-       isSelected: $isSelected10
+        isSelected: $isSelected10,
+        radioId: $radioId,
+        id: 3
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "2",
-       isSelected: $isSelected11
+        isSelected: $isSelected11,
+        radioId: $radioId,
+        id: 4
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "1",
-       isSelected: $isSelected12
+        isSelected: $isSelected12,
+        radioId: $radioId,
+        id: 5
       )
     }
   }
