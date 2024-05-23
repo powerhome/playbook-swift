@@ -114,14 +114,14 @@ public extension SelectableCardCatalog {
         cardText: "5",
         isSelected: $isSelected8,
         radioId: $radioId,
-        id: 1
+        id: 5
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "4",
         isSelected: $isSelected9,
         radioId: $radioId,
-        id: 2
+        id: 4
       )
       PBSelectableCard(
         variant: .radioInput,
@@ -135,14 +135,14 @@ public extension SelectableCardCatalog {
         cardText: "2",
         isSelected: $isSelected11,
         radioId: $radioId,
-        id: 4
+        id: 2
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "1",
         isSelected: $isSelected12,
         radioId: $radioId,
-        id: 5
+        id: 1
       )
     }
   }

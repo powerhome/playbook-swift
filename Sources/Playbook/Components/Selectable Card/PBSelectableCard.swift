@@ -31,7 +31,7 @@ public struct PBSelectableCard<Content: View>: View {
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
   @Binding var radioId: Int
-
+  
   public init(
     alignment: Alignment = .center,
     variant: Variant = .default,
@@ -109,6 +109,13 @@ extension PBSelectableCard {
           content
         }
       }
+      .overlay(
+        RoundedRectangle(cornerRadius: borderRadius, style: .circular)
+          .stroke(
+            isHovering ? Color.pbPrimary : .text(.light),
+            lineWidth: isHovering ? 2 : 0
+          )
+      )
       .pbFont(.body, color: .text(.default))
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
@@ -121,7 +128,9 @@ extension PBSelectableCard {
         hasIcon.toggle()
       }
       .onHover { hovering in
-        isHovering.toggle()
+        if !isDisabled {
+          isHovering.toggle()
+        }
         #if os(macOS)
         if hovering {
           NSCursor.pointingHand.push()
@@ -181,18 +190,22 @@ extension PBSelectableCard {
       Button("") {
         radioId = id
       }
-      .onChange(of: radioId, perform: { _ in
-        isSelected.toggle()
-      })
       .buttonStyle(
         radioButtonStyle
       )
+      .onChange(of: radioId, perform: { _ in
+        if String(describing: radioId) == cardText {
+          isSelected = true
+        } else {
+          isSelected = false
+        }
+      })
       .padding(.horizontal, 10)
       separatorView
       Text(text)
         .padding(cardPadding)
         .padding(.horizontal, isSelected ? padding - 1 : 0)
-        
+      
     }
     .padding(.vertical, -4)
   }
@@ -205,13 +218,10 @@ extension PBSelectableCard {
       errorState: false
     )
   }
-  var selected: Bool {
-    radioId == id
-  }
   var separatorView: some View {
     PBSectionSeparator(orientation: .vertical, margin: 0) {}
       .frame(width: isSelected ? 2 : 1)
-      .background(isSelected ? Color.pbPrimary : .border)
+      .background(isSelected || isHovering == true ? Color.pbPrimary : .border)
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
