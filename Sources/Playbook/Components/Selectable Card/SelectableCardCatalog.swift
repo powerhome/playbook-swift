@@ -23,25 +23,25 @@ public struct SelectableCardCatalog: View {
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
   @State private var isHovering: Bool = false
-    public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
-
-          PBDoc(title: "Block") {
-            blockView
-          }
-//          PBDoc(title: "Input") {
-//            checkedInputView
-//          }
+  public var body: some View {
+    ScrollView {
+      VStack(spacing: Spacing.medium) {
+        PBDoc(title: "Default") {
+          defaultView
         }
-        .padding(Spacing.medium)
+        
+        PBDoc(title: "Block") {
+          blockView
+        }
+        //          PBDoc(title: "Input") {
+        //            checkedInputView
+        //          }
       }
-      .background(Color.background(Color.BackgroundColor.light))
-      .navigationTitle("Selectable Card")
+      .padding(Spacing.medium)
     }
+    .background(Color.background(.default))
+    .navigationTitle("Selectable Card")
+  }
 }
 
 public extension SelectableCardCatalog {
@@ -57,7 +57,7 @@ public extension SelectableCardCatalog {
         isSelected: $isSelected1
       )
       PBSelectableCard(
-        cardText: "Unselected", 
+        cardText: "Unselected",
         isSelected: $isSelected2
       )
       PBSelectableCard(
@@ -72,7 +72,7 @@ public extension SelectableCardCatalog {
         variant: .block,
         cardText: "Block \nThis uses block",
         isSelected: $isSelected3
-      ) 
+      )
     }
   }
   var checkedInputView: some View {
@@ -104,4 +104,9 @@ public extension SelectableCardCatalog {
       )
     }
   }
+}
+
+#Preview {
+  registerFonts()
+  return SelectableCardCatalog()
 }

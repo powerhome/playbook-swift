@@ -107,11 +107,11 @@ extension PBSelectableCard {
         if let content = content {
           content
         }
-      } 
+      }
       .overlay(
         RoundedRectangle(cornerRadius: borderRadius, style: .circular)
           .stroke(
-            isHovering ? Color.pbPrimary : .text(.light),
+            isHovering && variant != .block ? Color.pbPrimary : isSelected && variant == .block ? Color.pbPrimary : .text(.light),
             lineWidth: isHovering ? 2 : 0
           )
       )
@@ -124,11 +124,10 @@ extension PBSelectableCard {
         hasIcon.toggle()
       }
       .onHover { hovering in
-      
         if !isDisabled {
-          isHovering.toggle()
+          isHovering = hovering
         }
-        #if os(macOS)
+#if os(macOS)
         if hovering {
           NSCursor.pointingHand.push()
           if isDisabled {
@@ -138,7 +137,7 @@ extension PBSelectableCard {
           NSCursor.pointingHand.pop()
           NSCursor.operationNotAllowed.pop()
         }
-        #endif
+#endif
       }
     }
   }
@@ -166,7 +165,6 @@ extension PBSelectableCard {
     }
     .pbFont(.body, color: .text(.default))
   }
-
   func blockText(_ text: String) -> some View {
     let wholeText = text.split { $0.isNewline }
     let blockTitle = wholeText[0]
@@ -183,7 +181,7 @@ extension PBSelectableCard {
       separatorView
       Text(text)
         .padding(.horizontal, isSelected ? cardPadding : cardPadding + 1)
-        
+      
     }
     .padding(.vertical, -4)
   }
@@ -203,8 +201,8 @@ extension PBSelectableCard {
   }
   var separatorView: some View {
     PBSectionSeparator(orientation: .vertical, margin: 0) {}
-        .frame(width: isSelected ? 2 : 1)
-        .background(isSelected || isHovering ? Color.pbPrimary : .border)
+      .frame(width: isSelected ? 2 : 1)
+      .background(isSelected || isHovering ? Color.pbPrimary : .border)
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
@@ -213,5 +211,5 @@ extension PBSelectableCard {
 
 #Preview {
   registerFonts()
-  return SelectableCardCatalog()
+  return PBSelectableCard()
 }
