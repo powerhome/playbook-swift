@@ -20,7 +20,6 @@ public struct PBCard<Content: View>: View {
   let shadow: Shadow?
   let width: CGFloat?
   let content: Content
-
   public init(
     alignment: Alignment = .leading,
     backgroundColor: Color = .card,

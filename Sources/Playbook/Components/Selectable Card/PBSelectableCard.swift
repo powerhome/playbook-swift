@@ -31,7 +31,7 @@ public struct PBSelectableCard<Content: View>: View {
   @Binding var isRadioSelected: PBRadioItem?
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
-
+  @State private var hasHoverState: Bool = false
   public init(
     alignment: Alignment = .center,
     variant: Variant = .default,
@@ -99,7 +99,7 @@ extension PBSelectableCard {
         borderRadius: borderRadius,
         padding: padding,
         style: isSelected ? .selected(type: .card) : .default,
-        shadow: shadowStyle,
+        shadow: isDisabled ? Shadow.none : shadowStyle,
         width: frameReader(in: { _ in}) as? CGFloat
       ) {
         if let text = cardText {
@@ -108,7 +108,14 @@ extension PBSelectableCard {
         if let content = content {
           content
         }
-      }
+      } 
+      .overlay(
+        RoundedRectangle(cornerRadius: borderRadius, style: .circular)
+          .stroke(
+            hasHoverState ? Color.pbPrimary : .text(.light),
+            lineWidth: hasHoverState ? 2 : 0
+          )
+      )
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
         iconView
@@ -119,6 +126,9 @@ extension PBSelectableCard {
       }
       .onHover { hovering in
         isHovering.toggle()
+        if !isDisabled {
+          hasHoverState.toggle()
+        }
         #if os(macOS)
         if hovering {
           NSCursor.pointingHand.push()
