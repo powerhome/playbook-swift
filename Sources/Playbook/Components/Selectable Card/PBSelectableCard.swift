@@ -31,7 +31,6 @@ public struct PBSelectableCard<Content: View>: View {
   @Binding var isRadioSelected: PBRadioItem?
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
-  @State private var hasHoverState: Bool = false
   public init(
     alignment: Alignment = .center,
     variant: Variant = .default,
@@ -112,8 +111,8 @@ extension PBSelectableCard {
       .overlay(
         RoundedRectangle(cornerRadius: borderRadius, style: .circular)
           .stroke(
-            hasHoverState ? Color.pbPrimary : .text(.light),
-            lineWidth: hasHoverState ? 2 : 0
+            isHovering ? Color.pbPrimary : .text(.light),
+            lineWidth: isHovering ? 2 : 0
           )
       )
       .opacity(isDisabled ? 0.6 : 1)
@@ -125,9 +124,9 @@ extension PBSelectableCard {
         hasIcon.toggle()
       }
       .onHover { hovering in
-        isHovering.toggle()
+      
         if !isDisabled {
-          hasHoverState.toggle()
+          isHovering.toggle()
         }
         #if os(macOS)
         if hovering {
@@ -205,7 +204,7 @@ extension PBSelectableCard {
   var separatorView: some View {
     PBSectionSeparator(orientation: .vertical, margin: 0) {}
         .frame(width: isSelected ? 2 : 1)
-        .background(isSelected ? Color.pbPrimary : .border)
+        .background(isSelected || isHovering ? Color.pbPrimary : .border)
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
