@@ -120,10 +120,10 @@ public extension Popover {
           padding: Spacing.small,
           shadow: .deeper,
           width: nil,
-          content: { popoverView.fixedSize() }
+          content: { popoverView }
         )
       case .dropdown, .custom:
-        return popoverView.fixedSize()
+        return popoverView
       }
     }
     
