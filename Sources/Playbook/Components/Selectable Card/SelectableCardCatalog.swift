@@ -33,13 +33,13 @@ public struct SelectableCardCatalog: View {
     public var body: some View {
       ScrollView {
         VStack(spacing: Spacing.medium) {
-//          PBDoc(title: "Default") {
-//            defaultView
-//          }
-//
-//          PBDoc(title: "Block") {
-//            blockView
-//          }
+          PBDoc(title: "Default") {
+            defaultView
+          }
+
+          PBDoc(title: "Block") {
+            blockView
+          }
           PBDoc(title: "Input") {
             inputView
           }
