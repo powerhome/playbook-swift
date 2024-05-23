@@ -19,6 +19,8 @@ public struct Popover<T: View>: ViewModifier {
   @Binding var isPresented: Bool
   @Binding var refreshView: Bool
   @State private var contentFrame: CGRect?
+  @State private var popoverPosition: CGPoint?
+  @State private var popoverFrameView: AnyView?
   @EnvironmentObject var popoverManager: PopoverManager
   
   public init(
@@ -39,32 +41,29 @@ public struct Popover<T: View>: ViewModifier {
   
   public func body(content: Content) -> some View {
     content
-      .frameReader { contentFrame = $0 }
+      .frameReader {
+        popoverFrameView = generateView($0)
+      }
       .onChange(of: isPresented) { newValue in
+        //        if newValue, let view = popoverFrameView, let position = popoverPosition {
+        popoverManager.popovers[id.hashValue] = PopoverManager.Popover(view: popoverFrameView ?? AnyView(Color.pink), position: popoverPosition)
         print("count view \(popoverManager.popovers.count)")
-        print("count pressented \(popoverManager.isPresented.count)")
-        print("count position \(popoverManager.position.count)")
-        if newValue, let frame = contentFrame {
-         generateView(frame)
-          Timer.scheduledTimer(withTimeInterval: 0.04, repeats: false) { _ in
-            popoverManager.isPresented[id.hashValue] = true
-          }
-        } else {
-          popoverManager.isPresented[id.hashValue] = false
+        print("view id: \(id.hashValue)")
+        print("popover: \(popoverManager.popovers[id.hashValue]?.position) key: \(id.hashValue)")
+      }
+      .onChange(of: popoverPosition) { position in
+        for popover in popoverManager.popovers {
+          let newPopover = PopoverManager.Popover(view: popover.value.view, position: position)
+          popoverManager.popovers.updateValue(newPopover, forKey: popover.key)
+          print("popover position updated: \(newPopover.position) key: \(popover.key)")
         }
       }
-      .onChange(of: isPresented) { newValue in
-        if newValue {
-          popoverManager.background = background
-          popoverManager.close = clickToClose
-        }
-      }
-      .onChange(of: popoverManager.isPresented[id.hashValue]) {
-        if let value = $0 {
-          isPresented = value
-        
-        }
-      }
+//      .onChange(of: popoverManager.isPresented[id.hashValue]) {
+//        if let value = $0 {
+//          isPresented = value
+//        
+//        }
+//      }
 //      .onChange(of: refreshView) { _ in
 //        if let frame = contentFrame {
 //          updateView(frame)
@@ -74,7 +73,6 @@ public struct Popover<T: View>: ViewModifier {
 //        updateViewOnResize(frame)
 //      }
       .onDisappear {
-        popoverManager.isPresented.removeValue(forKey: id.hashValue)
         isPresented = false
         popoverManager.popovers.removeValue(forKey: id.hashValue)
       }
@@ -88,22 +86,30 @@ extension Popover {
     case .inside: return 0
     }
   }
-
-  private func generateView(_ frame: CGRect) {
-    let anyView = AnyView(
+  
+  private func generateView(_ frame: CGRect) -> AnyView {
+    AnyView(
       variant.view(popoverView())
-        .frame(width: variant.width(contentFrame?.width))
+        .frame(width: variant.width(frame.width))
         .sizeReader { size in
           let popoverFrame = position.calculateFrame(from: variant.offset(frame, position: position), size: size)
-          let popoverPosition = popoverFrame.point(at: .center())
-         
-          popoverManager.position[id.hashValue] = popoverPosition
+          print("frame \(popoverFrame.size)")
+          popoverPosition = popoverFrame.point(at: .center())
         }
     )
-
-    popoverManager.popovers[id.hashValue] = anyView
-    print("view id: \(id.hashValue)")
   }
+  
+  //  private func generateView(_ frame: CGRect) -> AnyView {
+  //  AnyView(
+  //      variant.view(popoverView())
+  //        .frame(width: variant.width(contentFrame?.width))
+//        .sizeReader { size in
+//          let popoverFrame = position.calculateFrame(from: variant.offset(frame, position: position), size: size)
+//          print("frame \(popoverFrame.size)")
+//          popoverPosition = popoverFrame.point(at: .center())
+//        }
+//    )
+//  }
   
   private func updateViewOnResize(_ frame: CGRect) {
     if isPresented {

@@ -34,20 +34,19 @@ struct GlobalPopoverView: View {
     ZStack {
       let list = popoverManager.popovers.sorted(by: { $0.key <= $1.key} )
       ForEach(list, id: \.key) { key, popover in
-      
+//        if let position = popover.position {
           ZStack {
             Color.clear
               .onTapGesture {
                 closeOutside(key)
               }
-              popover
-                .position(popoverManager.position[key] ?? .zero)
-            .onTapGesture {
-              closeInside(key)
-             
-            }
+            popover.view
+              .position(popover.position ?? .zero)
+              .onTapGesture {
+                closeInside(key)
+              }
           }
-        
+//        }
       }
     }
   }
@@ -55,9 +54,7 @@ struct GlobalPopoverView: View {
   private func closeInside(_ key: Int) -> Void {
     switch popoverManager.close.0 {
     case .inside, .anywhere:
-      popoverManager.position.removeValue(forKey: key)
       popoverManager.popovers.removeValue(forKey: key)
-      popoverManager.isPresented.removeValue(forKey:key)
       onClose(key)
     case .outside:
       break
@@ -69,9 +66,7 @@ struct GlobalPopoverView: View {
     case .inside:
       break
     case .outside, .anywhere:
-      popoverManager.position.removeValue(forKey: key)
       popoverManager.popovers.removeValue(forKey: key)
-      popoverManager.isPresented.removeValue(forKey:key)
       onClose(key)
     }
   }
