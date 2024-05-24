@@ -109,11 +109,7 @@ extension PBSelectableCard {
         }
       }
       .overlay(
-        RoundedRectangle(cornerRadius: borderRadius, style: .circular)
-          .stroke(
-            isHovering && variant != .block ? Color.pbPrimary : isSelected && variant == .block ? Color.pbPrimary : .text(.light),
-            lineWidth: isHovering ? 2 : 0
-          )
+        hoverBorderView
       )
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
@@ -203,6 +199,13 @@ extension PBSelectableCard {
     PBSectionSeparator(orientation: .vertical, margin: 0) {}
       .frame(width: isSelected ? 2 : 1)
       .background(isSelected || isHovering ? Color.pbPrimary : .border)
+  }
+  var hoverBorderView: some View {
+    RoundedRectangle(cornerRadius: borderRadius, style: .circular)
+      .stroke(
+        isHovering && variant != .block ? Color.pbPrimary : isSelected && variant == .block ? Color.pbPrimary : .text(.light),
+        lineWidth: isHovering ? 2 : 0
+      )
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
