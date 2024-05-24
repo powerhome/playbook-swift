@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct PBTypeahead<Content: View>: View {
   typealias Option = (String, Content?)
+  private let id: Int
   private let title: String
   private let placeholder: String
   private let options: [Option]
@@ -33,6 +34,7 @@ public struct PBTypeahead<Content: View>: View {
   @FocusState private var isFocused
   
   public init(
+    id: Int,
     title: String,
     placeholder: String = "Select",
     searchText: Binding<String>,
@@ -44,6 +46,7 @@ public struct PBTypeahead<Content: View>: View {
     onSelection: @escaping (([(String, Content?)]) -> Void),
     clearAction: (() -> Void)? = nil
   ) {
+    self.id = id
     self.title = title
     self.placeholder = placeholder
     self._searchText = searchText
@@ -70,7 +73,7 @@ public struct PBTypeahead<Content: View>: View {
       )
       .sizeReader { contentSize = $0 }
       .pbPopover(
-        isPresented: $showList,
+        isPresented: $showList, id: id,
         variant: .dropdown
       ) {
         listView
@@ -104,7 +107,7 @@ public struct PBTypeahead<Content: View>: View {
 private extension PBTypeahead {
   @ViewBuilder
   var listView: some View {
-    if showList {
+//    if showList {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
           VStack(spacing: 0) {
@@ -140,7 +143,7 @@ private extension PBTypeahead {
         }
       .frame(maxWidth: .infinity, alignment: .top)
       .transition(.opacity)
-    }
+//    }
   }
 
   var searchResults: [Option] {

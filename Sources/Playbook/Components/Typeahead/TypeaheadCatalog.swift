@@ -27,17 +27,18 @@ public struct TypeaheadCatalog: View {
         PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
       }
       .padding(Spacing.medium)
-      .popoverHandler()
     }
     .background(Color.background(.light))
     .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)
+    .popoverHandler()
   }
 }
 
 extension TypeaheadCatalog {
   var colors: some View {
     PBTypeahead(
+      id: 333,
       title: "Colors",
       searchText: $searchTextColors,
       selection: .single,
@@ -49,6 +50,7 @@ extension TypeaheadCatalog {
   
   var users: some View {
     PBTypeahead(
+      id: 444,
       title: "Users",
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
@@ -62,6 +64,7 @@ extension TypeaheadCatalog {
   var debounce: some View {
     VStack(spacing: Spacing.small) {
       PBTypeahead(
+        id: 00,
         title: "Debounce, 2 characters, 1 second",
         searchText: $searchTextDebounce,
         selection: .single,
@@ -72,6 +75,7 @@ extension TypeaheadCatalog {
       }
       
       PBTypeahead(
+        id: 111,
         title: "Debounce, 2 characters, 0 second",
         searchText: $searchTextDebounce2,
         selection: .single,
