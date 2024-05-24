@@ -11,13 +11,16 @@ import SwiftUI
 
 public struct PBIconValue: View {
   let icon: FontAwesome
+  let iconSize: PBIcon.IconSize
   let text: String?
   
   public init(
     icon: FontAwesome = .heart,
+    iconSize: PBIcon.IconSize = .large,
     text: String? = nil
   ) {
     self.icon = icon
+    self.iconSize = iconSize
     self.text = text
   }
 
@@ -29,7 +32,7 @@ public struct PBIconValue: View {
 extension PBIconValue {
   var iconValueView: some View {
     HStack {
-      PBIcon(icon)
+      PBIcon(icon, size: iconSize)
       if let text = text {
         Text(text)
       }
