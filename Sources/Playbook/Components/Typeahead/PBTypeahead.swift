@@ -251,7 +251,6 @@ private extension PBTypeahead {
     selectedOptions.append(option)
     selectedIndex = index
     hoveringIndex = index
-  
     onSelection?(selectedOptions)
   }
 

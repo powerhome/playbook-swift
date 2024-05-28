@@ -90,10 +90,7 @@ public struct Popover<T: View>: ViewModifier {
 extension Popover {
   private func generateView(_ frame: CGRect) -> AnyView {
     AnyView(
-      variant.view(
-        popoverView()
-          .onHover { isHovering = $0 }
-      )
+      variant.view(popoverView().onHover { isHovering = $0 })
         .frame(width: variant.width(frame.width))
         .sizeReader { size in
           popoverSize = size
