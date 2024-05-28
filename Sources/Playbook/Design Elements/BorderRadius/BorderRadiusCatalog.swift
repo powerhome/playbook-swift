@@ -21,7 +21,7 @@ struct BorderRadiusCatalog: View {
               .stroke(Color.border, lineWidth: 1)
           )
       }
-      .listRowBackground(Color.card)
+      .listRowBackground(Color.background(.default))
     }
     .navigationTitle("Border Radius")
   }

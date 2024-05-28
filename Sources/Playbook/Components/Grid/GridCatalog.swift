@@ -14,15 +14,10 @@ public struct GridCatalog: View {
   @State private var cities = Mocks.cities
  
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Alignment") { alignmentView }
-        PBDoc(title: "Spacing") { spacingView }
-      }
-      .padding(Spacing.medium)
+    PBDocStack(title: "Grid") {
+      PBDoc(title: "Alignment") { alignmentView }
+      PBDoc(title: "Spacing") { spacingView }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Grid")
   }
 }
 

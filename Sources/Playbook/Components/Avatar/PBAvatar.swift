@@ -30,21 +30,6 @@ public struct PBAvatar: View {
     self.wrapped = wrapped
   }
 
-  var initials: String? {
-    guard let name = name else { return nil }
-    let names = name.split(separator: " ")
-
-    if let firstNameInitial = String(names.first ?? " ").first {
-      if names.count == 1 {
-        return "\(firstNameInitial.uppercased())"
-      } else if let lastNameInitial = String(names.last ?? " ").first {
-        return "\(firstNameInitial.uppercased())\(lastNameInitial.uppercased())"
-      }
-    }
-
-    return nil
-  }
-
   public var body: some View {
     ZStack {
       Group {
@@ -85,6 +70,20 @@ public struct PBAvatar: View {
 }
 
 public extension PBAvatar {
+  var initials: String? {
+    guard let name = name else { return nil }
+    let names = name.split(separator: " ")
+
+    if let firstNameInitial = String(names.first ?? " ").first {
+      if names.count == 1 {
+        return "\(firstNameInitial.uppercased())"
+      } else if let lastNameInitial = String(names.last ?? " ").first {
+        return "\(firstNameInitial.uppercased())\(lastNameInitial.uppercased())"
+      }
+    }
+    return nil
+  }
+
   enum Size: CaseIterable {
     case xxSmall
     case xSmall
@@ -160,9 +159,10 @@ public extension PBAvatar {
   }
 }
 
-struct PBAvatar_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return AvatarCatalog()
-  }
+#Preview {
+  PBAvatar(
+    image: Image("andrew", bundle: .module),
+    size: .xLarge,
+    status: .online
+  )
 }

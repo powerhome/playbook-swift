@@ -14,36 +14,31 @@ public struct UserCatalog: View {
   let name = "Andrew K"
   let title = "Rebels Developer"
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Horizontal") {
-          userHorizontalView
-        }
-
-        PBDoc(title: "Vertical") {
-          userVerticalView
-        }
-
-        PBDoc(title: "Text Only") {
-          userTextOnlyView
-        }
-
-        PBDoc(title: "Horizontal Sizes") {
-          userHorizontalSizesView
-        }
-        
-        PBDoc(title: "Block Content Subtitle") {
-          userSubtitleBlockView
-        }
-        
-        PBDoc(title: "Presence Indicator") {
-          presenceIndicatorView
-        }
+    PBDocStack(title: "User") {
+      PBDoc(title: "Horizontal") {
+        userHorizontalView
       }
-      .padding(Spacing.medium)
+
+      PBDoc(title: "Vertical") {
+        userVerticalView
+      }
+
+      PBDoc(title: "Text Only") {
+        userTextOnlyView
+      }
+
+      PBDoc(title: "Horizontal Sizes") {
+        userHorizontalSizesView
+      }
+      
+      PBDoc(title: "Block Content Subtitle") {
+        userSubtitleBlockView
+      }
+      
+      PBDoc(title: "Presence Indicator") {
+        presenceIndicatorView
+      }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("User")
   }
 }
 

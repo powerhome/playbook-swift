@@ -17,25 +17,20 @@ public struct TooltipCatalog: View {
     #if os(iOS)
     iosUnavailable
     #else
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        PBDoc(title: "Tooltip with Icon") {
-          tooltipIconView
-        }
-        PBDoc(title: "Delays") {
-          delayView
-        }
-        PBDoc(title: "Show Tooltip") {
-          canPresentView
-        }
+    PBDoc(title: "Tooltip") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Tooltip with Icon") {
+        tooltipIconView
+      }
+      PBDoc(title: "Delays") {
+        delayView
+      }
+      PBDoc(title: "Show Tooltip") {
+        canPresentView
+      }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Tooltip")
     #endif
   }
 }

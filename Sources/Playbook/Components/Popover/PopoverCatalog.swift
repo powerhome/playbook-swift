@@ -11,33 +11,26 @@ import SwiftUI
 
 public struct PopoverCatalog: View {
   @State private var isPresented: Bool = false
-  @State private var isPresented0: Bool = false
-  @State private var isPresented1: Bool = false
   @State private var isPresented2: Bool = false
   @State private var isPresented3: Bool = false
   @State private var isPresented4: Bool = false
   @State private var isPresented5: Bool = false
   @State private var isPresented6: Bool = false
-  @State private var isHovering: Bool = false
 
   public init() {}
-
+  
   public var body: some View {
-    return ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") { defaultPopover }
-        PBDoc(title: "Dropdrown") { dropdownPopover }
-        PBDoc(title: "Scroll") { scrollPopover }
-        PBDoc(title: "Close options") { onClosePopover }
-      }
-      .padding(Spacing.medium)
-      .edgesIgnoringSafeArea(.all)
+    return PBDocStack(title: "Popover") {
+      PBDoc(title: "Default") { defaultPopover }
+      PBDoc(title: "Dropdrown") { dropdownPopover }
+      PBDoc(title: "Scroll") { scrollPopover }
+      PBDoc(title: "Close options") { onClosePopover }
+        .edgesIgnoringSafeArea(.all)
     }
-    .background(Color.background(.default))
     .popoverHandler()
     .navigationTitle("Popover")
   }
-
+  
   private var defaultPopover: some View {
     HStack {
       Text("Click info for more details")
@@ -50,7 +43,7 @@ public struct PopoverCatalog: View {
         isPresented.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented, id: 3
+        isPresented: $isPresented
       ) {
         Text("I'm a popover. I can show content of any size.")
           .pbFont(.body, color: .text(.default))
@@ -68,7 +61,7 @@ public struct PopoverCatalog: View {
       isPresented2.toggle()
     }
     .pbPopover(
-      isPresented: $isPresented2, id: 4,
+      isPresented: $isPresented2,
       position: .center(0, 4)
     ) {
       List {
@@ -100,7 +93,7 @@ public struct PopoverCatalog: View {
         isPresented3.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented3, id: 5,
+        isPresented: $isPresented3,
         clickToClose: (.inside, action: { print("close action") })
       ) {
         Text("Click on me!")
@@ -114,7 +107,7 @@ public struct PopoverCatalog: View {
         isPresented4.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented4, id: 8,
+        isPresented: $isPresented4,
         position: .top(),
         clickToClose: (.outside, action: { print("close action") })
       ) {
@@ -129,7 +122,7 @@ public struct PopoverCatalog: View {
         isPresented5.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented5, id: 9,
+        isPresented: $isPresented5,
         position: .trailing(),
         clickToClose: (.anywhere, action: { print("close action") })
       ) {
@@ -146,7 +139,7 @@ public struct PopoverCatalog: View {
     ) {
       isPresented6.toggle()
     }
-    .pbPopover(isPresented: $isPresented6, id: 6) {
+    .pbPopover(isPresented: $isPresented6) {
       ScrollView {
         Text(
             """
@@ -164,9 +157,4 @@ public struct PopoverCatalog: View {
       .frame(width: 200, height: 150)
     }
   }
-}
-
-#Preview {
-  registerFonts()
-  return PopoverCatalog()
 }

@@ -47,9 +47,7 @@ public struct PBCheckbox: View {
   }
 }
 
-public struct PBCheckbox_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return CheckboxCatalog()
-  }
+#Preview {
+  registerFonts()
+  return PBCheckbox(checked: true, checkboxType: .indeterminate, text: "Some text", action: {})
 }
