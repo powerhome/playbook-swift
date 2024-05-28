@@ -33,6 +33,7 @@ public struct Iconography: View {
       .padding()
       .navigationTitle("Iconography")
     }
+    .background(Color.background(.default))
   }
 }
 

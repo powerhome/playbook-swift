@@ -62,6 +62,9 @@ struct GlobalPopoverView: View {
       break
     case .outside, .anywhere:
       onClose()
+      #if os(macOS)
+      NSCursor.pointingHand.set()
+      #endif
     }
   }
   

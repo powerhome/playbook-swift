@@ -16,33 +16,27 @@ public struct TabBarCatalog: View {
   @State var selectedTab3: Int? = 0
   @State var selectedTab4: Int? = 0
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.small) {
-        TabBarDoc("Default", spacing: Spacing.small) {
-          defaultShadow
-        }
+    PBDocStack(title: "Tab Bar", padding: Spacing.xxSmall) {
+      TabBarDoc("Default", spacing: Spacing.small) {
+        defaultShadow
+      }
 
-        TabBarDoc("Without Shadow", spacing: Spacing.small) {
-          withoutShadow
-        }
-        
-        TabBarDoc("With Border", spacing: Spacing.small) {
-          withBorder
-        }
-        
-        TabBarDoc("4 options", spacing: Spacing.small) {
-          fourOptions
-        }
+      TabBarDoc("Without Shadow", spacing: Spacing.small) {
+        withoutShadow
+      }
+      
+      TabBarDoc("With Border", spacing: Spacing.small) {
+        withBorder
+      }
+      
+      TabBarDoc("4 options", spacing: Spacing.small) {
+        fourOptions
+      }
 
-        TabBarDoc("3 options", spacing: Spacing.small) {
-          threeOptions
-        }
-    
-      }.pbFont(.caption, variant: .light, color: .text(.light))
-        .padding(.top, Spacing.medium)
+      TabBarDoc("3 options", spacing: Spacing.small) {
+        threeOptions
+      }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Tab Bar")
   }
 }
 

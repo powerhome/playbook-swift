@@ -70,5 +70,5 @@ public extension PBBadge {
 
 #Preview {
   registerFonts()
-  return BadgeCatalog()
+  return PBBadge(text: "+1000", variant: .primary)
 }

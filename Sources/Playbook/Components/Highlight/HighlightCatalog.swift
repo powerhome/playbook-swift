@@ -11,16 +11,11 @@ import SwiftUI
 
 struct HighlightCatalog: View {
     var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
+      PBDocStack(title: "Highlight") {
+        PBDoc(title: "Default") {
+          defaultView
         }
-        .padding(Spacing.medium)
       }
-      .background(Color.background(.light))
-      .navigationTitle("Highlight")
     }
 }
  

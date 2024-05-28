@@ -18,26 +18,19 @@ public struct PopoverCatalog: View {
   @State private var isPresented6: Bool = false
 
   public init() {}
-
+  
   public var body: some View {
-    return ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") { defaultPopover }
-        PBDoc(title: "Dropdrown") { dropdownPopover }
-        PBDoc(title: "Scroll") { scrollPopover }
-        PBDoc(title: "Close options") { onClosePopover }
-      }
-      .padding(Spacing.medium)
-      .edgesIgnoringSafeArea(.all)
-     
-
+    return PBDocStack(title: "Popover") {
+      PBDoc(title: "Default") { defaultPopover }
+      PBDoc(title: "Dropdrown") { dropdownPopover }
+      PBDoc(title: "Scroll") { scrollPopover }
+      PBDoc(title: "Close options") { onClosePopover }
+        .edgesIgnoringSafeArea(.all)
     }
-    .background(Color.background(.light))
-    .preferredColorScheme(.light)
     .popoverHandler()
     .navigationTitle("Popover")
   }
-
+  
   private var defaultPopover: some View {
     HStack {
       Text("Click info for more details")

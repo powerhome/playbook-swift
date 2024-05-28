@@ -13,24 +13,19 @@ public struct MessageCatalog: View {
   @State private var isLoading: Bool = true
   
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        PBDoc(title: "Message Loading") {
-          messsagingLoadingView
-        }
-#if os(macOS)
-        PBDoc(title: "With timestamp hover") {
-          hoveringView
-        }
-#endif
+    PBDocStack(title: "Message") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Message Loading") {
+        messsagingLoadingView
+      }
+     #if os(macOS)
+      PBDoc(title: "With timestamp hover") {
+        hoveringView
+      }
+     #endif
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Message")
   }
 }
 
