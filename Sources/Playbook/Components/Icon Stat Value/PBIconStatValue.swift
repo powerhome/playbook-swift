@@ -26,7 +26,7 @@ public struct PBIconStatValue: View {
   public init(
     icon: FontAwesome = .lightbulbOn,
     iconSize: PBIcon.IconSize = .small,
-    iconColor: Color = .status(.neutral),
+    iconColor: Color = .text(.light),
     value: String = "",
     unit: String = "",
     text: String = "",

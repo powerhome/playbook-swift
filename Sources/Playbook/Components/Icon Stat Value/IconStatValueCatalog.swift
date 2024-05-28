@@ -11,20 +11,15 @@ import SwiftUI
 
 public struct IconStatValueCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        
-        PBDoc(title: "Size") {
-          sizeView
-        }
+    PBDocStack(title: "Icon Stat Value", spacing: Spacing.medium, padding: Spacing.medium) {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      
+      PBDoc(title: "Size") {
+        sizeView
+      }
     }
-    .background(Color.background(.default))
-    .navigationTitle("Icon Stat Value")
   }
 }
 
