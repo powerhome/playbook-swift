@@ -15,7 +15,7 @@ public struct PBIconValue: View {
   let text: String?
   
   public init(
-    icon: FontAwesome = .heart,
+    icon: FontAwesome = .clipboard,
     iconSize: PBIcon.IconSize = .large,
     text: String? = nil
   ) {

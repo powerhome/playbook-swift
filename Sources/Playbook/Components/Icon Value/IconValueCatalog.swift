@@ -10,29 +10,23 @@
 import SwiftUI
 
 public struct IconValueCatalog: View {
-    public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
-
-          PBDoc(title: "Alignment") {
-            alignmentView
-          }
-        }
-        .padding(Spacing.medium)
+  public var body: some View {
+    PBDocStack(title: "Icon Value", spacing: Spacing.medium, padding: Spacing.medium) {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .background(Color.background(.default))
-      .navigationTitle("Icon Value")
       
+      PBDoc(title: "Alignment") {
+        alignmentView
+      }
     }
+  }
 }
 
 extension IconValueCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBIconValue(icon: .heart, iconSize: .large, text: "93")
+      PBIconValue(iconSize: .large, text: "33-123456")
       PBIconValue(icon: .comment, iconSize: .large, text: "5")
       PBIconValue(icon: .clock, iconSize: .large, text: "15m")
     }
@@ -56,5 +50,5 @@ extension IconValueCatalog {
 }
 #Preview {
   registerFonts()
-   return IconValueCatalog()
+  return IconValueCatalog()
 }
