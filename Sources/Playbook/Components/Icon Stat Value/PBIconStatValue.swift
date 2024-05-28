@@ -22,10 +22,11 @@ public struct PBIconStatValue: View {
   let valueColor: Color
   let unitColor: Color
   let textColor: Color
+  let unitBaselineOffset: CGFloat
   public init(
     icon: FontAwesome = .lightbulbOn,
     iconSize: PBIcon.IconSize = .small,
-    iconColor: Color = .text(.light),
+    iconColor: Color = .status(.neutral),
     value: String = "",
     unit: String = "",
     text: String = "",
@@ -34,7 +35,8 @@ public struct PBIconStatValue: View {
     textFontSize: PBFont = .caption,
     valueColor: Color = .text(.default),
     unitColor: Color = .text(.default),
-    textColor: Color = .text(.light)
+    textColor: Color = .text(.light),
+    unitBaselineOffset: CGFloat = -5
   ) {
     self.icon = icon
     self.iconSize = iconSize
@@ -48,6 +50,7 @@ public struct PBIconStatValue: View {
     self.valueColor = valueColor
     self.unitColor = unitColor
     self.textColor = textColor
+    self.unitBaselineOffset = unitBaselineOffset
   }
   
   public var body: some View {
@@ -80,8 +83,10 @@ extension PBIconStatValue {
   }
   var unitTextView: some View {
     Text(unit)
+      .textCase(.lowercase)
       .pbFont(unitFontSize, variant: .bold, color: unitColor)
-      .baselineOffset(-5)
+     
+      .baselineOffset(unitBaselineOffset)
   }
   var textView: some View {
     Text(text)

@@ -18,7 +18,7 @@ public struct IconStatValueCatalog: View {
         }
         
         PBDoc(title: "Size") {
-          
+          sizeView
         }
       }
       .padding(Spacing.medium)
@@ -31,8 +31,46 @@ public struct IconStatValueCatalog: View {
 extension IconStatValueCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBIconStatValue(value: "64.18", unit: "kw", text: "electric")
-      PBIconStatValue(icon: .calendar, value: "24", unit: "days", text: "deadline")
+      PBIconStatValue(
+        value: "64.18",
+        unit: "kw",
+        text: "electric"
+      )
+      PBIconStatValue(
+        icon: .calendar,
+        value: "24",
+        unit: "days",
+        text: "deadline"
+      )
+    }
+  }
+  var sizeView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBIconStatValue(
+        icon: .car,
+        value: "158.3",
+        unit: "mi",
+        text: "distance driven"
+      )
+      PBIconStatValue(
+        icon: .car,
+        iconSize: .large,
+        value: "158.3",
+        unit:  "mi",
+        text: "distance driven",
+        valueFontSize: .title2, unitFontSize: .largeCaption,
+        unitBaselineOffset: -7
+      )
+      PBIconStatValue(
+        icon: .car,
+        iconSize: .x2,
+        value: "158.3",
+        unit:  "mi",
+        text: "distance driven",
+        valueFontSize: .title1,
+        unitFontSize: .title2,
+        unitBaselineOffset: -6
+      )
     }
   }
 }
