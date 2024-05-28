@@ -23,28 +23,21 @@ public struct SelectableCardCatalog: View {
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
   @State private var isHovering: Bool = false
+  
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        
-        PBDoc(title: "Block") {
-          blockView
-        }
-        //          PBDoc(title: "Input") {
-        //            checkedInputView
-        //          }
+    PBDocStack(title: "Selectable Card", spacing: Spacing.medium) {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Block") {
+        blockView
+      }
     }
-    .background(Color.background(.default))
-    .navigationTitle("Selectable Card")
   }
 }
 
 public extension SelectableCardCatalog {
+  
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBSelectableCard(
