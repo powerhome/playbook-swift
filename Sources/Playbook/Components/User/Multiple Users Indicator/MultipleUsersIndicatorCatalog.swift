@@ -11,18 +11,19 @@ import SwiftUI
 
 public struct MultipleUsersIndicatorCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Multiple Users Indicator") {
-          VStack(alignment: .leading, spacing: Spacing.xSmall) {
-            PBMultipleUsersIndicator(usersCount: 4, size: .xxSmall)
-            PBMultipleUsersIndicator(usersCount: 4, size: .xSmall)
-          }
-        }
+    PBDocStack(title: "Multiple Users Indicator") {
+      PBDoc(title: "Multiple Users Indicator") {
+        multiUserIndicatorView
       }
-      .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Multiple Users Indicator")
+  }
+}
+
+extension MultipleUsersIndicatorCatalog {
+  var multiUserIndicatorView: some View {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
+      PBMultipleUsersIndicator(usersCount: 4, size: .xxSmall)
+      PBMultipleUsersIndicator(usersCount: 4, size: .xSmall)
+    }
   }
 }

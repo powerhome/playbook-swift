@@ -193,22 +193,17 @@ struct NavCatalog: View {
       }
     }
 
-    return ScrollView {
-      VStack(spacing: Spacing.medium) {
-        navDefault
-        defaultWithIcons
-        defaultWithCustomIcons
-        defaultWithNoHighlights
-        defaultWithNoBorders
-        subtle
-        subtleWithIcons
-        subtleWithNoHighlights
-        boldVariant
-      }
-      .padding(Spacing.medium)
+    return PBDocStack(title: "Nav") {
+      navDefault
+      defaultWithIcons
+      defaultWithCustomIcons
+      defaultWithNoHighlights
+      defaultWithNoBorders
+      subtle
+      subtleWithIcons
+      subtleWithNoHighlights
+      boldVariant
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Nav")
   }
 
   var horizontalListView: some View {
@@ -270,17 +265,12 @@ struct NavCatalog: View {
       }
     }
 
-    return ScrollView {
-      VStack(spacing: Spacing.medium) {
-        navDefault
-        subtle
-        subtleNoHighlights
-        boldVariant
-      }
-      .padding(Spacing.medium)
+    return PBDocStack(title: "Nav") {
+      navDefault
+      subtle
+      subtleNoHighlights
+      boldVariant
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Nav")
   }
 
   var customListView: some View {
@@ -318,13 +308,8 @@ struct NavCatalog: View {
       }
     }
 
-    return ScrollView {
-      VStack(spacing: Spacing.medium) {
-        navUsers
-      }
-      .padding(Spacing.medium)
+    return PBDocStack(title: "Nav") {
+      navUsers
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Nav")
   }
 }

@@ -66,6 +66,7 @@ public extension PBTime {
   enum Variant {
     case time
     case clockIcon
+    case showIconTime
     case timeZone
     case iconTimeZone
     case withTimeZoneHeader
@@ -80,6 +81,7 @@ public extension PBTime {
     switch variant {
     case .time: time
     case .clockIcon: timeIcon
+    case .showIconTime: showIconView
     case .timeZone: timeZone
     case .iconTimeZone: iconTimeZone
     case .withTimeZoneHeader: withTimeZoneHeader

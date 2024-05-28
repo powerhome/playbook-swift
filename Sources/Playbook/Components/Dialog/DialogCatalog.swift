@@ -18,18 +18,13 @@ import SwiftUI
     }
 
     public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Simple") { SimpleButton() }
-          PBDoc(title: "Complex") { ComplexButton() }
-          PBDoc(title: "Size") { SizeButtons() }
-          PBDoc(title: "Stacked") { StackedButton() }
-          PBDoc(title: "Status") { StatusButtons() }
-        }
-        .padding(Spacing.medium)
+      PBDocStack(title: "Dialog") {
+        PBDoc(title: "Simple") { SimpleButton() }
+        PBDoc(title: "Complex") { ComplexButton() }
+        PBDoc(title: "Size") { SizeButtons() }
+        PBDoc(title: "Stacked") { StackedButton() }
+        PBDoc(title: "Status") { StatusButtons() }
       }
-      .background(Color.background(Color.BackgroundColor.light))
-      .navigationTitle("Dialog")
     }
 
     struct SimpleButton: View {

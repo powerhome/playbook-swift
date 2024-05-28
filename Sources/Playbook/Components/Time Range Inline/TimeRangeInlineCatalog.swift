@@ -11,16 +11,11 @@ import SwiftUI
 
 public struct TimeRangeInlineCatalog: View {
     public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
+      PBDocStack(title: "Time Range Inline") {
+        PBDoc(title: "Default") {
+          defaultView
         }
-        .padding(Spacing.medium)
       }
-      .background(Color.background(.light))
-      .navigationTitle("Time Range Inline")
     }
 }
 
@@ -64,17 +59,15 @@ extension TimeRangeInlineCatalog {
           size: .caption,
           startTime: "2012-08-02T15:49:29Z",
           endTime: "2012-08-02T17:49:29Z",
-          showStartTimeZone: false,
-          startVariant: .clockIcon
-          
+          startVariant: .showIconTime
         )
         PBTimeRangeInline(
           size: .body,
           startTime: "2012-08-02T15:49:29Z",
           endTime: "2012-08-02T17:49:29Z",
-          isTimeBold: true,
+          showEndTimeZone: false, isTimeBold: true,
           isLowercase: true,
-          startVariant: .clockIcon
+          startVariant: .showIconTime
         )
       }
       .frame(maxWidth: .infinity, alignment: .center)
@@ -86,7 +79,7 @@ extension TimeRangeInlineCatalog {
           endTime: "2012-08-02T17:49:29Z",
           showIcon: true,
           showEndTimeZone: true,
-          startVariant: .clockIcon
+          startVariant: .showIconTime
         )
         PBTimeRangeInline(
           size: .body,
@@ -96,7 +89,7 @@ extension TimeRangeInlineCatalog {
           showEndTimeZone: true,
           isTimeBold: true,
           isTimeZoneBold: false,
-          startVariant: .clockIcon
+          startVariant: .showIconTime
         )
       }
       .frame(maxWidth: .infinity, alignment: .trailing)
