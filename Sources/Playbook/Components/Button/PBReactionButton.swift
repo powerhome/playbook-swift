@@ -45,7 +45,6 @@ public extension PBReactionButton {
         .reactionButtonStyle(isHighlighted: isHighlighted, isInteractive: isInteractive, isHovering: isHovering)
     }
     .buttonStyle(.plain)
-    
   }
   
   @ViewBuilder
@@ -72,7 +71,6 @@ public extension PBReactionButton {
     return Text(icon ?? "")
       .pbFont(.monogram(12), variant: .light, color: .text(.light))
       .padding(.leading, count > 0 ? 0 : 4)
-     
   }
   
   var countView: some View {
@@ -105,5 +103,3 @@ public extension PBReactionButton {
     }
   }
 }
-
-  

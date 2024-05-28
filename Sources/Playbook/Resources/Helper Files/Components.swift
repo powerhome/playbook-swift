@@ -10,7 +10,7 @@
 import SwiftUI
 
 @available(iOS 16.4, *)
-@available(macOS 13.3, *)
+@available(macOS 13, *)
 public enum Components: String, CaseIterable {
   case avatar
   case badge
@@ -63,7 +63,6 @@ public enum Components: String, CaseIterable {
 
   public static let title: String = "Components"
 
-  @available(macOS 13.3, *)
   @ViewBuilder
   public var destination: some View {
     switch self {
