@@ -41,7 +41,6 @@ public struct PBTypeahead<Content: View>: View {
     selection: Selection,
     options: [(String, Content?)],
     debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
- 
     dropdownMaxHeight: CGFloat? = nil,
     onSelection: @escaping (([(String, Content?)]) -> Void),
     clearAction: (() -> Void)? = nil
@@ -73,8 +72,10 @@ public struct PBTypeahead<Content: View>: View {
       )
       .sizeReader { contentSize = $0 }
       .pbPopover(
-        isPresented: $showList, id: id,
-        variant: .dropdown
+        isPresented: $showList, 
+        id: id,
+        variant: .dropdown,
+        refreshView: $isHovering
       ) {
         listView
       }
@@ -96,10 +97,10 @@ public struct PBTypeahead<Content: View>: View {
       reloadList
     }
     .onChange(of: contentSize) { _ in
-      reloadListFrame
+      reloadList
     }
-    .onChange(of: hoveringIndex) { _ in
-      isHovering.toggle()
+    .onChange(of: hoveringIndex) { index in
+      reloadList
     }
   }
 }
@@ -107,7 +108,6 @@ public struct PBTypeahead<Content: View>: View {
 private extension PBTypeahead {
   @ViewBuilder
   var listView: some View {
-//    if showList {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
         ScrollView {
           VStack(spacing: 0) {
@@ -119,7 +119,6 @@ private extension PBTypeahead {
                   Text(result.0)
                     .pbFont(.body, color: listTextolor(index))
                 }
-                Spacer()
               }
               .padding(.horizontal, Spacing.xSmall + 4)
               .padding(.vertical, Spacing.xSmall + 4)
@@ -129,8 +128,6 @@ private extension PBTypeahead {
                 isHovering = hover
                 hoveringIndex = index
                 hoveringOption = result
-                reloadList
-                isHovering.toggle()
               }
               .onTapGesture {
                 onListSelection(index: index, option: result)
@@ -143,7 +140,6 @@ private extension PBTypeahead {
         }
       .frame(maxWidth: .infinity, alignment: .top)
       .transition(.opacity)
-//    }
   }
 
   var searchResults: [Option] {
@@ -227,18 +223,14 @@ private extension PBTypeahead {
     showList.toggle()
     isFocused = true
   }
-  
-  var reloadListFrame: Void {
+
+  var reloadList: Void {
     if showList {
-      showList = false
+      isHovering.toggle()
       Timer.scheduledTimer(withTimeInterval: 0.001, repeats: false) { _ in
-        showList = true
+        isHovering.toggle()
       }
     }
-  }
-  
-  var reloadList: Void {
-    isHovering.toggle()
   }
 
   func onListSelection(index: Int, option: Option) {

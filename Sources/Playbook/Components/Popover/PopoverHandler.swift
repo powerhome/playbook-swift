@@ -10,137 +10,81 @@
 import SwiftUI
 
 struct PopoverHandler: ViewModifier {
-  let popoverManager = PopoverManager.shared
-  
-  func body(content: Content) -> some View {
-    content
-      .overlay(
-        GlobalPopoverView()
-      )
-      .environmentObject(popoverManager)
-  }
+    let popoverManager = PopoverManager.shared
+    
+    func body(content: Content) -> some View {
+        content
+            .overlay(
+                GlobalPopoverView()
+            )
+            .environmentObject(popoverManager)
+    }
 }
 
 public extension View {
-  func popoverHandler() -> some View {
-    self.modifier(PopoverHandler())
-  }
+    func popoverHandler() -> some View {
+        self.modifier(PopoverHandler())
+    }
 }
 
 struct GlobalPopoverView: View {
-  @EnvironmentObject var popoverManager: PopoverManager
-  
-  var body: some View {
-    ZStack {
-      Color.clear
-      let presentedList = popoverManager.isPresented.sorted(by: { $0.key <= $1.key} )
-      ForEach(presentedList, id: \.key) { key, isPresented in
-        if isPresented {
-          ClickDetectorView {
-            popoverManager.isPresented[key] = false
-          }
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .background(Color.black.opacity(0.001)) // Make the view clickable but not visibly noticeable
+    @EnvironmentObject var popoverManager: PopoverManager
+    
+    var body: some View {
+        ZStack {
+            let presentedList = popoverManager.isPresented.sorted(by: { $0.key <= $1.key })
+            let popoverList = popoverManager.popovers.sorted(by: { $0.key <= $1.key })
+            let commonKeys = Set(presentedList.map { $0.key }).intersection(popoverList.map { $0.key })
+            let newArray: [(Int, Bool, PopoverManager.Popover)] = commonKeys.compactMap { key in
+                if let presentedValue = popoverManager.isPresented[key], let listValue = popoverManager.popovers[key] {
+                    return (key, presentedValue, listValue)
+                }
+                return nil
+            }
+            
+            ForEach(newArray, id: \.0) { id, isPresented, popover in
+                if isPresented {
+                   
+                        closeOutside(id)
+                    
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                    popover.view
+                        .position(popover.position ?? .zero)
+                        .onTapGesture {
+                            closeInside(id)
+                        }
+                }
+            }
         }
-      }
-      let list = popoverManager.popovers.sorted(by: { $0.key <= $1.key} )
-      ForEach(list, id: \.key) { key, popover in
-        popover.view
-          .position(popover.position ?? .zero)
-          .onTapGesture {
-            popoverManager.isPresented[key] = false
-          }
-      }
     }
-  }
-  
+
   private func closeInside(_ key: Int) -> Void {
-    switch popoverManager.close.0 {
+    switch popoverManager.popovers[key]?.close.0 {
     case .inside, .anywhere:
-      popoverManager.popovers.removeValue(forKey: key)
       onClose(key)
-    case .outside:
+    default:
       break
     }
   }
   
-  private func closeOutside() -> Void {
-    switch popoverManager.close.0 {
-    case .inside:
-      break
+  private func closeOutside(_ key: Int) -> AnyView {
+    switch popoverManager.popovers[key]?.close.0 {
     case .outside, .anywhere:
-      popoverManager.popovers.removeValue(forKey: 0)
-      onClose(0)
+      return AnyView(ClickDetectorView {
+        onClose(key)
+      })
+    default:
+      return AnyView(EmptyView())
     }
   }
   
   private func onClose(_ key: Int) {
-    if let closeAction = popoverManager.close.action {
-      popoverManager.isPresented[key] = false
+    if let closeAction = popoverManager.popovers[key]?.close.action {
+      popoverManager.isPresented.updateValue(false, forKey: key)
       closeAction()
     } else {
-      popoverManager.isPresented[key] = false
+      popoverManager.isPresented.updateValue(false, forKey: key)
     }
   }
 }
-
-
-#if os(iOS)
-struct ClickDetectorView: UIViewRepresentable {
-  var onTouch: () -> Void
-  
-  class Coordinator: NSObject {
-    var onTouch: () -> Void
-    
-    init(onTouch: @escaping () -> Void) {
-      self.onTouch = onTouch
-    }
-    
-    @objc func handleTap() {
-      onTouch()
-    }
-  }
-  
-  func makeCoordinator() -> Coordinator {
-    return Coordinator(onTouch: onTouch)
-  }
-  
-  func makeUIView(context: Context) -> UIView {
-    let view = UIView(frame: .zero)
-    let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap))
-    view.addGestureRecognizer(tapGesture)
-    return view
-  }
-  
-  func updateUIView(_ uiView: UIView, context: Context) {}
-}
-#elseif os(macOS)
-struct ClickDetectorView: NSViewRepresentable {
-  var onClick: () -> Void
-  
-  class Coordinator: NSObject {
-    var onClick: () -> Void
-    
-    init(onClick: @escaping () -> Void) {
-      self.onClick = onClick
-    }
-    
-    @objc func handleClick() {
-      onClick()
-    }
-  }
-  
-  func makeCoordinator() -> Coordinator {
-    return Coordinator(onClick: onClick)
-  }
-  
-  func makeNSView(context: Context) -> NSView {
-    let view = NSView(frame: .zero)
-    let clickGesture = NSClickGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleClick))
-    view.addGestureRecognizer(clickGesture)
-    return view
-  }
-  
-  func updateNSView(_ nsView: NSView, context: Context) {}
-}
-#endif

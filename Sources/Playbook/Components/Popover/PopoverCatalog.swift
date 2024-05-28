@@ -33,11 +33,8 @@ public struct PopoverCatalog: View {
       }
       .padding(Spacing.medium)
       .edgesIgnoringSafeArea(.all)
-     
-
     }
-    .background(Color.background(.light))
-    .preferredColorScheme(.light)
+    .background(Color.background(.default))
     .popoverHandler()
     .navigationTitle("Popover")
   }
@@ -55,8 +52,7 @@ public struct PopoverCatalog: View {
           isPresented0.toggle()
         }
         .pbPopover(
-          isPresented: $isPresented0,
-          id: 1
+          isPresented: $isPresented0
         ) {
           VStack {
             Text("I'm a popover. Hover over me")
@@ -78,6 +74,12 @@ public struct PopoverCatalog: View {
             }
           }
         }
+        .pbPopover(
+          isPresented: $isPresented1
+        ) {
+          Text("I'm a popover. Hover over me")
+            .pbFont(.body, color: .text(.default))
+        }
       }
       
       HStack {
@@ -90,12 +92,12 @@ public struct PopoverCatalog: View {
         ) {
           isPresented1.toggle()
         }
-        .pbPopover(
-          isPresented: $isPresented1, id: 2
-        ) {
-          Text("I'm a popover. Hover over me")
-            .pbFont(.body, color: .text(.default))
-        }
+//        .pbPopover(
+//          isPresented: $isPresented1, id: 2
+//        ) {
+//          Text("I'm a popover. Hover over me")
+//            .pbFont(.body, color: .text(.default))
+//        }
       }
     }
   }

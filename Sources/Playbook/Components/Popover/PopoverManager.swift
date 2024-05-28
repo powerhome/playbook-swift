@@ -14,28 +14,34 @@ public class PopoverManager: ObservableObject {
   @Published var popovers: [Int : Popover] = [:]
 
   public static let shared = PopoverManager()
-
-  var close: (Close, action: (() -> Void)?) = (.anywhere, nil)
-  var background: CGFloat = 0
   
   struct Popover {
     var view: AnyView
     var position: CGPoint?
+    var close: (Close, action: (() -> Void)?) = (.anywhere, nil)
   }
   
+  func createPopover(with id: Int, view: AnyView, position: CGPoint?, close: (Close, action: (() -> Void)?)) {
+    popovers[id] = Popover(view: view, position: position, close: close)
+    isPresented[id] = false
+  }
   
+  func removeValues() {
+    popovers.removeAll()
+    isPresented.removeAll()
+  }
   
-  func presentPopover(with id: Int) {
-    isPresented[id] = true
+  func presentPopover(with id: Int, value: Bool) {
+    isPresented.updateValue(value, forKey: id)
   }
   
   func dismissPopover(with id: Int) {
     isPresented[id] = false
   }
   
-  func updatePopoverPosition(with id: Int, _ position: CGPoint) {
-    if let popover = popovers[id] {
-      let newPopover = Popover(view: popover.view, position: position)
+  func updatePopover(with id: Int, view: AnyView, position: CGPoint?) {
+    if let popover = popovers.first(where: { $0.key == id })?.value, let position = position {
+      let newPopover = Popover(view: view, position: position, close: popover.close)
       popovers.updateValue(newPopover, forKey: id)
       print("popover position updated: \(newPopover.position) key: \(id)")
     }

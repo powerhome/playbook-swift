@@ -38,7 +38,7 @@ public struct TypeaheadCatalog: View {
 extension TypeaheadCatalog {
   var colors: some View {
     PBTypeahead(
-      id: 333,
+      id: 0,
       title: "Colors",
       searchText: $searchTextColors,
       selection: .single,
@@ -50,7 +50,7 @@ extension TypeaheadCatalog {
   
   var users: some View {
     PBTypeahead(
-      id: 444,
+      id: 1,
       title: "Users",
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
@@ -64,7 +64,7 @@ extension TypeaheadCatalog {
   var debounce: some View {
     VStack(spacing: Spacing.small) {
       PBTypeahead(
-        id: 00,
+        id: 2,
         title: "Debounce, 2 characters, 1 second",
         searchText: $searchTextDebounce,
         selection: .single,
@@ -75,7 +75,7 @@ extension TypeaheadCatalog {
       }
       
       PBTypeahead(
-        id: 111,
+        id: 3,
         title: "Debounce, 2 characters, 0 second",
         searchText: $searchTextDebounce2,
         selection: .single,
