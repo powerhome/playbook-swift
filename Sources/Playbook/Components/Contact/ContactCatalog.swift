@@ -11,19 +11,14 @@ import SwiftUI
 
 public struct ContactCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        PBDoc(title: "Detail Indicator") {
-          detailView
-        }
+    PBDocStack(title: "Contact") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Detail Indicator") {
+        detailView
+      }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Contact")
   }
 }
 
@@ -46,4 +41,9 @@ public extension ContactCatalog {
       PBContact(type: .ext, value: "1234", detail: true)
     }
   }
+}
+
+#Preview {
+  registerFonts()
+  return ContactCatalog()
 }

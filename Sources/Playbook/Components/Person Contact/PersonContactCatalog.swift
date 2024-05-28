@@ -11,25 +11,20 @@ import SwiftUI
 
 public struct PersonContactCatalog: View {
     public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
-          PBDoc(title: "Multiple People") {
-            multiplePeopleView
-          }
-          PBDoc(title: "With Detail") {
-            withDetailView
-          }
-          PBDoc(title: "With Wrong Numbers") {
-            withWrongNumbersView
-          }
+      PBDocStack(title: "Person Contact") {
+        PBDoc(title: "Default") {
+          defaultView
         }
-        .padding(Spacing.medium)
+        PBDoc(title: "Multiple People") {
+          multiplePeopleView
+        }
+        PBDoc(title: "With Detail") {
+          withDetailView
+        }
+        PBDoc(title: "With Wrong Numbers") {
+          withWrongNumbersView
+        }
       }
-      .background(Color.background(.light))
-      .navigationTitle("Person Contact")
     }
 }
 
