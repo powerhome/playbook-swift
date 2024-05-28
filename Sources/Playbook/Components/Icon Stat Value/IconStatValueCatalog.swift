@@ -58,7 +58,7 @@ extension IconStatValueCatalog {
         value: "158.3",
         unit:  "mi",
         text: "distance driven",
-        valueFontSize: .title2, unitFontSize: .largeCaption,
+        valueFontSize: .title2,
         unitBaselineOffset: -7
       )
       PBIconStatValue(
@@ -68,8 +68,7 @@ extension IconStatValueCatalog {
         unit:  "mi",
         text: "distance driven",
         valueFontSize: .title1,
-        unitFontSize: .title2,
-        unitBaselineOffset: -6
+        unitBaselineOffset: -14
       )
     }
   }
