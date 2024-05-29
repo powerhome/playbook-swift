@@ -218,11 +218,11 @@ extension PBSelectableCard {
     HStack {
       Divider()
     }
-    .frame(width: isSelected ? 2 : 1)
+    .frame(width: isSelected || isHovering ? 2 : 1)
     .background(isSelected || isHovering == true ? Color.pbPrimary : .border)
   }
   var shadowStyle: Shadow {
-    isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
+    isHovering ? .deep : Shadow.none
   }
 }
 

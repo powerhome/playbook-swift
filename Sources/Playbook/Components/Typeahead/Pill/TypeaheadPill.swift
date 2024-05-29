@@ -45,7 +45,7 @@ struct TypeaheadPill: View {
           .stroke(lineWidth: borderWidth)
           .foregroundStyle(borderColor)
       )
-      .onHover { hovering in
+      .onHover(disabled: false) { hovering in
         isHovering = hovering
       }
     }

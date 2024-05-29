@@ -32,9 +32,7 @@ public struct PBReactionButton: View {
   public var body: some View {
     reactionButtonView
       .clipShape(Capsule())
-      .onHover(perform: { hovering in
-        isHovering = hovering
-      })
+      .onHover(disabled: false) { isHovering = $0 }
   }
 }
 
@@ -45,9 +43,9 @@ public extension PBReactionButton {
     } label: {
         reactionButtonLabelView
         .reactionButtonStyle(isHighlighted: isHighlighted, isInteractive: isInteractive, isHovering: isHovering)
+        
     }
     .buttonStyle(.plain)
-    
   }
   
   @ViewBuilder

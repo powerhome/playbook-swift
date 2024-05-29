@@ -28,58 +28,60 @@ public struct TextAreaCatalog: View {
   public init() {}
 
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView()
-        }
-
-        PBDoc(title: "Inline") {
-          PBTextArea(
-            "",
-            text: $inlineText,
-            inline: true
-          )
-        }
-
-        PBDoc(title: "TextArea W/ Error") {
-          PBTextArea(
-            "Label",
-            text: $errorText,
-            error: "This field has an error!"
-          )
-        }
-
-        PBDoc(title: "Character Counter") {
-          characterCountView()
-        }
+    PBDocStack(title: "Textarea") {
+      PBDoc(title: "Default") {
+        defaultView()
       }
-      .padding(Spacing.medium)
-    }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Textarea")
-  }
 
+      PBDoc(title: "Inline") {
+        inlineView
+      }
+
+      PBDoc(title: "TextArea W/ Error") {
+        textAreaErrorView
+      }
+
+      PBDoc(title: "Character Counter") {
+        characterCountView()
+      }
+    }
+  }
+}
+
+extension TextAreaCatalog {
   func defaultView() -> some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
-      PBTextArea(
-        "Label",
-        text: $defaultText
-      )
+      VStack(alignment: .leading, spacing: Spacing.small) {
+        PBTextArea(
+          "Label",
+          text: $defaultText
+        )
 
-      PBTextArea(
-        "Label",
-        text: $placeholderText,
-        placeholder: "Placeholder with text"
-      )
+        PBTextArea(
+          "Label",
+          text: $placeholderText,
+          placeholder: "Placeholder with text"
+        )
 
-      PBTextArea(
-        "Label",
-        text: $customText
-      )
+        PBTextArea(
+          "Label",
+          text: $customText
+        )
+      }
     }
+  var inlineView: some View {
+    PBTextArea(
+      "",
+      text: $inlineText,
+      inline: true
+    )
   }
-
+  var textAreaErrorView: some View {
+    PBTextArea(
+      "Label",
+      text: $errorText,
+      error: "This field has an error!"
+    )
+  }
   func characterCountView() -> some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBTextArea(

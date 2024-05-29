@@ -11,47 +11,50 @@ import SwiftUI
 
 public struct ImageCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          VStack(alignment: .leading, spacing: Spacing.small) {
-            ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-              VStack(alignment: .leading) {
-                Text(size.name).pbFont(.detail(true), color: .text(.default))
-                PBImage(
-                  image: nil,
-                  placeholder: Image("Forest", bundle: .module),
-                  size: size,
-                  rounded: .sharp
-                )
-              }
-            }
-            VStack(alignment: .leading) {
-              Text("None").pbFont(.detail(true), color: .text(.default))
-              PBImage(image: Image("Forest", bundle: .module))
-            }
-          }
-        }
+    PBDocStack(title: "Image") {
+      PBDoc(title: "Default") {
+        defaultView
+      }
+      PBDoc(title: "Rounded") {
+        roundedImageView
+      }
+    }
+  }
+}
 
-        PBDoc(title: "Rounded") {
-          VStack(alignment: .leading, spacing: Spacing.small) {
-            ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
-              VStack(alignment: .leading) {
-                Text(size.name).pbFont(.detail(true), color: .text(.default))
-                PBImage(
-                  image: nil,
-                  placeholder: Image("Forest", bundle: .module),
-                  size: size,
-                  rounded: .rounded
-                )
-              }
-            }
-          }
+extension ImageCatalog {
+  var defaultView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+        VStack(alignment: .leading) {
+          Text(size.name).pbFont(.detail(true), color: .text(.default))
+          PBImage(
+            image: nil,
+            placeholder: Image("Forest", bundle: .module),
+            size: size,
+            rounded: .sharp
+          )
         }
       }
-      .padding(Spacing.medium)
+      VStack(alignment: .leading) {
+        Text("None").pbFont(.detail(true), color: .text(.default))
+        PBImage(image: Image("Forest", bundle: .module))
+      }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Image")
+  }
+  var roundedImageView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      ForEach(PBImage.Size.allCases, id: \.rawValue) { size in
+        VStack(alignment: .leading) {
+          Text(size.name).pbFont(.detail(true), color: .text(.default))
+          PBImage(
+            image: nil,
+            placeholder: Image("Forest", bundle: .module),
+            size: size,
+            rounded: .rounded
+          )
+        }
+      }
+    }
   }
 }

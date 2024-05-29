@@ -99,5 +99,14 @@ public extension PBCurrency {
 
 #Preview {
   registerFonts()
-  return  CurrencyCatalog()
+  return PBCurrency(
+    amount: "45",
+    label: "right",
+    size: .title4,
+    symbol: "en_US",
+    unit: "/mo",
+    isEmphasized: true,
+    hasUnit: true,
+    alignment: .leading
+  )
 }

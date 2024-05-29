@@ -45,7 +45,7 @@ public struct PBToggle: View {
           .frame(width: 18, height: 18, alignment: .center)
           .offset(x: checked ? 11 : -11, y: 0)
       }
-      .onHover { hovering in
+      .onHover(disabled: false) { hovering in
         withAnimation {
           isHovering = hovering
         }

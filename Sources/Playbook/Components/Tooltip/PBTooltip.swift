@@ -44,7 +44,7 @@ public struct PBTooltip: ViewModifier {
     HStack {
       if self.canPresent {
         content
-        .onHover(perform: handleOnHover)
+        .onHover(disabled: false) { handleOnHover(hovering: $0) }
         .onChange(of: shouldPresentPopover, perform: handleOnChange)
         .popover(isPresented: $presentPopover, arrowEdge: self.placement, content: popoverView)
       } else {
