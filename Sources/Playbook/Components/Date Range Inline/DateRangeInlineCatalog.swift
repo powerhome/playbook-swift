@@ -11,16 +11,11 @@ import SwiftUI
 
 public struct DateRangeInlineCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
+    PBDocStack(title: "Date Range Inline") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Date Range Inline")
   }
 }
 

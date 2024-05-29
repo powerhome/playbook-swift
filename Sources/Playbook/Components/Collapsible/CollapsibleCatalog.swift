@@ -49,35 +49,30 @@ public struct CollapsibleCatalog: View {
   }
 
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          CollapsibleDoc(text: "Main Section")
-        }
+    PBDocStack(title: "Collapsible") {
+      PBDoc(title: "Default") {
+        CollapsibleDoc(text: "Main Section")
+      }
 
-        PBDoc(title: "Size") {
-          VStack(spacing: Spacing.medium) {
-            CollapsibleDoc(iconSize: .xSmall, text: "Extra Small Section")
-            CollapsibleDoc(iconSize: .small, text: "Small Section")
-            CollapsibleDoc(text: "Default Section")
-            CollapsibleDoc(iconSize: .large, text: "Large Section")
-          }
-        }
-
-        PBDoc(title: "Color") {
-          VStack(spacing: Spacing.medium) {
-            CollapsibleDoc(iconColor: .default, text: "Default Section")
-            CollapsibleDoc(iconColor: .light, text: "Light Section")
-            CollapsibleDoc(iconColor: .lighter, text: "Lighter Section")
-            CollapsibleDoc(iconColor: .link, text: "Link Section")
-            CollapsibleDoc(iconColor: .error, text: "Error Section")
-            CollapsibleDoc(iconColor: .success, text: "Success Section")
-          }
+      PBDoc(title: "Size") {
+        VStack(spacing: Spacing.medium) {
+          CollapsibleDoc(iconSize: .xSmall, text: "Extra Small Section")
+          CollapsibleDoc(iconSize: .small, text: "Small Section")
+          CollapsibleDoc(text: "Default Section")
+          CollapsibleDoc(iconSize: .large, text: "Large Section")
         }
       }
-      .padding(Spacing.medium)
+
+      PBDoc(title: "Color") {
+        VStack(spacing: Spacing.medium) {
+          CollapsibleDoc(iconColor: .default, text: "Default Section")
+          CollapsibleDoc(iconColor: .light, text: "Light Section")
+          CollapsibleDoc(iconColor: .lighter, text: "Lighter Section")
+          CollapsibleDoc(iconColor: .link, text: "Link Section")
+          CollapsibleDoc(iconColor: .error, text: "Error Section")
+          CollapsibleDoc(iconColor: .success, text: "Success Section")
+        }
+      }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Collapsible")
   }
 }

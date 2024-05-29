@@ -16,51 +16,44 @@ public struct TabBarCatalog: View {
   @State var selectedTab3: Int? = 0
   @State var selectedTab4: Int? = 0
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.small) {
-        TabBarDoc("Default", spacing: Spacing.small) {
-          defaultShadow
-        }
+    PBDocStack(title: "Tab Bar", padding: Spacing.xxSmall) {
+      TabBarDoc("Default", spacing: Spacing.small) {
+        defaultShadow
+      }
 
-        TabBarDoc("Without Shadow", spacing: Spacing.small) {
-          withoutShadow
-        }
-        
-        TabBarDoc("With Border", spacing: Spacing.small) {
-          withBorder
-        }
-        
-        TabBarDoc("4 options", spacing: Spacing.small) {
-          fourOptions
-        }
+      TabBarDoc("Without Shadow", spacing: Spacing.small) {
+        withoutShadow
+      }
+      
+      TabBarDoc("With Border", spacing: Spacing.small) {
+        withBorder
+      }
+      
+      TabBarDoc("4 options", spacing: Spacing.small) {
+        fourOptions
+      }
 
-        TabBarDoc("3 options", spacing: Spacing.small) {
-          threeOptions
-        }
-    
-      }.pbFont(.caption, variant: .light, color: .text(.light))
-        .padding(.top, Spacing.medium)
+      TabBarDoc("3 options", spacing: Spacing.small) {
+        threeOptions
+      }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Tab Bar")
   }
 }
 
 public extension TabBarCatalog {
-  static let icons: [TabIcon] = [
-      .init(icon: .home, name: "Home"),
-      .init(icon: .calendar, name: "Calendar"),
-      .init(icon: .bell, name: "Notfications"),
-      .init(icon: .search, name: "Search"),
-      .init(icon: .ellipsisH, name: "More"),
-    ]
   var defaultShadow: some View {
     return HStack {
       PBTabBar(
         selectedTab: $selectedTab,
         border: false,
         shadow: true,
-        icons: TabBarCatalog.icons
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications"),
+          TabIcon(icon: .search, name: "Search"),
+          TabIcon(icon: .ellipsisH, name: "More")
+        ]
        )
     }
   }
@@ -70,8 +63,13 @@ public extension TabBarCatalog {
         selectedTab: $selectedTab1,
         border: false,
         shadow: false,
-        icons: TabBarCatalog.icons
-
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications"),
+          TabIcon(icon: .search, name: "Search"),
+          TabIcon(icon: .ellipsisH, name: "More")
+        ]
       )
     }
   }
@@ -81,8 +79,13 @@ public extension TabBarCatalog {
         selectedTab: $selectedTab2,
         border: true,
         shadow: false,
-        icons: TabBarCatalog.icons
-        
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications"),
+          TabIcon(icon: .search, name: "Search"),
+          TabIcon(icon: .ellipsisH, name: "More")
+        ]
       )
     }
   }
@@ -92,7 +95,12 @@ public extension TabBarCatalog {
         selectedTab: $selectedTab3,
         border: false,
         shadow: true,
-        icons: TabBarCatalog.icons.prefix(5).dropLast()
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications"),
+          TabIcon(icon: .search, name: "Search")
+        ]
       )
     }
   }
@@ -102,7 +110,11 @@ public extension TabBarCatalog {
         selectedTab: $selectedTab4,
         border: false,
         shadow: true,
-        icons: TabBarCatalog.icons.prefix(4).dropLast()
+        icons: [
+          TabIcon(icon: .home, name: "Home"),
+          TabIcon(icon: .calendar, name: "Calendar"),
+          TabIcon(icon: .bell, name: "Notfications")
+        ]
       )
     }
   }
@@ -132,7 +144,3 @@ fileprivate struct TabBarDoc<Content: View>: View {
     }
   }
 }
- 
-//#Preview {
-//    TabBarCatalog()
-//}

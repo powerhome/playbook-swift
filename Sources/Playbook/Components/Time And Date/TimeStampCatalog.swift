@@ -18,34 +18,31 @@ public struct TimeStampCatalog: View {
 
   let minWidth: CGFloat = 0
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView()
-        }
-
-        PBDoc(title: "Alignments") {
-          alginmentView()
-        }
-
-        PBDoc(title: "Timezones") {
-          timeZoneView()
-        }
-
-        PBDoc(title: "Last Updated By") {
-          lastUpdatedView()
-        }
-
-        PBDoc(title: "Time Ago") {
-          timeAgoView()
-        }
+    PBDocStack(title: "Time and Date") {
+      PBDoc(title: "Default") {
+        defaultView()
       }
-      .padding(Spacing.medium)
-    }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("TimeStamp")
-  }
 
+      PBDoc(title: "Alignments") {
+        alignmentView()
+      }
+
+      PBDoc(title: "Timezones") {
+        timeZoneView()
+      }
+
+      PBDoc(title: "Last Updated By") {
+        lastUpdatedView()
+      }
+
+      PBDoc(title: "Time Ago") {
+        timeAgoView()
+      }
+    }
+  }
+}
+
+extension TimeStampCatalog {
   func defaultView() -> some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBTimestamp(
@@ -71,7 +68,7 @@ public struct TimeStampCatalog: View {
     }
   }
 
-  func alginmentView() -> some View {
+  func alignmentView() -> some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       Group {
         PBTimestamp(

@@ -17,18 +17,13 @@ public struct ToastCatalog: View {
   private let message = "Design & Handoff Process was moved to UX Designer."
 
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") { defaultToast }
-        PBDoc(title: "Multi Line") { multiLine }
-        PBDoc(title: "Simple") { positionButton }
-        PBDoc(title: "Children") { children }
-        PBDoc(title: "Dismiss with timer") { withTimer }
-      }
-      .padding(Spacing.medium)
+    PBDocStack(title: "Fixed Confirmation Toast") {
+      PBDoc(title: "Default") { defaultToast }
+      PBDoc(title: "Multi Line") { multiLine }
+      PBDoc(title: "Simple") { positionButton }
+      PBDoc(title: "Children") { children }
+      PBDoc(title: "Dismiss with timer") { withTimer }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Fixed Confirmation Toast")
     .withToastHandling(toastView, position: position)
   }
 
