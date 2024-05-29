@@ -9,8 +9,6 @@
 
 import SwiftUI
 
-@available(iOS 16.4, *)
-@available(macOS 13, *)
 public enum Components: String, CaseIterable {
   case avatar
   case badge

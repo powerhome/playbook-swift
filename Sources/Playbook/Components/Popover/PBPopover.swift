@@ -63,11 +63,6 @@ public struct Popover<T: View>: ViewModifier {
         popoverManager.presentPopover(with: id, value: newValue)
         updateViewFrame()
       }
-      .onChange(of: popoverManager.isPresented[id]) {
-        if let newValue = $0 {
-          isPresented = newValue
-        }
-      }
       .onChange(of: popoverPosition) { position in
         updateViewFrame()
       }
@@ -79,6 +74,11 @@ public struct Popover<T: View>: ViewModifier {
       }
       .onChange(of: isHovering) { _ in
         updateViewFrame()
+      }
+      .onReceive(popoverManager.$isPresented) { newValue in
+        if let value = newValue[id] {
+          isPresented = value
+        }
       }
       .onDisappear {
         isPresented = false
