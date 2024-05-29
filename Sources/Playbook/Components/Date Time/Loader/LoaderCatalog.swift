@@ -11,21 +11,17 @@ import SwiftUI
 
 public struct LoaderCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        PBDoc(title: "Solid") {
-          solidLoaderView
-        }
-        PBDoc(title: "With Text") {
-          customTextView
-        }
+    PBDocStack(title: "Loading Inline") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Solid") {
+        solidLoaderView
+      }
+      PBDoc(title: "With Text") {
+        customTextView
+      }
     }
-    .navigationTitle("Loading Inline")
   }
 }
 

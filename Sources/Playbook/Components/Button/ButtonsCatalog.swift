@@ -12,34 +12,17 @@ import SwiftUI
 public struct ButtonsCatalog: View {
   @State private var count: Int = 153
   @State private var count1: Int = 5
-  
-  
+
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Simple") { simpleButtons }
-        PBDoc(title: "Reaction Button") { reactionButtonView }
-        PBDoc(title: "Full Width") {
-          fullWidthButtonView
-        }
-        
-        PBDoc(title: "Button Icon Positions") {
-          buttonIconView
-        }
-        
-        PBDoc(title: "Circle Buttons") { PBCircleStyle_Previews.previews }
-        
-        PBDoc(title: "Button Sizes") {
-          buttonSizeView
-        }
-        PBDoc(title: "Button Loading") {
-          buttonLoadingView
-        }
-      }
-      .padding(Spacing.medium)
+    PBDocStack(title: "Button") {
+      PBDoc(title: "Simple") { simpleButtons }
+      PBDoc(title: "Reaction Button") { reactionButtonView }
+      PBDoc(title: "Full Width") { fullWidthButtonView }
+      PBDoc(title: "Button Icon Positions") { buttonIconView }
+      PBDoc(title: "Circle Buttons") { circleButtonView }
+      PBDoc(title: "Button Sizes") { buttonSizeView }
+      PBDoc(title: "Button Loading") { buttonLoadingView }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Button")
   }
 }
 
@@ -142,4 +125,35 @@ extension ButtonsCatalog {
       )
     }
   }
+  var circleButtonView: some View {
+    return HStack(spacing: Spacing.small) {
+      PBButton(
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.plus, size: .x1),
+        action: {}
+      )
+      PBButton(
+        variant: .secondary,
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.pen, size: .x1),
+        action: {}
+      )
+      PBButton(
+        variant: .disabled,
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.times, size: .x1)
+      )
+      PBButton(
+        variant: .link,
+        shape: .circle,
+        icon: PBIcon.fontAwesome(.user, size: .x1),
+        action: {}
+      )
+    }
+  }
+}
+
+#Preview {
+  registerFonts()
+  return ButtonsCatalog()
 }

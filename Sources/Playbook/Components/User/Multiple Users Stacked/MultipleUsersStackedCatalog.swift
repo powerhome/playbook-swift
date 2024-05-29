@@ -11,35 +11,42 @@ import SwiftUI
 
 public struct MultipleUsersStackedCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Small") {
-          HStack(spacing: Spacing.xSmall) {
-            PBMultipleUsersStacked(users: Mocks.oneUser)
-            PBMultipleUsersStacked(users: Mocks.twoUsers)
-            PBMultipleUsersStacked(users: Mocks.multipleUsers)
-          }
-        }
-
-        PBDoc(title: "xSmall") {
-          HStack(spacing: Spacing.xSmall) {
-            PBMultipleUsersStacked(users: Mocks.oneUser, size: .xSmall)
-            PBMultipleUsersStacked(users: Mocks.twoUsers, size: .xSmall)
-            PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .xSmall)
-          }
-        }
-
-        PBDoc(title: "Default") {
-          HStack(spacing: Spacing.xSmall) {
-            PBMultipleUsersStacked(users: Mocks.oneUser, size: .default)
-            PBMultipleUsersStacked(users: Mocks.twoUsers, size: .default)
-            PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .default)
-          }
-        }
+    PBDocStack(title: "Multiple Users Stacked") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+
+      PBDoc(title: "Small") {
+        smallView
+      }
+
+      PBDoc(title: "Xsmall") {
+        xsmallView
+      }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Multiple Users Stacked")
+  }
+}
+
+extension MultipleUsersStackedCatalog {
+  var defaultView: some View {
+    HStack(spacing: Spacing.xSmall) {
+      PBMultipleUsersStacked(users: Mocks.oneUser, size: .default)
+      PBMultipleUsersStacked(users: Mocks.twoUsers, size: .default)
+      PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .default)
+    }
+  }
+  var smallView: some View {
+    HStack(spacing: Spacing.xSmall) {
+      PBMultipleUsersStacked(users: Mocks.oneUser)
+      PBMultipleUsersStacked(users: Mocks.twoUsers)
+      PBMultipleUsersStacked(users: Mocks.multipleUsers)
+    }
+  }
+  var xsmallView: some View {
+    HStack(spacing: Spacing.xSmall) {
+      PBMultipleUsersStacked(users: Mocks.oneUser, size: .xSmall)
+      PBMultipleUsersStacked(users: Mocks.twoUsers, size: .xSmall)
+      PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .xSmall)
+    }
   }
 }

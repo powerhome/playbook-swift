@@ -11,21 +11,16 @@ import SwiftUI
 
 public struct TypographyCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Title") { title }
-        PBDoc(title: "Title Light Weight") { titleLight }
-        PBDoc(title: "Text size") { textSize }
-        PBDoc(title: "Letter spacing") { letterSpacing }
-        PBDoc(title: "Components Text") { componentsText }
-        PBDoc(title: "Caption") { caption }
-        PBDoc(title: "Detail") { detail }
-        PBDoc(title: "Message") { message }
-      }
-      .padding(Spacing.medium)
+    PBDocStack(title: "Typography") {
+      PBDoc(title: "Title") { title }
+      PBDoc(title: "Title Light Weight") { titleLight }
+      PBDoc(title: "Text size") { textSize }
+      PBDoc(title: "Letter spacing") { letterSpacing }
+      PBDoc(title: "Components Text") { componentsText }
+      PBDoc(title: "Caption") { caption }
+      PBDoc(title: "Detail") { detail }
+      PBDoc(title: "Message") { message }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Typography")
   }
 }
 

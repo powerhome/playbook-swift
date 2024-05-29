@@ -54,7 +54,7 @@ public enum Components: String, CaseIterable {
   case textArea = "Textarea"
   case textInput = "Text Input"
   case time = "Time"
-  case timeStamp = "TimeStamp"
+  case timeStamp = "Time and Date"
   case timeRangeInline = "Time Range Inline"
   case timeStacked = "Time Stacked"
   case typeahead

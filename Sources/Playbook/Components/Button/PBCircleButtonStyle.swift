@@ -41,42 +41,38 @@ public struct PBCircleButtonStyle: ButtonStyle {
         )
       )
       .clipShape(Circle())
-    #if os(macOS)
+      #if os(macOS)
       .onHover(disabled: variant == .disabled ? true : false) {
         self.isHovering = $0
       }
-    #endif
+      #endif
   }
 }
 
-struct PBCircleStyle_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-
-    return HStack(spacing: Spacing.small) {
-      PBButton(
-        shape: .circle,
-        icon: PBIcon.fontAwesome(.plus, size: .x1),
-        action: {}
-      )
-      PBButton(
-        variant: .secondary,
-        shape: .circle,
-        icon: PBIcon.fontAwesome(.pen, size: .x1),
-        action: {}
-      )
-      PBButton(
-        variant: .disabled,
-        shape: .circle,
-        icon: PBIcon.fontAwesome(.times, size: .x1)
-      )
-      PBButton(
-        variant: .link,
-        shape: .circle,
-        icon: PBIcon.fontAwesome(.user, size: .x1),
-        action: {}
-      )
-    }
-    .previewDisplayName("Circle Button Variants")
+#Preview {
+  registerFonts()
+  return HStack(spacing: Spacing.small) {
+    PBButton(
+      shape: .circle,
+      icon: PBIcon.fontAwesome(.plus, size: .x1),
+      action: {}
+    )
+    PBButton(
+      variant: .secondary,
+      shape: .circle,
+      icon: PBIcon.fontAwesome(.pen, size: .x1),
+      action: {}
+    )
+    PBButton(
+      variant: .disabled,
+      shape: .circle,
+      icon: PBIcon.fontAwesome(.times, size: .x1)
+    )
+    PBButton(
+      variant: .link,
+      shape: .circle,
+      icon: PBIcon.fontAwesome(.user, size: .x1),
+      action: {}
+    )
   }
 }
