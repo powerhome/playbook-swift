@@ -8,6 +8,7 @@
 | **Title** | `String` | Sets Button text | `nil` |  |
 | **Icon** | `PBIcon` | Adds an icon to the Button | `nil` |  |
 | **Icon Position** | `IconPosition` | Adjusts the icon's position | `.left` | `.left` `.right` |
+| **isLoading** | `Bool` | Determines the loading state | `false` | `true` `false` |
 | **Action** | `(() -> Void)` | Adds an action for the Button to perform | `{}` |  |
 
 ### Reaction Button Props
