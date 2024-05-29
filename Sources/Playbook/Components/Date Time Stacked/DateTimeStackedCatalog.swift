@@ -10,18 +10,13 @@
 import SwiftUI
 
 public struct DateTimeStackedCatalog: View {
-    public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
-        }
-        .padding(Spacing.medium)
+  public var body: some View {
+    PBDocStack(title: "Date Time Stacked") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .background(Color.background(Color.BackgroundColor.light))
-      .navigationTitle("Date Time Stacked")
     }
+  }
 }
 
 extension DateTimeStackedCatalog {

@@ -11,28 +11,23 @@ import SwiftUI
 
 struct TimeCatalog: View {
   var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        PBDoc(title: "Sizes") {
-          sizesView
-        }
-        PBDoc(title: "Time Zones") {
-          handlingTimeZones
-        }
-        PBDoc(title: "Alignment") {
-          alignmentView
-        }
-        PBDoc(title: "Unstyled") {
-          unstyledView
-        }
+    PBDocStack(title: "Time") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Sizes") {
+        sizesView
+      }
+      PBDoc(title: "Time Zones") {
+        handlingTimeZones
+      }
+      PBDoc(title: "Alignment") {
+        alignmentView
+      }
+      PBDoc(title: "Unstyled") {
+        unstyledView
+      }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Time")
   }
 }
 

@@ -11,27 +11,22 @@ import SwiftUI
 
 public struct HomeAddressStreetCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        PBDoc(title: "Emphasis") {
-          defaultView
-          Spacer(minLength: Spacing.medium)
-          emphasisView
-        }
-        PBDoc(title: "Modified") {
-          modifiedView
-        }
-        PBDoc(title: "Link") {
-          linkView
-        }
+    PBDocStack(title: "Home Address Street") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Emphasis") {
+        defaultView
+        Spacer(minLength: Spacing.medium)
+        emphasisView
+      }
+      PBDoc(title: "Modified") {
+        modifiedView
+      }
+      PBDoc(title: "Link") {
+        linkView
+      }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Home Address Street")
   }
 
   var defaultView: some View {

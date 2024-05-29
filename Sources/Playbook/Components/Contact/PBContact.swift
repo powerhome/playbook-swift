@@ -86,10 +86,6 @@ public extension PBContact {
   }
 }
 
-public struct PBPContact_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return ContactCatalog()
-    //PBContact(type: .cell, value: "8888888888", detail: true)
-  }
+#Preview {
+  PBContact(type: .cell, value: "8888888888", detail: true)
 }

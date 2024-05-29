@@ -10,55 +10,62 @@
 import SwiftUI
 
 public struct SectionSeparatorCatalog: View {
-
+  let loremIpsum: some View = Text(
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
+  )
+    .pbFont(.body)
   public init() {}
-
+  
   public var body: some View {
-    ScrollView {
-      let loremIpsum: some View = Text(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididt labore et dolore"
-      )
-      .pbFont(.body)
-
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Line separator") {
-          PBSectionSeparator()
-        }
-
-        PBDoc(title: "Dashed separator") {
-          PBSectionSeparator(variant: .dashed)
-        }
-
-        PBDoc(title: "Text separator") {
-          PBSectionSeparator("Text separator")
-        }
-
-        PBDoc(title: "Children separator") {
-          PBSectionSeparator(variant: .dashed) {
-            PBCard(alignment: .center, borderRadius: BorderRadius.rounded, padding: Spacing.xxSmall, width: 70) {
-              Text("Today")
-                .minimumScaleFactor(0.5)
-                .lineLimit(1)
-                .pbFont(.caption)
-                .frame(maxWidth: .infinity, alignment: .center)
-            }
-          }
-        }
-
-        PBDoc(title: "Vertical separator") {
-          HStack(spacing: Spacing.none) {
-            loremIpsum
-            PBSectionSeparator(orientation: .vertical)
-            loremIpsum
-          }
-          .frame(maxWidth: .infinity)
-          .frame(height: 120, alignment: .center)
-          .listRowSeparator(.hidden)
-        }
+    PBDocStack(title: "Section Separator") {
+      PBDoc(title: "Line separator") {
+        lineSeparator
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Dashed separator") {
+        dashedSeparator
+      }
+      PBDoc(title: "Text separator") {
+        textSeparator
+      }
+      PBDoc(title: "Children separator") {
+        childrenSeparator
+      }
+      PBDoc(title: "Vertical separator") {
+        verticalSeparator
+      }
     }
-    .background(Color.background(.default))
-    .navigationTitle("Section Separator")
+  }
+}
+
+extension SectionSeparatorCatalog {
+  var lineSeparator: some View {
+    PBSectionSeparator()
+  }
+  var dashedSeparator: some View {
+    PBSectionSeparator(variant: .dashed)
+  }
+  var textSeparator: some View {
+    PBSectionSeparator("Text separator")
+  }
+  var childrenSeparator: some View {
+    PBSectionSeparator(variant: .dashed) {
+      PBCard(alignment: .center, borderRadius: BorderRadius.rounded, padding: Spacing.xxSmall, width: 70) {
+        Text("Today")
+          .minimumScaleFactor(0.5)
+          .lineLimit(1)
+          .pbFont(.caption)
+          .frame(maxWidth: .infinity, alignment: .center)
+      }
+    }
+  }
+  var verticalSeparator: some View {
+    HStack(spacing: Spacing.none) {
+      loremIpsum
+      PBSectionSeparator(orientation: .vertical)
+      loremIpsum
+    }
+    .frame(maxWidth: .infinity)
+    .frame(height: 120, alignment: .center)
+    .listRowSeparator(.hidden)
   }
 }

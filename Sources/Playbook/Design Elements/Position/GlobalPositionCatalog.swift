@@ -13,28 +13,23 @@ public struct GlobalPositionCatalog: View {
   @State private var selected: Int = 1
   
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Image", spacing: Spacing.small) {
-          imageBadgeView
-        }
-        PBDoc(title: "Card With Icon Circle", spacing: Spacing.small) {
-          cardWithBadgeView
-        }
-        PBDoc(title: "Nav", spacing: Spacing.small) {
-          navView
-        }
-        PBDoc(title: "Avatar With Badge", spacing: Spacing.small) {
-          avatarBadgeView
-        }
-        PBDoc(title: "Avatar With Card And Badge", spacing: Spacing.small) {
-          avatarCardBadgeView
-        }
+    PBDocStack(title: "Global Position") {
+      PBDoc(title: "Image", spacing: Spacing.small) {
+        imageBadgeView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Card With Icon Circle", spacing: Spacing.small) {
+        cardWithBadgeView
+      }
+      PBDoc(title: "Nav", spacing: Spacing.small) {
+        navView
+      }
+      PBDoc(title: "Avatar With Badge", spacing: Spacing.small) {
+        avatarBadgeView
+      }
+      PBDoc(title: "Avatar With Card And Badge", spacing: Spacing.small) {
+        avatarCardBadgeView
+      }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Global Position")
   }
 }
 

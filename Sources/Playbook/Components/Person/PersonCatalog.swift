@@ -11,16 +11,11 @@ import SwiftUI
 
 public struct PersonCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
+    PBDocStack(title: "Person") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
     }
-    .background(Color.background(.light))
-    .navigationTitle("Person")
   }
 }
 

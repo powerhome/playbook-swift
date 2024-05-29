@@ -43,9 +43,9 @@ public extension PBReactionButton {
     } label: {
         reactionButtonLabelView
         .reactionButtonStyle(isHighlighted: isHighlighted, isInteractive: isInteractive, isHovering: isHovering)
+        
     }
     .buttonStyle(.plain)
-    
   }
   
   @ViewBuilder

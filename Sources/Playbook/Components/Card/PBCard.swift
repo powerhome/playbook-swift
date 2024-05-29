@@ -90,9 +90,16 @@ public extension PBCard {
   }
 }
 
-struct PBCard_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return CardCatalog()
-  }
+#Preview {
+  registerFonts()
+  return PBCard(
+    alignment: .center,
+    backgroundColor: .pink,
+    border: true,
+    borderRadius: BorderRadius.medium,
+    highlight: .none,
+    padding: Spacing.medium,
+    style: .default,
+    shadow: .deeper,
+    content: { Text("Card Example").pbFont(.body)})
 }
