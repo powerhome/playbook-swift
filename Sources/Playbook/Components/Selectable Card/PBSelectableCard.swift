@@ -124,6 +124,8 @@ extension PBSelectableCard {
       .onTapGesture {
         if variant != .radioInput {
           isSelected.toggle()
+        } else {
+          radioId = id
         }
         hasIcon.toggle()
       }
@@ -143,7 +145,9 @@ extension PBSelectableCard {
         }
         #endif
       }
-    }
+    } .onChange(of: radioId) { newValue in
+      isSelected = (newValue == id)
+  }
   }
   var iconView: some View {
     Circle()
@@ -193,19 +197,11 @@ extension PBSelectableCard {
       .buttonStyle(
         radioButtonStyle
       )
-      .onChange(of: radioId, perform: { _ in
-        if String(describing: radioId) == cardText {
-          isSelected = true
-        } else {
-          isSelected = false
-        }
-      })
       .padding(.horizontal, 10)
       separatorView
       Text(text)
         .padding(cardPadding)
         .padding(.horizontal, isSelected ? padding - 1 : 0)
-      
     }
     .padding(.vertical, -4)
   }
@@ -219,9 +215,11 @@ extension PBSelectableCard {
     )
   }
   var separatorView: some View {
-    PBSectionSeparator(orientation: .vertical, margin: 0) {}
-      .frame(width: isSelected ? 2 : 1)
-      .background(isSelected || isHovering == true ? Color.pbPrimary : .border)
+    HStack {
+      Divider()
+    }
+    .frame(width: isSelected ? 2 : 1)
+    .background(isSelected || isHovering == true ? Color.pbPrimary : .border)
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none

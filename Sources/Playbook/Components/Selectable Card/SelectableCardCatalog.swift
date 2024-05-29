@@ -33,13 +33,13 @@ public struct SelectableCardCatalog: View {
     public var body: some View {
       ScrollView {
         VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
-
-          PBDoc(title: "Block") {
-            blockView
-          }
+//          PBDoc(title: "Default") {
+//            defaultView
+//          }
+//
+//          PBDoc(title: "Block") {
+//            blockView
+//          }
           PBDoc(title: "Input") {
             inputView
           }
@@ -108,7 +108,7 @@ public extension SelectableCardCatalog {
       )
       Spacer()
       Text("How likely are you to recommend Playbook to a friend?")
-        .pbFont(.title3)
+        .pbFont(.title3, variant: .bold, color: .text(.default))
       PBSelectableCard(
         variant: .radioInput,
         cardText: "5",
