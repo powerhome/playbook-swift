@@ -27,46 +27,43 @@ public struct RadioCatalog: View {
   }
 
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView()
-        }
-
-        PBDoc(title: "Custom") {
-          customView()
-        }
-
-        PBDoc(title: "With Error") {
-          errorView()
-        }
-
-        PBDoc(title: "Orientation") {
-          orientationView()
-        }
-
-        PBDoc(title: "Text Alignment") {
-          TextAlignmentView()
-        }
-
-        PBDoc(title: "Spacing") {
-          spacingView()
-        }
-
-        PBDoc(title: "Padding") {
-          paddingView()
-        }
-
-        PBDoc(title: "Subtitle") {
-          subtitleView()
-        }
+    PBDocStack(title: "Radio") {
+      PBDoc(title: "Default") {
+        defaultView()
       }
-      .padding(Spacing.medium)
-    }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Radio")
-  }
 
+      PBDoc(title: "Custom") {
+        customView()
+      }
+
+      PBDoc(title: "With Error") {
+        errorView()
+      }
+
+      PBDoc(title: "Orientation") {
+        orientationView()
+      }
+
+      PBDoc(title: "Text Alignment") {
+        TextAlignmentView()
+      }
+
+      PBDoc(title: "Spacing") {
+        spacingView()
+      }
+
+      PBDoc(title: "Padding") {
+        paddingView()
+      }
+
+      PBDoc(title: "Subtitle") {
+        subtitleView()
+      }
+    }
+  }
+}
+
+extension RadioCatalog {
   func defaultView() -> some View {
     VStack(alignment: .leading) {
       PBRadio(
@@ -80,8 +77,7 @@ public struct RadioCatalog: View {
       )
     }
   }
-
-  func	customView() -> some View {
+  func customView() -> some View {
     VStack(alignment: .leading) {
       if let selectedCustom = selectedCustom {
         Text("Your choice is: \(selectedCustom.title)")
@@ -98,8 +94,7 @@ public struct RadioCatalog: View {
       )
     }
   }
-
-  func	errorView() -> some View {
+  func errorView() -> some View {
     VStack(alignment: .leading) {
       PBRadio(
         items: [
@@ -111,8 +106,7 @@ public struct RadioCatalog: View {
       )
     }
   }
-
-  func	orientationView() -> some View {
+  func orientationView() -> some View {
     VStack(alignment: .leading) {
       PBRadio(
         items: [
@@ -128,8 +122,7 @@ public struct RadioCatalog: View {
         
     }
   }
-
-  func	TextAlignmentView() -> some View {
+  func TextAlignmentView() -> some View {
     VStack(alignment: .leading) {
       PBRadio(
         items: [
@@ -143,8 +136,7 @@ public struct RadioCatalog: View {
       )
     }
   }
-
-  func	spacingView() -> some View {
+  func spacingView() -> some View {
     HStack(alignment: .top) {
       PBRadio(
         items: [
@@ -180,8 +172,7 @@ public struct RadioCatalog: View {
     .lineLimit(3)
     .minimumScaleFactor(1.0)
   }
-
-  func	paddingView() -> some View {
+  func paddingView() -> some View {
     VStack(alignment: .leading) {
       PBRadio(
         items: [
@@ -209,8 +200,7 @@ public struct RadioCatalog: View {
       )
     }
   }
-
-  func	subtitleView() -> some View {
+  func subtitleView() -> some View {
     VStack(alignment: .leading) {
       PBRadio(
         items: [

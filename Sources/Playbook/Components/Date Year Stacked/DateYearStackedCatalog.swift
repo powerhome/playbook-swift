@@ -11,16 +11,11 @@ import SwiftUI
 
 public struct DateYearStackedCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
+    PBDocStack(title: "Date Year Stacked") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Date Year Stacked")
   }
 }
 

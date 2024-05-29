@@ -37,45 +37,58 @@ public struct SelectCatalog: View {
   @State private var errorState = ""
 
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          PBSelect(title: "Favorite Food", options: defaultOptions, style: .default) { selected in
-            defaultState = selected
-          }
-        }
-
-        PBDoc(title: "Blank selection text") {
-          PBSelect(title: "Favorite Food", options: blankOptions, style: .default) { selected in
-            blankState = selected
-          }
-        }
-
-        PBDoc(title: "Disabled select field") {
-          PBSelect(title: "Favorite Food", options: defaultOptions, style: .disabled) { selected in
-            disabledState = selected
-          }
-        }
-
-        PBDoc(title: "Equal option value and value text") {
-          PBSelect(title: "Favorite Sport", options: equalOptions, style: .default) { selected in
-            equalState = selected
-          }
-        }
-
-        PBDoc(title: "Select with error") {
-          PBSelect(
-            title: "Favorite Food",
-            options: defaultOptions,
-            style: .error("Please make a valid selection")
-          ) { selected in
-            errorState = selected
-          }
-        }
+    PBDocStack(title: "Select") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+
+      PBDoc(title: "Blank selection text") {
+        blankSelectionText
+      }
+
+      PBDoc(title: "Disabled select field") {
+        disabledSelectField
+      }
+
+      PBDoc(title: "Equal option value and value text") {
+        equalValueView
+      }
+
+      PBDoc(title: "Select with error") {
+        selectErrorView
+      }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Select")
+  }
+}
+
+extension SelectCatalog {
+  var defaultView: some View {
+    PBSelect(title: "Favorite Food", options: defaultOptions, style: .default) { selected in
+      defaultState = selected
+    }
+  }
+  var blankSelectionText: some View {
+    PBSelect(title: "Favorite Food", options: blankOptions, style: .default) { selected in
+      blankState = selected
+    }
+  }
+  var disabledSelectField: some View {
+    PBSelect(title: "Favorite Food", options: defaultOptions, style: .disabled) { selected in
+      disabledState = selected
+    }
+  }
+  var equalValueView: some View {
+    PBSelect(title: "Favorite Sport", options: equalOptions, style: .default) { selected in
+      equalState = selected
+    }
+  }
+  var selectErrorView: some View {
+    PBSelect(
+      title: "Favorite Food",
+      options: defaultOptions,
+      style: .error("Please make a valid selection")
+    ) { selected in
+      errorState = selected
+    }
   }
 }

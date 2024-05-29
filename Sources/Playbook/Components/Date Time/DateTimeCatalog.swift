@@ -11,23 +11,17 @@ import SwiftUI
 
 public struct DateTimeCatalog: View {
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        PBDoc(title: "Alignment") {
-          alignmentView
-        }
-        PBDoc(title: "Size") {
-          sizeView
-        }
-
+    PBDocStack(title: "Date Time") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Alignment") {
+        alignmentView
+      }
+      PBDoc(title: "Size") {
+        sizeView
+      }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Date Time")
   }
 }
 

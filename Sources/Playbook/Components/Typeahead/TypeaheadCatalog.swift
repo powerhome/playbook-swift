@@ -20,17 +20,14 @@ public struct TypeaheadCatalog: View {
   var popoverManager = PopoverManager()
   
   public var body: some View {
-    ScrollView {
+    PBDocStack(title: "Typeahead") {
       VStack(spacing: Spacing.medium) {
         PBDoc(title: "Default", spacing: Spacing.small) { colors }
         PBDoc(title: "With Pills", spacing: Spacing.small) { users }
         PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
       }
-      .padding(Spacing.medium)
       .popoverHandler()
     }
-    .background(Color.background(.light))
-    .navigationTitle("Typeahead")
     .scrollDismissesKeyboard(.immediately)
   }
 }
