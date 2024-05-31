@@ -101,7 +101,7 @@ extension PBSelectableCard {
         style: isSelected ? .selected(type: .card) : .default,
         shadow: shadowStyle,
         width: frameReader(in: { _ in}) as? CGFloat, 
-        isHovering: isHovering
+        isHovering: isSelected ? false : isHovering
       ) {
         if let text = cardText {
           AnyView(cardTextView(text))

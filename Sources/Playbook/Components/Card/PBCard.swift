@@ -62,7 +62,7 @@ public struct PBCard<Content: View>: View {
     .overlay(
       RoundedRectangle(cornerRadius: borderRadius, style: .circular)
         .stroke(
-          isHovering ? .text(.lighter) : style.color,
+          isHovering ? .text(.light) : style.color,
           lineWidth: border ? style.lineWidth : 0
         )
     )
