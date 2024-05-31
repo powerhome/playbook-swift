@@ -20,7 +20,10 @@ public struct PBDialog<Content: View>: View {
   let confirmButton: (String, (() -> Void))?
   let onClose: (() -> Void)?
   let size: DialogSize
+  let buttonSize: PBButton.Size
   let shouldCloseOnOverlay: Bool
+  let isButtonFullWidth: Bool?
+  let isLoading: Bool
 
   public init(
     title: String? = nil,
@@ -31,7 +34,10 @@ public struct PBDialog<Content: View>: View {
     confirmButton: (String, (() -> Void))? = nil,
     onClose: (() -> Void)? = nil,
     size: DialogSize = .medium,
+    buttonSize: PBButton.Size = .medium,
     shouldCloseOnOverlay: Bool = false,
+    isButtonFullWidth: Bool? = false,
+    isLoading: Bool = false,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.content = content()
@@ -43,6 +49,9 @@ public struct PBDialog<Content: View>: View {
     self.confirmButton = confirmButton
     self.onClose = onClose
     self.size = size
+    self.buttonSize = buttonSize
+    self.isButtonFullWidth = isButtonFullWidth
+    self.isLoading = isLoading
     self.shouldCloseOnOverlay = shouldCloseOnOverlay
   }
 
@@ -87,7 +96,10 @@ public struct PBDialog<Content: View>: View {
           isStacked: isStacked,
           confirmButton: confirmButton,
           cancelButton: cancelButtonAction(),
-          variant: variant
+          variant: variant,
+          isButtonFullWidth: isButtonFullWidth,
+          buttonSize: buttonSize, 
+          isLoading: isLoading
         )
         .padding()
       }

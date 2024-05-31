@@ -44,7 +44,9 @@ import SwiftUI
             title: "This is some informative text",
             message: infoMessage,
             cancelButton: ("Cancel", closeToast),
-            confirmButton: ("Okay", closeToast)
+            confirmButton: ("Okay", closeToast),
+            buttonSize: .medium,
+            isButtonFullWidth: true
           )
           .backgroundViewModifier(alpha: 0.2)
         }
@@ -71,6 +73,8 @@ import SwiftUI
               title: "Send us your thoughts!",
               cancelButton: ("Cancel", closeToast),
               confirmButton: ("Submit", closeToast),
+              buttonSize: .medium, 
+              isButtonFullWidth: true,
               content: ({
                 ScrollView {
                   complexTitle
@@ -111,7 +115,9 @@ import SwiftUI
             message: infoMessage,
             cancelButton: ("Cancel", closeToast),
             confirmButton: ("Okay", closeToast),
-            size: size
+            size: size,
+            buttonSize: .medium,
+            isButtonFullWidth: true
           )
           .backgroundViewModifier(alpha: 0.2)
         }
@@ -153,7 +159,9 @@ import SwiftUI
               isStacked: true,
               cancelButton: ("Cancel", closeToast),
               confirmButton: ("Okay", closeToast),
-              size: .small
+              size: .small,
+              buttonSize: .medium,
+              isButtonFullWidth: false
             )
             .backgroundViewModifier(alpha: 0.2)
           }
@@ -170,7 +178,9 @@ import SwiftUI
               isStacked: true,
               cancelButton: ("Cancel", closeToast),
               confirmButton: ("Okay", closeToast),
-              size: .small
+              size: .small,
+              buttonSize: .medium,
+              isButtonFullWidth: false
             )
             .backgroundViewModifier(alpha: 0.2)
           }
@@ -187,7 +197,9 @@ import SwiftUI
               isStacked: true,
               cancelButton: ("Cancel", closeToast),
               confirmButton: ("Okay", closeToast),
-              size: .small
+              size: .small,
+              buttonSize: .medium,
+              isButtonFullWidth: false
             )
             .backgroundViewModifier(alpha: 0.2)
           }
@@ -216,7 +228,9 @@ import SwiftUI
                 variant: .status(item),
                 isStacked: false,
                 cancelButton: ("Cancel", closeToast),
-                confirmButton: ("Okay", closeToast)
+                confirmButton: ("Okay", closeToast),
+                buttonSize: .medium,
+                isButtonFullWidth: true
               )
               .backgroundViewModifier(alpha: 0.2)
             }
@@ -261,7 +275,10 @@ extension DialogCatalog.ComplexButton {
             isStacked: false,
             cancelButton: ("Cancel", {}),
             confirmButton: ("Okay", {}),
-            size: .small
+            size: .small,
+            buttonSize: .medium,
+            isButtonFullWidth: true,
+            isLoading: true
           )
         }
 
@@ -276,7 +293,10 @@ extension DialogCatalog.ComplexButton {
             isStacked: false,
             cancelButton: ("Cancel", {}),
             confirmButton: ("Okay", {}),
-            size: .medium
+            size: .medium,
+            buttonSize: .medium,
+            isButtonFullWidth: true,
+            isLoading: false
           )
         }
 
@@ -291,10 +311,17 @@ extension DialogCatalog.ComplexButton {
             isStacked: false,
             cancelButton: ("Cancel", {}),
             confirmButton: ("Okay", {}),
-            size: .large
+            size: .large,
+            buttonSize: .medium,
+            isButtonFullWidth: true
           )
         }
       }
     }
   }
 #endif
+
+#Preview {
+  registerFonts()
+  return DialogCatalog()
+}
