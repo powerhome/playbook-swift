@@ -109,13 +109,6 @@ extension PBSelectableCard {
           content
         }
       }
-      .overlay(
-        RoundedRectangle(cornerRadius: borderRadius, style: .circular)
-          .stroke(
-            isHovering ? Color.pbPrimary : .text(.light),
-            lineWidth: isHovering ? 2 : 0
-          )
-      )
       .pbFont(.body, color: .text(.default))
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
@@ -185,7 +178,7 @@ extension PBSelectableCard {
         .padding()
       separatorView
       Text(text)
-        .padding(.horizontal, isSelected || isHovering ? cardPadding - 1 : cardPadding + 0.10)
+        .padding(.horizontal, isSelected ? cardPadding - 1 : cardPadding + 0.10)
     }
     .padding(.vertical, -4)
   }
@@ -201,7 +194,7 @@ extension PBSelectableCard {
       separatorView
       Text(text)
         .padding(cardPadding)
-        .padding(.horizontal, isSelected || isHovering ? padding - 1 : padding - 0.10)
+        .padding(.horizontal, isSelected ? padding - 1 : padding - 0.10)
     }
     .padding(.vertical, -4)
   }
@@ -217,9 +210,13 @@ extension PBSelectableCard {
   var separatorView: some View {
     HStack {
       Divider()
+        .frame(width: isSelected ? 1.5 : 1)
+        .background(isSelected ? Color.pbPrimary : .border)
+        .foregroundStyle(isSelected ? Color.pbPrimary : Color.border)
+        
     }
-    .frame(width: isSelected || isHovering ? 1.5 : 1)
-    .background(isSelected || isHovering == true ? Color.pbPrimary : .border)
+    
+   
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : Shadow.none
