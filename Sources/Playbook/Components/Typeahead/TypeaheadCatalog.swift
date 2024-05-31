@@ -21,20 +21,18 @@ public struct TypeaheadCatalog: View {
   
   public var body: some View {
     PBDocStack(title: "Typeahead") {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default", spacing: Spacing.small) { colors }
-        PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-        PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
-      }
-      .popoverHandler()
+      PBDoc(title: "Default", spacing: Spacing.small) { colors }
+      PBDoc(title: "With Pills", spacing: Spacing.small) { users }
+      PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
     }
-    .scrollDismissesKeyboard(.immediately)
+    .popoverHandler()
   }
 }
 
 extension TypeaheadCatalog {
   var colors: some View {
     PBTypeahead(
+      id: 0,
       title: "Colors",
       searchText: $searchTextColors,
       selection: .single,
@@ -46,6 +44,7 @@ extension TypeaheadCatalog {
   
   var users: some View {
     PBTypeahead(
+      id: 1,
       title: "Users",
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
@@ -59,6 +58,7 @@ extension TypeaheadCatalog {
   var debounce: some View {
     VStack(spacing: Spacing.small) {
       PBTypeahead(
+        id: 2,
         title: "Debounce, 2 characters, 1 second",
         searchText: $searchTextDebounce,
         selection: .single,
@@ -69,6 +69,7 @@ extension TypeaheadCatalog {
       }
       
       PBTypeahead(
+        id: 3,
         title: "Debounce, 2 characters, 0 second",
         searchText: $searchTextDebounce2,
         selection: .single,

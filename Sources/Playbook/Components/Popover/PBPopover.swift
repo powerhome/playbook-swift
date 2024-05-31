@@ -14,14 +14,20 @@ public struct Popover<T: View>: ViewModifier {
   private let variant: Variant
   private let clickToClose: (PopoverManager.Close, action: (() -> Void)?)
   private var popoverView: () -> T
-  
+  private let id: Int
+
   @Binding var isPresented: Bool
   @Binding var refreshView: Bool
+  @State private var isHovering: Bool = false
   @State private var contentFrame: CGRect?
+  @State private var popoverSize: CGSize?
+  @State private var popoverPosition: CGPoint?
+  @State private var popoverFrameView: AnyView?
   @EnvironmentObject var popoverManager: PopoverManager
-  
+
   public init(
     isPresented: Binding<Bool>,
+    id: Int?,
     position: Position,
     variant: Variant,
     clickToClose: (PopoverManager.Close, action: (() -> Void)?),
@@ -34,131 +40,83 @@ public struct Popover<T: View>: ViewModifier {
     self.clickToClose = clickToClose
     self._refreshView = refreshView
     self.popoverView = popoverView
+    self.id = id ?? UUID().hashValue
   }
-  
+
   public func body(content: Content) -> some View {
     content
-      .frameReader { contentFrame = $0 }
-      .onChange(of: isPresented) { newValue in
-        if newValue, let frame = contentFrame {
-         updateView(frame)
-          Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { _ in
-            popoverManager.isPresented = true
-          }
-        } else {
-          popoverManager.isPresented = false
+      .frameReader {
+        contentFrame = $0
+        popoverFrameView = generateView($0)
+      }
+      .onAppear {
+        if let view = popoverFrameView {
+          popoverManager.createPopover(
+            with: id,
+            view: view,
+            position: popoverPosition,
+            close: clickToClose
+          )
         }
       }
       .onChange(of: isPresented) { newValue in
-        if newValue {
-          popoverManager.background = background
-          popoverManager.close = clickToClose
-        }
+        popoverManager.presentPopover(with: id, value: newValue)
+        updateViewFrame()
       }
-      .onChange(of: popoverManager.isPresented) { newValue in
-        if !newValue {
-          isPresented = newValue
-        }
+      .onChange(of: popoverPosition) { position in
+        updateViewFrame()
+      }
+      .onChange(of: contentFrame) { frame in
+        updateViewFrame()
       }
       .onChange(of: refreshView) { _ in
-        if let frame = contentFrame {
-          updateView(frame)
+        updateViewFrame()
+      }
+      .onChange(of: isHovering) { _ in
+        updateViewFrame()
+      }
+      .onReceive(popoverManager.$isPresented) { newValue in
+        if let value = newValue[id] {
+          isPresented = value
         }
       }
-      .onChange(of: contentFrame ?? .zero) { frame in
-        updateViewOnResize(frame)
-      }
       .onDisappear {
-        popoverManager.isPresented = false
         isPresented = false
-        popoverManager.view = nil
+        popoverManager.removeValues()
       }
   }
 }
 
 extension Popover {
-  private var background: CGFloat {
-    switch clickToClose.0 {
-    case .outside, .anywhere: return variant == .dropdown ? 0 : 0.001
-    case .inside: return 0
-    }
-  }
-
-  private func updateView(_ frame: CGRect) {
-    popoverManager.view = AnyView(
-      view
-        .onHover(disabled: false) { refreshView = $0 }
-        .frame(width: width)
+  private func generateView(_ frame: CGRect) -> AnyView {
+    AnyView(
+      variant.view(popoverView().onHover { isHovering = $0 })
+        .frame(width: variant.width(frame.width))
         .sizeReader { size in
-          let popoverFrame = position.calculateFrame(from: offset(frame), size: size)
-          popoverManager.position = popoverFrame.point(at: .center())
+          popoverSize = size
+          let popoverFrame = position.calculateFrame(from: variant.offset(frame, position: position), size: size)
+          popoverPosition = popoverFrame.point(at: .center())
         }
     )
   }
-  
-  private func updateViewOnResize(_ frame: CGRect) {
-    if isPresented {
-      isPresented = false
-      Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { _ in
-        isPresented = true
-      }
-    }
-  }
-  
-  private func offset(_ frame: CGRect) -> CGRect {
-    switch variant {
-    case .default, .custom:
-      return CGRect(
-        origin: CGPoint(
-          x: frame.origin.x + position.space(Spacing.small).x,
-          y: frame.origin.y + position.space(Spacing.small).y
-        ),
-        size: frame.size
+
+  func updateViewFrame() {
+    if let frame = contentFrame {
+      let popoverFrame = position.calculateFrame(from: variant.offset(frame, position: position), size: popoverSize)
+      let point = popoverFrame.point(at: .center())
+      popoverManager.updatePopover(
+        with: id,
+        view: generateView(frame),
+        position: point
       )
-    case .dropdown:
-      return CGRect(
-        origin: CGPoint(
-          x: frame.origin.x + position.space(Spacing.xSmall).x,
-          y: frame.origin.y + position.space(Spacing.xSmall).y
-        ),
-        size: frame.size)
     }
-  }
-
-  private var width: CGFloat? {
-    switch variant {
-    case .default, .custom:
-      return nil
-    case .dropdown:
-      return contentFrame?.width
-    }
-  }
-
-  private var view: any View {
-    switch variant {
-    case .default:
-      return PBCard(
-        border: false,
-        padding: Spacing.small,
-        shadow: .deeper,
-        width: nil,
-        content: { popoverView() }
-      )
-    case .dropdown, .custom:
-      return popoverView()
-    }
-  }
-}
-
-public extension Popover {
-  enum Variant {
-    case `default`, dropdown, custom
   }
 }
 
 public extension View {
   func pbPopover<T: View>(
     isPresented: Binding<Bool>,
+    id: Int? = nil,
     position: Position = .bottom(),
     variant: Popover<T>.Variant = .default,
     clickToClose: (PopoverManager.Close, action: (() -> Void)?) = (.anywhere, action: nil),
@@ -168,6 +126,7 @@ public extension View {
     modifier(
       Popover(
         isPresented: isPresented,
+        id: id,
         position: position,
         variant: variant,
         clickToClose: clickToClose,

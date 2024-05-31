@@ -9,8 +9,6 @@
 
 import SwiftUI
 
-@available(macOS 13.3, *)
-@available(iOS 16.4, *)
 public struct TooltipCatalog: View {
   @State var canShowTooltip: Bool = true
   public var body: some View {
@@ -35,8 +33,6 @@ public struct TooltipCatalog: View {
   }
 }
 
-@available(macOS 13.3, *)
-@available(iOS 16.4, *)
 public extension TooltipCatalog {
   var iosUnavailable: some View {
     Text("This kit is only available in MacOS.")
