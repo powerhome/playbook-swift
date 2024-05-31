@@ -32,6 +32,7 @@ public enum Components: String, CaseIterable {
   case homeAddress = "Home Address Street"
   case icon
   case iconCircle = "Icon Circle"
+  case iconValue = "Icon Value"
   case image
   case label = "Label Value"
   case loader = "Loading Inline"
@@ -86,6 +87,7 @@ public enum Components: String, CaseIterable {
     case .homeAddress: HomeAddressStreetCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
+    case .iconValue: IconValueCatalog()
     case .image: ImageCatalog()
     case .label: LabelValueCatalog()
     case .loader: LoaderCatalog()
