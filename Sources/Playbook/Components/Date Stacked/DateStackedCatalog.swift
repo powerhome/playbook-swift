@@ -11,28 +11,23 @@ import SwiftUI
 
 public struct DateStackedCatalog: View {
     public var body: some View {
-      ScrollView {
-        VStack(spacing: Spacing.medium) {
-          PBDoc(title: "Default") {
-            defaultView
-          }
-          PBDoc(title: "Not Current Year") {
-            notCurrentYearView
-          }
-          PBDoc(title: "Day & Month Reverse") {
-            dayMonthReversedView
-          }
-          PBDoc(title: "Sizes") {
-            sizesView
-          }
-          PBDoc(title: "Bold") {
-            boldView
-          }
+      PBDocStack(title: "Date Stacked") {
+        PBDoc(title: "Default") {
+          defaultView
         }
-        .padding(Spacing.medium)
+        PBDoc(title: "Not Current Year") {
+          notCurrentYearView
+        }
+        PBDoc(title: "Day & Month Reverse") {
+          dayMonthReversedView
+        }
+        PBDoc(title: "Sizes") {
+          sizesView
+        }
+        PBDoc(title: "Bold") {
+          boldView
+        }
       }
-      .background(Color.background(Color.BackgroundColor.light))
-      .navigationTitle("Date Stacked")
     }
 }
 

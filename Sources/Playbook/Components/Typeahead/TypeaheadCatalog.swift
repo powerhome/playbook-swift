@@ -20,24 +20,19 @@ public struct TypeaheadCatalog: View {
   var popoverManager = PopoverManager()
   
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default", spacing: Spacing.small) { colors }
-        PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-        PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
-      }
-      .padding(Spacing.medium)
-      .popoverHandler()
+    PBDocStack(title: "Typeahead") {
+      PBDoc(title: "Default", spacing: Spacing.small) { colors }
+      PBDoc(title: "With Pills", spacing: Spacing.small) { users }
+      PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
     }
-    .background(Color.background(.light))
-    .navigationTitle("Typeahead")
-    .scrollDismissesKeyboard(.immediately)
+    .popoverHandler()
   }
 }
 
 extension TypeaheadCatalog {
   var colors: some View {
     PBTypeahead(
+      id: 0,
       title: "Colors",
       searchText: $searchTextColors,
       selection: .single,
@@ -49,6 +44,7 @@ extension TypeaheadCatalog {
   
   var users: some View {
     PBTypeahead(
+      id: 1,
       title: "Users",
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
@@ -62,6 +58,7 @@ extension TypeaheadCatalog {
   var debounce: some View {
     VStack(spacing: Spacing.small) {
       PBTypeahead(
+        id: 2,
         title: "Debounce, 2 characters, 1 second",
         searchText: $searchTextDebounce,
         selection: .single,
@@ -72,6 +69,7 @@ extension TypeaheadCatalog {
       }
       
       PBTypeahead(
+        id: 3,
         title: "Debounce, 2 characters, 0 second",
         searchText: $searchTextDebounce2,
         selection: .single,

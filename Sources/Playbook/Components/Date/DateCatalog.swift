@@ -13,25 +13,20 @@ public struct DateCatalog: View {
   public init() {}
   let minWidth: CGFloat = 0
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
-        PBDoc(title: "Variants") {
-          variantView
-        }
-        PBDoc(title: "Alignment") {
-          alignmentView
-        }
-        PBDoc(title: "Unstyled") {
-          unstyledView
-        }
+    PBDocStack(title: "Date") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+      PBDoc(title: "Variants") {
+        variantView
+      }
+      PBDoc(title: "Alignment") {
+        alignmentView
+      }
+      PBDoc(title: "Unstyled") {
+        unstyledView
+      }
     }
-    .background(Color.background(Color.BackgroundColor.light))
-    .navigationTitle("Date")
   }
 }
 

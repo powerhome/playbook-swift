@@ -15,25 +15,30 @@ public struct ToggleCatalog: View {
   @State private var checked2: Bool = false
   @State private var checked3: Bool = false
   public var body: some View {
-    ScrollView {
-      VStack(spacing: Spacing.medium) {
-        PBDoc(title: "Default") {
-          VStack(spacing: Spacing.small) {
-            PBToggle(checked: $checked)
-            PBToggle(checked: $checked1)
-          }
-        }
-
-        PBDoc(title: "Name") {
-          VStack(spacing: Spacing.small) {
-            PBToggle(label: "car", checked: $checked2)
-            PBToggle(label: "bike", checked: $checked3)
-          }
-        }
+    PBDocStack(title: "Toggle") {
+      PBDoc(title: "Default") {
+        defaultView
       }
-      .padding(Spacing.medium)
+
+      PBDoc(title: "Name") {
+        toggleNameView
+      }
     }
-    .navigationTitle("Toggle")
+  }
+}
+
+extension ToggleCatalog {
+  var defaultView: some View {
+    VStack(spacing: Spacing.small) {
+      PBToggle(checked: $checked)
+      PBToggle(checked: $checked1)
+    }
+  }
+  var toggleNameView: some View {
+    VStack(spacing: Spacing.small) {
+      PBToggle(label: "car", checked: $checked2)
+      PBToggle(label: "bike", checked: $checked3)
+    }
   }
 }
 

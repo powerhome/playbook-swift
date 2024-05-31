@@ -9,8 +9,6 @@
 
 import SwiftUI
 
-@available(iOS 16.4, *)
-@available(macOS 13.3, *)
 public enum Components: String, CaseIterable {
   case avatar
   case badge
@@ -34,6 +32,8 @@ public enum Components: String, CaseIterable {
   case homeAddress = "Home Address Street"
   case icon
   case iconCircle = "Icon Circle"
+  case iconStatValue = "Icon Stat Value"
+  case iconValue = "Icon Value"
   case image
   case label = "Label Value"
   case loader = "Loading Inline"
@@ -49,11 +49,12 @@ public enum Components: String, CaseIterable {
   case radio
   case sectionSeparator = "Section Separator"
   case select
+  case selectableCard = "Selectable Card"
   case tabBar = "Tab Bar"
   case textArea = "Textarea"
   case textInput = "Text Input"
   case time = "Time"
-  case timeStamp = "TimeStamp"
+  case timeStamp = "Time and Date"
   case timeRangeInline = "Time Range Inline"
   case timeStacked = "Time Stacked"
   case typeahead
@@ -63,7 +64,6 @@ public enum Components: String, CaseIterable {
 
   public static let title: String = "Components"
 
-  @available(macOS 13.3, *)
   @ViewBuilder
   public var destination: some View {
     switch self {
@@ -89,6 +89,8 @@ public enum Components: String, CaseIterable {
     case .homeAddress: HomeAddressStreetCatalog()
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
+    case .iconStatValue: IconStatValueCatalog()
+    case .iconValue: IconValueCatalog()
     case .image: ImageCatalog()
     case .label: LabelValueCatalog()
     case .loader: LoaderCatalog()
@@ -104,6 +106,7 @@ public enum Components: String, CaseIterable {
     case .radio: RadioCatalog()
     case .sectionSeparator: SectionSeparatorCatalog()
     case .select: SelectCatalog()
+    case .selectableCard: SelectableCardCatalog()
     case .tabBar: TabBarCatalog()
     case .textArea: TextAreaCatalog()
     case .textInput: TextInputCatalog()

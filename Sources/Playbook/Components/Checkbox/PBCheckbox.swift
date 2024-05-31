@@ -10,21 +10,22 @@
 import SwiftUI
 
 public struct PBCheckbox: View {
-  @State var checked: Bool
+  @Binding var checked: Bool
   @State var checkboxType: CheckboxType
   var text: String?
   let action: (() -> Void)?
-
+  
   public init(
-    checked: Bool = false,
+    checked: Binding<Bool> = .constant(false),
     checkboxType: CheckboxType = .default,
     text: String? = nil,
     action: (() -> Void)? = {}
   ) {
-    self.checked = checked
+    self._checked = checked
     self.checkboxType = checkboxType
     self.text = text
     self.action = action
+   
   }
 
   public var body: some View {
@@ -47,9 +48,7 @@ public struct PBCheckbox: View {
   }
 }
 
-public struct PBCheckbox_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return CheckboxCatalog()
-  }
+#Preview {
+  registerFonts()
+  return PBCheckbox(checked: .constant(true), checkboxType: .indeterminate, text: "Some text", action: {})
 }

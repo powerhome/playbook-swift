@@ -44,7 +44,7 @@ public struct PBRadio: View {
     self.spacing = spacing
     self.padding = padding
     self.errorState = errorState
-    _selectedItem = selected
+    self._selectedItem = selected
   }
 
   public var body: some View {
