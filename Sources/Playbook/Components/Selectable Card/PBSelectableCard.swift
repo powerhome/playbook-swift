@@ -185,7 +185,7 @@ extension PBSelectableCard {
         .padding()
       separatorView
       Text(text)
-        .padding(.horizontal, isSelected ? cardPadding : cardPadding + 1)
+        .padding(.horizontal, isSelected || isHovering ? cardPadding - 1 : cardPadding + 0.10)
     }
     .padding(.vertical, -4)
   }
@@ -201,7 +201,7 @@ extension PBSelectableCard {
       separatorView
       Text(text)
         .padding(cardPadding)
-        .padding(.horizontal, isSelected ? padding - 1 : 0)
+        .padding(.horizontal, isSelected || isHovering ? cardPadding - 1 : cardPadding - 0.10)
     }
     .padding(.vertical, -4)
   }
@@ -217,9 +217,10 @@ extension PBSelectableCard {
   var separatorView: some View {
     HStack {
       Divider()
+        .foregroundStyle(Color.text(.light))
     }
-    .frame(width: isSelected || isHovering ? 2 : 1)
-    .background(isSelected || isHovering == true ? Color.pbPrimary : .border)
+    .frame(width: isSelected || isHovering ? 1.5 : 1)
+    .background(isSelected || isHovering == true ? Color.pbPrimary : .text(.lighter))
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : Shadow.none

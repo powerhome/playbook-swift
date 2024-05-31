@@ -31,6 +31,7 @@ public struct SelectableCardCatalog: View {
   @State private var isDisabled: Bool = true
   @State private var isHovering: Bool = false
 
+  @State private var isSelected13: Bool = false
   public var body: some View {
     PBDocStack(title: "Selectable Card", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
