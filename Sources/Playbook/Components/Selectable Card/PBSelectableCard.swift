@@ -219,7 +219,7 @@ extension PBSelectableCard {
       Divider()
     }
     .frame(width: isSelected || isHovering ? 1.5 : 1)
-    .background(isSelected || isHovering == true ? Color.pbPrimary : .text(.light))
+    .background(isSelected || isHovering == true ? Color.pbPrimary : .border)
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : Shadow.none
