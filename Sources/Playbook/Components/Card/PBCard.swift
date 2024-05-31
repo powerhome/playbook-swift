@@ -19,6 +19,7 @@ public struct PBCard<Content: View>: View {
   let style: PBCardStyle
   let shadow: Shadow?
   let width: CGFloat?
+  let isHovering: Bool
   let content: Content
   public init(
     alignment: Alignment = .leading,
@@ -30,6 +31,7 @@ public struct PBCard<Content: View>: View {
     style: PBCardStyle = .default,
     shadow: Shadow? = nil,
     width: CGFloat? = .infinity,
+    isHovering: Bool = false,
     @ViewBuilder content: () -> Content
   ) {
     self.alignment = alignment
@@ -41,6 +43,7 @@ public struct PBCard<Content: View>: View {
     self.style = style
     self.shadow = shadow
     self.width = width
+    self.isHovering = isHovering
     self.content = content()
   }
 
@@ -59,7 +62,7 @@ public struct PBCard<Content: View>: View {
     .overlay(
       RoundedRectangle(cornerRadius: borderRadius, style: .circular)
         .stroke(
-          style.color,
+          isHovering ? .text(.lighter) : style.color,
           lineWidth: border ? style.lineWidth : 0
         )
     )

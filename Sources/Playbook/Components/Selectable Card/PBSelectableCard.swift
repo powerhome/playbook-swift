@@ -100,7 +100,8 @@ extension PBSelectableCard {
         padding: padding,
         style: isSelected ? .selected(type: .card) : .default,
         shadow: shadowStyle,
-        width: frameReader(in: { _ in}) as? CGFloat
+        width: frameReader(in: { _ in}) as? CGFloat, 
+        isHovering: isHovering
       ) {
         if let text = cardText {
           AnyView(cardTextView(text))
@@ -138,7 +139,8 @@ extension PBSelectableCard {
         }
         #endif
       }
-    } .onChange(of: radioId) { newValue in
+    } 
+    .onChange(of: radioId) { newValue in
       isSelected = (newValue == id)
   }
   }
@@ -213,10 +215,7 @@ extension PBSelectableCard {
         .frame(width: isSelected ? 1.5 : 1)
         .background(isSelected ? Color.pbPrimary : .border)
         .foregroundStyle(isSelected ? Color.pbPrimary : Color.border)
-        
     }
-    
-   
   }
   var shadowStyle: Shadow {
     isHovering ? .deep : Shadow.none
