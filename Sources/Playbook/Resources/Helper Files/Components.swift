@@ -9,8 +9,6 @@
 
 import SwiftUI
 
-@available(iOS 16.4, *)
-@available(macOS 13.3, *)
 public enum Components: String, CaseIterable {
   case avatar
   case badge
@@ -35,6 +33,7 @@ public enum Components: String, CaseIterable {
   case icon
   case iconCircle = "Icon Circle"
   case iconStatValue = "Icon Stat Value"
+  case iconValue = "Icon Value"
   case image
   case label = "Label Value"
   case loader = "Loading Inline"
@@ -64,7 +63,6 @@ public enum Components: String, CaseIterable {
 
   public static let title: String = "Components"
 
-  @available(macOS 13.3, *)
   @ViewBuilder
   public var destination: some View {
     switch self {
@@ -91,6 +89,7 @@ public enum Components: String, CaseIterable {
     case .icon: IconCatalog()
     case .iconCircle: IconCircleCatalog()
     case .iconStatValue: IconStatValueCatalog()
+    case .iconValue: IconValueCatalog()
     case .image: ImageCatalog()
     case .label: LabelValueCatalog()
     case .loader: LoaderCatalog()
