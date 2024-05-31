@@ -22,9 +22,7 @@ public extension View {
     return background(
       GeometryReader { geometry in
         Color.clear
-          .onChange(of: geometry.frame(in: .global)) { _ in
-            rect(coordinateSpace(in: geometry))
-          }
+          .onChange(of: coordinateSpace(in: geometry)) { rect($0) }
           .onAppear {
             rect(coordinateSpace(in: geometry))
           }

@@ -10,6 +10,10 @@
 import SwiftUI
 
 public struct CheckboxCatalog: View {
+  @State private var checked: Bool = false
+  @State private var checked1: Bool = true
+  @State private var checked2: Bool = false
+  @State private var checked3: Bool = true
   public var body: some View {
     PBDocStack(title: "Checkbox") {
       PBDoc(title: "Default") {
@@ -30,12 +34,12 @@ extension CheckboxCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBCheckbox(
-        checked: false,
+        checked: $checked,
         text: "Unchecked",
         action: {}
       )
       PBCheckbox(
-        checked: true,
+        checked: $checked1,
         text: "Checked",
         action: {}
       )
@@ -43,7 +47,7 @@ extension CheckboxCatalog {
   }
   var errorView: some View {
     PBCheckbox(
-      checked: false,
+      checked: $checked2,
       checkboxType: .error,
       text: "Error",
       action: {}
@@ -51,7 +55,7 @@ extension CheckboxCatalog {
   }
   var indeterminateView: some View {
     PBCheckbox(
-      checked: true,
+      checked: $checked3,
       checkboxType: .indeterminate,
       text: "Indeterminate",
       action: {}

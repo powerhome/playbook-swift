@@ -15,8 +15,9 @@ public enum Position {
   case bottom(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
   case leading(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
   case center(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
-  
-  
+}
+
+public extension Position {
   var popoverAnchor: Position {
     switch self {
     case .top: return .bottom()
@@ -26,21 +27,19 @@ public enum Position {
     case .center: return .top()
     }
   }
-}
 
-public extension Position {
   func space(_ space: CGFloat) -> CGPoint {
     switch self {
     case .top(let xOffset, let yOffset):
-      return CGPoint(x: xOffset, y:  yOffset - space)
+      return CGPoint(x: xOffset, y: yOffset - space)
     case .trailing(let xOffset, let yOffset):
-      return CGPoint(x: xOffset + space, y:  yOffset)
+      return CGPoint(x: xOffset + space, y: yOffset)
     case .bottom(let xOffset, let yOffset):
-      return CGPoint(x: xOffset, y:  yOffset + space)
+      return CGPoint(x: xOffset, y: yOffset + space)
     case .leading(let xOffset, let yOffset):
-      return CGPoint(x: xOffset, y:  yOffset - space)
+      return CGPoint(x: xOffset, y: yOffset - space)
     case .center(let xOffset, let yOffset):
-      return CGPoint(x: xOffset, y:  yOffset)
+      return CGPoint(x: xOffset, y: yOffset)
     }
   }
 
@@ -52,7 +51,6 @@ public extension Position {
       )
       let screenEdgePadding = EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
       let safeWindowFrame = Screen.rect
-    
       let maxX = safeWindowFrame.maxX - screenEdgePadding.trailing
       let maxY = safeWindowFrame.maxY - screenEdgePadding.bottom
       

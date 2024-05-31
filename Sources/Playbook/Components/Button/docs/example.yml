@@ -5,4 +5,5 @@ swift:
   - button_circle_swift: Circle Button
   - button_size_swift: Button Size
   - button_reaction_swift: Button Reaction
+  - button_loading_swift: Button Loading
   - button_props_swift: ""
