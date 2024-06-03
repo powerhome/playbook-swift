@@ -139,10 +139,10 @@ extension PBSelectableCard {
         }
         #endif
       }
-    } 
+    }
     .onChange(of: radioId) { newValue in
       isSelected = (newValue == id)
-  }
+    }
   }
   var iconView: some View {
     Circle()
