@@ -224,5 +224,5 @@ extension PBSelectableCard {
 
 #Preview {
   registerFonts()
-  return SelectableCardCatalog()
+  return PBSelectableCard()
 }

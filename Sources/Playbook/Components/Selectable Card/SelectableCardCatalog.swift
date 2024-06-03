@@ -23,15 +23,10 @@ public struct SelectableCardCatalog: View {
   @State private var isSelected10: Bool = false
   @State private var isSelected11: Bool = false
   @State private var isSelected12: Bool = false
-  @State private var selectedRadioIndex: Int = 0
-  @State private var selectedRadioIndex1: Int = 0
-  @State private var radioIndex: String = ""
   @State private var radioId: Int = 0
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
-  @State private var isHovering: Bool = false
 
-  @State private var isSelected13: Bool = false
   public var body: some View {
     PBDocStack(title: "Selectable Card", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
