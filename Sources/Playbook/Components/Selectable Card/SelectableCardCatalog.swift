@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct SelectableCardCatalog: View {
-  @State private var isSelected: Bool = true
+ @State private var isSelected: Bool = true
   @State private var isSelected1: Bool = true
   @State private var isSelected2: Bool = false
   @State private var isSelected3: Bool = true
@@ -26,7 +26,7 @@ public struct SelectableCardCatalog: View {
   @State private var radioId: Int = 0
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
-
+  
   public var body: some View {
     PBDocStack(title: "Selectable Card", spacing: Spacing.medium) {
       PBDoc(title: "Default") {

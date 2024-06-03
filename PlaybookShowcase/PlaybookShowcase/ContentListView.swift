@@ -44,7 +44,6 @@ struct ContentListView: View {
               }
             }
           }
-          
           ToolbarItem {
            darkmodeToggle
           }
