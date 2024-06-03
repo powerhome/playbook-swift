@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBSelectableCard<Content: View>: View {
-  let alignment: Alignment
+ let alignment: Alignment
   let variant: Variant
   let backgroundColor: Color
   let borderRadius: CGFloat
@@ -52,7 +52,7 @@ public struct PBSelectableCard<Content: View>: View {
     isDisabled: Binding<Bool> = .constant(false),
     radioId: Binding<Int> = .constant(0),
     id: Int = 0,
-    @ViewBuilder content: (() -> Content) = { EmptyView() }
+    @ViewBuilder content: (() -> Content) = { EmptyView() }  
   ) {
     self.alignment = alignment
     self.variant = variant
@@ -115,7 +115,7 @@ extension PBSelectableCard {
       .globalPosition(alignment: iconPosition) {
         iconView
       }
-      .onTapGesture {
+       .onTapGesture {
         if variant != .radioInput {
           isSelected.toggle()
         } else {
@@ -142,7 +142,7 @@ extension PBSelectableCard {
     } 
     .onChange(of: radioId) { newValue in
       isSelected = (newValue == id)
-  }
+    }
   }
   var iconView: some View {
     Circle()
@@ -164,7 +164,6 @@ extension PBSelectableCard {
     case .radioInput: return radioInputView(text)
     }
   }
-  
   func blockText(_ text: String) -> some View {
     let wholeText = text.split { $0.isNewline }
     let blockTitle = wholeText[0]
@@ -174,7 +173,7 @@ extension PBSelectableCard {
       Text(blockSubText)
     }
   }
-  func checkedInputView(_ text: String) -> some View {
+ func checkedInputView(_ text: String) -> some View {
     HStack(spacing: Spacing.none) {
       PBCheckbox(checked: $isSelected, checkboxType: .default)
         .padding()

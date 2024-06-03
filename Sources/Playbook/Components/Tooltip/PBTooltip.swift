@@ -9,8 +9,6 @@
 
 import SwiftUI
 
-@available(iOS 16.4, *)
-@available(macOS 13.3, *)
 public struct PBTooltip: ViewModifier {
   let canPresent: Bool
   let delay: TimeInterval
@@ -46,7 +44,7 @@ public struct PBTooltip: ViewModifier {
         content
         .onHover(disabled: false) { handleOnHover(hovering: $0) }
         .onChange(of: shouldPresentPopover, perform: handleOnChange)
-        .popover(isPresented: $presentPopover, arrowEdge: self.placement, content: popoverView)
+        .popover(isPresented: $presentPopover, arrowEdge: self.placement, content: { popoverView })
       } else {
         content
       }
@@ -54,8 +52,6 @@ public struct PBTooltip: ViewModifier {
   }
 }
 
-@available(iOS 16.4, *)
-@available(macOS 13.3, *)
 public extension PBTooltip {
   enum DelayType {
     case all
@@ -119,8 +115,8 @@ public extension PBTooltip {
     }
   }
 
-  private func popoverView() -> some View {
-    HStack {
+  private var popoverView: some View {
+    let view = HStack {
       if let icon = icon {
         PBIcon(icon)
           .padding(.leading, Spacing.xSmall)
@@ -128,20 +124,21 @@ public extension PBTooltip {
           .padding(.vertical, Spacing.xSmall)
           .padding(.trailing, Spacing.xSmall)
           .pbFont(.body)
-          .presentationCompactAdaptation(.popover)
       } else {
         Text(text)
           .pbFont(.body)
           .padding(.all, 10)
-          .presentationCompactAdaptation(.popover)
       }
+    }.background(Color.black.padding(-80))
+    
+    if #available(macOS 13.3, *), #available(iOS 16.4, *) {
+      return view.presentationCompactAdaptation(.popover)
+    } else {
+      return view
     }
-    .background(Color.black.padding(-80))
   }
 }
 
-@available(macOS 13.3, *)
-@available(iOS 16.4, *)
 public extension View {
   func pbTooltip(
     canPresent: Bool = true,
@@ -164,11 +161,7 @@ public extension View {
   }
 }
 
-@available(iOS 16.4, *)
-@available(macOS 13.3, *)
-public struct PBTooltip_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return TooltipCatalog()
-  }
+#Preview {
+  registerFonts()
+  return TooltipCatalog()
 }
