@@ -11,8 +11,8 @@ import SwiftUI
 
 struct PBDialogActionView: View {
   let isStacked: Bool
-  let confirmButton: (String, (() -> Void))?
-  let cancelButton: (String, (() -> Void)?)?
+  let confirmButton: PBButton?
+  let cancelButton: PBButton?
   let variant: DialogVariant?
   let isButtonFullWidth: Bool?
   let buttonSize: PBButton.Size
@@ -20,8 +20,8 @@ struct PBDialogActionView: View {
 
   public init(
     isStacked: Bool = false,
-    confirmButton: (String, (() -> Void))? = nil,
-    cancelButton: (String, (() -> Void)?)? = nil,
+    cancelButton: PBButton? = PBButton(variant: .primary, title: "Cancel", action: nil),
+    confirmButton: PBButton? = PBButton(variant: .secondary, title: "Cancel", action: nil),
     variant: DialogVariant? = nil,
     isButtonFullWidth: Bool? = false,
     buttonSize: PBButton.Size = .medium,
@@ -39,13 +39,8 @@ struct PBDialogActionView: View {
   var body: some View {
     AdaptiveStack(isStacked: isStacked) {
       if let confirmButton = confirmButton {
-        PBButton(
-          fullWidth: isButtonFullWidth ?? false, 
-          size: buttonSize, 
-          title: confirmButton.0,
-          isLoading: isLoading,
-          action: confirmButton.1
-        ).padding(.bottom, Spacing.xxSmall)
+      confirmButton
+          .padding(.bottom, Spacing.xxSmall)
       }
 
       if let cancelButton = cancelButton {
@@ -53,14 +48,7 @@ struct PBDialogActionView: View {
           Spacer()
         }
 
-        PBButton(
-          fullWidth: isButtonFullWidth ?? false,
-          variant: (isStacked || variant != .default ? .secondary : .link),
-          size: buttonSize,
-          title: cancelButton.0,
-          isLoading: isLoading,
-          action: cancelButton.1 ?? {}
-        )
+      cancelButton
         .padding(.top, isStacked ? 5 : 0)
       }
     }
@@ -78,20 +66,20 @@ struct PBDialogActionView_Previews: PreviewProvider {
 
     return List {
       PBDialogActionView(
-        confirmButton: ("Okay", {}),
-        cancelButton: ("Cancel", {})
+        cancelButton: PBButton(variant: .primary, title: "Cancel", action: nil), 
+        confirmButton: PBButton(variant: .secondary, title: "Confirm", action: nil)
       )
       .listRowSeparator(.hidden)
 
       PBDialogActionView(
         isStacked: true,
-        confirmButton: ("Yes, Action", {}),
-        cancelButton: ("No, Cancel", {})
+        cancelButton: PBButton(variant: .primary, title: "Cancel", action: nil), 
+        confirmButton: PBButton(variant: .secondary, title: "Confirm", action: nil)
       )
       .listRowSeparator(.hidden)
 
       PBDialogActionView(
-        confirmButton: ("Okay", {})
+        confirmButton: PBButton(variant: .secondary, title: "Confirm", action: nil)
       )
     }
   }

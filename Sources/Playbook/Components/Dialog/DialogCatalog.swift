@@ -161,7 +161,7 @@ import SwiftUI
               confirmButton: ("Okay", closeToast),
               size: .small,
               buttonSize: .medium,
-              isButtonFullWidth: false
+              isButtonFullWidth: true
             )
             .backgroundViewModifier(alpha: 0.2)
           }
@@ -180,7 +180,7 @@ import SwiftUI
               confirmButton: ("Okay", closeToast),
               size: .small,
               buttonSize: .medium,
-              isButtonFullWidth: false
+              isButtonFullWidth: true
             )
             .backgroundViewModifier(alpha: 0.2)
           }
@@ -199,7 +199,7 @@ import SwiftUI
               confirmButton: ("Okay", closeToast),
               size: .small,
               buttonSize: .medium,
-              isButtonFullWidth: false
+              isButtonFullWidth: true
             )
             .backgroundViewModifier(alpha: 0.2)
           }
@@ -258,8 +258,14 @@ extension DialogCatalog.ComplexButton {
   public struct DialogCatalog: View {
     @State private var presentSmallDialog: Bool = false
     @State private var presentMediumDialog: Bool = false
+    @State private var presentFlexDialog: Bool = false
     @State private var presentLargeDialog: Bool = false
-
+    @State private var presentLoadingDialog: Bool = false
+    @State private var isCancelLoading: Bool = false
+    @State private var isConfirmLoading: Bool = true
+    let cancelButton: PBButton = PBButton(variant: .secondary, title: "Cancel", action: nil)
+    let confirmLoadingButton: PBButton = PBButton(variant: .primary, title: "Confirm", isLoading: true, action: nil)
+    let confirmButton: PBButton = PBButton(variant: .primary, title: "Confirm", action: nil)
     let infoMessage = "This is a message for informational purposes only and requires no action."
 
     public var body: some View {
@@ -273,12 +279,11 @@ extension DialogCatalog.ComplexButton {
             message: infoMessage,
             variant: .default,
             isStacked: false,
-            cancelButton: ("Cancel", {}),
-            confirmButton: ("Okay", {}),
+            cancelButton: cancelButton,
+            confirmButton: confirmButton,
             size: .small,
             buttonSize: .medium,
-            isButtonFullWidth: true,
-            isLoading: true
+            isButtonFullWidth: false
           )
         }
 
@@ -291,12 +296,11 @@ extension DialogCatalog.ComplexButton {
             message: infoMessage,
             variant: .default,
             isStacked: false,
-            cancelButton: ("Cancel", {}),
-            confirmButton: ("Okay", {}),
+            cancelButton: cancelButton,
+            confirmButton: confirmButton,
             size: .medium,
             buttonSize: .medium,
-            isButtonFullWidth: true,
-            isLoading: false
+            isButtonFullWidth: true
           )
         }
 
@@ -309,13 +313,47 @@ extension DialogCatalog.ComplexButton {
             message: infoMessage,
             variant: .default,
             isStacked: false,
-            cancelButton: ("Cancel", {}),
-            confirmButton: ("Okay", {}),
+            cancelButton: cancelButton,
+            confirmButton: confirmButton,
             size: .large,
             buttonSize: .medium,
-            isButtonFullWidth: true
+            isButtonFullWidth: false
           )
         }
+        
+        PBButton(title: "Flex") {
+          presentFlexDialog = true
+        }
+        .popover(isPresented: $presentFlexDialog) {
+          PBDialog(
+            title: "Flex",
+            message: infoMessage,
+            variant: .default,
+            isStacked: false,
+            cancelButton: cancelButton,
+            confirmButton: confirmButton,
+            size: .flex,
+            buttonSize: .medium,
+            isButtonFullWidth: false
+          )
+        }
+       
+          PBButton(title: "Loading") {
+            presentLoadingDialog = true
+          }
+          .popover(isPresented: $presentLoadingDialog) {
+            PBDialog(
+              title: "Loading",
+              message: infoMessage,
+              variant: .default,
+              isStacked: false,
+              cancelButton: cancelButton,
+              confirmButton: confirmLoadingButton,
+              size: .small,
+              buttonSize: .medium,
+              isButtonFullWidth: false
+            )
+          }
       }
     }
   }

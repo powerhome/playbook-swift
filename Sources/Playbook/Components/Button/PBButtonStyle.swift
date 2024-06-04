@@ -50,11 +50,11 @@ public struct PBButtonStyle: ButtonStyle {
         )
       )
       .cornerRadius(5)
-    #if os(macOS)
+     #if os(macOS)
       .onHover(disabled: variant == .disabled ? true : false) {
         self.isHovering = $0
       }
-    #endif
+     #endif
       .pbFont(.buttonText(size.fontSize))
   }
 }

@@ -16,28 +16,26 @@ public struct PBDialog<Content: View>: View {
   let message: String?
   let variant: DialogVariant
   let isStacked: Bool
-  let cancelButton: (String, (() -> Void)?)?
-  let confirmButton: (String, (() -> Void))?
+  let cancelButton: PBButton?
+  let confirmButton: PBButton?
   let onClose: (() -> Void)?
   let size: DialogSize
   let buttonSize: PBButton.Size
   let shouldCloseOnOverlay: Bool
   let isButtonFullWidth: Bool?
-  let isLoading: Bool
-
+  
   public init(
     title: String? = nil,
     message: String? = nil,
     variant: DialogVariant = .default,
     isStacked: Bool = false,
-    cancelButton: (String, (() -> Void)?)? = nil,
-    confirmButton: (String, (() -> Void))? = nil,
+    cancelButton: PBButton? = PBButton(variant: .primary, title: "Cancel", action: nil),
+    confirmButton: PBButton? = PBButton(variant: .secondary, title: "Cancel", action: nil),
     onClose: (() -> Void)? = nil,
     size: DialogSize = .medium,
     buttonSize: PBButton.Size = .medium,
     shouldCloseOnOverlay: Bool = false,
     isButtonFullWidth: Bool? = false,
-    isLoading: Bool = false,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.content = content()
@@ -51,7 +49,6 @@ public struct PBDialog<Content: View>: View {
     self.size = size
     self.buttonSize = buttonSize
     self.isButtonFullWidth = isButtonFullWidth
-    self.isLoading = isLoading
     self.shouldCloseOnOverlay = shouldCloseOnOverlay
   }
 
@@ -94,12 +91,11 @@ public struct PBDialog<Content: View>: View {
       if let confirmButton = confirmButton {
         PBDialogActionView(
           isStacked: isStacked,
+          cancelButton: cancelButton, 
           confirmButton: confirmButton,
-          cancelButton: cancelButtonAction(),
           variant: variant,
           isButtonFullWidth: isButtonFullWidth,
-          buttonSize: buttonSize, 
-          isLoading: isLoading
+          buttonSize: buttonSize
         )
         .padding()
       }
@@ -107,18 +103,6 @@ public struct PBDialog<Content: View>: View {
     .frame(maxWidth: variant.width(size))
     .padding(padding)
     .preferredColorScheme(.light)
-  }
-
-  func cancelButtonAction() -> (String, (() -> Void))? {
-    if let cancelButton = cancelButton {
-      if let cancelButtonAction = cancelButton.1 {
-        return (cancelButton.0, cancelButtonAction)
-      } else {
-        return (cancelButton.0, { dismissDialog() })
-      }
-    } else {
-      return nil
-    }
   }
 
   var padding: EdgeInsets {
@@ -140,12 +124,14 @@ public enum DialogSize: String, CaseIterable, Identifiable {
   case small
   case medium
   case large
+  case flex
 
-  var width: CGFloat {
+  var width: CGFloat? {
     switch self {
     case .small: return 300
     case .medium: return 500
     case .large: return 800
+    case .flex: return nil
     }
   }
 }
@@ -154,7 +140,7 @@ public enum DialogVariant: Equatable {
   case `default`
   case status(_ status: DialogStatus)
 
-  public func width(_ size: DialogSize) -> CGFloat {
+  public func width(_ size: DialogSize) -> CGFloat? {
     switch self {
     case .status: return 375
     default: return size.width
