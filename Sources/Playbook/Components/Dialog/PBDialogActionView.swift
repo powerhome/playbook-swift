@@ -50,6 +50,11 @@ struct PBDialogActionView: View {
 
       cancelButton
         .padding(.top, isStacked ? 5 : 0)
+        .onTapGesture {
+          Task {
+            cancelButtonAction()
+          }
+        }
       }
     }
     .frame(maxWidth: .infinity)
@@ -58,6 +63,13 @@ struct PBDialogActionView: View {
     .padding(.trailing, Spacing.small)
    
   }
+  func cancelButtonAction() -> (() -> Void)? {
+    if let cancelButtonAction = cancelButton?.action {
+          return (cancelButtonAction)
+        } else {
+          return { print("tapped") }
+        }
+    }
 }
 
 struct PBDialogActionView_Previews: PreviewProvider {

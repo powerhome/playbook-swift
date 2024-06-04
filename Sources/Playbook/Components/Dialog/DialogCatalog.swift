@@ -12,7 +12,9 @@ import SwiftUI
 #if os(iOS)
   public struct DialogCatalog: View {
     static let infoMessage = "This is a message for informational purposes only."
-
+    static let cancelButton: PBButton = PBButton(variant: .secondary, title: "Cancel", action: nil)
+    static let confirmLoadingButton: PBButton = PBButton(variant: .primary, title: "Confirm", isLoading: true, action: nil)
+    static let confirmButton: PBButton = PBButton(variant: .primary, title: "Confirm", action: nil)
     static func disableAnimation() {
       UIView.setAnimationsEnabled(false)
     }
@@ -43,8 +45,8 @@ import SwiftUI
           PBDialog(
             title: "This is some informative text",
             message: infoMessage,
-            cancelButton: ("Cancel", closeToast),
-            confirmButton: ("Okay", closeToast),
+            cancelButton: cancelButton,
+            confirmButton: confirmButton,
             buttonSize: .medium,
             isButtonFullWidth: true
           )
@@ -71,9 +73,9 @@ import SwiftUI
           VStack{
             PBDialog(
               title: "Send us your thoughts!",
-              cancelButton: ("Cancel", closeToast),
-              confirmButton: ("Submit", closeToast),
-              buttonSize: .medium, 
+              cancelButton: cancelButton,
+              confirmButton: confirmButton,
+              buttonSize: .medium,
               isButtonFullWidth: true,
               content: ({
                 ScrollView {
@@ -113,8 +115,8 @@ import SwiftUI
           PBDialog(
             title: "\(title) Dialog",
             message: infoMessage,
-            cancelButton: ("Cancel", closeToast),
-            confirmButton: ("Okay", closeToast),
+            cancelButton: cancelButton,
+            confirmButton: confirmButton,
             size: size,
             buttonSize: .medium,
             isButtonFullWidth: true
@@ -157,8 +159,8 @@ import SwiftUI
               message: infoMessage,
               variant: .status(.default),
               isStacked: true,
-              cancelButton: ("Cancel", closeToast),
-              confirmButton: ("Okay", closeToast),
+              cancelButton: cancelButton,
+              confirmButton: confirmButton,
               size: .small,
               buttonSize: .medium,
               isButtonFullWidth: true
@@ -176,8 +178,8 @@ import SwiftUI
               message: infoMessage,
               variant: .status(.caution),
               isStacked: true,
-              cancelButton: ("Cancel", closeToast),
-              confirmButton: ("Okay", closeToast),
+              cancelButton: cancelButton,
+              confirmButton: confirmButton,
               size: .small,
               buttonSize: .medium,
               isButtonFullWidth: true
@@ -195,8 +197,8 @@ import SwiftUI
               message: infoMessage,
               variant: .status(.delete),
               isStacked: true,
-              cancelButton: ("Cancel", closeToast),
-              confirmButton: ("Okay", closeToast),
+              cancelButton: cancelButton,
+              confirmButton: confirmButton,
               size: .small,
               buttonSize: .medium,
               isButtonFullWidth: true
@@ -227,8 +229,8 @@ import SwiftUI
                 message: infoMessage,
                 variant: .status(item),
                 isStacked: false,
-                cancelButton: ("Cancel", closeToast),
-                confirmButton: ("Okay", closeToast),
+                cancelButton: cancelButton,
+                confirmButton: confirmButton,
                 buttonSize: .medium,
                 isButtonFullWidth: true
               )

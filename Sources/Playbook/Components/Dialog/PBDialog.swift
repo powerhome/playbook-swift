@@ -112,7 +112,7 @@ public struct PBDialog<Content: View>: View {
       return EdgeInsets(top: 0, leading: Spacing.medium, bottom: 0, trailing: Spacing.medium)
     #endif
   }
-
+  
   func dismissDialog() {
     presentationMode.wrappedValue.dismiss()
   }
