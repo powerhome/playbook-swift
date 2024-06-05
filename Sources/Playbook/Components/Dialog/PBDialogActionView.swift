@@ -78,8 +78,8 @@ struct PBDialogActionView_Previews: PreviewProvider {
 
     return List {
       PBDialogActionView(
-        cancelButton: PBButton(variant: .primary, title: "Cancel", action: nil), 
-        confirmButton: PBButton(variant: .secondary, title: "Confirm", action: nil)
+        cancelButton: PBButton(variant: .primary, size: .medium, title: "Cancel", action: nil), 
+        confirmButton: PBButton(variant: .secondary, size: .medium, title: "Confirm", action: nil)
       )
       .listRowSeparator(.hidden)
 

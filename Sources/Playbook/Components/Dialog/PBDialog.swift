@@ -97,7 +97,6 @@ public struct PBDialog<Content: View>: View {
           isButtonFullWidth: isButtonFullWidth,
           buttonSize: buttonSize
         )
-        .padding()
       }
     }
     .frame(maxWidth: variant.width(size))

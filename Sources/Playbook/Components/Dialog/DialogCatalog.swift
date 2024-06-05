@@ -284,8 +284,8 @@ extension DialogCatalog.ComplexButton {
             cancelButton: cancelButton,
             confirmButton: confirmButton,
             size: .small,
-            buttonSize: .medium,
-            isButtonFullWidth: false
+            buttonSize: .small,
+            isButtonFullWidth: true
           )
         }
 
