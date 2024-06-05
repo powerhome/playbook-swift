@@ -348,13 +348,13 @@ extension DialogCatalog.ComplexButton {
           .popover(isPresented: $presentLoadingDialog) {
             PBDialog(
               title: "Loading",
-              message: infoMessage,
+              message: smallInfoMessage,
               variant: .default,
               isStacked: false,
               cancelButton: cancelButton,
               confirmButton: confirmLoadingButton,
               size: .small,
-              buttonSize: .medium,
+              buttonSize: .small,
               isButtonFullWidth: false
             )
           }
