@@ -39,7 +39,7 @@ struct PBDialogActionView: View {
   var body: some View {
     AdaptiveStack(isStacked: isStacked) {
       if let confirmButton = confirmButton {
-      confirmButton
+        confirmButton
           .padding(.bottom, Spacing.xxSmall)
       }
 

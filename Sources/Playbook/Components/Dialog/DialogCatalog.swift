@@ -129,7 +129,7 @@ import SwiftUI
     struct SizeButtons: View {
       var body: some View {
         VStack(alignment: .leading, spacing: Spacing.small) {
-          DialogButtonSize(title: "Small", size: .small)
+          DialogButtonSize(title: "Small", size: .medium)
           DialogButtonSize(title: "Medium", size: .medium)
           DialogButtonSize(title: "Large", size: .large)
         }
