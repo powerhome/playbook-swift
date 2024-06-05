@@ -268,7 +268,7 @@ extension DialogCatalog.ComplexButton {
     let cancelButton: PBButton = PBButton(variant: .secondary, title: "Cancel", action: nil)
     let confirmLoadingButton: PBButton = PBButton(variant: .primary, title: "Confirm", isLoading: true, action: nil)
     let confirmButton: PBButton = PBButton(variant: .primary, title: "Confirm", action: nil)
-    let infoMessage = "This is a message for informational purposes only and requires no action."
+    let infoMessage = "This is a message for informational\n purposes only and requires no\n action."
 
     public var body: some View {
       VStack {
