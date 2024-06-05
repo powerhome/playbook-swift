@@ -268,7 +268,9 @@ extension DialogCatalog.ComplexButton {
     let cancelButton: PBButton = PBButton(variant: .secondary, title: "Cancel", action: nil)
     let confirmLoadingButton: PBButton = PBButton(variant: .primary, title: "Confirm", isLoading: true, action: nil)
     let confirmButton: PBButton = PBButton(variant: .primary, title: "Confirm", action: nil)
-    let infoMessage = "This is a message for informational\n purposes only and requires no\n action."
+    let infoMessage = "This is a message for informational purposes only and requires no action."
+    let smallInfoMessage = "This is a message for informational\npurposes only and requires no\naction."
+    let medInfoMessage = "This is a message for informational purposes only and requires no\naction."
 
     public var body: some View {
       VStack {
@@ -278,7 +280,7 @@ extension DialogCatalog.ComplexButton {
         .popover(isPresented: $presentSmallDialog) {
           PBDialog(
             title: "Small",
-            message: infoMessage,
+            message: smallInfoMessage,
             variant: .default,
             isStacked: false,
             cancelButton: cancelButton,
@@ -295,7 +297,7 @@ extension DialogCatalog.ComplexButton {
         .popover(isPresented: $presentMediumDialog) {
           PBDialog(
             title: "Medium",
-            message: infoMessage,
+            message: medInfoMessage,
             variant: .default,
             isStacked: false,
             cancelButton: cancelButton,
@@ -318,7 +320,7 @@ extension DialogCatalog.ComplexButton {
             cancelButton: cancelButton,
             confirmButton: confirmButton,
             size: .large,
-            buttonSize: .medium,
+            buttonSize: .large,
             isButtonFullWidth: false
           )
         }
