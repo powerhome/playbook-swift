@@ -80,22 +80,26 @@ public extension SelectableCardCatalog {
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "Ruby",
-        isSelected: $isSelected4
+        isSelected: $isSelected4,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "JavaScript",
-        isSelected: $isSelected5
+        isSelected: $isSelected5,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "TypeScript",
-        isSelected: $isSelected6
+        isSelected: $isSelected6,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "Swift",
-        isSelected: $isSelected7
+        isSelected: $isSelected7,
+        isCardFullWidth: true
       )
       Spacer()
       Text("How likely are you to recommend Playbook to a friend?")
@@ -105,35 +109,40 @@ public extension SelectableCardCatalog {
         cardText: "5",
         isSelected: $isSelected8,
         radioId: $radioId,
-        id: 5
+        id: 5,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "4",
         isSelected: $isSelected9,
         radioId: $radioId,
-        id: 4
+        id: 4,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "3",
         isSelected: $isSelected10,
         radioId: $radioId,
-        id: 3
+        id: 3,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "2",
         isSelected: $isSelected11,
         radioId: $radioId,
-        id: 2
+        id: 2,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .radioInput,
         cardText: "1",
         isSelected: $isSelected12,
         radioId: $radioId,
-        id: 1
+        id: 1,
+        isCardFullWidth: true
       )
     }
   }

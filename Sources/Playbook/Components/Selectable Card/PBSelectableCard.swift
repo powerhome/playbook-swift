@@ -26,6 +26,7 @@ public struct PBSelectableCard<Content: View>: View {
   let iconOffsetY: CGFloat?
   let content: Content?
   let id: Int
+  let isCardFullWidth: Bool
   @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
   @Binding var hasIcon: Bool
@@ -52,7 +53,8 @@ public struct PBSelectableCard<Content: View>: View {
     isDisabled: Binding<Bool> = .constant(false),
     radioId: Binding<Int> = .constant(0),
     id: Int = 0,
-    @ViewBuilder content: (() -> Content) = { EmptyView() }  
+    isCardFullWidth: Bool = false,
+    @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.alignment = alignment
     self.variant = variant
@@ -73,6 +75,7 @@ public struct PBSelectableCard<Content: View>: View {
     self._hasIcon = hasIcon
     self._isDisabled = isDisabled
     self._radioId = radioId
+    self.isCardFullWidth = isCardFullWidth
     self.content = content()
   }
   public var body: some View {
@@ -173,13 +176,16 @@ extension PBSelectableCard {
       Text(blockSubText)
     }
   }
- func checkedInputView(_ text: String) -> some View {
+  func checkedInputView(_ text: String) -> some View {
     HStack(spacing: Spacing.none) {
       PBCheckbox(checked: $isSelected, checkboxType: .default)
         .padding()
       separatorView
       Text(text)
-        .padding(.horizontal, isSelected ? cardPadding - 1 : cardPadding + 0.10)
+        .padding(.horizontal, isSelected ? cardPadding + 1 : cardPadding + 0.50)
+      if isCardFullWidth {
+        Spacer()
+      }
     }
     .padding(.vertical, -4)
   }
@@ -195,7 +201,10 @@ extension PBSelectableCard {
       separatorView
       Text(text)
         .padding(cardPadding)
-        .padding(.horizontal, isSelected ? padding - 1 : padding - 0.10)
+        .padding(.horizontal, isSelected ? padding + 1 : padding + 0.50)
+      if isCardFullWidth {
+        Spacer()
+      }
     }
     .padding(.vertical, -4)
   }
@@ -211,7 +220,7 @@ extension PBSelectableCard {
   var separatorView: some View {
     HStack {
       Divider()
-        .frame(width: isSelected ? 1.5 : 1)
+        .frame(width:2)
         .background(isSelected ? Color.pbPrimary : .border)
         .foregroundStyle(isSelected ? Color.pbPrimary : Color.border)
     }
