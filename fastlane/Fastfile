@@ -69,7 +69,7 @@ lane :build_macos do |opts|
   gym(
     project: project,
     scheme: target,
-    skip_package_pkg: true,
+    skip_package_pkg: false,
     skip_package_dependencies_resolution: false,
     export_method: export_method,
     output_name: "#{target}.app",
