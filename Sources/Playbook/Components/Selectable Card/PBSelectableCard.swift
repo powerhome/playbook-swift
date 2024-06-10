@@ -182,7 +182,7 @@ extension PBSelectableCard {
         .padding()
       separatorView
       Text(text)
-        .padding(.horizontal, isSelected ? cardPadding + 1 : cardPadding + 0.50)
+        .padding(.horizontal, isSelected ? cardPadding - 1 : cardPadding - 0.10)
       if isCardFullWidth {
         Spacer()
       }
@@ -201,7 +201,7 @@ extension PBSelectableCard {
       separatorView
       Text(text)
         .padding(cardPadding)
-        .padding(.horizontal, isSelected ? padding + 1 : padding + 0.50)
+        .padding(.horizontal, isSelected ? padding - 1 : padding - 0.10)
       if isCardFullWidth {
         Spacer()
       }
