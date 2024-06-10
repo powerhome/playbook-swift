@@ -13,7 +13,7 @@ struct PBStatusDialogView: View {
   let status: DialogStatus
   let title: String
   let description: String
-
+  
   var body: some View {
     VStack {
       PBIconCircle(status.icon.0, size: .x2, color: status.icon.1)
@@ -34,7 +34,7 @@ struct PBStatusDialogView: View {
 
 public enum DialogStatus: String, CaseIterable, Identifiable {
   public var id: UUID { UUID() }
-
+  
   case `default`, caution, delete, information, error, success
   var icon: (PlaybookGenericIcon, Color) {
     switch self {

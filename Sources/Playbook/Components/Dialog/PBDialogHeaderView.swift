@@ -12,12 +12,12 @@ import SwiftUI
 struct PBDialogHeaderView: View {
   let title: String?
   let dismissAction: (() -> Void)
-
+  
   public init(title: String?, dismissAction: @escaping () -> Void) {
     self.title = title
     self.dismissAction = dismissAction
   }
-
+  
   var body: some View {
     HStack {
       if let title = title {

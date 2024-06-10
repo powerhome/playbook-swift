@@ -51,7 +51,7 @@ public struct PBDialog<Content: View>: View {
     self.isButtonFullWidth = isButtonFullWidth
     self.shouldCloseOnOverlay = shouldCloseOnOverlay
   }
-
+  
   public var body: some View {
     dialogView()
       .onTapGesture {
@@ -65,7 +65,7 @@ public struct PBDialog<Content: View>: View {
       }
       .environment(\.colorScheme, .light)
   }
-
+  
   private func dialogView() -> some View {
     return PBCard(alignment: .center, padding: Spacing.none) {
       switch variant {
@@ -74,24 +74,24 @@ public struct PBDialog<Content: View>: View {
           PBDialogHeaderView(title: title) { dismissDialog() }
           PBSectionSeparator()
         }
-
+        
         if let message = message {
           Text(message)
             .pbFont(.body)
             .padding()
         }
-
+        
         content
-
+        
       case .status(let status):
         PBStatusDialogView(status: status, title: title ?? "", description: message ?? "")
           .frame(maxWidth: .infinity)
       }
-
+      
       if let confirmButton = confirmButton {
         PBDialogActionView(
           isStacked: isStacked,
-          cancelButton: cancelButton, 
+          cancelButton: cancelButton,
           confirmButton: confirmButton,
           variant: variant,
           isButtonFullWidth: isButtonFullWidth,
@@ -103,13 +103,13 @@ public struct PBDialog<Content: View>: View {
     .padding(padding)
     .preferredColorScheme(.light)
   }
-
+  
   var padding: EdgeInsets {
-    #if os(macOS)
-      return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-    #elseif os(iOS)
-      return EdgeInsets(top: 0, leading: Spacing.medium, bottom: 0, trailing: Spacing.medium)
-    #endif
+#if os(macOS)
+    return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+#elseif os(iOS)
+    return EdgeInsets(top: 0, leading: Spacing.medium, bottom: 0, trailing: Spacing.medium)
+#endif
   }
   
   func dismissDialog() {
@@ -119,12 +119,12 @@ public struct PBDialog<Content: View>: View {
 
 public enum DialogSize: String, CaseIterable, Identifiable {
   public var id: UUID { UUID() }
-
+  
   case small
   case medium
   case large
   case flex
-
+  
   var width: CGFloat? {
     switch self {
     case .small: return 300
@@ -138,7 +138,7 @@ public enum DialogSize: String, CaseIterable, Identifiable {
 public enum DialogVariant: Equatable {
   case `default`
   case status(_ status: DialogStatus)
-
+  
   public func width(_ size: DialogSize) -> CGFloat? {
     switch self {
     case .status: return 375
