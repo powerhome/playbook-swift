@@ -92,7 +92,7 @@ public extension PBCard {
     }
   }
   var borderColor: Color {
-    isHovering ? .text(.light) : style.color
+    isHovering ? .status(.neutral) : style.color
   }
 }
 
