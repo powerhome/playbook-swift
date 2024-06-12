@@ -17,7 +17,7 @@ public struct PBButton: View {
   var title: String?
   var icon: PBIcon?
   var iconPosition: IconPosition?
-  let isLoading: Bool
+  @Binding var isLoading: Bool
   let action: (() -> Void)?
   
   public init(
@@ -28,8 +28,8 @@ public struct PBButton: View {
     title: String? = nil,
     icon: PBIcon? = nil,
     iconPosition: IconPosition? = .left,
-    isLoading: Bool = false,
-    action: (() -> Void)? = {}
+    isLoading: Binding<Bool> = .constant(false),
+    action: (() -> Void)? = nil
   ) {
     self.fullWidth = fullWidth
     self.variant = variant
@@ -38,7 +38,7 @@ public struct PBButton: View {
     self.title = title
     self.icon = icon
     self.iconPosition = iconPosition
-    self.isLoading = isLoading
+    self._isLoading = isLoading
     self.action = action
   }
   
