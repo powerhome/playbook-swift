@@ -10,6 +10,7 @@
 import SwiftUI
 
 public struct PBReactionButton: View {
+  @Environment(\.colorScheme) var colorScheme
   @Binding var count: Int
   @State private var isHighlighted: Bool = false
   @State private var isHovering: Bool = false
@@ -42,9 +43,9 @@ public extension PBReactionButton {
       highlightReaction()
     } label: {
         reactionButtonLabelView
-        .reactionButtonStyle(isHighlighted: isHighlighted, isInteractive: isInteractive, isHovering: isHovering)
-    }
-    .buttonStyle(.plain)
+          .reactionButtonStyle(isHighlighted: isHighlighted, isInteractive: isInteractive, isHovering: isHovering)
+      }
+      .buttonStyle(.plain)
   }
   
   @ViewBuilder
@@ -62,7 +63,7 @@ public extension PBReactionButton {
     return HStack(spacing: Spacing.xxSmall) {
       emojiView
       countView
-    }  
+    }
     .padding(.horizontal, 8)
     .padding(.vertical, 2)
   }
@@ -70,18 +71,20 @@ public extension PBReactionButton {
   var emojiView: some View {
     return Text(icon ?? "")
       .pbFont(.monogram(12), variant: .light, color: .text(.light))
+      .padding(.top, 1.8)
       .padding(.leading, count > 0 ? 0 : 4)
+     
   }
   
   var countView: some View {
     return Text(count > 0 || isInteractive == true ? "\(count)" : "")
-      .pbFont(.subcaption, variant: .light, color: .text(.light))
+      .pbFont(.subcaption, variant: .light, color: countViewForegroundColor)
   }
   
   var addReactionView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.faceSmilePlus, size: .small)
-        .foregroundStyle(Color.text(.lighter))
+        .foregroundStyle(foregroundColor)
         .padding(.horizontal, 12)
     }
   }
@@ -89,11 +92,18 @@ public extension PBReactionButton {
   var pbIconView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.user, size: .small)
-        .foregroundStyle(Color.text(.lighter))
+        .foregroundStyle(foregroundColor)
         .padding(.horizontal, 14.5)
     }
   }
   
+  var foregroundColor: Color {
+    colorScheme == .dark ? Color.background(.dark).opacity(0.3) : Color.text(.lighter)
+  }
+  
+  var countViewForegroundColor: Color {
+    colorScheme == .dark ? Color.background(.dark).opacity(0.6) : Color.text(.light)
+  }
  func highlightReaction() {
     isHighlighted.toggle()
     if !isHighlighted && isInteractive {

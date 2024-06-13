@@ -13,7 +13,7 @@ public struct PBButtonStyle: ButtonStyle {
   var variant: PBButton.Variant
   var size: PBButton.Size
   @State private var isHovering = false
-
+  @Environment(\.colorScheme) var colorScheme
   public init(
     variant: PBButton.Variant,
     size: PBButton.Size) {
@@ -41,6 +41,7 @@ public struct PBButtonStyle: ButtonStyle {
             isPressed: isPressed,
             isHovering: isHovering
           )
+          .background(colorScheme == .dark && variant == .secondary ? Color(NSColor(red:77, green: 73, blue: 93, alpha: 0.3)) : variant.backgroundColor)
       )
       .foregroundColor(
         variant.foregroundAnimation(

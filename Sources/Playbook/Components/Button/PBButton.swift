@@ -10,6 +10,7 @@
 import SwiftUI
 
 public struct PBButton: View {
+  @Environment(\.colorScheme) var colorScheme
   var fullWidth: Bool
   var variant: Variant
   var size: Size
@@ -49,10 +50,11 @@ public struct PBButton: View {
       HStack {
         icon
         if isLoading {
-          PBLoader(color: variant.foregroundColor)
+          PBLoader(color: colorScheme == .dark ? Color.white : variant.foregroundColor)
         } else {
           if let title = title, shape == .primary {
             Text(title)
+              .foregroundStyle(colorScheme == .dark && variant == .secondary ? Color.text(.default) : variant.foregroundColor)
           }
         }
       }
