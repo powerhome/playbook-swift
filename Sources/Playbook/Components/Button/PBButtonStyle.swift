@@ -41,7 +41,7 @@ public struct PBButtonStyle: ButtonStyle {
             isPressed: isPressed,
             isHovering: isHovering
           )
-          .background(colorScheme == .dark && variant == .secondary ? Color(NSColor(red:77, green: 73, blue: 93, alpha: 0.3)) : variant.backgroundColor)
+          .background(colorScheme == .dark && variant == .secondary ? Color.text(.default).opacity(0.3) : variant.backgroundColor)
       )
       .foregroundColor(
         variant.foregroundAnimation(
