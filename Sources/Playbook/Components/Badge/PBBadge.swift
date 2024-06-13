@@ -13,7 +13,7 @@ public struct PBBadge: View {
   var text: String
   var rounded: Bool
   var variant: Variant
-
+  @Environment(\.colorScheme) var colorScheme
   public init(
     text: String,
     rounded: Bool = false,
@@ -28,8 +28,8 @@ public struct PBBadge: View {
     Text(text)
       .padding(EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4))
       .frame(minWidth: 8)
-      .foregroundColor(variant.foregroundColor())
-      .background(variant.backgroundColor())
+      .foregroundColor(foregroundColor())
+      .background(backgroundColor())
       .background(.white)
       .pbFont(.badgeText)
       .cornerRadius(rounded ? 9 : 4)
@@ -45,13 +45,13 @@ public extension PBBadge {
     case primary
     case success
     case warning
-
+  }
     func foregroundColor() -> Color {
-      switch self {
+      switch variant {
       case .chat: return .white
       case .error: return .status(.error)
       case .info: return .status(.info)
-      case .neutral: return .text(.light)
+      case .neutral: return colorScheme == .dark ? .black.opacity(0.55) : .text(.light)
       case .success: return .text(.successSmall)
       case .warning: return .status(.warning)
       default: return .pbPrimary
@@ -59,13 +59,13 @@ public extension PBBadge {
     }
 
     func backgroundColor() -> Color {
-      if self == .chat {
+      if variant == .chat {
         return Color.pbPrimary
       } else {
         return foregroundColor().opacity(0.12)
       }
     }
-  }
+  //}
 }
 
 #Preview {
