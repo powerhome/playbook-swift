@@ -55,7 +55,7 @@ public struct PBCheckboxStyle: ToggleStyle {
     switch (checkboxType, checked) {
     case (.default, true), (.error, true), (.indeterminate, true): return .pbPrimary
     case (.error, false): return .status(.error)
-    default: return Color.border
+    default: return Color.white
     }
   }
 
