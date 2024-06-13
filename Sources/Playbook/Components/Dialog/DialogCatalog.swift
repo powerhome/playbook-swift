@@ -283,9 +283,7 @@ public struct DialogCatalog: View {
                     isStacked: false,
                     cancelButton: PBButton(title: "Cancel"),
                     confirmButton: PBButton(title: "Okay"),
-                    size: .small,
-                    buttonSize: .medium,
-                    isLoading: true
+                    size: .small
                 )
             }
             
@@ -300,9 +298,7 @@ public struct DialogCatalog: View {
                     isStacked: false,
                     cancelButton: PBButton(title: "Cancel"),
                     confirmButton: PBButton(title: "Cancel"),
-                    size: .medium,
-                    buttonSize: .medium,
-                    isLoading: false
+                    size: .medium
                 )
             }
             
@@ -317,8 +313,7 @@ public struct DialogCatalog: View {
                     isStacked: false,
                     cancelButton: PBButton(title: "Cancel"),
                     confirmButton: PBButton(title: "Cancel"),
-                    size: .large,
-                    buttonSize: .medium
+                    size: .large
                 )
             }
         }
