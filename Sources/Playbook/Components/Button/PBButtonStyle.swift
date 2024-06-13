@@ -17,14 +17,14 @@ public struct PBButtonStyle: ButtonStyle {
   public init(
     variant: PBButton.Variant,
     size: PBButton.Size) {
-    self.variant = variant
-    self.size = size
-  }
-
+      self.variant = variant
+      self.size = size
+    }
+  
   public func makeBody(configuration: Configuration) -> some View {
     let isPressed = configuration.isPressed
     let isPrimaryVariant = variant == .primary
-
+    
     configuration.label
       .padding(.vertical, size.verticalPadding(variant))
       .padding(.horizontal, size.horizontalPadding(variant))
@@ -51,11 +51,11 @@ public struct PBButtonStyle: ButtonStyle {
         )
       )
       .cornerRadius(5)
-    #if os(macOS)
+      #if os(macOS)
       .onHover(disabled: variant == .disabled ? true : false) {
         self.isHovering = $0
       }
-    #endif
+      #endif
       .pbFont(.buttonText(size.fontSize))
   }
 }

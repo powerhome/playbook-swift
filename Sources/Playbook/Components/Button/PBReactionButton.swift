@@ -42,21 +42,21 @@ public extension PBReactionButton {
     return Button {
       highlightReaction()
     } label: {
-        reactionButtonLabelView
-          .reactionButtonStyle(isHighlighted: isHighlighted, isInteractive: isInteractive, isHovering: isHovering)
-      }
-      .buttonStyle(.plain)
+      reactionButtonLabelView
+        .reactionButtonStyle(isHighlighted: isHighlighted, isInteractive: isInteractive, isHovering: isHovering)
+    }
+    .buttonStyle(.plain)
   }
   
   @ViewBuilder
   var reactionButtonLabelView: some View {
-      if icon != nil {
-        emojiCountView
-      } else if pbIcon != nil {
-        pbIconView
-      } else {
-        addReactionView
-      }
+    if icon != nil {
+      emojiCountView
+    } else if pbIcon != nil {
+      pbIconView
+    } else {
+      addReactionView
+    }
   }
   
   var emojiCountView: some View {
@@ -73,7 +73,7 @@ public extension PBReactionButton {
       .pbFont(.monogram(12), variant: .light, color: .text(.light))
       .padding(.top, 1.8)
       .padding(.leading, count > 0 ? 0 : 4)
-     
+    
   }
   
   var countView: some View {
@@ -104,7 +104,7 @@ public extension PBReactionButton {
   var countViewForegroundColor: Color {
     colorScheme == .dark ? Color.background(.dark).opacity(0.6) : Color.text(.light)
   }
- func highlightReaction() {
+  func highlightReaction() {
     isHighlighted.toggle()
     if !isHighlighted && isInteractive {
       count -= 1
