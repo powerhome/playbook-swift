@@ -23,7 +23,7 @@ public struct PBBadge: View {
     self.rounded = rounded
     self.variant = variant
   }
-
+  
   public var body: some View {
     Text(text)
       .padding(EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4))
@@ -46,26 +46,25 @@ public extension PBBadge {
     case success
     case warning
   }
-    func foregroundColor() -> Color {
-      switch variant {
-      case .chat: return .white
-      case .error: return .status(.error)
-      case .info: return .status(.info)
-      case .neutral: return colorScheme == .dark ? .black.opacity(0.55) : .text(.light)
-      case .success: return .text(.successSmall)
-      case .warning: return .status(.warning)
-      default: return .pbPrimary
-      }
+  func foregroundColor() -> Color {
+    switch variant {
+    case .chat: return .white
+    case .error: return .status(.error)
+    case .info: return .status(.info)
+    case .neutral: return colorScheme == .dark ? .black.opacity(0.55) : .text(.light)
+    case .success: return .text(.successSmall)
+    case .warning: return .status(.warning)
+    default: return .pbPrimary
     }
-
-    func backgroundColor() -> Color {
-      if variant == .chat {
-        return Color.pbPrimary
-      } else {
-        return foregroundColor().opacity(0.12)
-      }
+  }
+  
+  func backgroundColor() -> Color {
+    if variant == .chat {
+      return Color.pbPrimary
+    } else {
+      return foregroundColor().opacity(0.12)
     }
-  //}
+  }
 }
 
 #Preview {
