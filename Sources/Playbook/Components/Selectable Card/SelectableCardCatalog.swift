@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct SelectableCardCatalog: View {
-  @State private var isSelected: Bool = true
+ @State private var isSelected: Bool = true
   @State private var isSelected1: Bool = true
   @State private var isSelected2: Bool = false
   @State private var isSelected3: Bool = true
@@ -18,11 +18,14 @@ public struct SelectableCardCatalog: View {
   @State private var isSelected5: Bool = true
   @State private var isSelected6: Bool = false
   @State private var isSelected7: Bool = false
-  @State private var radioItem: String = "5"
-  @State private var radioItemSelected: PBRadioItem? = PBRadioItem("")
+  @State private var isSelected8: Bool = true
+  @State private var isSelected9: Bool = false
+  @State private var isSelected10: Bool = false
+  @State private var isSelected11: Bool = false
+  @State private var isSelected12: Bool = false
+  @State private var radioId: Int = 0
   @State private var hasIcon: Bool = true
   @State private var isDisabled: Bool = true
-  @State private var isHovering: Bool = false
   
   public var body: some View {
     PBDocStack(title: "Selectable Card", spacing: Spacing.medium) {
@@ -32,12 +35,14 @@ public struct SelectableCardCatalog: View {
       PBDoc(title: "Block") {
         blockView
       }
+      PBDoc(title: "Input") {
+        inputView
+      }
     }
   }
 }
 
 public extension SelectableCardCatalog {
-  
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBSelectableCard(
@@ -68,32 +73,76 @@ public extension SelectableCardCatalog {
       )
     }
   }
-  var checkedInputView: some View {
+  var inputView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
+      Text("What programming languages do you know?")
+        .pbFont(.title3, variant: .bold, color: .text(.default))
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "Ruby",
-        isSelected: $isSelected4
+        isSelected: $isSelected4,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "JavaScript",
-        isSelected: $isSelected5
+        isSelected: $isSelected5,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "TypeScript",
-        isSelected: $isSelected6
+        isSelected: $isSelected6,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .checkedInput,
         cardText: "Swift",
-        isSelected: $isSelected7
+        isSelected: $isSelected7,
+        isCardFullWidth: true
+      )
+      Spacer()
+      Text("How likely are you to recommend Playbook to a friend?")
+        .pbFont(.title3, variant: .bold, color: .text(.default))
+      PBSelectableCard(
+        variant: .radioInput,
+        cardText: "5",
+        isSelected: $isSelected8,
+        radioId: $radioId,
+        id: 5,
+        isCardFullWidth: true
       )
       PBSelectableCard(
         variant: .radioInput,
-        radioItem: $radioItem,
-        isRadioSelected: $radioItemSelected
+        cardText: "4",
+        isSelected: $isSelected9,
+        radioId: $radioId,
+        id: 4,
+        isCardFullWidth: true
+      )
+      PBSelectableCard(
+        variant: .radioInput,
+        cardText: "3",
+        isSelected: $isSelected10,
+        radioId: $radioId,
+        id: 3,
+        isCardFullWidth: true
+      )
+      PBSelectableCard(
+        variant: .radioInput,
+        cardText: "2",
+        isSelected: $isSelected11,
+        radioId: $radioId,
+        id: 2,
+        isCardFullWidth: true
+      )
+      PBSelectableCard(
+        variant: .radioInput,
+        cardText: "1",
+        isSelected: $isSelected12,
+        radioId: $radioId,
+        id: 1,
+        isCardFullWidth: true
       )
     }
   }
