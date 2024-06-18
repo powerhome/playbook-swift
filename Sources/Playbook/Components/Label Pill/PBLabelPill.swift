@@ -15,54 +15,48 @@ public struct PBLabelPill: View {
   let pillValue: String?
   let labelFontSize: PBFont
   let labelColor: Color
-  
+  let offset: Double?
+  let horizontalPadding: CGFloat?
   public init(
     variant: PBPill.Variant = .neutral,
     labelValue: String? = "Service Needed",
     pillValue: String? = "76",
     labelFontSize: PBFont = .caption,
-    labelColor: Color = Color.text(.default)
+    labelColor: Color = .text(.light),
+    offset: Double? = -5.5,
+    horizontalPadding: CGFloat? = Spacing.xSmall
   ) {
     self.variant = variant
     self.labelValue = labelValue
     self.pillValue = pillValue
     self.labelFontSize = labelFontSize
     self.labelColor = labelColor
+    self.offset = offset
+    self.horizontalPadding = horizontalPadding
   }
   
-    public var body: some View {
-      pillLabelView
-//      HStack {
-//        PBLabelValue("Service Needed")
-//        PBPill("76", variant: .neutral)
-//         
-//      }
-//     
-
-    }
+  public var body: some View {
+    pillLabelView
+  }
 }
 
 public extension PBLabelPill {
   var pillLabelView: some View {
-    HStack {
-      PBLabelValue(labelValue ?? "")
-      PBPill(pillValue ?? "", variant: variant)
+    HStack(spacing: horizontalPadding) {
+      labelView
+      pillView
     }
     .pbFont(labelFontSize, color: labelColor)
+  }
+  var labelView: some View {
+    PBLabelValue(labelValue ?? "")
+      .baselineOffset(offset ?? -5.5)
+  }
+  var pillView: some View {
+    PBPill(pillValue ?? "", variant: variant)
   }
 }
 #Preview {
   registerFonts()
   return PBLabelPill(pillValue: "", labelFontSize: .caption, labelColor: .active)
 }
-/*
- 
- 
- label: string
- pillValue: string
- variant:
- "error" | "info" | "neutral" | "primary" | "success" | "warning"
- 
- 
- 
- */

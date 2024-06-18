@@ -10,13 +10,13 @@
 import SwiftUI
 
 public struct LabelPillCatalog: View {
-    public var body: some View {
-      PBDocStack(title: "Label Pill", spacing: Spacing.small) {
-        PBDoc(title: "Default") {
-          defaultView
-        }
+  public var body: some View {
+    PBDocStack(title: "Label Pill", spacing: Spacing.xxSmall) {
+      PBDoc(title: "Default") {
+        defaultView
       }
     }
+  }
 }
 
 extension LabelPillCatalog {
@@ -75,5 +75,5 @@ extension LabelPillCatalog {
 
 #Preview {
   registerFonts()
-   return LabelPillCatalog()
+  return LabelPillCatalog()
 }
