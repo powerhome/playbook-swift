@@ -43,7 +43,6 @@ public class PopoverManager: ObservableObject {
     if let popover = popovers.first(where: { $0.key == id })?.value, let position = position {
       let newPopover = Popover(view: view, position: position, close: popover.close)
       popovers.updateValue(newPopover, forKey: id)
-      print("popover position updated: \(newPopover.position) key: \(id)")
     }
   }
 

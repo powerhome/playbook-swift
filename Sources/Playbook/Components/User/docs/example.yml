@@ -1,0 +1,8 @@
+  swift:
+  - user_horizontal_swift: Horizontal
+  - user_vertical_swift: Vertical
+  - user_text_only_swift: Text Only
+  - user_horizontal_sizes_swift: Horizontal Sizes
+  - user_block_content_subtitle_swift: Block Content Subtitle
+  - user_presence_indicator_swift: Presence Indicator
+  - user_props_swift: ""
