@@ -30,10 +30,12 @@ public enum PBCardStyle {
 
   var lineWidth: CGFloat {
     switch self {
-    case .default, .error:
+    case .default:
       return 1
     case .selected(let type):
       return type == .card ? 2 : 1
+    case .error:
+      return 2
     case .inline:
       return 0
     }
