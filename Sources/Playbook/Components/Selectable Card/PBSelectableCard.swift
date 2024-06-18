@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBSelectableCard<Content: View>: View {
-  let alignment: Alignment
+ let alignment: Alignment
   let variant: Variant
   let backgroundColor: Color
   let borderRadius: CGFloat
@@ -25,12 +25,14 @@ public struct PBSelectableCard<Content: View>: View {
   let iconOffsetX: CGFloat?
   let iconOffsetY: CGFloat?
   let content: Content?
+  let id: Int
+  let isCardFullWidth: Bool
   @State private var isHovering: Bool = false
   @Binding var isSelected: Bool
-  @Binding var radioItem: String
-  @Binding var isRadioSelected: PBRadioItem?
   @Binding var hasIcon: Bool
   @Binding var isDisabled: Bool
+  @Binding var radioId: Int
+  
   public init(
     alignment: Alignment = .center,
     variant: Variant = .default,
@@ -47,10 +49,11 @@ public struct PBSelectableCard<Content: View>: View {
     iconOffsetX: CGFloat? = 10,
     iconOffsetY: CGFloat? = -10,
     isSelected: Binding<Bool> = .constant(false),
-    radioItem: Binding<String> = .constant(""),
-    isRadioSelected: Binding<PBRadioItem?> = .constant(.none),
     hasIcon: Binding<Bool> = .constant(false),
     isDisabled: Binding<Bool> = .constant(false),
+    radioId: Binding<Int> = .constant(0),
+    id: Int = 0,
+    isCardFullWidth: Bool = false,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.alignment = alignment
@@ -67,11 +70,12 @@ public struct PBSelectableCard<Content: View>: View {
     self.iconPosition = iconPosition
     self.iconOffsetX = iconOffsetX
     self.iconOffsetY = iconOffsetY
+    self.id = id
     self._isSelected = isSelected
-    self._radioItem = radioItem
-    self._isRadioSelected = isRadioSelected
     self._hasIcon = hasIcon
     self._isDisabled = isDisabled
+    self._radioId = radioId
+    self.isCardFullWidth = isCardFullWidth
     self.content = content()
   }
   public var body: some View {
@@ -98,32 +102,35 @@ extension PBSelectableCard {
         borderRadius: borderRadius,
         padding: padding,
         style: isSelected ? .selected(type: .card) : .default,
-        shadow: isDisabled ? Shadow.none : shadowStyle,
-        width: frameReader(in: { _ in}) as? CGFloat
+        shadow: shadowStyle,
+        width: frameReader(in: { _ in}) as? CGFloat, 
+        isHovering: isSelected ? false : isHovering
       ) {
         if let text = cardText {
-          cardTextView(text)
+          AnyView(cardTextView(text))
         }
         if let content = content {
           content
         }
       }
-      .overlay(
-        hoverBorderView
-      )
+      .pbFont(.body, color: .text(.default))
       .opacity(isDisabled ? 0.6 : 1)
       .globalPosition(alignment: iconPosition) {
         iconView
       }
-      .onTapGesture {
-        isSelected.toggle()
+       .onTapGesture {
+        if variant != .radioInput {
+          isSelected.toggle()
+        } else {
+          radioId = id
+        }
         hasIcon.toggle()
       }
       .onHover { hovering in
         if !isDisabled {
-          isHovering = hovering
+          isHovering.toggle()
         }
-#if os(macOS)
+        #if os(macOS)
         if hovering {
           NSCursor.pointingHand.push()
           if isDisabled {
@@ -133,8 +140,11 @@ extension PBSelectableCard {
           NSCursor.pointingHand.pop()
           NSCursor.operationNotAllowed.pop()
         }
-#endif
+        #endif
       }
+    }
+    .onChange(of: radioId) { newValue in
+      isSelected = (newValue == id)
     }
   }
   var iconView: some View {
@@ -149,17 +159,13 @@ extension PBSelectableCard {
       .offset(x: iconOffsetX ?? 0, y: iconOffsetY ?? 0)
       .opacity(isSelected && hasIcon ? 1 : 0)
   }
-  @ViewBuilder
-  func cardTextView(_ text: String) -> some View {
-    Group {
-      switch variant {
-      case .default: Text(text)
-      case .block: blockText(text)
-      case .checkedInput: checkedInputView(text)
-      case .radioInput: radioInputView(text)
-      }
+  func cardTextView(_ text: String) -> any View {
+    switch variant {
+    case .default: return Text(text)
+    case .block: return blockText(text)
+    case .checkedInput: return checkedInputView(text)
+    case .radioInput: return radioInputView(text)
     }
-    .pbFont(.body, color: .text(.default))
   }
   func blockText(_ text: String) -> some View {
     let wholeText = text.split { $0.isNewline }
@@ -176,39 +182,51 @@ extension PBSelectableCard {
         .padding()
       separatorView
       Text(text)
-        .padding(.horizontal, isSelected ? cardPadding : cardPadding + 1)
-      
+        .padding(.horizontal, isSelected ? cardPadding - 1 : cardPadding - 0.10)
+      if isCardFullWidth {
+        Spacer()
+      }
     }
     .padding(.vertical, -4)
   }
   func radioInputView(_ text: String) -> some View {
     HStack(spacing: Spacing.none) {
-      PBRadio(
-        items: [
-          PBRadioItem(radioItem),
-        ],
-        orientation: .vertical,
-        selected: $isRadioSelected
+      Button("") {
+        radioId = id
+      }
+      .buttonStyle(
+        radioButtonStyle
       )
-      .padding(cardPadding)
+      .padding(.horizontal, 10)
       separatorView
       Text(text)
+        .padding(cardPadding)
+        .padding(.horizontal, isSelected ? padding - 1 : padding - 0.10)
+      if isCardFullWidth {
+        Spacer()
+      }
     }
+    .padding(.vertical, -4)
+  }
+  var radioButtonStyle: PBRadioButtonStyle {
+    PBRadioButtonStyle(
+      subtitle: nil,
+      isSelected: isSelected,
+      textAlignment: .horizontal,
+      padding: padding,
+      errorState: false
+    )
   }
   var separatorView: some View {
-    PBSectionSeparator(orientation: .vertical, margin: 0) {}
-      .frame(width: isSelected ? 2 : 1)
-      .background(isSelected || isHovering ? Color.pbPrimary : .border)
-  }
-  var hoverBorderView: some View {
-    RoundedRectangle(cornerRadius: borderRadius, style: .circular)
-      .stroke(
-        isHovering && variant != .block ? Color.pbPrimary : isSelected && variant == .block ? Color.pbPrimary : .text(.light),
-        lineWidth: isHovering ? 2 : 0
-      )
+    HStack {
+      Divider()
+        .frame(width: isSelected ? 2 : 1)
+        .background(isSelected ? Color.pbPrimary : .border)
+        .foregroundStyle(isSelected ? Color.pbPrimary : Color.border)
+    }
   }
   var shadowStyle: Shadow {
-    isHovering ? .deep : isDisabled ? Shadow.none : Shadow.none
+    isHovering ? .deep : Shadow.none
   }
 }
 
