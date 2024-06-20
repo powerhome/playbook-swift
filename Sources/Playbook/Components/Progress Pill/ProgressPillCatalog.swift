@@ -21,7 +21,7 @@ public struct ProgressPillCatalog: View {
 
 extension ProgressPillCatalog {
   var defaultView: some View {
-    HStack {
+    VStack(alignment: .leading) {
       PBProgressPill()
     }
   }

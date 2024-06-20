@@ -34,9 +34,9 @@ extension PBProgressPill {
     }
   }
   func progressPillView(isActive: Bool) -> some View {
-      RoundedRectangle(cornerRadius: 4)
-          .frame(width: 45, height: 4)
-          .foregroundColor(isActive ? Color.pbPrimary : Color.text(.lighter))
+    RoundedRectangle(cornerRadius: 4)
+      .frame(width: 45, height: 4)
+      .foregroundColor(isActive ? Color.pbPrimary : Color.text(.lighter))
   }
 }
 #Preview {
