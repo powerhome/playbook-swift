@@ -11,26 +11,20 @@ import SwiftUI
 
 public struct PBLabelPill: View {
   let variant: PBPill.Variant
-  let labelValue: String?
+  let label: String?
   let pillValue: String?
-  let labelFontSize: PBFont
-  let labelColor: Color
   let offset: Double?
   let horizontalPadding: CGFloat?
   public init(
     variant: PBPill.Variant = .neutral,
-    labelValue: String? = "Service Needed",
+    label: String? = "Service Needed",
     pillValue: String? = "76",
-    labelFontSize: PBFont = .caption,
-    labelColor: Color = .text(.light),
     offset: Double? = -5.5,
     horizontalPadding: CGFloat? = Spacing.xSmall
   ) {
     self.variant = variant
-    self.labelValue = labelValue
+    self.label = label
     self.pillValue = pillValue
-    self.labelFontSize = labelFontSize
-    self.labelColor = labelColor
     self.offset = offset
     self.horizontalPadding = horizontalPadding
   }
@@ -46,10 +40,9 @@ public extension PBLabelPill {
       labelView
       pillView
     }
-    .pbFont(labelFontSize, color: labelColor)
   }
   var labelView: some View {
-    PBLabelValue(labelValue ?? "")
+    PBLabelValue(label ?? "")
       .baselineOffset(offset ?? -5.5)
   }
   var pillView: some View {
@@ -58,5 +51,5 @@ public extension PBLabelPill {
 }
 #Preview {
   registerFonts()
-  return PBLabelPill(pillValue: "", labelFontSize: .caption, labelColor: .active)
+  return PBLabelPill(pillValue: "")
 }

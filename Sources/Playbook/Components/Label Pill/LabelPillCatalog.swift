@@ -24,50 +24,38 @@ extension LabelPillCatalog {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
       PBLabelPill(
         variant: .neutral,
-        labelValue: "Service Needed",
-        pillValue: "76",
-        labelFontSize: .caption
+        label: "Service Needed",
+        pillValue: "76"
       )
       PBLabelPill(
         variant: .success,
-        labelValue: "Waiting",
-        pillValue: "69",
-        labelFontSize: .caption
+        label: "Waiting",
+        pillValue: "69"
       )
       PBLabelPill(
         variant: .error,
-        labelValue: "In Service",
-        pillValue: "28",
-        labelFontSize: .caption,
-        labelColor: .text(.light)
+        label: "In Service",
+        pillValue: "28"
       )
       PBLabelPill(
         variant: .warning,
-        labelValue: "Fully Serviced",
-        pillValue: "101",
-        labelFontSize: .caption,
-        labelColor: .text(.light)
+        label: "Fully Serviced",
+        pillValue: "101"
       )
       PBLabelPill(
         variant: .info,
-        labelValue: "Inbox",
-        pillValue: "197",
-        labelFontSize: .caption,
-        labelColor: .text(.light)
+        label: "Inbox",
+        pillValue: "197"
       )
       PBLabelPill(
         variant: .neutral,
-        labelValue: "Outbox",
-        pillValue: "13",
-        labelFontSize: .caption,
-        labelColor: .text(.light)
+        label: "Outbox",
+        pillValue: "13"
       )
       PBLabelPill(
         variant: .primary,
-        labelValue: "Inbox",
-        pillValue: "218",
-        labelFontSize: .caption,
-        labelColor: .text(.light)
+        label: "Inbox",
+        pillValue: "218"
       )
     }
   }
