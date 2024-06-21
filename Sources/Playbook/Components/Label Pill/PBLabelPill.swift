@@ -14,19 +14,19 @@ public struct PBLabelPill: View {
   let label: String?
   let pillValue: String?
   let offset: Double?
-  let horizontalPadding: CGFloat?
+  let horizontalSpacing: CGFloat?
   public init(
     variant: PBPill.Variant = .neutral,
     label: String? = nil,
     pillValue: String? = "76",
     offset: Double? = -5.5,
-    horizontalPadding: CGFloat? = Spacing.xSmall
+    horizontalSpacing: CGFloat? = Spacing.xSmall
   ) {
     self.variant = variant
     self.label = label
     self.pillValue = pillValue
     self.offset = offset
-    self.horizontalPadding = horizontalPadding
+    self.horizontalSpacing = horizontalSpacing
   }
   
   public var body: some View {
@@ -36,7 +36,7 @@ public struct PBLabelPill: View {
 
 public extension PBLabelPill {
   var pillLabelView: some View {
-    HStack(spacing: horizontalPadding) {
+    HStack(spacing: horizontalSpacing) {
       labelView
       pillView
     }
@@ -47,7 +47,9 @@ public extension PBLabelPill {
       if let offset = offset {
         PBLabelValue(label)
           .baselineOffset(offset)
-      } 
+      } else {
+        PBLabelValue(label)
+      }
     }
   }
   @ViewBuilder
