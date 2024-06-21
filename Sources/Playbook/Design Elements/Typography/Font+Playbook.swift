@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import power_fonts
 
 public enum PBFont: Equatable {
   case title1
@@ -25,7 +26,7 @@ public enum PBFont: Equatable {
   case messageTitle
   case messageBody
 
-  static let proximaNovaLight = ProximaNova.light.rawValue
+    static let proximaNovaLight = Font.ProximaNova.light.rawValue
 
   var font: Font {
     switch self {
@@ -49,7 +50,7 @@ public enum PBFont: Equatable {
       )
     case .title4:
       return Font.custom(
-        ProximaNova.bold.rawValue,
+        Font.ProximaNova.bold.rawValue,
         size: size,
         relativeTo: .title3
       )
@@ -61,25 +62,25 @@ public enum PBFont: Equatable {
       ).weight(Font.Weight.regular)
     case let .buttonText(fontSize):
       return Font.custom(
-        ProximaNova.bold.rawValue,
+        Font.ProximaNova.bold.rawValue,
         size: fontSize,
         relativeTo: .body
       )
     case .largeCaption:
       return Font.custom(
-        ProximaNova.regular.rawValue,
+        Font.ProximaNova.regular.rawValue,
         size: size,
         relativeTo: .caption2
       )
     case .caption:
       return Font.custom(
-        ProximaNova.semibold.rawValue,
+        Font.ProximaNova.semibold.rawValue,
         size: size,
         relativeTo: .caption
       )
     case .subcaption:
       return Font.custom(
-        ProximaNova.regular.rawValue,
+        Font.ProximaNova.regular.rawValue,
         size: size
       )
     case let .monogram(fontSize):
@@ -90,7 +91,7 @@ public enum PBFont: Equatable {
       )
     case .badgeText:
       return Font.custom(
-        ProximaNova.bold.rawValue,
+        Font.ProximaNova.bold.rawValue,
         size: size,
         relativeTo: .body
       )
@@ -102,7 +103,7 @@ public enum PBFont: Equatable {
       )
     case .messageTitle:
       return Font.custom(
-        ProximaNova.bold.rawValue,
+        Font.ProximaNova.bold.rawValue,
         size: size,
         relativeTo: .title3
       )
