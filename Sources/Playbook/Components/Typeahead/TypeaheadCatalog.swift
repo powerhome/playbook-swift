@@ -23,7 +23,7 @@ public struct TypeaheadCatalog: View {
     PBDocStack(title: "Typeahead") {
       PBDoc(title: "Default", spacing: Spacing.small) { colors }
       PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-      PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
+//      PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
     }
     .popoverHandler()
   }
