@@ -17,7 +17,7 @@ public struct PBLabelPill: View {
   let horizontalPadding: CGFloat?
   public init(
     variant: PBPill.Variant = .neutral,
-    label: String? = "Service Needed",
+    label: String? = nil,
     pillValue: String? = "76",
     offset: Double? = -5.5,
     horizontalPadding: CGFloat? = Spacing.xSmall
@@ -41,12 +41,20 @@ public extension PBLabelPill {
       pillView
     }
   }
+  @ViewBuilder
   var labelView: some View {
-    PBLabelValue(label ?? "")
-      .baselineOffset(offset ?? -5.5)
+    if let label = label {
+      if let offset = offset {
+        PBLabelValue(label)
+          .baselineOffset(offset)
+      } 
+    }
   }
+  @ViewBuilder
   var pillView: some View {
-    PBPill(pillValue ?? "", variant: variant)
+    if let pillValue = pillValue {
+      PBPill(pillValue, variant: variant)
+    }
   }
 }
 #Preview {
