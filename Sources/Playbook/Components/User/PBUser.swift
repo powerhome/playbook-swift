@@ -59,7 +59,7 @@ public struct PBUser: View {
         }
       }
     } else {
-      VStack(spacing: Spacing.xSmall) {
+      VStack(spacing: Spacing.xxSmall) {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize, status: status)
         }
