@@ -47,11 +47,12 @@ public struct PBUser: View {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize, status: status)
         }
-        VStack(alignment: .leading, spacing: Spacing.xSmall) {
+        VStack(alignment: .leading, spacing: Spacing.xxSmall) {
           Text(name)
-            .font(titleStyle.font)
+            .pbFont(titleStyle, variant: .bold)
             .foregroundColor(.text(.default))
-          bodyText.pbFont(.body, color: .text(.light))
+          bodyText
+            .pbFont(.body, color: .text(.light))
           if let content = subtitle {
             content
           }
@@ -62,11 +63,12 @@ public struct PBUser: View {
         if displayAvatar {
           PBAvatar(image: image, name: name, size: size.avatarSize, status: status)
         }
-        VStack(alignment: displayAvatar ? .center : .leading, spacing: Spacing.xSmall) {
+        VStack(alignment: displayAvatar ? .center : .leading, spacing: Spacing.xxSmall) {
           Text(name)
-            .font(titleStyle.font)
+            .pbFont(titleStyle, variant: .bold)
             .foregroundColor(.text(.default))
-          bodyText.pbFont(.body, color: .text(.light))
+          bodyText
+            .pbFont(.body, color: .text(.light))
           if let content = subtitle {
             content
           }
