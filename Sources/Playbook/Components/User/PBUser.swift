@@ -10,120 +10,122 @@
 import SwiftUI
 
 public struct PBUser: View {
-  var name: String
-  var displayAvatar: Bool = true
-  var image: Image?
-  var orientation: Orientation = .horizontal
-  var size: UserAvatarSize = .medium
-  var territory: String?
-  var title: String?
-  var subtitle: AnyView?
-  var status: PBAvatar.PresenceStatus?
-  public init(
-    name: String = "",
-    displayAvatar: Bool = true,
-    image: Image? = nil,
-    orientation: Orientation = .horizontal,
-    size: UserAvatarSize = .medium,
-    territory: String? = nil,
-    title: String? = nil,
-    subtitle: AnyView? = nil,
-    status: PBAvatar.PresenceStatus? = .none
-  ) {
-    self.name = name
-    self.displayAvatar = displayAvatar
-    self.image = image
-    self.orientation = orientation
-    self.size = size
-    self.territory = territory
-    self.title = title
-    self.subtitle = subtitle
-    self.status = status
-  }
-  
-  public var body: some View {
-    if orientation == .horizontal {
-      HStack(spacing: Spacing.small) {
-        if displayAvatar {
-          PBAvatar(image: image, name: name, size: size.avatarSize, status: status)
-        }
-        VStack(alignment: .leading, spacing: Spacing.xxSmall) {
-          Text(name)
-            .pbFont(titleStyle, variant: .bold)
-            .foregroundColor(.text(.default))
-          bodyText
-            .pbFont(.body, color: .text(.light))
-          if let content = subtitle {
-            content
-          }
-        }
-      }
-    } else {
-      VStack(spacing: Spacing.xxSmall) {
-        if displayAvatar {
-          PBAvatar(image: image, name: name, size: size.avatarSize, status: status)
-        }
-        VStack(alignment: displayAvatar ? .center : .leading, spacing: Spacing.xxSmall) {
-          Text(name)
-            .pbFont(titleStyle, variant: .bold)
-            .foregroundColor(.text(.default))
-          bodyText
-            .pbFont(.body, color: .text(.light))
-          if let content = subtitle {
-            content
-          }
-        }
-      }
+    var name: String
+    var image: Image?
+    var orientation: Orientation = .horizontal
+    var size: Size = .small
+    var territory: String?
+    var title: String?
+    var subtitle: AnyView?
+    var status: PBAvatar.PresenceStatus?
+    var displayAvatar: Bool = true
+    public init(
+        name: String = "",
+        image: Image? = nil,
+        orientation: Orientation = .horizontal,
+        size: Size = .medium,
+        territory: String? = nil,
+        title: String? = nil,
+        subtitle: AnyView? = nil,
+        status: PBAvatar.PresenceStatus? = .none,
+        displayAvatar: Bool = true
+    ) {
+        self.name = name
+        self.image = image
+        self.orientation = orientation
+        self.size = size
+        self.territory = territory
+        self.title = title
+        self.subtitle = subtitle
+        self.status = status
+        self.displayAvatar = displayAvatar
     }
-  }
-}
-
-public extension PBUser {
-  var titleStyle: PBFont {
-    switch size {
-    case .large: return .title3
-    default: return .title4
-    }
-  }
-  var bodyText: Text? {
-    if let territory = territory, !territory.isEmpty, let title = title, !title.isEmpty {
-      return Text("\(territory) \u{2022} \(title)")
-    } else if let territory = territory, !territory.isEmpty {
-      return Text(territory)
-    } else if let title = title, !title.isEmpty {
-      return Text(title)
-    } else {
-      return nil
-    }
-  }
-  var subtitleIconRoleBlock: some View {
-    HStack {
-      PBIcon(FontAwesome.users, size: .small)
-      Text("ADMIN")
-        .pbFont(.caption, color: .text(.light))
-    }
-  }
-}
-
-public extension PBUser {
-  enum UserAvatarSize {
-    case small
-    case medium
-    case large
     
-    var avatarSize: PBAvatar.Size {
-      switch self {
-      case .small: return .small
-      case .medium: return .medium
-      case .large: return .large
-      }
+    public var body: some View {
+        if orientation == .horizontal {
+            horizontalView
+        } else {
+            verticalView
+        }
     }
-  }
 }
 
-struct PBUser_Previews: PreviewProvider {
-  static var previews: some View {
+public extension PBUser {
+    var horizontalView: some View {
+        HStack(spacing: Spacing.small) {
+            if displayAvatar {
+                avatarView
+            }
+            contentView
+        }
+    }
+    
+    var verticalView: some View {
+        VStack(spacing: Spacing.xSmall) {
+            if displayAvatar {
+                avatarView
+            }
+            contentView
+        }
+    }
+    
+    var alignment: HorizontalAlignment {
+        return orientation != .horizontal && displayAvatar ? .center : .leading
+    }
+    
+    var avatarView: some View {
+        PBAvatar(image: image, name: name, size: size.avatarSize, status: status)
+    }
+    
+    var contentView: some View {
+        VStack(alignment: alignment, spacing: Spacing.none) {
+            Text(name)
+                .pbFont(titleStyle, variant: .bold)
+                .foregroundColor(.text(.default))
+            bodyText.pbFont(.body, color: .text(.light))
+            if let content = subtitle {
+                content
+            }
+        }
+    }
+    
+    var titleStyle: PBFont {
+        switch size {
+            case .large: return .title3
+            default: return .title4
+        }
+    }
+    
+    var bodyText: Text? {
+        if let territory = territory, !territory.isEmpty, let title = title, !title.isEmpty {
+            return Text("\(territory) \u{2022} \(title)")
+        } else if let territory = territory, !territory.isEmpty {
+            return Text(territory)
+        } else if let title = title, !title.isEmpty {
+            return Text(title)
+        } else {
+            return nil
+        }
+    }
+}
+
+public extension PBUser {
+    enum Size: CaseIterable {
+        case small
+        case medium
+        case large
+        
+        var avatarSize: PBAvatar.Size {
+            switch self {
+                case .small: return .small
+                case .medium: return .medium
+                case .large: return .large
+            }
+        }
+    }
+}
+
+#Preview {
     registerFonts()
     return UserCatalog()
-  }
 }
