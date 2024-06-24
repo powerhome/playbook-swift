@@ -37,9 +37,7 @@ extension TypeaheadCatalog {
       searchText: $searchTextColors,
       selection: .single,
       options: assetsColors
-    ) { options in
-      print("Selected options \(options)")
-    }
+    ) {_ in }
   }
   
   var users: some View {
@@ -50,9 +48,7 @@ extension TypeaheadCatalog {
       searchText: $searchTextUsers,
       selection: .multiple(variant: .pill),
       options: assetsUsers
-    ) { options in
-      print("Selected options \(options)")
-    }
+    ) {_ in }
   }
   
   var debounce: some View {
@@ -64,9 +60,7 @@ extension TypeaheadCatalog {
         selection: .single,
         options: assetsColors,
         debounce: (1, 2)
-      ) { options in
-        print("Selected options \(options)")
-      }
+      ) {_ in }
       
       PBTypeahead(
         id: 3,
@@ -75,9 +69,7 @@ extension TypeaheadCatalog {
         selection: .single,
         options: assetsColors,
         debounce: (0, 2)
-      ) { options in
-        print("Selected options \(options)")
-      }
+      ) {_ in }
     }
   }
 }

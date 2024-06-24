@@ -94,7 +94,7 @@ public struct PopoverCatalog: View {
       }
       .pbPopover(
         isPresented: $isPresented3,
-        clickToClose: (.inside, action: { print("close action") })
+        clickToClose: (.inside, action: {})
       ) {
         Text("Click on me!")
           .pbFont(.body, color: .text(.default))
@@ -109,7 +109,7 @@ public struct PopoverCatalog: View {
       .pbPopover(
         isPresented: $isPresented4,
         position: .top(),
-        clickToClose: (.outside, action: { print("close action") })
+        clickToClose: (.outside, action: {})
       ) {
         Text("Click anywhere but me!")
           .pbFont(.body, color: .text(.default))
@@ -124,7 +124,7 @@ public struct PopoverCatalog: View {
       .pbPopover(
         isPresented: $isPresented5,
         position: .trailing(),
-        clickToClose: (.anywhere, action: { print("close action") })
+        clickToClose: (.anywhere, action: {})
       ) {
         Text("Click anything!")
           .pbFont(.body, color: .text(.default))
