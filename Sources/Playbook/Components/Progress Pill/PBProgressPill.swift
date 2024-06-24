@@ -10,26 +10,30 @@
 import SwiftUI
 
 public struct PBProgressPill: View {
-  let active: [Int]
-  let steps: [Int]
+  @Binding var isActive: Bool
+  @Binding var active: Int
+  let steps: Int
   public init(
-    active: [Int] = [1, 2],
-    steps: [Int] = [1, 2, 3]
+    isActive: Binding<Bool> = .constant(true),
+    active: Binding<Int> = .constant(2),
+    steps: Int = 3
   ) {
-    self.active = active
+    self._isActive = isActive
+    self._active = active
     self.steps = steps
   }
   
   public var body: some View {
-    progressView()
+    progressView
   }
 }
 
 extension PBProgressPill {
-  func progressView() -> some View {
+  
+  var progressView: some View {
     HStack {
-      ForEach(steps.indices, id: \.self) { index in
-        progressPillView(isActive: active.contains(steps[index]))
+      ForEach(1...steps, id: \.self) { step in
+          progressPillView(isActive: step <= active ? isActive : false)
       }
     }
   }

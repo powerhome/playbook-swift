@@ -10,6 +10,8 @@
 import SwiftUI
 
 public struct ProgressPillCatalog: View {
+  @State private var isActive: Bool = true
+  @State private var active: Int = 2
   public var body: some View {
     PBDocStack(title: "Progress Pill", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
@@ -22,7 +24,10 @@ public struct ProgressPillCatalog: View {
 extension ProgressPillCatalog {
   var defaultView: some View {
     VStack(alignment: .leading) {
-      PBProgressPill()
+      PBProgressPill(
+        isActive: $isActive,
+        active: $active
+      )
     }
   }
 }
