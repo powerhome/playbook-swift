@@ -33,7 +33,7 @@ extension PBProgressPill {
   var progressView: some View {
     HStack {
       ForEach(1...steps, id: \.self) { step in
-          progressPillView(isActive: step <= active ? isActive : false)
+        progressPillView(isActive: step <= active ? isActive : false)
       }
     }
   }
