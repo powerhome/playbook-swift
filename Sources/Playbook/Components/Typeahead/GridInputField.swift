@@ -203,7 +203,7 @@ private extension GridInputField {
         PBIcon(FontAwesome.chevronDown, size: .xSmall)
             .padding(Spacing.small)
             .foregroundStyle(iconColor(on: indicatorIsHovering))
-            .onHover {
+            .onHover(disabled: false) {
                 indicatorIsHovering = $0
                 isHovering = $0
             }

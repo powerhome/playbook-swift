@@ -31,7 +31,7 @@ public struct PBTypeahead<Content: View>: View {
     @State private var selectedOptions: [Option] = []
     @State private var focused: Bool = false
     @Binding var searchText: String
-    @FocusState private var isFocused
+    @FocusState.Binding private var isFocused: Bool
     
     public init(
         id: Int,
@@ -42,6 +42,7 @@ public struct PBTypeahead<Content: View>: View {
         options: [(String, Content?)],
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
+        isFocused: FocusState<Bool>.Binding,
         onSelection: @escaping (([(String, Content?)]) -> Void),
         clearAction: (() -> Void)? = nil
     ) {
@@ -53,6 +54,7 @@ public struct PBTypeahead<Content: View>: View {
         self.options = options
         self.debounce = debounce
         self.dropdownMaxHeight = dropdownMaxHeight
+        self._isFocused = isFocused
         self.clearAction = clearAction
         self.onSelection = onSelection
     }
