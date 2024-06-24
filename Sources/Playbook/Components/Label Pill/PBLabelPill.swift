@@ -11,21 +11,18 @@ import SwiftUI
 
 public struct PBLabelPill: View {
   let variant: PBPill.Variant
-  let label: String?
+  let label: String
   let pillValue: String?
-  let offset: Double?
   let horizontalSpacing: CGFloat?
   public init(
     variant: PBPill.Variant = .neutral,
-    label: String? = nil,
-    pillValue: String? = "76",
-    offset: Double? = -5.5,
+    label: String = "",
+    pillValue: String? = nil,
     horizontalSpacing: CGFloat? = Spacing.xSmall
   ) {
     self.variant = variant
     self.label = label
     self.pillValue = pillValue
-    self.offset = offset
     self.horizontalSpacing = horizontalSpacing
   }
   
@@ -43,14 +40,8 @@ public extension PBLabelPill {
   }
   @ViewBuilder
   var labelView: some View {
-    if let label = label {
-      if let offset = offset {
         PBLabelValue(label)
-          .baselineOffset(offset)
-      } else {
-        PBLabelValue(label)
-      }
-    }
+          .baselineOffset(-5.5)
   }
   @ViewBuilder
   var pillView: some View {
