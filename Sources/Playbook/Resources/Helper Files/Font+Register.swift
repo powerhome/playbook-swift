@@ -8,26 +8,13 @@
 //
 
 import SwiftUI
+import power_fonts
 
 /// This helper must be called in the root of the application
 /// code, for example in `applicationDidFinishLaunching`.
 public func registerFonts() {
   // Fonts
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Black", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-BlackIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Bold", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-BoldIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Extrabld", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-ExtrabldIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Light", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-LightIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Regular", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-RegularIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Semibold", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-SemiboldIt", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-Thin", fontExtension: "otf")
-  _ = registerFont(bundle: .module, fontName: "ProximaNova-ThinIt", fontExtension: "otf")
-
+    FontLoader.registerFonts()
   // Icons
   _ = registerFont(bundle: .module, fontName: "Fontastic", fontExtension: "ttf")
   _ = registerFont(bundle: .module, fontName: "Font Awesome 6 Brands-Regular-400", fontExtension: "otf")
