@@ -11,10 +11,14 @@ import SwiftUI
 
 public struct ProgressPillCatalog: View {
   @State private var active: Int = 2
+  @State private var active1: Int = 2
   public var body: some View {
     PBDocStack(title: "Progress Pill", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
         defaultView
+      }
+      PBDoc(title: "Status") {
+        statusView
       }
     }
   }
@@ -25,6 +29,15 @@ extension ProgressPillCatalog {
     VStack(alignment: .leading) {
       PBProgressPill(
         active: $active
+      )
+    }
+  }
+  var statusView: some View {
+    VStack(alignment: .leading) {
+      PBProgressPill(
+        active: $active1,
+        title: "Status:",
+        value: "Orientation"
       )
     }
   }
