@@ -11,60 +11,69 @@ import SwiftUI
 
 #if os(iOS)
 struct ClickDetectorView: UIViewRepresentable {
-  var onClick: () -> Void
-  
-  func makeCoordinator() -> Coordinator {
-    return Coordinator(onClick: onClick)
-  }
-  
-  func makeUIView(context: Context) -> UIView {
-    let view = UIView(frame: .zero)
-    let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleClick))
-    view.addGestureRecognizer(tapGesture)
-    return view
-  }
-  
-  func updateUIView(_ uiView: UIView, context: Context) {}
-  
-  class Coordinator: NSObject {
     var onClick: () -> Void
     
-    init(onClick: @escaping () -> Void) {
-      self.onClick = onClick
+    func makeUIView(context: Context) -> UIView {
+        let view = ClickableUIView(onClick: onClick)
+        return view
     }
     
-    @objc func handleClick() {
-      onClick()
-    }
-  }
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }
-#elseif os(macOS)
-struct ClickDetectorView: NSViewRepresentable {
-  var onClick: () -> Void
-  
-  func makeCoordinator() -> Coordinator {
-    return Coordinator(onClick: onClick)
-  }
-  
-  func makeNSView(context: Context) -> NSView {
-    let view = NSView(frame: .zero)
-    let clickGesture = NSClickGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleClick))
-    view.addGestureRecognizer(clickGesture)
-    return view
-  }
-  
-  func updateNSView(_ nsView: NSView, context: Context) {}
-  
-  class Coordinator: NSObject {
+
+class ClickableUIView: UIView {
     var onClick: () -> Void
     
     init(onClick: @escaping () -> Void) {
-      self.onClick = onClick
+        self.onClick = onClick
+        super.init(frame: .zero)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleClick))
+        self.addGestureRecognizer(tapGesture)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     @objc func handleClick() {
-      onClick()
+        self.window?.endEditing(true)
+        onClick()
     }
-  }
+}
+
+#elseif os(macOS)
+import SwiftUI
+
+struct ClickDetectorView: NSViewRepresentable {
+    var onClick: () -> Void
+    
+    func makeNSView(context: Context) -> NSView {
+        let view = ClickableNSView(onClick: onClick)
+        return view
+    }
+    
+    func updateNSView(_ nsView: NSView, context: Context) {}
+}
+
+class ClickableNSView: NSView {
+    var onClick: () -> Void
+    
+    init(onClick: @escaping () -> Void) {
+        self.onClick = onClick
+        super.init(frame: .zero)
+        let clickGesture = NSClickGestureRecognizer(target: self, action: #selector(handleClick))
+        self.addGestureRecognizer(clickGesture)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func handleClick() {
+        if let window = self.window {
+            window.makeFirstResponder(nil)
+        }
+        onClick()
+    }
 }
 #endif

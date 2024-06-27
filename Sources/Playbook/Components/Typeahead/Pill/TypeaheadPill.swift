@@ -32,7 +32,7 @@ struct TypeaheadPill: View {
             .foregroundStyle(Color.text(.light))
         }
         Text(text)
-          .font(.custom(ProximaNova.bold.rawValue, size: 14))
+              .font(.custom(Font.ProximaNova.bold.rawValue, size: 14))
         PBIcon(FontAwesome.times, size: .xSmall)
       }
       .foregroundStyle(Color.text(.default))

@@ -12,6 +12,7 @@ import SwiftUI
 public struct ButtonsCatalog: View {
   @State private var count: Int = 153
   @State private var count1: Int = 5
+    @State private var isLoading: Bool = false
 
   public var body: some View {
     PBDocStack(title: "Button") {
@@ -31,7 +32,8 @@ extension ButtonsCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBButton(
         title: "Button Primary",
-        action: {}
+        isLoading: $isLoading, 
+        action: { isLoading = true }
       )
       PBButton(
         variant: .secondary,
@@ -106,21 +108,21 @@ extension ButtonsCatalog {
         fullWidth: true,
         variant: .primary,
         title: "Button lg",
-        isLoading: true,
+        isLoading: .constant(true),
         action: {}
       )
       PBButton(
         fullWidth: true,
         variant: .secondary,
         title: "Button lg",
-        isLoading: true,
+        isLoading: .constant(true),
         action: {}
       )
       PBButton(
         fullWidth: true,
         variant: .link,
         title: "Button lg",
-        isLoading: true,
+        isLoading: .constant(true),
         action: {}
       )
     }
