@@ -37,3 +37,26 @@ struct PBDocStack<Content: View>: View {
     .navigationTitle(title)
   }
 }
+
+
+struct Stack<Content: View>: View {
+  let spacing: CGFloat
+  let content: Content
+
+  public init(
+    spacing: CGFloat = Spacing.medium,
+    padding: CGFloat = Spacing.medium,
+    @ViewBuilder content: () -> Content
+  ) {
+    self.spacing = spacing
+    self.content = content()
+  }
+    
+  var body: some View {
+      #if os(macOS)
+      HStack(spacing: spacing) { content }
+      #elseif os(iOS)
+      VStack(alignment: .leading, spacing: spacing) { content }
+      #endif
+    }
+}
