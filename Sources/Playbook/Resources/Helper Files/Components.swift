@@ -36,6 +36,7 @@ public enum Components: String, CaseIterable {
   case iconValue = "Icon Value"
   case image
   case label = "Label Value"
+  case labelPill = "Label Pill"
   case loader = "Loading Inline"
   case message
   case multipleUser = "Multiple Users"
@@ -46,6 +47,7 @@ public enum Components: String, CaseIterable {
   case personContact = "Person Contact"
   case pill
   case popover
+  case progressPill = "Progress Pill"
   case radio
   case sectionSeparator = "Section Separator"
   case select
@@ -93,6 +95,7 @@ public enum Components: String, CaseIterable {
     case .iconValue: IconValueCatalog()
     case .image: ImageCatalog()
     case .label: LabelValueCatalog()
+    case .labelPill: LabelPillCatalog()
     case .loader: LoaderCatalog()
     case .message: MessageCatalog()
     case .multipleUser: MultipleUsersCatalog()
@@ -103,6 +106,7 @@ public enum Components: String, CaseIterable {
     case .personContact: PersonContactCatalog()
     case .pill: PillCatalog()
     case .popover: PopoverCatalog()
+    case .progressPill: ProgressPillCatalog()
     case .radio: RadioCatalog()
     case .sectionSeparator: SectionSeparatorCatalog()
     case .select: SelectCatalog()
