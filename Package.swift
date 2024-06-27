@@ -18,6 +18,7 @@ let package = Package(
     // Dependencies declare other packages that this package depends on.
     .package(url: "https://github.com/marmelroy/PhoneNumberKit.git", from: "3.7.9"),
     .package(url: "git@github.com:powerhome/power-fonts.git", branch: "add-swift-package"),
+    .package(url: "https://github.com/twostraws/Ignite.git", branch: "main"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
       from: "1.15.4"
@@ -30,7 +31,8 @@ let package = Package(
       name: "Playbook",
       dependencies: [
         .product(name: "PhoneNumberKit", package: "PhoneNumberKit"),
-        .product(name: "power-fonts", package: "power-fonts")
+        .product(name: "power-fonts", package: "power-fonts"),
+        .product(name: "Ignite", package: "Ignite")
       ],
       resources: [.process("Resources/Assets/")]
     ),
