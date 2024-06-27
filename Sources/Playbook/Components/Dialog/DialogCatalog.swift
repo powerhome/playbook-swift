@@ -267,11 +267,31 @@ public struct DialogCatalog: View {
     @State private var presentSmallDialog: Bool = false
     @State private var presentMediumDialog: Bool = false
     @State private var presentLargeDialog: Bool = false
-    
-    let infoMessage = "This is a message for informational purposes only and requires no action."
-    
+  @State private var presentDialog: Bool = false
+  @State private var isLoading: Bool = false
+  @State private var presentDialog1: Bool = false
+  
+  
+  
+  @State private var presentDialog2: Bool = false
+  @State private var presentDialog3: Bool = false
+  @State private var presentDialog4: Bool = false
+  @State private var message = ""
+    let infoMessage1 = "This is a message for informational purposes only and requires no action."
+  let infoMessage = "This is a message for informational \npurposes only."
+  
+  
     public var body: some View {
-        VStack {
+      PBDocStack(title: "Dialog", spacing: Spacing.medium) {
+        PBDoc(title: "Simple") {
+          simpleView
+        }
+        PBDoc(title: "Complex") {
+          complexView
+        }
+        PBDoc(title: "Stacked") {
+          stackedView
+        }
             PBButton(title: "Small") {
                 presentSmallDialog = true
             }
@@ -316,8 +336,152 @@ public struct DialogCatalog: View {
                     size: .large
                 )
             }
+      }
+      
+    }
+}
+extension DialogCatalog {
+  var simpleView: some View {
+    PBButton(title: "Simple") {
+        DialogCatalog.disableAnimation()
+        presentDialog.toggle()
+    }
+    .sheet(isPresented: $presentDialog) {
+      PBDialog(
+          title: "This is some informative text",
+          message: infoMessage,
+          cancelButton: DialogCatalog().cancelButton {
+              isLoading = false
+              closeToast()
+          },
+          confirmButton: DialogCatalog().confirmationButton(isLoading: $isLoading) { isLoading = true }
+      )
+      .backgroundViewModifier(alpha: 0.2)
+    }
+  }
+  
+  var complexView: some View {
+    PBButton(title: "Complex") {
+        DialogCatalog.disableAnimation()
+        presentDialog1.toggle()
+    }
+    .sheet(isPresented: $presentDialog1) {
+        VStack{
+            PBDialog(
+                title: "Send us your thoughts!",
+                cancelButton: DialogCatalog().cancelButton { closeToast() },
+                confirmButton: DialogCatalog().confirmationButton(text: "Submit") { closeToast() },
+                content: ({
+                    ScrollView {
+                        complexTitle
+                        
+                        complexLabel
+                        
+                        Text(message)
+                    }
+                }))
+            .backgroundViewModifier(alpha: 0.2)
         }
     }
+  }
+  
+  var stackedView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+        PBButton(title: "Default Status") {
+            DialogCatalog.disableAnimation()
+            presentDialog2.toggle()
+        }
+        .sheet(isPresented: $presentDialog2) {
+            PBDialog(
+                title: "Are you sure?",
+                message: infoMessage,
+                variant: .status(.default),
+                isStacked: true,
+                cancelButton: DialogCatalog().cancelButtonFullWidth { closeToast() },
+                confirmButton: DialogCatalog().confirmationButtonFullWidth { closeToast() },
+                size: .small
+            )
+            .backgroundViewModifier(alpha: 0.2)
+        }
+        
+        PBButton(title: "Caution Status") {
+            DialogCatalog.disableAnimation()
+            presentDialog3.toggle()
+        }
+        .sheet(isPresented: $presentDialog3) {
+            PBDialog(
+                title: "Are you sure?",
+                message: infoMessage,
+                variant: .status(.caution),
+                isStacked: true,
+                cancelButton: DialogCatalog().cancelButtonFullWidth { closeToast() },
+                confirmButton: DialogCatalog().confirmationButtonFullWidth { closeToast() },
+                size: .small
+            )
+            .backgroundViewModifier(alpha: 0.2)
+        }
+        
+        PBButton(title: "Delete Status") {
+            DialogCatalog.disableAnimation()
+            presentDialog4.toggle()
+        }
+        .sheet(isPresented: $presentDialog4) {
+            PBDialog(
+                title: "Delete?",
+                message: infoMessage,
+                variant: .status(.delete),
+                isStacked: true,
+                cancelButton: DialogCatalog().cancelButtonFullWidth { closeToast() },
+                confirmButton: DialogCatalog().confirmationButtonFullWidth { closeToast() },
+                size: .small
+            )
+            .backgroundViewModifier(alpha: 0.2)
+        }
+    }
+  }
+}
+
+extension DialogCatalog {
+  var complexTitle: some View {
+      return Text("Complex Dialog!")
+          .pbFont(.title3)
+          .multilineTextAlignment(.leading)
+          .padding(.top, 25)
+  }
+  var complexLabel: some View {
+      return VStack(alignment: .leading, spacing: 5) {
+          PBTextInput("Description", text: $message, placeholder: "Let us know how we can improve...")
+      }
+      .padding(.all)
+  }
+  func closeToast() {
+    presentDialog = false
+    presentDialog1 = false
+    presentDialog2 = false
+    presentDialog3 = false
+    presentDialog4 = false
+  }
+  func cancelButton(_ closeToast: @escaping (() -> Void)) -> PBButton {
+      PBButton(fullWidth: false, variant: .secondary, title: "Cancel") { closeToast() }
+  }
+  
+  func cancelButtonFullWidth(_ closeToast: @escaping (() -> Void)) -> PBButton {
+      PBButton(fullWidth: true, variant: .secondary, title: "Cancel") { closeToast() }
+  }
+  
+  func confirmationButton(text: String = "Okay", isLoading: Binding<Bool> = .constant(false), _ closeToast: @escaping (() -> Void)) -> PBButton {
+      PBButton(fullWidth: false, variant: .primary, title: text, isLoading: isLoading) {
+         closeToast() }
+  }
+  
+  func confirmationButtonFullWidth(_ closeToast: @escaping (() -> Void)) -> PBButton {
+      PBButton(fullWidth: true, variant: .primary, title: "Okay") { closeToast() }
+  }
+  static func disableAnimation() {
+    NSAnimationContext.runAnimationGroup({ context in
+        context.duration = 0
+    }, completionHandler:nil)
+  }
 }
 #endif
 
