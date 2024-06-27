@@ -9,7 +9,6 @@
 
 import SwiftUI
 import Playbook
-import Ignite
 #if os(iOS)
 import UIKit
 #endif
