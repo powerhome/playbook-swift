@@ -213,7 +213,7 @@ lane :create_runway_comment do |opts|
   }.to_json
 
   response = HTTParty.post(
-    'https://nitro.powerhrg.com/engineering/webhooks/runway/' + runway_api_token,
+    'https://runway.powerhrg.com/webhooks/backlog_item_comment/' + runway_api_token,
     body: payload,
     headers: { 'Content-Type' => 'application/json' }
   )
