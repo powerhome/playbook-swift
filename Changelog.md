@@ -1,16 +1,22 @@
-# 4.12.0
+# 6.0.0
 
-##### MARCH 18, 2024
+##### JUNE 27, 2024
 
 List of changes:
 
 **Kit Enhancements:**
-- Time Stacked kit [#298](https://github.com/powerhome/playbook-swift/pull/298) [(Rachel)](https://github.com/RachelRadford21)
-- Time Range Inline kit [#298](https://github.com/powerhome/playbook-swift/pull/297) [(Rachel)](https://github.com/RachelRadford21)
-- Currency Kit [#291](https://github.com/powerhome/playbook-swift/pull/293) [(Rachel)](https://github.com/RachelRadford21)
+- Selectable Card Input Variant [#403](https://github.com/powerhome/playbook-swift/pull/383) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Expose button variants on dialog kit [#420](https://github.com/powerhome/playbook-swift/pull/395) [(Isis Silva)](https://github.com/isismsilva)
+- Label Pill Kit [#434](https://github.com/powerhome/playbook-swift/pull/400) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Progress Pill Kit [#435](https://github.com/powerhome/playbook-swift/pull/401) [(Rachel Radford)](https://github.com/RachelRadford21)
 
 
 **Improvements:**
-- Time Kit function rework [#294](https://github.com/powerhome/playbook-swift/pull/294) [(Rachel)](https://github.com/RachelRadford21)
-- Add Presence Indicator to User Kit [#292](https://github.com/powerhome/playbook-swift/pull/292) [(Rachel)](https://github.com/RachelRadford21)
-- Remove Year From Date Kit When Current [#300](https://github.com/powerhome/playbook-swift/pull/300) [(Rachel)](https://github.com/RachelRadford21)
+- Removes Unnecessary Print Statements [#431](https://github.com/powerhome/playbook-swift/pull/399) [(Rachel Radford)](https://github.com/RachelRadford21)
+- User Kit Spacing Fix [#438](https://github.com/powerhome/playbook-swift/pull/402) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Pill Kit Color Validation [#440](https://github.com/powerhome/playbook-swift/pull/404) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Typeahead validation [#407](https://github.com/powerhome/playbook-swift/pull/403) [(Isis Silva)](https://github.com/isismsilva)
+- Add swift fonts package to power-fonts [#334](https://github.com/powerhome/playbook-swift/pull/394) [(Isis Silva)](https://github.com/isismsilva)
+
+**Documentation:**
+- User Docs [#397](https://github.com/powerhome/playbook-swift/pull/391) [(Rachel Radford)](https://github.com/RachelRadford21)
