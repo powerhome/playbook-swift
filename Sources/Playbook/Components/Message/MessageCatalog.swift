@@ -20,11 +20,11 @@ public struct MessageCatalog: View {
       PBDoc(title: "Message Loading") {
         messsagingLoadingView
       }
-     #if os(macOS)
+      #if os(macOS)
       PBDoc(title: "With timestamp hover") {
         hoveringView
       }
-     #endif
+      #endif
     }
   }
 }
