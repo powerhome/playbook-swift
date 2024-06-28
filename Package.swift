@@ -17,7 +17,7 @@ let package = Package(
   dependencies: [
     // Dependencies declare other packages that this package depends on.
     .package(url: "https://github.com/marmelroy/PhoneNumberKit.git", from: "3.7.9"),
-    .package(url: "git@github.com:powerhome/power-fonts.git", branch: "add-swift-package"),
+    .package(url: "git@github.com:powerhome/power-fonts.git", branch: "main"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
       from: "1.15.4"
