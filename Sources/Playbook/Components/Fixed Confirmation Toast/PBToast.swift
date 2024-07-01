@@ -109,5 +109,6 @@ public extension PBToast {
 }
 
 #Preview {
-  ToastCatalog()
+  registerFonts()
+ return ToastCatalog()
 }
