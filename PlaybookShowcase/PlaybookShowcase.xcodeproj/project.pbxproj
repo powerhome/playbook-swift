@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F910ED972C2DFD8C002D195A /* Playbook in Frameworks */,
+				F905157229F03B7600F9B66D /* Playbook in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F910ED992C2DFD93002D195A /* Playbook in Frameworks */,
+				F99BAA1E2A17F79000006C1C /* Playbook in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +137,7 @@
 			);
 			name = "PlaybookShowcase-iOS";
 			packageProductDependencies = (
-				F910ED962C2DFD8C002D195A /* Playbook */,
+				F905157129F03B7600F9B66D /* Playbook */,
 			);
 			productName = "PlaybookShowcase-iOS";
 			productReference = F905151829F03B0700F9B66D /* PlaybookShowcase-iOS.app */;
@@ -157,7 +157,7 @@
 			);
 			name = "PlaybookShowcase-macOS";
 			packageProductDependencies = (
-				F910ED982C2DFD93002D195A /* Playbook */,
+				F99BAA1D2A17F79000006C1C /* Playbook */,
 			);
 			productName = "PlaybookShowcase-macOS";
 			productReference = F905154629F03B3C00F9B66D /* PlaybookShowcase-macOS.app */;
@@ -191,7 +191,6 @@
 			);
 			mainGroup = F9370FC929EDCC0100FFD0DF;
 			packageReferences = (
-				F910ED952C2DFD36002D195A /* XCRemoteSwiftPackageReference "playbook-swift" */,
 			);
 			productRefGroup = F9370FD329EDCC0100FFD0DF /* Products */;
 			projectDirPath = "";
@@ -566,29 +565,18 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		F910ED952C2DFD36002D195A /* XCRemoteSwiftPackageReference "playbook-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:powerhome/playbook-swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		F910ED962C2DFD8C002D195A /* Playbook */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Playbook;
-		};
-		F910ED982C2DFD93002D195A /* Playbook */ = {
+		F905157129F03B7600F9B66D /* Playbook */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Playbook;
 		};
 		F94356FA29F0474D0051C650 /* SwiftLintPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "plugin:SwiftLintPlugin";
+		};
+		F99BAA1D2A17F79000006C1C /* Playbook */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Playbook;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
