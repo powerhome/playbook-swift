@@ -73,8 +73,8 @@ struct PBDialogActionView: View {
     
     return List {
         PBDialogActionView(
-            confirmButton: (PBButton(title: "Okay") { print("ola") }, nil),
-            cancelButton: (PBButton(title: "Cancel"), { print("cancel") })
+            confirmButton: (PBButton(title: "Okay") {}, nil),
+            cancelButton: (PBButton(title: "Cancel"), {})
         )
         .listRowSeparator(.hidden)
         
