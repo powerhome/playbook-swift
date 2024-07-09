@@ -13,7 +13,7 @@ public struct ProgressStepCatalog: View {
   @State private var hasIcon: Bool = false
   @State private var isActive = [false, true, false]
   @State private var isComplete = [true, false, false]
-  @State private var isActive1 = [false, true, false]
+  @State private var isActive1 = [false, false, false]
   @State private var isComplete1 = [true, false, false]
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
@@ -38,6 +38,7 @@ extension ProgressStepCatalog {
         isComplete: $isComplete1
       )
     }
+    .padding(.bottom, 30)
   }
 }
 #Preview {

@@ -49,24 +49,23 @@ public extension PBProgressStep {
     case vertical, horizontal
   }
   func progressStepView() -> some View {
-    HStack(spacing: 0) {
+    HStack(spacing: Spacing.none) {
       ForEach(isActive.indices, id: \.self) { index in
-        VStack {
           iconView(
             isActive: isActive[index],
             isComplete: isComplete[index]
           )
-          labelView
-        }
-        
+        .globalPosition(alignment: .bottom, bottom: -100, isCard: false) {
+                      labelView
+                    }
         if index < isActive.count - 1 {
           progressView(isComplete: isComplete[index])
         }
       }
     }
+    
   }
   func iconView(isActive: Bool, isComplete: Bool) -> some View {
-    VStack {
       Circle()
         .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
         .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.white : Color.border))
@@ -77,7 +76,6 @@ public extension PBProgressStep {
             .opacity(isComplete && hasIcon ? 1 : 0)
         }
         .padding(.horizontal, isActive ? 2 : 0)
-    }
   }
   func progressView(isComplete: Bool) -> some View {
     HStack(spacing: 0) {
@@ -88,10 +86,10 @@ public extension PBProgressStep {
   }
   var labelView: some View {
     HStack {
-      if let label = label {
-        Text("\(label)")
-          .pbFont(.subcaption, variant: .bold, color: .text(.default))
-      }
+        if let label = label {
+          Text("\(label)")
+            .pbFont(.subcaption, variant: .bold, color: .text(.default))
+        }
     }
   }
 }
