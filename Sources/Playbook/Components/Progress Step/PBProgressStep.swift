@@ -14,6 +14,7 @@ public struct PBProgressStep: View {
   let iconSize: PBIcon.IconSize
   let variant: Variant
   let label: String?
+  let showLabelIndex: Bool
   @Binding var hasIcon: Bool
   @Binding var isActive: [Bool]
   @Binding var isComplete: [Bool]
@@ -24,6 +25,7 @@ public struct PBProgressStep: View {
     iconSize: PBIcon.IconSize = .xSmall,
     variant: Variant = .horizontal,
     label: String? = nil,
+    showLabelIndex: Bool = false,
     active: Binding<Int> = .constant(2),
     hasIcon: Binding<Bool> = .constant(true),
     isActive: Binding<[Bool]> = .constant([false, true, false]),
@@ -33,6 +35,7 @@ public struct PBProgressStep: View {
     self.iconSize = iconSize
     self.variant = variant
     self.label = label
+    self.showLabelIndex = showLabelIndex
     self._active = active
     self._hasIcon = hasIcon
     self._isActive = isActive
@@ -51,31 +54,30 @@ public extension PBProgressStep {
   func progressStepView() -> some View {
     HStack(spacing: Spacing.none) {
       ForEach(isActive.indices, id: \.self) { index in
-          iconView(
-            isActive: isActive[index],
-            isComplete: isComplete[index]
-          )
+        iconView(
+          isActive: isActive[index],
+          isComplete: isComplete[index]
+        )
         .globalPosition(alignment: .bottom, bottom: -100, isCard: false) {
-                      labelView
-                    }
+          labelView(index: index, label: label)
+        }
         if index < isActive.count - 1 {
           progressView(isComplete: isComplete[index])
         }
       }
     }
-    
   }
   func iconView(isActive: Bool, isComplete: Bool) -> some View {
-      Circle()
-        .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
-        .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.white : Color.border))
-        .frame(width: isActive ? 15 : 20, height: isActive ? 15 : 20)
-        .overlay {
-          PBIcon(icon, size: iconSize)
-            .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
-            .opacity(isComplete && hasIcon ? 1 : 0)
-        }
-        .padding(.horizontal, isActive ? 2 : 0)
+    Circle()
+      .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
+      .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.white : Color.border))
+      .frame(width: isActive ? 15 : 20, height: isActive ? 15 : 20)
+      .overlay {
+        PBIcon(icon, size: iconSize)
+          .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
+          .opacity(isComplete && hasIcon ? 1 : 0)
+      }
+      .padding(.horizontal, isActive ? 2 : 0)
   }
   func progressView(isComplete: Bool) -> some View {
     HStack(spacing: 0) {
@@ -84,12 +86,15 @@ public extension PBProgressStep {
         .foregroundStyle(isComplete ? Color.pbPrimary : Color.border)
     }
   }
-  var labelView: some View {
+  func labelView(index: Int, label: String?) -> some View {
     HStack {
-        if let label = label {
-          Text("\(label)")
-            .pbFont(.subcaption, variant: .bold, color: .text(.default))
-        }
+      if let label = self.label {
+        
+        
+        Text(showLabelIndex ? "\(label) \(index + 1)" : "\(label)")
+          .pbFont(.subcaption, variant: .bold, color: .text(.default))
+        
+      }
     }
   }
 }

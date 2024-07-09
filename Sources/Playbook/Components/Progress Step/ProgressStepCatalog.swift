@@ -33,6 +33,7 @@ extension ProgressStepCatalog {
       )
       PBProgressStep(
         label: "Step",
+        showLabelIndex: true,
         hasIcon: $hasIcon,
         isActive: $isActive1,
         isComplete: $isComplete1
