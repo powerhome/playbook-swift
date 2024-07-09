@@ -30,38 +30,13 @@ extension ProgressStepCatalog {
       PBProgressStep(
         isActive: $isActive,
         isComplete: $isComplete
-  
       )
       PBProgressStep(
         label: "Step",
         hasIcon: $hasIcon,
         isActive: $isActive1,
         isComplete: $isComplete1
-      
       )
-//      Button("Submit") {
-//
-//        if let currentActiveIndex = isActive.firstIndex(where: { $0 }) {
-//            isComplete[currentActiveIndex] = true
-//            isActive[currentActiveIndex] = false
-//            if currentActiveIndex + 1 < isActive.count {
-//              isActive[currentActiveIndex + 1] = true
-//            }
-//       }
-//        
-//        
-//
-//        else {
-//           
-//          if let currentActiveIndex = isComplete.firstIndex(where: { $0 == false }) {
-//                        isComplete[currentActiveIndex] = true
-//                        isActive[currentActiveIndex] = false
-//                        if currentActiveIndex + 1 < isActive.count {
-//                          isActive[currentActiveIndex + 1] = true
-//                        }
-//                   }
-//            }
-//          }
     }
   }
 }
