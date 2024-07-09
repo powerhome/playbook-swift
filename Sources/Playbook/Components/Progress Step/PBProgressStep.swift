@@ -15,6 +15,8 @@ public struct PBProgressStep: View {
   let variant: Variant
   let label: String?
   let showLabelIndex: Bool
+  let progressBarWidth: CGFloat
+  let progressBarHeight: CGFloat
   @Binding var hasIcon: Bool
   @Binding var isActive: [Bool]
   @Binding var isComplete: [Bool]
@@ -26,6 +28,8 @@ public struct PBProgressStep: View {
     variant: Variant = .horizontal,
     label: String? = nil,
     showLabelIndex: Bool = false,
+    progressBarWidth: CGFloat = 125,
+    progressBarHeight: CGFloat = 5,
     active: Binding<Int> = .constant(2),
     hasIcon: Binding<Bool> = .constant(true),
     isActive: Binding<[Bool]> = .constant([false, true, false]),
@@ -36,6 +40,8 @@ public struct PBProgressStep: View {
     self.variant = variant
     self.label = label
     self.showLabelIndex = showLabelIndex
+    self.progressBarWidth = progressBarWidth
+    self.progressBarHeight = progressBarHeight
     self._active = active
     self._hasIcon = hasIcon
     self._isActive = isActive
@@ -54,20 +60,22 @@ public extension PBProgressStep {
   func progressStepView() -> some View {
     HStack(spacing: Spacing.none) {
       ForEach(isActive.indices, id: \.self) { index in
-        iconView(
+        circleIconView(
           isActive: isActive[index],
           isComplete: isComplete[index]
         )
-        .globalPosition(alignment: .bottom, bottom: -100, isCard: false) {
+        .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
           labelView(index: index, label: label)
+            .padding(.top, 5)
         }
+        
         if index < isActive.count - 1 {
           progressView(isComplete: isComplete[index])
         }
       }
     }
   }
-  func iconView(isActive: Bool, isComplete: Bool) -> some View {
+  func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
     Circle()
       .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
       .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.white : Color.border))
@@ -82,18 +90,15 @@ public extension PBProgressStep {
   func progressView(isComplete: Bool) -> some View {
     HStack(spacing: 0) {
       RoundedRectangle(cornerRadius: 2)
-        .frame(width: 125, height: 5)
+        .frame(width: progressBarWidth, height: progressBarHeight)
         .foregroundStyle(isComplete ? Color.pbPrimary : Color.border)
     }
   }
   func labelView(index: Int, label: String?) -> some View {
     HStack {
       if let label = self.label {
-        
-        
         Text(showLabelIndex ? "\(label) \(index + 1)" : "\(label)")
           .pbFont(.subcaption, variant: .bold, color: .text(.default))
-        
       }
     }
   }
