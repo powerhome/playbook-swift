@@ -54,8 +54,8 @@ public extension PBProgressStep {
       ForEach(1...steps, id: \.hashValue) { step in
         circleIconView(isActive: progress == 0  || step != progress + 1 ? false : true, isComplete: progress >= step ? true : false)
           .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
-            labelView(index: step - 1, label: label)
-          }
+            labelView(index: step - 1)
+         }
         if step < steps {
           progressView(isComplete: step <= progress ? true : false)
         }
@@ -64,10 +64,10 @@ public extension PBProgressStep {
   }
   
   func circleView(isActive: Bool, isComplete: Bool) -> some View {
-    Circle()
-      .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
-      .frame(width: isActive ? 15 : 20, height: isActive ? 15 : 20)
-      .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.clear : Color.border))
+      Circle()
+        .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
+        .frame(width: isActive ? 15 : 20, height: isActive ? 15 : 20)
+        .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.clear : Color.border))
   }
   
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
@@ -90,7 +90,7 @@ public extension PBProgressStep {
     }
   }
   
-  func labelView(index: Int, label: String?) -> some View {
+  func labelView(index: Int) -> some View {
     VStack {
       if let label = self.label  {
         Text(showLabelIndex ? "\(label) \(index + 1)" : "\(label)")

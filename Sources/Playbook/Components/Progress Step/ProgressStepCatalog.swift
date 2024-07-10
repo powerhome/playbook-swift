@@ -28,13 +28,12 @@ extension ProgressStepCatalog {
         progress: $progress
       )
       PBProgressStep(
-        hasIcon: true, 
+        hasIcon: true,
         label: "Step",
         showLabelIndex: true,
         progress: $progress1
       )
     }
-    .padding(.bottom, 30)
   }
 }
 #Preview {
