@@ -12,7 +12,6 @@ import SwiftUI
 public struct PBProgressStep: View {
   let icon: FontAwesome
   let iconSize: PBIcon.IconSize
-  let variant: Variant
   let label: String?
   let showLabelIndex: Bool
   let progressBarWidth: CGFloat
@@ -24,20 +23,18 @@ public struct PBProgressStep: View {
   
   public init(
     icon: FontAwesome = .check,
-    iconSize: PBIcon.IconSize = .xSmall,
-    variant: Variant = .horizontal,
+    iconSize: PBIcon.IconSize = .custom(9),
     label: String? = nil,
     showLabelIndex: Bool = false,
     progressBarWidth: CGFloat = 125,
-    progressBarHeight: CGFloat = 5,
-    active: Binding<Int> = .constant(2),
+    progressBarHeight: CGFloat = 4,
+    active: Binding<Int> = .constant(9),
     hasIcon: Binding<Bool> = .constant(true),
     isActive: Binding<[Bool]> = .constant([false, true, false]),
     isComplete: Binding<[Bool]> = .constant([true, false, false])
   ) {
     self.icon = icon
     self.iconSize = iconSize
-    self.variant = variant
     self.label = label
     self.showLabelIndex = showLabelIndex
     self.progressBarWidth = progressBarWidth
@@ -54,9 +51,6 @@ public struct PBProgressStep: View {
 }
 
 public extension PBProgressStep {
-  enum Variant {
-    case vertical, horizontal
-  }
   func progressStepView() -> some View {
     HStack(spacing: Spacing.none) {
       ForEach(isActive.indices, id: \.self) { index in
@@ -68,7 +62,6 @@ public extension PBProgressStep {
           labelView(index: index, label: label)
             .padding(.top, 5)
         }
-        
         if index < isActive.count - 1 {
           progressView(isComplete: isComplete[index])
         }
@@ -78,7 +71,7 @@ public extension PBProgressStep {
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
     Circle()
       .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
-      .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.white : Color.border))
+      .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.clear : Color.border))
       .frame(width: isActive ? 15 : 20, height: isActive ? 15 : 20)
       .overlay {
         PBIcon(icon, size: iconSize)
