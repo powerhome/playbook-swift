@@ -65,7 +65,7 @@ public extension PBButton {
 
       #if os(macOS)
       if isPressed {
-        return variant.backgroundColor
+        return variant.backgroundColor(colorScheme: colorScheme)
       } else if isHovering {
         return variant.hoverBackgroundColor
       } else {
@@ -93,7 +93,7 @@ public extension PBButton {
       } else if isLinkVariant && isHovering {
         return .text(.default)
       } else {
-        return variant.foregroundColor
+        return variant.foregroundColor(colorScheme: colorScheme)
       }
       #else
       return isLinkVariant && isPressed 
