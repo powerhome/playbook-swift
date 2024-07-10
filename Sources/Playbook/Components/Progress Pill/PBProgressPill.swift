@@ -14,16 +14,22 @@ public struct PBProgressPill: View {
   let steps: Int
   let title: String?
   let value: String?
+  let pillWidth: CGFloat?
+  let pillHeight: CGFloat?
   public init(
     active: Binding<Int> = .constant(2),
     steps: Int = 3,
     title: String? = nil,
-    value: String? = nil
+    value: String? = nil,
+    pillWidth: CGFloat? = 45,
+    pillHeight: CGFloat? = 4
   ) {
     self._active = active
     self.steps = steps
     self.title = title
     self.value = value
+    self.pillWidth = pillWidth
+    self.pillHeight = pillHeight
   }
   
   public var body: some View {
@@ -67,7 +73,7 @@ extension PBProgressPill {
   }
   func progressPillView(isActive: Bool) -> some View {
     RoundedRectangle(cornerRadius: 4)
-      .frame(width: 45, height: 4)
+      .frame(width: pillWidth, height: pillHeight)
       .foregroundColor(isActive ? Color.pbPrimary : Color.text(.lighter))
   }
 }

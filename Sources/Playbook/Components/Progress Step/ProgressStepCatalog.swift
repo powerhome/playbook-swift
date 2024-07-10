@@ -10,11 +10,8 @@
 import SwiftUI
 
 public struct ProgressStepCatalog: View {
-  @State private var hasIcon: Bool = false
-  @State private var isActive = [false, true, false]
-  @State private var isComplete = [true, false, false]
-  @State private var isActive1 = [false, true, false]
-  @State private var isComplete1 = [true, false, false]
+  @State private var progress: Int = 1
+  @State private var progress1: Int = 1
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
@@ -27,17 +24,26 @@ public struct ProgressStepCatalog: View {
 extension ProgressStepCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
+        PBProgressStep(
+          progress: $progress
+        )
       PBProgressStep(
-        isActive: $isActive,
-        isComplete: $isComplete
-      )
-      PBProgressStep(
+        hasIcon: true, 
         label: "Step",
         showLabelIndex: true,
-        hasIcon: $hasIcon,
-        isActive: $isActive1,
-        isComplete: $isComplete1
+        progress: $progress1
       )
+      Button(action: {
+          progress += 1
+        progress1 += 1
+                 }) {
+                     Text("Submit")
+                         .padding()
+                         .background(Color.blue)
+                         .foregroundColor(.white)
+                         .cornerRadius(8)
+                 }
+                 .padding(.top, 50)
     }
     .padding(.bottom, 30)
   }

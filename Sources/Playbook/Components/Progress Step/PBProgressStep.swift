@@ -10,76 +10,78 @@
 import SwiftUI
 
 public struct PBProgressStep: View {
+  let hasIcon: Bool
   let icon: FontAwesome
   let iconSize: PBIcon.IconSize
   let label: String?
   let showLabelIndex: Bool
   let progressBarWidth: CGFloat
   let progressBarHeight: CGFloat
-  @Binding var hasIcon: Bool
-  @Binding var isActive: [Bool]
-  @Binding var isComplete: [Bool]
-  @Binding var active: Int
+  let steps: Int
+  @Binding var progress: Int
   
   public init(
+    hasIcon: Bool = true,
     icon: FontAwesome = .check,
     iconSize: PBIcon.IconSize = .custom(9),
     label: String? = nil,
     showLabelIndex: Bool = false,
-    progressBarWidth: CGFloat = 125,
+    progressBarWidth: CGFloat = 100,
     progressBarHeight: CGFloat = 4,
-    active: Binding<Int> = .constant(9),
-    hasIcon: Binding<Bool> = .constant(true),
-    isActive: Binding<[Bool]> = .constant([false, true, false]),
-    isComplete: Binding<[Bool]> = .constant([true, false, false])
+    steps: Int = 3,
+    progress: Binding<Int> = .constant(1)
   ) {
+    self.hasIcon = hasIcon
     self.icon = icon
     self.iconSize = iconSize
     self.label = label
     self.showLabelIndex = showLabelIndex
     self.progressBarWidth = progressBarWidth
     self.progressBarHeight = progressBarHeight
-    self._active = active
-    self._hasIcon = hasIcon
-    self._isActive = isActive
-    self._isComplete = isComplete
+   
+    self.steps = steps
+    self._progress = progress
   }
   
   public var body: some View {
-    progressStepView()
+    progressStepsView
   }
 }
 
 public extension PBProgressStep {
-  func progressStepView() -> some View {
+  @ViewBuilder
+  var progressStepsView: some View {
     HStack(spacing: Spacing.none) {
-      ForEach(isActive.indices, id: \.self) { index in
-        circleIconView(
-          isActive: isActive[index],
-          isComplete: isComplete[index]
-        )
-        .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
-          labelView(index: index, label: label)
-            .padding(.top, 5)
-        }
-        if index < isActive.count - 1 {
-          progressView(isComplete: isComplete[index])
+      ForEach(1...steps, id: \.hashValue) { step in
+        circleIconView(isActive: progress == 0  || step != progress + 1 ? false : true, isComplete: progress >= step ? true : false)
+          .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
+            labelView(index: step - 1, label: label)
+          }
+        if step < steps {
+          progressView(isComplete: step <= progress ? true : false)
         }
       }
     }
   }
-  func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
+  func circleView(isActive: Bool, isComplete: Bool) -> some View {
     Circle()
       .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
-      .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.clear : Color.border))
       .frame(width: isActive ? 15 : 20, height: isActive ? 15 : 20)
-      .overlay {
-        PBIcon(icon, size: iconSize)
-          .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
-          .opacity(isComplete && hasIcon ? 1 : 0)
-      }
-      .padding(.horizontal, isActive ? 2 : 0)
+      .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.clear : Color.border))
   }
+  func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
+    VStack(spacing: Spacing.small) {
+      circleView(isActive: isActive, isComplete: isComplete)
+        .overlay {
+          PBIcon(icon, size: iconSize)
+            .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
+            .opacity(isComplete && hasIcon ? 1 : 0)
+        }
+        .padding(.horizontal, isActive ? 2 : 0)
+      
+    }
+  }
+  
   func progressView(isComplete: Bool) -> some View {
     HStack(spacing: 0) {
       RoundedRectangle(cornerRadius: 2)
@@ -87,9 +89,10 @@ public extension PBProgressStep {
         .foregroundStyle(isComplete ? Color.pbPrimary : Color.border)
     }
   }
+  
   func labelView(index: Int, label: String?) -> some View {
-    HStack {
-      if let label = self.label {
+    VStack {
+      if let label = self.label  {
         Text(showLabelIndex ? "\(label) \(index + 1)" : "\(label)")
           .pbFont(.subcaption, variant: .bold, color: .text(.default))
       }
