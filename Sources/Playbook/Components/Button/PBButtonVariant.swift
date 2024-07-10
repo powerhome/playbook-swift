@@ -17,18 +17,19 @@ public extension PBButton {
     case disabled
 
     // Color configuations
-    public var backgroundColor: Color {
+      public func  backgroundColor(colorScheme: ColorScheme) -> Color {
       switch self {
-      case .secondary: return .pbPrimary.opacity(0.05)
+      case .secondary: return Color.Buttons.Secondary.background(colorScheme)
       case .link: return .clear
       case .disabled: return .status(.neutral).opacity(0.5)
       default: return .pbPrimary
       }
     }
 
-    public var foregroundColor: Color {
+      public func foregroundColor(colorScheme: ColorScheme) -> Color {
       switch self {
       case .primary: return .white
+      case .secondary: return Color.Buttons.Secondary.foreground(colorScheme)
       case .disabled: return .text(.default).opacity(0.5)
       default: return .pbPrimary
       }
@@ -57,7 +58,8 @@ public extension PBButton {
     public func backgroundAnimation(
       configuration: ButtonStyleConfiguration,
       variant: PBButton.Variant,
-      isHovering: Bool
+      isHovering: Bool, 
+      colorScheme: ColorScheme
     ) -> Color {
       let isPressed = configuration.isPressed
 
@@ -67,19 +69,20 @@ public extension PBButton {
       } else if isHovering {
         return variant.hoverBackgroundColor
       } else {
-        return variant.backgroundColor
+        return variant.backgroundColor(colorScheme: colorScheme)
       }
       #else
       return isPressed
       ? variant.mobilePressedBackgroundColor
-      : variant.backgroundColor
+      : variant.backgroundColor(colorScheme: colorScheme)
       #endif
     }
       
     public func foregroundAnimation(
       configuration: ButtonStyleConfiguration,
       variant: PBButton.Variant,
-      isHovering: Bool
+      isHovering: Bool,
+      colorScheme: ColorScheme
     ) -> Color {
       let isLinkVariant = variant == .link
       let isPressed = configuration.isPressed
@@ -93,9 +96,9 @@ public extension PBButton {
         return variant.foregroundColor
       }
       #else
-      return isLinkVariant && isPressed
+      return isLinkVariant && isPressed 
       ? .text(.default)
-      : variant.foregroundColor
+      : variant.foregroundColor(colorScheme: colorScheme)
       #endif
     }
   }
