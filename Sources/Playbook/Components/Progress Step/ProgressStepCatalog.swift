@@ -24,26 +24,15 @@ public struct ProgressStepCatalog: View {
 extension ProgressStepCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
-        PBProgressStep(
-          progress: $progress
-        )
+      PBProgressStep(
+        progress: $progress
+      )
       PBProgressStep(
         hasIcon: true, 
         label: "Step",
         showLabelIndex: true,
         progress: $progress1
       )
-      Button(action: {
-          progress += 1
-        progress1 += 1
-                 }) {
-                     Text("Submit")
-                         .padding()
-                         .background(Color.blue)
-                         .foregroundColor(.white)
-                         .cornerRadius(8)
-                 }
-                 .padding(.top, 50)
     }
     .padding(.bottom, 30)
   }

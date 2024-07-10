@@ -38,7 +38,6 @@ public struct PBProgressStep: View {
     self.showLabelIndex = showLabelIndex
     self.progressBarWidth = progressBarWidth
     self.progressBarHeight = progressBarHeight
-   
     self.steps = steps
     self._progress = progress
   }
@@ -63,12 +62,14 @@ public extension PBProgressStep {
       }
     }
   }
+  
   func circleView(isActive: Bool, isComplete: Bool) -> some View {
     Circle()
       .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
       .frame(width: isActive ? 15 : 20, height: isActive ? 15 : 20)
       .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.clear : Color.border))
   }
+  
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
     VStack(spacing: Spacing.small) {
       circleView(isActive: isActive, isComplete: isComplete)
@@ -78,7 +79,6 @@ public extension PBProgressStep {
             .opacity(isComplete && hasIcon ? 1 : 0)
         }
         .padding(.horizontal, isActive ? 2 : 0)
-      
     }
   }
   
