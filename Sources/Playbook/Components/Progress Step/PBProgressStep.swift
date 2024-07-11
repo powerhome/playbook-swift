@@ -74,10 +74,10 @@ public extension PBProgressStep {
           isActive: progress == 0  || step != progress + 1 ? false : true,
           isComplete: progress >= step ? true : false
         )
-        .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
-          labelView(index: step - 1)
-            .padding(.leading)
-            .padding(.trailing)
+        .globalPosition(alignment: variant == .horizontal ? .bottom : .leading, bottom: variant == .horizontal ? -30 : 0, isCard: false) {
+              labelView(index: step - 1)
+                .padding(.leading, variant == .vertical ? 25 : 0)
+                .padding(.trailing, 0)
         }
         if step < steps {
             PBProgressPill(
@@ -120,7 +120,6 @@ public extension PBProgressStep {
       }
     }
   }
-  
   func labelView(index: Int) -> some View {
     VStack {
       if let label = self.label  {
