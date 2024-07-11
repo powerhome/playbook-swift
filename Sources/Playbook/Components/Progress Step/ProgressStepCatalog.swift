@@ -26,33 +26,39 @@ public struct ProgressStepCatalog: View {
 
 extension ProgressStepCatalog {
   var defaultView: some View {
-      VStack(alignment: .leading, spacing: Spacing.medium) {
-        PBProgressStep(
-          progress: $progress
-        )
-        PBProgressStep(
-          hasIcon: false,
-          label: "Step",
-          showLabelIndex: true,
-          progress: $progress1
-        )
-      }
-      .padding(.bottom, 30)
+    VStack(alignment: .leading, spacing: Spacing.medium) {
+      PBProgressStep(
+        progress: $progress
+      )
+      PBProgressStep(
+        hasIcon: false,
+        label: "Step",
+        showLabelIndex: true,
+        progress: $progress1
+      )
+    }
+    .padding(.bottom, 30)
   }
   var verticalView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBProgressStep(
+        pillWidth: 4,
+        pillHeight: 30,
         variant: .vertical,
         progress: $progress
       )
       PBProgressStep(
         hasIcon: false,
+        pillWidth: 4,
+        pillHeight: 30,
         variant: .vertical,
         progress: $progress
       )
       PBProgressStep(
         hasIcon: false,
         label: "Child",
+        pillWidth: 4,
+        pillHeight: 30,
         variant: .vertical,
         progress: $progress
       )
