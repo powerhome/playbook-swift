@@ -54,12 +54,15 @@ public extension PBProgressStep {
         circleIconView(isActive: progress == 0  || step != progress + 1 ? false : true, isComplete: progress >= step ? true : false)
           .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
             labelView(index: step - 1)
+              .padding(.leading)
+              .padding(.trailing)
          }
         if step < steps {
                  PBProgressPill(steps: 1, pillWidth: 100, pillHeight: 4, progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter), progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary)
        }
       }
     }
+    
   }
   
   func circleView(isActive: Bool, isComplete: Bool) -> some View {

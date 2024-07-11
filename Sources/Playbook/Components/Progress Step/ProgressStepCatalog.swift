@@ -23,7 +23,6 @@ public struct ProgressStepCatalog: View {
 
 extension ProgressStepCatalog {
   var defaultView: some View {
-    ScrollView(.horizontal) {
       VStack(alignment: .leading, spacing: Spacing.medium) {
         PBProgressStep(
           progress: $progress
@@ -36,7 +35,6 @@ extension ProgressStepCatalog {
         )
       }
       .padding(.bottom, 30)
-    }
   }
 }
 #Preview {
