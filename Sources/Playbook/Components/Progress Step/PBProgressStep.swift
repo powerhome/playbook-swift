@@ -18,6 +18,7 @@ public struct PBProgressStep: View {
   let progressBarWidth: CGFloat
   let progressBarHeight: CGFloat
   let steps: Int
+  let variant: Variant
   @Binding var progress: Int
   
   public init(
@@ -29,6 +30,7 @@ public struct PBProgressStep: View {
     progressBarWidth: CGFloat = 100,
     progressBarHeight: CGFloat = 4,
     steps: Int = 3,
+    variant: Variant = .horizontal,
     progress: Binding<Int> = .constant(1)
   ) {
     self.hasIcon = hasIcon
@@ -39,30 +41,54 @@ public struct PBProgressStep: View {
     self.progressBarWidth = progressBarWidth
     self.progressBarHeight = progressBarHeight
     self.steps = steps
+    self.variant = variant
     self._progress = progress
   }
   
   public var body: some View {
-    progressStepsView
+    progressVariantView
   }
 }
 
 public extension PBProgressStep {
-  var progressStepsView: some View {
-    HStack(spacing: Spacing.none) {
-      ForEach(1...steps, id: \.hashValue) { step in
-        circleIconView(isActive: progress == 0  || step != progress + 1 ? false : true, isComplete: progress >= step ? true : false)
-          .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
-            labelView(index: step - 1)
-              .padding(.leading)
-              .padding(.trailing)
-         }
-        if step < steps {
-                 PBProgressPill(steps: 1, pillWidth: 100, pillHeight: 4, progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter), progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary)
-       }
+  enum Variant {
+    case horizontal, vertical
+  }
+  @ViewBuilder
+  var progressVariantView: some View {
+    switch variant {
+    case .horizontal:
+      HStack(spacing: Spacing.none) {
+        progressStepsView
       }
-    }
+    case .vertical:
+      VStack(spacing: Spacing.none) {
+        progressStepsView
+      }
     
+    }
+  }
+  var progressStepsView: some View {
+      ForEach(1...steps, id: \.hashValue) { step in
+        circleIconView(
+          isActive: progress == 0  || step != progress + 1 ? false : true,
+          isComplete: progress >= step ? true : false
+        )
+        .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
+          labelView(index: step - 1)
+            .padding(.leading)
+            .padding(.trailing)
+        }
+        if step < steps {
+            PBProgressPill(
+              steps: 1,
+              pillWidth: variant == .horizontal ? 100 : 4,
+              pillHeight: variant == .horizontal ? 4 : 30,
+              progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter),
+              progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary
+            )
+          }
+      }
   }
   
   func circleView(isActive: Bool, isComplete: Bool) -> some View {
@@ -83,12 +109,15 @@ public extension PBProgressStep {
   
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
     VStack(spacing: Spacing.small) {
-      circleView(isActive: isActive, isComplete: isComplete)
-        .overlay {
-          PBIcon(icon, size: iconSize)
-            .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
-            .opacity(isComplete && hasIcon ? 1 : 0)
-        }
+      circleView(
+        isActive: isActive,
+        isComplete: isComplete
+      )
+      .overlay {
+        PBIcon(icon, size: iconSize)
+          .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
+          .opacity(isComplete && hasIcon ? 1 : 0)
+      }
     }
   }
   

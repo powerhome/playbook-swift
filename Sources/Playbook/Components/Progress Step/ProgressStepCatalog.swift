@@ -17,6 +17,9 @@ public struct ProgressStepCatalog: View {
       PBDoc(title: "Default") {
         defaultView
       }
+      PBDoc(title: "Vertical") {
+        verticalView
+      }
     }
   }
 }
@@ -35,6 +38,25 @@ extension ProgressStepCatalog {
         )
       }
       .padding(.bottom, 30)
+  }
+  var verticalView: some View {
+    VStack(alignment: .leading, spacing: Spacing.medium) {
+      PBProgressStep(
+        variant: .vertical,
+        progress: $progress
+      )
+      PBProgressStep(
+        hasIcon: false,
+        variant: .vertical,
+        progress: $progress
+      )
+      PBProgressStep(
+        hasIcon: false,
+        label: "Child",
+        variant: .vertical,
+        progress: $progress
+      )
+    }
   }
 }
 #Preview {
