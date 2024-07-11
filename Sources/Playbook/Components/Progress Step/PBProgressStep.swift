@@ -48,7 +48,6 @@ public struct PBProgressStep: View {
 }
 
 public extension PBProgressStep {
-  @ViewBuilder
   var progressStepsView: some View {
     HStack(spacing: Spacing.none) {
       ForEach(1...steps, id: \.hashValue) { step in
@@ -57,17 +56,26 @@ public extension PBProgressStep {
             labelView(index: step - 1)
          }
         if step < steps {
-          progressView(isComplete: step <= progress ? true : false)
-        }
+                 PBProgressPill(steps: 1, pillWidth: 100, pillHeight: 4, progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter), progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary)
+       }
       }
     }
   }
   
   func circleView(isActive: Bool, isComplete: Bool) -> some View {
+    ZStack {
       Circle()
-        .strokeBorder(isActive ? Color.pbPrimary : Color.white, lineWidth: 2)
-        .frame(width: isActive ? 15 : 20, height: isActive ? 15 : 20)
-        .background(Circle().fill(isComplete ? Color.pbPrimary : isActive ? Color.clear : Color.border))
+        .strokeBorder(Color.white, lineWidth: 2)
+        .frame(width: 20, height: 20)
+        .background(Circle().fill(isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear))
+      
+      if isActive {
+        Circle()
+          .strokeBorder(Color.pbPrimary, lineWidth: 2)
+          .frame(width: 15, height: 15)
+          .background(Circle().fill(Color.clear))
+      }
+    }
   }
   
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
@@ -78,15 +86,6 @@ public extension PBProgressStep {
             .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
             .opacity(isComplete && hasIcon ? 1 : 0)
         }
-        .padding(.horizontal, isActive ? 2 : 0)
-    }
-  }
-  
-  func progressView(isComplete: Bool) -> some View {
-    HStack(spacing: 0) {
-      RoundedRectangle(cornerRadius: 2)
-        .frame(width: progressBarWidth, height: progressBarHeight)
-        .foregroundStyle(isComplete ? Color.pbPrimary : Color.border)
     }
   }
   

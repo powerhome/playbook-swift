@@ -23,16 +23,19 @@ public struct ProgressStepCatalog: View {
 
 extension ProgressStepCatalog {
   var defaultView: some View {
-    VStack(alignment: .leading, spacing: Spacing.medium) {
-      PBProgressStep(
-        progress: $progress
-      )
-      PBProgressStep(
-        hasIcon: true,
-        label: "Step",
-        showLabelIndex: true,
-        progress: $progress1
-      )
+    ScrollView(.horizontal) {
+      VStack(alignment: .leading, spacing: Spacing.medium) {
+        PBProgressStep(
+          progress: $progress
+        )
+        PBProgressStep(
+          hasIcon: false,
+          label: "Step",
+          showLabelIndex: true,
+          progress: $progress1
+        )
+      }
+      .padding(.bottom, 30)
     }
   }
 }
