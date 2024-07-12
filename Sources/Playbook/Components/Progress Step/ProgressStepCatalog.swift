@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct ProgressStepCatalog: View {
-  @State private var progress: Int = 1
+  @State private var progress: Int = 0
   @State private var progress1: Int = 1
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
@@ -23,6 +23,17 @@ public struct ProgressStepCatalog: View {
       PBDoc(title: "Tracker") {
           trackerView
       }
+      Button(action: {
+             progress += 1
+           progress1 += 1
+                    }) {
+                        Text("Submit")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    .padding(.top, 50)
     }
   }
 }
@@ -70,7 +81,7 @@ extension ProgressStepCatalog {
   var trackerView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
         PBProgressStep(
-          steps: 2,
+    
           variant: .tracker,
           progress: $progress
         )

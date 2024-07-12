@@ -47,6 +47,7 @@ public struct PBProgressStep: View {
   
   public var body: some View {
     progressVariantView
+  //  trackerView
   }
 }
 
@@ -154,7 +155,7 @@ extension PBProgressStep {
             GeometryReader { geo in
               PBProgressPill(
                 steps: 1,
-                pillWidth: progress > steps.words.last ?? 100 ? frameReader(in: { _ in}) as? CGFloat : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
+                pillWidth: progress >= steps.words.last ?? 100 ? frameReader(in: { _ in}) as? CGFloat : (geo.size.width / CGFloat(steps) * CGFloat(progress) * 1.65),
                 pillHeight: 28,
                 progressBarColorTrue: progress > 0 ? .pbPrimary : .text(.lighter).opacity(0.5),
                 progressBarColorFalse: .text(.lighter).opacity(0.5)
@@ -163,17 +164,17 @@ extension PBProgressStep {
             }
             .overlay {
               HStack(spacing: Spacing.medium) {
-                ForEach(1...steps, id: \.hashValue) { _ in
+                ForEach(1...steps, id: \.hashValue) { step in
                   Spacer()
                   circleIcon(
                     icon: icon,
                     iconSize: iconSize,
                     strokeColor: .clear,
                     lineWidth: 2,
-                    background: Color.black,
+                    background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
                     circleWidth: 20,
                     circleHeight: 20,
-                    iconColor: .white,
+                    iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
                     offsetX: 0,
                     offsetY: 0,
                     opacity: 1
