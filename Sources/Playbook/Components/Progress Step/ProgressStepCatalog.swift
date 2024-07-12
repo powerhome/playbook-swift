@@ -20,6 +20,9 @@ public struct ProgressStepCatalog: View {
       PBDoc(title: "Vertical") {
         verticalView
       }
+      PBDoc(title: "Tracker") {
+        trackerView
+      }
     }
   }
 }
@@ -60,6 +63,14 @@ extension ProgressStepCatalog {
         pillWidth: 4,
         pillHeight: 30,
         variant: .vertical,
+        progress: $progress
+      )
+    }
+  }
+  var trackerView: some View {
+    VStack(alignment: .leading, spacing: Spacing.medium) {
+      PBProgressStep(
+        variant: .tracker,
         progress: $progress
       )
     }

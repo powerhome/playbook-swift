@@ -52,7 +52,7 @@ public struct PBProgressStep: View {
 
 public extension PBProgressStep {
   enum Variant {
-    case horizontal, vertical
+    case horizontal, vertical, tracker
   }
   @ViewBuilder
   var progressVariantView: some View {
@@ -65,7 +65,10 @@ public extension PBProgressStep {
       VStack(spacing: Spacing.none) {
         progressStepsView
       }
-      
+    case .tracker:
+      VStack {
+        trackerView
+      }
     }
   }
   var progressStepsView: some View {
@@ -91,35 +94,40 @@ public extension PBProgressStep {
     }
   }
   
-  func circleView(isActive: Bool, isComplete: Bool) -> some View {
+  func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
     ZStack {
-      Circle()
-        .strokeBorder(Color.white, lineWidth: 2)
-        .frame(width: 20, height: 20)
-        .background(Circle().fill(isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear))
+      circleIcon(
+        icon: icon,
+        iconSize: iconSize,
+        strokeColor: .white,
+        lineWidth: 2,
+        background: isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear,
+        circleWidth: 20,
+        circleHeight: 20,
+        iconColor: isComplete && hasIcon ? Color.white : Color.clear,
+        offsetX: 0,
+        offsetY: 0,
+        opacity: 1
+      )
       
       if isActive {
-        Circle()
-          .strokeBorder(Color.pbPrimary, lineWidth: 2)
-          .frame(width: 15, height: 15)
-          .background(Circle().fill(Color.clear))
+        circleIcon(
+          icon: icon,
+          iconSize: iconSize,
+          strokeColor: .pbPrimary,
+          lineWidth: 2,
+          background: Color.clear,
+          circleWidth: 15,
+          circleHeight: 15,
+          iconColor:  .clear,
+          offsetX: 0,
+          offsetY: 0,
+          opacity: 0
+        )
       }
     }
   }
-  
-  func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
-    VStack(spacing: Spacing.small) {
-      circleView(
-        isActive: isActive,
-        isComplete: isComplete
-      )
-      .overlay {
-        PBIcon(icon, size: iconSize)
-          .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
-          .opacity(isComplete && hasIcon ? 1 : 0)
-      }
-    }
-  }
+
   func labelView(index: Int) -> some View {
     VStack {
       if let label = self.label  {
@@ -130,6 +138,45 @@ public extension PBProgressStep {
   }
 }
 
+extension PBProgressStep {
+  var trackerView: some View {
+    ZStack {
+    PBProgressPill(
+      steps: 1,
+      pillWidth: 150,
+      pillHeight: 28,
+      progressBarColorTrue: Color.text(.lighter),
+      progressBarColorFalse: Color.text(.lighter)
+     
+    )
+    .clipShape(RoundedRectangle(cornerRadius: 15))
+      PBProgressPill(
+        steps: 1,
+        pillWidth: 120,
+        pillHeight: 28,
+        progressBarColorTrue: Color.pbPrimary,
+        progressBarColorFalse: Color.pbPrimary
+      )
+      .clipShape(RoundedRectangle(cornerRadius: 15))
+      .padding(.trailing, 30)
+     
+    }
+    .overlay {
+      circleIcon(icon: icon, iconSize: iconSize, strokeColor: .clear, lineWidth: 2, background: Color.black, circleWidth: 20, circleHeight: 20, iconColor: .white, offsetX: 0, offsetY: 0, opacity: 1)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.trailing, 90)
+        .frame(alignment: .leading)
+    }
+    .padding(.leading, 10)
+    .overlay {
+      circleIcon(icon: icon, iconSize: iconSize, strokeColor: .clear, lineWidth: 2, background: .text(.lighter), circleWidth: 20, circleHeight: 20, iconColor: .pbPrimary, offsetX: 0, offsetY: 0, opacity: 1)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.leading, 30)
+    }
+  
+   
+  }
+}
 #Preview {
   registerFonts()
   return PBProgressStep()
