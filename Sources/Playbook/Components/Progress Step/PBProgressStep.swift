@@ -140,41 +140,55 @@ public extension PBProgressStep {
 
 extension PBProgressStep {
   var trackerView: some View {
-    ZStack {
-    PBProgressPill(
-      steps: 1,
-      pillWidth: 150,
-      pillHeight: 28,
-      progressBarColorTrue: Color.text(.lighter),
-      progressBarColorFalse: Color.text(.lighter)
-     
-    )
-    .clipShape(RoundedRectangle(cornerRadius: 15))
+    VStack {
+      ZStack {
       PBProgressPill(
         steps: 1,
-        pillWidth: 120,
+        pillWidth: frameReader(in: { _ in}) as? CGFloat,
         pillHeight: 28,
-        progressBarColorTrue: Color.pbPrimary,
-        progressBarColorFalse: Color.pbPrimary
+        progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
       )
       .clipShape(RoundedRectangle(cornerRadius: 15))
-      .padding(.trailing, 30)
-     
+        HStack {
+          GeometryReader { geo in
+            PBProgressPill(
+              steps: 1,
+              // rn this progress pill works great except it will run over the view. Need to boolean this to stop
+              // when last step is complete
+              pillWidth: (geo.size.width / CGFloat(steps) * CGFloat(progress)),
+              pillHeight: 28,
+              progressBarColorTrue: progress > 0 ? .pbPrimary : .text(.lighter).opacity(0.5),
+              progressBarColorFalse: .text(.lighter).opacity(0.5)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+          }
+          .overlay {
+            HStack(spacing: Spacing.medium) {
+              ForEach(1...steps, id: \.hashValue) { _ in
+                Spacer()
+                circleIcon(
+                  icon: icon,
+                  iconSize: iconSize,
+                  strokeColor: .clear,
+                  lineWidth: 2,
+                  background: Color.black,
+                  circleWidth: 20,
+                  circleHeight: 20,
+                  iconColor: .white,
+                  offsetX: 0,
+                  offsetY: 0,
+                  opacity: 1
+                )
+                
+                Spacer()
+                
+              }
+            }
+          }
+      }
     }
-    .overlay {
-      circleIcon(icon: icon, iconSize: iconSize, strokeColor: .clear, lineWidth: 2, background: Color.black, circleWidth: 20, circleHeight: 20, iconColor: .white, offsetX: 0, offsetY: 0, opacity: 1)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(.trailing, 90)
-        .frame(alignment: .leading)
-    }
-    .padding(.leading, 10)
-    .overlay {
-      circleIcon(icon: icon, iconSize: iconSize, strokeColor: .clear, lineWidth: 2, background: .text(.lighter), circleWidth: 20, circleHeight: 20, iconColor: .pbPrimary, offsetX: 0, offsetY: 0, opacity: 1)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(.leading, 30)
-    }
-  
-   
+   }
+    .padding(30)
   }
 }
 #Preview {
