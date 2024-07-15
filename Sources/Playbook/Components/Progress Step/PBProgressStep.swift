@@ -151,19 +151,17 @@ extension PBProgressStep {
           )
           .clipShape(RoundedRectangle(cornerRadius: 15))
           HStack {
-            // This is not working with more than 3 steps. The frame is not extending to fit them
             GeometryReader { geo in
               PBProgressPill(
                 steps: 1,
-                pillWidth: progress >= steps.words.last ?? 100 ? frameReader(in: { _ in}) as? CGFloat : (geo.size.width / CGFloat(steps) * CGFloat(progress) * 1.65),
+                pillWidth: progress >= steps.words.last ?? 100 ? frameReader(in: { _ in}) as? CGFloat : (geo.size.width / CGFloat(steps) * CGFloat(progress) * 1.5),
                 pillHeight: 28,
-                progressBarColorTrue: progress > 0 ? .pbPrimary : .text(.lighter).opacity(0.5),
-                progressBarColorFalse: .text(.lighter).opacity(0.5)
+                progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
               )
               .clipShape(RoundedRectangle(cornerRadius: 15))
             }
             .overlay {
-              HStack(spacing: Spacing.medium) {
+              HStack {
                 ForEach(1...steps, id: \.hashValue) { step in
                   Spacer()
                   circleIcon(
@@ -179,7 +177,6 @@ extension PBProgressStep {
                     offsetY: 0,
                     opacity: 1
                   )
-                  
                   Spacer()
                   
                 }

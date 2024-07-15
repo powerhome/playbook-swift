@@ -81,7 +81,6 @@ extension ProgressStepCatalog {
   var trackerView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
         PBProgressStep(
-    
           variant: .tracker,
           progress: $progress
         )
