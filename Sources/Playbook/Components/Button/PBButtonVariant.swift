@@ -56,32 +56,30 @@ public extension PBButton {
     // Animation functions
     public func backgroundAnimation(
       configuration: ButtonStyleConfiguration,
-      variant: PBButton.Variant,
       isHovering: Bool
     ) -> Color {
       let isPressed = configuration.isPressed
 
       #if os(macOS)
       if isPressed {
-        return variant.backgroundColor
+        return self.backgroundColor
       } else if isHovering {
-        return variant.hoverBackgroundColor
+        return self.hoverBackgroundColor
       } else {
-        return variant.backgroundColor
+        return self.backgroundColor
       }
       #else
       return isPressed
-      ? variant.mobilePressedBackgroundColor
-      : variant.backgroundColor
+      ? self.mobilePressedBackgroundColor
+      : self.backgroundColor
       #endif
     }
       
     public func foregroundAnimation(
       configuration: ButtonStyleConfiguration,
-      variant: PBButton.Variant,
       isHovering: Bool
     ) -> Color {
-      let isLinkVariant = variant == .link
+      let isLinkVariant = self == .link
       let isPressed = configuration.isPressed
 
       #if os(macOS)
@@ -90,12 +88,12 @@ public extension PBButton {
       } else if isLinkVariant && isHovering {
         return .text(.default)
       } else {
-        return variant.foregroundColor
+        return self.foregroundColor
       }
       #else
       return isLinkVariant && isPressed
       ? .text(.default)
-      : variant.foregroundColor
+      : self.foregroundColor
       #endif
     }
   }

@@ -33,7 +33,6 @@ public struct PBButtonStyle: ButtonStyle {
         variant
           .backgroundAnimation(
             configuration: configuration,
-            variant: variant,
             isHovering: isHovering
           )
           .primaryVariantBrightness(
@@ -45,7 +44,6 @@ public struct PBButtonStyle: ButtonStyle {
       .foregroundColor(
         variant.foregroundAnimation(
           configuration: configuration,
-          variant: variant,
           isHovering: isHovering
         )
       )

@@ -32,7 +32,6 @@ extension ButtonsCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBButton(
         title: "Button Primary",
-        isLoading: $isLoading, 
         action: { isLoading = true }
       )
       PBButton(
@@ -64,8 +63,8 @@ extension ButtonsCatalog {
   }
   var fullWidthButtonView: some View {
     PBButton(
-      fullWidth: true,
       title: "Full Width",
+      fullWidth: true,
       action: {}
     )
   }
@@ -105,24 +104,24 @@ extension ButtonsCatalog {
   var buttonLoadingView:  some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBButton(
-        fullWidth: true,
         variant: .primary,
         title: "Button lg",
         isLoading: .constant(true),
+        fullWidth: true,
         action: {}
       )
       PBButton(
-        fullWidth: true,
         variant: .secondary,
         title: "Button lg",
         isLoading: .constant(true),
+        fullWidth: true,
         action: {}
       )
       PBButton(
-        fullWidth: true,
         variant: .link,
         title: "Button lg",
         isLoading: .constant(true),
+        fullWidth: true,
         action: {}
       )
     }
