@@ -29,6 +29,7 @@ class ClickableUIView: UIView {
         super.init(frame: .zero)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleClick))
         self.addGestureRecognizer(tapGesture)
+    
     }
     
     required init?(coder: NSCoder) {
@@ -42,8 +43,6 @@ class ClickableUIView: UIView {
 }
 
 #elseif os(macOS)
-import SwiftUI
-
 struct ClickDetectorView: NSViewRepresentable {
     var onClick: () -> Void
     
