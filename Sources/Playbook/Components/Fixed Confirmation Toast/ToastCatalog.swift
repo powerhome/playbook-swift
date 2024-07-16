@@ -23,7 +23,7 @@ public struct ToastCatalog: View {
       PBDoc(title: "Simple") { positionButton }
       PBDoc(title: "Children") { children }
       PBDoc(title: "Dismiss with timer") { withTimer }
-      PBDoc(title: "Custom") { customIcon }
+      PBDoc(title: "Custom Icon") { customIcon }
     }
     .withToastHandling(toastView, position: position)
   }
