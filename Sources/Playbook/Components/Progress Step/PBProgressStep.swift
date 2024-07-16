@@ -77,7 +77,7 @@ public extension PBProgressStep {
               .opacity(isComplete && hasIcon ? 1 : 0)
           }
           .padding(.horizontal, 3)
-      } else  {
+      }
         Circle()
           .stroke(Color.white, lineWidth: 2)
           .frame(width: 18, height: 18)
@@ -89,7 +89,7 @@ public extension PBProgressStep {
               .opacity(isComplete && hasIcon ? 1 : 0)
           }
           .padding(.horizontal, 1)
-      }
+      
     }
   }
   

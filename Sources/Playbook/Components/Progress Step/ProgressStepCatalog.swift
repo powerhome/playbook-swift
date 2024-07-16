@@ -17,6 +17,18 @@ public struct ProgressStepCatalog: View {
       PBDoc(title: "Default") {
         defaultView
       }
+      
+      Button(action: {
+          progress += 1
+        progress1 += 1
+                 }) {
+                     Text("Submit")
+                         .padding()
+                         .background(Color.blue)
+                         .foregroundColor(.white)
+                         .cornerRadius(8)
+                 }
+                 .padding(.top, 50)
     }
   }
 }
