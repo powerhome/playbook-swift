@@ -44,7 +44,7 @@ public extension PBPill {
       case .primary: return .pbPrimary
       case .success: return .status(.success)
       case .warning: return .status(.warning)
-      default: return .status(.neutral)
+      default: return .text(.light)
       }
     }
 
