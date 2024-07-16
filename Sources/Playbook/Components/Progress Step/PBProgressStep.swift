@@ -51,6 +51,7 @@ public struct PBProgressStep: View {
 }
 
 public extension PBProgressStep {
+  
   enum Variant {
     case horizontal, vertical
   }
@@ -65,27 +66,42 @@ public extension PBProgressStep {
       VStack(spacing: Spacing.none) {
         progressStepsView
       }
-      
     }
   }
+  
   var progressStepsView: some View {
-    HStack(spacing: Spacing.none) {
-      ForEach(1...steps, id: \.hashValue) { step in
-        circleIconView(isActive: progress == 0  || step != progress + 1 ? false : true, isComplete: progress >= step ? true : false)
-          .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
-            labelView(index: step - 1)
-              .padding(.leading)
-              .padding(.trailing)
-          }
-        if step < steps {
-          PBProgressPill(steps: 1, pillWidth: frameReader(in: { _ in}) as? CGFloat, pillHeight: 4, progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter), progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary, cornerRadius: 1)
+    ForEach(1...steps, id: \.hashValue) { step in
+      circleIconView(isActive: progress == 0  || step != progress + 1 ? false : true, isComplete: progress >= step ? true : false)
+        .globalPosition(alignment: variant == .horizontal ? .bottom : .leading, bottom: variant == .horizontal ? -30 : 0, isCard: false) {
+          labelView(index: step - 1)
+            .padding(.leading, variant == .vertical ? 25 : 0)
+            .padding(.trailing, 0)
         }
+      if step < steps {
+        PBProgressPill(
+          steps: 1,
+          pillWidth: variant == .horizontal ? frameReader(in: { _ in}) as? CGFloat : 4,
+          pillHeight: variant == .horizontal ? 4 : 40,
+          progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter),
+          progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary,
+          cornerRadius: 1
+        )
       }
     }
   }
   
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
     ZStack {
+      Circle()
+        .stroke(Color.white, lineWidth: 2)
+        .frame(width: 18, height: 18)
+        .background(Circle().fill(isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear))
+        .overlay {
+          PBIcon(icon, size: iconSize)
+            .foregroundStyle(isComplete ? Color.white : Color.border)
+            .opacity(isComplete && hasIcon ? 1 : 0)
+        }
+        .padding(.horizontal, 1)
       if isActive {
         Circle()
           .stroke(Color.pbPrimary, lineWidth: 2)
@@ -98,18 +114,6 @@ public extension PBProgressStep {
           }
           .padding(.horizontal, 3)
       }
-        Circle()
-          .stroke(Color.white, lineWidth: 2)
-          .frame(width: 18, height: 18)
-          .background(Circle().fill(isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear))
-        
-          .overlay {
-            PBIcon(icon, size: iconSize)
-              .foregroundStyle(isComplete ? Color.white : Color.border)
-              .opacity(isComplete && hasIcon ? 1 : 0)
-          }
-          .padding(.horizontal, 1)
-      
     }
   }
   func labelView(index: Int) -> some View {
