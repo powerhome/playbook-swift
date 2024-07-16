@@ -18,6 +18,7 @@ public struct PBProgressPill: View {
   let pillHeight: CGFloat?
   let progressBarColorTrue: Color?
   let progressBarColorFalse: Color?
+  let cornerRadius: CGFloat?
   public init(
     active: Binding<Int> = .constant(2),
     steps: Int = 3,
@@ -26,7 +27,8 @@ public struct PBProgressPill: View {
     pillWidth: CGFloat? = 45,
     pillHeight: CGFloat? = 4,
     progressBarColorTrue: Color? = .pbPrimary,
-    progressBarColorFalse: Color? = Color.text(.lighter)
+    progressBarColorFalse: Color? = Color.text(.lighter),
+    cornerRadius: CGFloat? = 4
   ) {
     self._active = active
     self.steps = steps
@@ -36,6 +38,7 @@ public struct PBProgressPill: View {
     self.pillHeight = pillHeight
     self.progressBarColorTrue = progressBarColorTrue
     self.progressBarColorFalse = progressBarColorFalse
+    self.cornerRadius = cornerRadius
   }
   
   public var body: some View {
@@ -78,7 +81,7 @@ extension PBProgressPill {
     }
   }
   func progressPillView(isActive: Bool) -> some View {
-    RoundedRectangle(cornerRadius: 4)
+    RoundedRectangle(cornerRadius: cornerRadius ?? 0)
       .frame(width: pillWidth, height: pillHeight)
       .foregroundColor(isActive ? progressBarColorTrue : progressBarColorFalse)
   }
