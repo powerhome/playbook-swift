@@ -146,8 +146,10 @@ extension PBProgressStep {
           PBProgressPill(
             steps: 1,
             pillWidth: frameReader(in: { _ in}) as? CGFloat,
-            pillHeight: 28,
-            progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
+            pillHeight: 28
+            ,
+            progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5),
+            progressBarColorFalse: .text(.lighter).opacity(0.5)
           )
           .clipShape(RoundedRectangle(cornerRadius: 15))
           HStack {
@@ -163,7 +165,7 @@ extension PBProgressStep {
             .overlay {
               HStack {
                 ForEach(1...steps, id: \.hashValue) { step in
-                  Spacer()
+                  Spacer(minLength: steps <= 3 ? 45 : 19)
                   circleIcon(
                     icon: icon,
                     iconSize: iconSize,
@@ -177,7 +179,10 @@ extension PBProgressStep {
                     offsetY: 0,
                     opacity: 1
                   )
-                  Spacer()
+//                  .padding(.leading, steps <= 3 ? -35 : 0)
+//                  .padding(.trailing, steps <= 3 ? 5 : 0)
+                  //step < steps.words.last ?? 100 ?
+                  Spacer(minLength: steps <= 3 ? 45 : 16)
                   
                 }
               }
