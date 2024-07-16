@@ -29,20 +29,20 @@ extension DialogCatalog {
     static let infoMessage = "This is a message for informational purposes only."
     
     func cancelButton(_ closeToast: @escaping (() -> Void)) -> PBButton {
-        PBButton(fullWidth: false, variant: .secondary, title: "Cancel") { closeToast() }
+        PBButton(variant: .secondary, fullWidth: false) { closeToast() }
     }
     
     func cancelButtonFullWidth(_ closeToast: @escaping (() -> Void)) -> PBButton {
-        PBButton(fullWidth: true, variant: .secondary, title: "Cancel") { closeToast() }
+        PBButton(variant: .secondary, title: "Cancel", fullWidth: true) { closeToast() }
     }
     
     func confirmationButton(text: String = "Okay", isLoading: Binding<Bool> = .constant(false), _ closeToast: @escaping (() -> Void)) -> PBButton {
-        PBButton(fullWidth: false, variant: .primary, title: text, isLoading: isLoading) {
+        PBButton(variant: .primary, title: text, isLoading: isLoading, fullWidth: false) {
            closeToast() }
     }
     
     func confirmationButtonFullWidth(_ closeToast: @escaping (() -> Void)) -> PBButton {
-        PBButton(fullWidth: true, variant: .primary, title: "Okay") { closeToast() }
+        PBButton(variant: .primary, title: "Okay", fullWidth: true) { closeToast() }
     }
     
     struct SimpleButton: View {

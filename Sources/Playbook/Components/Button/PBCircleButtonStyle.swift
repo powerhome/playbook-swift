@@ -24,7 +24,6 @@ public struct PBCircleButtonStyle: ButtonStyle {
         variant
           .backgroundAnimation(
             configuration: configuration,
-            variant: variant,
             isHovering: isHovering
           )
           .primaryVariantBrightness(
@@ -36,7 +35,6 @@ public struct PBCircleButtonStyle: ButtonStyle {
       .foregroundColor(
         variant.foregroundAnimation(
           configuration: configuration,
-          variant: variant,
           isHovering: isHovering
         )
       )
