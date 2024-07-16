@@ -56,39 +56,40 @@ public extension PBProgressStep {
             labelView(index: step - 1)
               .padding(.leading)
               .padding(.trailing)
-         }
+          }
         if step < steps {
-                 PBProgressPill(steps: 1, pillWidth: 100, pillHeight: 4, progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter), progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary)
-       }
-      }
-    }
-    
-  }
-  
-  func circleView(isActive: Bool, isComplete: Bool) -> some View {
-    ZStack {
-      Circle()
-        .strokeBorder(Color.white, lineWidth: 2)
-        .frame(width: 20, height: 20)
-        .background(Circle().fill(isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear))
-      
-      if isActive {
-        Circle()
-          .strokeBorder(Color.pbPrimary, lineWidth: 2)
-          .frame(width: 15, height: 15)
-          .background(Circle().fill(Color.clear))
+          PBProgressPill(steps: 1, pillWidth: frameReader(in: { _ in}) as? CGFloat, pillHeight: 4, progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter), progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary)
+        }
       }
     }
   }
   
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
-    VStack(spacing: Spacing.small) {
-      circleView(isActive: isActive, isComplete: isComplete)
-        .overlay {
-          PBIcon(icon, size: iconSize)
-            .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
-            .opacity(isComplete && hasIcon ? 1 : 0)
-        }
+    ZStack {
+      if isActive {
+        Circle()
+          .stroke(Color.pbPrimary, lineWidth: 2)
+          .frame(width: 15, height: 15)
+          .background(Circle().fill(Color.clear))
+          .overlay {
+            PBIcon(icon, size: iconSize)
+              .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
+              .opacity(isComplete && hasIcon ? 1 : 0)
+          }
+          .padding(.horizontal, 3)
+      } else  {
+        Circle()
+          .stroke(Color.white, lineWidth: 2)
+          .frame(width: 18, height: 18)
+          .background(Circle().fill(isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear))
+        
+          .overlay {
+            PBIcon(icon, size: iconSize)
+              .foregroundStyle(isComplete ? Color.white : Color.border)
+              .opacity(isComplete && hasIcon ? 1 : 0)
+          }
+          .padding(.horizontal, 1)
+      }
     }
   }
   
