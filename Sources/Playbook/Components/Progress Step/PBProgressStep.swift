@@ -58,7 +58,7 @@ public extension PBProgressStep {
               .padding(.trailing)
           }
         if step < steps {
-          PBProgressPill(steps: 1, pillWidth: frameReader(in: { _ in}) as? CGFloat, pillHeight: 4, progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter), progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary)
+          PBProgressPill(steps: 1, pillWidth: frameReader(in: { _ in}) as? CGFloat, pillHeight: 4, progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter), progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary, cornerRadius: 1)
         }
       }
     }
@@ -69,7 +69,7 @@ public extension PBProgressStep {
       if isActive {
         Circle()
           .stroke(Color.pbPrimary, lineWidth: 2)
-          .frame(width: 15, height: 15)
+          .frame(width: 14.5, height: 14.5)
           .background(Circle().fill(Color.clear))
           .overlay {
             PBIcon(icon, size: iconSize)
