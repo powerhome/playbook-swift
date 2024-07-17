@@ -152,47 +152,74 @@ extension PBProgressStep {
             progressBarColorFalse: .text(.lighter).opacity(0.5)
           )
           .clipShape(RoundedRectangle(cornerRadius: 15))
-          HStack {
-            GeometryReader { geo in
-              PBProgressPill(
-                steps: 1,
-//                pillWidth: progress + 1 >= (steps.words.last ?? 0) ? frameReader(in: { _ in}) as? CGFloat : (geo.size.width / CGFloat(steps) * CGFloat(progress) * 1.5),
-                pillWidth: progress + 1 >= (steps.words.last ?? 0) ? frameReader(in: { _ in}) as? CGFloat : (geo.size.width / CGFloat(steps) * CGFloat(progress) + 40.5),
-                pillHeight: 28,
-                progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
-              )
-              .clipShape(RoundedRectangle(cornerRadius: 15))
-            }
-            .overlay {
-              HStack(spacing: Spacing.none) {
-                ForEach(1...steps, id: \.hashValue) { step in
-                  Spacer(minLength: steps <= 4 ? Spacing.xLarge + 5 : steps >= 5 ?  Spacing.xSmall + 4 : Spacing.small)
-                  Spacer(minLength: steps == 2 ? 55 : -10)
-                  circleIcon(
-                    icon: icon,
-                    iconSize: iconSize,
-                    strokeColor: .clear,
-                    lineWidth: 2,
-                    background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
-                    circleWidth: 20,
-                    circleHeight: 20,
-                    iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
-                    offsetX: 0,
-                    offsetY: 0,
-                    opacity: 1
-                  )
-                  
-                  Spacer(minLength: steps <= 4 ? Spacing.xLarge + 5 : steps >= 5 ?  Spacing.xSmall + 4 : Spacing.small)
-                  Spacer(minLength: steps == 2 ? 55 : -10)
-  
-                }
-              }
-              .frame(width: frameReader(in: { _ in}) as? CGFloat)
-            }
-          }
+          trackerProgressPillView
         }
       }
-      .padding(30)
+  }
+  
+  var trackerProgressPillView: some View {
+    HStack {
+      GeometryReader { geo in
+        PBProgressPill(
+          steps: 1,
+//          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress) + 65.5),
+          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(Double(progress) + 0.65) ),
+          pillHeight: 28,
+          progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        }
+        .overlay {
+          trackerIconView
+          
+        }
+      
+  }
+  }
+  var trackerIconView: some View {
+    HStack(spacing: trackerSpacingView) {
+      ForEach(1...steps, id: \.hashValue) { step in
+        Spacer(minLength:  0)
+     
+        circleIcon(
+          icon: icon,
+          iconSize: iconSize,
+          strokeColor: .clear,
+          lineWidth: 2,
+          background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
+          circleWidth: 20,
+          circleHeight: 20,
+          iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
+          offsetX: 0,
+          offsetY: 0,
+          opacity: 1
+        )
+        Spacer(minLength:  0)
+        
+      }
+      .scaledToFit()
+    }
+  }
+  var trackerSpacingView: CGFloat {
+    switch steps {
+    case 0, 1: return 0
+    case 2: return Spacing.xLarge + 46
+    case 3: return Spacing.xLarge
+    case 4: return Spacing.medium + 0.5
+    case 5: return Spacing.small + 0.5
+    case 6: return Spacing.xSmall + 4
+    case 7: return Spacing.xxSmall + 4
+    case 8: return Spacing.xxSmall
+    default:
+      return Spacing.none
+    }
+  }
+  private func iconSpacing(for steps: Int, in totalWidth: CGFloat) -> CGFloat {
+    guard steps > 1 else { return 0 }
+    let iconWidth: CGFloat = 22 // Adjust based on the actual width of your icon
+    let totalIconWidth = CGFloat(steps) * iconWidth
+    let remainingSpace = totalWidth - totalIconWidth
+    return remainingSpace / CGFloat(steps - 1)
   }
 }
 #Preview {
