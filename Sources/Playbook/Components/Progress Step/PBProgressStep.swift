@@ -97,26 +97,34 @@ public extension PBProgressStep {
   
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
     ZStack {
-      Circle()
-        .stroke(Color.white, lineWidth: 2)
-        .frame(width: 18, height: 18)
-        .background(Circle().fill(isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear))
-        .overlay {
-          PBIcon(icon, size: iconSize)
-            .foregroundStyle(isComplete ? Color.white : Color.border)
-            .opacity(isComplete && hasIcon ? 1 : 0)
-        }
+      circleIcon(
+        icon: icon,
+        iconSize: iconSize,
+        strokeColor: Color.white,
+        lineWidth: 2,
+        background: isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear,
+        circleWidth: 18,
+        circleHeight: 18,
+        iconColor: isComplete ? Color.white : Color.border,
+        offsetX: 0,
+        offsetY: 0,
+        opacity: isComplete && hasIcon ? 1 : 0
+      )
         .padding(.horizontal, 1)
       if isActive {
-        Circle()
-          .stroke(Color.pbPrimary, lineWidth: 2)
-          .frame(width: 14.5, height: 14.5)
-          .background(Circle().fill(Color.clear))
-          .overlay {
-            PBIcon(icon, size: iconSize)
-              .foregroundStyle(isComplete || isActive ? Color.white : Color.border)
-              .opacity(isComplete && hasIcon ? 1 : 0)
-          }
+        circleIcon(
+          icon: icon,
+          iconSize: iconSize, 
+          strokeColor: Color.pbPrimary,
+          lineWidth: 2,
+          background: Color.clear,
+          circleWidth: 14.5,
+          circleHeight: 14.5,
+          iconColor: isComplete || isActive ? Color.white : Color.border,
+          offsetX: 0,
+          offsetY: 0,
+          opacity: isComplete && hasIcon ? 1 : 0
+        )
           .padding(.horizontal, 3)
       }
     }
@@ -139,8 +147,7 @@ extension PBProgressStep {
           PBProgressPill(
             steps: 1,
             pillWidth: frameReader(in: { _ in}) as? CGFloat,
-            pillHeight: 28
-            ,
+            pillHeight: 28,
             progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5),
             progressBarColorFalse: .text(.lighter).opacity(0.5)
           )
@@ -149,16 +156,18 @@ extension PBProgressStep {
             GeometryReader { geo in
               PBProgressPill(
                 steps: 1,
-                pillWidth: progress >= steps.words.last ?? 100 ? frameReader(in: { _ in}) as? CGFloat : (geo.size.width / CGFloat(steps) * CGFloat(progress) * 1.5),
+//                pillWidth: progress + 1 >= (steps.words.last ?? 0) ? frameReader(in: { _ in}) as? CGFloat : (geo.size.width / CGFloat(steps) * CGFloat(progress) * 1.5),
+                pillWidth: progress + 1 >= (steps.words.last ?? 0) ? frameReader(in: { _ in}) as? CGFloat : (geo.size.width / CGFloat(steps) * CGFloat(progress) + 40.5),
                 pillHeight: 28,
                 progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
               )
               .clipShape(RoundedRectangle(cornerRadius: 15))
             }
             .overlay {
-              HStack {
+              HStack(spacing: Spacing.none) {
                 ForEach(1...steps, id: \.hashValue) { step in
-                  Spacer(minLength: steps <= 3 ? 45 : 19)
+                  Spacer(minLength: steps <= 4 ? Spacing.xLarge + 5 : steps >= 5 ?  Spacing.xSmall + 4 : Spacing.small)
+                  Spacer(minLength: steps == 2 ? 55 : -10)
                   circleIcon(
                     icon: icon,
                     iconSize: iconSize,
@@ -172,13 +181,13 @@ extension PBProgressStep {
                     offsetY: 0,
                     opacity: 1
                   )
-//                  .padding(.leading, steps <= 3 ? -35 : 0)
-//                  .padding(.trailing, steps <= 3 ? 5 : 0)
-                  //step < steps.words.last ?? 100 ?
-                  Spacer(minLength: steps <= 3 ? 45 : 16)
                   
+                  Spacer(minLength: steps <= 4 ? Spacing.xLarge + 5 : steps >= 5 ?  Spacing.xSmall + 4 : Spacing.small)
+                  Spacer(minLength: steps == 2 ? 55 : -10)
+  
                 }
               }
+              .frame(width: frameReader(in: { _ in}) as? CGFloat)
             }
           }
         }

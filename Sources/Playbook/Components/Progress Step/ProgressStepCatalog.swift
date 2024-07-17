@@ -17,9 +17,9 @@ public struct ProgressStepCatalog: View {
       PBDoc(title: "Default") {
         defaultView
       }
-      PBDoc(title: "Vertical") {
-        verticalView
-      }
+//      PBDoc(title: "Vertical") {
+//        verticalView
+//      }
       PBDoc(title: "Tracker") {
           trackerView
       }
@@ -81,7 +81,7 @@ extension ProgressStepCatalog {
   var trackerView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
         PBProgressStep(
-          steps: 5,
+          steps: 4,
           variant: .tracker,
           progress: $progress
         )
