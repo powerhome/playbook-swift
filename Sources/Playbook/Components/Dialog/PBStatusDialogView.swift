@@ -26,12 +26,11 @@ struct PBStatusDialogView: View {
         .pbFont(.body)
         .padding(.horizontal)
         .multilineTextAlignment(.center)
-        .fixedSize(horizontal: false, vertical: true)
+        .fixedSize(horizontal: false, vertical: false)
     }
     .padding()
   }
 }
-
 public enum DialogStatus: String, CaseIterable, Identifiable {
   public var id: UUID { UUID() }
 

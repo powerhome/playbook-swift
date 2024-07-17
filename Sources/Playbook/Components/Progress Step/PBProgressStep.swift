@@ -15,9 +15,10 @@ public struct PBProgressStep: View {
   let iconSize: PBIcon.IconSize
   let label: String?
   let showLabelIndex: Bool
-  let progressBarWidth: CGFloat
-  let progressBarHeight: CGFloat
+  let pillWidth: CGFloat
+  let pillHeight: CGFloat
   let steps: Int
+  let variant: Variant
   @Binding var progress: Int
   
   public init(
@@ -26,9 +27,10 @@ public struct PBProgressStep: View {
     iconSize: PBIcon.IconSize = .custom(9),
     label: String? = nil,
     showLabelIndex: Bool = false,
-    progressBarWidth: CGFloat = 100,
-    progressBarHeight: CGFloat = 4,
+    pillWidth: CGFloat = 100,
+    pillHeight: CGFloat = 4,
     steps: Int = 3,
+    variant: Variant = .horizontal,
     progress: Binding<Int> = .constant(1)
   ) {
     self.hasIcon = hasIcon
@@ -36,36 +38,71 @@ public struct PBProgressStep: View {
     self.iconSize = iconSize
     self.label = label
     self.showLabelIndex = showLabelIndex
-    self.progressBarWidth = progressBarWidth
-    self.progressBarHeight = progressBarHeight
+    self.pillWidth = pillWidth
+    self.pillHeight = pillHeight
     self.steps = steps
+    self.variant = variant
     self._progress = progress
   }
   
   public var body: some View {
-    progressStepsView
+    progressVariantView
   }
 }
 
 public extension PBProgressStep {
+  
+  enum Variant {
+    case horizontal, vertical
+  }
+  @ViewBuilder
+  var progressVariantView: some View {
+    switch variant {
+    case .horizontal:
+      HStack(spacing: Spacing.none) {
+        progressStepsView
+      }
+    case .vertical:
+      VStack(spacing: Spacing.none) {
+        progressStepsView
+      }
+    }
+  }
+  
   var progressStepsView: some View {
-    HStack(spacing: Spacing.none) {
-      ForEach(1...steps, id: \.hashValue) { step in
-        circleIconView(isActive: progress == 0  || step != progress + 1 ? false : true, isComplete: progress >= step ? true : false)
-          .globalPosition(alignment: .bottom, bottom: -30, isCard: false) {
-            labelView(index: step - 1)
-              .padding(.leading)
-              .padding(.trailing)
-          }
-        if step < steps {
-          PBProgressPill(steps: 1, pillWidth: frameReader(in: { _ in}) as? CGFloat, pillHeight: 4, progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter), progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary, cornerRadius: 1)
+    ForEach(1...steps, id: \.hashValue) { step in
+      circleIconView(isActive: progress == 0  || step != progress + 1 ? false : true, isComplete: progress >= step ? true : false)
+        .globalPosition(alignment: variant == .horizontal ? .bottom : .leading, bottom: variant == .horizontal ? -30 : 0, isCard: false) {
+          labelView(index: step - 1)
+            .padding(.leading, variant == .vertical ? 25 : 0)
+            .padding(.trailing, 0)
         }
+      if step < steps {
+        PBProgressPill(
+          steps: 1,
+          pillWidth: variant == .horizontal ? frameReader(in: { _ in}) as? CGFloat : 4,
+          pillHeight: variant == .horizontal ? 4 : 40,
+          progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter),
+          progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary,
+          cornerRadius: 1
+        )
+        .padding(variant == .vertical ? 0.5 : 0)
       }
     }
   }
   
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
     ZStack {
+      Circle()
+        .stroke(Color.white, lineWidth: 2)
+        .frame(width: 18, height: 18)
+        .background(Circle().fill(isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear))
+        .overlay {
+          PBIcon(icon, size: iconSize)
+            .foregroundStyle(isComplete ? Color.white : Color.border)
+            .opacity(isComplete && hasIcon ? 1 : 0)
+        }
+        .padding(.horizontal, 1)
       if isActive {
         Circle()
           .stroke(Color.pbPrimary, lineWidth: 2)
@@ -78,21 +115,8 @@ public extension PBProgressStep {
           }
           .padding(.horizontal, 3)
       }
-        Circle()
-          .stroke(Color.white, lineWidth: 2)
-          .frame(width: 18, height: 18)
-          .background(Circle().fill(isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear))
-        
-          .overlay {
-            PBIcon(icon, size: iconSize)
-              .foregroundStyle(isComplete ? Color.white : Color.border)
-              .opacity(isComplete && hasIcon ? 1 : 0)
-          }
-          .padding(.horizontal, 1)
-      
     }
   }
-  
   func labelView(index: Int) -> some View {
     VStack {
       if let label = self.label  {
