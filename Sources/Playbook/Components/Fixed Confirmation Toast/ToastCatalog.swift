@@ -23,6 +23,7 @@ public struct ToastCatalog: View {
       PBDoc(title: "Simple") { positionButton }
       PBDoc(title: "Children") { children }
       PBDoc(title: "Dismiss with timer") { withTimer }
+      PBDoc(title: "Custom Icon") { customIcon }
     }
     .withToastHandling(toastView, position: position)
   }
@@ -40,14 +41,33 @@ public struct ToastCatalog: View {
   }
 
   private var multiLine: some View {
-    PBToast(text: message, variant: .custom(.infoCircle, .pbPrimary), dismissAction: closeToast)
+    PBToast(
+      text: message,
+      variant: .custom(.infoCircle, .pbPrimary),
+      dismissAction: closeToast
+    )
   }
 
   private var clickToClose: some View {
     VStack(alignment: .leading) {
-      PBToast(text: "Error Message", variant: .error, actionView: .default, dismissAction: closeToast)
-      PBToast(text: "Items Successfully Moved", variant: .success, actionView: .default, dismissAction: closeToast)
-      PBToast(text: "Scan to Assign Selected Items", variant: .neutral, actionView: .default, dismissAction: closeToast)
+      PBToast(
+        text: "Error Message",
+        variant: .error,
+        actionView: .default,
+        dismissAction: closeToast
+      )
+      PBToast(
+        text: "Items Successfully Moved",
+        variant: .success,
+        actionView: .default,
+        dismissAction: closeToast
+      )
+      PBToast(
+        text: "Scan to Assign Selected Items",
+        variant: .neutral,
+        actionView: .default,
+        dismissAction: closeToast
+      )
     }
   }
 
@@ -160,6 +180,31 @@ public struct ToastCatalog: View {
           dismissAction: closeToast
         )
       }
+    }
+  }
+  var customIcon: some View {
+    VStack(alignment: .leading) {
+      PBToast(
+        text: "Fix before proceeding",
+        variant: .custom(.wrench, Color.status(.error)),
+        dismissAction: closeToast
+      )
+      PBToast(
+        text: "Thank you for completing the form!",
+        variant: .custom(.star, Color.status(.success)),
+        dismissAction: closeToast
+      )
+      PBToast(
+        text: "Saved as PDF",
+        variant: .custom(.filePdf, Color.status(.neutral)),
+        dismissAction: closeToast
+      )
+      PBToast(
+        text: "New Messages",
+        variant: .custom(.arrowDown, .pbPrimary),
+        dismissAction: closeToast
+      )
+      
     }
   }
 }
