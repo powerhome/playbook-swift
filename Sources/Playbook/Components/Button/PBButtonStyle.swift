@@ -13,6 +13,7 @@ public struct PBButtonStyle: ButtonStyle {
   var variant: PBButton.Variant
   var size: PBButton.Size
   @State private var isHovering = false
+  @Environment(\.colorScheme) var colorScheme
 
   public init(
     variant: PBButton.Variant,
@@ -34,7 +35,8 @@ public struct PBButtonStyle: ButtonStyle {
           .backgroundAnimation(
             configuration: configuration,
             variant: variant,
-            isHovering: isHovering
+            isHovering: isHovering, 
+            colorScheme: colorScheme
           )
           .primaryVariantBrightness(
             isPrimaryVariant: isPrimaryVariant,
@@ -46,7 +48,8 @@ public struct PBButtonStyle: ButtonStyle {
         variant.foregroundAnimation(
           configuration: configuration,
           variant: variant,
-          isHovering: isHovering
+          isHovering: isHovering,
+          colorScheme: colorScheme
         )
       )
       .cornerRadius(5)

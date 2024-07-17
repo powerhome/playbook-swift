@@ -14,6 +14,16 @@ public struct Typography: ViewModifier {
   var variant: Variant
   var color: Color?
 
+    public init(
+        font: PBFont,
+        variant: Variant,
+        color: Color? = nil
+    ) {
+        self.font = font
+        self.variant = variant
+        self.color = color
+    }
+
   public func body(content: Content) -> some View {
     content
       .font(font.font)

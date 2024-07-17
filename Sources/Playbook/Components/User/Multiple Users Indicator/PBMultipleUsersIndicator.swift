@@ -17,7 +17,7 @@ public struct PBMultipleUsersIndicator: View {
     if let count = usersCount, count != 0 {
       Text("+\(count)")
         .tag("additionalUser")
-        .pbFont(.buttonText(size.fontSize), color: .pbPrimary)
+        .pbFont(size == .xxSmall ?.buttonText(size.fontSize) : .badgeText, color: .pbPrimary)
         .frame(width: size.diameter-1, height: size.diameter-1)
         .background(Color.shadow)
         .clipShape(Circle())
