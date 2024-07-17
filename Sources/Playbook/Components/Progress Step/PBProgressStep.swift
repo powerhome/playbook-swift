@@ -86,6 +86,7 @@ public extension PBProgressStep {
           progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary,
           cornerRadius: 1
         )
+        .padding(variant == .vertical ? 0.5 : 0)
       }
     }
   }
