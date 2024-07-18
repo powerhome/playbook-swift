@@ -10,15 +10,15 @@
 import SwiftUI
 
 public struct PBButton: View {
-    var title: String?
+    var fullWidth: Bool
     var variant: Variant
     var size: Size
     var shape: Shape
+    var title: String?
     var icon: PBIcon?
     var iconPosition: IconPosition?
-    var fullWidth: Bool
-    @Binding var isLoading: Bool
     let action: (() -> Void)?
+    @Binding var isLoading: Bool
     
     public init(
         variant: Variant = .primary,
@@ -59,11 +59,7 @@ public struct PBButton: View {
             .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
             .frame(maxWidth: fullWidth ? .infinity : nil)
         }
-        .customButtonStyle(
-            variant: variant,
-            shape: shape,
-            size: size
-        )
+        .buttonStyle(PBButtonStyle(variant: variant, size: size, shape: shape))
         .disabled(variant == .disabled ? true : false)
     }
 }
@@ -72,6 +68,34 @@ public extension PBButton {
     enum Shape {
         case primary
         case circle
+        
+        var minWidth: CGFloat {
+            switch self {
+                case .primary: return 0
+                case .circle: return 40
+            }
+        }
+        
+        func minHeight(size: PBButton.Size, variant: PBButton.Variant) -> CGFloat {
+            switch self {
+                case .primary: return size.minHeight(variant)
+                case .circle: return 40
+            }
+        }
+        
+        func verticalPadding(size: PBButton.Size, variant: PBButton.Variant) -> CGFloat {
+            switch self {
+                case .primary: return size.verticalPadding(variant)
+                case .circle: return 0
+            }
+        }
+        
+        func horizontalPadding(size: PBButton.Size, variant: PBButton.Variant) -> CGFloat {
+            switch self {
+                case .primary: return size.horizontalPadding(variant)
+                case .circle: return 0
+            }
+        }
     }
     
     enum Size {
@@ -122,5 +146,5 @@ public extension PBButton {
 
 #Preview {
     registerFonts()
-    return PBButton(fullWidth: true)
+    return ButtonsCatalog()
 }

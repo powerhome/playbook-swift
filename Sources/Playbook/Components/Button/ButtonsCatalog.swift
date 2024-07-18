@@ -32,7 +32,8 @@ extension ButtonsCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBButton(
         title: "Button Primary",
-        action: { isLoading = true }
+        isLoading: $isLoading,
+        action: { isLoading.toggle() }
       )
       PBButton(
         variant: .secondary,
