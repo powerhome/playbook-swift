@@ -89,8 +89,7 @@ public extension PBProgressStep {
       if step < steps {
         PBProgressPill(
           steps: 1,
-          // frame reader cause CI to fail because of the use of UIScreen.main.bounds, I think
-         // pillWidth: variant == .horizontal ? frameReader(in: { _ in}) as? CGFloat : 4,
+          pillWidth: variant == .horizontal ? frameReader(in: { _ in}) as? CGFloat : 4,
           pillHeight: variant == .horizontal ? 4 : 40,
           progressBarColorTrue: step <= progress ? Color.pbPrimary : Color.text(.lighter),
           progressBarColorFalse:  step > progress ? Color.text(.lighter) : Color.pbPrimary,
@@ -144,7 +143,8 @@ public extension PBProgressStep {
       }
   }
   var customLabelView: some View {
-    HStack(spacing: UIScreen.main.bounds.width * 0.21) {
+//    HStack(spacing: UIScreen.main.bounds.width * 0.21) {
+    HStack(spacing: frameReader(in: { _ in}) as? CGFloat) {
         ForEach(customLabel, id: \.count) { label in
           Text(label)
             .pbFont(.subcaption, variant: .bold, color: .text(.default))
@@ -161,7 +161,7 @@ extension PBProgressStep {
         PBProgressPill(
           steps: 1,
           // frame reader cause CI to fail because of the use of UIScreen.main.bounds, I think
-       //   pillWidth: frameReader(in: { _ in}) as? CGFloat,
+          pillWidth: frameReader(in: { _ in}) as? CGFloat,
           pillHeight: 28,
           progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
         )

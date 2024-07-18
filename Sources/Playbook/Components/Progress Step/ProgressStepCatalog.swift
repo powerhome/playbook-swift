@@ -23,12 +23,12 @@ public struct ProgressStepCatalog: View {
         verticalView
       }
       PBDoc(title: "Tracker") {
-          trackerView
+        trackerView
+        
       }
     }
   }
 }
-
 extension ProgressStepCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
