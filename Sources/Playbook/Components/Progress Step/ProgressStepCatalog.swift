@@ -12,28 +12,19 @@ import SwiftUI
 public struct ProgressStepCatalog: View {
   @State private var progress: Int = 1
   @State private var progress1: Int = 1
+  @State private var trackerProgress: Int = 1
+  @State private var trackerProgress1: Int = 1
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
         defaultView
       }
-//      PBDoc(title: "Vertical") {
-//        verticalView
-//      }
+      PBDoc(title: "Vertical") {
+        verticalView
+      }
       PBDoc(title: "Tracker") {
           trackerView
       }
-      Button(action: {
-             progress += 1
-           progress1 += 1
-                    }) {
-                        Text("Submit")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding(.top, 50)
     }
   }
 }
@@ -83,8 +74,14 @@ extension ProgressStepCatalog {
         PBProgressStep(
           steps: 3,
           variant: .tracker,
-          progress: $progress
+          customLabel: ["Ordered", "Shipped", "Delivered"],
+          progress: $trackerProgress
         )
+      PBProgressStep(
+        steps: 4,
+        variant: .tracker,
+        progress: $trackerProgress1
+      )
     }
   }
 }

@@ -19,6 +19,8 @@ public struct PBProgressStep: View {
   let pillHeight: CGFloat
   let steps: Int
   let variant: Variant
+  let customLabel: [String]
+  let overlap: CGFloat
   @Binding var progress: Int
   
   public init(
@@ -31,6 +33,8 @@ public struct PBProgressStep: View {
     pillHeight: CGFloat = 4,
     steps: Int = 3,
     variant: Variant = .horizontal,
+    customLabel: [String] = [""],
+    overlap: CGFloat = 0,
     progress: Binding<Int> = .constant(1)
   ) {
     self.hasIcon = hasIcon
@@ -42,17 +46,17 @@ public struct PBProgressStep: View {
     self.pillHeight = pillHeight
     self.steps = steps
     self.variant = variant
+    self.customLabel = customLabel
+    self.overlap = overlap
     self._progress = progress
   }
   
   public var body: some View {
     progressVariantView
-  //  trackerView
   }
 }
 
 public extension PBProgressStep {
-  
   enum Variant {
     case horizontal, vertical, tracker
   }
@@ -68,7 +72,7 @@ public extension PBProgressStep {
         progressStepsView
       }
     case .tracker:
-      VStack {
+      VStack(spacing: Spacing.none) {
         trackerView
       }
     }
@@ -125,62 +129,67 @@ public extension PBProgressStep {
           offsetY: 0,
           opacity: isComplete && hasIcon ? 1 : 0
         )
-          .padding(.horizontal, 3)
+        .padding(.horizontal, 3)
       }
     }
   }
-
-  func labelView(index: Int) -> some View {
-    VStack {
-      if let label = self.label  {
-        Text(showLabelIndex ? "\(label) \(index + 1)" : "\(label)")
+  @ViewBuilder
+  func labelView(index: Int? = 0) -> some View {
+      if let label = self.label {
+        Text(showLabelIndex ? "\(label) \((index ?? 0) + 1)" : "\(label)")
           .pbFont(.subcaption, variant: .bold, color: .text(.default))
+      } else {
+        customLabelView
       }
-    }
+  }
+  var customLabelView: some View {
+    HStack(spacing: UIScreen.main.bounds.width * 0.21) {
+        ForEach(customLabel, id: \.count) { label in
+          Text(label)
+            .pbFont(.subcaption, variant: .bold, color: .text(.default))
+        }
+      }
   }
 }
 
 extension PBProgressStep {
   var trackerView: some View {
-      VStack {
-        ZStack {
-          PBProgressPill(
-            steps: 1,
-            pillWidth: frameReader(in: { _ in}) as? CGFloat,
-            pillHeight: 28,
-            progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5),
-            progressBarColorFalse: .text(.lighter).opacity(0.5)
-          )
-          .clipShape(RoundedRectangle(cornerRadius: 15))
-          trackerProgressPillView
-        }
+    VStack {
+      labelView()
+      ZStack {
+        PBProgressPill(
+          steps: 1,
+          pillWidth: frameReader(in: { _ in}) as? CGFloat,
+          pillHeight: 28,
+          progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        trackerProgressPillView
       }
+    }
   }
   
   var trackerProgressPillView: some View {
-    HStack {
+    HStack(spacing: Spacing.none) {
       GeometryReader { geo in
         PBProgressPill(
           steps: 1,
-//          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress) + 65.5),
-          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(Double(progress) + 0.65) ),
+          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress) + progressSpacing),
           pillHeight: 28,
           progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
         )
         .clipShape(RoundedRectangle(cornerRadius: 15))
-        }
-        .overlay {
-          trackerIconView
-          
-        }
-      
+      }
+      .overlay {
+        trackerIconView
+      }
+    }
   }
-  }
+  @ViewBuilder
   var trackerIconView: some View {
-    HStack(spacing: trackerSpacingView) {
+    HStack(spacing: trackerSpacing) {
       ForEach(1...steps, id: \.hashValue) { step in
         Spacer(minLength:  0)
-     
         circleIcon(
           icon: icon,
           iconSize: iconSize,
@@ -195,12 +204,11 @@ extension PBProgressStep {
           opacity: 1
         )
         Spacer(minLength:  0)
-        
       }
       .scaledToFit()
     }
   }
-  var trackerSpacingView: CGFloat {
+  var trackerSpacing: CGFloat {
     switch steps {
     case 0, 1: return 0
     case 2: return Spacing.xLarge + 46
@@ -214,12 +222,15 @@ extension PBProgressStep {
       return Spacing.none
     }
   }
-  private func iconSpacing(for steps: Int, in totalWidth: CGFloat) -> CGFloat {
-    guard steps > 1 else { return 0 }
-    let iconWidth: CGFloat = 22 // Adjust based on the actual width of your icon
-    let totalIconWidth = CGFloat(steps) * iconWidth
-    let remainingSpace = totalWidth - totalIconWidth
-    return remainingSpace / CGFloat(steps - 1)
+  var progressSpacing: CGFloat {
+    switch steps {
+    case 0, 1, 2: return 0
+    case 3: return 65
+    case 4: return 45
+    case 5: return 40
+    case 6: return 40
+    default: return 0
+    }
   }
 }
 #Preview {
