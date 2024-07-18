@@ -174,7 +174,7 @@ extension PBProgressStep {
       GeometryReader { geo in
         PBProgressPill(
           steps: 1,
-          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress) + progressSpacing),
+          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
           pillHeight: 28,
           progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
         )
