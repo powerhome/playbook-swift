@@ -22,7 +22,7 @@ public struct PBProgressStep: View {
   let customLabel: [String]
   let overlap: CGFloat
   @Binding var progress: Int
-  
+  @Binding var active: Int
   public init(
     hasIcon: Bool = true,
     icon: FontAwesome = .check,
@@ -35,7 +35,8 @@ public struct PBProgressStep: View {
     variant: Variant = .horizontal,
     customLabel: [String] = [""],
     overlap: CGFloat = 0,
-    progress: Binding<Int> = .constant(1)
+    progress: Binding<Int> = .constant(1),
+    active: Binding<Int> = .constant(1)
   ) {
     self.hasIcon = hasIcon
     self.icon = icon
@@ -49,6 +50,7 @@ public struct PBProgressStep: View {
     self.customLabel = customLabel
     self.overlap = overlap
     self._progress = progress
+    self._active = active
   }
   
   public var body: some View {
@@ -73,7 +75,8 @@ public extension PBProgressStep {
       }
     case .tracker:
       VStack(spacing: Spacing.none) {
-        trackerView
+          trackerView
+        
       }
     }
   }
@@ -82,7 +85,7 @@ public extension PBProgressStep {
     ForEach(1...steps, id: \.hashValue) { step in
       circleIconView(isActive: progress == 0  || step != progress + 1 ? false : true, isComplete: progress >= step ? true : false)
         .globalPosition(alignment: variant == .horizontal ? .bottom : .leading, bottom: variant == .horizontal ? -30 : 0, isCard: false) {
-          labelView(index: step - 1)
+          labelView(index: Int(step) - 1)
             .padding(.leading, variant == .vertical ? 25 : 0)
             .padding(.trailing, 0)
         }
@@ -143,7 +146,6 @@ public extension PBProgressStep {
       }
   }
   var customLabelView: some View {
-//    HStack(spacing: UIScreen.main.bounds.width * 0.21) {
     HStack(spacing: frameReader(in: { _ in}) as? CGFloat) {
         ForEach(customLabel, id: \.count) { label in
           Text(label)
@@ -155,85 +157,138 @@ public extension PBProgressStep {
 
 extension PBProgressStep {
   var trackerView: some View {
-    VStack {
-      labelView()
-      ZStack {
+    GeometryReader { geo in
+      ZStack(alignment: .leading) {
         PBProgressPill(
           steps: 1,
-          // frame reader cause CI to fail because of the use of UIScreen.main.bounds, I think
-          pillWidth: frameReader(in: { _ in}) as? CGFloat,
+          pillWidth: geo.size.width,
           pillHeight: 28,
           progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
         )
         .clipShape(RoundedRectangle(cornerRadius: 15))
-        trackerProgressPillView
-      }
-    }
-  }
-  
-  var trackerProgressPillView: some View {
-    HStack(spacing: Spacing.none) {
-      GeometryReader { geo in
         PBProgressPill(
+          active: $active,
           steps: 1,
-          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
-          pillHeight: 28,
-          progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
+         // pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
+          pillWidth: progress >= steps ? geo.size.width : progress == active ? (geo.size.width / CGFloat(steps) * CGFloat(progress)) :  geo.size.width,
+          pillHeight: 28
+//          progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
+//          progressBarColorTrue: active >= progress + 1 ? .pbPrimary : .text(.lighter).opacity(0.5),
+//          progressBarColorFalse: .text(.lighter).opacity(0.5)
         )
         .clipShape(RoundedRectangle(cornerRadius: 15))
+        HStack(spacing: Spacing.none) {
+            ForEach(1...steps, id: \.hashValue) { step in
+              if step > 1 {
+                Spacer(minLength: 8)
+              }
+              circleIcon(
+                icon: icon,
+                iconSize: iconSize,
+                strokeColor: .clear,
+                lineWidth: 2,
+                background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
+                circleWidth: 20,
+                circleHeight: 20,
+                iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
+                offsetX: 0,
+                offsetY: 0,
+                opacity: 1
+              )
+               .frame(width: geo.size.width / CGFloat(steps))
+              if step < steps {
+                Spacer(minLength: 10)
+            }
+            }
+            
+          }
+         // .background(Color.yellow)
+          .padding(.leading, 0)
+          .padding(.trailing, 0)
       }
-      .overlay {
-        trackerIconView
-      }
+      //
     }
   }
-  @ViewBuilder
-  var trackerIconView: some View {
-    HStack(spacing: trackerSpacing) {
-      ForEach(1...steps, id: \.hashValue) { step in
-        Spacer(minLength:  0)
-        circleIcon(
-          icon: icon,
-          iconSize: iconSize,
-          strokeColor: .clear,
-          lineWidth: 2,
-          background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
-          circleWidth: 20,
-          circleHeight: 20,
-          iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
-          offsetX: 0,
-          offsetY: 0,
-          opacity: 1
-        )
-        Spacer(minLength:  0)
-      }
-      .scaledToFit()
-    }
-  }
-  var trackerSpacing: CGFloat {
-    switch steps {
-    case 0, 1: return 0
-    case 2: return Spacing.xLarge + 46
-    case 3: return Spacing.xLarge
-    case 4: return Spacing.medium + 0.5
-    case 5: return Spacing.small + 0.5
-    case 6: return Spacing.xSmall + 4
-    case 7: return Spacing.xxSmall + 4
-    case 8: return Spacing.xxSmall
-    default:
-      return Spacing.none
-    }
-  }
-  var progressSpacing: CGFloat {
-    switch steps {
-    case 0, 1, 2: return 0
-    case 3: return 65
-    case 4: return 45
-    case 5: return 40
-    case 6: return 40
-    default: return 0
-    }
-  }
+//  var trackerView: some View {
+//    VStack {
+//      labelView()
+//      ZStack {
+//        PBProgressPill(
+//          steps: 1,
+//          pillWidth: frameReader(in: { _ in}) as? CGFloat,
+//          pillHeight: 28,
+//          progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
+//        )
+//        .clipShape(RoundedRectangle(cornerRadius: 15))
+//        trackerProgressPillView
+//      }
+//    }
+//  }
+//  
+//  var trackerProgressPillView: some View {
+//    HStack(spacing: Spacing.none) {
+//      GeometryReader { geo in
+//        PBProgressPill(
+//          steps: 1,
+//          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
+//          pillHeight: 28
+////          ,
+////          progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
+//        )
+//        .clipShape(RoundedRectangle(cornerRadius: 15))
+//      }
+//      .overlay {
+//        trackerIconView
+//      }
+//    }
+//  }
+//  @ViewBuilder
+//  var trackerIconView: some View {
+//    HStack(spacing: trackerSpacing) {
+//      ForEach(1...steps, id: \.hashValue) { step in
+//        Spacer(minLength:  0)
+//        circleIcon(
+//          icon: icon,
+//          iconSize: iconSize,
+//          strokeColor: .clear,
+//          lineWidth: 2,
+//          background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
+//          circleWidth: 20,
+//          circleHeight: 20,
+//          iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
+//          offsetX: 0,
+//          offsetY: 0,
+//          opacity: 1
+//        )
+//        Spacer(minLength:  0)
+//      }
+//      .scaledToFit()
+//    }
+//  }
+//  var trackerSpacing: CGFloat {
+//    switch steps {
+//    case 0, 1: return 0
+//    case 2: return Spacing.xLarge + 46
+//    case 3: return Spacing.xLarge
+//    case 4: return Spacing.medium + 0.5
+//    case 5: return Spacing.small + 0.5
+//    case 6: return Spacing.xSmall + 4
+//    case 7: return Spacing.xxSmall + 4
+//    case 8: return Spacing.xxSmall
+//    default:
+//      return Spacing.none
+//    }
+//  }
+//  var progressSpacing: CGFloat {
+//    switch steps {
+//    case 0, 1, 2: return 0
+//    case 3: return 65
+//    case 4: return 45
+//    case 5: return 40
+//    case 6: return 40
+//    default: return 0
+//    }
+//  }
 }
 #Preview {
   registerFonts()

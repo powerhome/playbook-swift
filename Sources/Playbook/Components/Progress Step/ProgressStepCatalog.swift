@@ -14,18 +14,32 @@ public struct ProgressStepCatalog: View {
   @State private var progress1: Int = 1
   @State private var trackerProgress: Int = 1
   @State private var trackerProgress1: Int = 1
+  @State private var active: Int = 1
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
-      PBDoc(title: "Default") {
-        defaultView
-      }
-      PBDoc(title: "Vertical") {
-        verticalView
-      }
+//      PBDoc(title: "Default") {
+//        defaultView
+//      }
+//      PBDoc(title: "Vertical") {
+//        verticalView
+//      }
       PBDoc(title: "Tracker") {
-        trackerView
-        
+          trackerView
+            .padding(.bottom, 50)
       }
+      Button(action: {
+          progress += 1
+        progress1 += 1
+        trackerProgress1 += 1
+        active += 1
+                 }) {
+                     Text("Submit")
+                         .padding()
+                         .background(Color.blue)
+                         .foregroundColor(.white)
+                         .cornerRadius(8)
+                 }
+                 .padding(.top, 50)
     }
   }
 }
@@ -71,17 +85,20 @@ extension ProgressStepCatalog {
   }
   var trackerView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
+     
+        //        PBProgressStep(
+        //          steps: 2,
+        //          variant: .tracker,
+        //          customLabel: ["Ordered", "Shipped", "Delivered"],
+        //          progress: $trackerProgress
+        //        )
         PBProgressStep(
           steps: 3,
           variant: .tracker,
-          customLabel: ["Ordered", "Shipped", "Delivered"],
-          progress: $trackerProgress
+          progress: $trackerProgress1,
+          active: $active
         )
-      PBProgressStep(
-        steps: 4,
-        variant: .tracker,
-        progress: $trackerProgress1
-      )
+
     }
   }
 }
