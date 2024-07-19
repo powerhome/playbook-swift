@@ -169,19 +169,15 @@ extension PBProgressStep {
         PBProgressPill(
           active: $active,
           steps: 1,
-         // pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
-          pillWidth: progress >= steps ? geo.size.width : progress == active ? (geo.size.width / CGFloat(steps) * CGFloat(progress)) :  geo.size.width,
+          pillWidth: progress > steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
           pillHeight: 28
-//          progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
-//          progressBarColorTrue: active >= progress + 1 ? .pbPrimary : .text(.lighter).opacity(0.5),
-//          progressBarColorFalse: .text(.lighter).opacity(0.5)
         )
         .clipShape(RoundedRectangle(cornerRadius: 15))
         HStack(spacing: Spacing.none) {
             ForEach(1...steps, id: \.hashValue) { step in
-              if step > 1 {
-                Spacer(minLength: 8)
-              }
+//              if step >= 1 {
+              //  Spacer(minLength: 2)
+//              }
               circleIcon(
                 icon: icon,
                 iconSize: iconSize,
@@ -195,16 +191,15 @@ extension PBProgressStep {
                 offsetY: 0,
                 opacity: 1
               )
-               .frame(width: geo.size.width / CGFloat(steps))
-              if step < steps {
-                Spacer(minLength: 10)
+              //  Spacer(minLength: 1)
             }
-            }
-            
+            .frame(width: geo.size.width / CGFloat(steps))
+
           }
          // .background(Color.yellow)
           .padding(.leading, 0)
           .padding(.trailing, 0)
+        
       }
       //
     }
