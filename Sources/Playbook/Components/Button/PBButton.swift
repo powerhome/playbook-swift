@@ -19,6 +19,7 @@ public struct PBButton: View {
   var iconPosition: IconPosition?
   @Binding var isLoading: Bool
   let action: (() -> Void)?
+    @Environment(\.colorScheme) private var colorScheme
   
   public init(
     fullWidth: Bool = false,
@@ -49,7 +50,7 @@ public struct PBButton: View {
       HStack {
         icon
         if isLoading {
-          PBLoader(color: variant.foregroundColor)
+          PBLoader(color: variant.foregroundColor(colorScheme: colorScheme))
         } else {
           if let title = title, shape == .primary {
             Text(title)
