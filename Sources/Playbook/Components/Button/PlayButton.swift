@@ -13,7 +13,7 @@ public struct PlayButton: View {
   var fullWidth: Bool
   var variant: Variant
   let hasIcon: Bool
- // var size: Size
+  var size: Size
   var shape: Shape
   var title: String?
   var icon: PBIcon?
@@ -23,8 +23,8 @@ public struct PlayButton: View {
   
   public init(
       variant: Variant = .primary,
-      hasIcon: Bool = false,
-//      size: Size = .medium,
+      hasIcon: Bool = false,      
+      size: Size = .medium,
       shape: Shape = .primary,
       title: String? = nil,
       icon: PBIcon? = nil,
@@ -36,7 +36,7 @@ public struct PlayButton: View {
     self.fullWidth = fullWidth
     self.variant = variant
     self.hasIcon = hasIcon
-    //      self.size = size
+    self.size = size
     self.shape = shape
     self.title = title
     self.icon = icon
@@ -54,17 +54,22 @@ public struct PlayButton: View {
         if isLoading {
           PBLoader(color: variant == .primary ? .white : .pbPrimary)
         } else {
+        
           if let title = title, shape == .primary {
+           
             Text(title)
+             
           }
         }
+      
       }
+      .pbFont(fontSize, variant: .bold, color: buttonFontColor)
       .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
     }
-    .pbFont(.buttonText(16), variant: .bold, color: buttonFontColor)
-    .padding(.horizontal, Spacing.xLarge)
+    .padding(.horizontal, shape == .primary ? Spacing.xLarge : Spacing.none)
     .padding(.vertical, Spacing.small)
     .frame(maxWidth: fullWidth ? .infinity : nil)
+    .frame(width: circleButtonFrame, height: circleButtonFrame)
     .background(buttonColor)
     .clipShape(buttonShape)
     .disabled(variant == .disabled ? true : false)
@@ -81,12 +86,17 @@ public extension PlayButton {
   enum IconPosition {
     case left
     case right
-    case center
   }
   enum Shape {
     case primary
     case circle
     
+  }
+  enum Size {
+    case small
+    case medium
+    case large
+    case `default`
   }
   var buttonColor: Color {
     switch variant {
@@ -103,21 +113,25 @@ public extension PlayButton {
     default: return .pbPrimary
     }
   }
-
+  
   var buttonShape: AnyShape {
     switch shape {
     case .circle: AnyShape(Circle())
-    case .primary:AnyShape(RoundedRectangle(cornerRadius: 5))
+    case .primary: AnyShape(RoundedRectangle(cornerRadius: 5))
     }
   }
-  @ViewBuilder
-  var circleIconView: some View {
-  
-      if shape == .circle && hasIcon  {
-       
-            icon
-              foregroundStyle(buttonFontColor)
-          
+  var circleButtonFrame: CGFloat? {
+    shape == .circle ? 40 : nil
+  }
+  var fontSize: PBFont {
+    switch size {
+        case .small:
+      return .buttonText(12)
+        case .medium:
+      return .buttonText(14)
+        case .large:
+      return .buttonText(18)
+    case .default: return .buttonText(16)
     }
   }
 }
