@@ -4,20 +4,57 @@
 //  Copyright © 2024 Power Home Remodeling Group
 //  This software is distributed under the ISC License
 //
-//  PBButtonVariant.swift
+//  View+ButtonStyle.swift
 //
 
 import SwiftUI
 
-public extension PBButton {
+public struct PBButtonStyle: ButtonStyle {
+  var variant: Variant
+  var size: Size
+  @State private var isHovering = false
+  
+  public func makeBody(configuration: Configuration) -> some View {
+    let isPressed = configuration.isPressed
+    let isPrimaryVariant = variant == .primary
+    configuration.label
+      .background(
+        variant
+          .backgroundAnimation(
+            configuration: configuration,
+            isHovering: isHovering
+          )
+          .primaryVariantBrightness(
+            isPrimaryVariant: isPrimaryVariant,
+            isPressed: isPressed,
+            isHovering: isHovering
+          )
+      )
+      .foregroundColor(
+        variant
+          .foregroundAnimation(
+            configuration: configuration,
+            isHovering: isHovering
+          )
+      )
+    
+      .onHover(disabled: variant == .disabled ? true : false) {
+        self.isHovering = $0
+      }
+      .pbFont(size.fontSize, color: variant.foregroundColor)
+    
+  }
+}
+
+public extension PBButtonStyle {
   enum Variant {
     case primary
     case secondary
     case link
     case disabled
-
+    
     // Color configuations
-    public var backgroundColor: Color {
+    var backgroundColor: Color {
       switch self {
       case .secondary: return .pbPrimary.opacity(0.05)
       case .link: return .clear
@@ -25,26 +62,26 @@ public extension PBButton {
       default: return .pbPrimary
       }
     }
-
-    public var foregroundColor: Color {
+    
+    var foregroundColor: Color {
       switch self {
       case .primary: return .white
       case .disabled: return .text(.default).opacity(0.5)
       default: return .pbPrimary
       }
     }
-
+    
     // iOS-specific colors
-    public var mobilePressedBackgroundColor: Color {
+    var mobilePressedBackgroundColor: Color {
       switch self {
       case .secondary: return .pbPrimary.opacity(0.3)
       case .link: return .clear
       default: return .pbPrimary
       }
     }
-
+    
     // macOS-specific colors
-    public var hoverBackgroundColor: Color {
+    var hoverBackgroundColor: Color {
       switch self {
       case .secondary: return .pbPrimary.opacity(0.3)
       case .link: return .clear
@@ -52,15 +89,15 @@ public extension PBButton {
       default: return .pbPrimary
       }
     }
-
+    
     // Animation functions
-    public func backgroundAnimation(
+    func backgroundAnimation(
       configuration: ButtonStyleConfiguration,
       isHovering: Bool
     ) -> Color {
       let isPressed = configuration.isPressed
-
-      #if os(macOS)
+      
+#if os(macOS)
       if isPressed {
         return self.backgroundColor
       } else if isHovering {
@@ -68,20 +105,20 @@ public extension PBButton {
       } else {
         return self.backgroundColor
       }
-      #else
+#else
       return isPressed
       ? self.mobilePressedBackgroundColor
       : self.backgroundColor
-      #endif
+#endif
     }
-      
-    public func foregroundAnimation(
+    
+    func foregroundAnimation(
       configuration: ButtonStyleConfiguration,
       isHovering: Bool
     ) -> Color {
       let isLinkVariant = self == .link
       let isPressed = configuration.isPressed
-
+      
       #if os(macOS)
       if isLinkVariant && isPressed {
         return .pbPrimary
@@ -97,4 +134,23 @@ public extension PBButton {
       #endif
     }
   }
+  enum Size {
+    case small
+    case medium
+    case large
+    case `default`
+  
+    public var fontSize: PBFont {
+      switch self {
+      case .small:
+        return .buttonText(12)
+      case .medium:
+        return .buttonText(14)
+      case .large:
+        return .buttonText(18)
+      case .default: return .buttonText(16)
+      }
+    }
+  }
 }
+
