@@ -191,9 +191,9 @@ public extension PBMultipleUsers {
     case (4, 1):
       return 1
     case (4, 2):
-      return -6
+      return -4
     case (4, 3):
-      return 22
+      return 24
     default:
       return 0
     }
@@ -217,7 +217,7 @@ public extension PBMultipleUsers {
     case (4, 2):
       return -4
     case (4, 3):
-      return -8
+      return -10
     default:
       return 0
     }
