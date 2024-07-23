@@ -84,7 +84,10 @@ public extension PBAvatar {
     return nil
   }
 
-  enum Size: CaseIterable {
+  enum Size: CaseIterable, Hashable {
+    public static var allCases: [PBAvatar.Size] = []
+    
+    
     case xxSmall
     case xSmall
     case small
@@ -95,7 +98,7 @@ public extension PBAvatar {
     case defaultStackedIndicator
     case smallStacked
     case smallStackedIndicator
-
+    case custom(_ size: CGFloat)
     var diameter: CGFloat {
       switch self {
       case .xxSmall: return 20
@@ -108,6 +111,7 @@ public extension PBAvatar {
       case .defaultStackedIndicator: return 18
       case .smallStacked: return 22
       case .smallStackedIndicator: return 16
+      case .custom(let size): return size
       }
     }
 
