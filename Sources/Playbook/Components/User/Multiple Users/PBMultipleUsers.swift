@@ -36,10 +36,8 @@ public struct PBMultipleUsers: View {
     self.maxDisplayedUsers = maxDisplayedUsers
 
   }
-  
+
   public var body: some View {
-//    multipleUsersView
-//    multipleUsersBubbleVariant
     variantView
   }
 }
@@ -104,42 +102,7 @@ public extension PBMultipleUsers {
   enum BubbleCount {
     case two, three, four
   }
-//  var smallBubbleCount: [CGFloat] {
-//    switch bubbleCount {
-//    case .two: return [20, 12]
-//    case .three: return [16, 12, 10]
-//    case .four: return [16, 12, 10, 8]
-//    }
-//  }
-//  var medBubbleCount: [CGFloat] {
-//    switch bubbleCount {
-//    case .two: return [32, 16]
-//    case .three: return [24, 20, 16]
-//    case .four: return [28, 20, 16, 12]
-//    }
-//  }
-//  var largeBubbleCount: [CGFloat] {
-//    switch bubbleCount {
-//    case .two: return [44, 20]
-//    case .three: return [32, 24, 20]
-//    case .four: return [36, 28, 24, 16]
-//    }
-//  }
-//  var xLargeBubbleCount: [CGFloat] {
-//    switch bubbleCount {
-//    case .two: return [56, 24]
-//    case .three: return [44, 32, 24]
-//    case .four: return [44, 32, 24, 16]
-//    }
-//  }
-//  var smallBubbleSizes: [CGFloat] {
-//    switch bubbleSize {
-//    case .small: return smallBubbleCount
-//    case .medium: return medBubbleCount
-//    case .large: return largeBubbleCount
-//    case .xLarge: return xLargeBubbleCount
-//    }
-//  }
+
   var multipleUsersView: some View {
     ZStack {
       ForEach(filteredUsers.0.indices, id: \.self) { index in
@@ -158,60 +121,157 @@ public extension PBMultipleUsers {
     .padding(.leading, leadingPadding)
     .frame(width: totalWidth, alignment: .leading)
   }
+  
   var multipleUsersBubbleVariant: some View {
     CircularLayout {
           userBubbleView
+        
     }
-    .frame(width: 35, height: 35)
+    .padding(5)
     .background(Color.background(.light))
     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
   }
   var userBubbleView: some View {
     ForEach(filteredUsers.0.indices, id: \.self) { index in
-      let avSize = avatarSize(for: index, total: filteredUsers.0.count)
+      let avatarSize = avatarSize(for: index, total: filteredUsers.0.count)
         PBAvatar(
           image: filteredUsers.0[index].image,
           name: filteredUsers.0[index].name,
-          size: .custom(avSize),
+          size: .custom(avatarSize),
           wrapped: true
         )
-        .padding(index == 2 ? -1.5 : -1.6)
-    
-        // use the index to continue this ??
-        .offset(x: index == 1 ? -1 : -4, y: 0)
-       
-        //
-    }
-    .padding(-2.2)
-  }
-  func avatarSize(for index: Int, total: Int) -> CGFloat {
-         // I think these are ok for small but the order is off
-    if bubbleSize == .small {
-     switch total {
+        .padding(bubbleSize == .small && index <= 1 ? -1 : -4)
+        .offset(x: avatarXPosition(for: index, total: filteredUsers.0.count), y: avatarYPosition(for: index, total: filteredUsers.0.count))
       
-      case 1:
-        print("Index1: \(index)")
-        return 20
-      case 2:
-        //  //[20, 12]
-        print("Index2: \(index)")
-        return index == 0 ? 20 : 12
-        
-      case 3:
-        //[16, 12, 10]
-        print("Index3: \(index)")
-        return index == 1 ? 10 : 16
-      case 4:
-        // [16, 12, 10, 8]
-        print("Index4: \(index)")
-        return index == 1 ? 16 : index == 2 ? 12 : index == 3 ? 10 : 8
-      default:
-        return 8
-      }
-     
     }
-    return CGFloat(total)
-     }
+  }
+  
+  func avatarSize(for index: Int, total: Int) -> CGFloat {
+      let sizes: [BubbleSize: [Int: [CGFloat]]] = [
+          .small: [
+              1: [20],
+              2: [20, 12],
+              3: [16, 12, 10],
+              4: [16, 12, 10, 8]
+          ],
+          .medium: [
+              1: [32],
+              2: [32, 16],
+              3: [24, 20, 16],
+              4: [28, 20, 16, 12]
+          ],
+          .large: [
+              1: [44],
+              2: [44, 20],
+              3: [32, 24, 20],
+              4: [36, 28, 24, 16]
+          ],
+          .xLarge: [
+              1: [56],
+              2: [56, 24],
+              3: [44, 32, 24],
+              4: [44, 32, 24, 16]
+          ]
+      ]
+    return sizes[bubbleSize]?[total]?[index] ?? 0
+  }
+
+//  func avatarSize(for index: Int, total: Int) -> CGFloat {
+//   switch bubbleSize {
+//   case .small:
+//     switch total {
+//      case 0, 1, 2:
+//       return index == 0 ? 20 : 12
+//      case 3:
+//       return index == 0 ? 16 : index == 1 ? 12 : 10
+//      case 4:
+//        return index == 0 ? 16 : index == 1 ? 12 : index == 2 ? 10 : 8
+//      default:
+//       return 0
+//      }
+//   case .medium:
+//     switch total {
+//      case 0, 1, 2:
+//       return index == 0 ? 32 : 16
+//      case 3:
+//       return index == 0 ? 24 : index == 1 ? 20 : 16
+//      case 4:
+//        return index == 0 ? 28 : index == 1 ? 20 : index == 2 ? 16 : 12
+//      default:
+//       return 0
+//      }
+//   case .large:
+//     switch total {
+//      case 0, 1, 2:
+//       return index == 0 ? 44 : 20
+//      case 3:
+//       return index == 0 ? 32 : index == 1 ? 24 : 20
+//      case 4:
+//        return index == 0 ? 36 : index == 1 ? 28 : index == 2 ? 24 : 16
+//      default:
+//       return 0
+//      }
+//   case .xLarge:
+//     switch total {
+//      case 0, 1, 2:
+//       return index == 0 ? 56 : 24
+//      case 3:
+//       return index == 0 ? 44 : index == 1 ? 32 : 24
+//      case 4:
+//        return index == 0 ? 44 : index == 1 ? 32 : index == 2 ? 24 : 16
+//      default:
+//       return 0
+//      }
+//   }
+//  }
+  func avatarXPosition(for index: Int, total: Int) -> CGFloat {
+    switch (total, index) {
+    case (2, 0):
+      return -6
+    case (2, 1):
+      return 8
+    case (3, 0):
+      return -6
+    case (3, 1):
+      return 1
+    case (3, 2):
+      return 6
+    case (4, 0):
+      return -6
+    case (4, 1):
+      return 1
+    case (4, 2):
+      return -6
+    case (4, 3):
+      return 25
+    default:
+      return 0
+    }
+  }
+  func avatarYPosition(for index: Int, total: Int) -> CGFloat {
+    switch (total, index) {
+    case (2, 0):
+      return 0
+    case (2, 1):
+      return -2
+    case (3, 0):
+      return 0
+    case (3, 1):
+      return -4
+    case (3, 2):
+      return 4
+    case (4, 0):
+      return 0
+    case (4, 1):
+      return 4
+    case (4, 2):
+      return -3
+    case (4, 3):
+      return -10
+    default:
+      return 0
+    }
+  }
 }
 #Preview {
   registerFonts()
