@@ -12,18 +12,18 @@ import SwiftUI
 public struct MultipleUsersCatalog: View {
   public var body: some View {
     PBDocStack(title: "Multiple Users") {
-//      PBDoc(title: "xSmall") {
-//        xsmallView
-//      }
-//     
-//      PBDoc(title: "Small") {
-//        smallView
-//      }
-//      
-//      PBDoc(title: "Small Reverse") {
-//        smallReverseView
-//      }
-//
+      PBDoc(title: "xSmall") {
+        xsmallView
+      }
+     
+      PBDoc(title: "Small") {
+        smallView
+      }
+      
+      PBDoc(title: "Small Reverse") {
+        smallReverseView
+      }
+
       PBDoc(title: "Small Bubble") {
         smallUserBubbleView
       }
