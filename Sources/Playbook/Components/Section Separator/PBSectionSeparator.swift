@@ -14,6 +14,8 @@ public struct PBSectionSeparator<Content>: View where Content: View {
   var orientation: Orientation
   var variant: Variant
   var dividerOpacity: CGFloat
+  var dividerColor: Color
+  var textColor: Color
   var content: () -> Content?
   var margin: CGFloat
 
@@ -22,6 +24,8 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     orientation: Orientation = .horizontal,
     variant: Variant = .card,
     dividerOpacity: CGFloat? = 1,
+    dividerColor: Color = .border,
+    textColor: Color = .text(.light),
     margin: CGFloat = Spacing.xSmall,
     @ViewBuilder content: @escaping () -> Content? = { nil }
   ) {
@@ -29,70 +33,20 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     self.orientation = orientation
     self.variant = variant
     self.dividerOpacity = dividerOpacity ?? 1
+    self.dividerColor = dividerColor
+    self.textColor = textColor
     self.content = content
     self.margin = margin
   }
 
-  @ViewBuilder
-  private var dividerView: some View {
-    switch variant {
-    case .dashed:
-      PBLine()
-        .stroke(Color.border, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
-        .frame(height: 1)
-    default:
-      PBLine()
-        .frame(height: 1)
-        .background(Color.border)
-    }
-  }
-
-  private var textPadding: EdgeInsets {
-    switch variant {
-    case .dashed: return EdgeInsets(.init(top: 4, leading: Spacing.xSmall, bottom: 4, trailing: Spacing.xSmall))
-    default: return EdgeInsets(.init(top: 0, leading: Spacing.xSmall, bottom: 0, trailing: Spacing.xSmall))
-    }
-  }
-
-  var divider: some View {
-    VStack { dividerView.frame(minWidth: 24) }
-      .opacity(dividerOpacity)
-  }
-
   public var body: some View {
-    if orientation == .horizontal {
-      HStack(alignment: .center, spacing: Spacing.none, content: {
-        divider
-
-        if let text = text, !text.isEmpty {
-          Text(text)
-            .pbFont(.caption)
-            .padding(textPadding)
-            .background(Color.clear)
-            .layoutPriority(1)
-            .lineLimit(1)
-
-          divider
-        } else if let content = content() {
-          content
-            .layoutPriority(1)
-
-          divider
-        }
-      }).frame(maxWidth: .infinity)
-
-    } else {
-      Divider()
-        .background(Color.border)
-        .frame(width: 1)
-        .padding(.horizontal, margin)
-    }
+    dividerView
   }
 }
 
 public extension PBSectionSeparator where Content == EmptyView {
-  init(_ text: String? = nil, orientation: Orientation = .horizontal, variant: Variant = .card) {
-    self.init(text, orientation: orientation, variant: variant, content: { EmptyView() })
+  init(_ text: String? = nil, orientation: Orientation = .horizontal, variant: Variant = .card, dividerColor: Color? = .border, textColor: Color? = .text(.light)) {
+    self.init(text, orientation: orientation, variant: variant, dividerColor: dividerColor ?? .border, textColor: textColor ?? .text(.light), content: { EmptyView() })
   }
 }
 
@@ -101,12 +55,69 @@ public extension PBSectionSeparator {
     case dashed
     case card
   }
+  var dividerView: some View {
+    VStack {
+      if orientation == .horizontal {
+        HStack(alignment: .center, spacing: Spacing.none) {
+          divider
+          
+          if let text = text, !text.isEmpty {
+            Text(text)
+              .foregroundStyle(textColor)
+              .pbFont(.caption)
+              .padding(textPadding)
+              .background(Color.clear)
+              .layoutPriority(1)
+              .lineLimit(1)
+            
+            divider
+          } else if let content = content() {
+            content
+              .layoutPriority(1)
+            divider
+          }
+        }
+         .frame(maxWidth: .infinity)
+        
+      } else {
+        Divider()
+          .frame(width: 1)
+          .padding(.horizontal, margin)
+          .background(dividerColor)
+      }
+    }
+  }
+  
+  @ViewBuilder
+  private var dividerVariantView: some View {
+    switch variant {
+    case .dashed:
+      PBLine()
+        .stroke(dividerColor, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
+        .frame(height: 1)
+    default:
+      PBLine()
+        .frame(height: 1)
+        .background(dividerColor)
+    }
+  }
+  
+  var divider: some View {
+    VStack {
+      dividerVariantView.frame(minWidth: 24)
+    }
+    .opacity(dividerOpacity)
+  }
+
+  private var textPadding: EdgeInsets {
+    switch variant {
+    case .dashed: return EdgeInsets(.init(top: 4, leading: Spacing.xSmall, bottom: 4, trailing: Spacing.xSmall))
+    default: return EdgeInsets(.init(top: 0, leading: Spacing.xSmall, bottom: 0, trailing: Spacing.xSmall))
+    }
+  }
 }
 
-public struct PBSectionSeparator_Previews: PreviewProvider {
-  public static var previews: some View {
+#Preview {
     registerFonts()
-
-    return SectionSeparatorCatalog()
-  }
+    return PBSectionSeparator()
 }
