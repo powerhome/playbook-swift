@@ -18,7 +18,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
   var textColor: Color
   var content: () -> Content?
   var margin: CGFloat
-
+  
   public init(
     _ text: String? = nil,
     orientation: Orientation = .horizontal,
@@ -38,7 +38,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     self.content = content
     self.margin = margin
   }
-
+  
   public var body: some View {
     dividerView
   }
@@ -77,7 +77,7 @@ public extension PBSectionSeparator {
             divider
           }
         }
-         .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity)
         
       } else {
         Divider()
@@ -108,7 +108,7 @@ public extension PBSectionSeparator {
     }
     .opacity(dividerOpacity)
   }
-
+  
   private var textPadding: EdgeInsets {
     switch variant {
     case .dashed: return EdgeInsets(.init(top: 4, leading: Spacing.xSmall, bottom: 4, trailing: Spacing.xSmall))
@@ -118,6 +118,6 @@ public extension PBSectionSeparator {
 }
 
 #Preview {
-    registerFonts()
-    return PBSectionSeparator()
+  registerFonts()
+  return PBSectionSeparator()
 }
