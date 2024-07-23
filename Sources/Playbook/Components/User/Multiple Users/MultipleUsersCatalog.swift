@@ -12,22 +12,20 @@ import SwiftUI
 public struct MultipleUsersCatalog: View {
   public var body: some View {
     PBDocStack(title: "Multiple Users") {
-      PBDoc(title: "xSmall") {
-        xsmallView
-      }
-     
-      PBDoc(title: "Small") {
-        smallView
-      }
-      
-      PBDoc(title: "Small Reverse") {
-        smallReverseView
-      }
+//      PBDoc(title: "xSmall") {
+//        xsmallView
+//      }
+//     
+//      PBDoc(title: "Small") {
+//        smallView
+//      }
+//      
+//      PBDoc(title: "Small Reverse") {
+//        smallReverseView
+//      }
+//
       PBDoc(title: "Small Bubble") {
         smallUserBubbleView
-      }
-      PBDoc(title: "Medium Bubble") {
-        mediumUserBubbleView
       }
     }
   }
@@ -62,28 +60,8 @@ extension MultipleUsersCatalog {
       PBMultipleUsers(
         users: Mocks.multipleUsers,
         variant: .bubble,
-        bubbleSize: .small
-      )
-    }
-  }
-  var mediumUserBubbleView: some View {
-    HStack(spacing: Spacing.small) {
-      PBMultipleUsers(
-        users: Mocks.twoUsers,
-        variant: .bubble,
-        bubbleSize: .medium,
-        bubbleCount: .two
-      )
-      PBMultipleUsers(
-        users: Mocks.threeUsers,
-        variant: .bubble,
-        bubbleSize: .medium,
-        bubbleCount: .three
-      )
-      PBMultipleUsers(
-        users: Mocks.multipleUsers,
-        variant: .bubble,
-        bubbleSize: .medium
+        bubbleSize: .small,
+        bubbleCount: .four
       )
     }
   }

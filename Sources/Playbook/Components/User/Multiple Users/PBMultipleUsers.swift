@@ -92,17 +92,7 @@ public extension PBMultipleUsers {
 
     return width
   }
-}
-
-public extension PBMultipleUsers {
-
-  enum BubbleSize {
-    case small, medium, large, xLarge
-  }
-  enum BubbleCount {
-    case two, three, four
-  }
-
+  
   var multipleUsersView: some View {
     ZStack {
       ForEach(filteredUsers.0.indices, id: \.self) { index in
@@ -121,11 +111,20 @@ public extension PBMultipleUsers {
     .padding(.leading, leadingPadding)
     .frame(width: totalWidth, alignment: .leading)
   }
-  
+}
+
+public extension PBMultipleUsers {
+
+  enum BubbleSize {
+    case small, medium, large, xLarge
+  }
+  enum BubbleCount {
+    case two, three, four
+  }
+
   var multipleUsersBubbleVariant: some View {
     CircularLayout {
           userBubbleView
-        
     }
     .padding(5)
     .background(Color.background(.light))
@@ -140,9 +139,9 @@ public extension PBMultipleUsers {
           size: .custom(avatarSize),
           wrapped: true
         )
-        .padding(bubbleSize == .small && index <= 1 ? -1 : -4)
+        .padding(index <= 1 ? -1 : -5)
         .offset(x: avatarXPosition(for: index, total: filteredUsers.0.count), y: avatarYPosition(for: index, total: filteredUsers.0.count))
-      
+       
     }
   }
   
@@ -176,54 +175,6 @@ public extension PBMultipleUsers {
     return sizes[bubbleSize]?[total]?[index] ?? 0
   }
 
-//  func avatarSize(for index: Int, total: Int) -> CGFloat {
-//   switch bubbleSize {
-//   case .small:
-//     switch total {
-//      case 0, 1, 2:
-//       return index == 0 ? 20 : 12
-//      case 3:
-//       return index == 0 ? 16 : index == 1 ? 12 : 10
-//      case 4:
-//        return index == 0 ? 16 : index == 1 ? 12 : index == 2 ? 10 : 8
-//      default:
-//       return 0
-//      }
-//   case .medium:
-//     switch total {
-//      case 0, 1, 2:
-//       return index == 0 ? 32 : 16
-//      case 3:
-//       return index == 0 ? 24 : index == 1 ? 20 : 16
-//      case 4:
-//        return index == 0 ? 28 : index == 1 ? 20 : index == 2 ? 16 : 12
-//      default:
-//       return 0
-//      }
-//   case .large:
-//     switch total {
-//      case 0, 1, 2:
-//       return index == 0 ? 44 : 20
-//      case 3:
-//       return index == 0 ? 32 : index == 1 ? 24 : 20
-//      case 4:
-//        return index == 0 ? 36 : index == 1 ? 28 : index == 2 ? 24 : 16
-//      default:
-//       return 0
-//      }
-//   case .xLarge:
-//     switch total {
-//      case 0, 1, 2:
-//       return index == 0 ? 56 : 24
-//      case 3:
-//       return index == 0 ? 44 : index == 1 ? 32 : 24
-//      case 4:
-//        return index == 0 ? 44 : index == 1 ? 32 : index == 2 ? 24 : 16
-//      default:
-//       return 0
-//      }
-//   }
-//  }
   func avatarXPosition(for index: Int, total: Int) -> CGFloat {
     switch (total, index) {
     case (2, 0):
@@ -233,9 +184,9 @@ public extension PBMultipleUsers {
     case (3, 0):
       return -6
     case (3, 1):
-      return 1
+      return 3
     case (3, 2):
-      return 6
+      return 8
     case (4, 0):
       return -6
     case (4, 1):
@@ -243,7 +194,7 @@ public extension PBMultipleUsers {
     case (4, 2):
       return -6
     case (4, 3):
-      return 25
+      return 22
     default:
       return 0
     }
@@ -265,9 +216,9 @@ public extension PBMultipleUsers {
     case (4, 1):
       return 4
     case (4, 2):
-      return -3
+      return -4
     case (4, 3):
-      return -10
+      return -8
     default:
       return 0
     }
