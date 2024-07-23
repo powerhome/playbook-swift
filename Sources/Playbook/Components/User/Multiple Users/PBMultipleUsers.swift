@@ -139,9 +139,8 @@ public extension PBMultipleUsers {
           size: .custom(avatarSize),
           wrapped: true
         )
-        .padding(index <= 1 ? -1 : -5)
+        .padding(index <= 1 ? -1 : -4)
         .offset(x: avatarXPosition(for: index, total: filteredUsers.0.count), y: avatarYPosition(for: index, total: filteredUsers.0.count))
-       
     }
   }
   
