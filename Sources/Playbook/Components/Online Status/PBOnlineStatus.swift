@@ -36,7 +36,7 @@ public extension PBOnlineStatus {
   }
   var statusView: some View {
     Circle()
-      .stroke(hasBorder ? strokeColor : backgroundColor, lineWidth: 2)
+      .stroke(hasBorder ? strokeColor : .clear, lineWidth: hasBorder ? 2 : 0)
       .background(Circle().fill(backgroundColor))
       .frame(width: statusSize, height: statusSize)
   }

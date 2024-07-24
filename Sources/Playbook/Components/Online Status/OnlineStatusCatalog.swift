@@ -124,22 +124,28 @@ extension OnlineStatusCatalog {
     }
   }
   var borderlessStatusView: some View {
+    
     HStack(spacing: Spacing.xSmall) {
       PBOnlineStatus()
       PBOnlineStatus(
-        backgroundColor: .status(.success)
+        backgroundColor: .status(.success),
+        size: .small
       )
       PBOnlineStatus(
-        backgroundColor: .status(.warning)
+        backgroundColor: .status(.warning),
+        size: .small
       )
       PBOnlineStatus(
-        backgroundColor: .status(.error)
+        backgroundColor: .status(.error), 
+        size: .small
       )
       PBOnlineStatus(
-        backgroundColor: .status(.info)
+        backgroundColor: .status(.info),
+        size: .small
       )
       PBOnlineStatus(
-        backgroundColor: .status(.primary)
+        backgroundColor: .status(.primary),  
+        size: .small
       )
     }
   }
