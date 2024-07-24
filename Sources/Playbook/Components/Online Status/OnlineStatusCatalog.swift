@@ -125,7 +125,7 @@ extension OnlineStatusCatalog {
   }
   var borderlessStatusView: some View {
     
-    HStack(spacing: Spacing.xSmall) {
+    HStack(spacing: Spacing.xxSmall) {
       PBOnlineStatus( 
         size: .small,
         hasBorder: false
