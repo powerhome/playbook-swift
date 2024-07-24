@@ -43,6 +43,7 @@ public enum Components: String, CaseIterable {
   case multipleUsersIndicator = "Multiple Users Indicator"
   case multipleUserStacked = "Multiple Users Stacked"
   case nav
+  case onlineStatus = "Online Status"
   case person
   case personContact = "Person Contact"
   case pill
@@ -102,6 +103,7 @@ public enum Components: String, CaseIterable {
     case .multipleUsersIndicator: MultipleUsersIndicatorCatalog()
     case .multipleUserStacked: MultipleUsersStackedCatalog()
     case .nav: NavCatalog()
+    case .onlineStatus: OnlineStatusCatalog()
     case .person: PersonCatalog()
     case .personContact: PersonContactCatalog()
     case .pill: PillCatalog()
