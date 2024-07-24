@@ -31,7 +31,8 @@ public struct TypeaheadCatalog: View {
             isFocused1 = false
             isFocused2 = false
         }
-        .popoverHandler()
+        .popoverHandler(id: 0)
+        .popoverHandler(id: 1)
     }
 }
 
