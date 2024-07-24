@@ -52,7 +52,7 @@ public extension PBMultipleUsers {
   var variantView: some View {
       switch variant {
       case .linear: multipleUsersView
-      case .bubble: multipleUsersBubbleVariant
+      case .bubble: multipleUsersBubbleView
       }
   }
   var filteredUsers: ([PBUser], Int?) {
@@ -122,7 +122,7 @@ public extension PBMultipleUsers {
     case two, three, four
   }
 
-  var multipleUsersBubbleVariant: some View {
+  var multipleUsersBubbleView: some View {
     CircularLayout {
           userBubbleView
     }
