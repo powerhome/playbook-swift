@@ -156,198 +156,50 @@ public extension PBProgressStep {
 }
 
 extension PBProgressStep {
-  var trackerView: some View {
-      GeometryReader { geo in
-          ZStack(alignment: .leading) {
-              PBProgressPill(
-                  steps: 1,
-                  pillWidth: geo.size.width,
-                  pillHeight: 28,
-                  progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
-              )
-              .clipShape(RoundedRectangle(cornerRadius: 15))
 
-              PBProgressPill(
-                  active: $active,
-                  steps: 1,
-                  pillWidth: progress > steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
-                  pillHeight: 28
-              )
-              .clipShape(RoundedRectangle(cornerRadius: 15))
-           
-              ForEach(0..<steps, id: \.self) { step in
-                  circleIcon(
-                      icon: icon,
-                      iconSize: iconSize,
-                      strokeColor: .clear,
-                      lineWidth: 2,
-                      background: progress >= step + 1 ? .black : progress == step + 1 ? .border : .text(.lighter),
-                      circleWidth: 20,
-                      circleHeight: 20,
-                      iconColor: step + 1 <= progress ? .white : step + 1 == 1 ? .clear : step + 1 == progress + 1 ? .pbPrimary : .clear,
-                      offsetX: 0,
-                      offsetY: 0,
-                      opacity: 1
-                  )
-                  .position(x: geo.size.width / CGFloat(Double(steps - 1)) * CGFloat(step), y: geo.size.height / 2)
-              
-              }
-              .padding(.leading, 15)
-              .padding(.trailing, 5)
-            
-          }
-      }
-      .frame(height: 28) // Set the fixed height for the pill
-  }
-//  var trackerView: some View {
-//      GeometryReader { geo in
-//          ZStack(alignment: .leading) {
-//              PBProgressPill(
-//                  steps: 1,
-//                  pillWidth: geo.size.width,
-//                  pillHeight: 28,
-//                  progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
-//              )
-//              .clipShape(RoundedRectangle(cornerRadius: 15))
-//              
-//              PBProgressPill(
-//                  active: $active,
-//                  steps: 1,
-//                  pillWidth: progress > steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
-//                  pillHeight: 28
-//              )
-//              .clipShape(RoundedRectangle(cornerRadius: 15))
-//              
-//            HStack(spacing: Spacing.none){
-//                  ForEach(1...steps, id: \.self) { step in
-//        
-//                      circleIcon(
-//                          icon: icon,
-//                          iconSize: iconSize,
-//                          strokeColor: .clear,
-//                          lineWidth: 2,
-//                          background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
-//                          circleWidth: 20,
-//                          circleHeight: 20,
-//                          iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
-//                          offsetX: 0,
-//                          offsetY: 0,
-//                          opacity: 1
-//                      )
-//                      
-//                  }
+  var trackerView: some View {
+    GeometryReader { geo in
+      ZStack(alignment: .leading) {
+        PBProgressPill(
+          steps: 1,
+          pillWidth: geo.size.width,
+          pillHeight: 28,
+          progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        PBProgressPill(
+          active: $active,
+          steps: 1,
+          pillWidth: progress > steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
+          pillHeight: 28
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        HStack(spacing: Spacing.none) {
+            ForEach(1...steps, id: \.hashValue) { step in
+//              if step >= 1 {
+              //  Spacer(minLength: 2)
 //              }
-//              .frame(width: geo.size.width, alignment: .leading)
-//              .padding(.leading, 0)
-//              .padding(.trailing, 0)
-//
-//          }
-//      }
-//  }
-//  var trackerView: some View {
-//    GeometryReader { geo in
-//      ZStack(alignment: .leading) {
-//        PBProgressPill(
-//          steps: 1,
-//          pillWidth: geo.size.width,
-//          pillHeight: 28,
-//          progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
-//        )
-//        .clipShape(RoundedRectangle(cornerRadius: 15))
-//        PBProgressPill(
-//          active: $active,
-//          steps: 1,
-//          pillWidth: progress > steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
-//          pillHeight: 28
-//        )
-//        .clipShape(RoundedRectangle(cornerRadius: 15))
-//        HStack(spacing: Spacing.none) {
-//            ForEach(1...steps, id: \.hashValue) { step in
-////              if step >= 1 {
-//              //  Spacer(minLength: 2)
-////              }
-//              circleIcon(
-//                icon: icon,
-//                iconSize: iconSize,
-//                strokeColor: .clear,
-//                lineWidth: 2,
-//                background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
-//                circleWidth: 20,
-//                circleHeight: 20,
-//                iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
-//                offsetX: 0,
-//                offsetY: 0,
-//                opacity: 1
-//              )
-//              //  Spacer(minLength: 1)
-//            }
-//            .frame(width: geo.size.width / CGFloat(steps))
-//
-//          }
-//         // .background(Color.yellow)
-//          .padding(.leading, 0)
-//          .padding(.trailing, 0)
-//        
-//      }
-//      //
-//    }
-//  }
-//  var trackerView: some View {
-//    VStack {
-//      labelView()
-//      ZStack {
-//        PBProgressPill(
-//          steps: 1,
-//          pillWidth: frameReader(in: { _ in}) as? CGFloat,
-//          pillHeight: 28,
-//          progressBarColorTrue: progress < 0 ? .pbPrimary : .text(.lighter).opacity(0.5)
-//        )
-//        .clipShape(RoundedRectangle(cornerRadius: 15))
-//        trackerProgressPillView
-//      }
-//    }
-//  }
-//  
-//  var trackerProgressPillView: some View {
-//    HStack(spacing: Spacing.none) {
-//      GeometryReader { geo in
-//        PBProgressPill(
-//          steps: 1,
-//          pillWidth: progress + 1 >= steps ? geo.size.width : (geo.size.width / CGFloat(steps) * CGFloat(progress)),
-//          pillHeight: 28
-////          ,
-////          progressBarColorTrue: progress > 0 ? .pbPrimary : .pbPrimary
-//        )
-//        .clipShape(RoundedRectangle(cornerRadius: 15))
-//      }
-//      .overlay {
-//        trackerIconView
-//      }
-//    }
-//  }
-//  @ViewBuilder
-//  var trackerIconView: some View {
-//    HStack(spacing: trackerSpacing) {
-//      ForEach(1...steps, id: \.hashValue) { step in
-//        Spacer(minLength:  0)
-//        circleIcon(
-//          icon: icon,
-//          iconSize: iconSize,
-//          strokeColor: .clear,
-//          lineWidth: 2,
-//          background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
-//          circleWidth: 20,
-//          circleHeight: 20,
-//          iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
-//          offsetX: 0,
-//          offsetY: 0,
-//          opacity: 1
-//        )
-//        Spacer(minLength:  0)
-//      }
-//      .scaledToFit()
-//    }
-//  }
+              circleIcon(
+                icon: icon,
+                iconSize: iconSize,
+                strokeColor: .clear,
+                lineWidth: 2,
+                background: progress >= step ? .black : progress == step ? .border : .text(.lighter),
+                circleWidth: 20,
+                circleHeight: 20,
+                iconColor: step <= progress ? .white : step == 1 ? .clear : step == progress + 1 ? .pbPrimary : .clear,
+                offsetX: 0,
+                offsetY: 0,
+                opacity: 1
+              )
+            }
+            .frame(width: geo.size.width / CGFloat(steps) + 23)
+            .padding(.leading, -19)
+            .padding(.trailing, -1)
+        }
+      }
+    }
+  }
 //  var trackerSpacing: CGFloat {
 //    switch steps {
 //    case 0, 1: return 0
