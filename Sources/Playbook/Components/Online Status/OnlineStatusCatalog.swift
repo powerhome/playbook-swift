@@ -126,26 +126,34 @@ extension OnlineStatusCatalog {
   var borderlessStatusView: some View {
     
     HStack(spacing: Spacing.xSmall) {
-      PBOnlineStatus()
+      PBOnlineStatus( 
+        size: .small,
+        hasBorder: false
+      )
       PBOnlineStatus(
         backgroundColor: .status(.success),
-        size: .small
+        size: .small,
+        hasBorder: false
       )
       PBOnlineStatus(
         backgroundColor: .status(.warning),
-        size: .small
+        size: .small,
+        hasBorder: false
       )
       PBOnlineStatus(
         backgroundColor: .status(.error), 
-        size: .small
+        size: .small,
+        hasBorder: false
       )
       PBOnlineStatus(
         backgroundColor: .status(.info),
-        size: .small
+        size: .small,
+        hasBorder: false
       )
       PBOnlineStatus(
         backgroundColor: .status(.primary),  
-        size: .small
+        size: .small,
+        hasBorder: false
       )
     }
   }

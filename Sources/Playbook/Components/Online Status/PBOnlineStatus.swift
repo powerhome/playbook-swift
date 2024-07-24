@@ -36,15 +36,15 @@ public extension PBOnlineStatus {
   }
   var statusView: some View {
     Circle()
-      .stroke(hasBorder ? strokeColor : .clear, lineWidth: hasBorder ? 2 : 0)
+      .stroke(hasBorder ? strokeColor : Color.clear, lineWidth: hasBorder ? 2 : 0)
       .background(Circle().fill(backgroundColor))
       .frame(width: statusSize, height: statusSize)
   }
   var statusSize: CGFloat {
     switch size {
-    case .small: return 8
-    case .medium: return 10
-    case .large: return 12
+    case .small: return hasBorder ? 8 : 6
+    case .medium: return hasBorder ? 10 : 8
+    case .large: return hasBorder ? 12 : 10
     }
   }
 }
