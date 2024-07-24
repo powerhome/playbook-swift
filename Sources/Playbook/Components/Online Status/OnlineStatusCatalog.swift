@@ -10,25 +10,27 @@
 import SwiftUI
 
 public struct OnlineStatusCatalog: View {
-    public var body: some View {
-      PBDocStack(title: "Online Status", spacing: Spacing.medium) {
-        PBDoc(title: "Small") {
-          smallStatusView
-        }
-        PBDoc(title: "Medium") {
-          mediumStatusView
-        }
-        PBDoc(title: "Large") {
-          largeStatusView
-        }
-        PBDoc(title: "Borderless") {
-          borderlessStatusView
-        }
+  public var body: some View {
+    
+    PBDocStack(title: "Online Status", spacing: Spacing.medium) {
+      PBDoc(title: "Small") {
+        smallStatusView
+      }
+      PBDoc(title: "Medium") {
+        mediumStatusView
+      }
+      PBDoc(title: "Large") {
+        largeStatusView
+      }
+      PBDoc(title: "Borderless") {
+        borderlessStatusView
       }
     }
+  }
 }
 
 extension OnlineStatusCatalog {
+  
   var smallStatusView: some View {
     HStack(spacing: Spacing.xxSmall) {
       PBOnlineStatus(
@@ -122,7 +124,7 @@ extension OnlineStatusCatalog {
     }
   }
   var borderlessStatusView: some View {
-    HStack(spacing: Spacing.xxSmall) {
+    HStack(spacing: Spacing.xSmall) {
       PBOnlineStatus()
       PBOnlineStatus(
         backgroundColor: .status(.success)
@@ -144,5 +146,5 @@ extension OnlineStatusCatalog {
 }
 #Preview {
   registerFonts()
-   return OnlineStatusCatalog()
+  return OnlineStatusCatalog()
 }
