@@ -13,6 +13,7 @@ public struct PBCircleButtonStyle: ButtonStyle {
   var variant: PBButton.Variant
   var size: PBButton.Size
   @State private var isHovering = false
+    @Environment(\.colorScheme) var colorScheme
 
   public func makeBody(configuration: Configuration) -> some View {
     let isPressed = configuration.isPressed
@@ -25,7 +26,7 @@ public struct PBCircleButtonStyle: ButtonStyle {
           .backgroundAnimation(
             configuration: configuration,
             variant: variant,
-            isHovering: isHovering
+            isHovering: isHovering, colorScheme: colorScheme
           )
           .primaryVariantBrightness(
             isPrimaryVariant: isPrimaryVariant,
@@ -37,7 +38,8 @@ public struct PBCircleButtonStyle: ButtonStyle {
         variant.foregroundAnimation(
           configuration: configuration,
           variant: variant,
-          isHovering: isHovering
+          isHovering: isHovering,
+          colorScheme: colorScheme
         )
       )
       .clipShape(Circle())
