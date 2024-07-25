@@ -93,7 +93,7 @@ extension ProgressStepCatalog {
         //          progress: $trackerProgress
         //        )
         PBProgressStep(
-          steps: 6,
+          steps: 3,
           variant: .tracker,
           progress: $trackerProgress1,
           active: $active
