@@ -9,10 +9,9 @@
 
 import SwiftUI
 
-struct GlobalPopoverView: View {
-    @EnvironmentObject var popoverManager: PopoverManager
-//    var withID: ((Int) -> Void)? = nil
+struct PopoverView: View {
     let id: Int
+    @EnvironmentObject var popoverManager: PopoverManager
     
     init(id: Int) {
         self.id = id
@@ -26,7 +25,6 @@ struct GlobalPopoverView: View {
             if isPresented ?? false {
                     Color.clear
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                        .onAppear { withID?(id) }
                     popover?.view
                         .position(popover?.position ?? .zero)
                         .onTapGesture {
@@ -41,22 +39,8 @@ public extension View {
     func popoverHandler(id: Int = 0) -> some View {
         let popoverManager = PopoverManager.shared
         return self
-            .overlay(GlobalPopoverView(id: id))
+            .overlay(PopoverView(id: id))
             .onTapGesture { popoverManager.closeOutside() }
             .environmentObject(popoverManager)
     }
 }
-
-
-
-//struct PopoverHandler: ViewModifier {
-//    let popoverManager = PopoverManager.shared
-//    @State private var popoverID: Int?
-//    
-//    func body(content: Content) -> some View {
-//        content
-//            .overlay(GlobalPopoverView { popoverID = $0 })
-//            .onTapGesture { popoverManager.closeOutside() }
-//            .environmentObject(popoverManager)
-//    }
-//}
