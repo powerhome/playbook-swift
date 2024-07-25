@@ -162,8 +162,21 @@ public extension Color {
 }
 
 public extension Color {
-  init(hex: String) {
-    let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+    enum Buttons {
+        enum Secondary {
+            static func background(_ colorScheme: ColorScheme) -> Color {
+                return colorScheme == .light ? .pbPrimary.opacity(0.05) : Color(hex: "#fff").opacity(0.2)
+            }
+            static func foreground(_ colorScheme: ColorScheme) -> Color {
+                return colorScheme == .light ? .pbPrimary : .white
+            }
+        }
+    }
+}
+
+public extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
     var int: UInt64 = 0
     Scanner(string: hex).scanHexInt64(&int)
     let a, r, g, b: UInt64

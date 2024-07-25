@@ -16,36 +16,15 @@ public struct UserCatalog: View {
     
     public var body: some View {
         PBDocStack(title: "User") {
-            PBDoc(title: "Default") {
-                defaultView
-            }
-            
-            PBDoc(title: "With Territory") {
-                withTerritoryView
-            }
-            
-            PBDoc(title: "Text Only") {
-                textOnlyView
-            }
-            
-            PBDoc(title: "Horizontal Size") {
-                horizontalSizeView
-            }
-            
-            PBDoc(title: "Vertical Size") {
-                verticalSizeView
-            }
-            
-            PBDoc(title: "Subtitle") {
-                subtitleView
-            }
-            
-            PBDoc(title: "Block Content Subtitle") {
-                subtitleBlockContentView
-            }
-            PBDoc(title: "Presence Indicator") {
-                presenceIndicatorView
-            }
+            PBDoc(title: "Default") { defaultView }
+            PBDoc(title: "With Territory") { withTerritoryView }
+            PBDoc(title: "Text Only") { textOnlyView }
+            PBDoc(title: "Horizontal Size") { horizontalSizeView }
+            PBDoc(title: "Vertical Size") { verticalSizeView }
+            PBDoc(title: "Subtitle") { subtitleView }
+            PBDoc(title: "Block Content Subtitle") { subtitleBlockContentView }
+            PBDoc(title: "Presence Indicator") { presenceIndicatorView }
+            PBDoc(title: "Custom Title Font") { customFontsView }
         }
     }
 }
@@ -264,6 +243,39 @@ public extension UserCatalog {
                 PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
             }
         )
+    }
+    
+    var customFontsView: some View {
+        return Stack {
+            PBUser(
+                name: name,
+                nameFont: .init(font: .title3, variant: .light),
+                image: img,
+                orientation: .vertical,
+                size: .large,
+                title: title
+            )
+            PBUser(
+                name: name,
+                nameFont: .init(font: .title2, variant: .light),
+                image: img,
+                size: .small,
+                title: title
+            )
+            VStack {
+                PBUser(
+                    name: name,
+                    nameFont: .init(font: .title4, variant: .light),
+                    image: img,
+                    size: .small
+                )
+                PBUser(
+                    name: name,
+                    nameFont: .init(font: .body, variant: .light),
+                    size: .small
+                )
+            }
+        }
     }
 }
 
