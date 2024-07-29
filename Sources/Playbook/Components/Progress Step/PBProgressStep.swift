@@ -20,9 +20,8 @@ public struct PBProgressStep: View {
   let steps: Int
   let variant: Variant
   let customLabel: [String]
-  let overlap: CGFloat
   @Binding var progress: Int
-  @Binding var active: Int
+
   public init(
     hasIcon: Bool = true,
     icon: FontAwesome = .check,
@@ -34,9 +33,7 @@ public struct PBProgressStep: View {
     steps: Int = 3,
     variant: Variant = .horizontal,
     customLabel: [String] = [""],
-    overlap: CGFloat = 0,
-    progress: Binding<Int> = .constant(0),
-    active: Binding<Int> = .constant(0)
+    progress: Binding<Int> = .constant(0)
   ) {
     self.hasIcon = hasIcon
     self.icon = icon
@@ -48,9 +45,8 @@ public struct PBProgressStep: View {
     self.steps = steps
     self.variant = variant
     self.customLabel = customLabel
-    self.overlap = overlap
     self._progress = progress
-    self._active = active
+
   }
   
   public var body: some View {
@@ -119,7 +115,8 @@ public extension PBProgressStep {
         offsetY: 0,
         opacity: isComplete && hasIcon ? 1 : 0
       )
-        .padding(.horizontal, 1)
+      .padding(.horizontal, 1)
+      
       if isActive {
         circleIcon(
           icon: icon,
@@ -138,6 +135,7 @@ public extension PBProgressStep {
       }
     }
   }
+
   @ViewBuilder
   func labelView(index: Int? = 0) -> some View {
       if let label = self.label {
@@ -158,26 +156,45 @@ public extension PBProgressStep {
 }
 
 extension PBProgressStep {
-
+  
   var trackerView: some View {
-      GeometryReader { geo in
-        HStack {
-          PBProgressStep(
-            hasIcon: true,
-            icon: .check,
-            iconSize: .small,
-            pillHeight: 28,
-            steps: steps,
-            progress: $progress,
-            active: $active
-          )
+    GeometryReader { geometry in
+      ZStack(alignment: .leading) {
+        RoundedRectangle(cornerRadius: 10)
+          .fill(Color.gray.opacity(0.2))
+          .frame(width: geometry.size.width, height: 28, alignment: .leading)
+          .clipShape(RoundedRectangle(cornerRadius: 15))
+        RoundedRectangle(cornerRadius: 10)
+          .fill(Color.pbPrimary)
+          .frame(width: progress >= steps ? geometry.size.width : progress == 0 ? 0 : geometry.size.width * CGFloat(progress + 1) / CGFloat(steps), height: 28, alignment: .leading)
+          .clipShape(RoundedRectangle(cornerRadius: 15))
+        HStack(spacing: (geometry.size.width - CGFloat(steps) * 20) / CGFloat(steps - 1)) {
+          ForEach(0..<steps, id: \.self) { step in
+            circleIcon(
+              icon: .check,
+              iconSize: .small,
+              strokeColor: .clear,
+              lineWidth: 2,
+              background: step < progress ? .black : progress == step ? .border : .text(.lighter),
+              circleWidth: 18,
+              circleHeight: 18,
+              iconColor: step < progress ? .white : step == progress ? .pbPrimary : .clear,
+              offsetX: 0,
+              offsetY: 0,
+              opacity: 1
+            )
+          }
           .padding(.horizontal, 5)
+          .padding(.trailing, -13)
         }
-        .background(Color.pbPrimary)
-        .clipShape(RoundedRectangle(cornerRadius: 15))
+       
+       
       }
+     
+    }
   }
 }
+
 #Preview {
   registerFonts()
   return PBProgressStep()
