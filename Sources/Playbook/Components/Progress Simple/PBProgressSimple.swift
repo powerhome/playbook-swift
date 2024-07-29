@@ -14,8 +14,6 @@ public struct PBProgressSimple: View {
   @Binding var value: Int
   let maxValue: Int
   let progressColor: Color
-  let progressBackgroundColor: Color
-  let progressHeight: CGFloat
   let variant: Variant
   
   public init(
@@ -23,8 +21,6 @@ public struct PBProgressSimple: View {
     value: Binding<Int> = .constant(2),
     maxValue: Int = 10,
     progressColor: Color = .pbPrimary,
-    progressBackgroundColor: Color = .border,
-    progressHeight: CGFloat = 4,
     variant: Variant = .default
     
   ) {
@@ -32,8 +28,6 @@ public struct PBProgressSimple: View {
     self._value = value
     self.maxValue = maxValue
     self.progressColor = progressColor
-    self.progressBackgroundColor = progressBackgroundColor
-    self.progressHeight = progressHeight
     self.variant = variant
     
   }
@@ -53,7 +47,6 @@ public extension PBProgressSimple {
       switch variant {
       case .default: ProgressView(value: progress, total: 1)
       case .settingValue: ProgressView(value: CGFloat(value), total: CGFloat(maxValue))
-        
       }
     }
     .tint(progressColor)
