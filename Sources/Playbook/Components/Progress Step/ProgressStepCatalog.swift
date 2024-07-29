@@ -17,9 +17,9 @@ public struct ProgressStepCatalog: View {
  
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
-//      PBDoc(title: "Default") {
-//        defaultView
-//      }
+      PBDoc(title: "Default") {
+        defaultView
+      }
 //      PBDoc(title: "Vertical") {
 //        verticalView
 //      }
@@ -93,7 +93,7 @@ extension ProgressStepCatalog {
         //          progress: $trackerProgress
         //        )
         PBProgressStep(
-          steps: 3,
+          steps: 8,
           variant: .tracker,
           progress: $trackerProgress1
         )

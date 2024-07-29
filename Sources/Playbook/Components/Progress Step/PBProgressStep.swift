@@ -81,7 +81,7 @@ public extension PBProgressStep {
     ForEach(1...steps, id: \.hashValue) { step in
       circleIconView(
         isActive: progress == 0  || step != progress + 1 ? false : true,
-        isComplete: progress >= step ? true : false
+        isComplete: Int(progress) >= step ? true : false
       )
       .globalPosition(alignment: variant == .horizontal ? .bottom : .leading, bottom: variant == .horizontal ? -30 : 0, isCard: false) {
           labelView(index: Int(step) - 1)
@@ -120,7 +120,7 @@ public extension PBProgressStep {
       if isActive {
         circleIcon(
           icon: icon,
-          iconSize: iconSize, 
+          iconSize: iconSize,
           strokeColor: Color.pbPrimary,
           lineWidth: 2,
           background: Color.clear,
@@ -158,17 +158,20 @@ public extension PBProgressStep {
 extension PBProgressStep {
   
   var trackerView: some View {
-    GeometryReader { geometry in
+ 
+    GeometryReader { geo in
+      let width = geo.size.width
       ZStack(alignment: .leading) {
         RoundedRectangle(cornerRadius: 10)
           .fill(Color.gray.opacity(0.2))
-          .frame(width: geometry.size.width, height: 28, alignment: .leading)
+          .frame(width: width, height: 28, alignment: .leading)
           .clipShape(RoundedRectangle(cornerRadius: 15))
         RoundedRectangle(cornerRadius: 10)
           .fill(Color.pbPrimary)
-          .frame(width: progress >= steps ? geometry.size.width : progress == 0 ? 0 : geometry.size.width * CGFloat(progress + 1) / CGFloat(steps), height: 28, alignment: .leading)
+          .frame(width: Int(progress) >= steps ? width : progress == 0 ? 0 : ((width / CGFloat(steps)) / 2 + 12) * CGFloat(progress) , height: 28, alignment: .leading)
           .clipShape(RoundedRectangle(cornerRadius: 15))
-        HStack(spacing: (geometry.size.width - CGFloat(steps) * 20) / CGFloat(steps - 1)) {
+       // HStack(spacing: (width - CGFloat(steps) * 20) / CGFloat(steps - 1)) {
+        HStack(spacing: ((width - 18 ) / CGFloat(steps) - 2) - 18) {
           ForEach(0..<steps, id: \.self) { step in
             circleIcon(
               icon: .check,
@@ -184,9 +187,10 @@ extension PBProgressStep {
               opacity: 1
             )
           }
-          .padding(.horizontal, 5)
-          .padding(.trailing, -13)
+       //   .padding(.horizontal, 5)
+         // .padding(.trailing, -13)
         }
+        .background(Color.pink)
        
        
       }
