@@ -88,7 +88,9 @@ public struct PBTypeahead<Content: View>: View {
         .onAppear {
             focused = isFocused
             listOptions = options
-            showList = isFocused
+            if debounce.numberOfCharacters == 0 {
+                showList = isFocused
+            }
             setKeyboardControls
         }
         .onChange(of: isFocused) { newValue in
@@ -109,9 +111,15 @@ public struct PBTypeahead<Content: View>: View {
         .onChange(of: hoveringIndex) { index in
             reloadList
         }
+        .onChange(of: searchText, debounce: debounce) { _ in
+            if !searchText.isEmpty {
+                showList = true
+            }
+        }
     }
 }
 
+@MainActor
 private extension PBTypeahead {
     @ViewBuilder
     var listView: some View {
@@ -148,7 +156,7 @@ private extension PBTypeahead {
         .frame(maxWidth: .infinity, alignment: .top)
         .transition(.opacity)
     }
-    
+
     var searchResults: [Option] {
         switch selection{
             case .multiple:
