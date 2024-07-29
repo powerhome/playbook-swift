@@ -18,7 +18,7 @@ public struct ProgressSimpleCatalog: View {
       PBDoc(title: "Default") {
         defaultView
       }
-      PBDoc(title: "Setting Value") {
+      PBDoc(title: "Setting Values") {
         settingValueView
       }
     }

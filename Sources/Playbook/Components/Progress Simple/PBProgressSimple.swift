@@ -29,7 +29,6 @@ public struct PBProgressSimple: View {
     self.maxValue = maxValue
     self.progressColor = progressColor
     self.variant = variant
-    
   }
   
   public var body: some View {
