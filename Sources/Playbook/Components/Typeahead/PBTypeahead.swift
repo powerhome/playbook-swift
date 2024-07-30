@@ -195,13 +195,13 @@ private extension PBTypeahead {
                 focused = true
             }
             if event.keyCode == 36 { // return bar
-                if let index = hoveringIndex, index <= listOptions.count-1, isFocused {
-                    onListSelection(index: index, option: listOptions[index])
+                if let index = hoveringIndex, index <= searchResults.count-1, showList {
+                    onListSelection(index: index, option: searchResults[index])
                 }
             }
             if event.keyCode == 49 { // space
                 if isFocused {
-                    if let index = hoveringIndex, index <= searchResults.count-1, showList {
+                    if let index = hoveringIndex, index <= searchResults.count-1, showList, searchText.isEmpty {
                         onListSelection(index: index, option: searchResults[index])
                     } else {
                         showList = true
