@@ -144,7 +144,7 @@ public struct ToastCatalog: View {
         actionView: .custom(AnyView(Text("Undo").pbFont(.title4, color: .white))),
         dismissAction: closeToast
       )
-
+      
       PBToast(
         variant: .custom(nil, .pbPrimary),
         actionView: .custom(
