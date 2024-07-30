@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct PBUser: View {
     var name: String
+    var nameFont: Typography
     var image: Image?
     var orientation: Orientation = .horizontal
     var size: Size = .small
@@ -21,6 +22,7 @@ public struct PBUser: View {
     var displayAvatar: Bool = true
     public init(
         name: String = "",
+        nameFont: Typography = .init(font: .title3, variant: .bold),
         image: Image? = nil,
         orientation: Orientation = .horizontal,
         size: Size = .medium,
@@ -31,6 +33,7 @@ public struct PBUser: View {
         displayAvatar: Bool = true
     ) {
         self.name = name
+        self.nameFont = nameFont
         self.image = image
         self.orientation = orientation
         self.size = size
@@ -80,7 +83,7 @@ public extension PBUser {
     var contentView: some View {
         VStack(alignment: alignment, spacing: Spacing.none) {
             Text(name)
-                .pbFont(titleStyle, variant: .bold)
+                .pbFont(nameFont.font, variant: nameFont.variant)
                 .foregroundColor(.text(.default))
             bodyText.pbFont(.body, color: .text(.light))
             if let content = subtitle {
