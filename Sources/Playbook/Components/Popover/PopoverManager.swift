@@ -73,8 +73,6 @@ public class PopoverManager: ObservableObject {
                     break
             }
         }
-        
-       
     }
     
     private func onClose(_ key: Int) {
