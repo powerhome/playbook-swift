@@ -41,7 +41,6 @@ public struct DialogCatalog: View {
     PBDocStack(title: "Dialog") {
       PBDoc(title: "Simple") { SimpleButton() }
       PBDoc(title: "Complex") { ComplexButton() }
-      PBDoc(title: "Sizes") { SizeButtons() }
       PBDoc(title: "Stacked") { StackedButton() }
       PBDoc(title: "Status") { StatusButtons() }
     }
@@ -156,50 +155,6 @@ extension DialogCatalog {
             }
         }
     }
-    
-    struct DialogButtonSize: View {
-        let title: String
-        let size: DialogSize
-        @State private var presentDialog: Bool = false
-        
-        func closeToast() {
-            presentDialog = false
-        }
-        
-        public init(
-            title: String,
-            size: DialogSize
-        ) {
-            self.title = title
-            self.size = size
-        }
-        var body: some View {
-            PBButton(title: title) {
-                DialogCatalog.disableAnimation()
-                presentDialog.toggle()
-            }
-            .fullScreenCover(isPresented: $presentDialog) {
-                PBDialog(
-                    title: "\(title) Dialog",
-                    message: infoMessage,
-                    cancelButton: DialogCatalog().cancelButton { closeToast() },
-                    confirmButton: DialogCatalog().confirmationButton { closeToast() },
-                    size: size
-                )
-                .backgroundViewModifier(alpha: 0.2)
-            }
-        }
-    }
-    
-    struct SizeButtons: View {
-        var body: some View {
-            VStack(alignment: .leading, spacing: Spacing.small) {
-                DialogButtonSize(title: "Small", size: .small)
-                DialogButtonSize(title: "Medium", size: .medium)
-                DialogButtonSize(title: "Large", size: .large)
-            }
-        }
-   }
     
     struct StackedButton: View {
         @State private var presentDialog1: Bool = false
@@ -345,41 +300,46 @@ extension DialogCatalog {
       }
     }
   }
-  
+  struct SizePreferenceKey: PreferenceKey {
+      static var defaultValue: CGSize = .zero
+      static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+          value = nextValue()
+      }
+  }
   struct DialogButtonSize: View {
       let title: String
       let size: DialogSize
       @State private var presentDialog: Bool = false
-      
+    
       func closeToast() {
           presentDialog = false
       }
+    
+    public init(
+      title: String,
+      size: DialogSize
+    ) {
+      self.title = title
+      self.size = size
+    }
+    var body: some View {
       
-      public init(
-          title: String,
-          size: DialogSize
-      ) {
-          self.title = title
-          self.size = size
+      PBButton(title: title) {
+        DialogCatalog.disableAnimation()
+        presentDialog.toggle()
       }
-      var body: some View {
-          PBButton(title: title) {
-              DialogCatalog.disableAnimation()
-              presentDialog.toggle()
-          }
-          .sheet(isPresented: $presentDialog) {
-              PBDialog(
-                  title: "\(title) Dialog",
-                  message: DialogCatalog().infoMessage,
-                  cancelButton: DialogCatalog().cancelButton { closeToast() },
-                  confirmButton: DialogCatalog().confirmationButton { closeToast() },
-                  size: size
-              )
-              .backgroundViewModifier(alpha: 0.2)
-              .frame(width: size.width)
-          }
-          .frame(width: frameReader(in: { _ in}) as? CGFloat)
+      .sheet(isPresented: $presentDialog) {
+        PBDialog(
+          title: "\(title) Dialog",
+          message: DialogCatalog().infoMessage,
+          cancelButton: DialogCatalog().cancelButton { closeToast() },
+          confirmButton: DialogCatalog().confirmationButton { closeToast() },
+          size: size
+        )
+        .backgroundViewModifier(alpha: 0.2)
+        .frame(width: size.width)
       }
+    }
   }
   var buttonSizesView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
