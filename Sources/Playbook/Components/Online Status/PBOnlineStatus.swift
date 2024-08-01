@@ -35,12 +35,12 @@ public extension PBOnlineStatus {
     
     private var statusView: some View {
         Circle()
-            .stroke(_borederColor, lineWidth: borderWidth)
+            .stroke(_borderColor, lineWidth: borderWidth)
             .background(Circle().fill(color))
             .frame(width: _size, height: _size)
     }
     
-    private var _borederColor: Color {
+    private var _borderColor: Color {
         return borderColor ?? .clear
     }
     
