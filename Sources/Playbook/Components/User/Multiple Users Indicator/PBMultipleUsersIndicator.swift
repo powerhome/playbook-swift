@@ -33,6 +33,31 @@ public struct PBMultipleUsersIndicator: View {
   }
 }
 
+extension PBMultipleUsersIndicator {
+  var multiUserIndicatorView: some View {
+    VStack {
+      if let count = usersCount, count != 0 {
+        Text("+\(count)")
+          .tag("additionalUser")
+          .pbFont(fontSize, color: .pbPrimary)
+          .frame(width: size.diameter-1, height: size.diameter-1)
+          .background(Color.shadow)
+          .clipShape(Circle())
+          .background {
+            Circle()
+              .foregroundColor(.white)
+          }
+          .overlay {
+            Circle()
+              .stroke(.white, lineWidth: 1)
+          }
+      }
+    }
+  }
+  var fontSize: PBFont {
+    size == .xxSmall ?.buttonText(size.fontSize) : .badgeText
+  }
+}
 @available(macOS 13.0, *)
 struct PBMultipleUsersIndicator_Previews: PreviewProvider {
   static var previews: some View {
