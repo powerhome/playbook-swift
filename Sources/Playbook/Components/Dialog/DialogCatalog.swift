@@ -9,31 +9,70 @@
 
 import SwiftUI
 
-#if os(iOS)
+
 public struct DialogCatalog: View {
-    public var body: some View {
-        PBDocStack(title: "Dialog") {
-            PBDoc(title: "Simple") { SimpleButton() }
-            PBDoc(title: "Complex") { ComplexButton() }
-            PBDoc(title: "Stacked") { StackedButton() }
-            PBDoc(title: "Status") { StatusButtons() }
-        }
+  @State private var presentDialog: Bool = false
+    @State private var isLoading: Bool = false
+    @State private var presentDialog1: Bool = false
+    @State private var presentDialog2: Bool = false
+    @State private var presentDialog3: Bool = false
+    @State private var presentDialog4: Bool = false
+    @State private var presentDialog5: DialogStatus?
+    @State private var message = ""
+    let infoMessage = """
+                      This is a message for informational
+                      purposes only.
+                      """
+  
+  var complexTitle: some View {
+      return Text("Complex Dialog!")
+          .pbFont(.title3)
+          .multilineTextAlignment(.leading)
+          .padding(.top, 25)
+  }
+  var complexLabel: some View {
+      return VStack(alignment: .leading, spacing: 5) {
+          PBTextInput("Description", text: $message, placeholder: "Let us know how we can improve...")
+      }
+      .padding(.all)
+  }
+  public var body: some View {
+    #if os(iOS)
+    PBDocStack(title: "Dialog") {
+      PBDoc(title: "Simple") { SimpleButton() }
+      PBDoc(title: "Complex") { ComplexButton() }
+      PBDoc(title: "Sizes") { SizeButtons() }
+      PBDoc(title: "Stacked") { StackedButton() }
+      PBDoc(title: "Status") { StatusButtons() }
     }
+    #elseif os(macOS)
+    PBDocStack(title: "Dialog", spacing: Spacing.medium) {
+      PBDoc(title: "Simple") { simpleView }
+      PBDoc(title: "Complex") { complexView }
+      PBDoc(title: "Sizes") { buttonSizesView }
+      PBDoc(title: "Stacked") { stackedView }
+      PBDoc(title: "Status") { statusView }
+    }
+    #endif
+  }
 }
 
-extension DialogCatalog {
-    static func disableAnimation() {
-        UIView.setAnimationsEnabled(false)
-    }
 
-    static let infoMessage = "This is a message for informational purposes only."
-    
-    func cancelButton(_ closeToast: @escaping (() -> Void)) -> PBButton {
-        PBButton(fullWidth: false, variant: .secondary, title: "Cancel") { closeToast() }
-    }
-    
-    func cancelButtonFullWidth(_ closeToast: @escaping (() -> Void)) -> PBButton {
-        PBButton(fullWidth: true, variant: .secondary, title: "Cancel") { closeToast() }
+
+extension DialogCatalog {
+  #if os(iOS)
+  static func disableAnimation() {
+    UIView.setAnimationsEnabled(false)
+  }
+  
+   static let infoMessage = "This is a message for informational purposes only."
+  
+  func cancelButton(_ closeToast: @escaping (() -> Void)) -> PBButton {
+    PBButton(fullWidth: false, variant: .secondary, title: "Cancel") { closeToast() }
+  }
+  
+  func cancelButtonFullWidth(_ closeToast: @escaping (() -> Void)) -> PBButton {
+    PBButton(fullWidth: true, variant: .secondary, title: "Cancel") { closeToast() }
     }
     
     func confirmationButton(text: String = "Okay", isLoading: Binding<Bool> = .constant(false), _ closeToast: @escaping (() -> Void)) -> PBButton {
@@ -75,7 +114,18 @@ extension DialogCatalog {
     struct ComplexButton: View {
         @State private var presentDialog: Bool = false
         @State private var message = ""
-        
+      var complexTitle: some View {
+          return Text("Complex Dialog!")
+              .pbFont(.title3)
+              .multilineTextAlignment(.leading)
+              .padding(.top, 25)
+      }
+      var complexLabel: some View {
+          return VStack(alignment: .leading, spacing: 5) {
+              PBTextInput("Description", text: $message, placeholder: "Let us know how we can improve...")
+          }
+          .padding(.all)
+      }
         func closeToast() {
             presentDialog = false
         }
@@ -93,7 +143,8 @@ extension DialogCatalog {
                         confirmButton: DialogCatalog().confirmationButton(text: "Submit") { closeToast() },
                         content: ({
                             ScrollView {
-                                complexTitle
+                             
+                                  complexTitle
                                 
                                 complexLabel
                                 
@@ -148,7 +199,7 @@ extension DialogCatalog {
                 DialogButtonSize(title: "Large", size: .large)
             }
         }
-    }
+   }
     
     struct StackedButton: View {
         @State private var presentDialog1: Bool = false
@@ -246,57 +297,11 @@ extension DialogCatalog {
             }
         }
     }
-}
-
-extension DialogCatalog.ComplexButton {
-    var complexTitle: some View {
-        return Text("Complex Dialog!")
-            .pbFont(.title3)
-            .multilineTextAlignment(.leading)
-            .padding(.top, 25)
-    }
-    var complexLabel: some View {
-        return VStack(alignment: .leading, spacing: 5) {
-            PBTextInput("Description", text: $message, placeholder: "Let us know how we can improve...")
-        }
-        .padding(.all)
-    }
-}
-#elseif os(macOS)
-public struct DialogCatalog: View {
-  @State private var presentDialog: Bool = false
-  @State private var isLoading: Bool = false
-  @State private var presentDialog1: Bool = false
-  @State private var presentDialog2: Bool = false
-  @State private var presentDialog3: Bool = false
-  @State private var presentDialog4: Bool = false
-  @State private var presentDialog5: DialogStatus?
-  @State private var message = ""
-  let infoMessage = """
-                    This is a message for informational 
-                    purposes only.
-                    """
-  
-  public var body: some View {
-    PBDocStack(title: "Dialog", spacing: Spacing.medium) {
-      PBDoc(title: "Simple") {
-        simpleView
-      }
-      PBDoc(title: "Complex") {
-        complexView
-      }
-      PBDoc(title: "Stacked") {
-        stackedView
-      }
-      PBDoc(title: "Status") {
-        statusView
-      }
-    }
-    
-  }
+  #endif
 }
 
 extension DialogCatalog {
+  #if os(macOS)
   var simpleView: some View {
     PBButton(title: "Simple") {
       DialogCatalog.disableAnimation()
@@ -338,6 +343,49 @@ extension DialogCatalog {
           }))
         .backgroundViewModifier(alpha: 0.2)
       }
+    }
+  }
+  
+  struct DialogButtonSize: View {
+      let title: String
+      let size: DialogSize
+      @State private var presentDialog: Bool = false
+      
+      func closeToast() {
+          presentDialog = false
+      }
+      
+      public init(
+          title: String,
+          size: DialogSize
+      ) {
+          self.title = title
+          self.size = size
+      }
+      var body: some View {
+          PBButton(title: title) {
+              DialogCatalog.disableAnimation()
+              presentDialog.toggle()
+          }
+          .sheet(isPresented: $presentDialog) {
+              PBDialog(
+                  title: "\(title) Dialog",
+                  message: DialogCatalog().infoMessage,
+                  cancelButton: DialogCatalog().cancelButton { closeToast() },
+                  confirmButton: DialogCatalog().confirmationButton { closeToast() },
+                  size: size
+              )
+              .backgroundViewModifier(alpha: 0.2)
+              .frame(width: size.width)
+          }
+          .frame(width: frameReader(in: { _ in}) as? CGFloat)
+      }
+  }
+  var buttonSizesView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      DialogButtonSize(title: "Small", size: .small)
+      DialogButtonSize(title: "Medium", size: .medium)
+      DialogButtonSize(title: "Large", size: .large)
     }
   }
   
@@ -417,21 +465,11 @@ extension DialogCatalog {
       }
     }
   }
+  #endif
 }
 
 extension DialogCatalog {
-  var complexTitle: some View {
-    return Text("Complex Dialog!")
-      .pbFont(.title3)
-      .multilineTextAlignment(.leading)
-      .padding(.top, 25)
-  }
-  var complexLabel: some View {
-    return VStack(alignment: .leading, spacing: 5) {
-      PBTextInput("Description", text: $message, placeholder: "Let us know how we can improve...")
-    }
-    .padding(.all)
-  }
+  #if os(macOS)
   func closeToast() {
     presentDialog = false
     presentDialog1 = false
@@ -440,6 +478,7 @@ extension DialogCatalog {
     presentDialog4 = false
     presentDialog5 = nil
   }
+ 
   func cancelButton(_ closeToast: @escaping (() -> Void)) -> PBButton {
     PBButton(fullWidth: false, variant: .secondary, title: "Cancel") { closeToast() }
   }
@@ -461,8 +500,10 @@ extension DialogCatalog {
       context.duration = 0
     }, completionHandler:nil)
   }
+  
+  #endif
 }
-#endif
+
 
 #Preview {
   registerFonts()

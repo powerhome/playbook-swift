@@ -122,18 +122,19 @@ extension PBDialog {
 }
 
 public enum DialogSize: String, CaseIterable, Identifiable {
-    public var id: UUID { UUID() }
-    case small
-    case medium
-    case large
-    
-    var width: CGFloat {
-        switch self {
-            case .small: return 300
-            case .medium: return 500
-            case .large: return 800
-        }
+  public var id: UUID { UUID() }
+  case small
+  case medium
+  case large
+  
+  var width: CGFloat {
+    switch self {
+    case .small: return 300
+    case .medium: return 500
+    case .large: return 800
     }
+  }
+
 }
 
 public enum DialogVariant: Equatable {
