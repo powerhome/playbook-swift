@@ -34,6 +34,7 @@ public struct ProgressSimpleCatalog: View {
 }
 
 public extension ProgressSimpleCatalog {
+  
   var defaultView: some View {
     VStack(alignment: .leading) {
       PBProgressSimple(
@@ -41,6 +42,7 @@ public extension ProgressSimpleCatalog {
       )
     }
   }
+  
   var settingValueView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBProgressSimple(
@@ -53,6 +55,7 @@ public extension ProgressSimpleCatalog {
       )
     }
   }
+  
   var progressColorView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBProgressSimple(
