@@ -92,7 +92,9 @@ public struct PBTypeahead<Content: View>: View {
             setKeyboardControls
         }
         .onChange(of: isFocused) { newValue in
-            showList = newValue
+            Timer.scheduledTimer(withTimeInterval: 0.03, repeats: false) { _ in
+                showList = newValue
+            }
         }
         .onChange(of: searchText, debounce: debounce) { _ in
             _ = searchResults
