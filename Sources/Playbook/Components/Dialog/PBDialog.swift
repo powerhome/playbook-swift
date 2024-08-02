@@ -47,7 +47,6 @@ public struct PBDialog<Content: View>: View {
     }
     
     public var body: some View {
-      
         dialogView()
             .onTapGesture {
                 if shouldCloseOnOverlay {
@@ -62,7 +61,6 @@ public struct PBDialog<Content: View>: View {
 }
 
 extension PBDialog {
- 
     private func dialogView() -> some View {
         return PBCard(alignment: .center, padding: Spacing.none) {
           switch variant {
@@ -149,9 +147,7 @@ public enum DialogVariant: Equatable {
     }
 }
 
-public struct PBDialog_Previews: PreviewProvider {
-    public static var previews: some View {
-        registerFonts()
-        return DialogCatalog()
-    }
+#Preview {
+    registerFonts()
+    return DialogCatalog()
 }
