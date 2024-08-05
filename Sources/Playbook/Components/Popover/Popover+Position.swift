@@ -53,7 +53,7 @@ public extension Position {
       let safeWindowFrame = Screen.rect
       let maxX = safeWindowFrame.maxX - screenEdgePadding.trailing
       let maxY = safeWindowFrame.maxY - screenEdgePadding.bottom
-      
+      #if os(macOS)
       if popoverFrame.origin.x < screenEdgePadding.leading {
         popoverFrame.origin.x = screenEdgePadding.leading
       }
@@ -68,6 +68,7 @@ public extension Position {
         let difference = popoverFrame.maxY - maxY
         popoverFrame.origin.y -= difference
       }
+      #endif
       return popoverFrame
   }
   

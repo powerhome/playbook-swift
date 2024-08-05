@@ -89,7 +89,7 @@ public extension PBMultipleUsers {
   enum AvatarSize {
     case xSmall
     case small
-
+    
     var avatarSize: PBAvatar.Size {
       switch self {
       case .xSmall: return .xSmall

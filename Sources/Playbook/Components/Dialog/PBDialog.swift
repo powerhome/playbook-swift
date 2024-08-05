@@ -63,38 +63,37 @@ public struct PBDialog<Content: View>: View {
 extension PBDialog {
     private func dialogView() -> some View {
         return PBCard(alignment: .center, padding: Spacing.none) {
-            switch variant {
-                case .default:
-                    if let title = title {
-                        PBDialogHeaderView(title: title) { dismissDialog() }
-                        PBSectionSeparator()
-                    }
-                    
-                    if let message = message {
-                        Text(message)
-                            .pbFont(.body)
-                            .padding()
-                    }
-                    
-                    content
-                    
-                case .status(let status):
-                    PBStatusDialogView(status: status, title: title ?? "", description: message ?? "")
-                        .frame(maxWidth: .infinity)
+          switch variant {
+          case .default:
+            if let title = title {
+              PBDialogHeaderView(title: title) { dismissDialog() }
+              PBSectionSeparator()
             }
             
-            if let confirmButton = confirmButton {
-                PBDialogActionView(
-                    isStacked: isStacked,
-                    confirmButton: dismissButtonAction(confirmButton),
-                    cancelButton: dismissButtonAction(cancelButton),
-                    variant: variant
-                )
+            if let message = message {
+              Text(message)
+                .pbFont(.body)
                 .padding()
             }
+            
+            content
+        
+          case .status(let status):
+            PBStatusDialogView(status: status, title: title ?? "", description: message ?? "")
+              .frame(maxWidth: .infinity)
+          }
+          
+          if let confirmButton = confirmButton {
+            PBDialogActionView(
+              isStacked: isStacked,
+              confirmButton: dismissButtonAction(confirmButton),
+              cancelButton: dismissButtonAction(cancelButton),
+              variant: variant
+            )
+            .padding()
+          }
         }
         .frame(maxWidth: variant.width(size))
-        .padding(padding)
         .preferredColorScheme(.light)
     }
     
@@ -122,18 +121,18 @@ extension PBDialog {
 }
 
 public enum DialogSize: String, CaseIterable, Identifiable {
-    public var id: UUID { UUID() }
-    case small
-    case medium
-    case large
-    
-    var width: CGFloat {
-        switch self {
-            case .small: return 300
-            case .medium: return 500
-            case .large: return 800
-        }
+  public var id: UUID { UUID() }
+  case small
+  case medium
+  case large
+  
+  var width: CGFloat {
+    switch self {
+    case .small: return 300
+    case .medium: return 500
+    case .large: return 800
     }
+  }
 }
 
 public enum DialogVariant: Equatable {
@@ -148,9 +147,7 @@ public enum DialogVariant: Equatable {
     }
 }
 
-public struct PBDialog_Previews: PreviewProvider {
-    public static var previews: some View {
-        registerFonts()
-        return DialogCatalog()
-    }
+#Preview {
+    registerFonts()
+    return DialogCatalog()
 }

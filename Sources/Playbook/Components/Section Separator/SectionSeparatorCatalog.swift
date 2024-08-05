@@ -33,6 +33,9 @@ public struct SectionSeparatorCatalog: View {
       PBDoc(title: "Vertical separator") {
         verticalSeparator
       }
+      PBDoc(title: "Color separator") {
+        colorSeparator
+      }
     }
   }
 }
@@ -68,4 +71,35 @@ extension SectionSeparatorCatalog {
     .frame(height: 120, alignment: .center)
     .listRowSeparator(.hidden)
   }
+  var colorSeparator: some View {
+    VStack(spacing: Spacing.medium) {
+      PBSectionSeparator(
+        dividerColor: .status(.error)
+      )
+      PBSectionSeparator(
+        variant: .dashed,
+        dividerColor: .status(.success)
+      )
+      PBSectionSeparator(
+        "Text separator",
+        dividerColor: .status(.primary),
+        textColor: .status(.primary)
+      )
+      PBSectionSeparator(variant: .dashed, dividerColor: .status(.warning)) {
+        PBCard(alignment: .center, borderRadius: BorderRadius.rounded, padding: Spacing.xxSmall, width: 70) {
+          Text("Today")
+            .foregroundStyle(Color.status(.warning))
+            .minimumScaleFactor(0.5)
+            .lineLimit(1)
+            .pbFont(.caption)
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+      }
+    }
+  }
+}
+
+#Preview {
+  registerFonts()
+  return SectionSeparatorCatalog()
 }
