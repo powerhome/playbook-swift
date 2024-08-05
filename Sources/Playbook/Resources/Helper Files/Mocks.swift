@@ -11,10 +11,10 @@
 import SwiftUI
 
 enum Mocks {
-  static let andrew = PBUser(name: "Andrew Black", image: Image("andrew", bundle: .module), size: .small, title: "Senior User Experience Engineer")
-  static let ana = PBUser(name: "Ana Black", image: Image("Anna", bundle: .module), size: .small, title: "Senior User Experience Engineer")
-  static let patric = PBUser(name: "Pat Black", image: Image("Pat", bundle: .module), size: .small, title: "Senior User Experience Engineer")
-  static let luccile = PBUser(name: "Luccile Black", image: Image("Lu", bundle: .module), size: .small, title: "Senior User Experience Engineer")
+    static let andrew = PBUser(name: "Andrew Black", nameFont: .init(font: .title4, variant: .bold), image: Image("andrew", bundle: .module), size: .small, title: "Senior User Experience Engineer")
+  static let ana = PBUser(name: "Ana Black", nameFont: .init(font: .title4, variant: .bold), image: Image("Anna", bundle: .module), size: .small, title: "Senior User Experience Engineer")
+  static let patric = PBUser(name: "Pat Black", nameFont: .init(font: .title4, variant: .bold), image: Image("Pat", bundle: .module), size: .small, title: "Senior User Experience Engineer")
+  static let luccile = PBUser(name: "Luccile Black", nameFont: .init(font: .title4, variant: .bold), image: Image("Lu", bundle: .module), size: .small, title: "Senior User Experience Engineer")
   static let oneUser = [andrew]
   static let twoUsers = [andrew, ana]
   static let multipleUsers = [andrew, ana, patric, luccile]

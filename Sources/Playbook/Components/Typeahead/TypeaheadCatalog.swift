@@ -45,17 +45,17 @@ public struct TypeaheadCatalog: View {
             isFocused1 = false
             isFocused2 = false
         }
-        .popoverHandler(id: 0)
         .popoverHandler(id: 1)
-        .popoverHandler(id: 3)
-        .popoverHandler(id: 11)
+        .popoverHandler(id: 2)
+//        .popoverHandler(id: 3)
+//        .popoverHandler(id: )
     }
 }
 
 extension TypeaheadCatalog {
     var colors: some View {
         PBTypeahead(
-            id: 0,
+            id: 1,
             title: "Colors",
             searchText: $searchTextColors,
             selection: .single,
@@ -66,7 +66,7 @@ extension TypeaheadCatalog {
     
     var users: some View {
         PBTypeahead(
-            id: 1,
+            id: 2,
             title: "Users",
             placeholder: "type the name of a user",
             searchText: $searchTextUsers,
@@ -87,7 +87,7 @@ extension TypeaheadCatalog {
         }
         .sheet(isPresented: $presentDialog1) {
             CustomDialogView(isPresented: $presentDialog1)
-                .popoverHandler(id: 13)
+                .popoverHandler(id: 3)
 #if os(macOS)
                 .frame(minWidth: 500, minHeight: 390)
 #endif
@@ -101,7 +101,7 @@ extension TypeaheadCatalog {
         }
         .sheet(isPresented: $presentDialog) {
             DialogView(isPresented: $presentDialog)
-                .popoverHandler(id: 12)
+                .popoverHandler(id: 4)
 #if os(macOS)
                 .frame(minWidth: 500, minHeight: 390)
 #endif
@@ -117,13 +117,13 @@ extension TypeaheadCatalog {
         @FocusState var isFocused
         
         var body: some View {
-            PBDialog(title: "View for Isis",
+            PBDialog(title: "Dialog",
                      variant: .default,
                      onClose: { isPresented = false },
                      shouldCloseOnOverlay: false) {
                 VStack {
                     PBTypeahead(
-                        id: 12,
+                        id: 4,
                         title: "Users",
                         placeholder: "type the name of a user",
                         searchText: $searchTextUsers,
@@ -161,7 +161,7 @@ extension TypeaheadCatalog {
                     }
                 }
                 PBTypeahead(
-                    id: 13,
+                    id: 3,
                     title: "Users",
                     placeholder: "type the name of a user",
                     searchText: $searchTextUsers,
