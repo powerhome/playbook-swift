@@ -38,10 +38,10 @@ public struct IconCatalog: View {
 
       PBDoc(title: "Size") {
         VStack(alignment: .leading, spacing: Spacing.small) {
-          ForEach(PBIcon.IconSize.allCases, id: \.fontSize) { size in
+          ForEach(PBIcon.IconSize.sizeArray, id: \.0) { size in
             HStack(spacing: Spacing.xSmall) {
-              PBIcon.fontAwesome(.atlas, size: size)
-              Text(size.rawValue)
+              PBIcon.fontAwesome(.atlas, size: size.0)
+              Text("\(size.1)")
             }
           }
         }
