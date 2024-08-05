@@ -175,7 +175,7 @@ public struct ToastCatalog: View {
       )
     }
   }
-
+  
   private var withTimer: some View {
     HStack {
       PBButton(variant: .secondary, title: "Top Center") {
@@ -187,7 +187,7 @@ public struct ToastCatalog: View {
           dismissAction: closeToast
         )
       }
-
+      
       PBButton(variant: .secondary, title: "Bottom Center") {
         position = .bottom
         toastView = PBToast(
@@ -224,4 +224,9 @@ public struct ToastCatalog: View {
       
     }
   }
+}
+
+#Preview {
+  registerFonts()
+  return ToastCatalog()
 }
