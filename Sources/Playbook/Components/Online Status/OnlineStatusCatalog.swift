@@ -126,7 +126,7 @@ extension OnlineStatusCatalog {
   var borderlessStatusView: some View {
     
     HStack(spacing: Spacing.xxSmall) {
-      PBOnlineStatus( 
+      PBOnlineStatus(
         size: .small,
         hasBorder: false
       )
@@ -141,7 +141,7 @@ extension OnlineStatusCatalog {
         hasBorder: false
       )
       PBOnlineStatus(
-        backgroundColor: .status(.error), 
+        backgroundColor: .status(.error),
         size: .small,
         hasBorder: false
       )
@@ -151,7 +151,7 @@ extension OnlineStatusCatalog {
         hasBorder: false
       )
       PBOnlineStatus(
-        backgroundColor: .status(.primary),  
+        backgroundColor: .status(.primary),
         size: .small,
         hasBorder: false
       )
