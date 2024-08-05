@@ -13,58 +13,64 @@ public struct PBOnlineStatus: View {
     let color: Color
     let size: Size
     let borderColor: Color?
-    
+  let variant: Variant
     public init(
         color: Color = .status(.neutral),
         size: Size = .small,
-        borderColor: Color? = .white
+        borderColor: Color? = .white,
+        variant: Variant = .border
     ) {
         self.borderColor = borderColor
         self.color = color
         self.size = size
+      self.variant = variant
     }
-    public var body: some View {
-        statusView
-    }
+  public var body: some View {
+    statusView
+  }
 }
 
 public extension PBOnlineStatus {
-    private var hasBorder: Bool {
-        return borderColor != nil
+  enum Variant {
+    case border, borderless
+  }
+  private var hasBorder: Bool {
+    return borderColor != nil
+  }
+  
+  private var statusView: some View {
+    Circle()
+      .stroke(_borderColor, lineWidth: borderWidth)
+      .background(Circle().fill(color))
+      .frame(width: _size, height: _size)
+  }
+  
+  var _borderColor: Color {
+    switch variant {
+    case .border: return borderColor ?? .clear
+    case .borderless: return .clear
     }
-    
-    private var statusView: some View {
-        Circle()
-            .stroke(_borderColor, lineWidth: borderWidth)
-            .background(Circle().fill(color))
-            .frame(width: _size, height: _size)
+  }
+  var borderWidth: CGFloat {
+    switch variant {
+    case .border: return 2
+    case .borderless: return 0
     }
-    
-    private var _borderColor: Color {
-        return borderColor ?? .clear
+  }
+  private var _size: CGFloat {
+    switch size {
+    case .small: return hasBorder ? 8 : 6
+    case .medium: return hasBorder ? 10 : 8
+    case .large: return hasBorder ? 12 : 10
     }
-    
-    private var borderWidth: CGFloat {
-        return hasBorder ? 2 : 0
-    }
-    
-    private var _size: CGFloat {
-        switch size {
-        case .small: return hasBorder ? 8 : 6
-        case .medium: return hasBorder ? 10 : 8
-        case .large: return hasBorder ? 12 : 10
-        }
-    }
-    
-    enum Size {
-        case small, medium, large
-    }
+  }
+  
+  enum Size {
+    case small, medium, large
+  }
 }
 
 #Preview {
     registerFonts()
-    return VStack {
-        PBOnlineStatus()
-        PBOnlineStatus(borderColor: .black)
-    }
+    return PBOnlineStatus()
 }

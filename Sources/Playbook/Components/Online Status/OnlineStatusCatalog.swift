@@ -125,27 +125,33 @@ extension OnlineStatusCatalog {
     
     HStack(spacing: Spacing.xxSmall) {
       PBOnlineStatus( 
-        size: .small
+        size: .small,
+        variant: .borderless
       )
       PBOnlineStatus(
         color: .status(.success),
-        size: .small
+        size: .small,
+        variant: .borderless
       )
       PBOnlineStatus(
         color: .status(.warning),
-        size: .small
+        size: .small,
+        variant: .borderless
       )
       PBOnlineStatus(
         color: .status(.error), 
-        size: .small
+        size: .small,
+        variant: .borderless
       )
       PBOnlineStatus(
         color: .status(.info),
-        size: .small
+        size: .small,
+        variant: .borderless
       )
       PBOnlineStatus(
         color: .status(.primary),  
-        size: .small
+        size: .small,
+        variant: .borderless
       )
     }
   }
