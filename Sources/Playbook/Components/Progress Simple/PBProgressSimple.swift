@@ -22,7 +22,6 @@ public struct PBProgressSimple: View {
     maxValue: Int = 10,
     progressColor: Color = .pbPrimary,
     variant: Variant = .default
-    
   ) {
     self._progress = progress
     self._value = value
@@ -44,12 +43,11 @@ public extension PBProgressSimple {
   var variantView: some View {
     HStack {
       switch variant {
-      case .default: ProgressView(value: progress, total: 1)
+      case .default: ProgressView(value: progress, total: 0)
       case .settingValue: ProgressView(value: CGFloat(value), total: CGFloat(maxValue))
       }
     }
     .tint(progressColor)
-    
   }
 }
 #Preview {
