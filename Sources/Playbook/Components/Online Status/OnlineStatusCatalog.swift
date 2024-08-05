@@ -11,7 +11,6 @@ import SwiftUI
 
 public struct OnlineStatusCatalog: View {
   public var body: some View {
-    
     PBDocStack(title: "Online Status", spacing: Spacing.medium) {
       PBDoc(title: "Small") {
         smallStatusView
@@ -30,31 +29,30 @@ public struct OnlineStatusCatalog: View {
 }
 
 extension OnlineStatusCatalog {
-  
   var smallStatusView: some View {
     HStack(spacing: Spacing.xxSmall) {
       PBOnlineStatus(
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.success),
-        hasBorder: true
+        color: .status(.success),
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.warning),
-        hasBorder: true
+        color: .status(.warning),
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.error),
-        hasBorder: true
+        color: .status(.error),
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.info),
-        hasBorder: true
+        color: .status(.info),
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.primary),
-        hasBorder: true
+        color: .status(.primary),
+        borderColor: .white
       )
     }
   }
@@ -62,31 +60,31 @@ extension OnlineStatusCatalog {
     HStack(spacing: Spacing.xxSmall) {
       PBOnlineStatus(
         size: .medium,
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.success),
+        color: .status(.success),
         size: .medium,
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.warning),
+        color: .status(.warning),
         size: .medium,
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.error),
+        color: .status(.error),
         size: .medium,
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.info),
+        color: .status(.info),
         size: .medium,
-        hasBorder: true)
+        borderColor: .white)
       PBOnlineStatus(
-        backgroundColor: .status(.primary),
+        color: .status(.primary),
         size: .medium,
-        hasBorder: true
+        borderColor: .white
       )
     }
   }
@@ -94,66 +92,60 @@ extension OnlineStatusCatalog {
     HStack(spacing: Spacing.xxSmall) {
       PBOnlineStatus(
         size: .large,
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.success),
+        color: .status(.success),
         size: .large,
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.warning),
+        color: .status(.warning),
         size: .large,
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.error),
+        color: .status(.error),
         size: .large,
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.info),
+        color: .status(.info),
         size: .large,
-        hasBorder: true
+        borderColor: .white
       )
       PBOnlineStatus(
-        backgroundColor: .status(.primary),
+        color: .status(.primary),
         size: .large,
-        hasBorder: true
+        borderColor: .white
       )
     }
   }
   var borderlessStatusView: some View {
     
     HStack(spacing: Spacing.xxSmall) {
-      PBOnlineStatus(
-        size: .small,
-        hasBorder: false
+      PBOnlineStatus( 
+        size: .small
       )
       PBOnlineStatus(
-        backgroundColor: .status(.success),
-        size: .small,
-        hasBorder: false
+        color: .status(.success),
+        size: .small
       )
       PBOnlineStatus(
-        backgroundColor: .status(.warning),
-        size: .small,
-        hasBorder: false
+        color: .status(.warning),
+        size: .small
       )
       PBOnlineStatus(
-        backgroundColor: .status(.error),
-        size: .small,
-        hasBorder: false
+        color: .status(.error), 
+        size: .small
       )
       PBOnlineStatus(
-        backgroundColor: .status(.info),
-        size: .small,
-        hasBorder: false
+        color: .status(.info),
+        size: .small
       )
       PBOnlineStatus(
-        backgroundColor: .status(.primary),
-        size: .small,
-        hasBorder: false
+        color: .status(.primary),  
+        size: .small
       )
     }
   }
