@@ -135,9 +135,26 @@ public struct ToastCatalog: View {
       }
     }
   }
-
+  
   private var children: some View {
     VStack(alignment: .leading) {
+      PBToast(
+        variant: .error,
+        actionView: .default,
+        dismissAction: closeToast,
+        content: {
+          AnyView(
+            VStack {
+              Text("Coversation full.")
+                .pbFont(.title4, color: .white)
+              Text("For 10+ members please create a room")
+                .pbFont(.detail(true), color: .white)
+                .multilineTextAlignment(.center)
+            }
+              .padding(.horizontal)
+          )
+        }
+      )
       PBToast(
         text: message,
         variant: .success,
