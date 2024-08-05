@@ -162,41 +162,49 @@ extension PBProgressStep {
     GeometryReader { geo in
       let width = geo.size.width
       ZStack(alignment: .leading) {
-        RoundedRectangle(cornerRadius: 10)
-          .fill(Color.gray.opacity(0.2))
-          .frame(width: width, height: 28, alignment: .leading)
-          .clipShape(RoundedRectangle(cornerRadius: 15))
-        RoundedRectangle(cornerRadius: 10)
-          .fill(Color.pbPrimary)
-          .frame(width: Int(progress) >= steps ? width : progress == 0 ? 0 : ((width / CGFloat(steps)) / 2 + 12) * CGFloat(progress) , height: 28, alignment: .leading)
-          .clipShape(RoundedRectangle(cornerRadius: 15))
-       // HStack(spacing: (width - CGFloat(steps) * 20) / CGFloat(steps - 1)) {
-        HStack(spacing: ((width - 18 ) / CGFloat(steps) - 2) - 18) {
-          ForEach(0..<steps, id: \.self) { step in
-            circleIcon(
-              icon: .check,
-              iconSize: .small,
-              strokeColor: .clear,
-              lineWidth: 2,
-              background: step < progress ? .black : progress == step ? .border : .text(.lighter),
-              circleWidth: 18,
-              circleHeight: 18,
-              iconColor: step < progress ? .white : step == progress ? .pbPrimary : .clear,
-              offsetX: 0,
-              offsetY: 0,
-              opacity: 1
-            )
-          }
-       //   .padding(.horizontal, 5)
-         // .padding(.trailing, -13)
+        PBProgressSimple(progress: doubleValueBinding, value: $progress, maxValue: steps, variant: .settingValue)
+          
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .scaleEffect(x: 1, y: 7)
+           
+
+        HStack(spacing: (width - CGFloat(steps) * 20) / CGFloat(steps - 1)) {
+        
+            ForEach(0..<steps, id: \.self) { step in
+              circleIcon(
+                icon: .check,
+                iconSize: .small,
+                strokeColor: .clear,
+                lineWidth: 2,
+                background: step < progress ? .black : progress == step ? .border : .text(.lighter),
+                circleWidth: 18,
+                circleHeight: 18,
+                iconColor: step < progress ? .white : step == progress ? .pbPrimary : .clear,
+                offsetX: 0,
+                offsetY: 0,
+                opacity: 1
+              )
+            }
+        
         }
-        .background(Color.pink)
-       
-       
+        .clipShape(RoundedRectangle(cornerRadius: 8))
       }
+      .padding(.vertical)
+
      
     }
+    
   }
+  private var doubleValueBinding: Binding<Double> {
+          Binding<Double>(
+              get: {
+                  Double(progress)
+              },
+              set: {
+                progress = Int($0.magnitudeSquared)
+              }
+          )
+      }
 }
 
 #Preview {

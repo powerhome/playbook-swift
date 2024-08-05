@@ -13,8 +13,9 @@ public struct ProgressStepCatalog: View {
   @State private var progress: Int = 1
   @State private var progress1: Int = 1
   @State private var trackerProgress: Int = 1
-  @State private var trackerProgress1: Int = 0
- 
+  @State private var trackerProgress1: Int = 2
+  
+  
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
@@ -93,7 +94,7 @@ extension ProgressStepCatalog {
         //          progress: $trackerProgress
         //        )
         PBProgressStep(
-          steps: 8,
+          steps: 3,
           variant: .tracker,
           progress: $trackerProgress1
         )

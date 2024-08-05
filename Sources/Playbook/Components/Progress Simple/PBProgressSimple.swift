@@ -33,6 +33,7 @@ public struct PBProgressSimple: View {
   
   public var body: some View {
     variantView
+      
   }
 }
 
@@ -44,12 +45,18 @@ public extension PBProgressSimple {
   var variantView: some View {
     HStack {
       switch variant {
-      case .default: ProgressView(value: progress, total: 1)
-      case .settingValue: ProgressView(value: CGFloat(value), total: CGFloat(maxValue))
+      case .default: progressDefaultView
+      case .settingValue: progressSettingView
       }
     }
     .tint(progressColor)
-    
+  }
+  var progressDefaultView: some View {
+    ProgressView(value: progress, total: 1)
+  }
+  var progressSettingView: some View {
+    ProgressView(value: CGFloat(value), total: CGFloat(maxValue))
+      .progressViewStyle(LinearProgressViewStyle())
   }
 }
 #Preview {
