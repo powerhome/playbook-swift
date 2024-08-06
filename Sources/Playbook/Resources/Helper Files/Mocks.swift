@@ -17,6 +17,7 @@ enum Mocks {
   static let luccile = PBUser(name: "Luccile Black", nameFont: .init(font: .title4, variant: .bold), image: Image("Lu", bundle: .module), size: .small, title: "Senior User Experience Engineer")
   static let oneUser = [andrew]
   static let twoUsers = [andrew, ana]
+  static let threeUsers = [andrew, ana, patric]
   static let multipleUsers = [andrew, ana, patric, luccile]
     static let multipleUsersDictionary: [(String, () -> PBUser?)] = [(andrew.name, { andrew }), (ana.name, { ana }), (patric.name, { patric }), (luccile.name, { luccile })]
   static let avatarXSmall = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall)
