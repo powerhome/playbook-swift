@@ -1,22 +1,24 @@
-# 6.0.0
+# 6.1.0
 
-##### JUNE 27, 2024
+##### Aug 06, 2024
 
 List of changes:
 
-**Kit Enhancements:**
-- Selectable Card Input Variant [#403](https://github.com/powerhome/playbook-swift/pull/383) [(Rachel Radford)](https://github.com/RachelRadford21)
-- Expose button variants on dialog kit [#420](https://github.com/powerhome/playbook-swift/pull/395) [(Isis Silva)](https://github.com/isismsilva)
-- Label Pill Kit [#434](https://github.com/powerhome/playbook-swift/pull/400) [(Rachel Radford)](https://github.com/RachelRadford21)
-- Progress Pill Kit [#435](https://github.com/powerhome/playbook-swift/pull/401) [(Rachel Radford)](https://github.com/RachelRadford21)
+**New Kits:**
+- Progress Simple Kit [#456](https://github.com/powerhome/playbook-swift/pull/424) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Progress Step Kit [#453](https://github.com/powerhome/playbook-swift/pull/411) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Multiple Users Small Bubble Variant [#448](https://github.com/powerhome/playbook-swift/pull/420) [(Rachel Radford)](https://github.com/RachelRadford21)
 
+**Kit Enhancement:**
+- Progress Simple Width [#457](https://github.com/powerhome/playbook-swift/pull/429) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Section Separator Color [#437](https://github.com/powerhome/playbook-swift/pull/421) [(Rachel Radford)](https://github.com/RachelRadford21)
 
-**Improvements:**
-- Removes Unnecessary Print Statements [#431](https://github.com/powerhome/playbook-swift/pull/399) [(Rachel Radford)](https://github.com/RachelRadford21)
-- User Kit Spacing Fix [#438](https://github.com/powerhome/playbook-swift/pull/402) [(Rachel Radford)](https://github.com/RachelRadford21)
-- Pill Kit Color Validation [#440](https://github.com/powerhome/playbook-swift/pull/404) [(Rachel Radford)](https://github.com/RachelRadford21)
-- Typeahead validation [#407](https://github.com/powerhome/playbook-swift/pull/403) [(Isis Silva)](https://github.com/isismsilva)
-- Add swift fonts package to power-fonts [#334](https://github.com/powerhome/playbook-swift/pull/394) [(Isis Silva)](https://github.com/isismsilva)
+**Improvement:**
+- Update Multi User Indicator [#446](https://github.com/powerhome/playbook-swift/pull/408) [(Rachel Radford)](https://github.com/RachelRadford21)
 
-**Documentation:**
-- User Docs [#397](https://github.com/powerhome/playbook-swift/pull/391) [(Rachel Radford)](https://github.com/RachelRadford21)
+**Fixed Bugs:**
+- macOS Dialog Sizes [#473](https://github.com/powerhome/playbook-swift/pull/427) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Dark mode color exception handling [#432](https://github.com/powerhome/playbook-swift/pull/410) [(Isis Silva)](https://github.com/isismsilva)
+- Fix typeahead rendering position for iOS [#436](https://github.com/powerhome/playbook-swift/pull/416) [(Isis Silva)](https://github.com/isismsilva)
+- Fixed Confirmation Toast Children Fix [#472](https://github.com/powerhome/playbook-swift/pull/425) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Typeahead manager fix [#467](https://github.com/powerhome/playbook-swift/pull/431) [(Isis Silva)](https://github.com/isismsilva)
