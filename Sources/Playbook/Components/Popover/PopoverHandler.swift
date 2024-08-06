@@ -11,10 +11,15 @@ import SwiftUI
 
 struct PopoverView: View {
     let id: Int
+    let blockBackgroundInteractions: Bool
     @EnvironmentObject var popoverManager: PopoverManager
     
-    init(id: Int) {
+    init(
+        id: Int,
+        blockBackgroundInteractions: Bool
+    ) {
         self.id = id
+        self.blockBackgroundInteractions = blockBackgroundInteractions
     }
     
     var body: some View {
@@ -23,7 +28,7 @@ struct PopoverView: View {
             let popover = popoverManager.popovers.first { $0.key == id }?.value
            
             if isPresented ?? false {
-                    Color.clear
+                background
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     popover?.view
                         .position(popover?.position ?? .zero)
@@ -33,13 +38,21 @@ struct PopoverView: View {
                 }
             }
         }
+    
+    var background: some View {
+        if blockBackgroundInteractions {
+            return  Color.white.opacity(0.01)
+        } else {
+            return Color.clear
+        }
+    }
 }
 
 public extension View {
-    func popoverHandler(id: Int = 0) -> some View {
+    func popoverHandler(id: Int = 0, blockBackgroundInteractions: Bool = false) -> some View {
         let popoverManager = PopoverManager.shared
         return self
-            .overlay(PopoverView(id: id))
+            .overlay(PopoverView(id: id, blockBackgroundInteractions: blockBackgroundInteractions))
             .onTapGesture { popoverManager.closeOutside() }
             .environmentObject(popoverManager)
     }
