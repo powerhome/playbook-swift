@@ -22,7 +22,8 @@ public struct ProgressSimpleCatalog: View {
   @State private var progress9: Double = 0.45
   @State private var progress10: Double = 0.45
   @State private var value: Int = 2
-  public var body: some View {
+  
+    public var body: some View {
     PBDocStack(title: "Progress Simple", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
         defaultView
@@ -44,7 +45,6 @@ public struct ProgressSimpleCatalog: View {
 }
 
 public extension ProgressSimpleCatalog {
-  
   var defaultView: some View {
     VStack(alignment: .leading) {
       PBProgressSimple(
@@ -52,15 +52,17 @@ public extension ProgressSimpleCatalog {
       )
     }
   }
-  
+
   var settingValueView: some View {
-    VStack(alignment: .leading, spacing: Spacing.medium) {
+    VStack(alignment: .leading) {
       PBProgressSimple(
-        progress: $progress1
+        progress: $progress1,
+        progressColor: .pbPrimary
       )
       PBProgressSimple(
         value: $value,
         maxValue: 10,
+        progressColor: .pbPrimary,
         variant: .settingValue
       )
     }
@@ -124,6 +126,7 @@ public extension ProgressSimpleCatalog {
     }
   }
 }
+
 #Preview {
   registerFonts()
   return ProgressSimpleCatalog()

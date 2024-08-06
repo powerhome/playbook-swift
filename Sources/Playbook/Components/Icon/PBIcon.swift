@@ -48,7 +48,7 @@ public struct PBIcon: View {
 }
 
 public extension PBIcon {
-  enum IconSize: String, CaseIterable {
+  enum IconSize: Hashable {
     case xSmall
     case small
     case large
@@ -62,7 +62,7 @@ public extension PBIcon {
     case x8
     case x9
     case x10
-
+    case custom(CGFloat)
     var fontSize: CGFloat {
       let emToPt: CGFloat = 16
 
@@ -81,7 +81,11 @@ public extension PBIcon {
       case .x8: return 8 * emToPt
       case .x9: return 9 * emToPt
       case .x10: return 10 * emToPt
+      case .custom(let size): return size
       }
+    }
+   static var sizeArray: [(IconSize, String)] {
+     return [(.xSmall, "XSmall"), (.small, "Small"), (.large, "Large"), (.x1, "1x"), (.x2, "x2"), (.x3, "3x"), (.x4, "4x"), (.x5,     "5x"), (.x6, "6x"), (.x7, "7x"), (.x8, "8x"), (.x9, "9x"), (.x10, "10x"), (.custom(170), "Custom")]
     }
   }
 

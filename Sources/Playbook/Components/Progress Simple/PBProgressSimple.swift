@@ -14,7 +14,7 @@ public struct PBProgressSimple: View {
   @Binding var value: Int
   let maxValue: Int
   let progressColor: Color
-  let progressWidth: CGFloat
+  let progressWidth: CGFloat?
   let variant: Variant
   
   public init(
@@ -22,9 +22,8 @@ public struct PBProgressSimple: View {
     value: Binding<Int> = .constant(2),
     maxValue: Int = 10,
     progressColor: Color = .pbPrimary,
-    progressWidth: CGFloat = .infinity,
+    progressWidth: CGFloat? = nil,
     variant: Variant = .default
-    
   ) {
     self._progress = progress
     self._value = value
