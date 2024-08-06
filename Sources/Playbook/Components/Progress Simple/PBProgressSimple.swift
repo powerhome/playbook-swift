@@ -22,7 +22,6 @@ public struct PBProgressSimple: View {
     maxValue: Int = 10,
     progressColor: Color = .pbPrimary,
     variant: Variant = .default
-    
   ) {
     self._progress = progress
     self._value = value
@@ -49,7 +48,6 @@ public extension PBProgressSimple {
       }
     }
     .tint(progressColor)
-    
   }
 }
 #Preview {
