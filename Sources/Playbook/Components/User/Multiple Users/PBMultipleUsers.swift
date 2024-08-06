@@ -18,6 +18,7 @@ public struct PBMultipleUsers: View {
   var bubbleCount: BubbleCount
   var maxDisplayedUsers: Int
   @State private var avSize: CGFloat = 20
+
   public init(
     users: [PBUser] = [],
     size: PBAvatar.Size = .small,
@@ -34,7 +35,6 @@ public struct PBMultipleUsers: View {
     self.bubbleSize = bubbleSize
     self.bubbleCount = bubbleCount
     self.maxDisplayedUsers = maxDisplayedUsers
-
   }
 
   public var body: some View {
@@ -42,9 +42,7 @@ public struct PBMultipleUsers: View {
   }
 }
 
-
 public extension PBMultipleUsers {
-  
   enum Variant {
     case linear, bubble
   }
@@ -58,38 +56,31 @@ public extension PBMultipleUsers {
   var filteredUsers: ([PBUser], Int?) {
     var displayedUsers = users
     var additionalUsers = 0
-
     if users.count > maxDisplayedUsers {
       displayedUsers = Array(users.prefix(maxDisplayedUsers - 1))
       additionalUsers = users.count - maxDisplayedUsers + 1
     }
-
     return (displayedUsers, additionalUsers)
   }
   
   func xOffset(index: Int) -> CGFloat {
     let offset = size.diameter / 1.5 * CGFloat(index)
-
     return reversed ? -offset : offset
   }
 
   var leadingPadding: CGFloat {
     let padding = size.diameter / 1.5 * CGFloat(filteredUsers.0.count - (filteredUsers.1 == 0 ? 1 : 0))
-
     return reversed ? padding : 0
   }
   
   var totalWidth: CGFloat {
     var width = size.diameter
-
     if filteredUsers.0.count > 1 {
       width = size.diameter / 1.5 * CGFloat(filteredUsers.0.count - 1) + size.diameter
     }
-
     if users.count > maxDisplayedUsers {
       width = size.diameter / 1.5 * CGFloat(maxDisplayedUsers - 1) + size.diameter
     }
-
     return width
   }
   
@@ -114,7 +105,6 @@ public extension PBMultipleUsers {
 }
 
 public extension PBMultipleUsers {
-
   enum BubbleSize {
     case small, medium, large, xLarge
   }
@@ -223,7 +213,12 @@ public extension PBMultipleUsers {
     }
   }
 }
+
 #Preview {
-  registerFonts()
-  return PBMultipleUsers()
+    registerFonts()
+    return VStack {
+        PBMultipleUsers(users: Mocks.multipleUsers, variant: .linear)
+        PBMultipleUsers(users: Mocks.multipleUsers, variant: .bubble)
+    }
+    .padding()
 }
