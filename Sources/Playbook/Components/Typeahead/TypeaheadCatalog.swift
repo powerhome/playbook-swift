@@ -120,28 +120,6 @@ extension TypeaheadCatalog {
             }
         }
     }
-    
-    //  var debounce: some View {
-    //    VStack(spacing: Spacing.small) {
-    //      PBTypeahead(
-    //        id: 2,
-    //        title: "Debounce, 2 characters, 1 second",
-    //        searchText: $searchTextDebounce,
-    //        selection: .single,
-    //        options: assetsColors,
-    //        debounce: (1, 2)
-    //      ) {_ in }
-    //
-    //      PBTypeahead(
-    //        id: 3,
-    //        title: "Debounce, 2 characters, 0 second",
-    //        searchText: $searchTextDebounce2,
-    //        selection: .single,
-    //        options: assetsColors,
-    //        debounce: (0, 2)
-    //      ) {_ in }
-    //    }
-    //  }
 }
 
 #Preview {
