@@ -14,6 +14,7 @@ public struct PBProgressSimple: View {
   @Binding var value: Int
   let maxValue: Int
   let progressColor: Color
+  let progressWidth: CGFloat?
   let variant: Variant
   
   public init(
@@ -21,12 +22,14 @@ public struct PBProgressSimple: View {
     value: Binding<Int> = .constant(2),
     maxValue: Int = 10,
     progressColor: Color = .pbPrimary,
+    progressWidth: CGFloat? = nil,
     variant: Variant = .default
   ) {
     self._progress = progress
     self._value = value
     self.maxValue = maxValue
     self.progressColor = progressColor
+    self.progressWidth = progressWidth
     self.variant = variant
   }
   
@@ -39,15 +42,16 @@ public extension PBProgressSimple {
   enum Variant {
     case `default`, settingValue
   }
-  
+
   var variantView: some View {
-    HStack {
+    Group {
       switch variant {
       case .default: ProgressView(value: progress, total: 1)
       case .settingValue: ProgressView(value: CGFloat(value), total: CGFloat(maxValue))
       }
     }
     .tint(progressColor)
+    .frame(width: progressWidth)
   }
 }
 #Preview {
