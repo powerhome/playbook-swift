@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBTypeahead<Content: View>: View {
-    typealias Option = (String, Content?)
+    public typealias Option = (String, (() -> Content?))
     private let id: Int
     private let title: String
     private let placeholder: String
@@ -19,7 +19,7 @@ public struct PBTypeahead<Content: View>: View {
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
     private let dropdownMaxHeight: CGFloat?
     private let popoverManager = PopoverManager()
-    private let onSelection: (([(String, Content?)]) -> Void)?
+    private let onSelection: (([Option]) -> Void)?
     private let clearAction: (() -> Void)?
     @State private var listOptions: [Option] = []
     @State private var showList: Bool = false
@@ -39,11 +39,11 @@ public struct PBTypeahead<Content: View>: View {
         placeholder: String = "Select",
         searchText: Binding<String>,
         selection: Selection,
-        options: [(String, Content?)],
+        options: [Option],
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
         isFocused: FocusState<Bool>.Binding,
-        onSelection: @escaping (([(String, Content?)]) -> Void),
+        onSelection: @escaping (([Option]) -> Void),
         clearAction: (() -> Void)? = nil
     ) {
         self.id = id
@@ -88,7 +88,9 @@ public struct PBTypeahead<Content: View>: View {
         .onAppear {
             focused = isFocused
             listOptions = options
-            showList = isFocused
+            if debounce.numberOfCharacters == 0 {
+                showList = isFocused
+            }
             setKeyboardControls
         }
         .onChange(of: isFocused) { newValue in
@@ -109,9 +111,15 @@ public struct PBTypeahead<Content: View>: View {
         .onChange(of: hoveringIndex) { index in
             reloadList
         }
+        .onChange(of: searchText, debounce: debounce) { _ in
+            if !searchText.isEmpty {
+                showList = true
+            }
+        }
     }
 }
 
+@MainActor
 private extension PBTypeahead {
     @ViewBuilder
     var listView: some View {
@@ -120,7 +128,7 @@ private extension PBTypeahead {
                 VStack(spacing: 0) {
                     ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
                         HStack {
-                            if let customView = result.1 {
+                            if let customView = result.1() {
                                 customView
                             } else {
                                 Text(result.0)
@@ -148,7 +156,7 @@ private extension PBTypeahead {
         .frame(maxWidth: .infinity, alignment: .top)
         .transition(.opacity)
     }
-    
+
     var searchResults: [Option] {
         switch selection{
             case .multiple:
@@ -187,14 +195,14 @@ private extension PBTypeahead {
                 focused = true
             }
             if event.keyCode == 36 { // return bar
-                if let index = hoveringIndex, index <= listOptions.count-1, isFocused {
-                    onListSelection(index: index, option: listOptions[index])
+                if let index = hoveringIndex, index <= searchResults.count-1, showList {
+                    onListSelection(index: index, option: searchResults[index])
                 }
             }
             if event.keyCode == 49 { // space
                 if isFocused {
-                    if let index = hoveringIndex, index <= listOptions.count-1, showList {
-                        onListSelection(index: index, option: listOptions[index])
+                    if let index = hoveringIndex, index <= searchResults.count-1, showList, searchText.isEmpty {
+                        onListSelection(index: index, option: searchResults[index])
                     } else {
                         showList = true
                     }

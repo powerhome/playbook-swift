@@ -64,6 +64,17 @@ public class PopoverManager: ObservableObject {
         }
     }
     
+    func closeOutside() {
+        _ = popovers.map { key, popover in
+            switch popover.close.0 {
+                case .outside, .anywhere:
+                    onClose(key)
+                default:
+                    break
+            }
+        }
+    }
+    
     private func onClose(_ key: Int) {
         if let closeAction = popovers[key]?.close.action {
             closeAction()
