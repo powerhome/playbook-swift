@@ -42,14 +42,13 @@ public extension PBProgressSimple {
   enum Variant {
     case `default`, settingValue
   }
-  
+
   var variantView: some View {
-    HStack {
+    Group {
       switch variant {
       case .default: ProgressView(value: progress, total: 1)
       case .settingValue: ProgressView(value: CGFloat(value), total: CGFloat(maxValue))
       }
-        
     }
     .tint(progressColor)
     .frame(width: progressWidth)
