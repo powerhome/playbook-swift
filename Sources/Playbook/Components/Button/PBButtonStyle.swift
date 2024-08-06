@@ -14,6 +14,7 @@ public struct PBButtonStyle: ButtonStyle {
     var size: PBButton.Size
     var shape: PBButton.Shape
     @State private var isHovering = false
+    @Environment(\.colorScheme) var colorScheme
     
     public func makeBody(configuration: Configuration) -> some View {
         let isPressed = configuration.isPressed
@@ -27,7 +28,8 @@ public struct PBButtonStyle: ButtonStyle {
                 variant
                     .backgroundAnimation(
                         configuration: configuration,
-                        isHovering: isHovering
+                        isHovering: isHovering,
+                        colorScheme: colorScheme
                     )
                     .primaryVariantBrightness(
                         isPrimaryVariant: isPrimaryVariant,
@@ -36,10 +38,11 @@ public struct PBButtonStyle: ButtonStyle {
                     )
             )
             .foregroundColor(
-                variant.foregroundAnimation(
-                    configuration: configuration,
-                    isHovering: isHovering
-                )
+              variant.foregroundAnimation(
+                configuration: configuration,
+                isHovering: isHovering,
+                colorScheme: colorScheme
+              )
             )
             .clipShape(ButtonShape(shape: shape))
             .onHover(disabled: variant == .disabled ? true : false) {
