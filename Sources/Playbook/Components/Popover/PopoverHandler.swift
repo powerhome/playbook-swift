@@ -9,56 +9,51 @@
 
 import SwiftUI
 
-struct PopoverHandler: ViewModifier {
-    let popoverManager = PopoverManager.shared
-    @State private var popoverID: Int?
-    
-    func body(content: Content) -> some View {
-        content
-            .overlay(GlobalPopoverView { popoverID = $0 })
-            .onTapGesture {
-                if let id = popoverID {
-                    popoverManager.closeOutside(id)
-                }
-            }
-            .environmentObject(popoverManager)
-    }
-}
-
-struct GlobalPopoverView: View {
+struct PopoverView: View {
+    let id: Int
+    let blockBackgroundInteractions: Bool
     @EnvironmentObject var popoverManager: PopoverManager
-    var withID: ((Int) -> Void)? = nil
+    
+    init(
+        id: Int,
+        blockBackgroundInteractions: Bool
+    ) {
+        self.id = id
+        self.blockBackgroundInteractions = blockBackgroundInteractions
+    }
     
     var body: some View {
         ZStack {
-            let presentedList = popoverManager.isPresented.sorted(by: { $0.key <= $1.key })
-            let popoverList = popoverManager.popovers.sorted(by: { $0.key <= $1.key })
-            let commonKeys = Set(presentedList.map { $0.key }).intersection(popoverList.map { $0.key })
-            let compactArray: [(Int, Bool, PopoverManager.Popover)] = commonKeys.compactMap { key in
-                if let presentedValue = popoverManager.isPresented[key], let listValue = popoverManager.popovers[key] {
-                    return (key, presentedValue, listValue)
-                }
-                return nil
-            }
-            
-            ForEach(compactArray, id: \.0) { id, isPresented, popover in
-                if isPresented {
-                    Color.clear
+            let isPresented = popoverManager.isPresented.first { $0.key == id }?.value
+            let popover = popoverManager.popovers.first { $0.key == id }?.value
+           
+            if isPresented ?? false {
+                background
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .onAppear { withID?(id) }
-                    popover.view
-                        .position(popover.position ?? .zero)
+                    popover?.view
+                        .position(popover?.position ?? .zero)
                         .onTapGesture {
                             popoverManager.closeInside(id)
                         }
                 }
             }
         }
+    
+    var background: some View {
+        if blockBackgroundInteractions {
+            return  Color.white.opacity(0.01)
+        } else {
+            return Color.clear
+        }
     }
 }
 
 public extension View {
-    func popoverHandler() -> some View {
-        self.modifier(PopoverHandler())
+    func popoverHandler(id: Int = 0, blockBackgroundInteractions: Bool = false) -> some View {
+        let popoverManager = PopoverManager.shared
+        return self
+            .overlay(PopoverView(id: id, blockBackgroundInteractions: blockBackgroundInteractions))
+            .onTapGesture { popoverManager.closeOutside() }
+            .environmentObject(popoverManager)
     }
 }
