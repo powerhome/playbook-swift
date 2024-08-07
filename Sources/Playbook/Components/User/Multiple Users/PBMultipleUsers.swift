@@ -173,7 +173,7 @@ public extension PBMultipleUsers {
       .medium: [
         2: [-6, 12],
         3: [-8, -1, 14],
-        4: [-9, -7, -6, 40]
+        4: [-8, -7, -6, 40]
       ],
       .large: [
         2: [-8, 18],
@@ -181,9 +181,9 @@ public extension PBMultipleUsers {
         4: [-13, -13, -8, 55]
       ],
       .xLarge: [
-        2: [-15, 20],
-        3: [-15, 7, 20],
-        4: [-15, 4, -10, 60]
+        2: [-9, 22],
+        3: [-12, -3, 22],
+        4: [-12, -12, -10, 65]
       ]
     ]
     return positions[bubbleSize]?[total]?[index] ?? 0
@@ -207,9 +207,9 @@ public extension PBMultipleUsers {
         4: [16, 9, -14, -20]
       ],
       .xLarge: [
-        2: [0, -5],
-        3: [0, -10, 10],
-        4: [0, 10, -10, -25]
+        2: [3, -6],
+        3: [9, -6, 7],
+        4: [15, 10, -15, -25]
       ]
     ]
     return positions[bubbleSize]?[total]?[index] ?? 0
@@ -220,7 +220,7 @@ public extension PBMultipleUsers {
     case .small: return 40
     case .medium: return 55
     case .large: return 75
-    case .xLarge: return 85
+    case .xLarge: return 90
     }
   }
 }
