@@ -27,6 +27,9 @@ public struct MultipleUsersCatalog: View {
       PBDoc(title: "Small Bubble") {
         smallUserBubbleView
       }
+      PBDoc(title: "Medium Bubble") {
+        medUserBubbleView
+      }
     }
   }
 }
@@ -61,6 +64,28 @@ extension MultipleUsersCatalog {
         users: Mocks.multipleUsers,
         variant: .bubble,
         bubbleSize: .small,
+        bubbleCount: .four
+      )
+    }
+  }
+  var medUserBubbleView: some View {
+    HStack(spacing: Spacing.small) {
+      PBMultipleUsers(
+        users: Mocks.twoUsers,
+        variant: .bubble,
+        bubbleSize: .medium,
+        bubbleCount: .two
+      )
+      PBMultipleUsers(
+        users: Mocks.threeUsers,
+        variant: .bubble,
+        bubbleSize: .medium,
+        bubbleCount: .three
+      )
+      PBMultipleUsers(
+        users: Mocks.multipleUsers,
+        variant: .bubble,
+        bubbleSize: .medium,
         bubbleCount: .four
       )
     }
