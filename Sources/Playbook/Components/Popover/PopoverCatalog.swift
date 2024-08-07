@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PopoverCatalog: View {
-  @State private var isPresented: Bool = false
+  @State private var isPresented1: Bool = false
   @State private var isPresented2: Bool = false
   @State private var isPresented3: Bool = false
   @State private var isPresented4: Bool = false
@@ -27,7 +27,12 @@ public struct PopoverCatalog: View {
       PBDoc(title: "Close options") { onClosePopover }
         .edgesIgnoringSafeArea(.all)
     }
-    .popoverHandler()
+    .popoverHandler(id: 1)
+    .popoverHandler(id: 2)
+    .popoverHandler(id: 3)
+    .popoverHandler(id: 4)
+    .popoverHandler(id: 5)
+    .popoverHandler(id: 6)
     .navigationTitle("Popover")
   }
   
@@ -40,10 +45,11 @@ public struct PopoverCatalog: View {
         shape: .circle,
         icon: .fontAwesome(.info)
       ) {
-        isPresented.toggle()
+        isPresented1.toggle()
       }
       .pbPopover(
-        isPresented: $isPresented
+        isPresented: $isPresented1,
+        id: 1
       ) {
         Text("I'm a popover. I can show content of any size.")
           .pbFont(.body, color: .text(.default))
@@ -62,6 +68,7 @@ public struct PopoverCatalog: View {
     }
     .pbPopover(
       isPresented: $isPresented2,
+      id: 2,
       position: .center(0, 4)
     ) {
       List {
@@ -94,6 +101,7 @@ public struct PopoverCatalog: View {
       }
       .pbPopover(
         isPresented: $isPresented3,
+        id: 3,
         clickToClose: (.inside, action: {})
       ) {
         Text("Click on me!")
@@ -108,6 +116,7 @@ public struct PopoverCatalog: View {
       }
       .pbPopover(
         isPresented: $isPresented4,
+        id: 4,
         position: .top(),
         clickToClose: (.outside, action: {})
       ) {
@@ -123,6 +132,7 @@ public struct PopoverCatalog: View {
       }
       .pbPopover(
         isPresented: $isPresented5,
+        id: 5,
         position: .trailing(),
         clickToClose: (.anywhere, action: {})
       ) {
@@ -139,7 +149,7 @@ public struct PopoverCatalog: View {
     ) {
       isPresented6.toggle()
     }
-    .pbPopover(isPresented: $isPresented6) {
+    .pbPopover(isPresented: $isPresented6, id: 6) {
       ScrollView {
         Text(
             """
