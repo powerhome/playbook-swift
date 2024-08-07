@@ -140,7 +140,6 @@ public extension PBMultipleUsers {
   func avatarSize(for index: Int, total: Int) -> CGFloat {
     let sizes: [BubbleSize: [Int: [CGFloat]]] = [
       .small: [
-        1: [20],
         2: [20, 12],
         3: [16, 12, 10],
         4: [16, 12, 10, 8]
@@ -152,13 +151,11 @@ public extension PBMultipleUsers {
         4: [28, 20, 16, 12]
       ],
       .large: [
-        1: [44],
         2: [44, 20],
         3: [32, 24, 20],
         4: [36, 28, 24, 16]
       ],
       .xLarge: [
-        1: [56],
         2: [56, 24],
         3: [44, 32, 24],
         4: [44, 32, 24, 16]
@@ -179,9 +176,9 @@ public extension PBMultipleUsers {
         4: [-9, -7, -6, 40]
       ],
       .large: [
-        2: [-12, 16],
-        3: [-12, 6, 16],
-        4: [-12, 3, -8, 48]
+        2: [-8, 18],
+        3: [-12, 2, 16],
+        4: [-13, -13, -8, 55]
       ],
       .xLarge: [
         2: [-15, 20],
@@ -205,9 +202,9 @@ public extension PBMultipleUsers {
         4: [8, 6, -9, -15]
       ],
       .large: [
-        2: [0, -4],
-        3: [0, -8, 8],
-        4: [0, 8, -8, -20]
+        2: [0, -7],
+        3: [4, -7, 5],
+        4: [16, 9, -14, -20]
       ],
       .xLarge: [
         2: [0, -5],
@@ -222,7 +219,7 @@ public extension PBMultipleUsers {
     switch bubbleSize {
     case .small: return 40
     case .medium: return 55
-    case .large: return 70
+    case .large: return 75
     case .xLarge: return 85
     }
   }
