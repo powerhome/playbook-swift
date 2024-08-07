@@ -33,7 +33,6 @@ struct PBDialogHeaderView: View {
             #if os(macOS)
             if hovering {
               NSCursor.pointingHand.push()
-            
             } else {
               NSCursor.pointingHand.pop()
             }
