@@ -13,7 +13,7 @@ public struct ProgressStepCatalog: View {
   @State private var progress: Int = 1
   @State private var progress1: Int = 1
   @State private var trackerProgress: Int = 1
-  @State private var trackerProgress1: Int = 2
+  @State private var trackerProgress1: Int = 0
   
   
   public var body: some View {

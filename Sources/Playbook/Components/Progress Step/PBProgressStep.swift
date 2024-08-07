@@ -158,42 +158,34 @@ public extension PBProgressStep {
 extension PBProgressStep {
   
   var trackerView: some View {
- 
     GeometryReader { geo in
       let width = geo.size.width
       ZStack(alignment: .leading) {
         PBProgressSimple(progress: doubleValueBinding, value: $progress, maxValue: steps, variant: .settingValue)
-          
-            .clipShape(RoundedRectangle(cornerRadius: 8))
             .scaleEffect(x: 1, y: 7)
-           
-
-        HStack(spacing: (width - CGFloat(steps) * 20) / CGFloat(steps - 1)) {
-        
-            ForEach(0..<steps, id: \.self) { step in
-              circleIcon(
-                icon: .check,
-                iconSize: .small,
-                strokeColor: .clear,
-                lineWidth: 2,
-                background: step < progress ? .black : progress == step ? .border : .text(.lighter),
-                circleWidth: 18,
-                circleHeight: 18,
-                iconColor: step < progress ? .white : step == progress ? .pbPrimary : .clear,
-                offsetX: 0,
-                offsetY: 0,
-                opacity: 1
-              )
-            }
-        
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-      }
-      .padding(.vertical)
-
-     
-    }
     
+        HStack(spacing: (width - CGFloat(steps) * 20) / CGFloat(steps - 1)) {
+          
+          ForEach(0..<steps, id: \.self) { step in
+            circleIcon(
+              icon: .check,
+              iconSize: .small,
+              strokeColor: .clear,
+              lineWidth: 2,
+              background: step < progress ? .black : progress == step ? .border : .text(.lighter),
+              circleWidth: 18,
+              circleHeight: 18,
+              iconColor: step < progress ? .white : step == progress ? .pbPrimary : .clear,
+              offsetX: 0,
+              offsetY: 0,
+              opacity: 1
+            )
+          }
+        }
+      }
+      .clipShape(RoundedRectangle(cornerRadius: 8))
+      // .padding(.vertical, 40)
+    }
   }
   private var doubleValueBinding: Binding<Double> {
           Binding<Double>(
