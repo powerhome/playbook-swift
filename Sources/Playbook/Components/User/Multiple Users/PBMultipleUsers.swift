@@ -172,8 +172,8 @@ public extension PBMultipleUsers {
       ],
       .medium: [
         2: [-6, 12],
-        3: [-8, -1, 14],
-        4: [-8, -7, -6, 40]
+        3: [-10, 1, 13],
+        4: [-9, -7, -6, 41]
       ],
       .large: [
         2: [-8, 18],
@@ -218,7 +218,7 @@ public extension PBMultipleUsers {
   var frameSize: CGFloat {
     switch bubbleSize {
     case .small: return 40
-    case .medium: return 55
+    case .medium: return 60
     case .large: return 75
     case .xLarge: return 90
     }
