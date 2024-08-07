@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct PBCard<Content: View>: View {
   let alignment: Alignment
-  let backgroundColor: Color
+  let backgroundColor: Color?
   let border: Bool
   let borderRadius: CGFloat
   let highlight: Highlight
@@ -21,9 +21,10 @@ public struct PBCard<Content: View>: View {
   let width: CGFloat?
   let isHovering: Bool
   let content: Content
+  @Environment(\.colorScheme) private var colorScheme
   public init(
     alignment: Alignment = .leading,
-    backgroundColor: Color = .card,
+    backgroundColor: Color? = nil,
     border: Bool = true,
     borderRadius: CGFloat = BorderRadius.medium,
     highlight: Highlight = .none,
@@ -46,7 +47,7 @@ public struct PBCard<Content: View>: View {
     self.isHovering = isHovering
     self.content = content()
   }
-
+  
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.none) {
       content
@@ -54,7 +55,7 @@ public struct PBCard<Content: View>: View {
     }
     .frame(maxWidth: width, alignment: alignment)
     .border(width: 5, edges: highlight.edge, color: highlight.color)
-    .background(backgroundColor)
+    .background(cardColor)
     .clipShape(
       RoundedRectangle(cornerRadius: borderRadius, style: .circular)
     )
@@ -74,7 +75,7 @@ public extension PBCard {
     case none
     case side(Color)
     case top(Color)
-
+    
     var edge: [Edge] {
       switch self {
       case .side: return [.leading]
@@ -82,7 +83,7 @@ public extension PBCard {
       default: return []
       }
     }
-
+    
     var color: Color {
       switch self {
       case .side(let color): return color
@@ -93,6 +94,13 @@ public extension PBCard {
   }
   var borderColor: Color {
     isHovering ? .status(.neutral) : style.color
+  }
+  var cardColor: Color {
+    if let backgroundColor = backgroundColor {
+      return backgroundColor
+    } else {
+      return Color.Card.background(colorScheme)
+    }
   }
 }
 

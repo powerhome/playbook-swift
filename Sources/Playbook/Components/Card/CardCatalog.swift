@@ -45,10 +45,14 @@ extension CardCatalog {
       VStack(alignment: .leading, spacing: Spacing.small) {
         Text("Background Colors")
           .pbFont(.detail(true), color: .text(.default))
-        ForEach(Color.BackgroundColor.allCases, id: \.self) { color in
-          PBCard(backgroundColor: .background(color)) {
-            Text(color.rawValue.capitalized).pbFont(.body, color: .text(.light))
-          }
+        PBCard(backgroundColor: .background(.dark)) {
+          Text("Dark").pbFont(.body, color: .white)
+        }
+        PBCard {
+          Text("Default").pbFont(.body)
+        }
+        PBCard(backgroundColor: .background(.light)) {
+          Text("Light").pbFont(.body, color: Color(hex: "#242b42"))
         }
         
         Text("Product Colors")

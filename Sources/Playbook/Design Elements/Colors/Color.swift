@@ -172,6 +172,15 @@ public extension Color {
             }
         }
     }
+  
+  enum Card {
+    static func background(_ colorScheme: ColorScheme) -> Color {
+        return colorScheme == .light ? .card : Color(red: 35/255, green: 30/255, blue: 61/255)
+    }
+    static func foreground(_ colorScheme: ColorScheme) -> Color {
+      return colorScheme == .light ? .pbPrimary : .white
+    }
+  }
 }
 
 public extension Color {
