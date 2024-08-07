@@ -31,13 +31,13 @@ struct PBDialogActionView: View {
         AdaptiveStack(isStacked: isStacked) {
             if let confirmButton = confirmButton {
                 PBButton(
-                    fullWidth: confirmButton.0.fullWidth,
                     variant: confirmButton.0.variant,
                     size: confirmButton.0.size,
                     title: confirmButton.0.title,
                     icon: confirmButton.0.icon,
                     iconPosition: confirmButton.0.iconPosition,
                     isLoading: confirmButton.0.$isLoading,
+                    fullWidth: confirmButton.0.fullWidth,
                     action: confirmButton.1
                 )
                 .padding(.bottom, Spacing.xxSmall)
@@ -49,13 +49,13 @@ struct PBDialogActionView: View {
                 }
                 
                 PBButton(
-                    fullWidth: cancelButton.0.fullWidth,
                     variant: cancelButton.0.variant,
                     size: cancelButton.0.size,
                     title: cancelButton.0.title,
                     icon: cancelButton.0.icon,
                     iconPosition: cancelButton.0.iconPosition,
                     isLoading: cancelButton.0.$isLoading,
+                    fullWidth: cancelButton.0.fullWidth,
                     action: cancelButton.1
                 )
                 .padding(.top, isStacked ? 5 : 0)
