@@ -53,9 +53,10 @@ public struct PBNavItem<Content: View>: View {
         }
       } else {
         content
-          .frame(maxWidth: .infinity, alignment: .leading)
       }
     }
+    .scaledToFill()
+    .frame(maxWidth: .infinity, alignment: .center)
     .foregroundColor(captionForegroundColor)
     .padding(.horizontal, horizontalPadding)
     .padding(.vertical, verticalPadding)

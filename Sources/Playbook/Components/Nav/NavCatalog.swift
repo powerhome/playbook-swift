@@ -24,6 +24,7 @@ struct NavCatalog: View {
   @State private var selectedVSubtleNoHighlight: Int = 1
   @State private var selectedVBold: Int = 1
   @State private var selectedHDefault: Int = 1
+  @State private var selectedHFullDefault: Int = 1
   @State private var selectedHSubtle: Int = 1
   @State private var selectedHSubtleNoHighlight: Int = 1
   @State private var selectedHBold: Int = 1
@@ -205,7 +206,7 @@ struct NavCatalog: View {
       boldVariant
     }
   }
-
+  
   var horizontalListView: some View {
     let navDefault = PBDoc(title: "Default") {
       ScrollView(.horizontal, showsIndicators: false) {
@@ -221,7 +222,22 @@ struct NavCatalog: View {
         }
       }
     }
-
+    
+    var fullWidthNav: some View {
+      return VStack {
+        PBDoc(title: "Full Width Horizontal Nav") {
+          PBNav(
+            selected: $selectedHDefault,
+            variant: .normal,
+            orientation: .horizontal
+          ) {
+            PBNavItem("Photos")
+            PBNavItem("Music")
+          }
+        }
+      }
+    }
+    
     let subtle = PBDoc(title: "Subtle Horizontal Nav") {
       PBNav(
         selected: $selectedHSubtle,
@@ -267,6 +283,7 @@ struct NavCatalog: View {
 
     return PBDocStack(title: "Nav") {
       navDefault
+      fullWidthNav
       subtle
       subtleNoHighlights
       boldVariant
