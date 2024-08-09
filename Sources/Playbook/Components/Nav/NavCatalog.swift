@@ -231,8 +231,14 @@ struct NavCatalog: View {
             orientation: .horizontal
             
           ) {
-            PBNavItem("Photos", isFullWidth: true)
-            PBNavItem("Music", isFullWidth: true)
+            PBNavItem(
+              "Photos", 
+              isFullWidth: true
+            )
+            PBNavItem(
+              "Music", 
+              isFullWidth: true
+            )
           }
         }
     }
