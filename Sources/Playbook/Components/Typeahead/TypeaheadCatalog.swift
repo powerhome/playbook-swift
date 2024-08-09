@@ -14,31 +14,39 @@ public struct TypeaheadCatalog: View {
     @State private var assetsUsers = Mocks.multipleUsersDictionary
     @State private var searchTextUsers: String = ""
     @State private var searchTextColors: String = ""
+    @State private var searchText: String = ""
     @State private var searchTextDebounce: String = ""
-    @State private var searchTextDebounce2: String = ""
     @State private var didTapOutside: Bool? = false
-    var popoverManager = PopoverManager()
+    @State private var isPresented1: Bool = false
+    @State private var presentDialog: Bool = false
+    @State private var isLoading: Bool = false
+    @State private var assetsUser = Mocks.multipleUsersDictionary
     @FocusState var isFocused1
     @FocusState var isFocused2
+
+    var popoverManager = PopoverManager()
     
     public var body: some View {
         PBDocStack(title: "Typeahead") {
             PBDoc(title: "Default", spacing: Spacing.small) { colors }
             PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-            //      PBDoc(title: "Debounce", spacing: Spacing.small) { debounce }
+            #if os(macOS)
+            PBDoc(title: "Dialog") { dialog }
+            #endif
         }
         .onTapGesture {
             isFocused1 = false
             isFocused2 = false
         }
-        .popoverHandler()
+        .popoverHandler(id: 1)
+        .popoverHandler(id: 2)
     }
 }
 
 extension TypeaheadCatalog {
     var colors: some View {
         PBTypeahead(
-            id: 0,
+            id: 1,
             title: "Colors",
             searchText: $searchTextColors,
             selection: .single,
@@ -49,7 +57,7 @@ extension TypeaheadCatalog {
     
     var users: some View {
         PBTypeahead(
-            id: 1,
+            id: 2,
             title: "Users",
             placeholder: "type the name of a user",
             searchText: $searchTextUsers,
@@ -59,25 +67,61 @@ extension TypeaheadCatalog {
         ) {_ in }
     }
     
-    //  var debounce: some View {
-    //    VStack(spacing: Spacing.small) {
-    //      PBTypeahead(
-    //        id: 2,
-    //        title: "Debounce, 2 characters, 1 second",
-    //        searchText: $searchTextDebounce,
-    //        selection: .single,
-    //        options: assetsColors,
-    //        debounce: (1, 2)
-    //      ) {_ in }
-    //
-    //      PBTypeahead(
-    //        id: 3,
-    //        title: "Debounce, 2 characters, 0 second",
-    //        searchText: $searchTextDebounce2,
-    //        selection: .single,
-    //        options: assetsColors,
-    //        debounce: (0, 2)
-    //      ) {_ in }
-    //    }
-    //  }
+    func closeToast() {
+        presentDialog = false
+    }
+
+    var dialog: some View {
+        PBButton(title: "Simple") {
+            DialogCatalog.disableAnimation()
+            presentDialog.toggle()
+        }
+        .presentationMode(isPresented: $presentDialog) {
+            DialogView(isPresented: $presentDialog)
+                .popoverHandler(id: 4)
+                #if os(macOS)
+                .frame(minWidth: 500, minHeight: 390)
+                #endif
+        }
+    }
+    
+    struct DialogView: View {
+        @Binding var isPresented: Bool
+        @State private var isLoading: Bool = false
+        @State private var searchTextUsers: String = ""
+        @State private var assetsUsers = Mocks.multipleUsersDictionary
+        @FocusState var isFocused
+        
+        var body: some View {
+            PBDialog(title: "Dialog",
+                     variant: .default,
+                     onClose: { isPresented = false },
+                     shouldCloseOnOverlay: false) {
+                VStack {
+                    PBTypeahead(
+                        id: 4,
+                        title: "Users",
+                        placeholder: "type the name of a user",
+                        searchText: $searchTextUsers,
+                        selection: .multiple(variant: .pill),
+                        options: assetsUsers,
+                        dropdownMaxHeight: 300,
+                        isFocused: $isFocused
+                    ) { options in
+                        print("Selected options \(options)")
+                    }
+                    Spacer()
+                }
+                .padding(Spacing.medium)
+                .background(Color.white.opacity(0.01))
+                .onTapGesture {
+                    isFocused = false
+                }
+            }
+        }
+    }
+}
+
+#Preview {
+    TypeaheadCatalog()
 }
