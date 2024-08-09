@@ -40,7 +40,7 @@ struct NavCatalog: View {
       }
       .pickerStyle(.segmented)
       .padding()
-      
+    
       switch navContent {
       case .vertical: verticalListView
       case .horizontal: horizontalListView
@@ -227,11 +227,12 @@ struct NavCatalog: View {
       return PBDoc(title: "Full Width Horizontal Nav") {
           PBNav(
             selected: $selectedHFullDefault,
-            variant: .fullWidth,
+            variant: .normal,
             orientation: .horizontal
+            
           ) {
-            PBNavItem("Photos")
-            PBNavItem("Music")
+            PBNavItem("Photos", isFullWidth: true)
+            PBNavItem("Music", isFullWidth: true)
           }
         }
     }

@@ -18,7 +18,7 @@ public struct PBNav: View {
   private let borders: Bool
   private let highlight: Bool
   private let views: [AnyView]
-
+  
   public init<Views>(
     selected: Binding<Int> = .constant(0),
     variant: Variant? = .normal,
@@ -56,6 +56,7 @@ public struct PBNav: View {
       .environment(\.variant, variant)
       .environment(\.orientation, orientation)
       .environment(\.highlight, highlight)
+     
   }
 
   public var body: some View {
@@ -80,10 +81,10 @@ public extension PBNav {
     case normal
     case subtle
     case bold
-    case fullWidth
+  
     var spacing: CGFloat {
       switch self {
-      case .normal, .fullWidth:
+      case .normal:
         return 0
       case .subtle, .bold:
         return 2

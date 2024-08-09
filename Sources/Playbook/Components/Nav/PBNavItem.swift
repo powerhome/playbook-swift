@@ -18,17 +18,20 @@ public struct PBNavItem<Content: View>: View {
   var label: String?
   var icon: NavigationIcon?
   var accessory: FontAwesome?
+  let isFullWidth: Bool
   var content: Content?
-
+ 
   public init(
     _ label: String? = nil,
     icon: NavigationIcon? = nil,
     accessory: FontAwesome? = nil,
+    isFullWidth: Bool = false,
     @ViewBuilder content: @escaping () -> Content = { EmptyView() }
   ) {
     self.label = label
     self.icon = icon
     self.accessory = accessory
+    self.isFullWidth = isFullWidth
     self.content = content()
   }
 
@@ -54,10 +57,11 @@ public struct PBNavItem<Content: View>: View {
       } else {
         content
           .frame(maxWidth: .infinity, alignment: .center)
+        
       }
     }
     .scaledToFill()
-    .frame(maxWidth: variant == .fullWidth ? .infinity : nil, alignment: .center)
+    .frame(maxWidth: isFullWidth ? .infinity : nil, alignment: .center)
     .foregroundColor(captionForegroundColor)
     .padding(.horizontal, horizontalPadding)
     .padding(.vertical, verticalPadding)
@@ -86,7 +90,7 @@ extension PBNavItem {
   }
 
   var hoverBackgroundColor: Color {
-    if variant == .normal || variant == .fullWidth && orientation == .horizontal {
+    if variant == .normal && orientation == .horizontal {
       return .clear
     }
     return .pbPrimary
@@ -115,7 +119,7 @@ extension PBNavItem {
 
   var captionForegroundColor: Color {
     if variant != .bold {
-      if variant == .normal || variant == .fullWidth && orientation == .horizontal {
+      if variant == .normal && orientation == .horizontal {
         if isHovering {
           return .pbPrimary
         }
@@ -159,7 +163,7 @@ extension PBNavItem {
         return .body
       }
       return .title4
-    } else if variant == .normal, variant == .fullWidth, orientation == .horizontal {
+    } else if variant == .normal, orientation == .horizontal {
       return .title4
     } else {
       return .body
@@ -187,7 +191,7 @@ extension PBNavItem {
 
   var cornerRadius: CGFloat {
     switch variant {
-    case .normal, .fullWidth:
+    case .normal:
       return 0
     case .subtle, .bold:
       return BorderRadius.medium
@@ -196,7 +200,7 @@ extension PBNavItem {
 
   var horizontalPadding: CGFloat {
     switch variant {
-    case .normal, .fullWidth:
+    case .normal:
       switch orientation {
       case .horizontal: return Spacing.medium
       case .vertical: return Spacing.small
@@ -212,7 +216,7 @@ extension PBNavItem {
 
   var verticalPadding: CGFloat {
     switch variant {
-    case .normal, .fullWidth: return Spacing.small
+    case .normal: return Spacing.small
     case .subtle, .bold: return Spacing.xSmall
     }
   }
@@ -225,8 +229,9 @@ extension PBNavItem {
           .foregroundColor(isSelected ? .pbPrimary : .clear)
       } else {
         Rectangle()
-          .frame(height: variant == .normal || variant == .fullWidth ? 3 : 0)
+          .frame(height: variant == .normal ? 3 : 0)
           .foregroundColor(isSelected ? .pbPrimary : .shadow)
+          
       }
     }
   }
