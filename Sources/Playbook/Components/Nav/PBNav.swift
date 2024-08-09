@@ -80,9 +80,10 @@ public extension PBNav {
     case normal
     case subtle
     case bold
+    case fullWidth
     var spacing: CGFloat {
       switch self {
-      case .normal:
+      case .normal, .fullWidth:
         return 0
       case .subtle, .bold:
         return 2
