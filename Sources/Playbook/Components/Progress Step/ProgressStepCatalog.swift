@@ -12,35 +12,34 @@ import SwiftUI
 public struct ProgressStepCatalog: View {
   @State private var progress: Int = 1
   @State private var progress1: Int = 1
-  @State private var trackerProgress: Int = 1
-  @State private var trackerProgress1: Int = 2
-  
+  @State private var trackerProgress: Int = 10
+  @State private var trackerProgress1: Int = 7
   
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
         defaultView
       }
-//      PBDoc(title: "Vertical") {
-//        verticalView
-//      }
+      PBDoc(title: "Vertical") {
+        verticalView
+      }
       PBDoc(title: "Tracker") {
-          trackerView
-            .padding(.bottom, 50)
+        trackerView
+          .padding(.bottom, 50)
       }
       Button(action: {
-               progress += 1
-             progress1 += 1
+        progress += 1
+        progress1 += 1
         trackerProgress1 += 1
-       
-                      }) {
-                          Text("Submit")
-                              .padding()
-                              .background(Color.blue)
-                              .foregroundColor(.white)
-                              .cornerRadius(8)
-                      }
-                      .padding(.top, 50)
+        
+      }) {
+        Text("Submit")
+          .padding()
+          .background(Color.blue)
+          .foregroundColor(.white)
+          .cornerRadius(8)
+      }
+      .padding(.vertical, 50)
     }
   }
 }
@@ -62,14 +61,12 @@ extension ProgressStepCatalog {
   var verticalView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBProgressStep(
-        pillWidth: 4,
         pillHeight: 30,
         variant: .vertical,
         progress: $progress
       )
       PBProgressStep(
         hasIcon: false,
-        pillWidth: 4,
         pillHeight: 30,
         variant: .vertical,
         progress: $progress
@@ -77,7 +74,6 @@ extension ProgressStepCatalog {
       PBProgressStep(
         hasIcon: false,
         label: "Child",
-        pillWidth: 4,
         pillHeight: 30,
         variant: .vertical,
         progress: $progress
@@ -86,19 +82,19 @@ extension ProgressStepCatalog {
   }
   var trackerView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
-     
-        //        PBProgressStep(
-        //          steps: 2,
-        //          variant: .tracker,
-        //          customLabel: ["Ordered", "Shipped", "Delivered"],
-        //          progress: $trackerProgress
-        //        )
-        PBProgressStep(
-          steps: 3,
-          variant: .tracker,
-          progress: $trackerProgress1
-        )
-
+      
+      //        PBProgressStep(
+      //          steps: 2,
+      //          variant: .tracker,
+      //          customLabel: ["Ordered", "Shipped", "Delivered"],
+      //          progress: $trackerProgress
+      //        )
+      PBProgressStep(
+        steps: 3,
+        variant: .tracker,
+        progress: $trackerProgress1
+      )
+      
     }
   }
 }
