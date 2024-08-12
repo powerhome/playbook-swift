@@ -150,12 +150,20 @@ extension CardCatalog {
   
   var shadow: some View {
     VStack(spacing: Spacing.small) {
-      ForEach(Shadow.allCases, id: \.self) { shadow in
-        PBCard(shadow: shadow) {
-          Text(shadow.rawValue.capitalized).pbFont(.body)
-        }
+      PBCard(shadow: .deep) {
+        Text("Deep")
+      }
+      PBCard(shadow: .deeper) {
+        Text("Deeper")
+      }
+      PBCard(shadow: .deepest) {
+        Text("Deepest")
+      }
+      PBCard(shadow: Shadow.none) {
+        Text("None")
       }
     }
+    .pbFont(.body)
   }
   
   var separator: some View {

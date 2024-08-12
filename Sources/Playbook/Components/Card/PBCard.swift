@@ -17,7 +17,7 @@ public struct PBCard<Content: View>: View {
   let highlight: Highlight
   let padding: CGFloat
   let style: PBCardStyle
-  let shadow: Shadow?
+  let shadow: Shadow
   let width: CGFloat?
   let isHovering: Bool
   let content: Content
@@ -30,7 +30,7 @@ public struct PBCard<Content: View>: View {
     highlight: Highlight = .none,
     padding: CGFloat = Spacing.medium,
     style: PBCardStyle = .default,
-    shadow: Shadow? = nil,
+    shadow: Shadow = .none,
     width: CGFloat? = .infinity,
     isHovering: Bool = false,
     @ViewBuilder content: () -> Content
@@ -59,7 +59,7 @@ public struct PBCard<Content: View>: View {
     .clipShape(
       RoundedRectangle(cornerRadius: borderRadius, style: .circular)
     )
-    .pbShadow(shadow ?? .none)
+    .pbShadow(shadowColor)
     .overlay(
       RoundedRectangle(cornerRadius: borderRadius, style: .circular)
         .strokeBorder(
@@ -101,6 +101,13 @@ public extension PBCard {
     } else {
       return Color.Card.background(colorScheme)
     }
+  }
+
+  var shadowColor: Shadow {
+    if colorScheme == .dark {
+      return shadow == Shadow.none ? .none : .shadowDark
+    }
+      return shadow == Shadow.none ? .none : shadow
   }
 }
 
