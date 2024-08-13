@@ -140,7 +140,7 @@ public extension PBMultipleUsers {
   var bubbleBackgroundColor: Color {
     switch colorScheme {
     case .light: return Color.background(.light)
-    case .dark: return Color.background(.dark)
+    case .dark: return Color.Card.background(.dark)
     default:
       return Color.background(.light)
     }
