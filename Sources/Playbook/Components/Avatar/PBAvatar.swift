@@ -159,8 +159,8 @@ public extension PBAvatar {
   }
   var avatarBorderColor: Color {
     switch colorScheme {
-    case .light: return Color.white
-    case .dark: return Color.background(.dark)
+    case .light: return Color.BorderColor.background(.light)
+    case .dark: return Color.BorderColor.background(.dark)
     default:
       return Color.white
       
