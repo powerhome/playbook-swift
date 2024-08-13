@@ -10,21 +10,22 @@
 import SwiftUI
 
 public struct PBOnlineStatus: View {
-    let color: Color
-    let size: Size
-    let borderColor: Color?
+  let color: Color
+  let size: Size
+  let borderColor: Color?
   let variant: Variant
-    public init(
-        color: Color = .status(.neutral),
-        size: Size = .small,
-        borderColor: Color? = .white,
-        variant: Variant = .border
-    ) {
-        self.borderColor = borderColor
-        self.color = color
-        self.size = size
-      self.variant = variant
-    }
+  @Environment(\.colorScheme) var colorScheme
+  public init(
+    color: Color = .status(.neutral),
+    size: Size = .small,
+    borderColor: Color? = .white,
+    variant: Variant = .border
+  ) {
+    self.borderColor = borderColor
+    self.color = color
+    self.size = size
+    self.variant = variant
+  }
   public var body: some View {
     statusView
   }
@@ -47,7 +48,7 @@ public extension PBOnlineStatus {
   
   var _borderColor: Color {
     switch variant {
-    case .border: return borderColor ?? .clear
+    case .border: return colorScheme == .dark ? Color(hex: "#0a0527") : borderColor ?? .clear
     case .borderless: return .clear
     }
   }
@@ -71,6 +72,6 @@ public extension PBOnlineStatus {
 }
 
 #Preview {
-    registerFonts()
-    return PBOnlineStatus()
+  registerFonts()
+  return PBOnlineStatus()
 }

@@ -53,13 +53,9 @@ public struct PBAvatar: View {
           .frame(width: size.diameter + 1, height: size.diameter + 1)
       }
 
-      if let statusColor = self.status?.color {
-        Circle()
-          .foregroundColor(statusColor)
-          .overlay(
-            Circle().stroke(Color.white, lineWidth: 2)
-          )
-          .frame(width: 8.0, height: 8.0)
+      
+      if let status = self.status {
+        status._status
           .offset(
             x: (size.diameter/2 - size.diameter/9) * size.statusXModifier,
             y: (size.diameter/2 - size.diameter/6) * size.statusYModifier
@@ -152,12 +148,12 @@ public extension PBAvatar {
     case away
     case offline
     case online
-
-    var color: Color {
+    
+    var _status: PBOnlineStatus {
       switch self {
-      case .online: return .status(.success)
-      case .away: return .status(.warning)
-      case .offline: return .status(.neutral)
+      case .online: return PBOnlineStatus(color: .status(.success), size: .small, variant: .border)
+      case .away: return PBOnlineStatus(color: .status(.warning), size: .small, variant: .border)
+      case .offline: return PBOnlineStatus(color: .status(.neutral), size: .small, variant: .border)
       }
     }
   }
