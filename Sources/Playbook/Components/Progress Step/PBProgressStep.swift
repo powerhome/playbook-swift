@@ -151,9 +151,7 @@ extension PBProgressStep {
     return ZStack(alignment: .leading) {
       HStack(spacing: 0) {
         ForEach(0..<steps, id: \.self) { step in
-          
-          
-          Group {
+        
           HStack(spacing: 0) {
             circleIcon(
               icon: .check,
@@ -168,71 +166,38 @@ extension PBProgressStep {
               offsetY: 0,
               opacity: 1
             )
+            .padding(step <= progress-1 ? 4 : 0)
+            .padding(.leading, step == progress-1 ? 4 : 0)
+            .background(step <= progress-1 ? .black : .clear)
             
-            
+            .clipShape(
+                .rect(
+                    topLeadingRadius: 0,
+                    bottomLeadingRadius: 0,
+                    bottomTrailingRadius: 12,
+                    topTrailingRadius: 12
+                )
+            )
+
             if step < steps - 1 {
               Spacer()
-                
             }
           }
-        }
-          .padding(padding)
-          .background(step < progress-1 ? .black : .text(.lighter))
+          .background(step < progress-1 ? .black : .clear)
         }
       }
-//      .padding(padding)
-//      .background(step < progress ? .black : .text(.lighter))
+      .padding(.trailing, progress < steps ? padding : 0)
       .background(Color.gray)
       .clipShape(RoundedRectangle(cornerRadius: 12))
-      
     }
   }
-  
-//  func progressFrame(width: CGFloat) -> CGFloat {
-//    return CGFloat(
-//      ((Int(width)/steps) * progress) - (Int(circleSize)) + (Int(padding-2) * progress)
-//    )
-//  }
-//  
-
-//  ---------- 4 steps
-//  func progressFrame(width: CGFloat) -> CGFloat {
-//    return CGFloat(
-//      ((Int(width)/steps) * progress) - ((steps-progress)*(Int(padding) + Int(circleSize))) + 2
-//    )
-//  }
-  
-//  func progressFrame(width: CGFloat) -> CGFloat {
-//    if progress > steps {
-//      return width
-//    } else {
-//      return CGFloat(
-//        ((Int(width)/steps) * progress) - ((steps-progress)*(Int(padding) + Int(circleSize))) + 2
-//      )
-//    }
-//  }
-  
-  func progressFrame(width: CGFloat) -> CGFloat {
-    if progress > steps {
-      return width
-    } else {
-      return CGFloat(
-        ((Int(width)/steps))
-      )
-    }
-  }
-  
 }
 
 #Preview {
   registerFonts()
-  @State var progress: Int = 2
+  @State var progress: Int = 3
   return VStack {
     PBProgressStep(variant: .horizontal)
-    
-//    PBProgressStep(variant: .vertical)
-//    
-    
     PBProgressStep(steps: 2, variant: .tracker, progress: $progress)
     PBProgressStep(steps: 3, variant: .tracker, progress: $progress)
     PBProgressStep(steps: 4, variant: .tracker, progress: $progress)
@@ -240,5 +205,6 @@ extension PBProgressStep {
     PBProgressStep(steps: 6, variant: .tracker, progress: $progress)
     PBProgressStep(steps: 7, variant: .tracker, progress: $progress)
     PBProgressStep(steps: 8, variant: .tracker, progress: $progress)
-  }.padding()
+  }
+  .padding()
 }
