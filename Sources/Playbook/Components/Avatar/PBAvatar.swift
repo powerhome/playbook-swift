@@ -15,7 +15,7 @@ public struct PBAvatar: View {
   var size: Size
   var status: PresenceStatus?
   var wrapped: Bool
-
+  @Environment(\.colorScheme) var colorScheme
   public init(
     image: Image? = nil,
     name: String? = nil,
@@ -49,7 +49,7 @@ public struct PBAvatar: View {
 
       if wrapped {
         Circle()
-          .strokeBorder(Color.white, lineWidth: 1)
+          .strokeBorder(avatarBorderColor, lineWidth: 1)
           .frame(width: size.diameter + 1, height: size.diameter + 1)
       }
 
@@ -155,6 +155,15 @@ public extension PBAvatar {
       case .away: return PBOnlineStatus(color: .status(.warning), size: .small, variant: .border)
       case .offline: return PBOnlineStatus(color: .status(.neutral), size: .small, variant: .border)
       }
+    }
+  }
+  var avatarBorderColor: Color {
+    switch colorScheme {
+    case .light: return Color.white
+    case .dark: return Color.background(.dark)
+    default:
+      return Color.white
+      
     }
   }
 }
