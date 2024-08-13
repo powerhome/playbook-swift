@@ -48,7 +48,7 @@ public extension PBOnlineStatus {
   
   var _borderColor: Color {
     switch variant {
-    case .border: return colorScheme == .dark ? Color(hex: "#0a0527") : borderColor ?? .clear
+    case .border: return colorScheme == .dark ? Color.background(.dark) : borderColor ?? .clear
     case .borderless: return .clear
     }
   }
