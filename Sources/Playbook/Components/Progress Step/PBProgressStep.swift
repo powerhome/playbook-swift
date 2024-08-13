@@ -33,7 +33,6 @@ public struct PBProgressStep: View {
     iconSize: PBIcon.IconSize = .custom(9),
     label: String? = nil,
     showLabelIndex: Bool = false,
-    //    pillWidth: CGFloat = 100,
     pillHeight: CGFloat = 4,
     steps: Int = 6,
     variant: Variant = .horizontal,
@@ -45,7 +44,6 @@ public struct PBProgressStep: View {
     self.iconSize = iconSize
     self.label = label
     self.showLabelIndex = showLabelIndex
-    //    self.pillWidth = pillWidth
     self.pillHeight = pillHeight
     self.steps = steps
     self.variant = variant
@@ -111,16 +109,11 @@ public extension PBProgressStep {
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
     ZStack {
       circleIcon(
-        icon: icon,
-        iconSize: iconSize,
-        strokeColor: isActive ? Color.pbPrimary : Color.white,
-        lineWidth: lineWidth,
-        background: isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear,
-        circleWidth: circleWidth(isActive: isActive),
-        circleHeight: circleWidth(isActive: isActive),
-        iconColor: isComplete || isActive ? Color.white : Color.border,
-        offsetX: 0,
-        offsetY: 0,
+        icon: PBIcon(icon, size: iconSize, color: isComplete || isActive ? Color.white : Color.border),
+        borderColor: isActive ? Color.pbPrimary : Color.white,
+        borderWidth: lineWidth,
+        backgroundColor: isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear,
+        diameter: circleWidth(isActive: isActive),
         opacity: isComplete && hasIcon ? 1 : 0
       )
       .padding(.horizontal, isActive ? 3 : 1)
@@ -147,29 +140,36 @@ public extension PBProgressStep {
 }
 
 extension PBProgressStep {
+  
+  
+  func iconState(step: Int) -> TrackerCircleIcon.State {
+    if step < progress-1 {
+      return .active
+    } else if step == progress-1 {
+      return .complete
+    } else {
+      return .inactive
+    }
+  }
+  
+  func circleBackgroundColor(step: Int) -> Color {
+    return step <= progress-1 ? Color.pbPrimary : .clear
+  }
+  
+  func backgroundColor(step: Int) -> Color {
+    return step < progress-1 ? Color.pbPrimary : .clear
+  }
+  
+  
   var trackerView: some View {
     return ZStack(alignment: .leading) {
       HStack(spacing: 0) {
         ForEach(0..<steps, id: \.self) { step in
         
           HStack(spacing: 0) {
-            circleIcon(
-              icon: .check,
-              iconSize: .small,
-              strokeColor: .border,
-              lineWidth: lineWidth,
-              background: step < progress ? .black : progress == step ? .border : .text(.lighter),
-              circleWidth: circleSize,
-              circleHeight: circleSize,
-              iconColor: step < progress ? .white : step == progress ? .pbPrimary : .clear,
-              offsetX: 0,
-              offsetY: 0,
-              opacity: 1
-            )
-            .padding(step <= progress-1 ? 4 : 0)
-            .padding(.leading, step == progress-1 ? 4 : 0)
-            .background(step <= progress-1 ? .black : .clear)
-            
+            TrackerCircleIcon(state: iconState(step: step))
+            .padding(padding)
+            .background(circleBackgroundColor(step: step))
             .clipShape(
                 .rect(
                     topLeadingRadius: 0,
@@ -183,28 +183,93 @@ extension PBProgressStep {
               Spacer()
             }
           }
-          .background(step < progress-1 ? .black : .clear)
+          .background(backgroundColor(step: step))
         }
       }
       .padding(.trailing, progress < steps ? padding : 0)
-      .background(Color.gray)
+      .padding(.leading, progress == 0 ? padding : 0)
+      .background(Color.border)
       .clipShape(RoundedRectangle(cornerRadius: 12))
     }
   }
 }
 
+
+struct TrackerCircleIcon: View {
+  var state: State
+  
+  var body: some View {
+    Circle()
+      .stroke(state.border.0, lineWidth: state.border.1)
+      .background(Circle().fill(state.background))
+      .overlay { state.icon }
+      .frame(width: state.size)
+  }
+  
+  enum State {
+    case inactive, active, complete
+    
+    var size: CGFloat {
+      switch self {
+        case .active, .complete: return 16
+        case .inactive: return 12
+      }
+    }
+    
+    var background: Color {
+      switch self {
+        case .active: return .background(.dark)
+        case .complete: return Color(hex: "#d1ddf6ff")
+        case .inactive: return .status(.neutral)
+      }
+    }
+    
+    var icon: PBIcon? {
+      switch self {
+        case .active: return PBIcon(FontAwesome.check, size: .custom(8), color: .white)
+        case .complete: return PBIcon(FontAwesome.check, size: .custom(8), color: .background(.dark))
+        case .inactive: return nil
+      }
+    }
+    
+    var border: (Color, CGFloat) {
+      return (.clear, 2)
+    }
+  }
+
+}
+
+
 #Preview {
   registerFonts()
-  @State var progress: Int = 3
-  return VStack {
-    PBProgressStep(variant: .horizontal)
-    PBProgressStep(steps: 2, variant: .tracker, progress: $progress)
-    PBProgressStep(steps: 3, variant: .tracker, progress: $progress)
-    PBProgressStep(steps: 4, variant: .tracker, progress: $progress)
-    PBProgressStep(steps: 5, variant: .tracker, progress: $progress)
-    PBProgressStep(steps: 6, variant: .tracker, progress: $progress)
-    PBProgressStep(steps: 7, variant: .tracker, progress: $progress)
-    PBProgressStep(steps: 8, variant: .tracker, progress: $progress)
+  return ProgressTracker()
+}
+ 
+struct ProgressTracker: View {
+  @State var progress: Int = 0
+  
+  var body: some View {
+    VStack {
+      
+      Text("\(progress)")
+      
+      PBProgressStep(variant: .horizontal)
+      PBProgressStep(steps: 2, variant: .tracker, progress: $progress)
+      PBProgressStep(steps: 3, variant: .tracker, progress: $progress)
+      PBProgressStep(steps: 4, variant: .tracker, progress: $progress)
+      PBProgressStep(steps: 5, variant: .tracker, progress: $progress)
+      PBProgressStep(steps: 6, variant: .tracker, progress: $progress)
+      PBProgressStep(steps: 7, variant: .tracker, progress: $progress)
+      PBProgressStep(steps: 8, variant: .tracker, progress: $progress)
+      
+      PBButton(title: "Increment") {
+        progress += 1
+      }
+      
+      PBButton(title: "Decrement") {
+        progress -= 1
+      }
+    }
+    .padding()
   }
-  .padding()
 }

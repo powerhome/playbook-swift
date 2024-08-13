@@ -11,27 +11,26 @@ import SwiftUI
 
 extension View {
   func circleIcon(
-    icon: FontAwesome,
-    iconSize: PBIcon.IconSize,
-    strokeColor: Color,
-    lineWidth: CGFloat, background: Color,
-    circleWidth: CGFloat,
-    circleHeight: CGFloat,
-    iconColor: Color,
-    offsetX: CGFloat?,
-    offsetY: CGFloat?,
+    icon: PBIcon?,
+    borderColor: Color,
+    borderWidth: CGFloat,
+    backgroundColor: Color,
+    diameter: CGFloat,
+    offsetX: CGFloat? = nil,
+    offsetY: CGFloat? = nil,
     opacity: Double?
   ) -> some View {
     Circle()
-      .stroke(strokeColor, lineWidth: lineWidth)
-      .background(Circle().fill(background))
-      .frame(width: circleWidth, height: circleHeight)
+      .stroke(borderColor, lineWidth: borderWidth)
+      .background(Circle().fill(backgroundColor))
+      .frame(width: diameter)
       .overlay {
-        PBIcon(icon, size: iconSize)
-          .foregroundStyle(iconColor)
-          .opacity(opacity ?? 1)
+        if let icon = icon {
+          PBIcon(icon.icon, size: icon.size, color: icon.color)
+            .opacity(opacity ?? 1)
+        }
       }
       .offset(x: offsetX ?? 0, y: offsetY ?? 0)
-      
   }
 }
+
