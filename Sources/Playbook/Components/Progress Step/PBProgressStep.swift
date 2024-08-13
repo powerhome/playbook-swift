@@ -21,9 +21,11 @@ public struct PBProgressStep: View {
   let customLabel: [String]
   @Binding var progress: Int
   @State private var pillWidth: CGFloat?
+  @State private var currentStep: Int = 1
   
   let circleSize: CGFloat = 18
   let padding: CGFloat = 4
+  let lineWidth: CGFloat = 2
   
   public init(
     hasIcon: Bool = true,
@@ -33,7 +35,7 @@ public struct PBProgressStep: View {
     showLabelIndex: Bool = false,
     //    pillWidth: CGFloat = 100,
     pillHeight: CGFloat = 4,
-    steps: Int = 4,
+    steps: Int = 6,
     variant: Variant = .horizontal,
     customLabel: [String] = ["1", "2", "3"],
     progress: Binding<Int> = .constant(1)
@@ -112,7 +114,7 @@ public extension PBProgressStep {
         icon: icon,
         iconSize: iconSize,
         strokeColor: isActive ? Color.pbPrimary : Color.white,
-        lineWidth: 2,
+        lineWidth: lineWidth,
         background: isComplete ? Color.pbPrimary : !isActive ? Color.border : Color.clear,
         circleWidth: circleWidth(isActive: isActive),
         circleHeight: circleWidth(isActive: isActive),
@@ -145,93 +147,98 @@ public extension PBProgressStep {
 }
 
 extension PBProgressStep {
-  
   var trackerView: some View {
-    
-    
     return ZStack(alignment: .leading) {
-      HStack(spacing: nil) {
+      HStack(spacing: 0) {
         ForEach(0..<steps, id: \.self) { step in
-          circleIcon(
-            icon: .check,
-            iconSize: .small,
-            strokeColor: .border,
-            lineWidth: 2,
-            background: step < progress ? .black : progress == step ? .border : .text(.lighter),
-            circleWidth: circleSize,
-            circleHeight: circleSize,
-            iconColor: step < progress ? .white : step == progress ? .pbPrimary : .clear,
-            offsetX: 0,
-            offsetY: 0,
-            opacity: 1
-          )
-          if step < steps - 1 {
-            Spacer()
+          
+          
+          Group {
+          HStack(spacing: 0) {
+            circleIcon(
+              icon: .check,
+              iconSize: .small,
+              strokeColor: .border,
+              lineWidth: lineWidth,
+              background: step < progress ? .black : progress == step ? .border : .text(.lighter),
+              circleWidth: circleSize,
+              circleHeight: circleSize,
+              iconColor: step < progress ? .white : step == progress ? .pbPrimary : .clear,
+              offsetX: 0,
+              offsetY: 0,
+              opacity: 1
+            )
             
+            
+            if step < steps - 1 {
+              Spacer()
+                
+            }
           }
         }
+          .padding(padding)
+          .background(step < progress-1 ? .black : .text(.lighter))
+        }
       }
-      
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(padding)
+//      .padding(padding)
+//      .background(step < progress ? .black : .text(.lighter))
       .background(Color.gray)
       .clipShape(RoundedRectangle(cornerRadius: 12))
-      .frameReader(in: { pillWidth = $0.width })
       
-      if let width = pillWidth {
-        
-        HStack(spacing: 0) {
-          circleIcon(
-            icon: .check,
-            iconSize: .small,
-            strokeColor: .clear,
-            lineWidth: 2,
-            background: .clear,
-            circleWidth: 18,
-            circleHeight: 18,
-            iconColor: .clear,
-            offsetX: 0,
-            offsetY: 0,
-            opacity: 1
-          )
-            Spacer()
-        }
-        .padding(padding)
-        .frame(width: progressFrame(width: width))
-        .background(Color.pink.opacity(0.4))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-      
-//        .frame(width: (width/CGFloat(steps-1)) * CGFloat(progress-1), alignment: .leading)
-//        .frame(width: (width/CGFloat(steps-1) * CGFloat(progress-1)) + (circleWidth(isActive: true)) + 8/CGFloat(progress-1), alignment: .leading)
-//        .frame(width: (width/CGFloat(steps-1) * CGFloat(progress-1)) , alignment: .leading)
-        //          }
-        
-        
-        
-      }
     }
   }
   
-  
-  
+//  func progressFrame(width: CGFloat) -> CGFloat {
+//    return CGFloat(
+//      ((Int(width)/steps) * progress) - (Int(circleSize)) + (Int(padding-2) * progress)
+//    )
+//  }
+//  
 
+//  ---------- 4 steps
+//  func progressFrame(width: CGFloat) -> CGFloat {
+//    return CGFloat(
+//      ((Int(width)/steps) * progress) - ((steps-progress)*(Int(padding) + Int(circleSize))) + 2
+//    )
+//  }
+  
+//  func progressFrame(width: CGFloat) -> CGFloat {
+//    if progress > steps {
+//      return width
+//    } else {
+//      return CGFloat(
+//        ((Int(width)/steps) * progress) - ((steps-progress)*(Int(padding) + Int(circleSize))) + 2
+//      )
+//    }
+//  }
   
   func progressFrame(width: CGFloat) -> CGFloat {
-    return CGFloat(
-      ((Int(width)/steps) * progress) - ((steps-progress)*(Int(padding) + Int(circleSize)))
-    )
+    if progress > steps {
+      return width
+    } else {
+      return CGFloat(
+        ((Int(width)/steps))
+      )
+    }
   }
   
 }
 
 #Preview {
   registerFonts()
+  @State var progress: Int = 2
   return VStack {
     PBProgressStep(variant: .horizontal)
     
-    PBProgressStep(variant: .vertical)
+//    PBProgressStep(variant: .vertical)
+//    
     
-    
-    PBProgressStep(variant: .tracker)
+    PBProgressStep(steps: 2, variant: .tracker, progress: $progress)
+    PBProgressStep(steps: 3, variant: .tracker, progress: $progress)
+    PBProgressStep(steps: 4, variant: .tracker, progress: $progress)
+    PBProgressStep(steps: 5, variant: .tracker, progress: $progress)
+    PBProgressStep(steps: 6, variant: .tracker, progress: $progress)
+    PBProgressStep(steps: 7, variant: .tracker, progress: $progress)
+    PBProgressStep(steps: 8, variant: .tracker, progress: $progress)
   }.padding()
 }
