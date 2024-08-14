@@ -10,10 +10,10 @@
 import SwiftUI
 
 public struct ProgressStepCatalog: View {
-  @State private var progress: Int = 1
+  @State private var progress: Int = 0
   @State private var progress1: Int = 1
-  @State private var trackerProgress: Int = 10
-  @State private var trackerProgress1: Int = 7
+  @State private var trackerProgress: Int = 1
+  @State private var trackerProgress1: Int = 1
   
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
@@ -30,8 +30,8 @@ public struct ProgressStepCatalog: View {
       Button(action: {
         progress += 1
         progress1 += 1
+        trackerProgress += 1
         trackerProgress1 += 1
-        
       }) {
         Text("Submit")
           .padding()
@@ -50,7 +50,6 @@ extension ProgressStepCatalog {
         progress: $progress
       )
       PBProgressStep(
-        hasIcon: false,
         label: "Step",
         showLabelIndex: true,
         progress: $progress1
@@ -66,13 +65,11 @@ extension ProgressStepCatalog {
         progress: $progress
       )
       PBProgressStep(
-        hasIcon: false,
         pillHeight: 30,
         variant: .vertical,
         progress: $progress
       )
       PBProgressStep(
-        hasIcon: false,
         label: "Child",
         pillHeight: 30,
         variant: .vertical,
@@ -82,13 +79,12 @@ extension ProgressStepCatalog {
   }
   var trackerView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
-      
-      //        PBProgressStep(
-      //          steps: 2,
-      //          variant: .tracker,
-      //          customLabel: ["Ordered", "Shipped", "Delivered"],
-      //          progress: $trackerProgress
-      //        )
+              PBProgressStep(
+                steps: 2,
+                variant: .tracker,
+                customLabel: ["Ordered", "Shipped", "Delivered"],
+                progress: $trackerProgress
+              )
       PBProgressStep(
         steps: 3,
         variant: .tracker,

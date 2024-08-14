@@ -12,12 +12,11 @@ import SwiftUI
 extension View {
   func circleIcon(
     icon: PBIcon?,
+    iconColor: Color,
     borderColor: Color,
     borderWidth: CGFloat,
     backgroundColor: Color,
     diameter: CGFloat,
-    offsetX: CGFloat? = nil,
-    offsetY: CGFloat? = nil,
     opacity: Double?
   ) -> some View {
     Circle()
@@ -26,11 +25,11 @@ extension View {
       .frame(width: diameter)
       .overlay {
         if let icon = icon {
-          PBIcon(icon.icon, size: icon.size, color: icon.color)
+          PBIcon(icon.icon, size: icon.size)
+            .foregroundStyle(iconColor)
             .opacity(opacity ?? 1)
         }
       }
-      .offset(x: offsetX ?? 0, y: offsetY ?? 0)
   }
 }
 
