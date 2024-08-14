@@ -43,7 +43,7 @@ public extension PBPill {
       case .info: return .status(.info)
       case .primary: return .pbPrimary
       case .success: return .status(.success)
-      case .warning: return Color(hex: "#C69500")
+      case .warning: return .text(.warningText)
       default: return .text(.light)
       }
     }
