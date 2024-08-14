@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct ProgressStepCatalog: View {
-  @State private var progress: Int = 0
+  @State private var progress: Int = 1
   @State private var progress1: Int = 1
   @State private var trackerProgress: Int = 1
   @State private var trackerProgress1: Int = 1
@@ -58,12 +58,7 @@ extension ProgressStepCatalog {
     .padding(.bottom, 30)
   }
   var verticalView: some View {
-    VStack(alignment: .leading, spacing: Spacing.medium) {
-      PBProgressStep(
-        pillHeight: 30,
-        variant: .vertical,
-        progress: $progress
-      )
+    HStack(spacing: Spacing.xLarge) {
       PBProgressStep(
         pillHeight: 30,
         variant: .vertical,
@@ -79,12 +74,12 @@ extension ProgressStepCatalog {
   }
   var trackerView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
-              PBProgressStep(
-                steps: 2,
-                variant: .tracker,
-                customLabel: ["Ordered", "Shipped", "Delivered"],
-                progress: $trackerProgress
-              )
+      PBProgressStep(
+        steps: 2,
+        variant: .tracker,
+        customLabel: ["Ordered", "Shipped", "Delivered"],
+        progress: $trackerProgress
+      )
       PBProgressStep(
         steps: 3,
         variant: .tracker,
