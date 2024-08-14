@@ -11,20 +11,25 @@ import SwiftUI
 
 public struct PBToast: View {
   let text: String?
+  let font: PBFont
   let variant: Variant
   let actionView: DismissAction?
   let dismissAction: (() -> Void)
-
+  let content: (() -> AnyView)?
   public init(
     text: String? = nil,
+    font: PBFont = .title4,
     variant: Variant = .custom(nil, .clear),
     actionView: DismissAction? = nil,
-    dismissAction: @escaping (() -> Void)
+    dismissAction: @escaping (() -> Void),
+    content: (() -> AnyView)? = nil
   ) {
     self.text = text
+    self.font = font
     self.variant = variant
     self.actionView = actionView
     self.dismissAction = dismissAction
+    self.content = content
   }
 
   public var body: some View {
@@ -34,14 +39,18 @@ public struct PBToast: View {
       }
       if let text = text {
         Text(text)
-          .pbFont(.title4, color: .white)
+          .pbFont(font, color: .white)
           .padding(.horizontal, Spacing.medium)
       }
+      if let content = content {
+        content()
+      } 
       if let dismiss = actionView, let view = dismiss.view {
         view.onTapGesture {
           dismissAction()
         }
       }
+      
     }
     .onAppear {
       if let dismiss = actionView {
