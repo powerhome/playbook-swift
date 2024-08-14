@@ -23,9 +23,20 @@ public struct MultipleUsersCatalog: View {
       PBDoc(title: "Small Reverse") {
         smallReverseView
       }
-
+      
       PBDoc(title: "Small Bubble") {
         smallUserBubbleView
+      }
+      
+      PBDoc(title: "Medium Bubble") {
+        medUserBubbleView
+      }
+      
+      PBDoc(title: "Large Bubble") {
+        largeUserBubbleView
+      }
+      PBDoc(title: "Extra Large Bubble") {
+        xLargeUserBubbleView
       }
     }
   }
@@ -61,6 +72,72 @@ extension MultipleUsersCatalog {
         users: Mocks.multipleUsers,
         variant: .bubble,
         bubbleSize: .small,
+        bubbleCount: .four
+      )
+    }
+  }
+  var medUserBubbleView: some View {
+    HStack(spacing: Spacing.small) {
+      PBMultipleUsers(
+        users: Mocks.twoUsers,
+        variant: .bubble,
+        bubbleSize: .medium,
+        bubbleCount: .two
+      )
+      PBMultipleUsers(
+        users: Mocks.threeUsers,
+        variant: .bubble,
+        bubbleSize: .medium,
+        bubbleCount: .three
+      )
+      PBMultipleUsers(
+        users: Mocks.multipleUsers,
+        variant: .bubble,
+        bubbleSize: .medium,
+        bubbleCount: .four
+      )
+    }
+  }
+  var largeUserBubbleView: some View {
+    HStack(spacing: Spacing.small) {
+      PBMultipleUsers(
+        users: Mocks.twoUsers,
+        variant: .bubble,
+        bubbleSize: .large,
+        bubbleCount: .two
+      )
+      PBMultipleUsers(
+        users: Mocks.threeUsers,
+        variant: .bubble,
+        bubbleSize: .large,
+        bubbleCount: .three
+      )
+      PBMultipleUsers(
+        users: Mocks.multipleUsers,
+        variant: .bubble,
+        bubbleSize: .large,
+        bubbleCount: .four
+      )
+    }
+  }
+  var xLargeUserBubbleView: some View {
+    HStack(spacing: Spacing.small) {
+      PBMultipleUsers(
+        users: Mocks.twoUsers,
+        variant: .bubble,
+        bubbleSize: .xLarge,
+        bubbleCount: .two
+      )
+      PBMultipleUsers(
+        users: Mocks.threeUsers,
+        variant: .bubble,
+        bubbleSize: .xLarge,
+        bubbleCount: .three
+      )
+      PBMultipleUsers(
+        users: Mocks.multipleUsers,
+        variant: .bubble,
+        bubbleSize: .xLarge,
         bubbleCount: .four
       )
     }
