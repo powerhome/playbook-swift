@@ -247,8 +247,7 @@ private extension PBProgressStep {
       
       var icon: PBIcon? {
         switch self {
-          case .active: return PBIcon(FontAwesome.check, size: .custom(8))
-          case .complete: return PBIcon(FontAwesome.check, size: .custom(8))
+          case .active, .complete: return PBIcon(FontAwesome.check, size: .custom(8))
           case .inactive: return nil
         }
       }
