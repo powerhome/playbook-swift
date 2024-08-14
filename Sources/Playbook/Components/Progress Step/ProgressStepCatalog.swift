@@ -89,6 +89,7 @@ extension ProgressStepCatalog {
     }
   }
 }
+
 #Preview {
   registerFonts()
   return ProgressStepCatalog()

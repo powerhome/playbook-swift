@@ -14,6 +14,7 @@ public struct PBProgressSimple: View {
   @Binding var value: Int
   let maxValue: Int
   let progressColor: Color
+  let progressWidth: CGFloat?
   let variant: Variant
   
   public init(
@@ -21,19 +22,19 @@ public struct PBProgressSimple: View {
     value: Binding<Int> = .constant(2),
     maxValue: Int = 10,
     progressColor: Color = .pbPrimary,
-    variant: Variant = .default
-    
+    variant: Variant = .default,
+    progressWidth: CGFloat? = nil
   ) {
     self._progress = progress
     self._value = value
     self.maxValue = maxValue
     self.progressColor = progressColor
+    self.progressWidth = progressWidth
     self.variant = variant
   }
   
   public var body: some View {
     variantView
-      
   }
 }
 
@@ -58,6 +59,16 @@ public extension PBProgressSimple {
     ProgressView(value: CGFloat(value), total: CGFloat(maxValue))
       .progressViewStyle(LinearProgressViewStyle())
   }
+//  var variantView: some View {
+//    Group {
+//      switch variant {
+//      case .default: ProgressView(value: progress, total: 1)
+//      case .settingValue: ProgressView(value: CGFloat(value), total: CGFloat(maxValue))
+//      }
+//    }
+//    .tint(progressColor)
+//    .frame(width: progressWidth)
+//  }
 }
 #Preview {
   registerFonts()
