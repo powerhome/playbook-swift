@@ -19,6 +19,7 @@ public struct PBMultipleUsers: View {
   var maxDisplayedUsers: Int
   @State private var avSize: CGFloat = 20
   @Environment(\.colorScheme) var colorScheme
+
   public init(
     users: [PBUser] = [],
     size: PBAvatar.Size = .small,
