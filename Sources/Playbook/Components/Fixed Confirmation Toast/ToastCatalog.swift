@@ -135,16 +135,33 @@ public struct ToastCatalog: View {
       }
     }
   }
-
+  
   private var children: some View {
     VStack(alignment: .leading) {
+      PBToast(
+        variant: .error,
+        actionView: .default,
+        dismissAction: closeToast,
+        content: {
+          AnyView(
+            VStack {
+              Text("Coversation full.")
+                .pbFont(.title4, color: .white)
+              Text("For 10+ members please create a room")
+                .pbFont(.detail(true), color: .white)
+                .multilineTextAlignment(.center)
+            }
+              .padding(.horizontal)
+          )
+        }
+      )
       PBToast(
         text: message,
         variant: .success,
         actionView: .custom(AnyView(Text("Undo").pbFont(.title4, color: .white))),
         dismissAction: closeToast
       )
-
+      
       PBToast(
         variant: .custom(nil, .pbPrimary),
         actionView: .custom(
@@ -158,7 +175,7 @@ public struct ToastCatalog: View {
       )
     }
   }
-
+  
   private var withTimer: some View {
     HStack {
       PBButton(variant: .secondary, title: "Top Center") {
@@ -170,7 +187,7 @@ public struct ToastCatalog: View {
           dismissAction: closeToast
         )
       }
-
+      
       PBButton(variant: .secondary, title: "Bottom Center") {
         position = .bottom
         toastView = PBToast(
@@ -207,4 +224,9 @@ public struct ToastCatalog: View {
       
     }
   }
+}
+
+#Preview {
+  registerFonts()
+  return ToastCatalog()
 }
