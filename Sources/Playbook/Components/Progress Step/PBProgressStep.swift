@@ -16,20 +16,22 @@ public struct PBProgressStep: View {
   let pillHeight: CGFloat
   let steps: Int
   let variant: Variant
-  let customLabel: [String]
+  let customLabel: [String]?
+  let labelOffset: CGFloat
   let lineWidth: CGFloat = 2
   let borderRadius: CGFloat = 12
   @Binding var progress: Int
   
   public init(
+    steps: Int = 3,
+    progress: Binding<Int> = .constant(1),
     icon: PBIcon? = PBIcon(FontAwesome.check, size: .custom(9)),
     label: String? = nil,
     showLabelIndex: Bool = false,
     pillHeight: CGFloat = 4,
-    steps: Int = 6,
     variant: Variant = .horizontal,
-    customLabel: [String] = ["1", "2", "3"],
-    progress: Binding<Int> = .constant(1)
+    customLabel: [String]? = nil,
+    labelOffset: CGFloat = 0
   ) {
     self.icon = icon
     self.label = label
@@ -38,6 +40,7 @@ public struct PBProgressStep: View {
     self.steps = steps
     self.variant = variant
     self.customLabel = customLabel
+    self.labelOffset = labelOffset
     self._progress = progress
   }
   
@@ -104,19 +107,17 @@ private extension PBProgressStep {
   }
   
   func circleIconView(isActive: Bool, isComplete: Bool) -> some View {
-      Group {
-        if let icon = icon {
-        circleIcon(
-          icon: PBIcon(icon.icon, size: icon.size),
-          iconColor: (isComplete || isActive ? Color.white : Color.border),
-          borderColor: borderColor(isActive: isActive, isComplete: isComplete),
-          borderWidth: lineWidth,
-          backgroundColor: backgroundColor(isActive: isActive, isComplete: isComplete),
-          diameter: 12,
-          opacity: isComplete ? 1 : 0
-        )
-        .padding(3)
-      }
+    Group {
+      circleIcon(
+        icon: icon,
+        iconColor: (isComplete || isActive ? Color.white : Color.border),
+        borderColor: borderColor(isActive: isActive, isComplete: isComplete),
+        borderWidth: lineWidth,
+        backgroundColor: backgroundColor(isActive: isActive, isComplete: isComplete),
+        diameter: 12,
+        opacity: isComplete ? 1 : 0
+      )
+      .padding(3)
     }
   }
   
@@ -153,9 +154,11 @@ private extension PBProgressStep {
   }
   var customLabelView: some View {
     HStack(spacing: .infinity) {
-      ForEach(customLabel, id: \.count) { label in
-        Text(label)
-          .pbFont(.subcaption, variant: .bold, color: .text(.default))
+      if let customLabel = customLabel, steps == customLabel.count {
+        ForEach(customLabel, id: \.count) { label in
+          Text(label)
+            .pbFont(.subcaption, variant: .bold, color: .text(.default))
+        }
       }
     }
   }
@@ -163,7 +166,18 @@ private extension PBProgressStep {
 
 private extension PBProgressStep {
   var trackerView: some View {
-    return ZStack(alignment: .leading) {
+    return VStack(alignment: .center, spacing: Spacing.xxSmall) {
+      if let customLabel = customLabel, steps == customLabel.count {
+      HStack {
+        ForEach(Array(customLabel.enumerated()), id: \.offset) { index, label in
+          Text(label).pbFont(.caption)
+          if index < steps - 1 {
+            Spacer()
+          }
+        }
+        .padding(.horizontal, labelOffset)
+      }
+    }
       HStack(spacing: 0) {
         ForEach(0..<steps, id: \.self) { step in
           HStack(spacing: 0) {
@@ -279,13 +293,18 @@ struct ProgressTracker: View {
   @State var progress5: Int = 0
   
   var body: some View {
-    VStack {
+    VStack(spacing: Spacing.medium) {
       Text("\(progress5)")
-      PBProgressStep(variant: .horizontal, progress: $progress5)
-      PBProgressStep(steps: 3, variant: .tracker, progress: $progress2)
-      PBProgressStep(steps: 4, variant: .tracker, progress: $progress3)
-      PBProgressStep(steps: 5, variant: .tracker, progress: $progress4)
-      PBProgressStep(steps: 6, variant: .tracker, progress: $progress5)
+      PBProgressStep(progress: $progress5, variant: .horizontal)
+      PBProgressStep(steps: 3, progress: $progress2, variant: .tracker)
+      PBProgressStep(steps: 4, progress: $progress3, variant: .tracker)
+      PBProgressStep(steps: 5, progress: $progress4, variant: .tracker)
+      PBProgressStep(
+        steps: 3,
+        progress: .constant(2),
+        variant: .tracker,
+        customLabel: ["Ordered", "Shipped", "Delivered"]
+      )
       
       PBButton(title: "Increment") {
         progress2 += 1

@@ -10,11 +10,6 @@
 import SwiftUI
 
 public struct ProgressStepCatalog: View {
-  @State private var progress: Int = 1
-  @State private var progress1: Int = 1
-  @State private var trackerProgress: Int = 1
-  @State private var trackerProgress1: Int = 1
-  
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
@@ -27,19 +22,6 @@ public struct ProgressStepCatalog: View {
         trackerView
           .padding(.bottom, 50)
       }
-      Button(action: {
-        progress += 1
-        progress1 += 1
-        trackerProgress += 1
-        trackerProgress1 += 1
-      }) {
-        Text("Submit")
-          .padding()
-          .background(Color.blue)
-          .foregroundColor(.white)
-          .cornerRadius(8)
-      }
-      .padding(.vertical, 50)
     }
   }
 }
@@ -47,12 +29,22 @@ extension ProgressStepCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBProgressStep(
-        progress: $progress
+        steps: 3,
+        progress: .constant(1),
+        icon: nil
       )
       PBProgressStep(
+        steps: 5,
+        progress: .constant(2),
+        icon: nil,
         label: "Step",
-        showLabelIndex: true,
-        progress: $progress1
+        showLabelIndex: true
+      )
+      PBProgressStep(
+        steps: 3,
+        progress: .constant(3),
+        label: "Step",
+        showLabelIndex: true
       )
     }
     .padding(.bottom, 30)
@@ -60,30 +52,30 @@ extension ProgressStepCatalog {
   var verticalView: some View {
     HStack(spacing: Spacing.xLarge) {
       PBProgressStep(
+        progress: .constant(1),
         pillHeight: 30,
-        variant: .vertical,
-        progress: $progress
+        variant: .vertical
       )
       PBProgressStep(
+        progress: .constant(1),
         label: "Child",
         pillHeight: 30,
-        variant: .vertical,
-        progress: $progress
+        variant: .vertical
       )
     }
   }
   var trackerView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBProgressStep(
-        steps: 2,
+        steps: 3,
+        progress: .constant(2),
         variant: .tracker,
-        customLabel: ["Ordered", "Shipped", "Delivered"],
-        progress: $trackerProgress
+        customLabel: ["Ordered", "Shipped", "Delivered"]
       )
       PBProgressStep(
-        steps: 3,
-        variant: .tracker,
-        progress: $trackerProgress1
+        steps: 4,
+        progress: .constant(3),
+        variant: .tracker
       )
       
     }
