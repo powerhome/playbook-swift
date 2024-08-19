@@ -176,7 +176,7 @@ public extension Color {
 public extension Color {
     enum BorderColor {
             static func background(_ colorScheme: ColorScheme) -> Color {
-                return colorScheme == .light ? .white : Color(hex: "#231E3D").opacity(0.1)
+                return colorScheme == .light ? .white : Color(hex: "#231e3d").opacity(0.1)
             }
     }
 }
