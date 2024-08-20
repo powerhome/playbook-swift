@@ -49,8 +49,8 @@ extension TypeaheadCatalog {
             id: 1,
             title: "Colors",
             searchText: $searchTextColors,
+            options: $assetsColors, 
             selection: .single,
-            options: assetsColors,
             isFocused: $isFocused1
         ) {_ in }
     }
@@ -61,8 +61,8 @@ extension TypeaheadCatalog {
             title: "Users",
             placeholder: "type the name of a user",
             searchText: $searchTextUsers,
+            options: $assetsUsers, 
             selection: .multiple(variant: .pill),
-            options: assetsUsers,
             isFocused: $isFocused2
         ) {_ in }
     }
@@ -103,8 +103,8 @@ extension TypeaheadCatalog {
                         title: "Users",
                         placeholder: "type the name of a user",
                         searchText: $searchTextUsers,
+                        options: $assetsUsers, 
                         selection: .multiple(variant: .pill),
-                        options: assetsUsers,
                         dropdownMaxHeight: 300,
                         isFocused: $isFocused
                     ) { options in
