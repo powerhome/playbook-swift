@@ -78,7 +78,8 @@ extension ContentListView {
         PBNavItem(DesignElements.title)
         PBNavItem(Components.title)
       }
-      .frame(maxWidth: .infinity, minHeight: 80)
+      .scaledToFit()
+      .frame(minHeight: 80)
     }
   }
   @ViewBuilder
