@@ -45,10 +45,14 @@ extension CardCatalog {
       VStack(alignment: .leading, spacing: Spacing.small) {
         Text("Background Colors")
           .pbFont(.detail(true), color: .text(.default))
-        ForEach(Color.BackgroundColor.allCases, id: \.self) { color in
-          PBCard(backgroundColor: .background(color)) {
-            Text(color.rawValue.capitalized).pbFont(.body, color: .text(.light))
-          }
+        PBCard(backgroundColor: .background(.dark)) {
+          Text("Dark").pbFont(.body, color: .white)
+        }
+        PBCard {
+          Text("Default").pbFont(.body)
+        }
+        PBCard(backgroundColor: .background(.light)) {
+          Text("Light").pbFont(.body, color: Color(hex: "#242b42"))
         }
         
         Text("Product Colors")
@@ -146,12 +150,20 @@ extension CardCatalog {
   
   var shadow: some View {
     VStack(spacing: Spacing.small) {
-      ForEach(Shadow.allCases, id: \.self) { shadow in
-        PBCard(shadow: shadow) {
-          Text(shadow.rawValue.capitalized).pbFont(.body)
-        }
+      PBCard(shadow: .deep) {
+        Text("Deep")
+      }
+      PBCard(shadow: .deeper) {
+        Text("Deeper")
+      }
+      PBCard(shadow: .deepest) {
+        Text("Deepest")
+      }
+      PBCard(shadow: Shadow.none) {
+        Text("None")
       }
     }
+    .pbFont(.body)
   }
   
   var separator: some View {
