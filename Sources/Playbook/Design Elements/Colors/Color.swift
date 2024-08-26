@@ -172,8 +172,23 @@ public extension Color {
             }
         }
     }
+  
+  enum Card {
+    static func background(_ colorScheme: ColorScheme) -> Color {
+        return colorScheme == .light ? .card : Color(red: 35/255, green: 30/255, blue: 61/255)
+    }
+    static func foreground(_ colorScheme: ColorScheme) -> Color {
+      return colorScheme == .light ? .pbPrimary : .white
+    }
+  }
 }
-
+public extension Color {
+    enum BorderColor {
+        static func background(_ colorScheme: ColorScheme) -> Color {
+            return colorScheme == .light ? .white : Color(hex: "#231e3d").opacity(0.1)
+        }
+    }
+}
 public extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
