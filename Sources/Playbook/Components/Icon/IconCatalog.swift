@@ -49,3 +49,7 @@ public struct IconCatalog: View {
     }
   }
 }
+
+#Preview {
+  IconCatalog()
+}
