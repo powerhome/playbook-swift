@@ -18,17 +18,20 @@ public struct PBNavItem<Content: View>: View {
   var label: String?
   var icon: NavigationIcon?
   var accessory: FontAwesome?
+  let isFullWidth: Bool
   var content: Content?
-
+ 
   public init(
     _ label: String? = nil,
     icon: NavigationIcon? = nil,
     accessory: FontAwesome? = nil,
+    isFullWidth: Bool = false,
     @ViewBuilder content: @escaping () -> Content = { EmptyView() }
   ) {
     self.label = label
     self.icon = icon
     self.accessory = accessory
+    self.isFullWidth = isFullWidth
     self.content = content()
   }
 
@@ -53,9 +56,12 @@ public struct PBNavItem<Content: View>: View {
         }
       } else {
         content
-          .frame(maxWidth: .infinity, alignment: .leading)
+          .frame(maxWidth: .infinity, alignment: .center)
+        
       }
     }
+    .scaledToFill()
+    .frame(maxWidth: isFullWidth ? .infinity : nil, alignment: .center)
     .foregroundColor(captionForegroundColor)
     .padding(.horizontal, horizontalPadding)
     .padding(.vertical, verticalPadding)
@@ -225,6 +231,7 @@ extension PBNavItem {
         Rectangle()
           .frame(height: variant == .normal ? 3 : 0)
           .foregroundColor(isSelected ? .pbPrimary : .shadow)
+          
       }
     }
   }

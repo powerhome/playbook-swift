@@ -14,21 +14,21 @@ public struct PBProgressPill: View {
   let steps: Int
   let title: String?
   let value: String?
-  let pillWidth: CGFloat?
-  let pillHeight: CGFloat?
+  let pillWidth: CGFloat
+  let pillHeight: CGFloat
   let progressBarColorTrue: Color?
   let progressBarColorFalse: Color?
-  let cornerRadius: CGFloat?
+  let cornerRadius: CGFloat
   public init(
     active: Binding<Int> = .constant(2),
     steps: Int = 3,
     title: String? = nil,
     value: String? = nil,
-    pillWidth: CGFloat? = 45,
-    pillHeight: CGFloat? = 4,
+    pillWidth: CGFloat = 45,
+    pillHeight: CGFloat = 4,
     progressBarColorTrue: Color? = .pbPrimary,
     progressBarColorFalse: Color? = Color.text(.lighter),
-    cornerRadius: CGFloat? = 4
+    cornerRadius: CGFloat = 4
   ) {
     self._active = active
     self.steps = steps
@@ -81,7 +81,7 @@ extension PBProgressPill {
     }
   }
   func progressPillView(isActive: Bool) -> some View {
-    RoundedRectangle(cornerRadius: cornerRadius ?? 0)
+    RoundedRectangle(cornerRadius: cornerRadius)
       .frame(width: pillWidth, height: pillHeight)
       .foregroundColor(isActive ? progressBarColorTrue : progressBarColorFalse)
   }

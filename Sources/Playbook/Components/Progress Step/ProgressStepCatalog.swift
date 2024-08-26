@@ -10,8 +10,6 @@
 import SwiftUI
 
 public struct ProgressStepCatalog: View {
-  @State private var progress: Int = 1
-  @State private var progress1: Int = 1
   public var body: some View {
     PBDocStack(title: "Progress Step", spacing: Spacing.medium) {
       PBDoc(title: "Default") {
@@ -20,51 +18,70 @@ public struct ProgressStepCatalog: View {
       PBDoc(title: "Vertical") {
         verticalView
       }
+      PBDoc(title: "Tracker") {
+        trackerView
+          .padding(.bottom, 50)
+      }
     }
   }
 }
-
 extension ProgressStepCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBProgressStep(
-        progress: $progress
+        steps: 3,
+        progress: .constant(1),
+        icon: nil
       )
       PBProgressStep(
-        hasIcon: false,
+        steps: 5,
+        progress: .constant(2),
+        icon: nil,
         label: "Step",
-        showLabelIndex: true,
-        progress: $progress1
+        showLabelIndex: true
+      )
+      PBProgressStep(
+        steps: 3,
+        progress: .constant(3),
+        label: "Step",
+        showLabelIndex: true
       )
     }
     .padding(.bottom, 30)
   }
   var verticalView: some View {
-    VStack(alignment: .leading, spacing: Spacing.medium) {
+    HStack(spacing: Spacing.xLarge) {
       PBProgressStep(
-        pillWidth: 4,
+        progress: .constant(1),
         pillHeight: 30,
-        variant: .vertical,
-        progress: $progress
+        variant: .vertical
       )
       PBProgressStep(
-        hasIcon: false,
-        pillWidth: 4,
-        pillHeight: 30,
-        variant: .vertical,
-        progress: $progress
-      )
-      PBProgressStep(
-        hasIcon: false,
+        progress: .constant(1),
         label: "Child",
-        pillWidth: 4,
         pillHeight: 30,
-        variant: .vertical,
-        progress: $progress
+        variant: .vertical
       )
     }
   }
+  var trackerView: some View {
+    VStack(alignment: .leading, spacing: Spacing.medium) {
+      PBProgressStep(
+        steps: 3,
+        progress: .constant(2),
+        variant: .tracker,
+        customLabel: ["Ordered", "Shipped", "Delivered"]
+      )
+      PBProgressStep(
+        steps: 4,
+        progress: .constant(3),
+        variant: .tracker
+      )
+      
+    }
+  }
 }
+
 #Preview {
   registerFonts()
   return ProgressStepCatalog()
