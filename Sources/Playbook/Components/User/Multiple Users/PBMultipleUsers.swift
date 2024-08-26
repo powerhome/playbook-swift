@@ -18,7 +18,8 @@ public struct PBMultipleUsers: View {
   var bubbleCount: BubbleCount
   var maxDisplayedUsers: Int
   @State private var avSize: CGFloat = 20
-  
+  @Environment(\.colorScheme) var colorScheme
+
   public init(
     users: [PBUser] = [],
     size: PBAvatar.Size = .small,
@@ -117,7 +118,7 @@ public extension PBMultipleUsers {
       userBubbleView
     }
     .frame(width: frameSize, height: frameSize)
-    .background(Color.background(.light))
+    .background(bubbleBackgroundColor)
     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
   }
   var userBubbleView: some View {
@@ -134,6 +135,15 @@ public extension PBMultipleUsers {
         x: avatarXPosition(for: index, total: filteredUsers.0.count),
         y: avatarYPosition(for: index, total: filteredUsers.0.count)
       )
+    }
+  }
+  
+  var bubbleBackgroundColor: Color {
+    switch colorScheme {
+    case .light: return Color.background(.light)
+    case .dark: return Color.Card.background(.dark)
+    default:
+      return Color.background(.light)
     }
   }
   
