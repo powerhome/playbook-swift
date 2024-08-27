@@ -14,12 +14,12 @@ public struct PBCheckboxStyle: ToggleStyle {
   @State private var isHovering = false
   var checkboxType: PBCheckbox.CheckboxType
   let action: (() -> Void)?
-
+  @Environment(\.colorScheme) var colorScheme
   public func makeBody(configuration: Configuration) -> some View {
     HStack(spacing: Spacing.xSmall) {
       ZStack {
         RoundedRectangle(cornerRadius: 4)
-          .strokeBorder(borderColor, lineWidth: 2)
+          .strokeBorder(_borderColor, lineWidth: 2)
           .background(backgroundColor)
           .background(isHovering ? Color.hover : Color.clear)
           .clipShape(RoundedRectangle(cornerRadius: 4))
@@ -56,6 +56,15 @@ public struct PBCheckboxStyle: ToggleStyle {
     case (.default, true), (.error, true), (.indeterminate, true): return .pbPrimary
     case (.error, false): return .status(.error)
     default: return Color.border
+    }
+  }
+  
+  var _borderColor: Color {
+    switch colorScheme {
+    case .light: return borderColor
+    case .dark: return checked == false && checkboxType != .error ? Color(hex: "#e4e8f0") : borderColor
+    default:
+      return borderColor
     }
   }
 

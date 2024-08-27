@@ -43,13 +43,13 @@ public extension PBPill {
       case .info: return .status(.info)
       case .primary: return .pbPrimary
       case .success: return .status(.success)
-      case .warning: return .status(.warning)
+      case .warning: return .text(.warningText)
       default: return .text(.light)
       }
     }
 
     func backgroundColor() -> Color {
-      foregroundColor().opacity(0.12)
+      foregroundColor().opacity(0.1)
     }
   }
 }
