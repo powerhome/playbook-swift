@@ -16,6 +16,7 @@ public struct PBReactionButton: View {
   let icon: String?
   let pbIcon: PBIcon?
   let isInteractive: Bool
+  @Environment(\.colorScheme) var colorScheme
   init(
     count: Binding<Int> = .constant(0),
     isHighlighted: Bool = false,
@@ -69,19 +70,19 @@ public extension PBReactionButton {
   
   var emojiView: some View {
     return Text(icon ?? "")
-      .pbFont(.monogram(12), variant: .light, color: .text(.light))
+      .pbFont(.monogram(12), variant: .light, color: textColor)
       .padding(.leading, count > 0 ? 0 : 4)
   }
   
   var countView: some View {
     return Text(count > 0 || isInteractive == true ? "\(count)" : "")
-      .pbFont(.subcaption, variant: .light, color: .text(.light))
+      .pbFont(.subcaption, variant: .light, color: textColor)
   }
   
   var addReactionView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.faceSmilePlus, size: .small)
-        .foregroundStyle(Color.text(.lighter))
+        .foregroundStyle(textColor)
         .padding(.horizontal, 12)
     }
   }
@@ -89,11 +90,19 @@ public extension PBReactionButton {
   var pbIconView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.user, size: .small)
-        .foregroundStyle(Color.text(.lighter))
+        .foregroundStyle(textColor)
         .padding(.horizontal, 14.5)
     }
   }
   
+  var textColor: Color {
+    switch colorScheme {
+    case .light: return Color.text(.lighter)
+    case .dark: return icon != nil ? Color(hex: "#687887") : Color(hex: "#687887").opacity(0.5)
+    default:
+      return Color.text(.light)
+    }
+  }
  func highlightReaction() {
     isHighlighted.toggle()
     if !isHighlighted && isInteractive {
@@ -102,4 +111,9 @@ public extension PBReactionButton {
       count += 1
     }
   }
+}
+
+#Preview {
+  registerFonts()
+  return PBReactionButton()
 }

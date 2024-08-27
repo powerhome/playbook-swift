@@ -45,7 +45,7 @@ private struct IconCircle: ViewModifier {
         alignment: .center
       )
       .background(color.opacity(0.12))
-      .cornerRadius(diameter / 2)
+      .cornerRadius(diameter/2)
   }
 }
 
