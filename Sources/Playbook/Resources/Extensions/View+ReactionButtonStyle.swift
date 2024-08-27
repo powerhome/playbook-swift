@@ -42,4 +42,5 @@ struct ReactionButtonModifier: ViewModifier {
       #endif
       }
   }
+
 }
