@@ -16,31 +16,47 @@ public extension View {
 }
 
 struct ReactionButtonModifier: ViewModifier {
- let isHighlighted: Bool
+  let isHighlighted: Bool
   let isInteractive: Bool
   let isHovering: Bool
-  
+  @Environment(\.colorScheme) var colorScheme
   func body(content: Content) -> some View {
     content
       .padding(.vertical, 2)
       .frame(height: 28)
       .background(
-          Capsule(style: .continuous)
-            .strokeBorder(isHighlighted && isInteractive ? Color.pbPrimary : Color.border ,lineWidth: isHighlighted && isInteractive ? 2.0 : 1.0)
-            .background(isHovering ? Color.background(.light) : Color.white)
-            .animation(.easeInOut(duration: 0.3), value: isHighlighted)
-            .animation(.easeInOut(duration: 0.3), value: isHovering)
+        Capsule(style: .continuous)
+          .strokeBorder(borderColor, lineWidth: borderWidth)
+          .background(backgroundColor)
+          .animation(.easeInOut(duration: 0.3), value: isHighlighted)
+          .animation(.easeInOut(duration: 0.3), value: isHovering)
       )
       .clipShape(Capsule())
       .onHover(disabled: false) { hovering in
       #if os(macOS)
         if hovering {
-            NSCursor.pointingHand.push()
+          NSCursor.pointingHand.push()
         } else {
-            NSCursor.pointingHand.pop()
+          NSCursor.pointingHand.pop()
         }
       #endif
       }
   }
-
+  var backgroundColor: Color {
+    switch colorScheme {
+    case .light: isHovering ? Color.background(.light) : Color.white
+    case .dark: isHovering ? Color.Card.background(.dark) : Color.background(.dark)
+    default: Color.background(.light)
+    }
+  }
+  var borderColor: Color {
+    switch colorScheme {
+    case .light: isHighlighted && isInteractive ? Color.pbPrimary : Color.border
+    case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.BorderColor.borderColor(.dark)
+    default: Color.pbPrimary
+    }
+  }
+  var borderWidth: CGFloat {
+    isHighlighted && isInteractive ? 2.0 : 1.0
+  }
 }
