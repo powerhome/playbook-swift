@@ -19,7 +19,7 @@ public struct PBButton: View {
   var iconPosition: IconPosition?
   @Binding var isLoading: Bool
   let action: (() -> Void)?
-    @Environment(\.colorScheme) private var colorScheme
+  @Environment(\.colorScheme) private var colorScheme
   
   public init(
     fullWidth: Bool = false,

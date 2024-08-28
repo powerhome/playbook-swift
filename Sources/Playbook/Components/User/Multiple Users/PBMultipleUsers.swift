@@ -18,6 +18,7 @@ public struct PBMultipleUsers: View {
   var bubbleCount: BubbleCount
   var maxDisplayedUsers: Int
   @State private var avSize: CGFloat = 20
+  @Environment(\.colorScheme) var colorScheme
 
   public init(
     users: [PBUser] = [],
@@ -36,7 +37,7 @@ public struct PBMultipleUsers: View {
     self.bubbleCount = bubbleCount
     self.maxDisplayedUsers = maxDisplayedUsers
   }
-
+  
   public var body: some View {
     variantView
   }
@@ -48,10 +49,10 @@ public extension PBMultipleUsers {
   }
   @ViewBuilder
   var variantView: some View {
-      switch variant {
-      case .linear: multipleUsersView
-      case .bubble: multipleUsersBubbleView
-      }
+    switch variant {
+    case .linear: multipleUsersView
+    case .bubble: multipleUsersBubbleView
+    }
   }
   var filteredUsers: ([PBUser], Int?) {
     var displayedUsers = users
@@ -67,7 +68,7 @@ public extension PBMultipleUsers {
     let offset = size.diameter / 1.5 * CGFloat(index)
     return reversed ? -offset : offset
   }
-
+  
   var leadingPadding: CGFloat {
     let padding = size.diameter / 1.5 * CGFloat(filteredUsers.0.count - (filteredUsers.1 == 0 ? 1 : 0))
     return reversed ? padding : 0
@@ -111,114 +112,134 @@ public extension PBMultipleUsers {
   enum BubbleCount {
     case two, three, four
   }
-
+  
   var multipleUsersBubbleView: some View {
     CircularLayout {
-          userBubbleView
+      userBubbleView
     }
-    .padding(5)
-    .background(Color.background(.light))
+    .frame(width: frameSize, height: frameSize)
+    .background(bubbleBackgroundColor)
     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
   }
   var userBubbleView: some View {
     ForEach(filteredUsers.0.indices, id: \.self) { index in
       let avatarSize = avatarSize(for: index, total: filteredUsers.0.count)
-        PBAvatar(
-          image: filteredUsers.0[index].image,
-          name: filteredUsers.0[index].name,
-          size: .custom(avatarSize),
-          wrapped: true
-        )
-        .padding(index <= 1 ? -1 : -4)
-        .offset(x: avatarXPosition(for: index, total: filteredUsers.0.count), y: avatarYPosition(for: index, total: filteredUsers.0.count))
+      PBAvatar(
+        image: filteredUsers.0[index].image,
+        name: filteredUsers.0[index].name,
+        size: .custom(avatarSize),
+        wrapped: true
+      )
+      .padding(index <= 1 ? -1 : -4)
+      .offset(
+        x: avatarXPosition(for: index, total: filteredUsers.0.count),
+        y: avatarYPosition(for: index, total: filteredUsers.0.count)
+      )
+    }
+  }
+  
+  var bubbleBackgroundColor: Color {
+    switch colorScheme {
+    case .light: return Color.background(.light)
+    case .dark: return Color.Card.background(.dark)
+    default:
+      return Color.background(.light)
     }
   }
   
   func avatarSize(for index: Int, total: Int) -> CGFloat {
-      let sizes: [BubbleSize: [Int: [CGFloat]]] = [
-          .small: [
-              1: [20],
-              2: [20, 12],
-              3: [16, 12, 10],
-              4: [16, 12, 10, 8]
-          ],
-          .medium: [
-              1: [32],
-              2: [32, 16],
-              3: [24, 20, 16],
-              4: [28, 20, 16, 12]
-          ],
-          .large: [
-              1: [44],
-              2: [44, 20],
-              3: [32, 24, 20],
-              4: [36, 28, 24, 16]
-          ],
-          .xLarge: [
-              1: [56],
-              2: [56, 24],
-              3: [44, 32, 24],
-              4: [44, 32, 24, 16]
-          ]
+    let sizes: [BubbleSize: [Int: [CGFloat]]] = [
+      .small: [
+        2: [20, 12],
+        3: [16, 12, 10],
+        4: [16, 12, 10, 8]
+      ],
+      .medium: [
+        1: [32],
+        2: [32, 16],
+        3: [24, 20, 16],
+        4: [28, 20, 16, 12]
+      ],
+      .large: [
+        2: [44, 20],
+        3: [32, 24, 20],
+        4: [36, 28, 24, 16]
+      ],
+      .xLarge: [
+        2: [56, 24],
+        3: [44, 32, 24],
+        4: [44, 32, 24, 16]
       ]
+    ]
     return sizes[bubbleSize]?[total]?[index] ?? 0
   }
-
   func avatarXPosition(for index: Int, total: Int) -> CGFloat {
-    switch (total, index) {
-    case (2, 0):
-      return -6
-    case (2, 1):
-      return 8
-    case (3, 0):
-      return -6
-    case (3, 1):
-      return 3
-    case (3, 2):
-      return 8
-    case (4, 0):
-      return -6
-    case (4, 1):
-      return 1
-    case (4, 2):
-      return -4
-    case (4, 3):
-      return 24
-    default:
-      return 0
-    }
+    let positions: [BubbleSize: [Int: [CGFloat]]] = [
+      .small: [
+        2: [-6, 8],
+        3: [-6, 3, 8],
+        4: [-6, 1, -4, 24]
+      ],
+      .medium: [
+        2: [-6, 12],
+        3: [-10, 1, 13],
+        4: [-9, -7, -6, 41]
+      ],
+      .large: [
+        2: [-8, 18],
+        3: [-12, 2, 16],
+        4: [-13, -13, -8, 55]
+      ],
+      .xLarge: [
+        2: [-9, 22],
+        3: [-12, -3, 22],
+        4: [-12, -12, -10, 65]
+      ]
+    ]
+    return positions[bubbleSize]?[total]?[index] ?? 0
   }
+  
   func avatarYPosition(for index: Int, total: Int) -> CGFloat {
-    switch (total, index) {
-    case (2, 0):
-      return 0
-    case (2, 1):
-      return -2
-    case (3, 0):
-      return 0
-    case (3, 1):
-      return -4
-    case (3, 2):
-      return 4
-    case (4, 0):
-      return 0
-    case (4, 1):
-      return 4
-    case (4, 2):
-      return -4
-    case (4, 3):
-      return -10
-    default:
-      return 0
+    let positions: [BubbleSize: [Int: [CGFloat]]] = [
+      .small: [
+        2: [0, -2],
+        3: [0, -4, 4],
+        4: [0, 4, -4, -10]
+      ],
+      .medium: [
+        2: [0, -3],
+        3: [4, -5, 4],
+        4: [8, 6, -9, -15]
+      ],
+      .large: [
+        2: [0, -7],
+        3: [4, -7, 5],
+        4: [16, 9, -14, -20]
+      ],
+      .xLarge: [
+        2: [3, -6],
+        3: [9, -6, 7],
+        4: [15, 10, -15, -25]
+      ]
+    ]
+    return positions[bubbleSize]?[total]?[index] ?? 0
+  }
+  
+  var frameSize: CGFloat {
+    switch bubbleSize {
+    case .small: return 40
+    case .medium: return 60
+    case .large: return 75
+    case .xLarge: return 90
     }
   }
 }
 
 #Preview {
-    registerFonts()
-    return VStack {
-        PBMultipleUsers(users: Mocks.multipleUsers, variant: .linear)
-        PBMultipleUsers(users: Mocks.multipleUsers, variant: .bubble)
-    }
-    .padding()
+  registerFonts()
+  return VStack {
+    PBMultipleUsers(users: Mocks.multipleUsers, variant: .linear)
+    PBMultipleUsers(users: Mocks.multipleUsers, variant: .bubble)
+  }
+  .padding()
 }

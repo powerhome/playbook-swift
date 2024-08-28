@@ -49,6 +49,7 @@ public enum Components: String, CaseIterable {
   case pill
   case popover
   case progressPill = "Progress Pill"
+  case progressStep = "Progress Step"
   case progressSimple = "Progress Simple"
   case radio
   case sectionSeparator = "Section Separator"
@@ -110,6 +111,7 @@ public enum Components: String, CaseIterable {
     case .pill: PillCatalog()
     case .popover: PopoverCatalog()
     case .progressPill: ProgressPillCatalog()
+    case .progressStep: ProgressStepCatalog()
     case .progressSimple: ProgressSimpleCatalog()
     case .radio: RadioCatalog()
     case .sectionSeparator: SectionSeparatorCatalog()
