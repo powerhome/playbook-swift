@@ -33,13 +33,13 @@ struct ReactionButtonModifier: ViewModifier {
       )
       .clipShape(Capsule())
       .onHover(disabled: false) { hovering in
-      #if os(macOS)
+        #if os(macOS)
         if hovering {
           NSCursor.pointingHand.push()
         } else {
           NSCursor.pointingHand.pop()
         }
-      #endif
+        #endif
       }
   }
   var backgroundColor: Color {
@@ -52,7 +52,7 @@ struct ReactionButtonModifier: ViewModifier {
   var borderColor: Color {
     switch colorScheme {
     case .light: isHighlighted && isInteractive ? Color.pbPrimary : Color.border
-    case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.BorderColor.borderColor(.dark)
+    case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.white.opacity(0.09)
     default: Color.pbPrimary
     }
   }
