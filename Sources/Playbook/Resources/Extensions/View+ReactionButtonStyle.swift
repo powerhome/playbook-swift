@@ -42,6 +42,7 @@ struct ReactionButtonModifier: ViewModifier {
         #endif
       }
   }
+  
   var backgroundColor: Color {
     switch colorScheme {
     case .light: isHovering ? Color.background(.light) : Color.white
@@ -49,6 +50,7 @@ struct ReactionButtonModifier: ViewModifier {
     default: Color.background(.light)
     }
   }
+  
   var borderColor: Color {
     switch colorScheme {
     case .light: isHighlighted && isInteractive ? Color.pbPrimary : Color.border
@@ -56,6 +58,7 @@ struct ReactionButtonModifier: ViewModifier {
     default: Color.pbPrimary
     }
   }
+  
   var borderWidth: CGFloat {
     isHighlighted && isInteractive ? 2.0 : 1.0
   }
