@@ -143,17 +143,17 @@ public extension PBAvatar {
       [.xLarge, .large, .medium, .small, .xSmall, .xxSmall]
     }
   }
-
+  
   enum PresenceStatus {
-    case away
-    case offline
-    case online
+    case away(size: PBOnlineStatus.Size = .small)
+    case offline(size: PBOnlineStatus.Size = .small)
+    case online(size: PBOnlineStatus.Size = .small)
     
     var _status: PBOnlineStatus {
       switch self {
-      case .online: return PBOnlineStatus(color: .status(.success), size: .small, variant: .border)
-      case .away: return PBOnlineStatus(color: .status(.warning), size: .small, variant: .border)
-      case .offline: return PBOnlineStatus(color: .status(.neutral), size: .small, variant: .border)
+      case .online(let size): return PBOnlineStatus(color: .status(.success), size: size, variant: .border)
+      case .away(let size): return PBOnlineStatus(color: .status(.warning), size: size, variant: .border)
+      case .offline(let size): return PBOnlineStatus(color: .status(.neutral), size: size, variant: .border)
       }
     }
   }
@@ -172,6 +172,6 @@ public extension PBAvatar {
   PBAvatar(
     image: Image("andrew", bundle: .module),
     size: .xLarge,
-    status: .online
+    status: .online()
   )
 }
