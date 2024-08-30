@@ -30,17 +30,7 @@ public struct TypeaheadCatalog: View {
     public var body: some View {
         PBDocStack(title: "Typeahead") {
             PBDoc(title: "Default", spacing: Spacing.small) { colors }
-            PBDoc(title: "With Pills", spacing: Spacing.small) {
-                VStack {
-                    users
-                    
-                    ForEach(selectedUsers, id: \.0) { user in
-                        Text(user.1?.0 ?? user.0)
-                        
-                    }
-                    
-                }
-            }
+            PBDoc(title: "With Pills", spacing: Spacing.small) { users }
             #if os(macOS)
             PBDoc(title: "Dialog") { dialog }
             #endif
@@ -63,7 +53,7 @@ extension TypeaheadCatalog {
             options: $assetsColors, 
             selection: .single,
             isFocused: $isFocused1
-        ) {_ in }
+        ) { _ in }
     }
     
     var users: some View {
