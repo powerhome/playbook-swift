@@ -10,8 +10,9 @@
 import SwiftUI
 
 public struct TypeaheadCatalog: View {
-    @State private var assetsColors = Mocks.assetsColors.map { ($0.0, $0) }
-    @State private var assetsUsers = Mocks.multipleUsersDictionary.map { ($0.0, $0) }
+    @State private var assetsColors = Mocks.assetsColors
+    @State private var assetsUsers = Mocks.multipleUsersDictionary
+    @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = []
     @State private var searchTextUsers: String = ""
     @State private var searchTextColors: String = ""
     @State private var searchText: String = ""
@@ -20,7 +21,7 @@ public struct TypeaheadCatalog: View {
     @State private var isPresented1: Bool = false
     @State private var presentDialog: Bool = false
     @State private var isLoading: Bool = false
-    @State private var assetsUser = Mocks.multipleUsersDictionary.map { ($0.0, $0) }
+    @State private var assetsUser = Mocks.multipleUsersDictionary
     @FocusState var isFocused1
     @FocusState var isFocused2
 
@@ -29,7 +30,17 @@ public struct TypeaheadCatalog: View {
     public var body: some View {
         PBDocStack(title: "Typeahead") {
             PBDoc(title: "Default", spacing: Spacing.small) { colors }
-            PBDoc(title: "With Pills", spacing: Spacing.small) { users }
+            PBDoc(title: "With Pills", spacing: Spacing.small) {
+                VStack {
+                    users
+                    
+                    ForEach(selectedUsers, id: \.0) { user in
+                        Text(user.1?.0 ?? user.0)
+                        
+                    }
+                    
+                }
+            }
             #if os(macOS)
             PBDoc(title: "Dialog") { dialog }
             #endif
@@ -64,7 +75,11 @@ extension TypeaheadCatalog {
             options: $assetsUsers, 
             selection: .multiple(variant: .pill),
             isFocused: $isFocused2
-        ) {_ in }
+        ) { selected in
+            selectedUsers = selected
+            print(selected)
+        }
+        
     }
     
     func closeToast() {
@@ -89,7 +104,7 @@ extension TypeaheadCatalog {
         @Binding var isPresented: Bool
         @State private var isLoading: Bool = false
         @State private var searchTextUsers: String = ""
-        @State private var assetsUsers = Mocks.multipleUsersDictionary.map { ($0.0, $0) }
+        @State private var assetsUsers = Mocks.multipleUsersDictionary
         @FocusState var isFocused
         
         var body: some View {

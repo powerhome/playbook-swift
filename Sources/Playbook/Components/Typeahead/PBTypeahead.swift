@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBTypeahead<Content: View>: View {
-    public typealias Option = (id: String, value: (String, (() -> Content?)?)?)
+    public typealias Option = (String, (String, (() -> Content?)?)?)
     private let id: Int
     private let title: String
     private let placeholder: String
@@ -178,7 +178,13 @@ private extension PBTypeahead {
     }
     
     var optionsSelected: GridInputField.Selection {
-        let optionsSelected = selectedOptions.map { $0.0 }
+        let optionsSelected = selectedOptions.map { value in
+            if let content = value.1 {
+                return content.0
+            } else {
+                return value.0
+            }
+        }
         return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
     }
     
@@ -287,6 +293,7 @@ private extension PBTypeahead {
     func removeSelected(_ index: Int) {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
             let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+            onSelection?(selectedOptions)
             listOptions.append(selectedElement)
             selectedIndex = nil
         }

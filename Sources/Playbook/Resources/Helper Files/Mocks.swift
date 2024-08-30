@@ -19,7 +19,12 @@ enum Mocks {
   static let twoUsers = [andrew, ana]
   static let threeUsers = [andrew, ana, patric]
   static let multipleUsers = [andrew, ana, patric, luccile]
-    static let multipleUsersDictionary: [(String, (() -> PBUser?)?)] = [(andrew.name, { andrew }), (ana.name, { ana }), (patric.name, { patric }), (luccile.name, { luccile })]
+    static let multipleUsersDictionary: [(String, (String, (() -> PBUser?)?)?)] = [
+        ("1", (andrew.name, { andrew })),
+        ("2", (ana.name, { ana })),
+        ("3", (patric.name, { patric })),
+        ("4", (luccile.name, { luccile }))
+    ]
   static let avatarXSmall = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall)
   static let avatarXSmallStatus = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .online)
   static let userName = "Andrew Black"
@@ -28,7 +33,7 @@ enum Mocks {
   static let picAnna = PBAvatar(image: Image("Anna", bundle: .module), size: .xSmall, status: .online)
   static let picPatric = PBAvatar(image: Image("Pat", bundle: .module), size: .xSmall)
   static let picLuccile = PBAvatar(image: Image("Lu", bundle: .module), size: .xSmall)
-  static let assetsColors: [(String, (() -> AnyView?)?)] = [
+  static let assetsColors: [(String, (String, (() -> AnyView?)?)?)] = [
     ("Orange", nil),
     ("Red", nil),
     ("Green", nil),
@@ -39,6 +44,7 @@ enum Mocks {
     ("Indigo", nil),
     ("Magenta", nil)
   ]
+
   static let cities: [String] = [
     "Philadelphia",
     "New York",
