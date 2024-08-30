@@ -10,8 +10,8 @@
 import SwiftUI
 
 public struct TypeaheadCatalog: View {
-    @State private var assetsColors = Mocks.assetsColors
-    @State private var assetsUsers = Mocks.multipleUsersDictionary
+    @State private var assetsColors = Mocks.assetsColors.map { ($0.0, $0) }
+    @State private var assetsUsers = Mocks.multipleUsersDictionary.map { ($0.0, $0) }
     @State private var searchTextUsers: String = ""
     @State private var searchTextColors: String = ""
     @State private var searchText: String = ""
@@ -20,7 +20,7 @@ public struct TypeaheadCatalog: View {
     @State private var isPresented1: Bool = false
     @State private var presentDialog: Bool = false
     @State private var isLoading: Bool = false
-    @State private var assetsUser = Mocks.multipleUsersDictionary
+    @State private var assetsUser = Mocks.multipleUsersDictionary.map { ($0.0, $0) }
     @FocusState var isFocused1
     @FocusState var isFocused2
 
@@ -89,7 +89,7 @@ extension TypeaheadCatalog {
         @Binding var isPresented: Bool
         @State private var isLoading: Bool = false
         @State private var searchTextUsers: String = ""
-        @State private var assetsUsers = Mocks.multipleUsersDictionary
+        @State private var assetsUsers = Mocks.multipleUsersDictionary.map { ($0.0, $0) }
         @FocusState var isFocused
         
         var body: some View {

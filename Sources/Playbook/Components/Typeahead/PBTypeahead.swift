@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBTypeahead<Content: View>: View {
-    public typealias Option = (String, (() -> Content?)?)
+    public typealias Option = (id: String, value: (String, (() -> Content?)?)?)
     private let id: Int
     private let title: String
     private let placeholder: String
@@ -135,10 +135,10 @@ private extension PBTypeahead {
                 VStack(spacing: 0) {
                     ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
                         HStack {
-                            if let customView = result.1?() {
+                            if let customView = result.1?.1?() {
                                 customView
                             } else {
-                                Text(result.0)
+                                Text(result.1?.0 ?? result.0)
                                     .pbFont(.body, color: listTextolor(index))
                             }
                         }
