@@ -52,7 +52,7 @@ struct ReactionButtonModifier: ViewModifier {
   var borderColor: Color {
     switch colorScheme {
     case .light: isHighlighted && isInteractive ? Color.pbPrimary : Color.border
-    case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.white.opacity(0.09)
+    case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.BorderColor.borderColor(colorScheme)
     default: Color.pbPrimary
     }
   }
