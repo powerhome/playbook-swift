@@ -10,14 +10,14 @@
 import SwiftUI
 
 public struct PBTypeahead<Content: View>: View {
-    public typealias Option = (String, (() -> Content?))
+    public typealias Option = (String, (String, (() -> Content?)?)?)
     private let id: Int
     private let title: String
     private let placeholder: String
-    private let options: [Option]
     private let selection: Selection
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
     private let dropdownMaxHeight: CGFloat?
+    private let listOffset: (x: CGFloat, y: CGFloat)
     private let popoverManager = PopoverManager()
     private let onSelection: (([Option]) -> Void)?
     private let clearAction: (() -> Void)?
@@ -30,6 +30,7 @@ public struct PBTypeahead<Content: View>: View {
     @State private var selectedIndex: Int?
     @State private var selectedOptions: [Option] = []
     @State private var focused: Bool = false
+    @Binding var options: [Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
     
@@ -38,10 +39,11 @@ public struct PBTypeahead<Content: View>: View {
         title: String,
         placeholder: String = "Select",
         searchText: Binding<String>,
+        options: Binding<[Option]>,
         selection: Selection,
-        options: [Option],
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
+        listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
         onSelection: @escaping (([Option]) -> Void),
         clearAction: (() -> Void)? = nil
@@ -51,9 +53,10 @@ public struct PBTypeahead<Content: View>: View {
         self.placeholder = placeholder
         self._searchText = searchText
         self.selection = selection
-        self.options = options
+        self._options = options
         self.debounce = debounce
         self.dropdownMaxHeight = dropdownMaxHeight
+        self.listOffset = listOffset
         self._isFocused = isFocused
         self.clearAction = clearAction
         self.onSelection = onSelection
@@ -76,6 +79,7 @@ public struct PBTypeahead<Content: View>: View {
             .pbPopover(
                 isPresented: $showList,
                 id: id,
+                position: .bottom(listOffset.x, listOffset.y),
                 variant: .dropdown,
                 refreshView: $isHovering
             ) {
@@ -84,6 +88,9 @@ public struct PBTypeahead<Content: View>: View {
             .onTapGesture {
                 isFocused = false
             }
+        }
+        .onChange(of: options.count) { _ in
+            listOptions = options
         }
         .onAppear {
             focused = isFocused
@@ -128,10 +135,10 @@ private extension PBTypeahead {
                 VStack(spacing: 0) {
                     ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
                         HStack {
-                            if let customView = result.1() {
+                            if let customView = result.1?.1?() {
                                 customView
                             } else {
-                                Text(result.0)
+                                Text(result.1?.0 ?? result.0)
                                     .pbFont(.body, color: listTextolor(index))
                             }
                         }
@@ -156,7 +163,7 @@ private extension PBTypeahead {
         .frame(maxWidth: .infinity, alignment: .top)
         .transition(.opacity)
     }
-
+    
     var searchResults: [Option] {
         switch selection{
             case .multiple:
@@ -171,7 +178,13 @@ private extension PBTypeahead {
     }
     
     var optionsSelected: GridInputField.Selection {
-        let optionsSelected = selectedOptions.map { $0.0 }
+        let optionsSelected = selectedOptions.map { value in
+            if let content = value.1 {
+                return content.0
+            } else {
+                return value.0
+            }
+        }
         return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
     }
     
@@ -280,6 +293,7 @@ private extension PBTypeahead {
     func removeSelected(_ index: Int) {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
             let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+            onSelection?(selectedOptions)
             listOptions.append(selectedElement)
             selectedIndex = nil
         }
