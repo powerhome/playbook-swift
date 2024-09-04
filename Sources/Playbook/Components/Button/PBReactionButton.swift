@@ -98,12 +98,13 @@ public extension PBReactionButton {
   var textColor: Color {
     switch colorScheme {
     case .light: return Color.text(.lighter)
-    case .dark: return icon != nil ? Color(hex: "#687887") : Color(hex: "#687887").opacity(0.5)
+    case .dark: return icon != nil ? Color(.white) : Color(.white).opacity(0.6)
     default:
       return Color.text(.light)
     }
   }
- func highlightReaction() {
+  
+  func highlightReaction() {
     isHighlighted.toggle()
     if !isHighlighted && isInteractive {
       count -= 1
