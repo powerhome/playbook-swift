@@ -10,6 +10,7 @@ List of changes:
 - Progress Tracker Variant [#455](https://github.com/powerhome/playbook-swift/pull/418) [(Rachel Radford)](https://github.com/RachelRadford21)
 - Full Width Nav [#469](https://github.com/powerhome/playbook-swift/pull/435) [(Rachel Radford)](https://github.com/RachelRadford21)
 - Multi User Dark Mode [#481](https://github.com/powerhome/playbook-swift/pull/437) [(Rachel Radford)](https://github.com/RachelRadford21)
+- Fix Typeahead on Connect [#317](https://runway.powerhrg.com/backlog_items/PBIOS-317) [(Isis)](https://github.com/isismsilva)
 
 **Fixed Bugs:**
 - Dark Mode Card Fix [#430](https://github.com/powerhome/playbook-swift/pull/426) [(Rachel Radford)](https://github.com/RachelRadford21)
