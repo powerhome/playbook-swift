@@ -50,14 +50,13 @@ struct ReactionButtonModifier: ViewModifier {
     default: Color.background(.light)
     }
   }
-  
   var borderColor: Color {
-    switch colorScheme {
-    case .light: isHighlighted && isInteractive ? Color.pbPrimary : Color.border
-    case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.white.opacity(0.09)
-    default: Color.pbPrimary
+      switch colorScheme {
+      case .light: isHighlighted && isInteractive ? Color.pbPrimary : Color.border
+      case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.BorderColor.borderColor(colorScheme)
+      default: Color.pbPrimary
+      }
     }
-  }
   
   var borderWidth: CGFloat {
     isHighlighted && isInteractive ? 2.0 : 1.0
