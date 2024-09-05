@@ -196,14 +196,14 @@ public extension UserCatalog {
                 size: .small,
                 territory: "PHL",
                 title: title,
-                status: .online()
+                status: .online
             )
             PBUser(
                 name: name,
                 image: img,
                 territory: "PHL",
                 title: title,
-                status: .away()
+                status: .away
             )
             PBUser(
                 name: name,
@@ -211,7 +211,7 @@ public extension UserCatalog {
                 size: .large,
                 territory: "PHL",
                 title: title,
-                status: .offline()
+                status: .offline
             )
         }
     }

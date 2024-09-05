@@ -13,20 +13,24 @@ public struct PBAvatar: View {
   var image: Image?
   var name: String?
   var size: Size
-  var status: PresenceStatus?
+  var status: PBOnlineStatus.Status?
+  var statusSize: PBOnlineStatus.Size
   var wrapped: Bool
   @Environment(\.colorScheme) var colorScheme
+  
   public init(
     image: Image? = nil,
     name: String? = nil,
     size: Size = .medium,
-    status: PresenceStatus? = nil,
+    status: PBOnlineStatus.Status? = nil,
+    statusSize: PBOnlineStatus.Size = .small,
     wrapped: Bool = false
   ) {
     self.image = image
     self.name = name
     self.size = size
     self.status = status
+    self.statusSize = statusSize
     self.wrapped = wrapped
   }
 
@@ -55,7 +59,7 @@ public struct PBAvatar: View {
 
       
       if let status = self.status {
-        status._status
+        PBOnlineStatus(status: status, size: statusSize, variant: .border)
           .offset(
             x: (size.diameter/2 - size.diameter/9) * size.statusXModifier,
             y: (size.diameter/2 - size.diameter/6) * size.statusYModifier
@@ -82,8 +86,6 @@ public extension PBAvatar {
 
   enum Size: CaseIterable, Hashable {
     public static var allCases: [PBAvatar.Size] = []
-    
-    
     case xxSmall
     case xSmall
     case small
@@ -95,6 +97,7 @@ public extension PBAvatar {
     case smallStacked
     case smallStackedIndicator
     case custom(_ size: CGFloat)
+    
     var diameter: CGFloat {
       switch self {
       case .xxSmall: return 20
@@ -144,19 +147,6 @@ public extension PBAvatar {
     }
   }
   
-  enum PresenceStatus {
-    case away(size: PBOnlineStatus.Size = .small)
-    case offline(size: PBOnlineStatus.Size = .small)
-    case online(size: PBOnlineStatus.Size = .small)
-    
-    var _status: PBOnlineStatus {
-      switch self {
-      case .online(let size): return PBOnlineStatus(color: .status(.success), size: size, variant: .border)
-      case .away(let size): return PBOnlineStatus(color: .status(.warning), size: size, variant: .border)
-      case .offline(let size): return PBOnlineStatus(color: .status(.neutral), size: size, variant: .border)
-      }
-    }
-  }
   var avatarBorderColor: Color {
     switch colorScheme {
     case .light: return Color.BorderColor.background(.light)
@@ -172,6 +162,6 @@ public extension PBAvatar {
   PBAvatar(
     image: Image("andrew", bundle: .module),
     size: .xLarge,
-    status: .online()
+    status: .online
   )
 }
