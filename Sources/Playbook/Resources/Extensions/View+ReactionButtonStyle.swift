@@ -59,6 +59,10 @@ struct ReactionButtonModifier: ViewModifier {
     }
   
   var borderWidth: CGFloat {
+    #if os(iOS)
     isHighlighted && isInteractive ? 2.0 : 1.0
+    #else
+    isHighlighted && isInteractive ? 2.5 : 1.5
+    #endif
   }
 }
