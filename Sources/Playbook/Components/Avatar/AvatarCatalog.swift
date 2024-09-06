@@ -18,6 +18,9 @@ public struct AvatarCatalog: View {
       PBDoc(title: "Monogram") {
         monograms
       }
+      PBDoc(title: "Status Size") {
+        statusSize
+      }
     }
   }
 }
@@ -42,6 +45,14 @@ extension AvatarCatalog {
       PBAvatar(name: "Tim Wenhold", size: .medium, status: .away)
       PBAvatar(name: "Tim Wenhold", size: .large, status: .online)
       PBAvatar(name: "Tim", size: .xLarge, status: .offline)
+    }
+  }
+  
+  var statusSize: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .online, statusSize: .small)
+      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away, statusSize: .medium)
+      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .offline, statusSize: .large)
     }
   }
 }
