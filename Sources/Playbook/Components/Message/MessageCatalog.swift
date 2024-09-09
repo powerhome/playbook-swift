@@ -11,6 +11,8 @@ import SwiftUI
 
 public struct MessageCatalog: View {
   @State private var isLoading: Bool = true
+  @State private var showUser1: Bool = false
+  @State private var showUser2: Bool = false
   
   public var body: some View {
     PBDocStack(title: "Message") {
@@ -25,6 +27,9 @@ public struct MessageCatalog: View {
         hoveringView
       }
       #endif
+      PBDoc(title: "On user click") {
+        onUserClickView
+      }
     }
   }
 }
@@ -64,23 +69,26 @@ extension MessageCatalog {
       PBMessage(
         label: "Keith Craig",
         message: "Please hold for one moment, I will check with my manager.",
-        timestamp: Date().addingTimeInterval(-200000)
-      ) {}
+        timestamp: Date().addingTimeInterval(-200000), 
+        content:  {}
+      )
       
       PBMessage(
         label: "Keith Craig",
-        timestamp: Date().addingTimeInterval(-200000)
-      ) {
-        Image("Forest", bundle: .module).resizable().frame(width: 240, height: 240)
-      }
+        timestamp: Date().addingTimeInterval(-200000), 
+        content: {
+          Image("Forest", bundle: .module).resizable().frame(width: 240, height: 240)
+        }
+      )
       
       PBMessage(
         label: "Keith Craig",
         message: "Please hold for one moment, I will check with my manager.",
-        timestamp: Date().addingTimeInterval(-200000)
-      ) {
-        Image("Forest", bundle: .module).resizable().frame(width: 240, height: 240)
-      }
+        timestamp: Date().addingTimeInterval(-200000), 
+        content: {
+          Image("Forest", bundle: .module).resizable().frame(width: 240, height: 240)
+        }
+      )
     }
   }
   
@@ -137,6 +145,58 @@ extension MessageCatalog {
         changeTimeStampOnHover: true
       )
     }
+  }
+
+  var onUserClickView: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      PBMessage(
+        avatar: AnyView(Mocks.picAnna),
+        label: "Anna Black",
+        message: "How can we assist you today?",
+        timestamp: Date().addingTimeInterval(-20),
+        onAvatarClick: { showDialog1() },
+        onTitleClick: { showDialog1() }
+      )
+      .presentationMode(isPresented: $showUser1) {
+          PBDialog(
+              title: "Info Dialog",
+              message: DialogCatalog.infoMessage,
+              cancelButton: DialogCatalog().cancelButton { showUser1 = false },
+              confirmButton: DialogCatalog().confirmationButton { showUser1 = false },
+              size: .small
+          )    .backgroundViewModifier(alpha: 0.2)
+      }
+
+      PBMessage(
+        avatar: AnyView(Mocks.picPatric),
+        label: "Patrick Welch",
+        message: "We will escalate this issue to a Senior Support agent.",
+        timestamp: Date().addingTimeInterval(-540),
+        timestampAlignment: .leading,
+        onAvatarClick: { showDialog2() },
+        onTitleClick: { showDialog2() }
+      )
+      .presentationMode(isPresented: $showUser2) {
+          PBDialog(
+              title: "Info Dialog",
+              message: DialogCatalog.infoMessage,
+              cancelButton: DialogCatalog().cancelButton { showUser2 = false },
+              confirmButton: DialogCatalog().confirmationButton { showUser2 = false },
+              size: .small
+          )
+          .backgroundViewModifier(alpha: 0.2)
+      }
+    }
+  }
+
+  private func showDialog1() {
+    showUser1.toggle()
+    MessageCatalog.disableAnimation()
+  }
+  
+  private func showDialog2() {
+    showUser2.toggle()
+    MessageCatalog.disableAnimation()
   }
 }
 

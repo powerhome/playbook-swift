@@ -20,6 +20,8 @@ public struct PBMessage<Content: View>: View {
   let horizontalPadding: CGFloat
   let content: Content?
   let timestampVariant: PBTimestamp.Variant
+  let onAvatarClick: (() -> Void)?
+  let onTitleClick: (() -> Void)?
   @Binding var isLoading: Bool
   @State private var isHovering: Bool = false
   
@@ -34,6 +36,8 @@ public struct PBMessage<Content: View>: View {
     verticalPadding: CGFloat = Spacing.none,
     horizontalPadding: CGFloat = Spacing.none,
     isLoading: Binding<Bool> = .constant(false),
+    onAvatarClick: (() -> Void)? = nil,
+    onTitleClick: (() -> Void)? = nil,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.avatar = avatar
@@ -45,7 +49,9 @@ public struct PBMessage<Content: View>: View {
     self.changeTimeStampOnHover = changeTimeStampOnHover
     self.verticalPadding = verticalPadding
     self.horizontalPadding = horizontalPadding
-    _isLoading = isLoading
+    self._isLoading = isLoading
+    self.onAvatarClick = onAvatarClick
+    self.onTitleClick = onTitleClick
     self.content = content()
   }
 
@@ -53,11 +59,14 @@ public struct PBMessage<Content: View>: View {
     HStack(alignment: .top, spacing: nil) {
       if let avatar = avatar {
         avatar.opacity(isLoading ? 0.8 : 1)
+          .onTapGesture { onTitleClick?()
+}
       }
       VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: Spacing.xSmall) {
           Text(label)
             .pbFont(.messageTitle, color: isLoading ? .text(.light) : .text(.default))
+            .onTapGesture { onTitleClick?() }
           if timestampAlignment == .trailing {
             Spacer()
           }
