@@ -32,15 +32,7 @@ struct ReactionButtonModifier: ViewModifier {
           .animation(.easeInOut(duration: 0.3), value: isHovering)
       )
       .clipShape(Capsule())
-      .onHover(disabled: false) { hovering in
-        #if os(macOS)
-        if hovering {
-          NSCursor.pointingHand.push()
-        } else {
-          NSCursor.pointingHand.pop()
-        }
-        #endif
-      }
+      .setCursorPointer()
   }
   
   var backgroundColor: Color {

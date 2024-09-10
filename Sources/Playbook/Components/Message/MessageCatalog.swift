@@ -31,6 +31,7 @@ public struct MessageCatalog: View {
         onUserClickView
       }
     }
+    .popoverHandler(id: 9)
   }
 }
 
@@ -154,8 +155,7 @@ extension MessageCatalog {
         label: "Anna Black",
         message: "How can we assist you today?",
         timestamp: Date().addingTimeInterval(-20),
-        onAvatarClick: { showDialog1() },
-        onTitleClick: { showDialog1() }
+        onHeaderClick: { showDialog() }
       )
       .presentationMode(isPresented: $showUser1) {
           PBDialog(
@@ -173,28 +173,20 @@ extension MessageCatalog {
         message: "We will escalate this issue to a Senior Support agent.",
         timestamp: Date().addingTimeInterval(-540),
         timestampAlignment: .leading,
-        onAvatarClick: { showDialog2() },
-        onTitleClick: { showDialog2() }
+        onHeaderClick: { showPopover() }
       )
-      .presentationMode(isPresented: $showUser2) {
-          PBDialog(
-              title: "Info Dialog",
-              message: DialogCatalog.infoMessage,
-              cancelButton: DialogCatalog().cancelButton { showUser2 = false },
-              confirmButton: DialogCatalog().confirmationButton { showUser2 = false },
-              size: .small
-          )
-          .backgroundViewModifier(alpha: 0.2)
+      .pbPopover(isPresented: $showUser2, id: 9, position: .top(-65, 50)) {
+          Text("This is a popover")
       }
     }
   }
 
-  private func showDialog1() {
+  private func showDialog() {
     showUser1.toggle()
     MessageCatalog.disableAnimation()
   }
   
-  private func showDialog2() {
+  private func showPopover() {
     showUser2.toggle()
     MessageCatalog.disableAnimation()
   }

@@ -29,15 +29,7 @@ struct PBDialogHeaderView: View {
       } label: {
         PBIcon(FontAwesome.times, size: .x1)
           .foregroundColor(.text(.default))
-          .onHover { hovering in
-            #if os(macOS)
-            if hovering {
-              NSCursor.pointingHand.push()
-            } else {
-              NSCursor.pointingHand.pop()
-            }
-            #endif
-          }
+          .setCursorPointer()
       }
       .buttonStyle(.borderless)
       .padding()

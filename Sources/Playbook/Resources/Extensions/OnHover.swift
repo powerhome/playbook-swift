@@ -25,4 +25,20 @@ extension View {
       }
     )
   }
+  
+  func setCursorPointer(disabled: Bool = false, action: ((Bool) -> Void)? = nil) -> some View {
+    self.onHover { isHovering in
+      action?(isHovering)
+      if !disabled {
+        #if os(macOS)
+        if isHovering {
+          NSCursor.pointingHand.set()
+          NSCursor.pointingHand.push()
+        } else {
+          NSCursor.pointingHand.pop()
+        }
+        #endif
+      }
+    }
+  }
 }
