@@ -18,7 +18,7 @@ public struct PBUser: View {
     var territory: String?
     var title: String?
     var subtitle: AnyView?
-    var status: PBAvatar.PresenceStatus?
+    var status: PBOnlineStatus.Status?
     var displayAvatar: Bool = true
     public init(
         name: String = "",
@@ -29,7 +29,7 @@ public struct PBUser: View {
         territory: String? = nil,
         title: String? = nil,
         subtitle: AnyView? = nil,
-        status: PBAvatar.PresenceStatus? = .none,
+        status: PBOnlineStatus.Status? = nil,
         displayAvatar: Bool = true
     ) {
         self.name = name
