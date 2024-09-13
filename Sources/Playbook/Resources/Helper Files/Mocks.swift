@@ -55,6 +55,5 @@ enum Mocks {
     "Miami",
     "Seattle",
     "Dallas"
-  
   ]
 }
