@@ -79,10 +79,7 @@ public struct GridInputField: View {
                 shape.stroke(borderColor, lineWidth: 1.0)
             }
         }
-        .onHover {
-            isHovering = $0
-            setupCursor(hover: $0)
-        }
+        .setCursorPointer { isHovering = $0 }
     }
 }
 
@@ -129,17 +126,6 @@ private extension GridInputField {
             case .single:
                 EmptyView()
         }
-    }
-    
-    func setupCursor(hover: Bool) {
-#if os(macOS)
-        if hover {
-            NSCursor.arrow.push()
-        }
-        else {
-            NSCursor.arrow.pop()
-        }
-#endif
     }
     
     var placeholderText: String {
