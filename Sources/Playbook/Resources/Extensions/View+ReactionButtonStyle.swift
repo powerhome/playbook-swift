@@ -20,6 +20,7 @@ struct ReactionButtonModifier: ViewModifier {
   let isInteractive: Bool
   let isHovering: Bool
   @Environment(\.colorScheme) var colorScheme
+  
   func body(content: Content) -> some View {
     content
       .padding(.vertical, 2)
@@ -32,31 +33,26 @@ struct ReactionButtonModifier: ViewModifier {
           .animation(.easeInOut(duration: 0.3), value: isHovering)
       )
       .clipShape(Capsule())
-      .onHover(disabled: false) { hovering in
-        #if os(macOS)
-        if hovering {
-          NSCursor.pointingHand.push()
-        } else {
-          NSCursor.pointingHand.pop()
-        }
-        #endif
-      }
+      .setCursorPointer()
   }
+  
   var backgroundColor: Color {
     switch colorScheme {
-    case .light: isHovering ? Color.background(.light) : Color.white
-    case .dark: isHovering ? Color.Card.background(.dark) : Color.background(.dark)
-    default: Color.background(.light)
+      case .light: isHovering ? Color.background(.light) : Color.white
+      case .dark: isHovering ? Color.Card.background(.dark) : Color.background(.dark)
+      default: Color.background(.light)
     }
   }
+  
   var borderColor: Color {
     switch colorScheme {
-    case .light: isHighlighted && isInteractive ? Color.pbPrimary : Color.border
-    case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.BorderColor.borderColor(colorScheme)
-    default: Color.pbPrimary
+      case .light: isHighlighted && isInteractive ? Color.pbPrimary : Color.border
+      case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.BorderColor.borderColor(colorScheme)
+      default: Color.pbPrimary
     }
   }
+  
   var borderWidth: CGFloat {
-    isHighlighted && isInteractive ? 2.0 : 1.0
-  }
+     isHighlighted && isInteractive ? 2.0 : 1.0
+   }
 }
