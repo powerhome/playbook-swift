@@ -190,21 +190,20 @@ private extension PBTypeahead {
     
     var clear: Void {
         if let action = clearAction {
-            searchText = ""
-            selectedOptions.removeAll()
-            listOptions = options
-            selectedIndex = nil
-            hoveringIndex = nil
-            showList = false
+            clearText
             action()
         } else {
-            searchText = ""
-            selectedOptions.removeAll()
-            listOptions = options
-            selectedIndex = nil
-            hoveringIndex = nil
-            showList = false
+            clearText
         }
+    }
+  
+    var clearText: Void {
+        searchText = ""
+        selectedOptions.removeAll()
+        listOptions = options
+        selectedIndex = nil
+        hoveringIndex = nil
+        showList = false
     }
     
     var setKeyboardControls: Void {
