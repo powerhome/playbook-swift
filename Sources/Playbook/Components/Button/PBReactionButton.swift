@@ -103,7 +103,7 @@ public extension PBReactionButton {
       return Color.text(.light)
     }
   }
-  
+
   func highlightReaction() {
     isHighlighted.toggle()
     if !isHighlighted && isInteractive {

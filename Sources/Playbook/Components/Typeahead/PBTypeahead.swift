@@ -71,7 +71,7 @@ public struct PBTypeahead<Content: View>: View {
                 searchText: $searchText,
                 selection: optionsSelected,
                 isFocused: $isFocused,
-                clearAction: { clearText },
+                clearAction: { clear },
                 onItemTap: { removeSelected($0) },
                 onViewTap: { onViewTap }
             )
@@ -188,17 +188,22 @@ private extension PBTypeahead {
         return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
     }
     
-    var clearText: Void {
+    var clear: Void {
         if let action = clearAction {
+            clearText
             action()
         } else {
-            searchText = ""
-            selectedOptions.removeAll()
-            listOptions = options
-            selectedIndex = nil
-            hoveringIndex = nil
-            showList = false
+            clearText
         }
+    }
+  
+    var clearText: Void {
+        searchText = ""
+        selectedOptions.removeAll()
+        listOptions = options
+        selectedIndex = nil
+        hoveringIndex = nil
+        showList = false
     }
     
     var setKeyboardControls: Void {
