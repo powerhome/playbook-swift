@@ -34,9 +34,9 @@ public struct TypeaheadCatalog: View {
       PBDoc(title: "Default", spacing: Spacing.small) { colors }
       PBDoc(title: "With Pills", spacing: Spacing.small) { users }
       PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
-#if os(macOS)
+      #if os(macOS)
       PBDoc(title: "Dialog") { dialog }
-#endif
+      #endif
     }
     .onTapGesture {
       isFocused1 = false
