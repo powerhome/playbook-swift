@@ -14,12 +14,13 @@ public struct PBMessage<Content: View>: View {
   let label: String
   let message: AttributedString?
   let timestamp: Date?
-  let timestampAlignment: TimestampAlignment?
+  let timestampAlignment: Alignment?
   let changeTimeStampOnHover: Bool
   let verticalPadding: CGFloat
   let horizontalPadding: CGFloat
   let content: Content?
   let timestampVariant: PBTimestamp.Variant
+  let onHeaderClick: (() -> Void)?
   @Binding var isLoading: Bool
   @State private var isHovering: Bool = false
   
@@ -28,12 +29,13 @@ public struct PBMessage<Content: View>: View {
     label: String = "",
     message: AttributedString? = nil,
     timestamp: Date? = nil,
-    timestampAlignment: TimestampAlignment? = .trailing,
+    timestampAlignment: Alignment? = .trailing,
     timestampVariant: PBTimestamp.Variant = .standard,
     changeTimeStampOnHover: Bool = false,
     verticalPadding: CGFloat = Spacing.none,
     horizontalPadding: CGFloat = Spacing.none,
     isLoading: Binding<Bool> = .constant(false),
+    onHeaderClick: (() -> Void)? = nil,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.avatar = avatar
@@ -45,23 +47,29 @@ public struct PBMessage<Content: View>: View {
     self.changeTimeStampOnHover = changeTimeStampOnHover
     self.verticalPadding = verticalPadding
     self.horizontalPadding = horizontalPadding
-    _isLoading = isLoading
+    self._isLoading = isLoading
+    self.onHeaderClick = onHeaderClick
     self.content = content()
   }
-
+  
   public var body: some View {
     HStack(alignment: .top, spacing: nil) {
       if let avatar = avatar {
-        avatar.opacity(isLoading ? 0.8 : 1)
+        avatar
+          .setCursorPointer(disabled: !isCursorEnabled)
+          .opacity(isLoading ? 0.8 : 1)
+          .onTapGesture { onHeaderClick?() }
       }
       VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: Spacing.xSmall) {
           Text(label)
             .pbFont(.messageTitle, color: isLoading ? .text(.light) : .text(.default))
+            .setCursorPointer(disabled: !isCursorEnabled)
+            .onTapGesture { onHeaderClick?() }
           if timestampAlignment == .trailing {
             Spacer()
           }
-          Group { 
+          Group {
             if isLoading {
               PBLoader()
             } else {
@@ -93,7 +101,9 @@ public struct PBMessage<Content: View>: View {
     .padding(.horizontal, horizontalPadding)
     .frame(maxWidth: .infinity, alignment: .topLeading)
   }
-  
+}
+
+private extension PBMessage {
   func returnTimestamp(isHovering: Bool) -> PBTimestamp.Variant {
     if changeTimeStampOnHover {
       return isHovering ? .standard : .hideUserElapsed
@@ -101,10 +111,18 @@ public struct PBMessage<Content: View>: View {
       return timestampVariant
     }
   }
+  
+  var isCursorEnabled: Bool {
+    if onHeaderClick != nil {
+      return true
+    } else {
+      return false
+    }
+  }
 }
 
 public extension PBMessage {
-  enum TimestampAlignment {
+  enum Alignment {
     case leading, trailing
   }
 }

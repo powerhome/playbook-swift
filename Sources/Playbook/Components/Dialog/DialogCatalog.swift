@@ -104,7 +104,7 @@ extension DialogCatalog {
             }
             
             PBButton(title: "Caution Status") {
-                DialogCatalog.disableAnimation()
+              DialogCatalog.disableAnimation()
                 presentDialog3.toggle()
             }
             .presentationMode(isPresented: $presentDialog3) {
@@ -204,19 +204,7 @@ extension DialogCatalog {
     func confirmationButtonFullWidth(_ closeToast: @escaping (() -> Void)) -> PBButton {
         PBButton(fullWidth: true, variant: .primary, title: "Okay") { closeToast() }
     }
-    
-    #if os(macOS)
-    static func disableAnimation() {
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 0
-        }, completionHandler:nil)
-    }
-    #elseif os(iOS)
-    static func disableAnimation() {
-        UIView.setAnimationsEnabled(false)
-    }
-    #endif
-    
+
     struct DialogButtonSize: View {
         let title: String
         let size: DialogSize
