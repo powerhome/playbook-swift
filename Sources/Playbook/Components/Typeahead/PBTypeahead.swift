@@ -165,18 +165,26 @@ private extension PBTypeahead {
     }
     
     var searchResults: [Option] {
-        switch selection{
-            case .multiple:
-                return searchText.isEmpty && debounce.numberOfCharacters == 0  ? listOptions : listOptions.filter {
-                    $0.0.localizedCaseInsensitiveContains(searchText)
-                }
-            case .single:
-                return searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
-                    $0.0.localizedCaseInsensitiveContains(searchText)
-                }
-        }
+      switch selection{
+        case .multiple:
+          return searchText.isEmpty && debounce.numberOfCharacters == 0  ? listOptions : listOptions.filter {
+            if let text = $0.1?.0 {
+              text.localizedCaseInsensitiveContains(searchText)
+            } else {
+              $0.0.localizedCaseInsensitiveContains(searchText)
+            }
+          }
+        case .single:
+          return searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
+            if let text = $0.1?.0 {
+              text.localizedCaseInsensitiveContains(searchText)
+            } else {
+              $0.0.localizedCaseInsensitiveContains(searchText)
+            }
+          }
+      }
     }
-    
+
     var optionsSelected: GridInputField.Selection {
         let optionsSelected = selectedOptions.map { value in
             if let content = value.1 {
