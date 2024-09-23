@@ -164,7 +164,7 @@ private extension PBTypeahead {
         .frame(maxWidth: .infinity, alignment: .top)
         .transition(.opacity)
     }
-    
+
     var searchResults: [Option] {
       switch selection{
         case .multiple:
