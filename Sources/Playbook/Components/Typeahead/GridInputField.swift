@@ -21,7 +21,7 @@ public struct GridInputField: View {
     @State private var clearButtonIsHovering: Bool = false
     @State private var indicatorIsHovering: Bool = false
     var isFocused: FocusState<Bool>.Binding
-    
+
     init(
         placeholder: String = "Select",
         searchText: Binding<String>,
@@ -39,37 +39,45 @@ public struct GridInputField: View {
         self.onItemTap = onItemTap
         self.onViewTap = onViewTap
     }
-    
+
     public var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                HStack {
-                    PBGrid(alignment: .leading, horizontalSpacing: 0) {
-                        ForEach(indices, id: \.self) { index in
-                            if indices.last != index {
-                                gridView(index: index)
-                            }
+                PBGrid(
+                    alignment: .leading,
+                    horizontalSpacing: Spacing.xSmall,
+                    verticalSpacing: Spacing.xSmall,
+                    fitContent: false
+                ) {
+                    ForEach(indices, id: \.self) { index in
+                        if indices.last != index {
+                            gridView(index: index)
+                        } else {
+                            textfieldWithCustomPlaceholder
+                                .fixedSize()
+                                .frame(minWidth: 100, alignment: .leading)
+                                .overlay {
+                                    Color.white
+                                        .opacity(isFocused.wrappedValue ? 0.001 : 0)
+                                        .onTapGesture {
+                                            if isFocused.wrappedValue {
+                                                onViewTap?()
+                                            }
+                                        }
+                                }
+                                .clipped()
                         }
                     }
-                    .layoutPriority(1)
-                    textfieldWithCustomPlaceholder
-                        .overlay {
-                            Color.white
-                                .opacity(isFocused.wrappedValue ? 0.001 : 0)
-                                .onTapGesture {
-                                    if isFocused.wrappedValue {
-                                        onViewTap?()
-                                    }
-                                }
-                        }
                 }
+                .padding(.horizontal, Spacing.small)
+                .padding(.vertical, Spacing.xSmall)
+                .background(Color.white.opacity(0.01))
                 .onTapGesture {
                     isFocused.wrappedValue = true
                     if isFocused.wrappedValue {
                         onViewTap?()
                     }
                 }
-                
                 dismissIconView
                 indicatorView
             }
@@ -107,34 +115,30 @@ private extension GridInputField {
                 .textFieldStyle(.plain)
                 .pbFont(.body, color: textColor)
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: Spacing.xLarge)
-        .padding(.leading, Spacing.small)
     }
-    
-    @ViewBuilder
-    func gridView(index: Int?) -> some View {
+
+    func gridView(index: Int?) -> AnyView? {
         switch selection {
             case .multiple(let variant, let options):
                 if let index = index, let option = options?[index] {
-                    variant.view(text: option)
-                        .onTapGesture { onItemTap?(index) }
-                        .padding(.leading, Spacing.xSmall)
-                        .padding(.vertical, Spacing.xSmall)
-                        .fixedSize()
+                    return AnyView(
+                        variant.view(text: option)
+                            .onTapGesture { onItemTap?(index) }
+                    )
+                } else {
+                    return nil
                 }
-            case .single:
-                EmptyView()
+            case .single: return nil
         }
     }
-    
+
     var placeholderText: String {
         switch selection {
             case .multiple(_, let elements): return elements?.isEmpty ?? true ? placeholder : ""
             case .single(let element): return element ?? placeholder
         }
     }
-    
+
     var placeholderTextColor: Color {
         switch selection {
             case .multiple(_, _): return .text(.light)
@@ -142,15 +146,15 @@ private extension GridInputField {
                 return element == nil ? .text(.light) : .text(.default)
         }
     }
-    
+
     var textColor: Color {
         return .text(.default)
     }
-    
+
     var borderColor: Color {
         isFocused.wrappedValue ? .pbPrimary : .border
     }
-    
+
     @ViewBuilder
     var dismissIconView: some View {
         Group {
@@ -169,7 +173,7 @@ private extension GridInputField {
             clearAction?()
         }
     }
-    
+
     var dismissIcon: some View {
         PBIcon(FontAwesome.times, size: .xSmall)
             .foregroundStyle(iconColor(on: clearButtonIsHovering))
@@ -180,11 +184,11 @@ private extension GridInputField {
                 isHovering = $0
             }
     }
-    
+
     var backgroundColor: Color {
         (isHovering || isFocused.wrappedValue) ? .background(.light) : .card
     }
-    
+
     var indicatorView: some View {
         PBIcon(FontAwesome.chevronDown, size: .xSmall)
             .padding(Spacing.small)
@@ -198,7 +202,7 @@ private extension GridInputField {
                 onViewTap?()
             }
     }
-    
+
     func iconColor(on hover: Bool) -> Color {
         if isFocused.wrappedValue, !hover {
             return Color.text(.light)
@@ -215,10 +219,10 @@ private extension GridInputField {
 public extension GridInputField {
     enum Selection {
         case single(String?), multiple(Selection.Variant, [String]?)
-        
+
         public enum Variant {
             case text, pill, other(AnyView)
-            
+
             @ViewBuilder
             func view(text: String) -> some View {
                 switch self {
@@ -247,19 +251,19 @@ public struct WrappedInputFieldCatalog: View {
                 selection: .single(nil),
                 isFocused: $isFocused
             )
-            
+
             GridInputField(
                 searchText: $text,
-                selection: .multiple(.pill, ["title1", "title2"]),
+                selection: .multiple(.pill, ["title1", "title2", "title2", "title2", "title2"]),
                 isFocused: $isFocused
             )
-            
+
             GridInputField(
                 searchText: $text,
-                selection: .multiple(.other(AnyView(PBPill("oi", variant: .primary))), ["title1", "title2"]),
+                selection: .multiple(.other(AnyView(PBPill("oi", variant: .primary))), ["title1", "title2", "title2", "title2", "title2", "title2", "title2", "title2"]),
                 isFocused: $isFocused
             )
-            
+
             GridInputField(
                 searchText: $text,
                 selection: .multiple(.other(AnyView(PBBadge(text: "title", variant: .primary))), ["title1", "title2"]),
