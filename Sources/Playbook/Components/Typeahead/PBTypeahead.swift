@@ -157,13 +157,14 @@ private extension PBTypeahead {
                     }
                 }
             }
+            .scrollDismissesKeyboard(.immediately)
             .frame(maxHeight: dropdownMaxHeight)
             .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .top)
         .transition(.opacity)
     }
-    
+
     var searchResults: [Option] {
       switch selection{
         case .multiple:
@@ -200,14 +201,16 @@ private extension PBTypeahead {
         if let action = clearAction {
             clearText
             action()
+            clearText
         } else {
             clearText
         }
     }
-  
+
     var clearText: Void {
         searchText = ""
         selectedOptions.removeAll()
+        onSelection?([])
         listOptions = options
         selectedIndex = nil
         hoveringIndex = nil
