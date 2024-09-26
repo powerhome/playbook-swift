@@ -26,9 +26,9 @@ public enum PBFont: Equatable {
   case messageTitle
   case messageBody
 
-    static let proximaNovaLight = Font.ProximaNova.light.rawValue
+  static let proximaNovaLight = Font.ProximaNova.light.rawValue
 
-  var font: Font {
+  public var font: Font {
     switch self {
     case .title1:
       return Font.custom(
