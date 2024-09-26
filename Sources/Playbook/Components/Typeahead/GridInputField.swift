@@ -55,7 +55,7 @@ public struct GridInputField: View {
                         } else {
                             textfieldWithCustomPlaceholder
                                 .fixedSize()
-                                .frame(minWidth: 100, alignment: .leading)
+                                .frame(minWidth: 60, alignment: .leading)
                                 .overlay {
                                     Color.white
                                         .opacity(isFocused.wrappedValue ? 0.001 : 0)
