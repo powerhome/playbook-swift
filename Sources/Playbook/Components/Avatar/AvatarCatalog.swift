@@ -21,6 +21,9 @@ public struct AvatarCatalog: View {
       PBDoc(title: "Status Size") {
         statusSize
       }
+      PBDoc(title: "Status color") {
+        statusColor
+      }
     }
   }
 }
@@ -50,9 +53,35 @@ extension AvatarCatalog {
   
   var statusSize: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .online, statusSize: .small)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away, statusSize: .medium)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .offline, statusSize: .large)
+      VStack(spacing: Spacing.xxSmall) {
+        PBAvatar(image: Image("andrew", bundle: .module), size: .small, status: .online, statusSize: .medium)
+        Text("Small").pbFont(.caption)
+      }
+      VStack(spacing: Spacing.xxSmall) {
+        PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away, statusSize: .medium)
+        Text("Medium").pbFont(.caption)
+      }
+      VStack(spacing: Spacing.xxSmall) {
+        PBAvatar(image: Image("andrew", bundle: .module), size: .large, status: .offline, statusSize: .medium)
+        Text("Large").pbFont(.caption)
+      }
+    }
+  }
+
+  var statusColor: some View {
+    VStack(alignment: .leading, spacing: Spacing.small) {
+      VStack(spacing: Spacing.xxSmall) {
+        PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .online, statusSize: .medium)
+        Text("Online").pbFont(.caption)
+      }
+      VStack(spacing: Spacing.xxSmall) {
+        PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away, statusSize: .medium)
+        Text("Away").pbFont(.caption)
+      }
+      VStack(spacing: Spacing.xxSmall) {
+        PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .offline, statusSize: .medium)
+        Text("Offline").pbFont(.caption)
+      }
     }
   }
 }

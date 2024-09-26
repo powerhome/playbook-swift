@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBOnlineStatus: View {
-  let status: Status
+  let status: Status?
   let color: Color?
   let size: Size
   let borderColor: Color?
@@ -18,7 +18,7 @@ public struct PBOnlineStatus: View {
   @Environment(\.colorScheme) var colorScheme
 
   public init(
-    status: Status = .online,
+    status: Status? = nil,
     color: Color? = nil,
     size: Size = .small,
     borderColor: Color? = .white,
@@ -56,10 +56,10 @@ public extension PBOnlineStatus {
     if let color = color {
       return color
     } else {
-      switch status {
-        case .online: return .status(.success)
-        case .offline: return .status(.error)
-        case .away: return . status(.warning)
+      if let status = status {
+        return status.color
+      } else {
+        return .status(.neutral)
       }
     }
   }
@@ -91,13 +91,27 @@ public extension PBOnlineStatus {
   }
     
   enum Status {
-    case online, offline, away
+    case away
+    case error
+    case info
+    case neutral
+    case offline
+    case online
+    case primary
+    case success
+    case warning
     
     var color: Color {
       switch self {
       case .online: return .status(.success)
       case .away: return .status(.warning)
       case .offline: return .status(.neutral)
+      case .error: return .status(.error)
+      case .info: return .status(.info)
+      case .neutral: return .status(.neutral)
+      case .primary: return .pbPrimary
+      case .success: return .status(.success)
+      case .warning: return .status(.warning)
       }
     }
   }
