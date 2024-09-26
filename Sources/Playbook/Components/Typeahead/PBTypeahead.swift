@@ -201,7 +201,6 @@ private extension PBTypeahead {
         if let action = clearAction {
             clearText
             action()
-            clearText
         } else {
             clearText
         }
