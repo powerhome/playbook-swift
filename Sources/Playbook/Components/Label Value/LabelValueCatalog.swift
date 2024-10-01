@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct LabelValueCatalog: View {
   private let longText = "Proin pulvinar feugiat massa in luctus. Donec urna nulla, elementum sit"
-  @State private var showUser1: Bool = false
+
   public var body: some View {
     PBDocStack(title: "Label Value") {
       PBDoc(title: "Default") {
@@ -33,23 +33,6 @@ extension LabelValueCatalog {
       PBLabelValue("Role", "Administrator, Moderator")
       PBLabelValue("Email", "anna.black@powerhrg.com")
       PBLabelValue("Bio", longText)
-
-      PBMessage(
-        avatar: AnyView(Mocks.picAnna),
-        label: "Anna Black",
-        message: "How can we assist you today?",
-        timestamp: Date().addingTimeInterval(-20),
-        onHeaderClick: { showDialog() }
-      )
-      .presentationMode(isPresented: $showUser1) {
-          PBDialog(
-              title: "Info Dialog",
-              message: DialogCatalog.infoMessage,
-              cancelButton: DialogCatalog().cancelButton { showUser1 = false },
-              confirmButton: DialogCatalog().confirmationButton { showUser1 = false },
-              size: .small
-          )    .backgroundViewModifier(alpha: 0.2)
-      }
     }
   }
   var detailsView: some View {
@@ -156,9 +139,4 @@ extension LabelValueCatalog {
       )
     }
   }
-  private func showDialog() {
-    showUser1.toggle()
-    MessageCatalog.disableAnimation()
-  }
-  
 }
