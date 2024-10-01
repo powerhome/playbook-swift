@@ -22,6 +22,7 @@ public struct PBMessage<Content: View>: View {
   let timestampVariant: PBTimestamp.Variant
   let onHeaderClick: (() -> Void)?
   @Binding var isLoading: Bool
+  @State var isHoveringLabel: Bool = false
   @State private var isHovering: Bool = false
   
   public init(
@@ -59,6 +60,11 @@ public struct PBMessage<Content: View>: View {
           .setCursorPointer(disabled: !isCursorEnabled)
           .opacity(isLoading ? 0.8 : 1)
           .onTapGesture { onHeaderClick?() }
+          #if os(macOS)
+          .onHover { hover in
+            hover ? NSCursor.pointingHand.push() : NSCursor.pointingHand.pop()
+          }
+          #endif
       }
       VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: Spacing.xSmall) {
@@ -93,9 +99,11 @@ public struct PBMessage<Content: View>: View {
         }
         content
       }
+      #if os(macOS)
       .onHover { hover in
         isHovering = hover
       }
+      #endif
     }
     .padding(.vertical, verticalPadding)
     .padding(.horizontal, horizontalPadding)
