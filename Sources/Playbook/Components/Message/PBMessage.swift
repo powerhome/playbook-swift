@@ -22,7 +22,6 @@ public struct PBMessage<Content: View>: View {
   let timestampVariant: PBTimestamp.Variant
   let onHeaderClick: (() -> Void)?
   @Binding var isLoading: Bool
-  @State var isHoveringLabel: Bool = false
   @State private var isHovering: Bool = false
   
   public init(
