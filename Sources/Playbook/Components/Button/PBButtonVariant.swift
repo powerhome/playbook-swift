@@ -15,6 +15,7 @@ public extension PBButton {
     case secondary
     case link
     case disabled
+    case destructive
 
     // Color configuations
       public func  backgroundColor(colorScheme: ColorScheme) -> Color {
@@ -22,6 +23,7 @@ public extension PBButton {
       case .secondary: return Color.Buttons.Secondary.background(colorScheme)
       case .link: return .clear
       case .disabled: return .status(.neutral).opacity(0.5)
+      case .destructive: return .status(.error)
       default: return .pbPrimary
       }
     }
@@ -31,6 +33,7 @@ public extension PBButton {
       case .primary: return .white
       case .secondary: return Color.Buttons.Secondary.foreground(colorScheme)
       case .disabled: return .text(.default).opacity(0.5)
+      case .destructive: return .white
       default: return .pbPrimary
       }
     }
@@ -40,6 +43,7 @@ public extension PBButton {
       switch self {
       case .secondary: return .pbPrimary.opacity(0.3)
       case .link: return .clear
+      case .destructive: return .status(.error).opacity(0.3)
       default: return .pbPrimary
       }
     }
@@ -50,6 +54,7 @@ public extension PBButton {
       case .secondary: return .pbPrimary.opacity(0.3)
       case .link: return .clear
       case .disabled: return .status(.neutral).opacity(0.5)
+      case .destructive: return .status(.error).opacity(0.3)
       default: return .pbPrimary
       }
     }
