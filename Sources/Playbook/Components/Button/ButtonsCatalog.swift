@@ -50,7 +50,7 @@ extension ButtonsCatalog {
       )
       PBButton(
         variant: .destructive,
-        title: "Button Delete"
+        title: "Button Danger"
       )
     }
     .listRowSeparator(.hidden)
