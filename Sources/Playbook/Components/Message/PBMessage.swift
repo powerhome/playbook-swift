@@ -59,11 +59,6 @@ public struct PBMessage<Content: View>: View {
           .setCursorPointer(disabled: !isCursorEnabled)
           .opacity(isLoading ? 0.8 : 1)
           .onTapGesture { onHeaderClick?() }
-          #if os(macOS)
-          .onHover { hover in
-            hover ? NSCursor.pointingHand.push() : NSCursor.pointingHand.pop()
-          }
-          #endif
       }
       VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: Spacing.xSmall) {
@@ -91,6 +86,7 @@ public struct PBMessage<Content: View>: View {
           }
           .frame(height: 16.8)
         }
+        .setCursorPointer()
         .frame(maxWidth: .infinity, alignment: .topLeading)
         if let message = message {
           Text(message)
@@ -104,6 +100,7 @@ public struct PBMessage<Content: View>: View {
       }
       #endif
     }
+    .setCursorPointer()
     .padding(.vertical, verticalPadding)
     .padding(.horizontal, horizontalPadding)
     .frame(maxWidth: .infinity, alignment: .topLeading)
