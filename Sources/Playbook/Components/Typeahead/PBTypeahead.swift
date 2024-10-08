@@ -21,6 +21,7 @@ public struct PBTypeahead<Content: View>: View {
     private let popoverManager = PopoverManager()
     private let onSelection: (([Option]) -> Void)?
     private let clearAction: (() -> Void)?
+    let noOptionsText: String
     @State private var listOptions: [Option] = []
     @State private var showList: Bool = false
     @State private var hoveringIndex: Int?
@@ -31,36 +32,38 @@ public struct PBTypeahead<Content: View>: View {
     @State private var selectedOptions: [Option] = []
     @State private var focused: Bool = false
     @Binding var options: [Option]
-    @Binding var searchText: String
-    @FocusState.Binding private var isFocused: Bool
-    
-    public init(
-        id: Int,
-        title: String,
-        placeholder: String = "Select",
-        searchText: Binding<String>,
-        options: Binding<[Option]>,
-        selection: Selection,
-        debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
-        dropdownMaxHeight: CGFloat? = nil,
-        listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
-        isFocused: FocusState<Bool>.Binding,
-        onSelection: @escaping (([Option]) -> Void),
-        clearAction: (() -> Void)? = nil
-    ) {
-        self.id = id
-        self.title = title
-        self.placeholder = placeholder
-        self._searchText = searchText
-        self.selection = selection
-        self._options = options
-        self.debounce = debounce
-        self.dropdownMaxHeight = dropdownMaxHeight
-        self.listOffset = listOffset
-        self._isFocused = isFocused
-        self.clearAction = clearAction
-      self.onSelection = onSelection
-    }
+  @Binding var searchText: String
+  @FocusState.Binding private var isFocused: Bool
+
+  public init(
+    id: Int,
+    title: String,
+    placeholder: String = "Select",
+    searchText: Binding<String>,
+    options: Binding<[Option]>,
+    selection: Selection,
+    debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
+    dropdownMaxHeight: CGFloat? = nil,
+    listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
+    isFocused: FocusState<Bool>.Binding,
+    onSelection: @escaping (([Option]) -> Void),
+    clearAction: (() -> Void)? = nil,
+    noOptionsText: String = "No options"
+  ) {
+    self.id = id
+    self.title = title
+    self.placeholder = placeholder
+    self._searchText = searchText
+    self.selection = selection
+    self._options = options
+    self.debounce = debounce
+    self.dropdownMaxHeight = dropdownMaxHeight
+    self.listOffset = listOffset
+    self._isFocused = isFocused
+    self.clearAction = clearAction
+    self.noOptionsText = noOptionsText
+    self.onSelection = onSelection
+  }
 
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
@@ -137,7 +140,7 @@ private extension PBTypeahead {
             HStack {
               if result.0 == "No Options" {
                 Spacer()
-                Text("No Options")
+                Text(noOptionsText)
                   .pbFont(.body, color: .text(.light))
                 Spacer()
               } else {
