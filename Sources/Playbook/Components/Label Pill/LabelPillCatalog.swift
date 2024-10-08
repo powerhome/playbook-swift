@@ -22,15 +22,6 @@ public struct LabelPillCatalog: View {
 extension LabelPillCatalog {
   var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall) {
-
-      PBMessage(
-        avatar: AnyView(Mocks.picAnna),
-        label: "Anna Black",
-        message: "How can we assist you today?",
-        timestamp: Date().addingTimeInterval(-20)
-      )
-
-
       PBLabelPill(
         variant: .neutral,
         label: "Service Needed",
