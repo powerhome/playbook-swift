@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct LabelValueCatalog: View {
   private let longText = "Proin pulvinar feugiat massa in luctus. Donec urna nulla, elementum sit"
+
   public var body: some View {
     PBDocStack(title: "Label Value") {
       PBDoc(title: "Default") {

@@ -155,6 +155,7 @@ extension MessageCatalog {
         label: "Anna Black",
         message: "How can we assist you today?",
         timestamp: Date().addingTimeInterval(-20),
+        isOnClick: true,
         onHeaderClick: { showDialog() }
       )
       .presentationMode(isPresented: $showUser1) {
@@ -173,6 +174,7 @@ extension MessageCatalog {
         message: "We will escalate this issue to a Senior Support agent.",
         timestamp: Date().addingTimeInterval(-540),
         timestampAlignment: .leading,
+        isOnClick: true, 
         onHeaderClick: { showPopover() }
       )
       .pbPopover(isPresented: $showUser2, id: 9, position: .top(-65, 50)) {
