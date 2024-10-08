@@ -49,12 +49,12 @@ public extension PBButton {
     }
 
     // macOS-specific colors
-    public var hoverBackgroundColor: Color {
+    public func hoverBackgroundColor(colorScheme: ColorScheme?) -> Color {
       switch self {
       case .secondary: return .pbPrimary.opacity(0.3)
       case .link: return .clear
       case .disabled: return .status(.neutral).opacity(0.5)
-      case .destructive: return .status(.error).opacity(0.3)
+      case .destructive: return  colorScheme == .dark ?  Color(hex:"F74147") : Color(hex: "CC091A")
       default: return .pbPrimary
       }
     }
@@ -72,7 +72,7 @@ public extension PBButton {
       if isPressed {
         return variant.backgroundColor(colorScheme: colorScheme)
       } else if isHovering {
-        return variant.hoverBackgroundColor
+        return variant.hoverBackgroundColor(colorScheme: colorScheme)
       } else {
         return variant.backgroundColor(colorScheme: colorScheme)
       }
@@ -107,4 +107,9 @@ public extension PBButton {
       #endif
     }
   }
+}
+
+#Preview {
+  registerFonts()
+  return ButtonsCatalog()
 }
