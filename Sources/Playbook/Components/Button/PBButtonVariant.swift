@@ -15,6 +15,7 @@ public extension PBButton {
     case secondary
     case link
     case disabled
+    case destructive
 
     // Color configuations
       public func  backgroundColor(colorScheme: ColorScheme) -> Color {
@@ -22,6 +23,7 @@ public extension PBButton {
       case .secondary: return Color.Buttons.Secondary.background(colorScheme)
       case .link: return .clear
       case .disabled: return .status(.neutral).opacity(0.5)
+      case .destructive: return .status(.error)
       default: return .pbPrimary
       }
     }
@@ -31,6 +33,7 @@ public extension PBButton {
       case .primary: return .white
       case .secondary: return Color.Buttons.Secondary.foreground(colorScheme)
       case .disabled: return .text(.default).opacity(0.5)
+      case .destructive: return .white
       default: return .pbPrimary
       }
     }
@@ -40,16 +43,18 @@ public extension PBButton {
       switch self {
       case .secondary: return .pbPrimary.opacity(0.3)
       case .link: return .clear
+      case .destructive: return .status(.error).opacity(0.3)
       default: return .pbPrimary
       }
     }
 
     // macOS-specific colors
-    public var hoverBackgroundColor: Color {
+    public func hoverBackgroundColor(colorScheme: ColorScheme?) -> Color {
       switch self {
       case .secondary: return .pbPrimary.opacity(0.3)
       case .link: return .clear
       case .disabled: return .status(.neutral).opacity(0.5)
+      case .destructive: return  colorScheme == .dark ?  Color(hex:"F74147") : Color(hex: "CC091A")
       default: return .pbPrimary
       }
     }
@@ -67,7 +72,7 @@ public extension PBButton {
       if isPressed {
         return variant.backgroundColor(colorScheme: colorScheme)
       } else if isHovering {
-        return variant.hoverBackgroundColor
+        return variant.hoverBackgroundColor(colorScheme: colorScheme)
       } else {
         return variant.backgroundColor(colorScheme: colorScheme)
       }
@@ -102,4 +107,9 @@ public extension PBButton {
       #endif
     }
   }
+}
+
+#Preview {
+  registerFonts()
+  return ButtonsCatalog()
 }
