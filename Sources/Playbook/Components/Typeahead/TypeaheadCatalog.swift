@@ -15,6 +15,7 @@ public struct TypeaheadCatalog: View {
     @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = []
     @State private var searchTextUsers: String = ""
     @State private var searchTextColors: String = ""
+    @State private var searchTextSections: String = ""
     @State private var searchText: String = ""
     @State private var searchTextDebounce: String = ""
     @State private var didTapOutside: Bool? = false
@@ -24,6 +25,15 @@ public struct TypeaheadCatalog: View {
     @State private var assetsUser = Mocks.multipleUsersDictionary
     @FocusState var isFocused1
     @FocusState var isFocused2
+    @FocusState var isFocused3
+    @State private var sectionUsers: [PBTypeaheadTemplate.OptionType] = [
+        .section("section 1"),
+        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
+        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
+        .section("section 2"),
+        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
+        .item(("4", (Mocks.luccile.name, { Mocks.luccile })))
+    ]
 
     var popoverManager = PopoverManager()
     
@@ -34,13 +44,18 @@ public struct TypeaheadCatalog: View {
             #if os(macOS)
             PBDoc(title: "Dialog") { dialog }
             #endif
+            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
+                .padding(.bottom, 500)
+
         }
         .onTapGesture {
             isFocused1 = false
             isFocused2 = false
+            isFocused3 = false
         }
         .popoverHandler(id: 1)
         .popoverHandler(id: 2)
+        .popoverHandler(id: 3)
     }
 }
 
@@ -69,9 +84,19 @@ extension TypeaheadCatalog {
             selectedUsers = selected
             print(selected)
         }
-        
     }
-    
+
+    var sections: some View {
+        PBTypeaheadTemplate(
+            id: 3,
+            title: "Sections",
+            searchText: $searchTextSections,
+            options: $sectionUsers,
+            selection: .multiple(variant: .pill),
+            isFocused: $isFocused3
+        ) { _ in }
+    }
+
     func closeToast() {
         presentDialog = false
     }
