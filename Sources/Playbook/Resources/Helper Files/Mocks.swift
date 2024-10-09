@@ -36,12 +36,12 @@ enum Mocks {
   static let assetsColors: [(String, (String, (() -> AnyView?)?)?)] = [
     ("Orange", nil),
     ("Red", nil),
-    ("Green", nil),
+//    ("Green", nil),
     ("Blue", nil),
     ("Pink", nil),
-    ("Yellow", nil),
-    ("Violet", nil),
-    ("Indigo", nil),
+//    ("Yellow", nil),
+//    ("Violet", nil),
+//    ("Indigo", nil),
     ("Magenta", nil)
   ]
 
