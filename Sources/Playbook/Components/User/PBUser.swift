@@ -23,7 +23,7 @@ public struct PBUser: View {
     var territoryTitleFont: PBFont
     public init(
         name: String = "",
-        nameFont: Typography = .init(font: .title3, variant: .bold),
+        nameFont: Typography = .init(font: .title4, variant: .bold),
         image: Image? = nil,
         orientation: Orientation = .horizontal,
         size: Size = .medium,
@@ -88,8 +88,8 @@ public extension PBUser {
             Text(name)
                 .pbFont(nameFont.font, variant: nameFont.variant)
                 .foregroundColor(.text(.default))
-                .lineLimit(1)
             bodyText.pbFont(territoryTitleFont, color: .text(.light))
+                .lineLimit(1)
             if let content = subtitle {
                 content
             }
