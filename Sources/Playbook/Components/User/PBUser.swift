@@ -90,6 +90,7 @@ public extension PBUser {
                 .foregroundColor(.text(.default))
             bodyText.pbFont(territoryTitleFont, color: .text(.light))
                 .lineLimit(1)
+                .truncationMode(.tail)
             if let content = subtitle {
                 content
             }
