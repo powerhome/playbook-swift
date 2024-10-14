@@ -48,6 +48,10 @@ extension ButtonsCatalog {
         variant: .disabled,
         title: "Button Disabled"
       )
+      PBButton(
+        variant: .destructive,
+        title: "Button Danger"
+      )
     }
     .listRowSeparator(.hidden)
     .previewDisplayName("Button Variants")
