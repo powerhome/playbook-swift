@@ -17,7 +17,7 @@ public struct PBGrid: Layout {
   
   public init(
     alignment: Alignment = .leading,
-    horizontalSpacing: CGFloat? = 8,
+    horizontalSpacing: CGFloat? = nil,
     verticalSpacing: CGFloat? = nil,
     fitContent: Bool = true
   ) {
@@ -134,14 +134,12 @@ public extension PBGrid {
     
     for index in rows.indices {
       let maxHeightIndex = rows[index].elements
-        .max { $0.size.height < $1.size.height }!
+        .max { $0.size.height < $1.size.height }?
         .index
-      
-      let size = sizes[maxHeightIndex]
-      
+      let size = sizes[maxHeightIndex ?? 0]
       var spacing = CGFloat.zero
       if let previousMaxHeightIndex {
-        spacing = verticalSpacing(subviews[previousMaxHeightIndex], subviews[maxHeightIndex])
+        spacing = verticalSpacing(subviews[previousMaxHeightIndex], subviews[maxHeightIndex ?? 0])
       }
       
       rows[index].yOffset = currentY + spacing
