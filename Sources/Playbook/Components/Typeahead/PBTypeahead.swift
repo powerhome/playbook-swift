@@ -21,6 +21,7 @@ public struct PBTypeahead<Content: View>: View {
     private let popoverManager = PopoverManager()
     private let onSelection: (([Option]) -> Void)?
     private let clearAction: (() -> Void)?
+    let noOptionsText: String
     @State private var listOptions: [Option] = []
     @State private var showList: Bool = false
     @State private var hoveringIndex: Int?
@@ -31,162 +32,175 @@ public struct PBTypeahead<Content: View>: View {
     @State private var selectedOptions: [Option] = []
     @State private var focused: Bool = false
     @Binding var options: [Option]
-    @Binding var searchText: String
-    @FocusState.Binding private var isFocused: Bool
-    
-    public init(
-        id: Int,
-        title: String,
-        placeholder: String = "Select",
-        searchText: Binding<String>,
-        options: Binding<[Option]>,
-        selection: Selection,
-        debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
-        dropdownMaxHeight: CGFloat? = nil,
-        listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
-        isFocused: FocusState<Bool>.Binding,
-        onSelection: @escaping (([Option]) -> Void),
-        clearAction: (() -> Void)? = nil
-    ) {
-        self.id = id
-        self.title = title
-        self.placeholder = placeholder
-        self._searchText = searchText
-        self.selection = selection
-        self._options = options
-        self.debounce = debounce
-        self.dropdownMaxHeight = dropdownMaxHeight
-        self.listOffset = listOffset
-        self._isFocused = isFocused
-        self.clearAction = clearAction
-        self.onSelection = onSelection
+  @Binding var searchText: String
+  @FocusState.Binding private var isFocused: Bool
+
+  public init(
+    id: Int,
+    title: String,
+    placeholder: String = "Select",
+    searchText: Binding<String>,
+    options: Binding<[Option]>,
+    selection: Selection,
+    debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
+    dropdownMaxHeight: CGFloat? = nil,
+    listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
+    isFocused: FocusState<Bool>.Binding,
+    onSelection: @escaping (([Option]) -> Void),
+    clearAction: (() -> Void)? = nil,
+    noOptionsText: String = "No options"
+  ) {
+    self.id = id
+    self.title = title
+    self.placeholder = placeholder
+    self._searchText = searchText
+    self.selection = selection
+    self._options = options
+    self.debounce = debounce
+    self.dropdownMaxHeight = dropdownMaxHeight
+    self.listOffset = listOffset
+    self._isFocused = isFocused
+    self.clearAction = clearAction
+    self.noOptionsText = noOptionsText
+    self.onSelection = onSelection
+  }
+
+  public var body: some View {
+    VStack(alignment: .leading, spacing: Spacing.xSmall) {
+      Text(title).pbFont(.caption)
+        .padding(.bottom, Spacing.xxSmall)
+      GridInputField(
+        placeholder: placeholder,
+        searchText: $searchText,
+        selection: optionsSelected,
+        isFocused: $isFocused,
+        clearAction: { clear },
+        onItemTap: { removeSelected($0) },
+        onViewTap: { onViewTap }
+      )
+      .sizeReader { contentSize = $0 }
+      .pbPopover(
+        isPresented: $showList,
+        id: id,
+        position: .bottom(listOffset.x, listOffset.y),
+        variant: .dropdown,
+        refreshView: $isHovering
+      ) {
+        listView
+      }
+      .onTapGesture {
+        isFocused = false
+      }
     }
-    
-    public var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.xSmall) {
-            Text(title).pbFont(.caption)
-                .padding(.bottom, Spacing.xxSmall)
-            GridInputField(
-                placeholder: placeholder,
-                searchText: $searchText,
-                selection: optionsSelected,
-                isFocused: $isFocused,
-                clearAction: { clear },
-                onItemTap: { removeSelected($0) },
-                onViewTap: { onViewTap }
-            )
-            .sizeReader { contentSize = $0 }
-            .pbPopover(
-                isPresented: $showList,
-                id: id,
-                position: .bottom(listOffset.x, listOffset.y),
-                variant: .dropdown,
-                refreshView: $isHovering
-            ) {
-                listView
-            }
-            .onTapGesture {
-                isFocused = false
-            }
-        }
-        .onChange(of: options.count) { _ in
-            listOptions = options
-        }
-        .onAppear {
-            focused = isFocused
-            listOptions = options
-            if debounce.numberOfCharacters == 0 {
-                showList = isFocused
-            }
-            setKeyboardControls
-        }
-        .onChange(of: isFocused) { newValue in
-            Timer.scheduledTimer(withTimeInterval: 0.03, repeats: false) { _ in
-                showList = newValue
-            }
-        }
-        .onChange(of: searchText, debounce: debounce) { _ in
-            _ = searchResults
-            reloadList
-        }
-        .onChange(of: listOptions.count) { _ in
-            reloadList
-        }
-        .onChange(of: contentSize) { _ in
-            reloadList
-        }
-        .onChange(of: hoveringIndex) { index in
-            reloadList
-        }
-        .onChange(of: searchText, debounce: debounce) { _ in
-            if !searchText.isEmpty {
-                showList = true
-            }
-        }
+    .onChange(of: options.count) { _ in
+      listOptions = options
     }
+    .onAppear {
+      focused = isFocused
+      listOptions = options
+      if debounce.numberOfCharacters == 0 {
+        showList = isFocused
+      }
+      setKeyboardControls
+    }
+    .onChange(of: isFocused) { newValue in
+      Timer.scheduledTimer(withTimeInterval: 0.03, repeats: false) { _ in
+        showList = newValue
+      }
+    }
+    .onChange(of: searchText, debounce: debounce) { _ in
+      _ = searchResults
+      reloadList
+    }
+    .onChange(of: listOptions.count) { _ in
+      reloadList
+    }
+    .onChange(of: contentSize) { _ in
+      reloadList
+    }
+    .onChange(of: hoveringIndex) { index in
+      reloadList
+    }
+    .onChange(of: searchText, debounce: debounce) { _ in
+      if !searchText.isEmpty {
+        showList = true
+      }
+    }
+  }
 }
 
 @MainActor
 private extension PBTypeahead {
-    @ViewBuilder
-    var listView: some View {
-        PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
-            ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                        HStack {
-                            if let customView = result.1?.1?() {
-                                customView
-                            } else {
-                                Text(result.1?.0 ?? result.0)
-                                    .pbFont(.body, color: listTextolor(index))
-                            }
-                        }
-                        .padding(.horizontal, Spacing.xSmall + 4)
-                        .padding(.vertical, Spacing.xSmall + 4)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(listBackgroundColor(index))
-                        .onHover(disabled: false) { hover in
-                            isHovering = hover
-                            hoveringIndex = index
-                            hoveringOption = result
-                        }
-                        .onTapGesture {
-                            onListSelection(index: index, option: result)
-                        }
-                    }
+  @ViewBuilder
+  var listView: some View {
+    PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
+      ScrollView {
+        VStack(spacing: 0) {
+          ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
+            HStack {
+              if result.0 == "No Options" {
+                Spacer()
+                Text(noOptionsText)
+                  .pbFont(.body, color: .text(.light))
+                Spacer()
+              } else {
+                if let customView = result.1?.1?() {
+                  customView
+                } else {
+                  Text(result.1?.0 ?? result.0)
+                    .pbFont(.body, color: listTextolor(index))
                 }
+              }
             }
-            .scrollDismissesKeyboard(.immediately)
-            .frame(maxHeight: dropdownMaxHeight)
-            .fixedSize(horizontal: false, vertical: true)
+            .padding(.horizontal, Spacing.xSmall + 4)
+            .padding(.vertical, Spacing.xSmall + 4)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(listBackgroundColor(index))
+            .onHover(disabled: false) { hover in
+              isHovering = hover
+              hoveringIndex = index
+              hoveringOption = result
+            }
+            .onTapGesture {
+              if result.0 != "No Options" {
+                onListSelection(index: index, option: result)
+              }
+            }
+          }
         }
-        .frame(maxWidth: .infinity, alignment: .top)
-        .transition(.opacity)
+      }
+      .scrollDismissesKeyboard(.immediately)
+      .frame(maxHeight: dropdownMaxHeight)
+      .fixedSize(horizontal: false, vertical: true)
     }
+    .frame(maxWidth: .infinity, alignment: .top)
+    .transition(.opacity)
+  }
 
-    var searchResults: [Option] {
-      switch selection{
-        case .multiple:
-          return searchText.isEmpty && debounce.numberOfCharacters == 0  ? listOptions : listOptions.filter {
-            if let text = $0.1?.0 {
-              text.localizedCaseInsensitiveContains(searchText)
-            } else {
-              $0.0.localizedCaseInsensitiveContains(searchText)
-            }
-          }
-        case .single:
-          return searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
-            if let text = $0.1?.0 {
-              text.localizedCaseInsensitiveContains(searchText)
-            } else {
-              $0.0.localizedCaseInsensitiveContains(searchText)
-            }
-          }
+  var searchResults: [Option] {
+    let results: [Option]
+    switch selection {
+    case .multiple:
+      results = searchText.isEmpty && debounce.numberOfCharacters == 0 ? listOptions : listOptions.filter {
+        if let text = $0.1?.0 {
+          return text.localizedCaseInsensitiveContains(searchText)
+        } else {
+          return $0.0.localizedCaseInsensitiveContains(searchText)
+        }
+      }
+    case .single:
+      results = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
+        if let text = $0.1?.0 {
+          return text.localizedCaseInsensitiveContains(searchText)
+        } else {
+          return $0.0.localizedCaseInsensitiveContains(searchText)
+        }
       }
     }
+    return results.isEmpty ? [("No Options", nil)] : results
+  }
 
-    var optionsSelected: GridInputField.Selection {
+  var optionsSelected: GridInputField.Selection {
         let optionsSelected = selectedOptions.map { value in
             if let content = value.1 {
                 return content.0
