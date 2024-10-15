@@ -21,7 +21,6 @@ public struct PBTypeahead<Content: View>: View {
     private let popoverManager = PopoverManager()
     private let onSelection: (([Option]) -> Void)?
     private let clearAction: (() -> Void)?
-    @State private var listOptions: [Option] = []
     @State private var showList: Bool = false
     @State private var isCollapsed = false
     @State private var hoveringIndex: Int?
@@ -90,12 +89,8 @@ public struct PBTypeahead<Content: View>: View {
                 isFocused = false
             }
         }
-        .onChange(of: options.count) { _ in
-            listOptions = options
-        }
         .onAppear {
             focused = isFocused
-            listOptions = options
             if debounce.numberOfCharacters == 0 {
                 showList = isFocused
             }
@@ -110,7 +105,7 @@ public struct PBTypeahead<Content: View>: View {
             _ = searchResults
             reloadList
         }
-        .onChange(of: listOptions.count) { _ in
+        .onChange(of: searchResults.count) { _ in
             reloadList
         }
         .onChange(of: contentSize) { _ in
@@ -166,24 +161,19 @@ private extension PBTypeahead {
     }
 
     var searchResults: [Option] {
-      switch selection{
-        case .multiple:
-          return searchText.isEmpty && debounce.numberOfCharacters == 0  ? listOptions : listOptions.filter {
+        let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
             if let text = $0.1?.0 {
-              text.localizedCaseInsensitiveContains(searchText)
+                return text.localizedCaseInsensitiveContains(searchText)
             } else {
-              $0.0.localizedCaseInsensitiveContains(searchText)
+                return $0.0.localizedCaseInsensitiveContains(searchText)
             }
-          }
-        case .single:
-          return searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
-            if let text = $0.1?.0 {
-              text.localizedCaseInsensitiveContains(searchText)
-            } else {
-              $0.0.localizedCaseInsensitiveContains(searchText)
-            }
-          }
-      }
+        }
+        let selectedIds = Set(selectedOptions.map { $0.0 })
+        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.0) }
+        switch selection{
+            case .multiple: return filteredSelectedOptions
+            case .single: return filteredOptions
+        }
     }
 
     var optionsSelected: GridInputField.Selection {
@@ -210,7 +200,6 @@ private extension PBTypeahead {
         searchText = ""
         selectedOptions.removeAll()
         onSelection?([])
-        listOptions = options
         selectedIndex = nil
         hoveringIndex = nil
         showList = false
@@ -297,16 +286,14 @@ private extension PBTypeahead {
     func onMultipleSelection(_ option: Option) {
         selectedOptions.append(option)
         onSelection?(selectedOptions)
-        listOptions.removeAll(where: { $0.0 == option.0 })
         hoveringIndex = nil
         selectedIndex = nil
     }
     
     func removeSelected(_ index: Int) {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
-            let selectedElement = selectedOptions.remove(at: selectedElementIndex)
+            let _ = selectedOptions.remove(at: selectedElementIndex)
             onSelection?(selectedOptions)
-            listOptions.append(selectedElement)
             selectedIndex = nil
         }
     }

@@ -31,6 +31,10 @@ public struct TypeaheadCatalog: View {
         .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
         .item(("2", (Mocks.ana.name, { Mocks.ana }))),
         .section("section 2"),
+        .item(("4", (Mocks.luccile.name, { Mocks.luccile }))),
+        .section("section 3"),
+        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
+        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
         .item(("3", (Mocks.patric.name, { Mocks.patric }))),
         .item(("4", (Mocks.luccile.name, { Mocks.luccile })))
     ]

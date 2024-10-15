@@ -34,7 +34,7 @@ public struct PBTypeaheadTemplate<Content: View>: View {
     private let popoverManager = PopoverManager()
     private let onSelection: (([OptionType]) -> Void)?
     private let clearAction: (() -> Void)?
-    @State private var listOptions: [OptionType] = []
+    @State private var numberOfLoadedItems: Int = 6
     @State private var showList: Bool = false
     @State private var isCollapsed = false
     @State private var hoveringIndex: Int?
@@ -103,12 +103,8 @@ public struct PBTypeaheadTemplate<Content: View>: View {
                 isFocused = false
             }
         }
-        .onChange(of: options.count) { _ in
-            listOptions = options
-        }
         .onAppear {
             focused = isFocused
-            listOptions = options
             if debounce.numberOfCharacters == 0 {
                 showList = isFocused
             }
@@ -123,13 +119,16 @@ public struct PBTypeaheadTemplate<Content: View>: View {
             _ = searchResults
             reloadList
         }
-        .onChange(of: listOptions.count) { _ in
+        .onChange(of: searchResults.count) { _ in
             reloadList
         }
         .onChange(of: contentSize) { _ in
             reloadList
         }
-        .onChange(of: hoveringIndex) { index in
+        .onChange(of: hoveringIndex) { _ in
+            reloadList
+        }
+        .onChange(of: numberOfLoadedItems) { _ in
             reloadList
         }
         .onChange(of: searchText, debounce: debounce) { _ in
@@ -142,7 +141,7 @@ public struct PBTypeaheadTemplate<Content: View>: View {
 
 @MainActor
 private extension PBTypeaheadTemplate {
-    func listItemView(item: Option, index: Int, optionType: OptionType) -> some View {
+    func listItemView(item: Option, index: Int) -> some View {
         HStack {
             if let customView = item.1?.1?() {
                 customView
@@ -161,24 +160,81 @@ private extension PBTypeaheadTemplate {
             hoveringOption = item
         }
         .onTapGesture {
-            onListSelection(index: index, option: optionType)
+//            onListSelection(index: index, option: optionType)
         }
     }
+
+    var mapResults: [(String?, [Option])] {
+        var array: [(String?, [Option])] = []
+        var currentSection: String? = nil
+        var currentOptions: [Option] = []
+
+        for result in searchResults {
+            switch result {
+            case .section(let section):
+                if !currentOptions.isEmpty || currentSection != nil {
+                    array.append((currentSection, currentOptions))
+                    currentOptions = []
+                }
+                currentSection = section
+
+            case .item(let option):
+                currentOptions.append(option)
+            }
+        }
+        // Append the last section if it has items
+        if !currentOptions.isEmpty || currentSection != nil {
+            array.append((currentSection, currentOptions))
+        }
+
+        return array
+    }
+
 
     @ViewBuilder
     var listView: some View {
         PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                        switch result {
-                            case .section(let section): 
-                                Text(section).pbFont(.caption)
+                    
+
+                    ForEach(mapResults , id: \.0) { result in
+
+
+                        Text(result.0 ?? "").pbFont(.caption)
                                     .padding(.top)
                                     .padding(.leading)
-                            case .item(let item): listItemView(item: item, index: index, optionType: result)
+
+
+
+                        ForEach(Array(zip(result.1.indices, result.1)), id: \.0) { index, item in
+                            listItemView(item: item, index: index)
                         }
+
                     }
+
+
+
+
+
+
+
+
+//                    ForEach(Array(zip(searchResults.indices, searchResults)).prefix(numberOfLoadedItems), id: \.0) { index, result in
+//                        switch result {
+//                            case .section(let section):
+//                                Text(section).pbFont(.caption)
+//                                    .padding(.top)
+//                                    .padding(.leading)
+//                            case .item(let item): listItemView(item: item, index: index, optionType: result)
+//                        }
+//                    }
+//                    PBButton(variant: .link, title: "View More") {
+//                        numberOfLoadedItems += 1
+//                    }
+//                    .padding()
+
+
                 }
             }
             .scrollDismissesKeyboard(.immediately)
@@ -189,39 +245,23 @@ private extension PBTypeaheadTemplate {
     }
 
     var searchResults: [OptionType] {
+        let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
+            switch $0 {
+                case .item(let item):
+                    if let text = item.1?.0 {
+                        return text.localizedCaseInsensitiveContains(searchText)
+                    } else {
+                        return item.0.localizedCaseInsensitiveContains(searchText)
+                    }
+                case .section(_):
+                    return true
+            }
+        }
+        let selectedIds = Set(selectedOptions.map { $0.id })
+        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
         switch selection{
-            case .multiple:
-                let selectedIds = Set(selectedOptions.map { $0.id })
-                let arr = searchText.isEmpty && debounce.numberOfCharacters == 0  ? listOptions : listOptions.filter {
-                    switch $0 {
-                        case .item(let item):
-                            if let text = item.1?.0 {
-                               return text.localizedCaseInsensitiveContains(searchText)
-                            } else {
-                                return item.0.localizedCaseInsensitiveContains(searchText)
-                            }
-                        case .section(_):
-                            return true
-                    }
-                }
-                let arr2 = arr.filter { !selectedIds.contains($0.id) }
-                print("@@@ >>> arr1 \(arr.count), arr2 \(arr2.count)")
-                return arr2
-
-
-            case .single:
-                return searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
-                    switch $0 {
-                        case .item(let item):
-                            if let text = item.1?.0 {
-                               return text.localizedCaseInsensitiveContains(searchText)
-                            } else {
-                               return item.0.localizedCaseInsensitiveContains(searchText)
-                            }
-                        case .section(_):
-                            return true
-                    }
-                }
+            case .multiple: return filteredSelectedOptions
+            case .single: return filteredOptions
         }
     }
 
@@ -253,7 +293,6 @@ private extension PBTypeaheadTemplate {
         searchText = ""
         selectedOptions.removeAll()
         onSelection?([])
-        listOptions = options
         selectedIndex = nil
         hoveringIndex = nil
         showList = false
@@ -340,7 +379,6 @@ private extension PBTypeaheadTemplate {
     func onMultipleSelection(_ option: OptionType) {
         selectedOptions.append(option)
         onSelection?(selectedOptions)
-//        listOptions.removeAll(where: { $0.id == option.id })
         hoveringIndex = nil
         selectedIndex = nil
     }
@@ -349,7 +387,6 @@ private extension PBTypeaheadTemplate {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
             let selectedElement = selectedOptions.remove(at: selectedElementIndex)
             onSelection?(selectedOptions)
-//            listOptions.append(selectedElement)
             selectedIndex = nil
         }
     }
@@ -391,7 +428,7 @@ public extension PBTypeaheadTemplate {
     }
 }
 
-//#Preview {
-//    registerFonts()
-//    return TypeaheadCatalogTemplate()
-//}
+#Preview {
+    registerFonts()
+    return TypeaheadCatalog()
+}
