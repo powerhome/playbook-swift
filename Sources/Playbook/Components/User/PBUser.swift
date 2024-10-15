@@ -85,7 +85,7 @@ public extension PBUser {
             Text(name)
                 .pbFont(nameFont.font, variant: nameFont.variant)
                 .foregroundColor(.text(.default))
-            bodyText.pbFont(.body, color: .text(.light))
+            bodyText.pbFont(.body, color: .text(.light)).lineLimit(1)
             if let content = subtitle {
                 content
             }
