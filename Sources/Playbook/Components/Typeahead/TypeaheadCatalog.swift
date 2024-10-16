@@ -30,9 +30,9 @@ public struct TypeaheadCatalog: View {
         .section("section 1"),
         .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
         .item(("2", (Mocks.ana.name, { Mocks.ana }))),
-        .section("section 2"),
+        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
         .item(("4", (Mocks.luccile.name, { Mocks.luccile }))),
-        .section("section 3"),
+        .section("section 2"),
         .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
         .item(("2", (Mocks.ana.name, { Mocks.ana }))),
         .item(("3", (Mocks.patric.name, { Mocks.patric }))),
@@ -97,6 +97,7 @@ extension TypeaheadCatalog {
             searchText: $searchTextSections,
             options: $sectionUsers,
             selection: .multiple(variant: .pill),
+            dropdownMaxHeight: 400,
             isFocused: $isFocused3
         ) { _ in }
     }

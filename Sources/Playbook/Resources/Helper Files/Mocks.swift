@@ -23,11 +23,7 @@ enum Mocks {
     ("1", (andrew.name, { andrew })),
     ("2", (ana.name, { ana })),
     ("3", (patric.name, { patric })),
-    ("4", (luccile.name, { luccile })),
-    ("5", (andrew.name, { andrew })),
-    ("6", (ana.name, { ana })),
-    ("7", (patric.name, { patric })),
-    ("8", (luccile.name, { luccile }))
+    ("4", (luccile.name, { luccile }))
   ]
   static let avatarXSmall = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall)
   static let avatarXSmallStatus = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .online)
