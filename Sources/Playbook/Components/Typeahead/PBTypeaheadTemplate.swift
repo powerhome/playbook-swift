@@ -24,7 +24,7 @@ public struct PBTypeaheadTemplate<Content: View>: View {
 
     @State private var showList: Bool = false
     @State private var isCollapsed = false
-    @State private var hoveringIndex: Int?
+    @State private var hoveringIndex: (Int?, String?)
     @State private var hoveringOption: Option?
     @State private var isHovering: Bool = false
     @State private var contentSize: CGSize = .zero
@@ -113,7 +113,7 @@ public struct PBTypeaheadTemplate<Content: View>: View {
         .onChange(of: contentSize) { _ in
             reloadList
         }
-        .onChange(of: hoveringIndex) { _ in
+        .onChange(of: hoveringIndex.0) { _ in
             reloadList
         }
         .onChange(of: searchText, debounce: debounce) { _ in
@@ -136,10 +136,9 @@ private extension PBTypeaheadTemplate {
                             sectionView(section)
                         }
                         ForEach(Array(zip(result.1.indices, result.1)), id: \.0) { index, item in
-                            listItemView(item: item, index: index)
+                            listItemView(item: item, index: index, for: result.0)
                         }
-                        result.2
-                            .padding()
+                        result.2.padding()
                     }
                 }
             }
@@ -156,7 +155,7 @@ private extension PBTypeaheadTemplate {
             .padding(.leading)
     }
 
-    func listItemView(item: Option, index: Int) -> some View {
+    func listItemView(item: Option, index: Int, for section: String?) -> some View {
         HStack {
             if let customView = item.1?.1?() {
                 customView
@@ -168,14 +167,14 @@ private extension PBTypeaheadTemplate {
         .padding(.horizontal, Spacing.xSmall + 4)
         .padding(.vertical, Spacing.xSmall + 4)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(listBackgroundColor(index))
+        .background(listBackgroundColor(index, section: section))
         .onHover(disabled: false) { hover in
             isHovering = hover
-            hoveringIndex = index
+            hoveringIndex = (index, section)
             hoveringOption = item
         }
         .onTapGesture {
-            onListSelection(index: index, option: item)
+            onListSelection(index: index, section: section, option: item)
         }
     }
 
@@ -276,7 +275,7 @@ private extension PBTypeaheadTemplate {
         selectedOptions.removeAll()
         onSelection?([])
         selectedIndex = nil
-        hoveringIndex = nil
+        hoveringIndex = (nil, nil)
         showList = false
     }
 
@@ -287,14 +286,22 @@ private extension PBTypeaheadTemplate {
                 focused = true
             }
             if event.keyCode == 36 { // return bar
-                if let index = hoveringIndex, index <= searchResults.count-1, showList {
-                    onListSelection(index: index, option: searchResults[index])
+                if let index = hoveringIndex.0,
+                   let section = hoveringIndex.1,
+                    let results = mapResults.first?.1,
+                   index <= results.count-1,
+                    showList {
+                    onListSelection(index: index, section: section, option: results[index])
                 }
             }
             if event.keyCode == 49 { // space
                 if isFocused {
-                    if let index = hoveringIndex, index <= searchResults.count-1, showList, searchText.isEmpty {
-                        onListSelection(index: index, option: searchResults[index])
+                    if let index = hoveringIndex.0,
+                       let section = hoveringIndex.1,
+                        let results = mapResults.first?.1,
+                        index <= results.count-1,
+                        showList, searchText.isEmpty {
+                        onListSelection(index: index, section: section, option: results[index])
                     } else {
                         showList = true
                     }
@@ -307,17 +314,17 @@ private extension PBTypeaheadTemplate {
             }
             if event.keyCode == 125 { // arrow down
                 if isFocused {
-                    if let index = hoveringIndex {
-                        hoveringIndex = index < searchResults.count ? (index + 1) : 0
+                    if let index = hoveringIndex.0, let section = hoveringIndex.1 {
+                        hoveringIndex.0 = index < searchResults.count ? (index + 1) : 0
                     } else {
-                        hoveringIndex = 0
+                        hoveringIndex.0 = 0
                     }
                 }
             }
             else {
                 if event.keyCode == 126 { // arrow up
-                    if isFocused, let index = hoveringIndex {
-                        hoveringIndex = index > 1 ? (index - 1) : 0
+                    if isFocused, let index = hoveringIndex.0 {
+                        hoveringIndex.0 = index > 1 ? (index - 1) : 0
                     }
                 }
             }
@@ -337,31 +344,35 @@ private extension PBTypeaheadTemplate {
         }
     }
 
-    func onListSelection(index: Int, option: Option) {
+    func onListSelection(index: Int, section: String?, option: Option) {
         if showList {
             switch selection {
                 case .single:
-                    onSingleSelection(index: index, option)
+                    onSingleSelection(index: index, section: section, option)
                 case .multiple:
-                    onMultipleSelection(option)
+                    onMultipleSelection(index: index, section: section, option)
             }
         }
         showList = false
         searchText = ""
     }
 
-    func onSingleSelection(index: Int, _ option: Option) {
+    func onSingleSelection(index: Int, section: String?, _ option: Option) {
         selectedOptions.removeAll()
-        selectedOptions.append(option)
+        if hoveringIndex.0 == index && hoveringIndex.1 == section {
+            selectedOptions.append(option)
+            onSelection?(selectedOptions)
+        }
         selectedIndex = index
-        hoveringIndex = index
-        onSelection?(selectedOptions)
+        hoveringIndex = (index, section)
     }
 
-    func onMultipleSelection(_ option: Option) {
-        selectedOptions.append(option)
-        onSelection?(selectedOptions)
-        hoveringIndex = nil
+    func onMultipleSelection(index: Int, section: String?, _ option: Option) {
+        if hoveringIndex.0 == index && hoveringIndex.1 == section {
+            selectedOptions.append(option)
+            onSelection?(selectedOptions)
+        }
+        hoveringIndex = (index, section)
         selectedIndex = nil
     }
 
@@ -373,7 +384,7 @@ private extension PBTypeaheadTemplate {
         }
     }
 
-    func listBackgroundColor(_ index: Int?) -> Color {
+    func listBackgroundColor(_ index: Int?, section: String?) -> Color {
         switch selection {
             case .single:
                 if selectedIndex != nil, selectedIndex == index {
@@ -382,7 +393,7 @@ private extension PBTypeaheadTemplate {
             default: break
         }
         #if os(macOS)
-        return hoveringIndex == index ? .hover : .card
+        return hoveringIndex.0 == index && hoveringIndex.1 == section ? .hover : .card
         #elseif os(iOS)
         return .card
         #endif
