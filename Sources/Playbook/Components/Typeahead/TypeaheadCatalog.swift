@@ -11,8 +11,12 @@ import SwiftUI
 
 public struct TypeaheadCatalog: View {
     @State private var assetsColors = Mocks.assetsColors
+    @State private var selectedAssetsColors = [Mocks.assetsColors.first!]
     @State private var assetsUsers = Mocks.multipleUsersDictionary
-    @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = []
+    @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
+        ("1", (Mocks.andrew.name, { Mocks.andrew })),
+        ("2", (Mocks.ana.name, { Mocks.ana }))
+    ]
     @State private var searchTextUsers: String = ""
     @State private var searchTextColors: String = ""
     @State private var searchTextSections: String = ""
@@ -70,8 +74,9 @@ extension TypeaheadCatalog {
             searchText: $searchTextColors,
             options: $assetsColors, 
             selection: .single,
-            isFocused: $isFocused1
-        ) { _ in }
+            isFocused: $isFocused1,
+            selectedOptions: $selectedAssetsColors
+        )
     }
     
     var users: some View {
@@ -82,11 +87,9 @@ extension TypeaheadCatalog {
             searchText: $searchTextUsers,
             options: $assetsUsers, 
             selection: .multiple(variant: .pill),
-            isFocused: $isFocused2
-        ) { selected in
-            selectedUsers = selected
-            print(selected)
-        }
+            isFocused: $isFocused2,
+            selectedOptions: $selectedUsers
+        )
     }
 
     var sections: some View {
@@ -124,6 +127,10 @@ extension TypeaheadCatalog {
         @State private var isLoading: Bool = false
         @State private var searchTextUsers: String = ""
         @State private var assetsUsers = Mocks.multipleUsersDictionary
+        @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
+            ("1", (Mocks.andrew.name, { Mocks.andrew })),
+            ("2", (Mocks.ana.name, { Mocks.ana }))
+        ]
         @FocusState var isFocused
         
         var body: some View {
@@ -140,10 +147,9 @@ extension TypeaheadCatalog {
                         options: $assetsUsers, 
                         selection: .multiple(variant: .pill),
                         dropdownMaxHeight: 300,
-                        isFocused: $isFocused
-                    ) { options in
-                        print("Selected options \(options)")
-                    }
+                        isFocused: $isFocused,
+                        selectedOptions: $selectedUsers
+                    )
                     Spacer()
                 }
                 .padding(Spacing.medium)
