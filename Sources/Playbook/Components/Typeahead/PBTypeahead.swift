@@ -45,7 +45,7 @@ public struct PBTypeahead<Content: View>: View {
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        selectedOptions: Binding<[Option]>,
+        selectedOptions: Binding<[Option]> = .constant([]),
         clearAction: (() -> Void)? = nil,
         noOptionsText: String = "No options"
     ) {

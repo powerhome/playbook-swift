@@ -11,9 +11,13 @@ import SwiftUI
 
 public struct TypeaheadCatalog: View {
     @State private var assetsColors = Mocks.assetsColors
-    @State private var selectedAssetsColors = [Mocks.assetsColors.first!]
+    @State private var selectedAssetsColors = []
     @State private var assetsUsers = Mocks.multipleUsersDictionary
     @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
+        ("1", (Mocks.andrew.name, { Mocks.andrew })),
+        ("2", (Mocks.ana.name, { Mocks.ana }))
+    ]
+    @State private var selectedUsers1: [(String, (String, (() -> PBUser?)?)?)] = [
         ("1", (Mocks.andrew.name, { Mocks.andrew })),
         ("2", (Mocks.ana.name, { Mocks.ana }))
     ]
@@ -74,8 +78,7 @@ extension TypeaheadCatalog {
             searchText: $searchTextColors,
             options: $assetsColors, 
             selection: .single,
-            isFocused: $isFocused1,
-            selectedOptions: $selectedAssetsColors
+            isFocused: $isFocused1
         )
     }
     
@@ -100,8 +103,9 @@ extension TypeaheadCatalog {
             options: $sectionUsers,
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 400,
-            isFocused: $isFocused3
-        ) { _ in }
+            isFocused: $isFocused3,
+            selectedOptions: $selectedUsers1
+        )
     }
 
     func closeToast() {
