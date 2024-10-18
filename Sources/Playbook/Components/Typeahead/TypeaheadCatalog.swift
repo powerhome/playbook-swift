@@ -84,9 +84,8 @@ extension TypeaheadCatalog {
             searchText: $searchTextColors,
             options: $assetsColors,
             selection: .single,
-            isFocused: $isFocused1) { value in
-                print(value.first?.0)
-            }
+            isFocused: $isFocused1
+        )
     }
 
     var users: some View {
@@ -98,10 +97,8 @@ extension TypeaheadCatalog {
             options: $assetsUsers,
             selection: .multiple(variant: .pill),
             isFocused: $isFocused2,
-            selectedOptions: selectedUsers
-        ) { options in
-            print("Selected options \(options)")
-          }
+            selectedOptions: $selectedUsers
+        )
     }
 
     var heightAdjusted: some View {
@@ -114,7 +111,7 @@ extension TypeaheadCatalog {
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 150,
             isFocused: $isFocused3,
-            selectedOptions: selectedUsers1
+            selectedOptions: $selectedUsers1
         )
     }
 
@@ -174,7 +171,7 @@ extension TypeaheadCatalog {
                         selection: .multiple(variant: .pill),
                         dropdownMaxHeight: 300,
                         isFocused: $isFocused,
-                        selectedOptions: selectedUsers
+                        selectedOptions: $selectedUsers
                     )
                     Spacer()
                 }
