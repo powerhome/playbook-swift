@@ -23,10 +23,11 @@ public struct PBMessage<Content: View>: View {
   let showMessageUser: Bool
   let content: Content?
   let timestampVariant: PBTimestamp.Variant
+  var isOnClick: Bool
   let onHeaderClick: (() -> Void)?
   @Binding var isLoading: Bool
   @State private var isHovering: Bool = false
-  
+
   public init(
     avatar: AnyView? = nil,
     label: String = "",
@@ -40,6 +41,7 @@ public struct PBMessage<Content: View>: View {
     messageAmPmStyle: PBTimestamp.AmPmStyle = .full,
     showMessageDate: Bool = false,
     showMessageUser: Bool = false,
+    isOnClick: Bool = false,
     isLoading: Binding<Bool> = .constant(false),
     onHeaderClick: (() -> Void)? = nil,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
@@ -56,6 +58,7 @@ public struct PBMessage<Content: View>: View {
     self.messageAmPmStyle = messageAmPmStyle
     self.showMessageDate = showMessageDate
     self.showMessageUser = showMessageUser
+    self.isOnClick = isOnClick
     self._isLoading = isLoading
     self.onHeaderClick = onHeaderClick
     self.content = content()
@@ -95,6 +98,7 @@ public struct PBMessage<Content: View>: View {
           }
           .frame(height: 16.8)
         }
+        .setCursorPointer(disabled: !isCursorEnabled)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         if let message = message {
           Text(message)
@@ -102,10 +106,13 @@ public struct PBMessage<Content: View>: View {
         }
         content
       }
+      #if os(macOS)
       .onHover { hover in
         isHovering = hover
       }
+      #endif
     }
+    .setCursorPointer(disabled: !isOnClick)
     .padding(.vertical, verticalPadding)
     .padding(.horizontal, horizontalPadding)
     .frame(maxWidth: .infinity, alignment: .topLeading)
