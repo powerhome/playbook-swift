@@ -296,9 +296,9 @@ private extension PBTypeahead {
 
     func onSingleSelection(index: Int, _ option: Option) {
         selectedOptions.removeAll()
-        selectedOptions.append(option)
         selectedIndex = index
         hoveringIndex = index
+        selectedOptions.append(option)
     }
 
     func onMultipleSelection(_ option: Option) {
@@ -317,7 +317,7 @@ private extension PBTypeahead {
     func listBackgroundColor(_ index: Int?) -> Color {
         switch selection {
             case .single:
-                if selectedIndex != nil, selectedIndex == index, (selectedOptions.firstIndex(where: { $0.0 == options[index ?? 0].0 }) != nil) {
+                if selectedIndex != nil, selectedIndex == index {
                     return .pbPrimary
                 }
             default: break
