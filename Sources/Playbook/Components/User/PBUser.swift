@@ -20,9 +20,10 @@ public struct PBUser: View {
     var subtitle: AnyView?
     var status: PBOnlineStatus.Status?
     var displayAvatar: Bool = true
+    var territoryTitleFont: PBFont
     public init(
         name: String = "",
-        nameFont: Typography = .init(font: .title3, variant: .bold),
+        nameFont: Typography = .init(font: .title4, variant: .bold),
         image: Image? = nil,
         orientation: Orientation = .horizontal,
         size: Size = .medium,
@@ -30,7 +31,8 @@ public struct PBUser: View {
         title: String? = nil,
         subtitle: AnyView? = nil,
         status: PBOnlineStatus.Status? = nil,
-        displayAvatar: Bool = true
+        displayAvatar: Bool = true,
+        territoryTitleFont: PBFont = .subcaption
     ) {
         self.name = name
         self.nameFont = nameFont
@@ -42,6 +44,7 @@ public struct PBUser: View {
         self.subtitle = subtitle
         self.status = status
         self.displayAvatar = displayAvatar
+        self.territoryTitleFont = territoryTitleFont
     }
     
     public var body: some View {
@@ -85,7 +88,9 @@ public extension PBUser {
             Text(name)
                 .pbFont(nameFont.font, variant: nameFont.variant)
                 .foregroundColor(.text(.default))
-            bodyText.pbFont(.body, color: .text(.light)).lineLimit(1)
+            bodyText.pbFont(territoryTitleFont, color: .text(.light))
+                .lineLimit(1)
+                .truncationMode(.tail)
             if let content = subtitle {
                 content
             }
