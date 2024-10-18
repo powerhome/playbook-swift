@@ -18,6 +18,9 @@ public struct PBMessage<Content: View>: View {
   let changeTimeStampOnHover: Bool
   let verticalPadding: CGFloat
   let horizontalPadding: CGFloat
+  let messageAmPmStyle: PBTimestamp.AmPmStyle
+  let showMessageDate: Bool
+  let showMessageUser: Bool
   let content: Content?
   let timestampVariant: PBTimestamp.Variant
   var isOnClick: Bool
@@ -35,6 +38,9 @@ public struct PBMessage<Content: View>: View {
     changeTimeStampOnHover: Bool = false,
     verticalPadding: CGFloat = Spacing.none,
     horizontalPadding: CGFloat = Spacing.none,
+    messageAmPmStyle: PBTimestamp.AmPmStyle = .full,
+    showMessageDate: Bool = false,
+    showMessageUser: Bool = false,
     isOnClick: Bool = false,
     isLoading: Binding<Bool> = .constant(false),
     onHeaderClick: (() -> Void)? = nil,
@@ -49,6 +55,9 @@ public struct PBMessage<Content: View>: View {
     self.changeTimeStampOnHover = changeTimeStampOnHover
     self.verticalPadding = verticalPadding
     self.horizontalPadding = horizontalPadding
+    self.messageAmPmStyle = messageAmPmStyle
+    self.showMessageDate = showMessageDate
+    self.showMessageUser = showMessageUser
     self.isOnClick = isOnClick
     self._isLoading = isLoading
     self.onHeaderClick = onHeaderClick
@@ -79,9 +88,9 @@ public struct PBMessage<Content: View>: View {
               if let timestamp = timestamp {
                 PBTimestamp(
                   timestamp,
-                  amPmStyle: .full,
-                  showDate: false,
-                  showUser: false,
+                  amPmStyle: messageAmPmStyle,
+                  showDate: showMessageDate,
+                  showUser: showMessageUser,
                   variant: returnTimestamp(isHovering: isHovering)
                 )
               }
