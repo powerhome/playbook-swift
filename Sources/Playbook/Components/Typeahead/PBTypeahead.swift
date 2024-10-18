@@ -301,6 +301,7 @@ private extension PBTypeahead {
 
     func onSingleSelection(index: Int, _ option: Option) {
         selectedOptions.removeAll()
+        selectedOptions = [option]
         selectedIndex = index
         hoveringIndex = index
         selectedOptions.append(option)

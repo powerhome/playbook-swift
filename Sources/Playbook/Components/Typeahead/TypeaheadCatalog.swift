@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct TypeaheadCatalog: View {
     @State private var assetsColors = Mocks.assetsColors
-    @State private var selectedAssetsColors = []
+    @State private var selectedAssetsColors: [(String, (String, (() -> AnyView?)?)?)] = []
     @State private var assetsUsers = Mocks.multipleUsersDictionary
     @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
         ("1", (Mocks.andrew.name, { Mocks.andrew })),
@@ -21,6 +21,7 @@ public struct TypeaheadCatalog: View {
         ("1", (Mocks.andrew.name, { Mocks.andrew })),
         ("2", (Mocks.ana.name, { Mocks.ana }))
     ]
+  @State private var selectedSections: [(String, (String, (() -> PBUser?)?)?)] = []
     @State private var searchTextUsers: String = ""
     @State private var searchTextUsers1: String = ""
     @State private var searchTextColors: String = ""
@@ -138,7 +139,8 @@ extension TypeaheadCatalog {
             searchText: $searchTextSections,
             options: $sectionUsers,
             selection: .multiple(variant: .pill),
-            isFocused: $isFocused4
+            isFocused: $isFocused4,
+            selectedOptions: $selectedSections
         )
     }
 
