@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-gem "fastlane", "~> 2.219.0"
+gem "fastlane", "~> 2.224.0"
 gem "json", "~> 2.7.0"
 gem 'httparty'
 
