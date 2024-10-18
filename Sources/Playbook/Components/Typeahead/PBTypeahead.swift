@@ -45,7 +45,7 @@ public struct PBTypeahead<Content: View>: View {
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        selectedOptions: Binding<[Option]> = .constant([]),
+        selectedOptions: Binding<[Option]>,
         clearAction: (() -> Void)? = nil,
         noOptionsText: String = "No options"
     ) {
@@ -295,8 +295,7 @@ private extension PBTypeahead {
     }
 
     func onSingleSelection(index: Int, _ option: Option) {
-        selectedOptions.removeAll()
-        selectedOptions.append(option)
+        selectedOptions = [option]
         selectedIndex = index
         hoveringIndex = index
     }

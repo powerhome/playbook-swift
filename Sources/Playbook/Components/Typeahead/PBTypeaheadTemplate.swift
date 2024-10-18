@@ -45,7 +45,7 @@ public struct PBTypeaheadTemplate<Content: View>: View {
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        selectedOptions: Binding<[Option]> = .constant([]),
+        selectedOptions: Binding<[Option]>,
         clearAction: (() -> Void)? = nil
     ) {
         self.id = id
