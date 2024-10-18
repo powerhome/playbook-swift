@@ -88,6 +88,8 @@ public extension PBUser {
             Text(name)
                 .pbFont(nameFont.font, variant: nameFont.variant)
                 .foregroundColor(.text(.default))
+                .lineLimit(1)
+                .truncationMode(.tail)
             bodyText.pbFont(territoryTitleFont, color: .text(.light))
                 .lineLimit(1)
                 .truncationMode(.tail)
