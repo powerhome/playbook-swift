@@ -21,6 +21,7 @@ public struct PBTypeahead<Content: View>: View {
     private let popoverManager = PopoverManager()
     private let clearAction: (() -> Void)?
     private let noOptionsText: String
+    private let onSelection: (([Option]) -> Void)?
     @State private var showList: Bool = false
     @State private var isCollapsed = false
     @State private var hoveringIndex: Int?
@@ -30,7 +31,7 @@ public struct PBTypeahead<Content: View>: View {
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
     @Binding var options: [Option]
-    @Binding var selectedOptions: [Option]
+    @State private var selectedOptions: [Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
 
@@ -45,9 +46,10 @@ public struct PBTypeahead<Content: View>: View {
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        selectedOptions: Binding<[Option]> = .constant([]),
+        selectedOptions: [Option] = [],
+        noOptionsText: String = "No options",
         clearAction: (() -> Void)? = nil,
-        noOptionsText: String = "No options"
+        onSelection: (([Option]) -> Void)? = nil
     ) {
         self.id = id
         self.title = title
@@ -61,7 +63,8 @@ public struct PBTypeahead<Content: View>: View {
         self._isFocused = isFocused
         self.clearAction = clearAction
         self.noOptionsText = noOptionsText
-        self._selectedOptions = selectedOptions
+        self.selectedOptions = selectedOptions
+        self.onSelection = onSelection
     }
 
     public var body: some View {
@@ -92,6 +95,7 @@ public struct PBTypeahead<Content: View>: View {
             }
         }
         .onAppear {
+            onSelection?(selectedOptions)
             focused = isFocused
             if debounce.numberOfCharacters == 0 {
                 showList = isFocused
@@ -218,6 +222,7 @@ private extension PBTypeahead {
     var clearText: Void {
         searchText = ""
         selectedOptions.removeAll()
+        onSelection?([])
         selectedOptions = []
         selectedIndex = nil
         hoveringIndex = nil
@@ -299,10 +304,12 @@ private extension PBTypeahead {
         selectedIndex = index
         hoveringIndex = index
         selectedOptions.append(option)
+        onSelection?(selectedOptions)
     }
 
     func onMultipleSelection(_ option: Option) {
         selectedOptions.append(option)
+        onSelection?(selectedOptions)
         hoveringIndex = nil
         selectedIndex = nil
     }
@@ -310,6 +317,7 @@ private extension PBTypeahead {
     func removeSelected(_ index: Int) {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
             let _ = selectedOptions.remove(at: selectedElementIndex)
+            onSelection?(selectedOptions)
             selectedIndex = nil
         }
     }
