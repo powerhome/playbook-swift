@@ -4,12 +4,12 @@
 //  Copyright © 2024 Power Home Remodeling Group
 //  This software is distributed under the ISC License
 //
-//  PBTypeahead.swift
+//  PBTypeaheadTemplate.swift
 //
 
 import SwiftUI
 
-public struct PBTypeahead<Content: View>: View {
+public struct PBTypeaheadTemplate<Content: View>: View {
     public typealias Option = (String, (String, (() -> Content?)?)?)
     private let id: Int
     private let title: String
@@ -20,18 +20,17 @@ public struct PBTypeahead<Content: View>: View {
     private let listOffset: (x: CGFloat, y: CGFloat)
     private let popoverManager = PopoverManager()
     private let clearAction: (() -> Void)?
-    private let noOptionsText: String
-    private let onSelection: (([Option]) -> Void)?
     @State private var showList: Bool = false
     @State private var isCollapsed = false
-    @State private var hoveringIndex: Int?
+    @State private var hoveringIndex: (Int?, String?)
     @State private var hoveringOption: Option?
     @State private var isHovering: Bool = false
     @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
-    @Binding var options: [Option]
-    @State private var selectedOptions: [Option]
+    @State var numberOfItemsShown: [String?: Int] = [:]
+    @Binding var options: [OptionType]
+    @Binding var selectedOptions: [Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
 
@@ -40,16 +39,14 @@ public struct PBTypeahead<Content: View>: View {
         title: String,
         placeholder: String = "Select",
         searchText: Binding<String>,
-        options: Binding<[Option]>,
+        options: Binding<[OptionType]>,
         selection: Selection,
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        selectedOptions: [Option] = [],
-        noOptionsText: String = "No options",
-        clearAction: (() -> Void)? = nil,
-        onSelection: (([Option]) -> Void)? = nil
+        selectedOptions: Binding<[Option]>,
+        clearAction: (() -> Void)? = nil
     ) {
         self.id = id
         self.title = title
@@ -62,9 +59,7 @@ public struct PBTypeahead<Content: View>: View {
         self.listOffset = listOffset
         self._isFocused = isFocused
         self.clearAction = clearAction
-        self.noOptionsText = noOptionsText
-        self.selectedOptions = selectedOptions
-        self.onSelection = onSelection
+        self._selectedOptions = selectedOptions
     }
 
     public var body: some View {
@@ -95,7 +90,6 @@ public struct PBTypeahead<Content: View>: View {
             }
         }
         .onAppear {
-            onSelection?(selectedOptions)
             focused = isFocused
             if debounce.numberOfCharacters == 0 {
                 showList = isFocused
@@ -117,7 +111,7 @@ public struct PBTypeahead<Content: View>: View {
         .onChange(of: contentSize) { _ in
             reloadList
         }
-        .onChange(of: hoveringIndex) { index in
+        .onChange(of: hoveringIndex.0) { _ in
             reloadList
         }
         .onChange(of: searchText, debounce: debounce) { _ in
@@ -129,73 +123,128 @@ public struct PBTypeahead<Content: View>: View {
 }
 
 @MainActor
-private extension PBTypeahead {
+private extension PBTypeaheadTemplate {
     @ViewBuilder
     var listView: some View {
         PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
             ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                        HStack {
-                            if result.0 == noOptionsText {
-                                emptyView
-                            } else {
-                                if let customView = result.1?.1?() {
-                                    customView
-                                } else {
-                                    Text(result.1?.0 ?? result.0)
-                                        .pbFont(.body, color: listTextolor(index))
-                                }
-                            }
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(mapResults, id: \.0) { result in
+                        if let section = result.0 {
+                            sectionView(section)
                         }
-                        .padding(.horizontal, Spacing.xSmall + 4)
-                        .padding(.vertical, Spacing.xSmall + 4)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(listBackgroundColor(index))
-                        .onHover(disabled: false) { hover in
-                            isHovering = hover
-                            hoveringIndex = index
-                            hoveringOption = result
+                        ForEach(Array(zip(result.1.indices, result.1)), id: \.0) { index, item in
+                            listItemView(item: item, index: index, for: result.0)
                         }
-                        .onTapGesture {
-                            if result.0 != "No Options" {
-                                onListSelection(index: index, option: result)
-                            }
-                        }
+                        result.2.padding()
                     }
                 }
             }
             .scrollDismissesKeyboard(.immediately)
             .frame(maxHeight: dropdownMaxHeight)
             .fixedSize(horizontal: false, vertical: true)
-            .frame(maxWidth: .infinity, alignment: .top)
         }
         .frame(maxWidth: .infinity, alignment: .top)
-        .transition(.opacity)
     }
 
-    var emptyView: some View {
+    func sectionView(_ section: String) -> some View {
+        Text(section).pbFont(.caption)
+            .padding(.top)
+            .padding(.leading)
+    }
+
+    func listItemView(item: Option, index: Int, for section: String?) -> some View {
         HStack {
-            Spacer()
-            Text(noOptionsText)
-                .pbFont(.body, color: .text(.light))
-            Spacer()
+            if let customView = item.1?.1?() {
+                customView
+            } else {
+                Text(item.1?.0 ?? item.0)
+                    .pbFont(.body, color: listTextolor(index))
+            }
+        }
+        .padding(.horizontal, Spacing.xSmall + 4)
+        .padding(.vertical, Spacing.xSmall + 4)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(listBackgroundColor(index, section: section))
+        .onHover(disabled: false) { hover in
+            isHovering = hover
+            hoveringIndex = (index, section)
+            hoveringOption = item
+        }
+        .onTapGesture {
+            onListSelection(index: index, section: section, option: item)
         }
     }
 
-    var searchResults: [Option] {
+    var mapResults: [(String?, [Option], PBButton)] {
+        var array: [(String?, [Option], PBButton)] = []
+        var currentSection: String? = nil
+        var currentOptions: [Option] = []
+        for result in searchResults {
+            switch result {
+                case .section(let section):
+                    if !currentOptions.isEmpty || currentSection != nil {
+                        appendSectionToArray(
+                            section: currentSection,
+                            options: currentOptions,
+                            to: &array
+                        )
+                        currentOptions = []
+                    }
+                    currentSection = section
+
+                case .item(let option):
+                    currentOptions.append(option)
+            }
+        }
+        if !currentOptions.isEmpty || currentSection != nil {
+            appendSectionToArray(
+                section: currentSection,
+                options: currentOptions,
+                to: &array
+            )
+        }
+        return array
+    }
+
+    private func appendSectionToArray(
+        section: String?,
+        options: [Option],
+        to array: inout [(String?, [Option], PBButton)]
+    ) {
+        let numberOfItems = numberOfItemsShown[section] ?? 2
+        array.append((
+            section,
+            Array(options.prefix(numberOfItems)),
+            PBButton(
+                variant: .link,
+                title: (numberOfItems == 2) ? "View More" : "View Less",
+                icon: (numberOfItems == 2) ? .fontAwesome(.chevronDown) : .fontAwesome(.chevronUp)
+            ) {
+                numberOfItemsShown[section] = (numberOfItems == 2) ? 4 : 2
+                reloadList
+            }
+        ))
+    }
+
+    var searchResults: [OptionType] {
         let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
-            if let text = $0.1?.0 {
-                return text.localizedCaseInsensitiveContains(searchText)
-            } else {
-                return $0.0.localizedCaseInsensitiveContains(searchText)
+            switch $0 {
+                case .item(let item):
+                    if let text = item.1?.0 {
+                        return text.localizedCaseInsensitiveContains(searchText)
+                    } else {
+                        return item.0.localizedCaseInsensitiveContains(searchText)
+                    }
+                case .section(_):
+                    return true
             }
         }
         let selectedIds = Set(selectedOptions.map { $0.0 })
-        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.0) }
+        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
         switch selection{
-            case .multiple: return filteredSelectedOptions.isEmpty ? [(noOptionsText, nil)] : filteredSelectedOptions
-            case .single: return filteredOptions.isEmpty ? [(noOptionsText, nil)] : filteredOptions
+            case .multiple: return filteredSelectedOptions
+            case .single: return filteredOptions
         }
     }
 
@@ -222,10 +271,8 @@ private extension PBTypeahead {
     var clearText: Void {
         searchText = ""
         selectedOptions.removeAll()
-        onSelection?([])
-        selectedOptions = []
         selectedIndex = nil
-        hoveringIndex = nil
+        hoveringIndex = (nil, nil)
         showList = false
     }
 
@@ -236,14 +283,22 @@ private extension PBTypeahead {
                 focused = true
             }
             if event.keyCode == 36 { // return bar
-                if let index = hoveringIndex, index <= searchResults.count-1, showList {
-                    onListSelection(index: index, option: searchResults[index])
+                if let index = hoveringIndex.0,
+                   let section = hoveringIndex.1,
+                    let results = mapResults.first?.1,
+                   index <= results.count-1,
+                    showList {
+                    onListSelection(index: index, section: section, option: results[index])
                 }
             }
             if event.keyCode == 49 { // space
                 if isFocused {
-                    if let index = hoveringIndex, index <= searchResults.count-1, showList, searchText.isEmpty {
-                        onListSelection(index: index, option: searchResults[index])
+                    if let index = hoveringIndex.0,
+                       let section = hoveringIndex.1,
+                        let results = mapResults.first?.1,
+                        index <= results.count-1,
+                        showList, searchText.isEmpty {
+                        onListSelection(index: index, section: section, option: results[index])
                     } else {
                         showList = true
                     }
@@ -256,17 +311,17 @@ private extension PBTypeahead {
             }
             if event.keyCode == 125 { // arrow down
                 if isFocused {
-                    if let index = hoveringIndex {
-                        hoveringIndex = index < searchResults.count ? (index + 1) : 0
+                    if let index = hoveringIndex.0, let section = hoveringIndex.1 {
+                        hoveringIndex.0 = index < searchResults.count ? (index + 1) : 0
                     } else {
-                        hoveringIndex = 0
+                        hoveringIndex.0 = 0
                     }
                 }
             }
             else {
                 if event.keyCode == 126 { // arrow up
-                    if isFocused, let index = hoveringIndex {
-                        hoveringIndex = index > 1 ? (index - 1) : 0
+                    if isFocused, let index = hoveringIndex.0 {
+                        hoveringIndex.0 = index > 1 ? (index - 1) : 0
                     }
                 }
             }
@@ -286,44 +341,44 @@ private extension PBTypeahead {
         }
     }
 
-    func onListSelection(index: Int, option: Option) {
+    func onListSelection(index: Int, section: String?, option: Option) {
         if showList {
             switch selection {
                 case .single:
-                    onSingleSelection(index: index, option)
+                    onSingleSelection(index: index, section: section, option)
                 case .multiple:
-                    onMultipleSelection(option)
+                    onMultipleSelection(index: index, section: section, option)
             }
         }
         showList = false
         searchText = ""
     }
 
-    func onSingleSelection(index: Int, _ option: Option) {
+    func onSingleSelection(index: Int, section: String?, _ option: Option) {
         selectedOptions.removeAll()
-        selectedOptions = [option]
+        if hoveringIndex.0 == index && hoveringIndex.1 == section {
+            selectedOptions.append(option)
+        }
         selectedIndex = index
-        hoveringIndex = index
-        selectedOptions.append(option)
-        onSelection?(selectedOptions)
+        hoveringIndex = (index, section)
     }
 
-    func onMultipleSelection(_ option: Option) {
-        selectedOptions.append(option)
-        onSelection?(selectedOptions)
-        hoveringIndex = nil
+    func onMultipleSelection(index: Int, section: String?, _ option: Option) {
+        if hoveringIndex.0 == index && hoveringIndex.1 == section {
+            selectedOptions.append(option)
+        }
+        hoveringIndex = (index, section)
         selectedIndex = nil
     }
 
     func removeSelected(_ index: Int) {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
-            let _ = selectedOptions.remove(at: selectedElementIndex)
-            onSelection?(selectedOptions)
+            _ = selectedOptions.remove(at: selectedElementIndex)
             selectedIndex = nil
         }
     }
 
-    func listBackgroundColor(_ index: Int?) -> Color {
+    func listBackgroundColor(_ index: Int?, section: String?) -> Color {
         switch selection {
             case .single:
                 if selectedIndex != nil, selectedIndex == index {
@@ -332,7 +387,7 @@ private extension PBTypeahead {
             default: break
         }
         #if os(macOS)
-        return hoveringIndex == index ? .hover : .card
+        return hoveringIndex.0 == index && hoveringIndex.1 == section ? .hover : .card
         #elseif os(iOS)
         return .card
         #endif
@@ -347,8 +402,7 @@ private extension PBTypeahead {
     }
 }
 
-
-public extension PBTypeahead {
+public extension PBTypeaheadTemplate {
     enum Selection {
         case single, multiple(variant: GridInputField.Selection.Variant)
 
@@ -358,6 +412,21 @@ public extension PBTypeahead {
                 case .multiple(let variant): return .multiple(variant, options)
             }
         }
+    }
+}
+
+public extension PBTypeaheadTemplate {
+    enum OptionType: Identifiable {
+        public var id: String {
+            switch self {
+                case .section(let str):
+                    return str
+                case .item(let item):
+                    return item.0
+            }
+        }
+        case section(String)
+        case item(PBTypeaheadTemplate.Option)
     }
 }
 
