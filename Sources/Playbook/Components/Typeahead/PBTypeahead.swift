@@ -171,7 +171,6 @@ private extension PBTypeahead {
             .frame(maxWidth: .infinity, alignment: .top)
         }
         .frame(maxWidth: .infinity, alignment: .top)
-        .transition(.opacity)
     }
 
     var emptyView: some View {
@@ -346,7 +345,6 @@ private extension PBTypeahead {
         }
     }
 }
-
 
 public extension PBTypeahead {
     enum Selection {

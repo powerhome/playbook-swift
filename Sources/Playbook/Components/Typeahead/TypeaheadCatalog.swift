@@ -11,17 +11,8 @@ import SwiftUI
 
 public struct TypeaheadCatalog: View {
     @State private var assetsColors = Mocks.assetsColors
-    @State private var selectedAssetsColors: [(String, (String, (() -> AnyView?)?)?)] = []
     @State private var assetsUsers = Mocks.multipleUsersDictionary
-    @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
-        ("1", (Mocks.andrew.name, { Mocks.andrew })),
-        ("2", (Mocks.ana.name, { Mocks.ana }))
-    ]
-    @State private var selectedUsers1: [(String, (String, (() -> PBUser?)?)?)] = [
-        ("1", (Mocks.andrew.name, { Mocks.andrew })),
-        ("2", (Mocks.ana.name, { Mocks.ana }))
-    ]
-  @State private var selectedSections: [(String, (String, (() -> PBUser?)?)?)] = []
+    @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = []
     @State private var searchTextUsers: String = ""
     @State private var searchTextUsers1: String = ""
     @State private var searchTextColors: String = ""
@@ -41,11 +32,7 @@ public struct TypeaheadCatalog: View {
         .section("section 1"),
         .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
         .item(("2", (Mocks.ana.name, { Mocks.ana }))),
-        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
-        .item(("4", (Mocks.luccile.name, { Mocks.luccile }))),
         .section("section 2"),
-        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
-        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
         .item(("3", (Mocks.patric.name, { Mocks.patric }))),
         .item(("4", (Mocks.luccile.name, { Mocks.luccile })))
     ]
@@ -61,7 +48,6 @@ public struct TypeaheadCatalog: View {
             #endif
             PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
-
         }
         .onTapGesture {
             isFocused1 = false
@@ -84,9 +70,8 @@ extension TypeaheadCatalog {
             searchText: $searchTextColors,
             options: $assetsColors,
             selection: .single,
-            isFocused: $isFocused1) { value in
-                print(value.first?.0)
-            }
+            isFocused: $isFocused1
+        ) { _ in }
     }
 
     var users: some View {
@@ -97,11 +82,11 @@ extension TypeaheadCatalog {
             searchText: $searchTextUsers,
             options: $assetsUsers,
             selection: .multiple(variant: .pill),
-            isFocused: $isFocused2,
-            selectedOptions: selectedUsers
-        ) { options in
-            print("Selected options \(options)")
-          }
+            isFocused: $isFocused2
+        ) { selected in
+            selectedUsers = selected
+            print(selected)
+        }
     }
 
     var heightAdjusted: some View {
@@ -113,9 +98,8 @@ extension TypeaheadCatalog {
             options: $assetsUsers,
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 150,
-            isFocused: $isFocused3,
-            selectedOptions: selectedUsers1
-        )
+            isFocused: $isFocused3
+        ) {_ in }
     }
 
     var dialog: some View {
@@ -131,7 +115,6 @@ extension TypeaheadCatalog {
                 #endif
         }
     }
-
     var sections: some View {
         PBTypeaheadTemplate(
             id: 4,
@@ -139,9 +122,8 @@ extension TypeaheadCatalog {
             searchText: $searchTextSections,
             options: $sectionUsers,
             selection: .multiple(variant: .pill),
-            isFocused: $isFocused4,
-            selectedOptions: $selectedSections
-        )
+            isFocused: $isFocused4
+        ) { _ in }
     }
 
     func closeToast() {
@@ -153,10 +135,6 @@ extension TypeaheadCatalog {
         @State private var isLoading: Bool = false
         @State private var searchTextUsers: String = ""
         @State private var assetsUsers = Mocks.multipleUsersDictionary
-        @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
-            ("1", (Mocks.andrew.name, { Mocks.andrew })),
-            ("2", (Mocks.ana.name, { Mocks.ana }))
-        ]
         @FocusState var isFocused
 
         var body: some View {
@@ -173,9 +151,10 @@ extension TypeaheadCatalog {
                         options: $assetsUsers,
                         selection: .multiple(variant: .pill),
                         dropdownMaxHeight: 300,
-                        isFocused: $isFocused,
-                        selectedOptions: selectedUsers
-                    )
+                        isFocused: $isFocused
+                    ) { options in
+                        print("Selected options \(options)")
+                    }
                     Spacer()
                 }
                 .padding(Spacing.medium)
