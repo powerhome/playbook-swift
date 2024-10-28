@@ -30,7 +30,7 @@ public struct PBTypeahead<Content: View>: View {
     @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
-    @Binding var options: [Option]
+    let options: [Option]
     @Binding var selectedOptions: [Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
@@ -40,7 +40,7 @@ public struct PBTypeahead<Content: View>: View {
         title: String,
         placeholder: String = "Select",
         searchText: Binding<String>,
-        options: Binding<[Option]>,
+        options: [Option],
         selection: Selection,
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
@@ -55,7 +55,7 @@ public struct PBTypeahead<Content: View>: View {
         self.placeholder = placeholder
         self._searchText = searchText
         self.selection = selection
-        self._options = options
+        self.options = options
         self.debounce = debounce
         self.dropdownMaxHeight = dropdownMaxHeight
         self.listOffset = listOffset
@@ -107,6 +107,9 @@ public struct PBTypeahead<Content: View>: View {
         .onChange(of: searchText, debounce: debounce) { _ in
             _ = searchResults
             reloadList
+        }
+        .onChange(of: options.count) { _ in
+          reloadList
         }
         .onChange(of: searchResults.count) { _ in
             reloadList
