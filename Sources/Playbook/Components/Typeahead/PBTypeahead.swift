@@ -19,9 +19,9 @@ public struct PBTypeahead<Content: View>: View {
     private let dropdownMaxHeight: CGFloat?
     private let listOffset: (x: CGFloat, y: CGFloat)
     private let popoverManager = PopoverManager()
-    private let onSelection: (([Option]) -> Void)?
     private let clearAction: (() -> Void)?
     private let noOptionsText: String
+    private let onSelection: (([Option]) -> Void)?
     @State private var showList: Bool = false
     @State private var isCollapsed = false
     @State private var hoveringIndex: Int?
@@ -29,9 +29,9 @@ public struct PBTypeahead<Content: View>: View {
     @State private var isHovering: Bool = false
     @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
-    @State private var selectedOptions: [Option] = []
     @State private var focused: Bool = false
     @Binding var options: [Option]
+    @State private var selectedOptions: [Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
 
@@ -46,9 +46,10 @@ public struct PBTypeahead<Content: View>: View {
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        onSelection: @escaping (([Option]) -> Void),
+        selectedOptions: [Option] = [],
+        noOptionsText: String = "No options",
         clearAction: (() -> Void)? = nil,
-        noOptionsText: String = "No options"
+        onSelection: (([Option]) -> Void)? = nil
     ) {
         self.id = id
         self.title = title
@@ -62,6 +63,7 @@ public struct PBTypeahead<Content: View>: View {
         self._isFocused = isFocused
         self.clearAction = clearAction
         self.noOptionsText = noOptionsText
+        self.selectedOptions = selectedOptions
         self.onSelection = onSelection
     }
 
@@ -93,6 +95,7 @@ public struct PBTypeahead<Content: View>: View {
             }
         }
         .onAppear {
+            onSelection?(selectedOptions)
             focused = isFocused
             if debounce.numberOfCharacters == 0 {
                 showList = isFocused
@@ -168,7 +171,6 @@ private extension PBTypeahead {
             .frame(maxWidth: .infinity, alignment: .top)
         }
         .frame(maxWidth: .infinity, alignment: .top)
-        .transition(.opacity)
     }
 
     var emptyView: some View {
@@ -220,6 +222,7 @@ private extension PBTypeahead {
         searchText = ""
         selectedOptions.removeAll()
         onSelection?([])
+        selectedOptions = []
         selectedIndex = nil
         hoveringIndex = nil
         showList = false
@@ -297,9 +300,10 @@ private extension PBTypeahead {
 
     func onSingleSelection(index: Int, _ option: Option) {
         selectedOptions.removeAll()
-        selectedOptions.append(option)
+        selectedOptions = [option]
         selectedIndex = index
         hoveringIndex = index
+        selectedOptions.append(option)
         onSelection?(selectedOptions)
     }
 
@@ -341,7 +345,6 @@ private extension PBTypeahead {
         }
     }
 }
-
 
 public extension PBTypeahead {
     enum Selection {

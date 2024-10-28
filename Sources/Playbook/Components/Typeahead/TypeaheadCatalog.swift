@@ -35,10 +35,10 @@ public struct TypeaheadCatalog: View {
         .item(("3", (Mocks.patric.name, { Mocks.patric }))),
         .item(("4", (Mocks.luccile.name, { Mocks.luccile }))),
         .section("section 2"),
-        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
-        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
-        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
-        .item(("4", (Mocks.luccile.name, { Mocks.luccile })))
+        .item(("5", (Mocks.andrew.name, { Mocks.andrew }))),
+        .item(("6", (Mocks.ana.name, { Mocks.ana }))),
+        .item(("7", (Mocks.patric.name, { Mocks.patric }))),
+        .item(("8", (Mocks.luccile.name, { Mocks.luccile })))
     ]
     var popoverManager = PopoverManager()
 
