@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct TypeaheadCatalog: View {
     @State private var assetsColors = Mocks.assetsColors
+    @State private var selectedColors: [(String, (String, (() -> AnyView?)?)?)] = []
     @State private var selectedAssetsColors: [(String, (String, (() -> AnyView?)?)?)] = []
     @State private var assetsUsers = Mocks.multipleUsersDictionary
     @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
@@ -82,11 +83,11 @@ extension TypeaheadCatalog {
             id: 1,
             title: "Colors",
             searchText: $searchTextColors,
-            options: $assetsColors,
+            options: assetsColors,
             selection: .single,
-            isFocused: $isFocused1) { value in
-                print(value.first?.0)
-            }
+            isFocused: $isFocused1, 
+            selectedOptions: $selectedColors
+        )
     }
 
     var users: some View {
@@ -95,13 +96,11 @@ extension TypeaheadCatalog {
             title: "Users",
             placeholder: "type the name of a user",
             searchText: $searchTextUsers,
-            options: $assetsUsers,
+            options: assetsUsers,
             selection: .multiple(variant: .pill),
             isFocused: $isFocused2,
-            selectedOptions: selectedUsers
-        ) { options in
-            print("Selected options \(options)")
-          }
+            selectedOptions: $selectedUsers
+        )
     }
 
     var heightAdjusted: some View {
@@ -110,11 +109,11 @@ extension TypeaheadCatalog {
             title: "Users",
             placeholder: "type the name of a user",
             searchText: $searchTextUsers1,
-            options: $assetsUsers,
+            options: assetsUsers,
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 150,
             isFocused: $isFocused3,
-            selectedOptions: selectedUsers1
+            selectedOptions: $selectedUsers1
         )
     }
 
@@ -170,11 +169,11 @@ extension TypeaheadCatalog {
                         title: "Users",
                         placeholder: "type the name of a user",
                         searchText: $searchTextUsers,
-                        options: $assetsUsers,
+                        options: assetsUsers,
                         selection: .multiple(variant: .pill),
                         dropdownMaxHeight: 300,
                         isFocused: $isFocused,
-                        selectedOptions: selectedUsers
+                        selectedOptions: $selectedUsers
                     )
                     Spacer()
                 }

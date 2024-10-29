@@ -15,13 +15,13 @@ public struct PBTypeahead<Content: View>: View {
     private let title: String
     private let placeholder: String
     private let selection: Selection
+    private let noOptionsText: String
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
     private let dropdownMaxHeight: CGFloat?
     private let listOffset: (x: CGFloat, y: CGFloat)
-    private let popoverManager = PopoverManager()
     private let clearAction: (() -> Void)?
-    private let noOptionsText: String
-    private let onSelection: (([Option]) -> Void)?
+    private let popoverManager = PopoverManager()
+
     @State private var showList: Bool = false
     @State private var isCollapsed = false
     @State private var hoveringIndex: Int?
@@ -30,8 +30,8 @@ public struct PBTypeahead<Content: View>: View {
     @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
-    @Binding var options: [Option]
-    @State private var selectedOptions: [Option]
+    let options: [Option]
+    @Binding var selectedOptions: [Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
 
@@ -40,31 +40,29 @@ public struct PBTypeahead<Content: View>: View {
         title: String,
         placeholder: String = "Select",
         searchText: Binding<String>,
-        options: Binding<[Option]>,
+        options: [Option],
         selection: Selection,
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        selectedOptions: [Option] = [],
-        noOptionsText: String = "No options",
+        selectedOptions: Binding<[Option]>,
         clearAction: (() -> Void)? = nil,
-        onSelection: (([Option]) -> Void)? = nil
+        noOptionsText: String = "No options"
     ) {
         self.id = id
         self.title = title
         self.placeholder = placeholder
         self._searchText = searchText
         self.selection = selection
-        self._options = options
+        self.options = options
         self.debounce = debounce
         self.dropdownMaxHeight = dropdownMaxHeight
         self.listOffset = listOffset
         self._isFocused = isFocused
         self.clearAction = clearAction
         self.noOptionsText = noOptionsText
-        self.selectedOptions = selectedOptions
-        self.onSelection = onSelection
+        self._selectedOptions = selectedOptions
     }
 
     public var body: some View {
@@ -95,7 +93,6 @@ public struct PBTypeahead<Content: View>: View {
             }
         }
         .onAppear {
-            onSelection?(selectedOptions)
             focused = isFocused
             if debounce.numberOfCharacters == 0 {
                 showList = isFocused
@@ -110,6 +107,9 @@ public struct PBTypeahead<Content: View>: View {
         .onChange(of: searchText, debounce: debounce) { _ in
             _ = searchResults
             reloadList
+        }
+        .onChange(of: options.count) { _ in
+          reloadList
         }
         .onChange(of: searchResults.count) { _ in
             reloadList
@@ -136,32 +136,7 @@ private extension PBTypeahead {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                        HStack {
-                            if result.0 == noOptionsText {
-                                emptyView
-                            } else {
-                                if let customView = result.1?.1?() {
-                                    customView
-                                } else {
-                                    Text(result.1?.0 ?? result.0)
-                                        .pbFont(.body, color: listTextolor(index))
-                                }
-                            }
-                        }
-                        .padding(.horizontal, Spacing.xSmall + 4)
-                        .padding(.vertical, Spacing.xSmall + 4)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(listBackgroundColor(index))
-                        .onHover(disabled: false) { hover in
-                            isHovering = hover
-                            hoveringIndex = index
-                            hoveringOption = result
-                        }
-                        .onTapGesture {
-                            if result.0 != "No Options" {
-                                onListSelection(index: index, option: result)
-                            }
-                        }
+                        listCell(index: index, option: result)
                     }
                 }
             }
@@ -172,6 +147,35 @@ private extension PBTypeahead {
         }
         .frame(maxWidth: .infinity, alignment: .top)
         .transition(.opacity)
+    }
+
+    func listCell(index: Int, option: Option) -> some View {
+        HStack {
+            if option.0 == noOptionsText {
+                emptyView
+            } else {
+                if let customView = option.1?.1?() {
+                    customView
+                } else {
+                    Text(option.1?.0 ?? option.0)
+                        .pbFont(.body, color: listTextolor(index))
+                }
+            }
+        }
+        .padding(.horizontal, Spacing.xSmall + 4)
+        .padding(.vertical, Spacing.xSmall + 4)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(listBackgroundColor(index))
+        .onHover(disabled: false) { hover in
+            isHovering = hover
+            hoveringIndex = index
+            hoveringOption = option
+        }
+        .onTapGesture {
+            if option.0 != "No Options" {
+                onListSelection(index: index, option: option)
+            }
+        }
     }
 
     var emptyView: some View {
@@ -222,7 +226,6 @@ private extension PBTypeahead {
     var clearText: Void {
         searchText = ""
         selectedOptions.removeAll()
-        onSelection?([])
         selectedOptions = []
         selectedIndex = nil
         hoveringIndex = nil
@@ -305,12 +308,10 @@ private extension PBTypeahead {
         selectedIndex = index
         hoveringIndex = index
         selectedOptions.append(option)
-        onSelection?(selectedOptions)
     }
 
     func onMultipleSelection(_ option: Option) {
         selectedOptions.append(option)
-        onSelection?(selectedOptions)
         hoveringIndex = nil
         selectedIndex = nil
     }
@@ -318,7 +319,6 @@ private extension PBTypeahead {
     func removeSelected(_ index: Int) {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
             let _ = selectedOptions.remove(at: selectedElementIndex)
-            onSelection?(selectedOptions)
             selectedIndex = nil
         }
     }
