@@ -14,14 +14,15 @@ public struct PBTypeaheadTemplate<Content: View>: View {
     private let id: Int
     private let title: String
     private let placeholder: String
+    private var options: [OptionType]
     private let selection: Selection
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
     private let dropdownMaxHeight: CGFloat?
     private let listOffset: (x: CGFloat, y: CGFloat)
-    private let popoverManager = PopoverManager()
     private let clearAction: (() -> Void)?
+    private let popoverManager = PopoverManager()
+
     @State private var showList: Bool = false
-    @State private var isCollapsed = false
     @State private var hoveringIndex: (Int?, String?)
     @State private var hoveringOption: Option?
     @State private var isHovering: Bool = false
@@ -29,7 +30,6 @@ public struct PBTypeaheadTemplate<Content: View>: View {
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
     @State var numberOfItemsShown: [String?: Int] = [:]
-    @Binding var options: [OptionType]
     @Binding var selectedOptions: [Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
@@ -39,7 +39,7 @@ public struct PBTypeaheadTemplate<Content: View>: View {
         title: String,
         placeholder: String = "Select",
         searchText: Binding<String>,
-        options: Binding<[OptionType]>,
+        options: [OptionType],
         selection: Selection,
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
@@ -53,7 +53,7 @@ public struct PBTypeaheadTemplate<Content: View>: View {
         self.placeholder = placeholder
         self._searchText = searchText
         self.selection = selection
-        self._options = options
+        self.options = options
         self.debounce = debounce
         self.dropdownMaxHeight = dropdownMaxHeight
         self.listOffset = listOffset

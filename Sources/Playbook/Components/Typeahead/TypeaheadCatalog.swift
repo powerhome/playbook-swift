@@ -10,46 +10,33 @@
 import SwiftUI
 
 public struct TypeaheadCatalog: View {
-    @State private var assetsColors = Mocks.assetsColors
-    @State private var selectedColors: [(String, (String, (() -> AnyView?)?)?)] = []
-    @State private var selectedAssetsColors: [(String, (String, (() -> AnyView?)?)?)] = []
-    @State private var assetsUsers = Mocks.multipleUsersDictionary
-    @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
-        ("1", (Mocks.andrew.name, { Mocks.andrew })),
-        ("2", (Mocks.ana.name, { Mocks.ana }))
-    ]
-    @State private var selectedUsers1: [(String, (String, (() -> PBUser?)?)?)] = [
-        ("1", (Mocks.andrew.name, { Mocks.andrew })),
-        ("2", (Mocks.ana.name, { Mocks.ana }))
-    ]
-  @State private var selectedSections: [(String, (String, (() -> PBUser?)?)?)] = []
-    @State private var searchTextUsers: String = ""
-    @State private var searchTextUsers1: String = ""
+    private var assetsColors = Mocks.assetsColors
     @State private var searchTextColors: String = ""
+    @State private var selectedColors: [(String, (String, (() -> AnyView?)?)?)] = [Mocks.assetsColors.first!]
+    @FocusState private var isFocusedColors
+
+    private var assetsUsers = Mocks.assetesMultipleUsers
+    @State private var searchTextUsers: String = ""
+    @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+    @FocusState private var isFocusedUsers
+
+    @State private var searchTextHeight: String = ""
+    @State private var selectedHeight: [(String, (String, (() -> PBUser?)?)?)] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
+    @FocusState private var isFocusedHeight
+
+    private var assetsSection: [PBTypeaheadTemplate.OptionType] = Mocks.assetsSectionUsers
     @State private var searchTextSections: String = ""
-    @State private var searchText: String = ""
-    @State private var searchTextDebounce: String = ""
+    @State private var selectedSections: [(String, (String, (() -> PBUser?)?)?)] = []
+    @FocusState private var isFocusedSection
+
+
     @State private var didTapOutside: Bool? = false
     @State private var isPresented1: Bool = false
     @State private var presentDialog: Bool = false
     @State private var isLoading: Bool = false
-    @State private var assetsUser = Mocks.multipleUsersDictionary
-    @FocusState var isFocused1
-    @FocusState var isFocused2
-    @FocusState var isFocused3
-    @FocusState var isFocused4
-    @State private var sectionUsers: [PBTypeaheadTemplate.OptionType] = [
-        .section("section 1"),
-        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
-        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
-        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
-        .item(("4", (Mocks.luccile.name, { Mocks.luccile }))),
-        .section("section 2"),
-        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
-        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
-        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
-        .item(("4", (Mocks.luccile.name, { Mocks.luccile })))
-    ]
+
+
+
     var popoverManager = PopoverManager()
 
     public var body: some View {
@@ -65,10 +52,10 @@ public struct TypeaheadCatalog: View {
 
         }
         .onTapGesture {
-            isFocused1 = false
-            isFocused2 = false
-            isFocused3 = false
-            isFocused4 = false
+            isFocusedColors = false
+            isFocusedUsers = false
+            isFocusedHeight = false
+            isFocusedSection = false
         }
         .popoverHandler(id: 1)
         .popoverHandler(id: 2)
@@ -85,7 +72,7 @@ extension TypeaheadCatalog {
             searchText: $searchTextColors,
             options: assetsColors,
             selection: .single,
-            isFocused: $isFocused1, 
+            isFocused: $isFocusedColors,
             selectedOptions: $selectedColors
         )
     }
@@ -98,7 +85,7 @@ extension TypeaheadCatalog {
             searchText: $searchTextUsers,
             options: assetsUsers,
             selection: .multiple(variant: .pill),
-            isFocused: $isFocused2,
+            isFocused: $isFocusedUsers,
             selectedOptions: $selectedUsers
         )
     }
@@ -108,12 +95,24 @@ extension TypeaheadCatalog {
             id: 3,
             title: "Users",
             placeholder: "type the name of a user",
-            searchText: $searchTextUsers1,
+            searchText: $searchTextHeight,
             options: assetsUsers,
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 150,
-            isFocused: $isFocused3,
-            selectedOptions: $selectedUsers1
+            isFocused: $isFocusedHeight,
+            selectedOptions: $selectedHeight
+        )
+    }
+
+    var sections: some View {
+        PBTypeaheadTemplate(
+            id: 4,
+            title: "Sections",
+            searchText: $searchTextSections,
+            options: assetsSection,
+            selection: .multiple(variant: .pill),
+            isFocused: $isFocusedSection,
+            selectedOptions: $selectedSections
         )
     }
 
@@ -124,23 +123,11 @@ extension TypeaheadCatalog {
         }
         .presentationMode(isPresented: $presentDialog) {
             DialogView(isPresented: $presentDialog)
-                .popoverHandler(id: 4)
+                .popoverHandler(id: 5)
                 #if os(macOS)
                 .frame(minWidth: 500, minHeight: 390)
                 #endif
         }
-    }
-
-    var sections: some View {
-        PBTypeaheadTemplate(
-            id: 4,
-            title: "Sections",
-            searchText: $searchTextSections,
-            options: $sectionUsers,
-            selection: .multiple(variant: .pill),
-            isFocused: $isFocused4,
-            selectedOptions: $selectedSections
-        )
     }
 
     func closeToast() {
@@ -151,7 +138,7 @@ extension TypeaheadCatalog {
         @Binding var isPresented: Bool
         @State private var isLoading: Bool = false
         @State private var searchTextUsers: String = ""
-        @State private var assetsUsers = Mocks.multipleUsersDictionary
+        @State private var assetsUsers = Mocks.assetesMultipleUsers
         @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
             ("1", (Mocks.andrew.name, { Mocks.andrew })),
             ("2", (Mocks.ana.name, { Mocks.ana }))
@@ -165,7 +152,7 @@ extension TypeaheadCatalog {
                      shouldCloseOnOverlay: false) {
                 VStack {
                     PBTypeahead(
-                        id: 4,
+                        id: 5,
                         title: "Users",
                         placeholder: "type the name of a user",
                         searchText: $searchTextUsers,

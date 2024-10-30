@@ -14,6 +14,7 @@ public struct PBTypeahead<Content: View>: View {
     private let id: Int
     private let title: String
     private let placeholder: String
+    private let options: [Option]
     private let selection: Selection
     private let noOptionsText: String
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
@@ -23,14 +24,12 @@ public struct PBTypeahead<Content: View>: View {
     private let popoverManager = PopoverManager()
 
     @State private var showList: Bool = false
-    @State private var isCollapsed = false
     @State private var hoveringIndex: Int?
     @State private var hoveringOption: Option?
     @State private var isHovering: Bool = false
     @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
-    let options: [Option]
     @Binding var selectedOptions: [Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
@@ -136,7 +135,7 @@ private extension PBTypeahead {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                        listCell(index: index, option: result)
+                        listItemView(index: index, option: result)
                     }
                 }
             }
@@ -146,10 +145,9 @@ private extension PBTypeahead {
             .frame(maxWidth: .infinity, alignment: .top)
         }
         .frame(maxWidth: .infinity, alignment: .top)
-        .transition(.opacity)
     }
 
-    func listCell(index: Int, option: Option) -> some View {
+    func listItemView(index: Int, option: Option) -> some View {
         HStack {
             if option.0 == noOptionsText {
                 emptyView
