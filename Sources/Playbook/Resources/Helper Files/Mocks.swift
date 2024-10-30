@@ -22,41 +22,37 @@ enum Mocks {
 
   static let avatarXSmall = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall)
   static let avatarXSmallStatus = PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .online)
-//  static let userName = "Andrew Black"
-//  static let message: AttributedString = "How can we assist you today?"
+  static let userName = "Andrew Black"
+  static let message: AttributedString = "How can we assist you today?"
   static let timestamp =  PBTimestamp(Date(), showDate: false)
   static let picAnna = PBAvatar(image: Image("Anna", bundle: .module), size: .xSmall, status: .online)
   static let picPatric = PBAvatar(image: Image("Pat", bundle: .module), size: .xSmall)
   static let picLuccile = PBAvatar(image: Image("Lu", bundle: .module), size: .xSmall)
-  static let assetsColors: [(String, (String, (() -> AnyView?)?)?)] = [
-    ("Orange", ("Orange", nil)),
-    ("Red", ("Red", nil)),
-//    ("Green", nil),
-    ("Blue", ("Blue", nil)),
-    ("Pink", ("Pink", nil)),
-//    ("Yellow", nil),
-//    ("Violet", nil),
-//    ("Indigo", nil),
-    ("Magenta", nil)
+    static let assetsColors: [Typeahead.Option] = [
+    .init(id: "1", text: "Orange", customView: nil),
+    .init(id: "2", text: "Red", customView: nil),
+    .init(id: "3", text: "Blue", customView: nil),
+    .init(id: "4", text: "Pink", customView: nil),
+    .init(id: "5", text: "Magenta", customView: nil)
   ]
-    static let assetesMultipleUsers: [(String, (String, (() -> PBUser?)?)?)] = [
-      ("1", (andrew.name, { andrew })),
-      ("2", (ana.name, { ana })),
-      ("3", (patric.name, { patric })),
-      ("4", (luccile.name, { luccile }))
+    static let assetesMultipleUsers: [Typeahead.Option] = [
+        .init(id: "1", text: andrew.name, customView: { AnyView(andrew) }),
+        .init(id: "2", text: ana.name, customView: { AnyView(ana) }),
+        .init(id: "3", text: patric.name, customView: { AnyView(patric) }),
+        .init(id: "4", text: luccile.name, customView: { AnyView(luccile) })
     ]
 
-    static let assetsSectionUsers: [PBTypeaheadTemplate.OptionType] = [
+    static let assetsSectionUsers: [Typeahead.OptionType] = [
         .section("section 1"),
-        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
-        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
-        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
-        .item(("4", (Mocks.luccile.name, { Mocks.luccile }))),
+        .item(.init(id: "1", text: andrew.name, customView: { AnyView(andrew) })),
+        .item(.init(id: "2", text: ana.name, customView: { AnyView(ana) })),
+        .item(.init(id: "3", text: patric.name, customView: { AnyView(patric) })),
+        .item(.init(id: "4", text: luccile.name, customView: { AnyView(luccile) })),
         .section("section 2"),
-        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
-        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
-        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
-        .item(("4", (Mocks.luccile.name, { Mocks.luccile })))
+        .item(.init(id: "5", text: andrew.name, customView: { AnyView(andrew) })),
+        .item(.init(id: "6", text: ana.name, customView: { AnyView(ana) })),
+        .item(.init(id: "7", text: patric.name, customView: { AnyView(patric) })),
+        .item(.init(id: "8", text: luccile.name, customView: { AnyView(luccile) }))
     ]
 
   static let cities: [String] = [

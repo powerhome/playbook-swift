@@ -12,44 +12,36 @@ import SwiftUI
 public struct TypeaheadCatalog: View {
     private var assetsColors = Mocks.assetsColors
     @State private var searchTextColors: String = ""
-    @State private var selectedColors: [(String, (String, (() -> AnyView?)?)?)] = [Mocks.assetsColors.first!]
+    @State private var selectedColors: [Typeahead.Option] = [Mocks.assetsColors[2]]
     @FocusState private var isFocusedColors
 
     private var assetsUsers = Mocks.assetesMultipleUsers
     @State private var searchTextUsers: String = ""
-    @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+    @State private var selectedUsers: [Typeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
     @FocusState private var isFocusedUsers
 
     @State private var searchTextHeight: String = ""
-    @State private var selectedHeight: [(String, (String, (() -> PBUser?)?)?)] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
+    @State private var selectedHeight: [Typeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
     @FocusState private var isFocusedHeight
 
-    private var assetsSection: [PBTypeaheadTemplate.OptionType] = Mocks.assetsSectionUsers
+    private var assetsSection: [Typeahead.OptionType] = Mocks.assetsSectionUsers
     @State private var searchTextSections: String = ""
-    @State private var selectedSections: [(String, (String, (() -> PBUser?)?)?)] = []
+    @State private var selectedSections: [Typeahead.Option] = []
     @FocusState private var isFocusedSection
 
-
-    @State private var didTapOutside: Bool? = false
-    @State private var isPresented1: Bool = false
     @State private var presentDialog: Bool = false
-    @State private var isLoading: Bool = false
-
-
-
     var popoverManager = PopoverManager()
 
     public var body: some View {
         PBDocStack(title: "Typeahead") {
             PBDoc(title: "Default", spacing: Spacing.small) { colors }
             PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-            PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
             #if os(macOS)
             PBDoc(title: "Dialog") { dialog }
             #endif
-            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
+            PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
+//            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
-
         }
         .onTapGesture {
             isFocusedColors = false
@@ -139,9 +131,9 @@ extension TypeaheadCatalog {
         @State private var isLoading: Bool = false
         @State private var searchTextUsers: String = ""
         @State private var assetsUsers = Mocks.assetesMultipleUsers
-        @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
-            ("1", (Mocks.andrew.name, { Mocks.andrew })),
-            ("2", (Mocks.ana.name, { Mocks.ana }))
+        @State private var selectedUsers: [Typeahead.Option] = [
+            Mocks.assetesMultipleUsers[0],
+            Mocks.assetesMultipleUsers[1]
         ]
         @FocusState var isFocused
 
