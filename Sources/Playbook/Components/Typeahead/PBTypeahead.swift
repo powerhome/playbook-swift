@@ -96,24 +96,21 @@ public struct PBTypeahead: View {
                 showList = isFocused
             }
             setKeyboardControls
-            selectedIndex = options.firstIndex(of: selectedOptions[0])
+            if !selectedOptions.isEmpty {
+                selectedIndex = options.firstIndex(of: selectedOptions[0])
+            }
         }
         .onChange(of: isFocused) { newValue in
-            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
-                showList = newValue
-            }
+            showList = newValue
         }
         .onChange(of: searchText, debounce: debounce) { _ in
             _ = searchResults
             reloadList
         }
-        .onChange(of: options.count) { _ in
-          reloadList
-        }
-        .onChange(of: searchResults.count) { _ in
+        .onChange(of: contentSize) { _ in
             reloadList
         }
-        .onChange(of: contentSize) { _ in
+        .onChange(of: selectedOptions.count) { _ in
             reloadList
         }
         .onChange(of: hoveringIndex) { index in
