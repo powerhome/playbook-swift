@@ -26,7 +26,6 @@ public struct PBTypeahead: View {
     @State private var hoveringIndex: Int?
     @State private var hoveringOption: Typeahead.Option?
     @State private var isHovering: Bool = false
-    @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
     @Binding var selectedOptions: [Typeahead.Option]
@@ -76,7 +75,6 @@ public struct PBTypeahead: View {
                 onItemTap: { removeSelected($0) },
                 onViewTap: { onViewTap }
             )
-            .sizeReader { contentSize = $0 }
             .pbPopover(
                 isPresented: $showList,
                 id: id,
@@ -107,16 +105,15 @@ public struct PBTypeahead: View {
             _ = searchResults
             reloadList
         }
-        .onChange(of: contentSize) { _ in
-            reloadList
-        }
         .onChange(of: selectedOptions.count) { _ in
             reloadList
         }
         .onChange(of: hoveringIndex) { index in
             reloadList
         }
-        .onChange(of: searchText, debounce: debounce) { _ in
+        .onChange(of: searchText, debounce: debounce) { text in
+            _ = searchResults
+            reloadList
             if !searchText.isEmpty {
                 showList = true
             }
@@ -139,9 +136,7 @@ private extension PBTypeahead {
             .scrollDismissesKeyboard(.immediately)
             .frame(maxHeight: dropdownMaxHeight)
             .fixedSize(horizontal: false, vertical: true)
-            .frame(maxWidth: .infinity, alignment: .top)
         }
-        .frame(maxWidth: .infinity, alignment: .top)
     }
 
     func listItemView(index: Int, option: Typeahead.Option) -> some View {
@@ -149,26 +144,26 @@ private extension PBTypeahead {
             if option.text == noOptionsText {
                 emptyView
             } else {
-                if let customView = option.customView?() {
-                    customView
-                } else {
-                    Text(option.text ?? option.id)
-                        .pbFont(.body, color: listTextolor(index))
+                Group {
+                    if let customView = option.customView?() {
+                        customView
+                    } else {
+                        Text(option.text ?? option.id)
+                            .pbFont(.body, color: listTextolor(index))
+                    }
                 }
-            }
-        }
-        .padding(.horizontal, Spacing.xSmall + 4)
-        .padding(.vertical, Spacing.xSmall + 4)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(listBackgroundColor(index))
-        .onHover(disabled: false) { hover in
-            isHovering = hover
-            hoveringIndex = index
-            hoveringOption = option
-        }
-        .onTapGesture {
-            if option.text != noOptionsText {
-                onListSelection(index: index, option: option)
+                .padding(.horizontal, Spacing.xSmall + 4)
+                .padding(.vertical, Spacing.xSmall + 4)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(listBackgroundColor(index))
+                .onHover(disabled: false) { hover in
+                    isHovering = hover
+                    hoveringIndex = index
+                    hoveringOption = option
+                }
+                .onTapGesture {
+                    onListSelection(index: index, option: option)
+                }
             }
         }
     }
@@ -180,6 +175,8 @@ private extension PBTypeahead {
                 .pbFont(.body, color: .text(.light))
             Spacer()
         }
+        .padding(.horizontal, Spacing.xSmall + 4)
+        .padding(.vertical, Spacing.xSmall + 4)
     }
 
     var searchResults: [Typeahead.Option] {
@@ -227,13 +224,11 @@ private extension PBTypeahead {
     }
 
     var reloadList: Void {
-        if showList {
-            isHovering.toggle()
-        }
+        isHovering.toggle()
     }
 
     func onListSelection(index: Int, option: Typeahead.Option) {
-        if showList {
+        if showList, option.text != noOptionsText {
             switch selection {
                 case .single:
                     onSingleSelection(index: index, option)
@@ -243,6 +238,7 @@ private extension PBTypeahead {
         }
         showList = false
         searchText = ""
+        reloadList
     }
 
     func onSingleSelection(index: Int, _ option: Typeahead.Option) {
@@ -263,7 +259,9 @@ private extension PBTypeahead {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
             let _ = selectedOptions.remove(at: selectedElementIndex)
             selectedIndex = nil
+            hoveringIndex = nil
         }
+        reloadList
     }
 
     func listBackgroundColor(_ index: Int?) -> Color {
