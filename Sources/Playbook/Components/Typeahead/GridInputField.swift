@@ -101,6 +101,7 @@ private extension GridInputField {
                 }
                 .textFieldStyle(.plain)
                 .pbFont(.body, color: textColor)
+                .frame(height: 24)
         }
         .fixedSize()
         .frame(minWidth: 60, alignment: .leading)

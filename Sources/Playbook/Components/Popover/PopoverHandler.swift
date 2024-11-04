@@ -12,6 +12,7 @@ import SwiftUI
 struct PopoverView: View {
     let id: Int
     let blockBackgroundInteractions: Bool
+    @State private var opacity: CGFloat = 0.01
     @EnvironmentObject var popoverManager: PopoverManager
     
     init(
@@ -35,6 +36,16 @@ struct PopoverView: View {
                         .onTapGesture {
                             popoverManager.closeInside(id)
                         }
+                        .onAppear {
+                            if popover?.position != nil {
+                                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
+                                    opacity = 1
+                                }
+                            } else {
+                                opacity = 0.01
+                            }
+                        }
+                        .opacity(opacity)
                 }
             }
         }
