@@ -10,64 +10,44 @@
 import SwiftUI
 
 public struct TypeaheadCatalog: View {
-    @State private var assetsColors = Mocks.assetsColors
-    @State private var selectedAssetsColors: [(String, (String, (() -> AnyView?)?)?)] = []
-    @State private var assetsUsers = Mocks.multipleUsersDictionary
-    @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
-        ("1", (Mocks.andrew.name, { Mocks.andrew })),
-        ("2", (Mocks.ana.name, { Mocks.ana }))
-    ]
-    @State private var selectedUsers1: [(String, (String, (() -> PBUser?)?)?)] = [
-        ("1", (Mocks.andrew.name, { Mocks.andrew })),
-        ("2", (Mocks.ana.name, { Mocks.ana }))
-    ]
-  @State private var selectedSections: [(String, (String, (() -> PBUser?)?)?)] = []
-    @State private var searchTextUsers: String = ""
-    @State private var searchTextUsers1: String = ""
+    private var assetsColors = Mocks.assetsColors
     @State private var searchTextColors: String = ""
+    @State private var selectedColors: [Typeahead.Option] = [Mocks.assetsColors[2]]
+    @FocusState private var isFocusedColors
+
+    private var assetsUsers = Mocks.assetesMultipleUsers
+    @State private var searchTextUsers: String = ""
+    @State private var selectedUsers: [Typeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+    @FocusState private var isFocusedUsers
+
+    @State private var searchTextHeight: String = ""
+    @State private var selectedHeight: [Typeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
+    @FocusState private var isFocusedHeight
+
+    private var assetsSection: [Typeahead.OptionType] = Mocks.assetsSectionUsers
     @State private var searchTextSections: String = ""
-    @State private var searchText: String = ""
-    @State private var searchTextDebounce: String = ""
-    @State private var didTapOutside: Bool? = false
-    @State private var isPresented1: Bool = false
+    @State private var selectedSections: [Typeahead.Option] = []
+    @FocusState private var isFocusedSection
+
     @State private var presentDialog: Bool = false
-    @State private var isLoading: Bool = false
-    @State private var assetsUser = Mocks.multipleUsersDictionary
-    @FocusState var isFocused1
-    @FocusState var isFocused2
-    @FocusState var isFocused3
-    @FocusState var isFocused4
-    @State private var sectionUsers: [PBTypeaheadTemplate.OptionType] = [
-        .section("section 1"),
-        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
-        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
-        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
-        .item(("4", (Mocks.luccile.name, { Mocks.luccile }))),
-        .section("section 2"),
-        .item(("1", (Mocks.andrew.name, { Mocks.andrew }))),
-        .item(("2", (Mocks.ana.name, { Mocks.ana }))),
-        .item(("3", (Mocks.patric.name, { Mocks.patric }))),
-        .item(("4", (Mocks.luccile.name, { Mocks.luccile })))
-    ]
     var popoverManager = PopoverManager()
 
     public var body: some View {
         PBDocStack(title: "Typeahead") {
             PBDoc(title: "Default", spacing: Spacing.small) { colors }
             PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-            PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
             #if os(macOS)
             PBDoc(title: "Dialog") { dialog }
             #endif
-            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
+            PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
+//            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
-
         }
         .onTapGesture {
-            isFocused1 = false
-            isFocused2 = false
-            isFocused3 = false
-            isFocused4 = false
+            isFocusedColors = false
+            isFocusedUsers = false
+            isFocusedHeight = false
+            isFocusedSection = false
         }
         .popoverHandler(id: 1)
         .popoverHandler(id: 2)
@@ -82,11 +62,11 @@ extension TypeaheadCatalog {
             id: 1,
             title: "Colors",
             searchText: $searchTextColors,
-            options: $assetsColors,
+            options: assetsColors,
             selection: .single,
-            isFocused: $isFocused1) { value in
-                print(value.first?.0)
-            }
+            isFocused: $isFocusedColors,
+            selectedOptions: $selectedColors
+        )
     }
 
     var users: some View {
@@ -95,13 +75,11 @@ extension TypeaheadCatalog {
             title: "Users",
             placeholder: "type the name of a user",
             searchText: $searchTextUsers,
-            options: $assetsUsers,
+            options: assetsUsers,
             selection: .multiple(variant: .pill),
-            isFocused: $isFocused2,
-            selectedOptions: selectedUsers
-        ) { options in
-            print("Selected options \(options)")
-          }
+            isFocused: $isFocusedUsers,
+            selectedOptions: $selectedUsers
+        )
     }
 
     var heightAdjusted: some View {
@@ -109,12 +87,24 @@ extension TypeaheadCatalog {
             id: 3,
             title: "Users",
             placeholder: "type the name of a user",
-            searchText: $searchTextUsers1,
-            options: $assetsUsers,
+            searchText: $searchTextHeight,
+            options: assetsUsers,
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 150,
-            isFocused: $isFocused3,
-            selectedOptions: selectedUsers1
+            isFocused: $isFocusedHeight,
+            selectedOptions: $selectedHeight
+        )
+    }
+
+    var sections: some View {
+        PBTypeaheadTemplate(
+            id: 4,
+            title: "Sections",
+            searchText: $searchTextSections,
+            options: assetsSection,
+            selection: .multiple(variant: .pill),
+            isFocused: $isFocusedSection,
+            selectedOptions: $selectedSections
         )
     }
 
@@ -125,23 +115,11 @@ extension TypeaheadCatalog {
         }
         .presentationMode(isPresented: $presentDialog) {
             DialogView(isPresented: $presentDialog)
-                .popoverHandler(id: 4)
+                .popoverHandler(id: 5)
                 #if os(macOS)
                 .frame(minWidth: 500, minHeight: 390)
                 #endif
         }
-    }
-
-    var sections: some View {
-        PBTypeaheadTemplate(
-            id: 4,
-            title: "Sections",
-            searchText: $searchTextSections,
-            options: $sectionUsers,
-            selection: .multiple(variant: .pill),
-            isFocused: $isFocused4,
-            selectedOptions: $selectedSections
-        )
     }
 
     func closeToast() {
@@ -152,10 +130,10 @@ extension TypeaheadCatalog {
         @Binding var isPresented: Bool
         @State private var isLoading: Bool = false
         @State private var searchTextUsers: String = ""
-        @State private var assetsUsers = Mocks.multipleUsersDictionary
-        @State private var selectedUsers: [(String, (String, (() -> PBUser?)?)?)] = [
-            ("1", (Mocks.andrew.name, { Mocks.andrew })),
-            ("2", (Mocks.ana.name, { Mocks.ana }))
+        @State private var assetsUsers = Mocks.assetesMultipleUsers
+        @State private var selectedUsers: [Typeahead.Option] = [
+            Mocks.assetesMultipleUsers[0],
+            Mocks.assetesMultipleUsers[1]
         ]
         @FocusState var isFocused
 
@@ -166,15 +144,15 @@ extension TypeaheadCatalog {
                      shouldCloseOnOverlay: false) {
                 VStack {
                     PBTypeahead(
-                        id: 4,
+                        id: 5,
                         title: "Users",
                         placeholder: "type the name of a user",
                         searchText: $searchTextUsers,
-                        options: $assetsUsers,
+                        options: assetsUsers,
                         selection: .multiple(variant: .pill),
                         dropdownMaxHeight: 300,
                         isFocused: $isFocused,
-                        selectedOptions: selectedUsers
+                        selectedOptions: $selectedUsers
                     )
                     Spacer()
                 }
