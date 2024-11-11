@@ -16,11 +16,11 @@ public struct GridInputField: View {
     private let onItemTap: ((Int) -> Void)?
     private let onViewTap: (() -> Void)?
     private let shape = RoundedRectangle(cornerRadius: BorderRadius.medium)
+    private var isFocused: FocusState<Bool>.Binding
     @Binding var searchText: String
     @State private var isHovering: Bool = false
     @State private var clearButtonIsHovering: Bool = false
     @State private var indicatorIsHovering: Bool = false
-    var isFocused: FocusState<Bool>.Binding
 
     init(
         placeholder: String = "Select",
@@ -52,22 +52,9 @@ public struct GridInputField: View {
                     ForEach(indices, id: \.self) { index in
                         if indices.last != index {
                             gridView(index: index)
-                        } else {
-                            textfieldWithCustomPlaceholder
-                                .fixedSize()
-                                .frame(minWidth: 60, alignment: .leading)
-                                .overlay {
-                                    Color.white
-                                        .opacity(isFocused.wrappedValue ? 0.001 : 0)
-                                        .onTapGesture {
-                                            if isFocused.wrappedValue {
-                                                onViewTap?()
-                                            }
-                                        }
-                                }
-                                .clipped()
                         }
                     }
+                    textfieldWithCustomPlaceholder
                 }
                 .padding(.horizontal, Spacing.small)
                 .padding(.vertical, Spacing.xSmall)
@@ -115,6 +102,18 @@ private extension GridInputField {
                 .textFieldStyle(.plain)
                 .pbFont(.body, color: textColor)
         }
+        .fixedSize()
+        .frame(minWidth: 60, alignment: .leading)
+        .overlay {
+            Color.white
+                .opacity(isFocused.wrappedValue ? 0.001 : 0)
+                .onTapGesture {
+                    if isFocused.wrappedValue {
+                        onViewTap?()
+                    }
+                }
+        }
+        .clipped()
     }
 
     func gridView(index: Int?) -> AnyView? {
@@ -254,13 +253,13 @@ public struct WrappedInputFieldCatalog: View {
 
             GridInputField(
                 searchText: $text,
-                selection: .multiple(.pill, ["title1", "title2", "title2", "title2", "title2"]),
+                selection: .multiple(.pill, ["title1", "title2", "title2"]),
                 isFocused: $isFocused
             )
 
             GridInputField(
                 searchText: $text,
-                selection: .multiple(.other(AnyView(PBPill("oi", variant: .primary))), ["title1", "title2", "title2", "title2", "title2", "title2", "title2", "title2"]),
+                selection: .multiple(.other(AnyView(PBPill("oi", variant: .primary))), ["title1", "title2", "title2"]),
                 isFocused: $isFocused
             )
 
