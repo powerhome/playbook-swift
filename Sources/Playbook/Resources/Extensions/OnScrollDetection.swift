@@ -11,7 +11,7 @@ import SwiftUI
 
 struct OnScrollDetection: ViewModifier {
     let id: String
-    @Binding var scrollOffset: CGFloat
+    @State var scrollOffset: CGFloat = .zero
     let action: (() -> Void)
 
     func body(content: Content) -> some View {
@@ -26,14 +26,13 @@ struct OnScrollDetection: ViewModifier {
                 }
             )
             .onChange(of: scrollOffset) { newValue in
-//                dismissFocus()
                 action()
             }
     }
 }
 
 extension View {
-    func onScroll(id: String = "scroll", offset: Binding<CGFloat>, action: @escaping (() -> Void)) -> some View {
-        self.modifier(OnScrollDetection(id: id, scrollOffset: offset, action: action))
+    func onScroll(id: String = "scroll", action: @escaping (() -> Void)) -> some View {
+        self.modifier(OnScrollDetection(id: id, action: action))
     }
 }

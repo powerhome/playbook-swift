@@ -30,7 +30,6 @@ public struct TypeaheadCatalog: View {
     @FocusState private var isFocusedSection
 
     @State private var presentDialog: Bool = false
-    @State private var scrollOffset: CGFloat = 0.0
 
     var popoverManager = PopoverManager()
 
@@ -44,11 +43,11 @@ public struct TypeaheadCatalog: View {
             PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
 //            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
-                .onScroll(id: "scroll", offset: $scrollOffset) {
+                .onScroll(id: "scroll") {
                     dismissFocus()
                 }
         }
-        .coordinateSpace(name: "scroll")
+
         .onTapGesture {
             dismissFocus()
         }

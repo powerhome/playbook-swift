@@ -66,5 +66,6 @@ public extension View {
             .overlay(PopoverView(id: id, blockBackgroundInteractions: blockBackgroundInteractions))
             .onTapGesture { popoverManager.closeOutside() }
             .environmentObject(popoverManager)
+            .coordinateSpace(name: "scroll")
     }
 }
