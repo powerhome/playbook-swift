@@ -43,11 +43,11 @@ public struct TypeaheadCatalog: View {
             PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
 //            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
-                .onScroll(id: "scroll") {
-                    dismissFocus()
-                }
+//                .onScroll {
+//                    dismissFocus()
+//                }
         }
-
+        .scrollDismissesKeyboard(.immediately)
         .onTapGesture {
             dismissFocus()
         }

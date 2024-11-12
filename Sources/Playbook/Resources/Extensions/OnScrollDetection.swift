@@ -10,15 +10,14 @@
 import SwiftUI
 
 struct OnScrollDetection: ViewModifier {
-    let id: String
-    @State var scrollOffset: CGFloat = .zero
+    @State private var scrollOffset: CGFloat = .zero
     let action: (() -> Void)
 
     func body(content: Content) -> some View {
         content
             .background(
                 GeometryReader { geo -> Color in
-                    let offset = geo.frame(in: .named(id)).minY
+                    let offset = geo.frame(in: .global).minY
                     DispatchQueue.main.async {
                         self.scrollOffset = offset
                     }
@@ -32,7 +31,7 @@ struct OnScrollDetection: ViewModifier {
 }
 
 extension View {
-    func onScroll(id: String = "scroll", action: @escaping (() -> Void)) -> some View {
-        self.modifier(OnScrollDetection(id: id, action: action))
+    func onScroll(action: @escaping (() -> Void)) -> some View {
+        self.modifier(OnScrollDetection(action: action))
     }
 }

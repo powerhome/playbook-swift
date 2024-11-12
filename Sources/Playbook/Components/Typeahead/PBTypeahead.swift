@@ -86,7 +86,12 @@ public struct PBTypeahead: View {
             }
             .onTapGesture {
                 isFocused = false
+                showList = false
             }
+        }
+        .onTapGesture {
+            isFocused = false
+            showList = false
         }
         .onAppear {
             focused = isFocused
@@ -99,7 +104,9 @@ public struct PBTypeahead: View {
             }
         }
         .onChange(of: isFocused) { newValue in
-            showList = newValue
+            if newValue {
+                showList = true
+            }
         }
         .onChange(of: searchText, debounce: debounce) { _ in
             _ = searchResults
@@ -133,7 +140,7 @@ private extension PBTypeahead {
                     }
                 }
             }
-            .scrollDismissesKeyboard(.automatic)
+            .scrollDismissesKeyboard(.immediately)
             .frame(maxHeight: dropdownMaxHeight)
             .fixedSize(horizontal: false, vertical: true)
         }
