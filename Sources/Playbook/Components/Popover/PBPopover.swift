@@ -60,8 +60,8 @@ public struct Popover<T: View>: ViewModifier {
         }
       }
       .onChange(of: isPresented) { newValue in
-        updateViewFrame()
         popoverManager.presentPopover(with: id, value: newValue)
+        updateViewFrame()
       }
       .onChange(of: popoverPosition) { position in
         updateViewFrame()
