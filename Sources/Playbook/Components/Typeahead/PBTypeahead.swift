@@ -108,17 +108,13 @@ public struct PBTypeahead: View {
                 showList = true
             }
         }
-        .onChange(of: searchText, debounce: debounce) { _ in
-            _ = searchResults
-            reloadList
-        }
         .onChange(of: selectedOptions.count) { _ in
             reloadList
         }
         .onChange(of: hoveringIndex) { index in
             reloadList
         }
-        .onChange(of: searchText, debounce: debounce) { text in
+        .onChange(of: searchText, debounce: debounce) { _ in
             _ = searchResults
             reloadList
             if !searchText.isEmpty {
