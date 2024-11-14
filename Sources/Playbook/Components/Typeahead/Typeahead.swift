@@ -15,6 +15,11 @@ public extension PBTypeahead {
         public let text: String?
         public let customView: (() -> AnyView?)?
         public static func == (lhs: Option, rhs: Option) -> Bool { lhs.id == rhs.id }
+        public init(id: String, text: String?, customView: ( () -> AnyView?)? = nil) {
+            self.id = id
+            self.text = text
+            self.customView = customView
+        }
     }
 
     enum OptionType: Identifiable {
