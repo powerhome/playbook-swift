@@ -13,8 +13,8 @@ public struct PBTypeaheadTemplate: View {
     private let id: Int
     private let title: String
     private let placeholder: String
-    private var options: [Typeahead.OptionType]
-    private let selection: Typeahead.Selection
+    private var options: [PBTypeahead.OptionType]
+    private let selection: PBTypeahead.Selection
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
     private let dropdownMaxHeight: CGFloat?
     private let listOffset: (x: CGFloat, y: CGFloat)
@@ -23,13 +23,13 @@ public struct PBTypeaheadTemplate: View {
 
     @State private var showList: Bool = false
     @State private var hoveringIndex: (Int?, String?)
-    @State private var hoveringOption: Typeahead.Option?
+    @State private var hoveringOption: PBTypeahead.Option?
     @State private var isHovering: Bool = false
     @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
     @State var numberOfItemsShown: [String?: Int] = [:]
-    @Binding var selectedOptions: [Typeahead.Option]
+    @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
 
@@ -38,13 +38,13 @@ public struct PBTypeaheadTemplate: View {
         title: String,
         placeholder: String = "Select",
         searchText: Binding<String>,
-        options: [Typeahead.OptionType],
-        selection: Typeahead.Selection,
+        options: [PBTypeahead.OptionType],
+        selection: PBTypeahead.Selection,
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        selectedOptions: Binding<[Typeahead.Option]>,
+        selectedOptions: Binding<[PBTypeahead.Option]>,
         clearAction: (() -> Void)? = nil
     ) {
         self.id = id
@@ -152,7 +152,7 @@ private extension PBTypeaheadTemplate {
             .padding(.leading)
     }
 
-    func listItemView(item: Typeahead.Option, index: Int, for section: String?) -> some View {
+    func listItemView(item: PBTypeahead.Option, index: Int, for section: String?) -> some View {
         HStack {
             if let customView = item.customView?() {
                 customView
@@ -175,10 +175,10 @@ private extension PBTypeaheadTemplate {
         }
     }
 
-    var mapResults: [(String?, [Typeahead.Option], PBButton)] {
-        var array: [(String?, [Typeahead.Option], PBButton)] = []
+    var mapResults: [(String?, [PBTypeahead.Option], PBButton)] {
+        var array: [(String?, [PBTypeahead.Option], PBButton)] = []
         var currentSection: String? = nil
-        var currentOptions: [Typeahead.Option] = []
+        var currentOptions: [PBTypeahead.Option] = []
         for result in searchResults {
             switch result {
                 case .section(let section):
@@ -208,8 +208,8 @@ private extension PBTypeaheadTemplate {
 
     private func appendSectionToArray(
         section: String?,
-        options: [Typeahead.Option],
-        to array: inout [(String?, [Typeahead.Option], PBButton)]
+        options: [PBTypeahead.Option],
+        to array: inout [(String?, [PBTypeahead.Option], PBButton)]
     ) {
         let numberOfItems = numberOfItemsShown[section] ?? 2
         array.append((
@@ -226,7 +226,7 @@ private extension PBTypeaheadTemplate {
         ))
     }
 
-    var searchResults: [Typeahead.OptionType] {
+    var searchResults: [PBTypeahead.OptionType] {
         let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
             switch $0 {
                 case .item(let item):
@@ -334,7 +334,7 @@ private extension PBTypeaheadTemplate {
         }
     }
 
-    func onListSelection(index: Int, section: String?, option: Typeahead.Option) {
+    func onListSelection(index: Int, section: String?, option: PBTypeahead.Option) {
         if showList {
             switch selection {
                 case .single:
@@ -347,7 +347,7 @@ private extension PBTypeaheadTemplate {
         searchText = ""
     }
 
-    func onSingleSelection(index: Int, section: String?, _ option: Typeahead.Option) {
+    func onSingleSelection(index: Int, section: String?, _ option: PBTypeahead.Option) {
         selectedOptions.removeAll()
         if hoveringIndex.0 == index && hoveringIndex.1 == section {
             selectedOptions.append(option)
@@ -356,7 +356,7 @@ private extension PBTypeaheadTemplate {
         hoveringIndex = (index, section)
     }
 
-    func onMultipleSelection(index: Int, section: String?, _ option: Typeahead.Option) {
+    func onMultipleSelection(index: Int, section: String?, _ option: PBTypeahead.Option) {
         if hoveringIndex.0 == index && hoveringIndex.1 == section {
             selectedOptions.append(option)
         }
