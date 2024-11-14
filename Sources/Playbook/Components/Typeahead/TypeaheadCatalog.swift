@@ -12,21 +12,21 @@ import SwiftUI
 public struct TypeaheadCatalog: View {
     private var assetsColors = Mocks.assetsColors
     @State private var searchTextColors: String = ""
-    @State private var selectedColors: [Typeahead.Option] = [Mocks.assetsColors[2]]
+    @State private var selectedColors: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
     @FocusState private var isFocusedColors
 
     private var assetsUsers = Mocks.assetesMultipleUsers
     @State private var searchTextUsers: String = ""
-    @State private var selectedUsers: [Typeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+    @State private var selectedUsers: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
     @FocusState private var isFocusedUsers
 
     @State private var searchTextHeight: String = ""
-    @State private var selectedHeight: [Typeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
+    @State private var selectedHeight: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
     @FocusState private var isFocusedHeight
 
-    private var assetsSection: [Typeahead.OptionType] = Mocks.assetsSectionUsers
+    private var assetsSection: [PBTypeahead.OptionType] = Mocks.assetsSectionUsers
     @State private var searchTextSections: String = ""
-    @State private var selectedSections: [Typeahead.Option] = []
+    @State private var selectedSections: [PBTypeahead.Option] = []
     @FocusState private var isFocusedSection
 
     @State private var presentDialog: Bool = false
@@ -131,7 +131,7 @@ extension TypeaheadCatalog {
         @State private var isLoading: Bool = false
         @State private var searchTextUsers: String = ""
         @State private var assetsUsers = Mocks.assetesMultipleUsers
-        @State private var selectedUsers: [Typeahead.Option] = [
+        @State private var selectedUsers: [PBTypeahead.Option] = [
             Mocks.assetesMultipleUsers[0],
             Mocks.assetesMultipleUsers[1]
         ]

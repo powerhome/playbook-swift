@@ -28,21 +28,21 @@ enum Mocks {
   static let picAnna = PBAvatar(image: Image("Anna", bundle: .module), size: .xSmall, status: .online)
   static let picPatric = PBAvatar(image: Image("Pat", bundle: .module), size: .xSmall)
   static let picLuccile = PBAvatar(image: Image("Lu", bundle: .module), size: .xSmall)
-    static let assetsColors: [Typeahead.Option] = [
+    static let assetsColors: [PBTypeahead.Option] = [
     .init(id: "1", text: "Orange", customView: nil),
     .init(id: "2", text: "Red", customView: nil),
     .init(id: "3", text: "Blue", customView: nil),
     .init(id: "4", text: "Pink", customView: nil),
     .init(id: "5", text: "Magenta", customView: nil)
   ]
-    static let assetesMultipleUsers: [Typeahead.Option] = [
+    static let assetesMultipleUsers: [PBTypeahead.Option] = [
         .init(id: "1", text: andrew.name, customView: { AnyView(andrew) }),
         .init(id: "2", text: ana.name, customView: { AnyView(ana) }),
         .init(id: "3", text: patric.name, customView: { AnyView(patric) }),
         .init(id: "4", text: luccile.name, customView: { AnyView(luccile) })
     ]
 
-    static let assetsSectionUsers: [Typeahead.OptionType] = [
+    static let assetsSectionUsers: [PBTypeahead.OptionType] = [
         .section("section 1"),
         .item(.init(id: "1", text: andrew.name, customView: { AnyView(andrew) })),
         .item(.init(id: "2", text: ana.name, customView: { AnyView(ana) })),

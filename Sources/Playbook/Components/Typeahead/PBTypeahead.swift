@@ -13,8 +13,8 @@ public struct PBTypeahead: View {
     private let id: Int
     private let title: String
     private let placeholder: String
-    private let options: [Typeahead.Option]
-    private let selection: Typeahead.Selection
+    private let options: [PBTypeahead.Option]
+    private let selection: PBTypeahead.Selection
     private let noOptionsText: String
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
     private let dropdownMaxHeight: CGFloat?
@@ -24,12 +24,12 @@ public struct PBTypeahead: View {
 
     @State private var showList: Bool = false
     @State private var hoveringIndex: Int?
-    @State private var hoveringOption: Typeahead.Option?
+    @State private var hoveringOption: PBTypeahead.Option?
     @State private var isHovering: Bool = false
     @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
-    @Binding var selectedOptions: [Typeahead.Option]
+    @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
 
@@ -38,13 +38,13 @@ public struct PBTypeahead: View {
         title: String,
         placeholder: String = "Select",
         searchText: Binding<String>,
-        options: [Typeahead.Option],
-        selection: Typeahead.Selection,
+        options: [PBTypeahead.Option],
+        selection: PBTypeahead.Selection,
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        selectedOptions: Binding<[Typeahead.Option]>,
+        selectedOptions: Binding<[PBTypeahead.Option]>,
         clearAction: (() -> Void)? = nil,
         noOptionsText: String = "No options"
     ) {
@@ -144,7 +144,7 @@ private extension PBTypeahead {
         .frame(maxWidth: .infinity, alignment: .top)
     }
 
-    func listItemView(index: Int, option: Typeahead.Option) -> some View {
+    func listItemView(index: Int, option: PBTypeahead.Option) -> some View {
         HStack {
             if option.text == noOptionsText {
                 emptyView
@@ -182,7 +182,7 @@ private extension PBTypeahead {
         }
     }
 
-    var searchResults: [Typeahead.Option] {
+    var searchResults: [PBTypeahead.Option] {
         let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
             if let text = $0.text {
                 return text.localizedCaseInsensitiveContains(searchText)
@@ -193,8 +193,8 @@ private extension PBTypeahead {
         let selectedIds = Set(selectedOptions.map { $0.id })
         let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
         switch selection{
-            case .multiple: return filteredSelectedOptions.isEmpty ? [Typeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredSelectedOptions
-            case .single: return filteredOptions.isEmpty ? [Typeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredOptions
+            case .multiple: return filteredSelectedOptions.isEmpty ? [PBTypeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredSelectedOptions
+            case .single: return filteredOptions.isEmpty ? [PBTypeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredOptions
         }
     }
 
@@ -232,7 +232,7 @@ private extension PBTypeahead {
         }
     }
 
-    func onListSelection(index: Int, option: Typeahead.Option) {
+    func onListSelection(index: Int, option: PBTypeahead.Option) {
         if showList {
             switch selection {
                 case .single:
@@ -245,7 +245,7 @@ private extension PBTypeahead {
         searchText = ""
     }
 
-    func onSingleSelection(index: Int, _ option: Typeahead.Option) {
+    func onSingleSelection(index: Int, _ option: PBTypeahead.Option) {
         selectedOptions.removeAll()
         selectedOptions = [option]
         selectedIndex = index
@@ -253,7 +253,7 @@ private extension PBTypeahead {
         selectedOptions.append(option)
     }
 
-    func onMultipleSelection(_ option: Typeahead.Option) {
+    func onMultipleSelection(_ option: PBTypeahead.Option) {
         selectedOptions.append(option)
         hoveringIndex = nil
         selectedIndex = nil
