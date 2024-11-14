@@ -20,6 +20,11 @@ public extension PBTypeahead {
             self.text = text
             self.customView = customView
         }
+        public init(_ id: String, _ text: String? = nil, _ customView: ( () -> AnyView?)? = nil) {
+            self.id = id
+            self.text = text
+            self.customView = customView
+        }
     }
 
     enum OptionType: Identifiable {
