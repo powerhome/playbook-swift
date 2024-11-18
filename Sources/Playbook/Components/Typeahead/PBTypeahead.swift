@@ -44,8 +44,8 @@ public struct PBTypeahead: View {
         isFocused: FocusState<Bool>.Binding,
         selectedOptions: Binding<[PBTypeahead.Option]>,
         popoverManager: PopoverManager,
-        clearAction: (() -> Void)? = nil,
-        noOptionsText: String = "No options"
+        noOptionsText: String = "No options",
+        clearAction: (() -> Void)? = nil
     ) {
         self.id = id
         self.title = title

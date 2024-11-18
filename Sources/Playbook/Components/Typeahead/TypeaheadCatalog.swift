@@ -43,9 +43,6 @@ public struct TypeaheadCatalog: View {
             PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
 //            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
-//                .onScroll {
-//                    dismissFocus()
-//                }
         }
         .scrollDismissesKeyboard(.immediately)
         .onTapGesture {
@@ -172,6 +169,10 @@ extension TypeaheadCatalog {
         isFocusedUsers = false
         isFocusedHeight = false
         isFocusedSection = false
+        popoverManager.hidePopover(for: 1)
+        popoverManager.hidePopover(for: 2)
+        popoverManager.hidePopover(for: 3)
+        popoverManager.hidePopover(for: 4)
     }
 }
 
