@@ -171,7 +171,7 @@ public struct PopoverCatalog: View {
     }
   }
 
-    @State private var viewFrame: CGRect = CGRect(x: 200, y: 200, width: 0, height: 0)
+    @State private var viewFrame: CGRect = .zero
     private var explorationPopover: some View {
       HStack {
         Text("This is an exploration Popover")
@@ -186,7 +186,7 @@ public struct PopoverCatalog: View {
         }
         .handlerPopoverController(
           isPresented: $isPresented7,
-          position: $viewFrame.origin
+          position: CGPoint(x: viewFrame.midX, y: viewFrame.maxY)
         ) {
           Text("I'm a popover. I can show content of any size.")
             .pbFont(.body, color: .text(.default))

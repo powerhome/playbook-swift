@@ -19,11 +19,12 @@ struct PopView: View {
             Text("I'm a popover. I can show content of any size.")
                 .pbFont(.body, color: .text(.default))
         }
+          
     }
 }
 
 extension View {
-    func handlerPopoverController<Content: View>(isPresented: Binding<Bool>, position: Binding<CGPoint>, @ViewBuilder content: @escaping (() -> Content)) -> some View {
+    func handlerPopoverController<Content: View>(isPresented: Binding<Bool>, position: CGPoint, @ViewBuilder content: @escaping (() -> Content)) -> some View {
         self.background(PopHostingView(isPresented: isPresented, position: position, content: content))
     }
 }
@@ -33,7 +34,7 @@ import AppKit
 
 struct PopHostingView<Content: View>: NSViewRepresentable {
     @Binding var isPresented: Bool
-    @Binding var position: CGPoint
+    let position: CGPoint
     let content: () -> Content
 
     func makeNSView(context: Context) -> NSView {
@@ -107,7 +108,7 @@ import UIKit
 
 struct PopHostingView<Content: View>: UIViewRepresentable {
     @Binding var isPresented: Bool
-    @Binding var position: CGPoint
+    let position: CGPoint
     let content: () -> Content
 
     func makeUIView(context: Context) -> UIView {
@@ -124,26 +125,26 @@ struct PopHostingView<Content: View>: UIViewRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(isPresented: $isPresented, position: $position, content: content())
+        Coordinator(isPresented: $isPresented, position: position, content: content())
     }
 
     class Coordinator: NSObject, UIPopoverPresentationControllerDelegate {
         private let contentViewController: UIHostingController<Content>
         private weak var anchorView: UIView?
         @Binding var isPresented: Bool
-        @Binding var position: CGPoint
+        private let position: CGPoint
 
         var popoverView: UIView?
 
-        init(isPresented: Binding<Bool>, position: Binding<CGPoint>, content: Content) {
+        init(isPresented: Binding<Bool>, position: CGPoint, content: Content) {
             self.contentViewController = UIHostingController(rootView: content)
             self._isPresented = isPresented
-            self._position = position
+            self.position = position
             super.init()
 
             let hostingView = UIHostingController(rootView: PopView())
             let popoverView = hostingView.view
-            popoverView?.frame = CGRect(x: position.wrappedValue.x, y: position.wrappedValue.y, width: 500, height: 500)
+            popoverView?.frame = CGRect(x: position.x, y: position.y, width: 200, height: 100)
             popoverView?.layer.cornerRadius = 10
             popoverView?.backgroundColor = .clear
             self.popoverView = popoverView
