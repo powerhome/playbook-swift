@@ -16,6 +16,7 @@ public struct PopoverCatalog: View {
   @State private var isPresented4: Bool = false
   @State private var isPresented5: Bool = false
   @State private var isPresented6: Bool = false
+    @State private var isPresented7: Bool = false
 
   public init() {}
   
@@ -25,7 +26,9 @@ public struct PopoverCatalog: View {
       PBDoc(title: "Dropdrown") { dropdownPopover }
       PBDoc(title: "Scroll") { scrollPopover }
       PBDoc(title: "Close options") { onClosePopover }
-        .edgesIgnoringSafeArea(.all)
+        PBDoc(title: "Explorarion Popover") { explorationPopover }
+            .padding(.bottom, 500)
+            .edgesIgnoringSafeArea(.all)
     }
     .popoverHandler(id: 1)
     .popoverHandler(id: 2)
@@ -167,4 +170,27 @@ public struct PopoverCatalog: View {
       .frame(width: 200, height: 150)
     }
   }
+
+    @State private var viewFrame: CGRect = CGRect(x: 200, y: 200, width: 0, height: 0)
+    private var explorationPopover: some View {
+      HStack {
+        Text("This is an exploration Popover")
+          .pbFont(.body, color: .text(.default))
+          .frameReader { viewFrame = $0 }
+        PBButton(
+          variant: .secondary,
+          shape: .circle,
+          icon: .fontAwesome(.info)
+        ) {
+          isPresented7.toggle()
+        }
+        .handlerPopoverController(
+          isPresented: $isPresented7,
+          position: $viewFrame.origin
+        ) {
+          Text("I'm a popover. I can show content of any size.")
+            .pbFont(.body, color: .text(.default))
+        }
+      }
+    }
 }
