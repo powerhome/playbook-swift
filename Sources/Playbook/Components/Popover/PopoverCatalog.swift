@@ -30,6 +30,9 @@ public struct PopoverCatalog: View {
             .padding(.bottom, 500)
             .edgesIgnoringSafeArea(.all)
     }
+    .onTapGesture {
+        isPresented7 = false
+    }
     .popoverHandler(id: 1)
     .popoverHandler(id: 2)
     .popoverHandler(id: 3)
@@ -171,7 +174,7 @@ public struct PopoverCatalog: View {
     }
   }
 
-    @State private var viewFrame: CGRect = .zero
+    @State private var viewFrame: CGRect = CGRect(x: 200, y: 400, width: 0, height: 0)
     private var explorationPopover: some View {
       HStack {
         Text("This is an exploration Popover")
@@ -192,5 +195,12 @@ public struct PopoverCatalog: View {
             .pbFont(.body, color: .text(.default))
         }
       }
+      .onTapGesture {
+          isPresented7 = false
+      }
     }
+}
+
+#Preview {
+    PopoverCatalog()
 }

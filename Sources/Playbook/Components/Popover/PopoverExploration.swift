@@ -10,6 +10,7 @@
 import SwiftUI
 
 struct PopView: View {
+    @Binding var isPresented: Bool
     var body: some View {
         PBCard(
           border: false,
@@ -19,13 +20,19 @@ struct PopView: View {
             Text("I'm a popover. I can show content of any size.")
                 .pbFont(.body, color: .text(.default))
         }
-          
+          .onTapGesture {
+              isPresented = false
+          }
     }
 }
 
 extension View {
     func handlerPopoverController<Content: View>(isPresented: Binding<Bool>, position: CGPoint, @ViewBuilder content: @escaping (() -> Content)) -> some View {
+//        #if os(macOS)
+//        self.background(PopHostingView(isPresented: isPresented, content: content))
+//        #elseif os(iOS)
         self.background(PopHostingView(isPresented: isPresented, position: position, content: content))
+//        #endif
     }
 }
 
@@ -91,7 +98,7 @@ struct PopHostingView<Content: View>: NSViewRepresentable {
 
     class PopViewController: NSViewController {
         override func loadView() {
-            let hostingView = NSHostingView(rootView: PopView())
+            let hostingView = NSHostingView(rootView: PopView(isPresented: .constant(false)))
             hostingView.layoutSubtreeIfNeeded()
             let contentSize = hostingView.fittingSize
             let popoverView = NSView(frame: CGRect(origin: .zero, size: contentSize))
@@ -142,7 +149,7 @@ struct PopHostingView<Content: View>: UIViewRepresentable {
             self.position = position
             super.init()
 
-            let hostingView = UIHostingController(rootView: PopView())
+            let hostingView = UIHostingController(rootView: PopView(isPresented: $isPresented))
             let popoverView = hostingView.view
             popoverView?.frame = CGRect(x: position.x, y: position.y, width: 200, height: 100)
             popoverView?.layer.cornerRadius = 10
