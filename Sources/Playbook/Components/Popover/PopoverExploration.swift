@@ -19,7 +19,6 @@ struct PopView: View {
             Text("I'm a popover. I can show content of any size.")
                 .pbFont(.body, color: .text(.default))
         }
-          
     }
 }
 
@@ -34,7 +33,7 @@ import AppKit
 
 struct PopHostingView<Content: View>: NSViewRepresentable {
     @Binding var isPresented: Bool
-    let position: CGPoint
+    @Binding var position: CGPoint
     let content: () -> Content
 
     func makeNSView(context: Context) -> NSView {
@@ -122,8 +121,6 @@ struct PopHostingView<Content: View>: UIViewRepresentable {
         } else {
             context.coordinator.dismissPopover()
         }
-
-        context.coordinator.position = position
     }
 
     func makeCoordinator() -> Coordinator {
@@ -146,7 +143,7 @@ struct PopHostingView<Content: View>: UIViewRepresentable {
 
             let hostingView = UIHostingController(rootView: PopView())
             let popoverView = hostingView.view
-            popoverView?.frame = CGRect(x: position.wrappedValue.x, y: position.wrappedValue.y, width: 200, height: 100)
+            popoverView?.frame = CGRect(x: position.wrappedValue.x, y: position.wrappedValue.y, width: 500, height: 500)
             popoverView?.layer.cornerRadius = 10
             popoverView?.backgroundColor = .clear
             self.popoverView = popoverView
