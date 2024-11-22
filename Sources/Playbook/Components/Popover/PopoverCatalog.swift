@@ -174,7 +174,7 @@ public struct PopoverCatalog: View {
     }
   }
 
-    @State private var viewFrame: CGRect = CGRect(x: 200, y: 400, width: 0, height: 0)
+    @State private var viewFrame: CGRect = CGRect(x: 10, y: 400, width: 0, height: 0)
     private var explorationPopover: some View {
       HStack {
         Text("This is an exploration Popover")

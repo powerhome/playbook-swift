@@ -151,7 +151,7 @@ struct PopHostingView<Content: View>: UIViewRepresentable {
 
             let hostingView = UIHostingController(rootView: PopView(isPresented: $isPresented))
             let popoverView = hostingView.view
-            popoverView?.frame = CGRect(x: position.x, y: position.y, width: 200, height: 100)
+            popoverView?.frame = CGRect(x: position.x, y: position.y, width: 400, height: 400)
             popoverView?.layer.cornerRadius = 10
             popoverView?.backgroundColor = .clear
             self.popoverView = popoverView
