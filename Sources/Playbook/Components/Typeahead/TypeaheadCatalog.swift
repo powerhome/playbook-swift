@@ -12,25 +12,26 @@ import SwiftUI
 public struct TypeaheadCatalog: View {
     private var assetsColors = Mocks.assetsColors
     @State private var searchTextColors: String = ""
-    @State private var selectedColors: [Typeahead.Option] = [Mocks.assetsColors[2]]
+    @State private var selectedColors: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
     @FocusState private var isFocusedColors
 
     private var assetsUsers = Mocks.assetesMultipleUsers
     @State private var searchTextUsers: String = ""
-    @State private var selectedUsers: [Typeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+    @State private var selectedUsers: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
     @FocusState private var isFocusedUsers
 
     @State private var searchTextHeight: String = ""
-    @State private var selectedHeight: [Typeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
+    @State private var selectedHeight: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
     @FocusState private var isFocusedHeight
 
-    private var assetsSection: [Typeahead.OptionType] = Mocks.assetsSectionUsers
+    private var assetsSection: [PBTypeahead.OptionType] = Mocks.assetsSectionUsers
     @State private var searchTextSections: String = ""
-    @State private var selectedSections: [Typeahead.Option] = []
+    @State private var selectedSections: [PBTypeahead.Option] = []
     @FocusState private var isFocusedSection
 
     @State private var presentDialog: Bool = false
-    var popoverManager = PopoverManager()
+
+    @StateObject private var popoverManager = PopoverManager()
 
     public var body: some View {
         PBDocStack(title: "Typeahead") {
@@ -43,11 +44,9 @@ public struct TypeaheadCatalog: View {
 //            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
         }
+        .scrollDismissesKeyboard(.immediately)
         .onTapGesture {
-            isFocusedColors = false
-            isFocusedUsers = false
-            isFocusedHeight = false
-            isFocusedSection = false
+            dismissFocus()
         }
         .popoverHandler(id: 1)
         .popoverHandler(id: 2)
@@ -65,7 +64,7 @@ extension TypeaheadCatalog {
             options: assetsColors,
             selection: .single,
             isFocused: $isFocusedColors,
-            selectedOptions: $selectedColors
+            selectedOptions: $selectedColors, popoverManager: popoverManager
         )
     }
 
@@ -78,7 +77,7 @@ extension TypeaheadCatalog {
             options: assetsUsers,
             selection: .multiple(variant: .pill),
             isFocused: $isFocusedUsers,
-            selectedOptions: $selectedUsers
+            selectedOptions: $selectedUsers, popoverManager: popoverManager
         )
     }
 
@@ -92,7 +91,7 @@ extension TypeaheadCatalog {
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 150,
             isFocused: $isFocusedHeight,
-            selectedOptions: $selectedHeight
+            selectedOptions: $selectedHeight, popoverManager: popoverManager
         )
     }
 
@@ -131,7 +130,7 @@ extension TypeaheadCatalog {
         @State private var isLoading: Bool = false
         @State private var searchTextUsers: String = ""
         @State private var assetsUsers = Mocks.assetesMultipleUsers
-        @State private var selectedUsers: [Typeahead.Option] = [
+        @State private var selectedUsers: [PBTypeahead.Option] = [
             Mocks.assetesMultipleUsers[0],
             Mocks.assetesMultipleUsers[1]
         ]
@@ -152,7 +151,7 @@ extension TypeaheadCatalog {
                         selection: .multiple(variant: .pill),
                         dropdownMaxHeight: 300,
                         isFocused: $isFocused,
-                        selectedOptions: $selectedUsers
+                        selectedOptions: $selectedUsers, popoverManager: PopoverManager()
                     )
                     Spacer()
                 }
@@ -163,6 +162,17 @@ extension TypeaheadCatalog {
                 }
             }
         }
+    }
+
+    func dismissFocus() {
+        isFocusedColors = false
+        isFocusedUsers = false
+        isFocusedHeight = false
+        isFocusedSection = false
+        popoverManager.hidePopover(for: 1)
+        popoverManager.hidePopover(for: 2)
+        popoverManager.hidePopover(for: 3)
+        popoverManager.hidePopover(for: 4)
     }
 }
 

@@ -9,15 +9,25 @@
 
 import SwiftUI
 
-public enum Typeahead {
-    public struct Option: Identifiable, Equatable {
+public extension PBTypeahead {
+    struct Option: Identifiable, Equatable {
         public let id: String
         public let text: String?
         public let customView: (() -> AnyView?)?
         public static func == (lhs: Option, rhs: Option) -> Bool { lhs.id == rhs.id }
+        public init(id: String, text: String?, customView: ( () -> AnyView?)? = nil) {
+            self.id = id
+            self.text = text
+            self.customView = customView
+        }
+        public init(_ id: String, _ text: String? = nil, _ customView: ( () -> AnyView?)? = nil) {
+            self.id = id
+            self.text = text
+            self.customView = customView
+        }
     }
 
-    public enum OptionType: Identifiable {
+    enum OptionType: Identifiable {
         public var id: String {
             switch self {
                 case .section(let str):
@@ -30,7 +40,7 @@ public enum Typeahead {
         case item(Option)
     }
 
-    public enum Selection {
+    enum Selection {
         case single, multiple(variant: GridInputField.Selection.Variant)
 
         func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
