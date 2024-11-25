@@ -9,62 +9,58 @@
 
 import SwiftUI
 
-public struct PBTypeahead<Content: View>: View {
-    public typealias Option = (String, (String, (() -> Content?)?)?)
+public struct PBTypeahead: View {
     private let id: Int
     private let title: String
     private let placeholder: String
-    private let selection: Selection
+    private let options: [PBTypeahead.Option]
+    private let selection: PBTypeahead.Selection
+    private let noOptionsText: String
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
     private let dropdownMaxHeight: CGFloat?
     private let listOffset: (x: CGFloat, y: CGFloat)
-    private let popoverManager = PopoverManager()
     private let clearAction: (() -> Void)?
-    private let noOptionsText: String
-    private let onSelection: (([Option]) -> Void)?
-    @State private var showList: Bool = false
-    @State private var isCollapsed = false
+
     @State private var hoveringIndex: Int?
-    @State private var hoveringOption: Option?
+    @State private var hoveringOption: PBTypeahead.Option?
     @State private var isHovering: Bool = false
-    @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
-    @Binding var options: [Option]
-    @State private var selectedOptions: [Option]
+    @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
+    @ObservedObject private var popoverManager: PopoverManager
 
     public init(
         id: Int,
         title: String,
         placeholder: String = "Select",
         searchText: Binding<String>,
-        options: Binding<[Option]>,
-        selection: Selection,
+        options: [PBTypeahead.Option],
+        selection: PBTypeahead.Selection,
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        selectedOptions: [Option] = [],
+        selectedOptions: Binding<[PBTypeahead.Option]>,
+        popoverManager: PopoverManager,
         noOptionsText: String = "No options",
-        clearAction: (() -> Void)? = nil,
-        onSelection: (([Option]) -> Void)? = nil
+        clearAction: (() -> Void)? = nil
     ) {
         self.id = id
         self.title = title
         self.placeholder = placeholder
         self._searchText = searchText
         self.selection = selection
-        self._options = options
+        self.options = options
         self.debounce = debounce
         self.dropdownMaxHeight = dropdownMaxHeight
         self.listOffset = listOffset
         self._isFocused = isFocused
         self.clearAction = clearAction
         self.noOptionsText = noOptionsText
-        self.selectedOptions = selectedOptions
-        self.onSelection = onSelection
+        self._selectedOptions = selectedOptions
+        self.popoverManager = popoverManager
     }
 
     public var body: some View {
@@ -80,9 +76,19 @@ public struct PBTypeahead<Content: View>: View {
                 onItemTap: { removeSelected($0) },
                 onViewTap: { onViewTap }
             )
-            .sizeReader { contentSize = $0 }
             .pbPopover(
-                isPresented: $showList,
+                isPresented: Binding(
+                    get: {
+                        popoverManager.isPopoverActive(for: id)
+                    },
+                    set: { isActive in
+                        if isActive {
+                            popoverManager.showPopover(for: id)
+                        } else {
+                            popoverManager.hidePopover(for: id)
+                        }
+                    }
+                ),
                 id: id,
                 position: .bottom(listOffset.x, listOffset.y),
                 variant: .dropdown,
@@ -90,39 +96,41 @@ public struct PBTypeahead<Content: View>: View {
             ) {
                 listView
             }
-            .onTapGesture {
-                isFocused = false
-            }
+
+        }
+        .onTapGesture {
+            isFocused = false
         }
         .onAppear {
-            onSelection?(selectedOptions)
             focused = isFocused
             if debounce.numberOfCharacters == 0 {
-                showList = isFocused
+                if isFocused {
+                    popoverManager.showPopover(for: id)
+                } else {
+                    popoverManager.hidePopover(for: id)
+                }
             }
             setKeyboardControls
-        }
-        .onChange(of: isFocused) { newValue in
-            Timer.scheduledTimer(withTimeInterval: 0.03, repeats: false) { _ in
-                showList = newValue
+            if !selectedOptions.isEmpty {
+                selectedIndex = options.firstIndex(of: selectedOptions[0])
             }
         }
-        .onChange(of: searchText, debounce: debounce) { _ in
-            _ = searchResults
-            reloadList
+        .onChange(of: isFocused) { newValue in
+            if newValue {
+                popoverManager.showPopover(for: id)
+            }
         }
-        .onChange(of: searchResults.count) { _ in
-            reloadList
-        }
-        .onChange(of: contentSize) { _ in
+        .onChange(of: selectedOptions.count) { _ in
             reloadList
         }
         .onChange(of: hoveringIndex) { index in
             reloadList
         }
         .onChange(of: searchText, debounce: debounce) { _ in
+            _ = searchResults
+            reloadList
             if !searchText.isEmpty {
-                showList = true
+                popoverManager.showPopover(for: id)
             }
         }
     }
@@ -130,47 +138,57 @@ public struct PBTypeahead<Content: View>: View {
 
 @MainActor
 private extension PBTypeahead {
+    private func togglePopover() {
+        if popoverManager.isPopoverActive(for: id) {
+            popoverManager.hidePopover(for: id)
+        } else {
+            popoverManager.showPopover(for: id)
+        }
+    }
+
     @ViewBuilder
     var listView: some View {
         PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
             ScrollView {
                 VStack(spacing: 0) {
                     ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                        HStack {
-                            if result.0 == noOptionsText {
-                                emptyView
-                            } else {
-                                if let customView = result.1?.1?() {
-                                    customView
-                                } else {
-                                    Text(result.1?.0 ?? result.0)
-                                        .pbFont(.body, color: listTextolor(index))
-                                }
-                            }
-                        }
-                        .padding(.horizontal, Spacing.xSmall + 4)
-                        .padding(.vertical, Spacing.xSmall + 4)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(listBackgroundColor(index))
-                        .onHover(disabled: false) { hover in
-                            isHovering = hover
-                            hoveringIndex = index
-                            hoveringOption = result
-                        }
-                        .onTapGesture {
-                            if result.0 != "No Options" {
-                                onListSelection(index: index, option: result)
-                            }
-                        }
+                        listItemView(index: index, option: result)
                     }
                 }
             }
             .scrollDismissesKeyboard(.immediately)
             .frame(maxHeight: dropdownMaxHeight)
             .fixedSize(horizontal: false, vertical: true)
-            .frame(maxWidth: .infinity, alignment: .top)
         }
-        .frame(maxWidth: .infinity, alignment: .top)
+    }
+
+    func listItemView(index: Int, option: PBTypeahead.Option) -> some View {
+        HStack {
+            if option.text == noOptionsText {
+                emptyView
+            } else {
+                Group {
+                    if let customView = option.customView?() {
+                        customView
+                    } else {
+                        Text(option.text ?? option.id)
+                            .pbFont(.body, color: listTextolor(index))
+                    }
+                }
+                .padding(.horizontal, Spacing.xSmall + 4)
+                .padding(.vertical, Spacing.xSmall + 4)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(listBackgroundColor(index))
+                .onHover(disabled: false) { hover in
+                    isHovering = hover
+                    hoveringIndex = index
+                    hoveringOption = option
+                }
+                .onTapGesture {
+                    onListSelection(index: index, option: option)
+                }
+            }
+        }
     }
 
     var emptyView: some View {
@@ -180,30 +198,32 @@ private extension PBTypeahead {
                 .pbFont(.body, color: .text(.light))
             Spacer()
         }
+        .padding(.horizontal, Spacing.xSmall + 4)
+        .padding(.vertical, Spacing.xSmall + 4)
     }
 
-    var searchResults: [Option] {
+    var searchResults: [PBTypeahead.Option] {
         let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
-            if let text = $0.1?.0 {
+            if let text = $0.text {
                 return text.localizedCaseInsensitiveContains(searchText)
             } else {
-                return $0.0.localizedCaseInsensitiveContains(searchText)
+                return $0.id.localizedCaseInsensitiveContains(searchText)
             }
         }
-        let selectedIds = Set(selectedOptions.map { $0.0 })
-        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.0) }
+        let selectedIds = Set(selectedOptions.map { $0.id })
+        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
         switch selection{
-            case .multiple: return filteredSelectedOptions.isEmpty ? [(noOptionsText, nil)] : filteredSelectedOptions
-            case .single: return filteredOptions.isEmpty ? [(noOptionsText, nil)] : filteredOptions
+            case .multiple: return filteredSelectedOptions.isEmpty ? [PBTypeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredSelectedOptions
+            case .single: return filteredOptions.isEmpty ? [PBTypeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredOptions
         }
     }
 
     var optionsSelected: GridInputField.Selection {
         let optionsSelected = selectedOptions.map { value in
-            if let content = value.1 {
-                return content.0
+            if let content = value.text {
+                return content
             } else {
-                return value.0
+                return value.id
             }
         }
         return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
@@ -211,21 +231,86 @@ private extension PBTypeahead {
 
     var clear: Void {
         if let action = clearAction {
-            clearText
             action()
-        } else {
-            clearText
         }
-    }
-
-    var clearText: Void {
         searchText = ""
         selectedOptions.removeAll()
-        onSelection?([])
         selectedOptions = []
         selectedIndex = nil
         hoveringIndex = nil
-        showList = false
+        popoverManager.hidePopover(for: id)    }
+
+    var onViewTap: Void {
+        togglePopover()
+        isFocused = true
+    }
+
+    var reloadList: Void {
+        isHovering.toggle()
+        popoverManager.update(with: id)
+    }
+
+    func onListSelection(index: Int, option: PBTypeahead.Option) {
+        if option.text != noOptionsText {
+            switch selection {
+                case .single:
+                    onSingleSelection(index: index, option)
+                case .multiple:
+                    onMultipleSelection(option)
+            }
+        }
+        popoverManager.hidePopover(for: id)
+        searchText = ""
+        reloadList
+
+    }
+
+    func onSingleSelection(index: Int, _ option: PBTypeahead.Option) {
+        selectedOptions.removeAll()
+        selectedOptions = [option]
+        selectedIndex = index
+        hoveringIndex = index
+        selectedOptions.append(option)
+        reloadList
+    }
+
+    func onMultipleSelection(_ option: PBTypeahead.Option) {
+        selectedOptions.append(option)
+        hoveringIndex = nil
+        selectedIndex = nil
+        reloadList
+    }
+
+    func removeSelected(_ index: Int) {
+        if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
+            let _ = selectedOptions.remove(at: selectedElementIndex)
+            selectedIndex = nil
+            hoveringIndex = nil
+        }
+        reloadList
+    }
+
+    func listBackgroundColor(_ index: Int?) -> Color {
+        switch selection {
+            case .single:
+                if selectedIndex != nil, selectedIndex == index {
+                    return .pbPrimary
+                }
+            default: break
+        }
+        #if os(macOS)
+        return hoveringIndex == index ? .hover : .card
+        #elseif os(iOS)
+        return .card
+        #endif
+    }
+
+    func listTextolor(_ index: Int?) -> Color {
+        if selectedIndex != nil, selectedIndex == index {
+            return .white
+        } else {
+            return .text(.default)
+        }
     }
 
     var setKeyboardControls: Void {
@@ -235,16 +320,16 @@ private extension PBTypeahead {
                 focused = true
             }
             if event.keyCode == 36 { // return bar
-                if let index = hoveringIndex, index <= searchResults.count-1, showList {
+                if let index = hoveringIndex, index <= searchResults.count-1 {
                     onListSelection(index: index, option: searchResults[index])
                 }
             }
             if event.keyCode == 49 { // space
                 if isFocused {
-                    if let index = hoveringIndex, index <= searchResults.count-1, showList, searchText.isEmpty {
+                    if let index = hoveringIndex, index <= searchResults.count-1, searchText.isEmpty {
                         onListSelection(index: index, option: searchResults[index])
                     } else {
-                        showList = true
+                        popoverManager.showPopover(for: id)
                     }
                 }
             }
@@ -272,90 +357,6 @@ private extension PBTypeahead {
             return event
         }
         #endif
-    }
-
-    var onViewTap: Void {
-        showList.toggle()
-        isFocused = true
-    }
-
-    var reloadList: Void {
-        if showList {
-            isHovering.toggle()
-        }
-    }
-
-    func onListSelection(index: Int, option: Option) {
-        if showList {
-            switch selection {
-                case .single:
-                    onSingleSelection(index: index, option)
-                case .multiple:
-                    onMultipleSelection(option)
-            }
-        }
-        showList = false
-        searchText = ""
-    }
-
-    func onSingleSelection(index: Int, _ option: Option) {
-        selectedOptions.removeAll()
-        selectedOptions = [option]
-        selectedIndex = index
-        hoveringIndex = index
-        selectedOptions.append(option)
-        onSelection?(selectedOptions)
-    }
-
-    func onMultipleSelection(_ option: Option) {
-        selectedOptions.append(option)
-        onSelection?(selectedOptions)
-        hoveringIndex = nil
-        selectedIndex = nil
-    }
-
-    func removeSelected(_ index: Int) {
-        if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
-            let _ = selectedOptions.remove(at: selectedElementIndex)
-            onSelection?(selectedOptions)
-            selectedIndex = nil
-        }
-    }
-
-    func listBackgroundColor(_ index: Int?) -> Color {
-        switch selection {
-            case .single:
-                if selectedIndex != nil, selectedIndex == index {
-                    return .pbPrimary
-                }
-            default: break
-        }
-        #if os(macOS)
-        return hoveringIndex == index ? .hover : .card
-        #elseif os(iOS)
-        return .card
-        #endif
-    }
-
-    func listTextolor(_ index: Int?) -> Color {
-        if selectedIndex != nil, selectedIndex == index {
-            return .white
-        } else {
-            return .text(.default)
-        }
-    }
-}
-
-public extension PBTypeahead {
-    enum Selection {
-        case single, multiple(variant: GridInputField.Selection.Variant)
-
-        func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
-            switch self {
-                case .single: return .single(options.first)
-                case .multiple(let variant): return .multiple(variant, options)
-            }
-        }
     }
 }
 

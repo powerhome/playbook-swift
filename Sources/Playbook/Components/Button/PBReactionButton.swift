@@ -17,7 +17,8 @@ public struct PBReactionButton: View {
   let pbIcon: PBIcon?
   let isInteractive: Bool
   @Environment(\.colorScheme) var colorScheme
-  init(
+
+  public init(
     count: Binding<Int> = .constant(0),
     isHighlighted: Bool = false,
     icon: String? = nil,
