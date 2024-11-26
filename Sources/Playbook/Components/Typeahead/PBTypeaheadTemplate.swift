@@ -21,11 +21,10 @@ public struct PBTypeaheadTemplate: View {
     private let clearAction: (() -> Void)?
     private let popoverManager = PopoverManager()
 
-    @State private var showList: Bool = false
+    //    @State private var showList: Bool = false
     @State private var hoveringIndex: (Int?, String?)
     @State private var hoveringOption: PBTypeahead.Option?
     @State private var isHovering: Bool = false
-    @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
     @State var numberOfItemsShown: [String?: Int] = [:]
@@ -74,9 +73,19 @@ public struct PBTypeaheadTemplate: View {
                 onItemTap: { removeSelected($0) },
                 onViewTap: { onViewTap }
             )
-            .sizeReader { contentSize = $0 }
             .pbPopover(
-                isPresented: $showList,
+                isPresented: Binding(
+                    get: {
+                        popoverManager.isPopoverActive(for: id)
+                    },
+                    set: { isActive in
+                        if isActive {
+                            popoverManager.showPopover(for: id)
+                        } else {
+                            popoverManager.hidePopover(for: id)
+                        }
+                    }
+                ),
                 id: id,
                 position: .bottom(listOffset.x, listOffset.y),
                 variant: .dropdown,
@@ -91,31 +100,33 @@ public struct PBTypeaheadTemplate: View {
         .onAppear {
             focused = isFocused
             if debounce.numberOfCharacters == 0 {
-                showList = isFocused
+                if isFocused {
+                    popoverManager.showPopover(for: id)
+                } else {
+                    popoverManager.hidePopover(for: id)
+                }
             }
             setKeyboardControls
+            //            if !selectedOptions.isEmpty {
+            //                selectedIndex = options.firstIndex(of: mapResults[0])
+            //            }
         }
         .onChange(of: isFocused) { newValue in
-            Timer.scheduledTimer(withTimeInterval: 0.03, repeats: false) { _ in
-                showList = newValue
+            if newValue {
+                popoverManager.showPopover(for: id)
             }
+        }
+        .onChange(of: selectedOptions.count) { _ in
+            reloadList
+        }
+        .onChange(of: hoveringIndex.0) { index in
+            reloadList
         }
         .onChange(of: searchText, debounce: debounce) { _ in
             _ = searchResults
             reloadList
-        }
-        .onChange(of: searchResults.count) { _ in
-            reloadList
-        }
-        .onChange(of: contentSize) { _ in
-            reloadList
-        }
-        .onChange(of: hoveringIndex.0) { _ in
-            reloadList
-        }
-        .onChange(of: searchText, debounce: debounce) { _ in
             if !searchText.isEmpty {
-                showList = true
+                popoverManager.showPopover(for: id)
             }
         }
     }
@@ -261,12 +272,11 @@ private extension PBTypeaheadTemplate {
     var clear: Void {
         if let action = clearAction {
             action()
-    }
+        }
         searchText = ""
         selectedOptions.removeAll()
         selectedIndex = nil
         hoveringIndex = (nil, nil)
-        showList = false
     }
 
     var setKeyboardControls: Void {
@@ -278,9 +288,9 @@ private extension PBTypeaheadTemplate {
             if event.keyCode == 36 { // return bar
                 if let index = hoveringIndex.0,
                    let section = hoveringIndex.1,
-                    let results = mapResults.first?.1,
+                   let results = mapResults.first?.1,
                    index <= results.count-1,
-                    showList {
+                   showList {
                     onListSelection(index: index, section: section, option: results[index])
                 }
             }
@@ -288,9 +298,9 @@ private extension PBTypeaheadTemplate {
                 if isFocused {
                     if let index = hoveringIndex.0,
                        let section = hoveringIndex.1,
-                        let results = mapResults.first?.1,
-                        index <= results.count-1,
-                        showList, searchText.isEmpty {
+                       let results = mapResults.first?.1,
+                       index <= results.count-1,
+                       showList, searchText.isEmpty {
                         onListSelection(index: index, section: section, option: results[index])
                     } else {
                         showList = true
@@ -323,27 +333,32 @@ private extension PBTypeaheadTemplate {
         #endif
     }
 
+    private func togglePopover() {
+        if popoverManager.isPopoverActive(for: id) {
+            popoverManager.hidePopover(for: id)
+        } else {
+            popoverManager.showPopover(for: id)
+        }
+    }
+
     var onViewTap: Void {
-        showList.toggle()
+        togglePopover()
         isFocused = true
     }
 
     var reloadList: Void {
-        if showList {
-            isHovering.toggle()
-        }
+        isHovering.toggle()
+        popoverManager.update(with: id)
     }
 
     func onListSelection(index: Int, section: String?, option: PBTypeahead.Option) {
-        if showList {
-            switch selection {
-                case .single:
-                    onSingleSelection(index: index, section: section, option)
-                case .multiple:
-                    onMultipleSelection(index: index, section: section, option)
-            }
+        switch selection {
+            case .single:
+                onSingleSelection(index: index, section: section, option)
+            case .multiple:
+                onMultipleSelection(index: index, section: section, option)
         }
-        showList = false
+
         searchText = ""
     }
 
