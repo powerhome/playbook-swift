@@ -115,18 +115,18 @@ public struct PBTypeahead: View {
                 selectedIndex = options.firstIndex(of: selectedOptions[0])
             }
         }
-        .onChange(of: isFocused) { _ , newValue in
+        .onChange(of: isFocused) { newValue in
             if newValue {
                 popoverManager.showPopover(for: id)
             }
         }
-        .onChange(of: selectedOptions.count) {
+        .onChange(of: selectedOptions.count) { _ in
             reloadList
         }
-        .onChange(of: hoveringIndex) { _ , index in
+        .onChange(of: hoveringIndex) { index in
             reloadList
         }
-        .onChange(of: popoverManager.isPopoverActive(for: id)) { oldValue, newValue in
+        .onChange(of: popoverManager.isPopoverActive(for: id)) { newValue in
             if newValue {
                 isFocused = true
             }
@@ -158,25 +158,34 @@ private extension PBTypeahead {
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                            listItemView(index: index, option: result)
-                                .focusable()
-                                .focused($isFocused)
-                                .onKeyPress(.upArrow, action: {
-                                    if let index = hoveringIndex, index > 0 {
-                                        proxy.scrollTo(index > 1 ? (index - 1) : 0)
+                            if #available(iOS 17.0, *), #available(macOS 14.0, *) {
+                                listItemView(index: index, option: result)
+                                    .focusable()
+                                    .focused($isFocused)
+                                    .onKeyPress(.upArrow, action: {
+                                        if let index = hoveringIndex, index > 0 {
+                                            proxy.scrollTo(index > 1 ? (index - 1) : 0)
+                                        }
+                                        return .handled
+                                    })
+                                    .onKeyPress(.downArrow) {
+                                        if let index = hoveringIndex, index != searchResults.count-1 {
+                                            proxy.scrollTo(index < searchResults.count ? (index + 1) : 0)
+                                        }
+                                        return .handled
                                     }
-                                    return .handled
-                                })
-                                .onKeyPress(.downArrow) {
-                                    if let index = hoveringIndex, index != searchResults.count-1 {
-                                        proxy.scrollTo(index < searchResults.count ? (index + 1) : 0)
+                                    .onAppear {
+                                        isFocused = true
+                                        hoveringIndex = 0
                                     }
-                                    return .handled
-                                }
-                                .onAppear {
-                                    isFocused = true
-                                    hoveringIndex = 0
-                                }
+                            } else {
+                                listItemView(index: index, option: result)
+                                    .focused($isFocused)
+                                    .onAppear {
+                                        isFocused = true
+                                        hoveringIndex = 0
+                                    }
+                            }
                         }
                     }
                 }
