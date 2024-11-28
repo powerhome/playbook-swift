@@ -41,7 +41,7 @@ public class PopoverManager: ObservableObject {
         isPresented[id] = false
     }
 
-    func removeValues() {
+    public func removeValues() {
         popovers.removeAll()
         isPresented.removeAll()
     }
