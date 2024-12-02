@@ -82,6 +82,7 @@ public struct Popover<T: View>: ViewModifier {
       }
       .onDisappear {
         isPresented = false
+        popoverManager.popovers[id]?.close.action = nil
       }
   }
 }
