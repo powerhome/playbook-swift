@@ -162,6 +162,7 @@ private extension PBTypeahead {
                                 listItemView(index: index, option: result)
                                     .focusable()
                                     .focused($isFocused)
+                                    .focusEffectDisabled()
                                     .onKeyPress(.upArrow, action: {
                                         if let index = hoveringIndex, index > 0 {
                                             proxy.scrollTo(index > 1 ? (index - 1) : 0)
@@ -322,9 +323,9 @@ private extension PBTypeahead {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
             let _ = selectedOptions.remove(at: selectedElementIndex)
             selectedIndex = nil
-            hoveringIndex = nil
+            hoveringIndex = 0
+            reloadList
         }
-        reloadList
     }
 
     func listBackgroundColor(_ index: Int?) -> Color {
