@@ -22,7 +22,6 @@ public struct Popover<T: View>: ViewModifier {
     @State private var contentFrame: CGRect?
     @State private var popoverSize: CGSize?
     @State private var popoverPosition: CGPoint?
-    @State private var popoverFrame: CGRect?
     @EnvironmentObject var popoverManager: PopoverManager
     
     public init(
@@ -85,11 +84,10 @@ public struct Popover<T: View>: ViewModifier {
     
     var popoverFrameView: any View {
         variant.view(popoverView())
-            .frame(width: variant.width(popoverFrame?.width ?? .zero))
-            .frameReader {
-                popoverFrame = $0
-                popoverSize = $0.size
-                let popoverFrame = position.calculateFrame(from: variant.offset($0, position: position), size: $0.size)
+            .frame(width: variant.width(contentFrame?.width ?? .zero))
+            .sizeReader { size in
+                popoverSize = size
+                let popoverFrame = position.calculateFrame(from: variant.offset(contentFrame ?? CGRectZero, position: position), size: size)
                 popoverPosition = popoverFrame.point(at: .center())
             }
     }
