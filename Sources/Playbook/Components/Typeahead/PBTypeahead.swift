@@ -125,6 +125,11 @@ public struct PBTypeahead: View {
         .onChange(of: hoveringIndex) { index in
             reloadList
         }
+        .onChange(of: popoverManager.isPopoverActive(for: id)) { newValue in
+            if newValue {
+                isFocused = true
+            }
+        }
         .onChange(of: searchText, debounce: debounce) { _ in
             _ = searchResults
             reloadList
@@ -148,16 +153,49 @@ private extension PBTypeahead {
     @ViewBuilder
     var listView: some View {
         PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
-            ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                        listItemView(index: index, option: result)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 0) {
+                        ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
+                            if #available(iOS 17.0, *), #available(macOS 14.0, *) {
+                                listItemView(index: index, option: result)
+                                    .focusable()
+                                    .focused($isFocused)
+                                    .focusEffectDisabled()
+                                    .onKeyPress(.upArrow, action: {
+                                        if let index = hoveringIndex, index > 0 {
+                                            proxy.scrollTo(index > 1 ? (index - 1) : 0)
+                                        }
+                                        return .handled
+                                    })
+                                    .onKeyPress(.downArrow) {
+                                        if let index = hoveringIndex, index != searchResults.count-1 {
+                                            proxy.scrollTo(index < searchResults.count ? (index + 1) : 0)
+                                        }
+                                        return .handled
+                                    }
+                                    .onAppear {
+                                        isFocused = true
+                                        hoveringIndex = 0
+                                    }
+                            } else {
+                                listItemView(index: index, option: result)
+                                    .focused($isFocused)
+                                    .onAppear {
+                                        isFocused = true
+                                        hoveringIndex = 0
+                                    }
+                            }
+                        }
                     }
                 }
+                .scrollDismissesKeyboard(.immediately)
+                .frame(maxHeight: dropdownMaxHeight)
+                .fixedSize(horizontal: false, vertical: true)
             }
-            .scrollDismissesKeyboard(.immediately)
-            .frame(maxHeight: dropdownMaxHeight)
-            .fixedSize(horizontal: false, vertical: true)
+        }
+        .onAppear {
+            isFocused = true
         }
     }
 
@@ -261,7 +299,7 @@ private extension PBTypeahead {
         popoverManager.hidePopover(for: id)
         searchText = ""
         reloadList
-
+        isFocused = true
     }
 
     func onSingleSelection(index: Int, _ option: PBTypeahead.Option) {
@@ -284,9 +322,9 @@ private extension PBTypeahead {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
             let _ = selectedOptions.remove(at: selectedElementIndex)
             selectedIndex = nil
-            hoveringIndex = nil
+            hoveringIndex = 0
+            reloadList
         }
-        reloadList
     }
 
     func listBackgroundColor(_ index: Int?) -> Color {
@@ -319,7 +357,7 @@ private extension PBTypeahead {
                 focused = true
             }
             if event.keyCode == 36 { // return bar
-                if let index = hoveringIndex, index <= searchResults.count-1 {
+                if isFocused, let index = hoveringIndex, index <= searchResults.count-1 {
                     onListSelection(index: index, option: searchResults[index])
                 }
             }
@@ -338,15 +376,15 @@ private extension PBTypeahead {
                 }
             }
             if event.keyCode == 125 { // arrow down
-                if popoverManager.isPopoverActive(for: id), let index = hoveringIndex {
+                if popoverManager.isPopoverActive(for: id), let index = hoveringIndex, index < searchResults.count-1 {
+                    isFocused = true
                     hoveringIndex = index < searchResults.count ? (index + 1) : 0
-                } else {
-                    hoveringIndex = 0
                 }
             }
             else {
                 if event.keyCode == 126 { // arrow up
                     if popoverManager.isPopoverActive(for: id), let index = hoveringIndex {
+                        isFocused = true
                         hoveringIndex = index > 1 ? (index - 1) : 0
                     }
                 }
