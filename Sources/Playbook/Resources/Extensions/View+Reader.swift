@@ -19,16 +19,16 @@ public extension View {
   }
 
   func frameReader(in rect: @escaping (CGRect) -> Void) -> some View {
-    return background(
-      GeometryReader { geometry in
-        Color.clear
-          .onChange(of: coordinateSpace(in: geometry)) { rect($0) }
-          .onAppear {
-            rect(coordinateSpace(in: geometry))
-          }
-      }
-        .hidden()
-    )
+      return background(
+        GeometryReader { geometry in
+            Color.clear
+                .onChange(of: coordinateSpace(in: geometry)) { rect($0) }
+                .onAppear {
+                    rect(coordinateSpace(in: geometry))
+                }
+        }
+            .hidden()
+      )
   }
   
   func sizeReader(transaction: Transaction? = nil, size: @escaping (CGSize) -> Void) -> some View {

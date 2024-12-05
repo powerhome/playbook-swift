@@ -40,6 +40,11 @@ public class PopoverManager: ObservableObject {
         popovers[id] = Popover(view: view, position: position, close: close)
         isPresented[id] = false
     }
+    
+    func teardownPopover(with id: Int) {
+        popovers[id] = nil
+        isPresented[id] = nil
+    }
 
     func removeValues() {
         popovers.removeAll()
