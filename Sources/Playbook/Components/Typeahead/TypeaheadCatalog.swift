@@ -64,7 +64,7 @@ extension TypeaheadCatalog {
             options: assetsColors,
             selection: .single,
             isFocused: $isFocusedColors,
-            selectedOptions: $selectedColors, popoverManager: popoverManager
+            selectedOptions: $selectedColors
         )
     }
 
@@ -77,7 +77,7 @@ extension TypeaheadCatalog {
             options: assetsUsers,
             selection: .multiple(variant: .pill),
             isFocused: $isFocusedUsers,
-            selectedOptions: $selectedUsers, popoverManager: popoverManager
+            selectedOptions: $selectedUsers
         )
     }
 
@@ -91,7 +91,7 @@ extension TypeaheadCatalog {
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 150,
             isFocused: $isFocusedHeight,
-            selectedOptions: $selectedHeight, popoverManager: popoverManager
+            selectedOptions: $selectedHeight
         )
     }
 
@@ -151,7 +151,7 @@ extension TypeaheadCatalog {
                         selection: .multiple(variant: .pill),
                         dropdownMaxHeight: 300,
                         isFocused: $isFocused,
-                        selectedOptions: $selectedUsers, popoverManager: PopoverManager()
+                        selectedOptions: $selectedUsers
                     )
                     Spacer()
                 }
