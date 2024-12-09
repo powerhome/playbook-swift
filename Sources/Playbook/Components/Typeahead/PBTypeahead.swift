@@ -29,7 +29,7 @@ public struct PBTypeahead: View {
     @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
-    @ObservedObject private var popoverManager: PopoverManager
+    @State private var popoverManager = PopoverManager.shared
 
     public init(
         id: Int,
@@ -43,7 +43,6 @@ public struct PBTypeahead: View {
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
         selectedOptions: Binding<[PBTypeahead.Option]>,
-        popoverManager: PopoverManager,
         noOptionsText: String = "No options",
         clearAction: (() -> Void)? = nil
     ) {
@@ -60,7 +59,6 @@ public struct PBTypeahead: View {
         self.clearAction = clearAction
         self.noOptionsText = noOptionsText
         self._selectedOptions = selectedOptions
-        self.popoverManager = popoverManager
     }
 
     public var body: some View {
@@ -106,6 +104,7 @@ public struct PBTypeahead: View {
             if debounce.numberOfCharacters == 0 {
                 if isFocused {
                     popoverManager.showPopover(for: id)
+                    reloadList
                 } else {
                     popoverManager.hidePopover(for: id)
                 }
@@ -300,7 +299,7 @@ private extension PBTypeahead {
         popoverManager.hidePopover(for: id)
         searchText = ""
         reloadList
-
+        isFocused = true
     }
 
     func onSingleSelection(index: Int, _ option: PBTypeahead.Option) {
@@ -364,7 +363,7 @@ private extension PBTypeahead {
             }
             if event.keyCode == 49 { // space
                 if isFocused {
-                    if let index = hoveringIndex, index <= searchResults.count-1, searchText.isEmpty {
+                    if let index = hoveringIndex, index <= searchResults.count-1, searchText.isEmpty, popoverManager.isPopoverActive(for: id) {
                         onListSelection(index: index, option: searchResults[index])
                     } else {
                         popoverManager.showPopover(for: id)

@@ -19,19 +19,28 @@ public struct PBNavItem<Content: View>: View {
   var icon: NavigationIcon?
   var accessory: FontAwesome?
   let isFullWidth: Bool
+  var horizontalOrientationPadding: CGFloat?
+  var vertOrientationPadding: CGFloat?
+  var vertPadding: CGFloat?
   var content: Content?
- 
+
   public init(
     _ label: String? = nil,
     icon: NavigationIcon? = nil,
     accessory: FontAwesome? = nil,
     isFullWidth: Bool = false,
+    horizontalOrientationPadding: CGFloat? = nil,
+    vertOrientationPadding: CGFloat? = nil,
+    vertPadding: CGFloat? = nil,
     @ViewBuilder content: @escaping () -> Content = { EmptyView() }
   ) {
     self.label = label
     self.icon = icon
     self.accessory = accessory
     self.isFullWidth = isFullWidth
+    self.horizontalOrientationPadding = horizontalOrientationPadding
+    self.vertOrientationPadding = vertOrientationPadding
+    self.vertPadding = vertPadding
     self.content = content()
   }
 
@@ -63,7 +72,7 @@ public struct PBNavItem<Content: View>: View {
     .scaledToFill()
     .frame(maxWidth: isFullWidth ? .infinity : nil, alignment: .center)
     .foregroundColor(captionForegroundColor)
-    .padding(.horizontal, horizontalPadding)
+    .padding(.horizontal, orientationPadding)
     .padding(.vertical, verticalPadding)
     .background(backgroundColor)
     .cornerRadius(cornerRadius)
@@ -198,26 +207,26 @@ extension PBNavItem {
     }
   }
 
-  var horizontalPadding: CGFloat {
+  var orientationPadding: CGFloat {
     switch variant {
     case .normal:
       switch orientation {
-      case .horizontal: return Spacing.medium
-      case .vertical: return Spacing.small
+      case .horizontal: return horizontalOrientationPadding ?? Spacing.medium
+      case .vertical: return vertOrientationPadding ?? Spacing.small
       }
 
     case .subtle, .bold:
       switch orientation {
-      case .horizontal: return 14
-      case .vertical: return 14
+      case .horizontal: return horizontalOrientationPadding ?? 14
+      case .vertical: return vertOrientationPadding ?? 14
       }
     }
   }
 
   var verticalPadding: CGFloat {
     switch variant {
-    case .normal: return Spacing.small
-    case .subtle, .bold: return Spacing.xSmall
+    case .normal: return vertPadding ?? Spacing.small
+    case .subtle, .bold: return vertPadding ?? Spacing.xSmall
     }
   }
 
