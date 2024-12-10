@@ -22,7 +22,6 @@ public struct PBTypeahead: View {
     private let clearAction: (() -> Void)?
 
     @State private var hoveringIndex: Int?
-    @State private var hoveringOption: PBTypeahead.Option?
     @State private var isHovering: Bool = false
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
@@ -75,18 +74,7 @@ public struct PBTypeahead: View {
                 onViewTap: { onViewTap }
             )
             .pbPopover(
-                isPresented: Binding(
-                    get: {
-                        popoverManager.isPopoverActive(for: id)
-                    },
-                    set: { isActive in
-                        if isActive {
-                            popoverManager.showPopover(for: id)
-                        } else {
-                            popoverManager.hidePopover(for: id)
-                        }
-                    }
-                ),
+                isPresented: showPopover,
                 id: id,
                 position: .bottom(listOffset.x, listOffset.y),
                 variant: .dropdown,
@@ -94,7 +82,6 @@ public struct PBTypeahead: View {
             ) {
                 listView
             }
-
         }
         .onTapGesture {
             isFocused = false
@@ -114,18 +101,18 @@ public struct PBTypeahead: View {
                 selectedIndex = options.firstIndex(of: selectedOptions[0])
             }
         }
-        .onChange(of: isFocused) { newValue in
+        .onChange(of: isFocused) { _, newValue in
             if newValue {
                 popoverManager.showPopover(for: id)
             }
         }
-        .onChange(of: selectedOptions.count) { _ in
+        .onChange(of: selectedOptions.count) {
             reloadList
         }
-        .onChange(of: hoveringIndex) { index in
+        .onChange(of: hoveringIndex) {
             reloadList
         }
-        .onChange(of: popoverManager.isPopoverActive(for: id)) { newValue in
+        .onChange(of: popoverManager.isPopoverActive(for: id)) { _, newValue in
             if newValue {
                 isFocused = true
             }
@@ -142,6 +129,22 @@ public struct PBTypeahead: View {
 
 @MainActor
 private extension PBTypeahead {
+
+ var showPopover: Binding<Bool> {
+        .init(
+                get: {
+                    popoverManager.isPopoverActive(for: id)
+                },
+                set: { isActive in
+                    if isActive {
+                        popoverManager.showPopover(for: id)
+                    } else {
+                        popoverManager.hidePopover(for: id)
+                    }
+                }
+        )
+    }
+
     private func togglePopover() {
         if popoverManager.isPopoverActive(for: id) {
             popoverManager.hidePopover(for: id)
@@ -219,7 +222,6 @@ private extension PBTypeahead {
                 .onHover(disabled: false) { hover in
                     isHovering = hover
                     hoveringIndex = index
-                    hoveringOption = option
                 }
                 .onTapGesture {
                     onListSelection(index: index, option: option)
@@ -275,7 +277,8 @@ private extension PBTypeahead {
         selectedOptions = []
         selectedIndex = nil
         hoveringIndex = nil
-        popoverManager.hidePopover(for: id)    }
+        popoverManager.hidePopover(for: id)
+    }
 
     var onViewTap: Void {
         togglePopover()
