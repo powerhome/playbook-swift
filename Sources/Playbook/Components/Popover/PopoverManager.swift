@@ -12,7 +12,8 @@ import SwiftUI
 public class PopoverManager: ObservableObject {
     @Published var isPresented: [Int : Bool] = [:]
     @Published var popovers: [Int : Popover] = [:]
-    
+    @Published var activePopoverID: Int?
+
     public static let shared = PopoverManager()
     
     struct Popover {
@@ -20,12 +21,31 @@ public class PopoverManager: ObservableObject {
         var position: CGPoint?
         var close: (Close, action: (() -> Void)?) = (.anywhere, nil)
     }
-    
+
+    func showPopover(for id: Int) {
+        activePopoverID = id
+    }
+
+    func hidePopover(for id: Int) {
+        if activePopoverID == id {
+            activePopoverID = nil
+        }
+    }
+
+    func isPopoverActive(for id: Int) -> Bool {
+        return activePopoverID == id
+    }
+
     func createPopover(with id: Int, view: AnyView, position: CGPoint?, close: (Close, action: (() -> Void)?)) {
         popovers[id] = Popover(view: view, position: position, close: close)
         isPresented[id] = false
     }
     
+    func teardownPopover(with id: Int) {
+        popovers[id] = nil
+        isPresented[id] = nil
+    }
+
     func removeValues() {
         popovers.removeAll()
         isPresented.removeAll()
@@ -45,7 +65,14 @@ public class PopoverManager: ObservableObject {
             popovers.updateValue(newPopover, forKey: id)
         }
     }
-    
+
+    func update(with id: Int) {
+        if let popover = popovers.first(where: { $0.key == id })?.value {
+            let newPopover = Popover(view: popover.view, position: popover.position, close: popover.close)
+            popovers.updateValue(newPopover, forKey: id)
+        }
+    }
+
     func closeInside(_ key: Int) -> Void {
         switch popovers[key]?.close.0 {
             case .inside, .anywhere:

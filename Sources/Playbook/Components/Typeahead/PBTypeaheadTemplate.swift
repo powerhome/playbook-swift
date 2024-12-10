@@ -9,30 +9,27 @@
 
 import SwiftUI
 
-public struct PBTypeaheadTemplate<Content: View>: View {
-    public typealias Option = (String, (String, (() -> Content?)?)?)
+public struct PBTypeaheadTemplate: View {
     private let id: Int
     private let title: String
     private let placeholder: String
-    private let selection: Selection
+    private var options: [PBTypeahead.OptionType]
+    private let selection: PBTypeahead.Selection
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
     private let dropdownMaxHeight: CGFloat?
     private let listOffset: (x: CGFloat, y: CGFloat)
-    private let popoverManager = PopoverManager()
-    private let onSelection: (([Option]) -> Void)?
     private let clearAction: (() -> Void)?
+    private let popoverManager = PopoverManager()
 
     @State private var showList: Bool = false
-    @State private var isCollapsed = false
     @State private var hoveringIndex: (Int?, String?)
-    @State private var hoveringOption: Option?
+    @State private var hoveringOption: PBTypeahead.Option?
     @State private var isHovering: Bool = false
     @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
-    @State private var selectedOptions: [Option] = []
     @State private var focused: Bool = false
     @State var numberOfItemsShown: [String?: Int] = [:]
-    @Binding var options: [OptionType]
+    @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
 
@@ -41,13 +38,13 @@ public struct PBTypeaheadTemplate<Content: View>: View {
         title: String,
         placeholder: String = "Select",
         searchText: Binding<String>,
-        options: Binding<[OptionType]>,
-        selection: Selection,
+        options: [PBTypeahead.OptionType],
+        selection: PBTypeahead.Selection,
         debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
         dropdownMaxHeight: CGFloat? = nil,
         listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
         isFocused: FocusState<Bool>.Binding,
-        onSelection: @escaping (([Option]) -> Void),
+        selectedOptions: Binding<[PBTypeahead.Option]>,
         clearAction: (() -> Void)? = nil
     ) {
         self.id = id
@@ -55,13 +52,13 @@ public struct PBTypeaheadTemplate<Content: View>: View {
         self.placeholder = placeholder
         self._searchText = searchText
         self.selection = selection
-        self._options = options
+        self.options = options
         self.debounce = debounce
         self.dropdownMaxHeight = dropdownMaxHeight
         self.listOffset = listOffset
         self._isFocused = isFocused
         self.clearAction = clearAction
-        self.onSelection = onSelection
+        self._selectedOptions = selectedOptions
     }
 
     public var body: some View {
@@ -155,12 +152,12 @@ private extension PBTypeaheadTemplate {
             .padding(.leading)
     }
 
-    func listItemView(item: Option, index: Int, for section: String?) -> some View {
+    func listItemView(item: PBTypeahead.Option, index: Int, for section: String?) -> some View {
         HStack {
-            if let customView = item.1?.1?() {
+            if let customView = item.customView?() {
                 customView
             } else {
-                Text(item.1?.0 ?? item.0)
+                Text(item.text ?? item.id)
                     .pbFont(.body, color: listTextolor(index))
             }
         }
@@ -178,10 +175,10 @@ private extension PBTypeaheadTemplate {
         }
     }
 
-    var mapResults: [(String?, [Option], PBButton)] {
-        var array: [(String?, [Option], PBButton)] = []
+    var mapResults: [(String?, [PBTypeahead.Option], PBButton)] {
+        var array: [(String?, [PBTypeahead.Option], PBButton)] = []
         var currentSection: String? = nil
-        var currentOptions: [Option] = []
+        var currentOptions: [PBTypeahead.Option] = []
         for result in searchResults {
             switch result {
                 case .section(let section):
@@ -211,8 +208,8 @@ private extension PBTypeaheadTemplate {
 
     private func appendSectionToArray(
         section: String?,
-        options: [Option],
-        to array: inout [(String?, [Option], PBButton)]
+        options: [PBTypeahead.Option],
+        to array: inout [(String?, [PBTypeahead.Option], PBButton)]
     ) {
         let numberOfItems = numberOfItemsShown[section] ?? 2
         array.append((
@@ -229,20 +226,20 @@ private extension PBTypeaheadTemplate {
         ))
     }
 
-    var searchResults: [OptionType] {
+    var searchResults: [PBTypeahead.OptionType] {
         let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
             switch $0 {
                 case .item(let item):
-                    if let text = item.1?.0 {
+                    if let text = item.text {
                         return text.localizedCaseInsensitiveContains(searchText)
                     } else {
-                        return item.0.localizedCaseInsensitiveContains(searchText)
+                        return item.id.localizedCaseInsensitiveContains(searchText)
                     }
                 case .section(_):
                     return true
             }
         }
-        let selectedIds = Set(selectedOptions.map { $0.0 })
+        let selectedIds = Set(selectedOptions.map { $0.id })
         let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
         switch selection{
             case .multiple: return filteredSelectedOptions
@@ -252,10 +249,10 @@ private extension PBTypeaheadTemplate {
 
     var optionsSelected: GridInputField.Selection {
         let optionsSelected = selectedOptions.map { value in
-            if let content = value.1 {
-                return content.0
+            if let content = value.text {
+                return content
             } else {
-                return value.0
+                return value.id
             }
         }
         return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
@@ -263,17 +260,10 @@ private extension PBTypeaheadTemplate {
 
     var clear: Void {
         if let action = clearAction {
-            clearText
             action()
-        } else {
-            clearText
-        }
     }
-
-    var clearText: Void {
         searchText = ""
         selectedOptions.removeAll()
-        onSelection?([])
         selectedIndex = nil
         hoveringIndex = (nil, nil)
         showList = false
@@ -344,7 +334,7 @@ private extension PBTypeaheadTemplate {
         }
     }
 
-    func onListSelection(index: Int, section: String?, option: Option) {
+    func onListSelection(index: Int, section: String?, option: PBTypeahead.Option) {
         if showList {
             switch selection {
                 case .single:
@@ -357,20 +347,18 @@ private extension PBTypeaheadTemplate {
         searchText = ""
     }
 
-    func onSingleSelection(index: Int, section: String?, _ option: Option) {
+    func onSingleSelection(index: Int, section: String?, _ option: PBTypeahead.Option) {
         selectedOptions.removeAll()
         if hoveringIndex.0 == index && hoveringIndex.1 == section {
             selectedOptions.append(option)
-            onSelection?(selectedOptions)
         }
         selectedIndex = index
         hoveringIndex = (index, section)
     }
 
-    func onMultipleSelection(index: Int, section: String?, _ option: Option) {
+    func onMultipleSelection(index: Int, section: String?, _ option: PBTypeahead.Option) {
         if hoveringIndex.0 == index && hoveringIndex.1 == section {
             selectedOptions.append(option)
-            onSelection?(selectedOptions)
         }
         hoveringIndex = (index, section)
         selectedIndex = nil
@@ -379,7 +367,6 @@ private extension PBTypeaheadTemplate {
     func removeSelected(_ index: Int) {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
             _ = selectedOptions.remove(at: selectedElementIndex)
-            onSelection?(selectedOptions)
             selectedIndex = nil
         }
     }
@@ -405,34 +392,6 @@ private extension PBTypeaheadTemplate {
         } else {
             return .text(.default)
         }
-    }
-}
-
-public extension PBTypeaheadTemplate {
-    enum Selection {
-        case single, multiple(variant: GridInputField.Selection.Variant)
-
-        func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
-            switch self {
-                case .single: return .single(options.first)
-                case .multiple(let variant): return .multiple(variant, options)
-            }
-        }
-    }
-}
-
-public extension PBTypeaheadTemplate {
-    enum OptionType: Identifiable {
-        public var id: String {
-            switch self {
-                case .section(let str):
-                    return str
-                case .item(let item):
-                    return item.0
-            }
-        }
-        case section(String)
-        case item(PBTypeaheadTemplate.Option)
     }
 }
 

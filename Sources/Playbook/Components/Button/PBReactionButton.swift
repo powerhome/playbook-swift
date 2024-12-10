@@ -16,18 +16,22 @@ public struct PBReactionButton: View {
   let icon: String?
   let pbIcon: PBIcon?
   let isInteractive: Bool
+  let action: (() -> Void)?
   @Environment(\.colorScheme) var colorScheme
-  init(
+
+  public init(
     count: Binding<Int> = .constant(0),
     isHighlighted: Bool = false,
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
-    isInteractive: Bool = false
+    isInteractive: Bool = false,
+    action: (() -> Void)? = nil
   ) {
     self._count = count
     self.icon = icon
     self.pbIcon = pbIcon
     self.isInteractive = isInteractive
+    self.action = action
   }
   
   public var body: some View {
@@ -40,6 +44,7 @@ public struct PBReactionButton: View {
 public extension PBReactionButton {
   var reactionButtonView: some View {
     return Button {
+      action?()
       highlightReaction()
     } label: {
         reactionButtonLabelView
