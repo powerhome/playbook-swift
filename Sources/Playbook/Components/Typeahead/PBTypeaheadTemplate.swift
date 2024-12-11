@@ -9,6 +9,32 @@
 
 import SwiftUI
 
+struct SectionList: Identifiable {
+    let id: UUID = UUID()
+    let section: String?
+    let items: [PBTypeahead.Option]
+    let button: PBButton?
+    static func == (lhs: SectionList, rhs: SectionList) -> Bool { lhs.id == rhs.id }
+}
+
+enum ListElement: Identifiable {
+    case section(String)
+    case item(PBTypeahead.Option)
+    case button(PBButton)
+
+    var id: UUID {
+        switch self {
+        case .section(let title):
+            return UUID(uuidString: title.hashValue.description) ?? UUID()
+        case .item(let option):
+                return UUID(uuidString: option.id) ?? UUID()
+        case .button(let button):
+                return UUID(uuidString: button.title ?? "id") ?? UUID()
+        }
+    }
+}
+
+
 public struct PBTypeaheadTemplate: View {
     private let id: Int
     private let title: String
@@ -128,38 +154,35 @@ public struct PBTypeaheadTemplate: View {
                 }
             }
         }
-    }
+}
 
 @MainActor
 private extension PBTypeaheadTemplate {
     var showPopover: Binding<Bool> {
-           .init(
-                   get: {
-                       popoverManager.isPopoverActive(for: id)
-                   },
-                   set: { isActive in
-                       if isActive {
-                           popoverManager.showPopover(for: id)
-                       } else {
-                           popoverManager.hidePopover(for: id)
-                       }
-                   }
-           )
-       }
+        .init(
+            get: {
+                popoverManager.isPopoverActive(for: id)
+            },
+            set: { isActive in
+                if isActive {
+                    popoverManager.showPopover(for: id)
+                } else {
+                    popoverManager.hidePopover(for: id)
+                }
+            }
+        )
+    }
 
     @ViewBuilder
     var listView: some View {
         PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
+            let flat = Array(zip(flattenedResults.indices, flattenedResults))
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    ForEach(mapResults, id: \.0) { result in
-                        if let section = result.0 {
-                            sectionView(section)
+                    Group {
+                        ForEach(flat, id: \.0) { index, element in
+                            listElementView(index: index, element: element)
                         }
-                        ForEach(Array(zip(result.1.indices, result.1)), id: \.0) { index, item in
-                            listItemView(item: item, index: index, for: result.0)
-                        }
-                        result.2.padding()
                     }
                 }
             }
@@ -170,13 +193,25 @@ private extension PBTypeaheadTemplate {
         .frame(maxWidth: .infinity, alignment: .top)
     }
 
+    @ViewBuilder
+    func listElementView(index: Int, element: ListElement) -> some View {
+        switch element {
+            case .section(let title):
+                sectionView(title)
+            case .item(let option):
+                listItemView(item: option, index: index)
+            case .button(let button):
+                button.padding()
+        }
+    }
+
     func sectionView(_ section: String) -> some View {
         Text(section).pbFont(.caption)
             .padding(.top)
             .padding(.leading)
     }
 
-    func listItemView(item: PBTypeahead.Option, index: Int, for section: String?) -> some View {
+    func listItemView(item: PBTypeahead.Option, index: Int) -> some View {
         HStack {
             if let customView = item.customView?() {
                 customView
@@ -188,18 +223,18 @@ private extension PBTypeaheadTemplate {
         .padding(.horizontal, Spacing.xSmall + 4)
         .padding(.vertical, Spacing.xSmall + 4)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(listBackgroundColor(index, section: section))
+        .background(listBackgroundColor(index, section: ""))
         .onHover(disabled: false) { hover in
             isHovering = hover
-            hoveringIndex = (index, section)
+            hoveringIndex = (index, "")
         }
         .onTapGesture {
-            onListSelection(index: index, section: section, option: item)
+            onListSelection(index: index, section: "", option: item)
         }
     }
 
-    var mapResults: [(String?, [PBTypeahead.Option], PBButton)] {
-        var array: [(String?, [PBTypeahead.Option], PBButton)] = []
+    var mapResults: [SectionList] {
+        var array: [SectionList] = []
         var currentSection: String? = nil
         var currentOptions: [PBTypeahead.Option] = []
         for result in searchResults {
@@ -229,16 +264,34 @@ private extension PBTypeaheadTemplate {
         return array
     }
 
+    var flattenedResults: [ListElement] {
+        var elements: [ListElement] = []
+
+        for section in mapResults {
+            if let sectionTitle = section.section {
+                elements.append(.section(sectionTitle))
+            }
+
+            elements.append(contentsOf: section.items.map { .item($0) })
+
+            if let button = section.button {
+                elements.append(.button(button))
+            }
+        }
+
+        return elements
+    }
+
     private func appendSectionToArray(
         section: String?,
         options: [PBTypeahead.Option],
-        to array: inout [(String?, [PBTypeahead.Option], PBButton)]
+        to array: inout [SectionList]
     ) {
         let numberOfItems = numberOfItemsShown[section] ?? 2
-        array.append((
-            section,
-            Array(options.prefix(numberOfItems)),
-            PBButton(
+        array.append(SectionList(
+            section: section,
+            items: Array(options.prefix(numberOfItems)),
+            button: PBButton(
                 variant: .link,
                 title: (numberOfItems == 2) ? "View More" : "View Less",
                 icon: (numberOfItems == 2) ? .fontAwesome(.chevronDown) : .fontAwesome(.chevronUp)
@@ -301,7 +354,7 @@ private extension PBTypeaheadTemplate {
             if event.keyCode == 36 { // return bar
                 if let index = hoveringIndex.0,
                    let section = hoveringIndex.1,
-                    let results = mapResults.first?.1,
+                   let results = mapResults.first?.items,
                    index <= results.count-1, isFocused {
                     onListSelection(index: index, section: section, option: results[index])
                 }
@@ -310,7 +363,7 @@ private extension PBTypeaheadTemplate {
                 if isFocused {
                     if let index = hoveringIndex.0,
                        let section = hoveringIndex.1,
-                        let results = mapResults.first?.1,
+                       let results = mapResults.first?.items,
                         index <= results.count-1, searchText.isEmpty {
                         onListSelection(index: index, section: section, option: results[index])
                     } else {
