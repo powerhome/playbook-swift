@@ -17,24 +17,6 @@ struct SectionList: Identifiable {
     static func == (lhs: SectionList, rhs: SectionList) -> Bool { lhs.id == rhs.id }
 }
 
-enum ListElement: Identifiable {
-    case section(String)
-    case item(PBTypeahead.Option)
-    case button(PBButton)
-
-    var id: UUID {
-        switch self {
-        case .section(let title):
-            return UUID(uuidString: title.hashValue.description) ?? UUID()
-        case .item(let option):
-                return UUID(uuidString: option.id) ?? UUID()
-        case .button(let button):
-                return UUID(uuidString: button.title ?? "id") ?? UUID()
-        }
-    }
-}
-
-
 public struct PBTypeaheadTemplate: View {
     private let id: Int
     private let title: String
@@ -194,7 +176,7 @@ private extension PBTypeaheadTemplate {
     }
 
     @ViewBuilder
-    func listElementView(index: Int, element: ListElement) -> some View {
+    func listElementView(index: Int, element: PBTypeahead.OptionType) -> some View {
         switch element {
             case .section(let title):
                 sectionView(title)
@@ -252,6 +234,9 @@ private extension PBTypeaheadTemplate {
 
                 case .item(let option):
                     currentOptions.append(option)
+
+                case .button(_): break
+
             }
         }
         if !currentOptions.isEmpty || currentSection != nil {
@@ -264,8 +249,8 @@ private extension PBTypeaheadTemplate {
         return array
     }
 
-    var flattenedResults: [ListElement] {
-        var elements: [ListElement] = []
+    var flattenedResults: [PBTypeahead.OptionType] {
+        var elements: [PBTypeahead.OptionType] = []
 
         for section in mapResults {
             if let sectionTitle = section.section {
@@ -311,8 +296,7 @@ private extension PBTypeaheadTemplate {
                     } else {
                         return item.id.localizedCaseInsensitiveContains(searchText)
                     }
-                case .section(_):
-                    return true
+                default: return true
             }
         }
         let selectedIds = Set(selectedOptions.map { $0.id })

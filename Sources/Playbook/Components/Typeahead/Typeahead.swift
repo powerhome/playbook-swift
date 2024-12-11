@@ -34,10 +34,13 @@ public extension PBTypeahead {
                     return str
                 case .item(let item):
                     return item.id
+                case .button(let button):
+                    return button.title ?? ""
             }
         }
         case section(String)
         case item(Option)
+        case button(PBButton)
     }
 
     enum Selection {
