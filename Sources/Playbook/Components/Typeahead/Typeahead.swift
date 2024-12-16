@@ -53,5 +53,20 @@ public extension PBTypeahead {
             }
         }
     }
+
+    struct SectionList: Identifiable {
+        public let id: UUID
+        let section: String?
+        let items: [PBTypeahead.Option]
+        let button: PBButton?
+        static func == (lhs: SectionList, rhs: SectionList) -> Bool { lhs.id == rhs.id }
+
+        public init(id: UUID = UUID(), section: String?, items: [PBTypeahead.Option], button: PBButton?) {
+            self.id = id
+            self.section = section
+            self.items = items
+            self.button = button
+        }
+    }
 }
 

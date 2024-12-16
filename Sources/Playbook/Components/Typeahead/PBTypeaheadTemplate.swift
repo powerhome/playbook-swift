@@ -9,14 +9,6 @@
 
 import SwiftUI
 
-struct SectionList: Identifiable {
-    let id: UUID = UUID()
-    let section: String?
-    let items: [PBTypeahead.Option]
-    let button: PBButton?
-    static func == (lhs: SectionList, rhs: SectionList) -> Bool { lhs.id == rhs.id }
-}
-
 public struct PBTypeaheadTemplate: View {
     private let id: Int
     private let title: String
@@ -31,10 +23,9 @@ public struct PBTypeaheadTemplate: View {
 
     @State private var hoveringIndex: Int?
     @State private var isHovering: Bool = false
-    @State private var contentSize: CGSize = .zero
     @State private var selectedIndex: Int?
     @State private var focused: Bool = false
-    @State var numberOfItemsShown: [String?: Int] = [:]
+    @State private var numberOfItemsShown: [String?: Int] = [:]
     @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
@@ -83,7 +74,6 @@ public struct PBTypeaheadTemplate: View {
                 onItemTap: { removeSelected($0) },
                 onViewTap: { onViewTap }
             )
-            .sizeReader { contentSize = $0 }
             .pbPopover(
                 isPresented: showPopover,
                 id: id,
@@ -159,20 +149,41 @@ private extension PBTypeaheadTemplate {
     var listView: some View {
         PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
             let flat = Array(zip(flattenedResults.indices, flattenedResults))
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    Group {
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
                         ForEach(flat, id: \.0) { index, element in
                             listElementView(index: index, element: element)
+                                .focusable()
+                                .focused($isFocused)
+                                .focusEffectDisabled()
+                                .onKeyPress(.upArrow, action: {
+                                    if let index = hoveringIndex, index > 0 {
+                                        proxy.scrollTo(index > 1 ? (index - 1) : 0)
+                                    }
+                                    return .handled
+                                })
+                                .onKeyPress(.downArrow) {
+                                    if let index = hoveringIndex, index != searchResults.count-1 {
+                                        proxy.scrollTo(index < searchResults.count ? (index + 1) : 0)
+                                    }
+                                    return .handled
+                                }
+                                .onAppear {
+                                    isFocused = true
+                                    hoveringIndex = 0
+                                }
                         }
                     }
                 }
+                .scrollDismissesKeyboard(.immediately)
+                .frame(maxHeight: dropdownMaxHeight)
+                .fixedSize(horizontal: false, vertical: true)
             }
-            .scrollDismissesKeyboard(.immediately)
-            .frame(maxHeight: dropdownMaxHeight)
-            .fixedSize(horizontal: false, vertical: true)
         }
-        .frame(maxWidth: .infinity, alignment: .top)
+        .onAppear {
+            isFocused = true
+        }
     }
 
     @ViewBuilder
@@ -215,8 +226,8 @@ private extension PBTypeaheadTemplate {
         }
     }
 
-    var mapResults: [SectionList] {
-        var array: [SectionList] = []
+    var mapResults: [PBTypeahead.SectionList] {
+        var array: [PBTypeahead.SectionList] = []
         var currentSection: String? = nil
         var currentOptions: [PBTypeahead.Option] = []
         for result in searchResults {
@@ -248,29 +259,25 @@ private extension PBTypeaheadTemplate {
 
     var flattenedResults: [PBTypeahead.OptionType] {
         var elements: [PBTypeahead.OptionType] = []
-
         for section in mapResults {
             if let sectionTitle = section.section {
                 elements.append(.section(sectionTitle))
             }
-
             elements.append(contentsOf: section.items.map { .item($0) })
-
             if let button = section.button {
                 elements.append(.button(button))
             }
         }
-
         return elements
     }
 
     private func appendSectionToArray(
         section: String?,
         options: [PBTypeahead.Option],
-        to array: inout [SectionList]
+        to array: inout [PBTypeahead.SectionList]
     ) {
         let numberOfItems = numberOfItemsShown[section] ?? 2
-        array.append(SectionList(
+        array.append(PBTypeahead.SectionList(
             section: section,
             items: Array(options.prefix(numberOfItems)),
             button: PBButton(
@@ -318,62 +325,12 @@ private extension PBTypeaheadTemplate {
     var clear: Void {
         if let action = clearAction {
             action()
-    }
+        }
         searchText = ""
         selectedOptions.removeAll()
         selectedIndex = nil
         hoveringIndex = nil
         popoverManager.hidePopover(for: id)
-    }
-
-    var setKeyboardControls: Void {
-        #if os(macOS)
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-            if event.keyCode == 48  { // tab
-                focused = true
-            }
-            if event.keyCode == 36 { // return bar
-                if let index = hoveringIndex,
-                   let results = mapResults.first?.items,
-                   index <= results.count-1, isFocused {
-                    onListSelection(index: index, option: results[index])
-                }
-            }
-            if event.keyCode == 49 { // space
-                if isFocused {
-                    if let index = hoveringIndex,
-                       let results = mapResults.first?.items,
-                        index <= results.count-1, searchText.isEmpty {
-                        onListSelection(index: index, option: results[index])
-                    } else {
-                        popoverManager.showPopover(for: id)
-                    }
-                }
-            }
-            if event.keyCode == 51 { // delete
-                if let lastElementIndex = selectedOptions.indices.last, isFocused, searchText.isEmpty, !selectedOptions.isEmpty {
-                    removeSelected(lastElementIndex)
-                }
-            }
-            if event.keyCode == 125 { // arrow down
-                if isFocused {
-                    if let index = hoveringIndex {
-                        hoveringIndex = index < searchResults.count ? (index + 1) : 0
-                    } else {
-                        hoveringIndex = 0
-                    }
-                }
-            }
-            else {
-                if event.keyCode == 126 { // arrow up
-                    if isFocused, let index = hoveringIndex {
-                        hoveringIndex = index > 1 ? (index - 1) : 0
-                    }
-                }
-            }
-            return event
-        }
-        #endif
     }
 
     private func togglePopover() {
@@ -411,25 +368,26 @@ private extension PBTypeaheadTemplate {
 
     func onSingleSelection(index: Int, _ option: PBTypeahead.Option) {
         selectedOptions.removeAll()
-        if hoveringIndex == index {
-            selectedOptions.append(option)
-        }
+        selectedOptions = [option]
         selectedIndex = index
         hoveringIndex = index
+        selectedOptions.append(option)
+        reloadList
     }
 
     func onMultipleSelection(index: Int, _ option: PBTypeahead.Option) {
-        if hoveringIndex == index {
-            selectedOptions.append(option)
-        }
-        hoveringIndex = index
+        selectedOptions.append(option)
+        hoveringIndex = nil
         selectedIndex = nil
+        reloadList
     }
 
     func removeSelected(_ index: Int) {
         if let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) {
-            _ = selectedOptions.remove(at: selectedElementIndex)
+            let _ = selectedOptions.remove(at: selectedElementIndex)
             selectedIndex = nil
+            hoveringIndex = 0
+            reloadList
         }
     }
 
@@ -454,6 +412,53 @@ private extension PBTypeaheadTemplate {
         } else {
             return .text(.default)
         }
+    }
+
+    var setKeyboardControls: Void {
+        #if os(macOS)
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            if event.keyCode == 48  { // tab
+                focused = true
+            }
+            if event.keyCode == 36 { // return bar
+                if isFocused, let index = hoveringIndex, index <= searchResults.count-1, let results = mapResults.first?.items, popoverManager.isPopoverActive(for: id) {
+                    onListSelection(index: index, option: results[index-1])
+                }
+            }
+            if event.keyCode == 49 { // space
+                if isFocused {
+                    if let index = hoveringIndex,
+                       let results = mapResults.first?.items,
+                       popoverManager.isPopoverActive(for: id),
+                        index <= results.count-1, searchText.isEmpty {
+                        onListSelection(index: index, option: results[index])
+                    } else {
+                        popoverManager.showPopover(for: id)
+                    }
+                }
+            }
+            if event.keyCode == 51 { // delete
+                if let lastElementIndex = selectedOptions.indices.last, isFocused, searchText.isEmpty, !selectedOptions.isEmpty {
+                    removeSelected(lastElementIndex)
+                }
+            }
+            if event.keyCode == 125 { // arrow down
+                if popoverManager.isPopoverActive(for: id), let index = hoveringIndex, index < searchResults.count-1 {
+                    isFocused = true
+                    hoveringIndex = index < searchResults.count ? (index + 1) : 0
+                }
+            }
+            else {
+                if event.keyCode == 126 { // arrow up
+                    if popoverManager.isPopoverActive(for: id), let index = hoveringIndex {
+                        isFocused = true
+                        hoveringIndex = index > 1 ? (index - 1) : 0
+                    }
+                }
+            }
+            return event
+        }
+        #endif
     }
 }
 

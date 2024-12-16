@@ -129,19 +129,18 @@ public struct PBTypeahead: View {
 
 @MainActor
 private extension PBTypeahead {
-
- var showPopover: Binding<Bool> {
+    var showPopover: Binding<Bool> {
         .init(
-                get: {
-                    popoverManager.isPopoverActive(for: id)
-                },
-                set: { isActive in
-                    if isActive {
-                        popoverManager.showPopover(for: id)
-                    } else {
-                        popoverManager.hidePopover(for: id)
-                    }
+            get: {
+                popoverManager.isPopoverActive(for: id)
+            },
+            set: { isActive in
+                if isActive {
+                    popoverManager.showPopover(for: id)
+                } else {
+                    popoverManager.hidePopover(for: id)
                 }
+            }
         )
     }
 
@@ -160,7 +159,6 @@ private extension PBTypeahead {
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                            if #available(iOS 17.0, *), #available(macOS 14.0, *) {
                                 listItemView(index: index, option: result)
                                     .focusable()
                                     .focused($isFocused)
@@ -181,14 +179,6 @@ private extension PBTypeahead {
                                         isFocused = true
                                         hoveringIndex = 0
                                     }
-                            } else {
-                                listItemView(index: index, option: result)
-                                    .focused($isFocused)
-                                    .onAppear {
-                                        isFocused = true
-                                        hoveringIndex = 0
-                                    }
-                            }
                         }
                     }
                 }

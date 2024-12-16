@@ -31,7 +31,7 @@ public struct TypeaheadCatalog: View {
 
     @State private var presentDialog: Bool = false
 
-    @StateObject private var popoverManager = PopoverManager()
+    @StateObject private var popoverManager = PopoverManager.shared
 
     public var body: some View {
         PBDocStack(title: "Typeahead") {
