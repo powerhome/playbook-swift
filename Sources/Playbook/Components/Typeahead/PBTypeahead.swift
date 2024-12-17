@@ -21,6 +21,7 @@ public struct PBTypeahead: View {
     private let listOffset: (x: CGFloat, y: CGFloat)
     private let clearAction: (() -> Void)?
 
+    @State private var showPopover: Bool = false
     @State private var hoveringIndex: Int?
     @State private var isHovering: Bool = false
     @State private var selectedIndex: Int?
@@ -28,7 +29,7 @@ public struct PBTypeahead: View {
     @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
-    @State private var popoverManager = PopoverManager.shared
+    private var popoverManager = PopoverManager.shared
 
     public init(
         id: Int,
@@ -74,7 +75,7 @@ public struct PBTypeahead: View {
                 onViewTap: { onViewTap }
             )
             .pbPopover(
-                isPresented: showPopover,
+                isPresented: $showPopover,
                 id: id,
                 position: .bottom(listOffset.x, listOffset.y),
                 variant: .dropdown,
@@ -90,10 +91,10 @@ public struct PBTypeahead: View {
             focused = isFocused
             if debounce.numberOfCharacters == 0 {
                 if isFocused {
-                    popoverManager.showPopover(for: id)
+                    showPopover = true
                     reloadList
                 } else {
-                    popoverManager.hidePopover(for: id)
+                    showPopover = false
                 }
             }
             setKeyboardControls
@@ -103,7 +104,7 @@ public struct PBTypeahead: View {
         }
         .onChange(of: isFocused) { _, newValue in
             if newValue {
-                popoverManager.showPopover(for: id)
+                showPopover = true
             }
         }
         .onChange(of: selectedOptions.count) {
@@ -112,16 +113,26 @@ public struct PBTypeahead: View {
         .onChange(of: hoveringIndex) {
             reloadList
         }
-        .onChange(of: popoverManager.isPopoverActive(for: id)) { _, newValue in
+        .onChange(of: showPopover) { _, newValue in
             if newValue {
                 isFocused = true
+                popoverManager.showPopover(for: id)
+            } else {
+                isFocused = false
+                popoverManager.hidePopover(for: id)
+            }
+        }
+        .onChange(of: popoverManager.isPopoverActive(for: id)) { _, newValue in
+            if !newValue {
+                showPopover = false
+                popoverManager.hidePopover(for: id)
             }
         }
         .onChange(of: searchText, debounce: debounce) { _ in
             _ = searchResults
             reloadList
             if !searchText.isEmpty {
-                popoverManager.showPopover(for: id)
+               showPopover = true
             }
         }
     }
@@ -129,29 +140,6 @@ public struct PBTypeahead: View {
 
 @MainActor
 private extension PBTypeahead {
-    var showPopover: Binding<Bool> {
-        .init(
-            get: {
-                popoverManager.isPopoverActive(for: id)
-            },
-            set: { isActive in
-                if isActive {
-                    popoverManager.showPopover(for: id)
-                } else {
-                    popoverManager.hidePopover(for: id)
-                }
-            }
-        )
-    }
-
-    private func togglePopover() {
-        if popoverManager.isPopoverActive(for: id) {
-            popoverManager.hidePopover(for: id)
-        } else {
-            popoverManager.showPopover(for: id)
-        }
-    }
-
     @ViewBuilder
     var listView: some View {
         PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
@@ -159,7 +147,7 @@ private extension PBTypeahead {
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                                listItemView(index: index, option: result)
+                                listItemView(option: result, index: index)
                                     .focusable()
                                     .focused($isFocused)
                                     .focusEffectDisabled()
@@ -176,7 +164,7 @@ private extension PBTypeahead {
                                         return .handled
                                     }
                                     .onAppear {
-                                        isFocused = true
+//                                        isFocused = true
                                         hoveringIndex = 0
                                     }
                         }
@@ -187,12 +175,9 @@ private extension PBTypeahead {
                 .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .onAppear {
-            isFocused = true
-        }
     }
 
-    func listItemView(index: Int, option: PBTypeahead.Option) -> some View {
+    func listItemView(option: PBTypeahead.Option, index: Int) -> some View {
         HStack {
             if option.text == noOptionsText {
                 emptyView
@@ -264,10 +249,13 @@ private extension PBTypeahead {
         }
         searchText = ""
         selectedOptions.removeAll()
-        selectedOptions = []
         selectedIndex = nil
         hoveringIndex = nil
-        popoverManager.hidePopover(for: id)
+        showPopover = false
+    }
+
+    private func togglePopover() {
+        showPopover.toggle()
     }
 
     var onViewTap: Void {
@@ -277,7 +265,6 @@ private extension PBTypeahead {
 
     var reloadList: Void {
         isHovering.toggle()
-        popoverManager.update(with: id)
     }
 
     func onListSelection(index: Int, option: PBTypeahead.Option) {
@@ -289,7 +276,7 @@ private extension PBTypeahead {
                     onMultipleSelection(option)
             }
         }
-        popoverManager.hidePopover(for: id)
+        showPopover = false
         searchText = ""
         reloadList
         isFocused = true
@@ -350,16 +337,21 @@ private extension PBTypeahead {
                 focused = true
             }
             if event.keyCode == 36 { // return bar
-                if isFocused, let index = hoveringIndex, index <= searchResults.count-1 {
+                if isFocused,
+                let index = hoveringIndex,
+                index <= searchResults.count-1 {
                     onListSelection(index: index, option: searchResults[index])
                 }
             }
             if event.keyCode == 49 { // space
                 if isFocused {
-                    if let index = hoveringIndex, index <= searchResults.count-1, searchText.isEmpty, popoverManager.isPopoverActive(for: id) {
+                    if let index = hoveringIndex,
+                    index <= searchResults.count-1,
+                    searchText.isEmpty,
+                    showPopover {
                         onListSelection(index: index, option: searchResults[index])
                     } else {
-                        popoverManager.showPopover(for: id)
+                        showPopover = true
                     }
                 }
             }
@@ -369,14 +361,14 @@ private extension PBTypeahead {
                 }
             }
             if event.keyCode == 125 { // arrow down
-                if popoverManager.isPopoverActive(for: id), let index = hoveringIndex, index < searchResults.count-1 {
+                if showPopover, let index = hoveringIndex, index < searchResults.count-1 {
                     isFocused = true
                     hoveringIndex = index < searchResults.count ? (index + 1) : 0
                 }
             }
             else {
                 if event.keyCode == 126 { // arrow up
-                    if popoverManager.isPopoverActive(for: id), let index = hoveringIndex {
+                    if showPopover, let index = hoveringIndex {
                         isFocused = true
                         hoveringIndex = index > 1 ? (index - 1) : 0
                     }
@@ -392,3 +384,4 @@ private extension PBTypeahead {
     registerFonts()
     return TypeaheadCatalog()
 }
+

@@ -48,10 +48,10 @@ public struct TypeaheadCatalog: View {
         .onTapGesture {
             dismissFocus()
         }
-        .popoverHandler(id: 1)
-        .popoverHandler(id: 2)
-        .popoverHandler(id: 3)
-        .popoverHandler(id: 4)
+        .popoverHandler(id: 1, blockBackgroundInteractions: true)
+        .popoverHandler(id: 2, blockBackgroundInteractions: true)
+        .popoverHandler(id: 3, blockBackgroundInteractions: true)
+        .popoverHandler(id: 4, blockBackgroundInteractions: true)
     }
 }
 
@@ -102,6 +102,7 @@ extension TypeaheadCatalog {
             searchText: $searchTextSections,
             options: assetsSection,
             selection: .multiple(variant: .pill),
+            dropdownMaxHeight: 200,
             isFocused: $isFocusedSection,
             selectedOptions: $selectedSections
         )
