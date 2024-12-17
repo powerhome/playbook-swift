@@ -19,6 +19,7 @@ public struct PBTypeaheadTemplate: View {
     private let debounce: (time: TimeInterval, numberOfCharacters: Int)
     private let dropdownMaxHeight: CGFloat?
     private let listOffset: (x: CGFloat, y: CGFloat)
+    @State private var numberOfItems: Int = 2
     private let clearAction: (() -> Void)?
 
     @State private var showPopover: Bool = false
@@ -29,7 +30,7 @@ public struct PBTypeaheadTemplate: View {
     @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
-    @State private var numberOfItemsShown: [String?: Int] = [:]
+    @State private var numberOfItemsShow: [String?: Int] = [:]
     private var popoverManager = PopoverManager.shared
 
     public init(
@@ -45,6 +46,7 @@ public struct PBTypeaheadTemplate: View {
         isFocused: FocusState<Bool>.Binding,
         selectedOptions: Binding<[PBTypeahead.Option]>,
         noOptionsText: String = "No options",
+        numberOfItemsShowForSection: Int = 3,
         clearAction: (() -> Void)? = nil
     ) {
         self.id = id
@@ -57,8 +59,9 @@ public struct PBTypeaheadTemplate: View {
         self.dropdownMaxHeight = dropdownMaxHeight
         self.listOffset = listOffset
         self._isFocused = isFocused
-         self.clearAction = clearAction
+        self.clearAction = clearAction
         self.noOptionsText = noOptionsText
+//        self.numberOfItemsShowForSection = numberOfItemsShowForSection
         self._selectedOptions = selectedOptions
     }
 
@@ -284,13 +287,48 @@ private extension PBTypeaheadTemplate {
         var array: [PBTypeahead.SectionList] = []
         var currentSection: String? = nil
         var currentOptions: [PBTypeahead.Option] = []
+        var currentButton: PBButton? = nil
+        var currentButtonoutro: PBButton? = nil
+        var buttonAction: () -> Void = {}
+
+        var button1: PBButton = PBButton(title: "1") {  if numberOfItemsShow["section 1"] == 2 {
+            numberOfItemsShow["section 1"] = 4
+        } else {
+            numberOfItemsShow["section 1"] = 2
+        }
+            reloadList
+        }
+
+        var button2: PBButton = PBButton(title: "2") {
+            if numberOfItemsShow["section 2"] == 2 {
+                numberOfItemsShow["section 2"] = 4
+            } else {
+                numberOfItemsShow["section 2"] = 2
+            }
+            reloadList
+        }
+
+        currentButton = button1
+
         for result in searchResults {
+
             switch result {
+
                 case .section(let section):
+
+                    buttonAction = {  if numberOfItemsShow[section] == 2 {
+                        numberOfItemsShow[section] = 4
+                    } else {
+                        numberOfItemsShow[section] = 2
+                    }
+                        reloadList
+                    }
+
                     if !currentOptions.isEmpty || currentSection != nil {
                         appendSectionToArray(
                             section: currentSection,
                             options: currentOptions,
+                            button: currentButtonoutro,
                             to: &array
                         )
                         currentOptions = []
@@ -298,13 +336,40 @@ private extension PBTypeaheadTemplate {
                     currentSection = section
                 case .item(let option):
                     currentOptions.append(option)
-                case .button(_): break
+                case .button(let button):
+                    currentButtonoutro = currentSection == "section 1" ? button1 : button2
+
+//                    currentButtonoutro = PBButton(title: "isis", action: currentButtonoutro?.action)
+
+
+//                    if !currentOptions.isEmpty || currentButton != nil {
+//                        appendSectionToArray(
+//                            section: nil,
+//                            options: [],
+//                            button: currentButton,
+//                            to: &array
+//                        )
+////                    }
+
+                    currentButtonoutro = PBButton(
+                        fullWidth: button.fullWidth,
+                        variant: button.variant,
+                        size: button.size,
+                        shape: button.shape,
+                        title: currentSection,
+                        icon: button.icon,
+                        iconPosition: button.iconPosition,
+                        isLoading: button.$isLoading,
+                        action: buttonAction
+                    )
+
             }
         }
-        if !currentOptions.isEmpty || currentSection != nil {
+        if currentOptions.isEmpty  {
             appendSectionToArray(
                 section: currentSection,
                 options: currentOptions,
+                button: currentButtonoutro,
                 to: &array
             )
         }
@@ -328,21 +393,16 @@ private extension PBTypeaheadTemplate {
     private func appendSectionToArray(
         section: String?,
         options: [PBTypeahead.Option],
+        button: PBButton?,
         to array: inout [PBTypeahead.SectionList]
     ) {
-        let numberOfItems = numberOfItemsShown[section] ?? 2
+        let numberOfItems = numberOfItemsShow[section] ?? 2
         array.append(PBTypeahead.SectionList(
             section: section,
             items: Array(options.prefix(numberOfItems)),
-            button: PBButton(
-                variant: .link,
-                title: (numberOfItems == 2) ? "View More" : "View Less",
-                icon: (numberOfItems == 2) ? .fontAwesome(.chevronDown) : .fontAwesome(.chevronUp)
-            ) {
-                numberOfItemsShown[section] = (numberOfItems == 2) ? 4 : 2
-                reloadList
-            }
+            button: button
         ))
+        print("button: \(button?.title ?? "0")")
     }
 
     var optionsSelected: GridInputField.Selection {
