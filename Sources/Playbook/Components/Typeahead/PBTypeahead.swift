@@ -132,7 +132,7 @@ public struct PBTypeahead: View {
             _ = searchResults
             reloadList
             if !searchText.isEmpty {
-               showPopover = true
+                showPopover = true
             }
         }
     }
@@ -147,26 +147,25 @@ private extension PBTypeahead {
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
-                                listItemView(option: result, index: index)
-                                    .focusable()
-                                    .focused($isFocused)
-                                    .focusEffectDisabled()
-                                    .onKeyPress(.upArrow, action: {
-                                        if let index = hoveringIndex, index > 0 {
-                                            proxy.scrollTo(index > 1 ? (index - 1) : 0)
-                                        }
-                                        return .handled
-                                    })
-                                    .onKeyPress(.downArrow) {
-                                        if let index = hoveringIndex, index != searchResults.count-1 {
-                                            proxy.scrollTo(index < searchResults.count ? (index + 1) : 0)
-                                        }
-                                        return .handled
+                            listItemView(option: result, index: index)
+                                .focusable()
+                                .focused($isFocused)
+                                .focusEffectDisabled()
+                                .onKeyPress(.upArrow, action: {
+                                    if let index = hoveringIndex, index > 0 {
+                                        proxy.scrollTo(index > 1 ? (index - 1) : 0)
                                     }
-                                    .onAppear {
-//                                        isFocused = true
-                                        hoveringIndex = 0
+                                    return .handled
+                                })
+                                .onKeyPress(.downArrow) {
+                                    if let index = hoveringIndex, index != searchResults.count-1 {
+                                        proxy.scrollTo(index < searchResults.count ? (index + 1) : 0)
                                     }
+                                    return .handled
+                                }
+                                .onAppear {
+                                    hoveringIndex = 0
+                                }
                         }
                     }
                 }
@@ -216,6 +215,31 @@ private extension PBTypeahead {
         .padding(.vertical, Spacing.xSmall + 4)
     }
 
+    func listBackgroundColor(_ index: Int?) -> Color {
+        switch selection {
+            case .single:
+                if selectedIndex != nil, selectedIndex == index {
+                    return .pbPrimary
+                }
+            default: break
+        }
+        #if os(macOS)
+        return hoveringIndex == index ? .hover : .card
+        #elseif os(iOS)
+        return .card
+        #endif
+    }
+
+    func listTextolor(_ index: Int?) -> Color {
+        if selectedIndex != nil, selectedIndex == index {
+            return .white
+        } else {
+            return .text(.default)
+        }
+    }
+}
+
+private extension PBTypeahead {
     var searchResults: [PBTypeahead.Option] {
         let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
             if let text = $0.text {
@@ -307,29 +331,6 @@ private extension PBTypeahead {
         }
     }
 
-    func listBackgroundColor(_ index: Int?) -> Color {
-        switch selection {
-            case .single:
-                if selectedIndex != nil, selectedIndex == index {
-                    return .pbPrimary
-                }
-            default: break
-        }
-        #if os(macOS)
-        return hoveringIndex == index ? .hover : .card
-        #elseif os(iOS)
-        return .card
-        #endif
-    }
-
-    func listTextolor(_ index: Int?) -> Color {
-        if selectedIndex != nil, selectedIndex == index {
-            return .white
-        } else {
-            return .text(.default)
-        }
-    }
-
     var setKeyboardControls: Void {
         #if os(macOS)
         NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
@@ -338,17 +339,17 @@ private extension PBTypeahead {
             }
             if event.keyCode == 36 { // return bar
                 if isFocused,
-                let index = hoveringIndex,
-                index <= searchResults.count-1 {
+                   let index = hoveringIndex,
+                   index <= searchResults.count-1 {
                     onListSelection(index: index, option: searchResults[index])
                 }
             }
             if event.keyCode == 49 { // space
                 if isFocused {
                     if let index = hoveringIndex,
-                    index <= searchResults.count-1,
-                    searchText.isEmpty,
-                    showPopover {
+                       index <= searchResults.count-1,
+                       searchText.isEmpty,
+                       showPopover {
                         onListSelection(index: index, option: searchResults[index])
                     } else {
                         showPopover = true

@@ -198,23 +198,85 @@ private extension PBTypeaheadTemplate {
 
     func listItemView(option: PBTypeahead.Option, index: Int) -> some View {
         HStack {
-            if let customView = option.customView?() {
-                customView
+            if option.text == noOptionsText {
+                emptyView
             } else {
-                Text(option.text ?? option.id)
-                    .pbFont(.body, color: listTextolor(index))
+                Group {
+                    if let customView = option.customView?() {
+                        customView
+                    } else {
+                        Text(option.text ?? option.id)
+                            .pbFont(.body, color: listTextolor(index))
+                    }
+                }
+                .padding(.horizontal, Spacing.xSmall + 4)
+                .padding(.vertical, Spacing.xSmall + 4)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(listBackgroundColor(index))
+                .onHover(disabled: false) { hover in
+                    isHovering = hover
+                    hoveringIndex = index
+                }
+                .onTapGesture {
+                    onListSelection(index: index, option: option)
+                }
             }
+        }
+    }
+
+    var emptyView: some View {
+        HStack {
+            Spacer()
+            Text(noOptionsText)
+                .pbFont(.body, color: .text(.light))
+            Spacer()
         }
         .padding(.horizontal, Spacing.xSmall + 4)
         .padding(.vertical, Spacing.xSmall + 4)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(listBackgroundColor(index))
-        .onHover(disabled: false) { hover in
-            isHovering = hover
-            hoveringIndex = index
+    }
+
+    func listBackgroundColor(_ index: Int?) -> Color {
+        switch selection {
+            case .single:
+                if selectedIndex != nil, selectedIndex == index {
+                    return .pbPrimary
+                }
+            default: break
         }
-        .onTapGesture {
-            onListSelection(index: index, option: option)
+        #if os(macOS)
+        return hoveringIndex == index ? .hover : .card
+        #elseif os(iOS)
+        return .card
+        #endif
+    }
+
+    func listTextolor(_ index: Int?) -> Color {
+        if selectedIndex != nil, selectedIndex == index {
+            return .white
+        } else {
+            return .text(.default)
+        }
+    }
+}
+
+private extension PBTypeaheadTemplate {
+    var searchResults: [PBTypeahead.OptionType] {
+        let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
+            switch $0 {
+                case .item(let item):
+                    if let text = item.text {
+                        return text.localizedCaseInsensitiveContains(searchText)
+                    } else {
+                        return item.id.localizedCaseInsensitiveContains(searchText)
+                    }
+                default: return true
+            }
+        }
+        let selectedIds = Set(selectedOptions.map { $0.id })
+        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
+        switch selection{
+            case .multiple: return filteredSelectedOptions
+            case .single: return filteredOptions
         }
     }
 
@@ -281,26 +343,6 @@ private extension PBTypeaheadTemplate {
                 reloadList
             }
         ))
-    }
-
-    var searchResults: [PBTypeahead.OptionType] {
-        let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
-            switch $0 {
-                case .item(let item):
-                    if let text = item.text {
-                        return text.localizedCaseInsensitiveContains(searchText)
-                    } else {
-                        return item.id.localizedCaseInsensitiveContains(searchText)
-                    }
-                default: return true
-            }
-        }
-        let selectedIds = Set(selectedOptions.map { $0.id })
-        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
-        switch selection{
-            case .multiple: return filteredSelectedOptions
-            case .single: return filteredOptions
-        }
     }
 
     var optionsSelected: GridInputField.Selection {
@@ -375,29 +417,6 @@ private extension PBTypeaheadTemplate {
             selectedIndex = nil
             hoveringIndex = 0
             reloadList
-        }
-    }
-
-    func listBackgroundColor(_ index: Int?) -> Color {
-        switch selection {
-            case .single:
-                if selectedIndex != nil, selectedIndex == index {
-                    return .pbPrimary
-                }
-            default: break
-        }
-        #if os(macOS)
-        return hoveringIndex == index ? .hover : .card
-        #elseif os(iOS)
-        return .card
-        #endif
-    }
-
-    func listTextolor(_ index: Int?) -> Color {
-        if selectedIndex != nil, selectedIndex == index {
-            return .white
-        } else {
-            return .text(.default)
         }
     }
 
