@@ -55,26 +55,27 @@ public struct Popover<T: View>: ViewModifier {
                     close: clickToClose
                 )
             }
-            .onChange(of: isPresented) { newValue in
+            .onChange(of: isPresented) { _, newValue in
                 popoverManager.presentPopover(with: id, value: newValue)
                 updateViewFrame()
             }
-            .onChange(of: popoverPosition) { position in
+            .onChange(of: popoverPosition) {
                 updateViewFrame()
             }
-            .onChange(of: contentFrame) { frame in
+            .onChange(of: contentFrame) {
                 updateViewFrame()
             }
-            .onChange(of: refreshView) { _ in
+            .onChange(of: refreshView) {
                 updateViewFrame()
             }
-            .onChange(of: isHovering) { _ in
+            .onChange(of: isHovering) { 
                 updateViewFrame()
             }
             .onReceive(popoverManager.$isPresented) { newValue in
                 if let value = newValue[id] {
                     isPresented = value
                 }
+                updateViewFrame()
             }
             .onDisappear {
                 isPresented = false

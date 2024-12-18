@@ -46,7 +46,7 @@ public struct PBProgressStep: View {
   
   public var body: some View {
     progressVariantView
-      .onChange(of: progress) { newValue in
+      .onChange(of: progress) { _, newValue in
         if newValue >= steps {
           progress = steps
         }

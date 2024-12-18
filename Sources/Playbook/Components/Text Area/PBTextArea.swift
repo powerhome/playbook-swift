@@ -66,7 +66,7 @@ public struct PBTextArea: View {
         error = text.count >= maxCount ? message : nil
       }
     }
-    .onChange(of: text) { text in
+    .onChange(of: text) { _, text in
       if case let .maxCharacterCountError(maxCount, message) = characterCount {
         error = text.count >= maxCount ? message : nil
       }

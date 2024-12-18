@@ -24,7 +24,7 @@ struct OnScrollDetection: ViewModifier {
                     return Color.clear
                 }
             )
-            .onChange(of: scrollOffset) { newValue in
+            .onChange(of: scrollOffset) {
                 action()
             }
     }

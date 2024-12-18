@@ -56,8 +56,7 @@ public struct PBToast: View {
       if let dismiss = actionView {
         switch dismiss {
         case .withTimer(let time):
-          _ = DispatchQueue.main.asyncAfter(deadline: .now() + time) { dismissAction()
-          }
+                DispatchQueue.main.asyncAfter(deadline: .now() + time) { dismissAction() }
         default: break
         }
       }

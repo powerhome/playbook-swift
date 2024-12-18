@@ -31,7 +31,7 @@ public struct TypeaheadCatalog: View {
 
     @State private var presentDialog: Bool = false
 
-    @StateObject private var popoverManager = PopoverManager()
+    @StateObject private var popoverManager = PopoverManager.shared
 
     public var body: some View {
         PBDocStack(title: "Typeahead") {
@@ -41,17 +41,17 @@ public struct TypeaheadCatalog: View {
             PBDoc(title: "Dialog") { dialog }
             #endif
             PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
-//            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
+            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
         }
         .scrollDismissesKeyboard(.immediately)
         .onTapGesture {
             dismissFocus()
         }
-        .popoverHandler(id: 1)
-        .popoverHandler(id: 2)
-        .popoverHandler(id: 3)
-        .popoverHandler(id: 4)
+        .popoverHandler(id: 1, blockBackgroundInteractions: true)
+        .popoverHandler(id: 2, blockBackgroundInteractions: true)
+        .popoverHandler(id: 3, blockBackgroundInteractions: true)
+        .popoverHandler(id: 4, blockBackgroundInteractions: true)
     }
 }
 
@@ -102,6 +102,7 @@ extension TypeaheadCatalog {
             searchText: $searchTextSections,
             options: assetsSection,
             selection: .multiple(variant: .pill),
+            dropdownMaxHeight: 400,
             isFocused: $isFocusedSection,
             selectedOptions: $selectedSections
         )
@@ -173,6 +174,7 @@ extension TypeaheadCatalog {
         popoverManager.hidePopover(for: 2)
         popoverManager.hidePopover(for: 3)
         popoverManager.hidePopover(for: 4)
+        popoverManager.dismissPopovers()
     }
 }
 

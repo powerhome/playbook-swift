@@ -132,7 +132,7 @@ extension PBSelectableCard {
         }
       }
     }
-    .onChange(of: radioId) { newValue in
+    .onChange(of: radioId) { _, newValue in
       isSelected = (newValue == id)
     }
   }

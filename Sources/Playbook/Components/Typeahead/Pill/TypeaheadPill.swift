@@ -10,8 +10,8 @@
 import SwiftUI
 
 struct TypeaheadPill: View {
-  @Environment (\.active) var isActive: Bool
-  @Environment (\.focus) var isFocus: Bool
+  @Environment(\.active) var isActive: Bool
+  @Environment(\.focus) var isFocus: Bool
   @Environment(\.hovering) var hovering: Bool
   @State private var isHovering: Bool = false
   private var shape =  Capsule()
