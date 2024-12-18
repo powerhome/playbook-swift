@@ -1,3 +1,27 @@
+# 🚀 Playbook Swift 6.6.0: Enhanced Popovers and More! 🚀
+##### Dec 18, 2024
+
+This release introduces fixes and improvements that refine user experience, optimize component behavior, and expand functionality across platforms.
+
+[6.6.0 Full List of Changes](https://github.com/powerhome/playbook-swift/compare/6.5.1...6.6.0)
+
+### Playbook Changes 
+
+#### Kit Enhancements 
+- **Update Padding Prop to PBNavItem**: Introduced a new padding property for PBNavItem to allow greater customization. #475 (Rachel Radford)
+- **Add Action to Reaction Button**: Enabled new actions to enhance interactivity with the Reaction Button kit. #474(Rachel Radford)
+
+#### Bug Fixes
+- **Fix Popover Closing on Scroll**: Resolved issues with popovers unexpectedly closing when scrolling. #469 (Isis Silva)
+- **Fix Popover Leak**: Addressed a memory leak associated with popover components. #478 (Alexandre Hauber)
+- **Fix Typeahead Dropdown Scroll on Key Pressed**: Improved dropdown behavior for a smoother scrolling experience when using the keyboard. #476 (Isis Silva)
+
+####Platform Updates
+- **Upgrade iOS and macOS Versions**: Updated supported versions for iOS and macOS to ensure compatibility with the latest platforms. #477 (Isis Silva) 
+
+🔗 [Full Changelog](https://github.com/powerhome/playbook-swift/compare/6.5.1...6.6.0)
+
+
 # 🚀 Playbook Swift 6.5.0: Enhanced Dynamic Typeahead! 🚀
 ##### Nov 12, 2024
 
