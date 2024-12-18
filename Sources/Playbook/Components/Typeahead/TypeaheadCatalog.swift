@@ -102,7 +102,7 @@ extension TypeaheadCatalog {
             searchText: $searchTextSections,
             options: assetsSection,
             selection: .multiple(variant: .pill),
-            dropdownMaxHeight: 200,
+            dropdownMaxHeight: 400,
             isFocused: $isFocusedSection,
             selectedOptions: $selectedSections
         )
@@ -174,6 +174,7 @@ extension TypeaheadCatalog {
         popoverManager.hidePopover(for: 2)
         popoverManager.hidePopover(for: 3)
         popoverManager.hidePopover(for: 4)
+        popoverManager.dismissPopovers()
     }
 }
 

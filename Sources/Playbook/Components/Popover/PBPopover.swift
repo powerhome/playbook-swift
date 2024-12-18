@@ -75,6 +75,7 @@ public struct Popover<T: View>: ViewModifier {
                 if let value = newValue[id] {
                     isPresented = value
                 }
+                updateViewFrame()
             }
             .onDisappear {
                 isPresented = false
