@@ -38,6 +38,7 @@ public struct PBIcon: View {
   public var body: some View {
     Text(icon.unicodeString)
       .font(Font.custom(icon.fontFamily, size: size.fontSize))
+      .baselineOffset(-0.5)
       .rotationEffect(rotation.angle)
       .padding(.horizontal, border ? 10.5 : 0)
       .padding(.top, border ? 6.4 : 0)
