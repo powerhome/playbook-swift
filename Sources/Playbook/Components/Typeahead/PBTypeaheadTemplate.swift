@@ -19,7 +19,7 @@ public struct PBTypeaheadTemplate: View {
     private let dropdownMaxHeight: CGFloat?
     private let listOffset: (x: CGFloat, y: CGFloat)
     private let clearAction: (() -> Void)?
-    private let popoverManager = PopoverManager()
+    private let popoverManager = PopoverManager.shared
 
     @State private var showList: Bool = false
     @State private var hoveringIndex: (Int?, String?)
