@@ -22,7 +22,7 @@ targets:
         GENERATE_INFOPLIST_FILE: false
         PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
-        MARKETING_VERSION: "6.5.0"
+        MARKETING_VERSION: ""
   Playbook-macOS:
     type: application
     platform: macOS
@@ -35,4 +35,4 @@ targets:
         GENERATE_INFOPLIST_FILE: false
         PRODUCT_BUNDLE_IDENTIFIER: com.powerhrg.PlaybookShowcase
         CURRENT_PROJECT_VERSION: 1
-        MARKETING_VERSION: "6.5.0"
+        MARKETING_VERSION: ""
