@@ -22,7 +22,7 @@ public extension View {
       return background(
         GeometryReader { geometry in
             Color.clear
-                .onChange(of: coordinateSpace(in: geometry)) { rect($0) }
+                .onChange(of: coordinateSpace(in: geometry)) { _, space in rect(space) }
                 .onAppear {
                     rect(coordinateSpace(in: geometry))
                 }
@@ -41,7 +41,7 @@ public extension View {
               size(newValue)
             }
           }
-          .onChange(of: transaction?.animation) { _ in
+          .onChange(of: transaction?.animation) {
             DispatchQueue.main.async {
               size(geometry.size)
             }

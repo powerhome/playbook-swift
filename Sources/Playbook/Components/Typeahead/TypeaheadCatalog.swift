@@ -30,7 +30,7 @@ public struct TypeaheadCatalog: View {
     @FocusState private var isFocusedSection
 
     @State private var presentDialog: Bool = false
-    @StateObject private var popoverManager = PopoverManager.shared
+    private var popoverManager = PopoverManager.shared
 
     public var body: some View {
         PBDocStack(title: "Typeahead") {
@@ -40,7 +40,7 @@ public struct TypeaheadCatalog: View {
             PBDoc(title: "Dialog") { dialog }
             #endif
             PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
-//            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
+            PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
         }
         .scrollDismissesKeyboard(.immediately)
@@ -101,6 +101,7 @@ extension TypeaheadCatalog {
             searchText: $searchTextSections,
             options: assetsSection,
             selection: .multiple(variant: .pill),
+            dropdownMaxHeight: 400,
             isFocused: $isFocusedSection,
             selectedOptions: $selectedSections
         )
@@ -168,10 +169,7 @@ extension TypeaheadCatalog {
         isFocusedUsers = false
         isFocusedHeight = false
         isFocusedSection = false
-        popoverManager.hidePopover(for: 1)
-        popoverManager.hidePopover(for: 2)
-        popoverManager.hidePopover(for: 3)
-        popoverManager.hidePopover(for: 4)
+        popoverManager.dismissPopovers()
     }
 }
 

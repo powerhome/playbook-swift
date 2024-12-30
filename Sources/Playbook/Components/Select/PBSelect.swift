@@ -62,9 +62,9 @@ public struct PBSelect: View {
       }
       .buttonStyle(.plain)
       .disabled(style == .disabled)
-      .onChange(of: selected, perform: { newValue in
+      .onChange(of: selected) { _, newValue in
         selectedOption(newValue)
-      })
+      }
 
       if let errorMessage = style.errorMessage {
         Text(errorMessage)
