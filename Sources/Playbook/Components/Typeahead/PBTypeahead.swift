@@ -140,23 +140,12 @@ private extension PBTypeahead {
                     VStack(spacing: 0) {
                         ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
                             listItemView(option: result, index: index)
-//                                .onKeyPress(.upArrow, action: {
-//                                    if let index = hoveringIndex, index > 0 {
-//                                        proxy.scrollTo(index > 1 ? (index - 1) : 0)
-//                                    }
-//                                    return .handled
-//                                })
-//                                .onKeyPress(.downArrow) {
-//                                    if let index = hoveringIndex, index != searchResults.count-1 {
-//                                        proxy.scrollTo(index < searchResults.count ? (index + 1) : 0)
-//                                    }
-//                                    return .handled
-//                                }
                         }
                     }
                 }
                 .onAppear {
                     hoveringIndex = 0
+                    isFocused = true
                 }
                 .scrollDismissesKeyboard(.immediately)
                 .frame(maxHeight: dropdownMaxHeight)
