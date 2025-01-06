@@ -27,7 +27,7 @@ public extension PBTypeahead {
         }
     }
 
-    enum OptionType: Identifiable {
+    enum OptionType: Identifiable, Equatable {
         public var id: String {
             switch self {
                 case .section(let str):
