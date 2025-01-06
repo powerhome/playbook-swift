@@ -28,6 +28,10 @@ public extension PBTypeahead {
     }
 
     enum OptionType: Identifiable, Equatable {
+        public static func == (lhs: PBTypeahead.OptionType, rhs: PBTypeahead.OptionType) -> Bool {
+            lhs.id == rhs.id
+        }
+        
         public var id: String {
             switch self {
                 case .section(let str):
