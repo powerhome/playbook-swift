@@ -31,7 +31,7 @@ public struct TypeaheadCatalog: View {
 
     @State private var presentDialog: Bool = false
 
-    @StateObject private var popoverManager = PopoverManager()
+    @StateObject private var popoverManager = PopoverManager.shared
 
     public var body: some View {
         PBDocStack(title: "Typeahead") {
@@ -48,10 +48,10 @@ public struct TypeaheadCatalog: View {
         .onTapGesture {
             dismissFocus()
         }
-        .popoverHandler(id: 1)
-        .popoverHandler(id: 2)
-        .popoverHandler(id: 3)
-        .popoverHandler(id: 4)
+        .popoverHandler(id: 1, blockBackgroundInteractions: true)
+        .popoverHandler(id: 2, blockBackgroundInteractions: true)
+        .popoverHandler(id: 3, blockBackgroundInteractions: true)
+        .popoverHandler(id: 4, blockBackgroundInteractions: true)
     }
 }
 
@@ -64,7 +64,7 @@ extension TypeaheadCatalog {
             options: assetsColors,
             selection: .single,
             isFocused: $isFocusedColors,
-            selectedOptions: $selectedColors, popoverManager: popoverManager
+            selectedOptions: $selectedColors
         )
     }
 
@@ -77,7 +77,7 @@ extension TypeaheadCatalog {
             options: assetsUsers,
             selection: .multiple(variant: .pill),
             isFocused: $isFocusedUsers,
-            selectedOptions: $selectedUsers, popoverManager: popoverManager
+            selectedOptions: $selectedUsers
         )
     }
 
@@ -91,7 +91,7 @@ extension TypeaheadCatalog {
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 150,
             isFocused: $isFocusedHeight,
-            selectedOptions: $selectedHeight, popoverManager: popoverManager
+            selectedOptions: $selectedHeight
         )
     }
 
@@ -102,6 +102,7 @@ extension TypeaheadCatalog {
             searchText: $searchTextSections,
             options: assetsSection,
             selection: .multiple(variant: .pill),
+            dropdownMaxHeight: 400,
             isFocused: $isFocusedSection,
             selectedOptions: $selectedSections
         )
@@ -151,7 +152,7 @@ extension TypeaheadCatalog {
                         selection: .multiple(variant: .pill),
                         dropdownMaxHeight: 300,
                         isFocused: $isFocused,
-                        selectedOptions: $selectedUsers, popoverManager: PopoverManager()
+                        selectedOptions: $selectedUsers
                     )
                     Spacer()
                 }
@@ -173,6 +174,7 @@ extension TypeaheadCatalog {
         popoverManager.hidePopover(for: 2)
         popoverManager.hidePopover(for: 3)
         popoverManager.hidePopover(for: 4)
+        popoverManager.dismissPopovers()
     }
 }
 

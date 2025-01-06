@@ -27,7 +27,7 @@ private struct DebouncedChangeViewModifier<Value>: ViewModifier where Value: Equ
   
   func body(content: Content) -> some View {
     if debounce.numberOfCharacters != 0 {
-      content.onChange(of: trigger) { newValue in
+      content.onChange(of: trigger) { _, newValue in
         debouncedTask?.cancel()
         if newValue.count >= debounce.numberOfCharacters {
           debouncedTask = Task.delayed(seconds: debounce.time) { @MainActor in
@@ -48,7 +48,7 @@ private struct DebouncedChangeViewModifier<Value>: ViewModifier where Value: Equ
             action(nil)
           }
         }
-        .onChange(of: trigger) { value in
+        .onChange(of: trigger) { _, value in
           debouncedTask?.cancel()
           debouncedTask = Task.delayed(seconds: debounce.time) { @MainActor in
             action(value)

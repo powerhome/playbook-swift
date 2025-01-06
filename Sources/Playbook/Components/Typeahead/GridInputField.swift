@@ -94,7 +94,7 @@ private extension GridInputField {
                     .pbFont(.body, color: placeholderTextColor)
             }
             TextField("", text: $searchText)
-                .onChange(of: searchText) { _ in
+                .onChange(of: searchText) { 
                     if searchText.first == " " {
                         searchText = searchText.replacingOccurrences(of: " ", with: "")
                     }

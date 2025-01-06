@@ -40,24 +40,34 @@ public class PopoverManager: ObservableObject {
         popovers[id] = Popover(view: view, position: position, close: close)
         isPresented[id] = false
     }
-
-    func removeValues() {
-        popovers.removeAll()
-        isPresented.removeAll()
-    }
     
+    func teardownPopover(with id: Int) {
+        popovers[id] = nil
+        isPresented[id] = nil
+    }
+
     func presentPopover(with id: Int, value: Bool) {
-        isPresented.updateValue(value, forKey: id)
+        DispatchQueue.main.async {
+            self.isPresented.updateValue(value, forKey: id)
+        }
     }
     
     private func dismissPopover(with id: Int) {
         isPresented[id] = false
     }
-    
+
+    func dismissPopovers() {
+        isPresented.keys.forEach {
+            isPresented[$0] = false
+        }
+    }
+
     func updatePopover(with id: Int, view: AnyView, position: CGPoint?) {
         if let popover = popovers.first(where: { $0.key == id })?.value, let position = position {
             let newPopover = Popover(view: view, position: position, close: popover.close)
-            popovers.updateValue(newPopover, forKey: id)
+            DispatchQueue.main.async {
+                self.popovers.updateValue(newPopover, forKey: id)
+            }
         }
     }
 
