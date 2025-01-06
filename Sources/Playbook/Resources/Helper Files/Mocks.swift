@@ -48,11 +48,19 @@ enum Mocks {
         .item(.init(id: "2", text: ana.name, customView: { AnyView(ana) })),
         .item(.init(id: "3", text: patric.name, customView: { AnyView(patric) })),
         .item(.init(id: "4", text: luccile.name, customView: { AnyView(luccile) })),
+        .button(PBButton(variant: .link, title: "view more")),
         .section("section 2"),
         .item(.init(id: "5", text: andrew.name, customView: { AnyView(andrew) })),
         .item(.init(id: "6", text: ana.name, customView: { AnyView(ana) })),
         .item(.init(id: "7", text: patric.name, customView: { AnyView(patric) })),
-        .item(.init(id: "8", text: luccile.name, customView: { AnyView(luccile) }))
+        .item(.init(id: "8", text: luccile.name, customView: { AnyView(luccile) })),
+        .button(PBButton(variant: .primary, title: "view more")),
+        .section("section 3"),
+        .item(.init(id: "9", text: andrew.name, customView: { AnyView(andrew) })),
+        .item(.init(id: "10", text: ana.name, customView: { AnyView(ana) })),
+        .item(.init(id: "11", text: patric.name, customView: { AnyView(patric) })),
+        .item(.init(id: "12", text: luccile.name, customView: { AnyView(luccile) })),
+        .button(PBButton(variant: .primary, title: "view more"))
     ]
 
   static let cities: [String] = [

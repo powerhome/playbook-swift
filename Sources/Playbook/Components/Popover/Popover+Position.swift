@@ -44,15 +44,15 @@ public extension Position {
   }
 
   func calculateFrame(from originFrame: CGRect?, size: CGSize?) -> CGRect {
-      var popoverFrame = self.absoluteFrame(
+      let popoverFrame = self.absoluteFrame(
         position: self,
         originFrame: originFrame ?? .zero,
         popoverSize: size ?? .zero
       )
-      let screenEdgePadding = EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-      let safeWindowFrame = Screen.rect
-      let maxX = safeWindowFrame.maxX - screenEdgePadding.trailing
-      let maxY = safeWindowFrame.maxY - screenEdgePadding.bottom
+//      let screenEdgePadding = EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+//      let safeWindowFrame = Screen.rect
+//      let maxX = safeWindowFrame.maxX - screenEdgePadding.trailing
+//      let maxY = safeWindowFrame.maxY - screenEdgePadding.bottom
 //      #if os(macOS)
 //      if popoverFrame.origin.x < screenEdgePadding.leading {
 //        popoverFrame.origin.x = screenEdgePadding.leading

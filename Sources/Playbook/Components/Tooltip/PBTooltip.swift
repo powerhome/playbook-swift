@@ -43,7 +43,7 @@ public struct PBTooltip: ViewModifier {
       if self.canPresent {
         content
         .onHover(disabled: false) { handleOnHover(hovering: $0) }
-        .onChange(of: shouldPresentPopover, perform: handleOnChange)
+        .onChange(of: shouldPresentPopover) { handleOnChange() }
         .popover(isPresented: $presentPopover, arrowEdge: self.placement, content: { popoverView })
       } else {
         content
@@ -63,7 +63,7 @@ public extension PBTooltip {
     shouldPresentPopover = hovering
   }
 
-  private func handleOnChange(_: Bool) {
+  private func handleOnChange() {
     if delay > 0.0 {
       handleDelay
     } else {
