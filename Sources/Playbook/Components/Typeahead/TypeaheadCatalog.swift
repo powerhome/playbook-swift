@@ -30,16 +30,15 @@ public struct TypeaheadCatalog: View {
     @FocusState private var isFocusedSection
 
     @State private var presentDialog: Bool = false
-
-    @StateObject private var popoverManager = PopoverManager.shared
+    private var popoverManager = PopoverManager.shared
 
     public var body: some View {
         PBDocStack(title: "Typeahead") {
             PBDoc(title: "Default", spacing: Spacing.small) { colors }
             PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-            #if os(macOS)
+#if os(macOS)
             PBDoc(title: "Dialog") { dialog }
-            #endif
+#endif
             PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
             PBDoc(title: "Sections", spacing: Spacing.small) { sections }
                 .padding(.bottom, 500)
@@ -48,10 +47,10 @@ public struct TypeaheadCatalog: View {
         .onTapGesture {
             dismissFocus()
         }
-        .popoverHandler(id: 1, blockBackgroundInteractions: true)
-        .popoverHandler(id: 2, blockBackgroundInteractions: true)
-        .popoverHandler(id: 3, blockBackgroundInteractions: true)
-        .popoverHandler(id: 4, blockBackgroundInteractions: true)
+        .popoverHandler(id: 1)
+        .popoverHandler(id: 2)
+        .popoverHandler(id: 3)
+        .popoverHandler(id: 4)
     }
 }
 
@@ -116,9 +115,9 @@ extension TypeaheadCatalog {
         .presentationMode(isPresented: $presentDialog) {
             DialogView(isPresented: $presentDialog)
                 .popoverHandler(id: 5)
-                #if os(macOS)
+#if os(macOS)
                 .frame(minWidth: 500, minHeight: 390)
-                #endif
+#endif
         }
     }
 
@@ -170,11 +169,9 @@ extension TypeaheadCatalog {
         isFocusedUsers = false
         isFocusedHeight = false
         isFocusedSection = false
-        popoverManager.hidePopover(for: 1)
-        popoverManager.hidePopover(for: 2)
-        popoverManager.hidePopover(for: 3)
-        popoverManager.hidePopover(for: 4)
-        popoverManager.dismissPopovers()
+        Task {
+            await popoverManager.dismissPopovers()
+        }
     }
 }
 

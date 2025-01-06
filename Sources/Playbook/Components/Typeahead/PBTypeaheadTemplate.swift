@@ -20,6 +20,7 @@ public struct PBTypeaheadTemplate: View {
     private let dropdownMaxHeight: CGFloat?
     private let listOffset: (x: CGFloat, y: CGFloat)
     private let clearAction: (() -> Void)?
+    private var numberOfItemsToShowInSection: Int
 
     @State private var showPopover: Bool = false
     @State private var hoveringIndex: Int?
@@ -30,8 +31,6 @@ public struct PBTypeaheadTemplate: View {
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
     @State private var numberOfItemsShow: [String?: Int] = [:]
-    private var numberOfItemsToShowInSection: Int
-    private var popoverManager = PopoverManager.shared
 
     public init(
         id: Int,
@@ -88,59 +87,48 @@ public struct PBTypeaheadTemplate: View {
                 listView
             }
         }
-            .onTapGesture {
-                isFocused = false
-            }
-            .onAppear {
-                focused = isFocused
-                if debounce.numberOfCharacters == 0 {
-                    if isFocused {
-                        showPopover = true
-                        reloadList
-                    } else {
-                        showPopover = false
-                    }
-                }
-                setKeyboardControls
-                if !selectedOptions.isEmpty {
-//                    selectedIndex = options.first?.id.firstIndex(of: selectedOptions[0].id)
+        .onTapGesture {
+            isFocused = false
+        }
+        .onAppear {
+            focused = isFocused
+            if debounce.numberOfCharacters == 0 {
+                if isFocused {
+                    showPopover = true
+                    reloadList
+                } else {
+                    showPopover = false
                 }
             }
-            .onChange(of: isFocused) { _, newValue in
-                if newValue {
+            setKeyboardControls
+        }
+        .onChange(of: isFocused) { _, newValue in
+            if newValue {
+                Task {
+                    await PopoverManager.shared.dismissPopovers()
                     showPopover = true
                 }
             }
-            .onChange(of: selectedOptions.count) {
-                reloadList
-            }
-            .onChange(of: hoveringIndex) {
-                reloadList
-            }
-                    .onChange(of: showPopover) { _, newValue in
-            if newValue {
-                isFocused = true
-                popoverManager.showPopover(for: id)
-            } else {
-                isFocused = false
-                popoverManager.hidePopover(for: id)
-            }
         }
-        .onChange(of: popoverManager.isPopoverActive(for: id)) { _, newValue in
+        .onChange(of: selectedOptions.count) {
+            reloadList
+        }
+        .onChange(of: hoveringIndex) {
+            reloadList
+        }
+        .onChange(of: PopoverManager.shared.isPresented[id] ?? false) { _, newValue in
             if !newValue {
                 showPopover = false
-                popoverManager.dismissPopovers()
-                reloadList
             }
         }
-            .onChange(of: searchText, debounce: debounce) { _ in
-                _ = searchResults
-                reloadList
-                if !searchText.isEmpty {
-                    showPopover = true
-                }
+        .onChange(of: searchText, debounce: debounce) { _ in
+            _ = searchResults
+            reloadList
+            if !searchText.isEmpty {
+                showPopover = true
             }
         }
+    }
 }
 
 @MainActor
@@ -154,21 +142,6 @@ private extension PBTypeaheadTemplate {
                     VStack(alignment: .leading, spacing: 0) {
                         ForEach(flat, id: \.0) { index, element in
                             listElementView(index: index, element: element)
-                                .focusable()
-                                .focused($isFocused)
-                                .focusEffectDisabled()
-                                .onKeyPress(.upArrow, action: {
-                                    if let index = hoveringIndex, index > 0 {
-                                        proxy.scrollTo(index > 1 ? (index - 1) : 0)
-                                    }
-                                    return .handled
-                                })
-                                .onKeyPress(.downArrow) {
-                                    if let index = hoveringIndex, index != searchResults.count-1 {
-                                        proxy.scrollTo(index < searchResults.count ? (index + 1) : 0)
-                                    }
-                                    return .handled
-                                }
                                 .onAppear {
                                     hoveringIndex = 0
                                 }
@@ -247,11 +220,11 @@ private extension PBTypeaheadTemplate {
                 }
             default: break
         }
-        #if os(macOS)
+#if os(macOS)
         return hoveringIndex == index ? .hover : .card
-        #elseif os(iOS)
+#elseif os(iOS)
         return .card
-        #endif
+#endif
     }
 
     func listTextolor(_ index: Int?) -> Color {
@@ -444,17 +417,17 @@ private extension PBTypeaheadTemplate {
     }
 
     var setKeyboardControls: Void {
-        #if os(macOS)
+#if os(macOS)
         NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
             if event.keyCode == 48  { // tab
                 focused = true
             }
             if event.keyCode == 36 { // return bar
                 if isFocused,
-                let index = hoveringIndex,
-                index <= searchResults.count-1,
-                let results = mapResults.first?.items,
-                showPopover {
+                   let index = hoveringIndex,
+                   index < searchResults.count-1,
+                   let results = mapResults.first?.items,
+                   showPopover {
                     onListSelection(index: index, option: results[index-1])
                 }
             }
@@ -462,9 +435,9 @@ private extension PBTypeaheadTemplate {
                 if isFocused {
                     if let index = hoveringIndex,
                        let results = mapResults.first?.items,
-                        index <= results.count-1,
-                        searchText.isEmpty,
-                        showPopover {
+                       index <= results.count-1,
+                       searchText.isEmpty,
+                       showPopover {
                         onListSelection(index: index, option: results[index])
                     } else {
                         showPopover = true
@@ -492,7 +465,7 @@ private extension PBTypeaheadTemplate {
             }
             return event
         }
-        #endif
+#endif
     }
 }
 

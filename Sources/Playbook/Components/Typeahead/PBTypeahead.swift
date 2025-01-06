@@ -29,7 +29,6 @@ public struct PBTypeahead: View {
     @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
-    private var popoverManager = PopoverManager.shared
 
     public init(
         id: Int,
@@ -104,7 +103,10 @@ public struct PBTypeahead: View {
         }
         .onChange(of: isFocused) { _, newValue in
             if newValue {
-                showPopover = true
+                Task {
+                    await PopoverManager.shared.dismissPopovers()
+                    showPopover = true
+                }
             }
         }
         .onChange(of: selectedOptions.count) {
@@ -113,19 +115,9 @@ public struct PBTypeahead: View {
         .onChange(of: hoveringIndex) {
             reloadList
         }
-        .onChange(of: showPopover) { _, newValue in
-            if newValue {
-                isFocused = true
-                popoverManager.showPopover(for: id)
-            } else {
-                isFocused = false
-                popoverManager.hidePopover(for: id)
-            }
-        }
-        .onChange(of: popoverManager.isPopoverActive(for: id)) { _, newValue in
+        .onChange(of: PopoverManager.shared.isPresented[id] ?? false) { _, newValue in
             if !newValue {
                 showPopover = false
-                popoverManager.hidePopover(for: id)
             }
         }
         .onChange(of: searchText, debounce: debounce) { _ in
@@ -148,26 +140,12 @@ private extension PBTypeahead {
                     VStack(spacing: 0) {
                         ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
                             listItemView(option: result, index: index)
-                                .focusable()
-                                .focused($isFocused)
-                                .focusEffectDisabled()
-                                .onKeyPress(.upArrow, action: {
-                                    if let index = hoveringIndex, index > 0 {
-                                        proxy.scrollTo(index > 1 ? (index - 1) : 0)
-                                    }
-                                    return .handled
-                                })
-                                .onKeyPress(.downArrow) {
-                                    if let index = hoveringIndex, index != searchResults.count-1 {
-                                        proxy.scrollTo(index < searchResults.count ? (index + 1) : 0)
-                                    }
-                                    return .handled
-                                }
-                                .onAppear {
-                                    hoveringIndex = 0
-                                }
                         }
                     }
+                }
+                .onAppear {
+                    hoveringIndex = 0
+                    isFocused = true
                 }
                 .scrollDismissesKeyboard(.immediately)
                 .frame(maxHeight: dropdownMaxHeight)
@@ -223,11 +201,11 @@ private extension PBTypeahead {
                 }
             default: break
         }
-        #if os(macOS)
+#if os(macOS)
         return hoveringIndex == index ? .hover : .card
-        #elseif os(iOS)
+#elseif os(iOS)
         return .card
-        #endif
+#endif
     }
 
     func listTextolor(_ index: Int?) -> Color {
@@ -328,6 +306,7 @@ private extension PBTypeahead {
             selectedIndex = nil
             hoveringIndex = 0
             reloadList
+            isFocused = true
         }
     }
 
