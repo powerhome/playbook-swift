@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct PBReactionButton: View {
   @Binding var count: Int
-  @State private var isHighlighted: Bool = false
+  @Binding var isHighlighted: Bool
   @State private var isHovering: Bool = false
   let icon: String?
   let pbIcon: PBIcon?
@@ -21,13 +21,14 @@ public struct PBReactionButton: View {
 
   public init(
     count: Binding<Int> = .constant(0),
-    isHighlighted: Bool = false,
+    isHighlighted: Binding<Bool> = .constant(false),
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
     isInteractive: Bool = false,
     action: (() -> Void)? = nil
   ) {
     self._count = count
+    self._isHighlighted = isHighlighted
     self.icon = icon
     self.pbIcon = pbIcon
     self.isInteractive = isInteractive
@@ -48,7 +49,11 @@ public extension PBReactionButton {
       highlightReaction()
     } label: {
         reactionButtonLabelView
-        .reactionButtonStyle(isHighlighted: isHighlighted, isInteractive: isInteractive, isHovering: isHovering)
+        .reactionButtonStyle(
+          isHighlighted: isHighlighted,
+          isInteractive: isInteractive,
+          isHovering: isHovering
+        )
     }
     .buttonStyle(.plain)
   }
