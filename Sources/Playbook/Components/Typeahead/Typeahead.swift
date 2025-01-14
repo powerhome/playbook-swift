@@ -26,7 +26,7 @@ public extension PBTypeahead {
             self.customView = customView
         }
     }
-
+    
     enum OptionType: Identifiable {
         public var id: String {
             switch self {
@@ -34,20 +34,38 @@ public extension PBTypeahead {
                     return str
                 case .item(let item):
                     return item.id
+                case .button(let button):
+                    return button.title ?? ""
             }
         }
         case section(String)
         case item(Option)
+        case button(PBButton)
     }
-
+    
     enum Selection {
         case single, multiple(variant: GridInputField.Selection.Variant)
-
+        
         func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
             switch self {
                 case .single: return .single(options.first)
                 case .multiple(let variant): return .multiple(variant, options)
             }
+        }
+    }
+    
+    struct SectionList: Identifiable {
+        public let id: UUID
+        let section: String?
+        let items: [PBTypeahead.Option]
+        let button: PBButton?
+        static func == (lhs: SectionList, rhs: SectionList) -> Bool { lhs.id == rhs.id }
+        
+        public init(id: UUID = UUID(), section: String?, items: [PBTypeahead.Option], button: PBButton?) {
+            self.id = id
+            self.section = section
+            self.items = items
+            self.button = button
         }
     }
 }
