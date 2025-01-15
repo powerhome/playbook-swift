@@ -1,3 +1,12 @@
+# 🚀 Playbook Swift 6.6.1
+##### Jan 06, 2024
+
+### Playbook Changes 
+
+- **Fix Typeahead presentation** in #482 (Isis Silva)
+
+🔗 [Full Changelog](https://github.com/powerhome/playbook-swift/compare/6.6.0...6.6.1)
+
 # 🚀 Playbook Swift 6.6.0: Enhanced Popovers and More! 🚀
 ##### Dec 18, 2024
 
