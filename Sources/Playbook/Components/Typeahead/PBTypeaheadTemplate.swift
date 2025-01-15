@@ -136,7 +136,7 @@ private extension PBTypeaheadTemplate {
     @ViewBuilder
     var listView: some View {
         PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
-            let flat = Array(zip(flattenedResults.indices, flattenedResults))
+            let flat = Array(zip(searchResults.indices, searchResults))
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
@@ -257,74 +257,74 @@ private extension PBTypeaheadTemplate {
         }
     }
 
-    var mapResults: [PBTypeahead.SectionList] {
-        var array: [PBTypeahead.SectionList] = []
-        var currentSection: String? = nil
-        var currentOptions: [PBTypeahead.Option] = []
-        var currentButton: PBButton? = nil
-        var buttonAction: () -> Void = {}
+//    var mapResults: [PBTypeahead.SectionList] {
+//        var array: [PBTypeahead.SectionList] = []
+//        var currentSection: String? = nil
+//        var currentOptions: [PBTypeahead.Option] = []
+//        var currentButton: PBButton? = nil
+//        var buttonAction: () -> Void = {}
+//
+//        for result in searchResults {
+//            switch result {
+//                case .section(let section):
+//                    buttonAction = {  if numberOfItemsShow[section] == numberOfItemsToShowInSection {
+//                        numberOfItemsShow[section] = numberOfItemsToShowInSection*2
+//                    } else {
+//                        numberOfItemsShow[section] = numberOfItemsToShowInSection
+//                    }
+//                        reloadList
+//                    }
+//
+//                    if !currentOptions.isEmpty || currentSection != nil {
+//                        appendSectionToArray(
+//                            section: currentSection,
+//                            options: currentOptions,
+//                            button: currentButton,
+//                            to: &array
+//                        )
+//                        currentOptions = []
+//                    }
+//                    currentSection = section
+//                case .item(let option):
+//                    currentOptions.append(option)
+//                case .button(let button):
+//                    currentButton = PBButton(
+//                        fullWidth: button.fullWidth,
+//                        variant: button.variant,
+//                        size: button.size,
+//                        shape: button.shape,
+//                        title: currentSection,
+//                        icon: button.icon,
+//                        iconPosition: button.iconPosition,
+//                        isLoading: button.$isLoading,
+//                        action: buttonAction
+//                    )
+//            }
+//        }
+//        if currentOptions.isEmpty  {
+//            appendSectionToArray(
+//                section: currentSection,
+//                options: currentOptions,
+//                button: currentButton,
+//                to: &array
+//            )
+//        }
+//        return array
+//    }
 
-        for result in searchResults {
-            switch result {
-                case .section(let section):
-                    buttonAction = {  if numberOfItemsShow[section] == numberOfItemsToShowInSection {
-                        numberOfItemsShow[section] = numberOfItemsToShowInSection*2
-                    } else {
-                        numberOfItemsShow[section] = numberOfItemsToShowInSection
-                    }
-                        reloadList
-                    }
-
-                    if !currentOptions.isEmpty || currentSection != nil {
-                        appendSectionToArray(
-                            section: currentSection,
-                            options: currentOptions,
-                            button: currentButton,
-                            to: &array
-                        )
-                        currentOptions = []
-                    }
-                    currentSection = section
-                case .item(let option):
-                    currentOptions.append(option)
-                case .button(let button):
-                    currentButton = PBButton(
-                        fullWidth: button.fullWidth,
-                        variant: button.variant,
-                        size: button.size,
-                        shape: button.shape,
-                        title: currentSection,
-                        icon: button.icon,
-                        iconPosition: button.iconPosition,
-                        isLoading: button.$isLoading,
-                        action: buttonAction
-                    )
-            }
-        }
-        if currentOptions.isEmpty  {
-            appendSectionToArray(
-                section: currentSection,
-                options: currentOptions,
-                button: currentButton,
-                to: &array
-            )
-        }
-        return array
-    }
-
-    var flattenedResults: [PBTypeahead.OptionType] {
-        var elements: [PBTypeahead.OptionType] = []
-        for section in mapResults {
-            if let sectionTitle = section.section {
-                elements.append(.section(sectionTitle))
-            }
-            elements.append(contentsOf: section.items.map { .item($0) })
-            if let button = section.button {
-                elements.append(.button(button))
-            }
-        }
-        return elements
-    }
+//    var flattenedResults: [PBTypeahead.OptionType] {
+//        var elements: [PBTypeahead.OptionType] = []
+//        for section in mapResults {
+//            if let sectionTitle = section.section {
+//                elements.append(.section(sectionTitle))
+//            }
+//            elements.append(contentsOf: section.items.map { .item($0) })
+//            if let button = section.button {
+//                elements.append(.button(button))
+//            }
+//        }
+//        return elements
+//    }
 
     private func appendSectionToArray(
         section: String?,
@@ -338,7 +338,6 @@ private extension PBTypeaheadTemplate {
             items: Array(options.prefix(numberOfItems)),
             button: button
         ))
-        print("button: \(button?.title ?? "0")")
     }
 
     var optionsSelected: GridInputField.Selection {
@@ -425,20 +424,25 @@ private extension PBTypeaheadTemplate {
             if event.keyCode == 36 { // return bar
                 if isFocused,
                    let index = hoveringIndex,
-                   index < searchResults.count-1,
-                   let results = mapResults.first?.items,
-                   showPopover {
-                    onListSelection(index: index, option: results[index-1])
+                   index <= searchResults.count-1 {
+                    switch searchResults[index] {
+                        case .item(let option):
+                            onListSelection(index: index, option: option)
+                        default: break
+                    }
                 }
             }
             if event.keyCode == 49 { // space
                 if isFocused {
                     if let index = hoveringIndex,
-                       let results = mapResults.first?.items,
-                       index <= results.count-1,
+                       index <= searchResults.count-1,
                        searchText.isEmpty,
                        showPopover {
-                        onListSelection(index: index, option: results[index])
+                        switch searchResults[index] {
+                            case .item(let option):
+                                onListSelection(index: index, option: option)
+                            default: break
+                        }
                     } else {
                         showPopover = true
                     }
