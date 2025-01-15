@@ -326,20 +326,19 @@ private extension PBTypeaheadTemplate {
 //        return elements
 //    }
 
-//    private func appendSectionToArray(
-//        section: String?,
-//        options: [PBTypeahead.Option],
-//        button: PBButton?,
-//        to array: inout [PBTypeahead.SectionList]
-//    ) {
-//        let numberOfItems = numberOfItemsShow[section] ?? numberOfItemsToShowInSection
-//        array.append(PBTypeahead.SectionList(
-//            section: section,
-//            items: Array(options.prefix(numberOfItems)),
-//            button: button
-//        ))
-//        print("button: \(button?.title ?? "0")")
-//    }
+    private func appendSectionToArray(
+        section: String?,
+        options: [PBTypeahead.Option],
+        button: PBButton?,
+        to array: inout [PBTypeahead.SectionList]
+    ) {
+        let numberOfItems = numberOfItemsShow[section] ?? numberOfItemsToShowInSection
+        array.append(PBTypeahead.SectionList(
+            section: section,
+            items: Array(options.prefix(numberOfItems)),
+            button: button
+        ))
+    }
 
     var optionsSelected: GridInputField.Selection {
         let optionsSelected = selectedOptions.map { value in
@@ -425,20 +424,25 @@ private extension PBTypeaheadTemplate {
             if event.keyCode == 36 { // return bar
                 if isFocused,
                    let index = hoveringIndex,
-                   index < searchResults.count-1,
-                   let results = mapResults.first?.items,
-                   showPopover {
-                    onListSelection(index: index, option: results[index-1])
+                   index <= searchResults.count-1 {
+                    switch searchResults[index] {
+                        case .item(let option):
+                            onListSelection(index: index, option: option)
+                        default: break
+                    }
                 }
             }
             if event.keyCode == 49 { // space
                 if isFocused {
                     if let index = hoveringIndex,
-                       let results = mapResults.first?.items,
-                       index <= results.count-1,
+                       index <= searchResults.count-1,
                        searchText.isEmpty,
                        showPopover {
-                        onListSelection(index: index, option: results[index])
+                        switch searchResults[index] {
+                            case .item(let option):
+                                onListSelection(index: index, option: option)
+                            default: break
+                        }
                     } else {
                         showPopover = true
                     }
