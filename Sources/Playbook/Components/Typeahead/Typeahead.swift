@@ -10,7 +10,7 @@
 import SwiftUI
 
 public extension PBTypeahead {
-    struct Option: Identifiable, Equatable {
+    public struct Option: Identifiable, Equatable {
         public let id: String
         public let text: String?
         public let customView: (() -> AnyView?)?
@@ -46,7 +46,7 @@ public extension PBTypeahead {
     public enum Selection {
         case single, multiple(variant: GridInputField.Selection.Variant)
         
-        func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
+        public func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
             switch self {
                 case .single: return .single(options.first)
                 case .multiple(let variant): return .multiple(variant, options)
