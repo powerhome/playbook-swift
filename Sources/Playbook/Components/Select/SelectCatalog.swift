@@ -63,30 +63,55 @@ public struct SelectCatalog: View {
 
 extension SelectCatalog {
   var defaultView: some View {
-    PBSelect(title: "Favorite Food", options: defaultOptions, style: .default) { selected in
+    PBSelect(
+      title: "Favorite Food",
+      options: defaultOptions,
+      style: .default,
+      selected: $defaultState
+    ) { selected in
       defaultState = selected
     }
   }
+
   var blankSelectionText: some View {
-    PBSelect(title: "Favorite Food", options: blankOptions, style: .default) { selected in
+    PBSelect(
+      title: "Favorite Food",
+      options: blankOptions,
+      style: .default,
+      selected: $blankState
+    ) { selected in
       blankState = selected
     }
   }
+
   var disabledSelectField: some View {
-    PBSelect(title: "Favorite Food", options: defaultOptions, style: .disabled) { selected in
+    PBSelect(
+      title: "Favorite Food", 
+      options: defaultOptions, 
+      style: .disabled, 
+      selected: $disabledState
+    ) { selected in
       disabledState = selected
     }
   }
+
   var equalValueView: some View {
-    PBSelect(title: "Favorite Sport", options: equalOptions, style: .default) { selected in
+    PBSelect(
+      title: "Favorite Sport",
+      options: equalOptions,
+      style: .default,
+      selected: $equalState
+    ) { selected in
       equalState = selected
     }
   }
+
   var selectErrorView: some View {
     PBSelect(
       title: "Favorite Food",
       options: defaultOptions,
-      style: .error("Please make a valid selection")
+      style: .error("Please make a valid selection"),
+      selected: $errorState
     ) { selected in
       errorState = selected
     }

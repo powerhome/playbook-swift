@@ -13,19 +13,20 @@ public struct PBSelect: View {
   let title: String?
   let options: [(value: String, text: String?)]
   let style: Variant
+  @Binding var selected: String
   let selectedOption: ((String) -> Void)
-  @State private var selected: String = ""
 
   public init(
     title: String? = nil,
     options: [(value: String, text: String?)],
     style: Variant = .default,
+    selected: Binding<String> = .constant(""),
     selectedOption: @escaping (String) -> Void = { _ in}
   ) {
     self.title = title
     self.options = options
     self.style = style
-    self.selected = options[0].text ?? options[0].value
+    self._selected = selected
     self.selectedOption = selectedOption
   }
 
@@ -64,6 +65,11 @@ public struct PBSelect: View {
       .disabled(style == .disabled)
       .onChange(of: selected) { _, newValue in
         selectedOption(newValue)
+      }
+      .onAppear {
+          if selected.isEmpty {
+            selected = options.first?.text ?? ""
+          }
       }
 
       if let errorMessage = style.errorMessage {
