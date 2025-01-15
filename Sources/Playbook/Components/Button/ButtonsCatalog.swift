@@ -12,7 +12,8 @@ import SwiftUI
 public struct ButtonsCatalog: View {
   @State private var count: Int = 153
   @State private var count1: Int = 5
-    @State private var isLoading: Bool = false
+  @State private var isLoading: Bool = false
+  @State private var isHighlighted: Bool = true
 
   public var body: some View {
     PBDocStack(title: "Button") {
@@ -60,7 +61,10 @@ extension ButtonsCatalog {
     HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 12) {
       PBReactionButton(
         count: $count,
-        icon: "\u{1F389}", isInteractive: true)
+        isHighlighted: $isHighlighted,
+        icon: "\u{1F389}",
+        isInteractive: true
+      )
       PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
       PBReactionButton(isInteractive: false)
       PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false)
