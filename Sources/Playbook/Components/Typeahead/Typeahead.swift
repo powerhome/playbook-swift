@@ -27,7 +27,7 @@ public extension PBTypeahead {
         }
     }
     
-    enum OptionType: Identifiable {
+    public enum OptionType: Identifiable {
         public var id: String {
             switch self {
                 case .section(let str):
@@ -43,7 +43,7 @@ public extension PBTypeahead {
         case button(PBButton)
     }
     
-    enum Selection {
+    public enum Selection {
         case single, multiple(variant: GridInputField.Selection.Variant)
         
         func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
@@ -54,7 +54,7 @@ public extension PBTypeahead {
         }
     }
     
-    struct SectionList: Identifiable {
+    public struct SectionList: Identifiable {
         public let id: UUID
         let section: String?
         let items: [PBTypeahead.Option]
