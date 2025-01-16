@@ -187,13 +187,13 @@ public struct PopoverCatalog: View {
         ) {
           isPresented7.toggle()
         }
-        .handlerPopoverController(
-          isPresented: $isPresented7,
-          position: CGPoint(x: viewFrame.midX, y: viewFrame.maxY)
-        ) {
-          Text("I'm a popover. I can show content of any size.")
-            .pbFont(.body, color: .text(.default))
-        }
+//        .pbPopoverAppKit(
+//            isPresented: $isPresented7,
+//            position: CGPoint(x: viewFrame.midX, y: viewFrame.maxY)
+//        ) {
+//          Text("I'm a popover. I can show content of any size.")
+//            .pbFont(.body, color: .text(.default))
+//        }
       }
       .onTapGesture {
           isPresented7 = false
