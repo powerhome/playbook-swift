@@ -191,6 +191,7 @@ struct PopHostingView<Content: View>: UIViewRepresentable {
         private weak var anchorView: UIView?
         @Binding var isPresented: Bool
         private let position: CGPoint
+        let content: Content
 
         var popoverView: UIView?
 
@@ -198,9 +199,10 @@ struct PopHostingView<Content: View>: UIViewRepresentable {
             self.contentViewController = UIHostingController(rootView: content)
             self._isPresented = isPresented
             self.position = position
+            self.content = content
             super.init()
 
-            let hostingView = UIHostingController(rootView: PopView(isPresented: $isPresented))
+            let hostingView = UIHostingController(rootView: content)
             let popoverView = hostingView.view
             popoverView?.frame = CGRect(x: position.x, y: position.y, width: 400, height: 400)
             popoverView?.layer.cornerRadius = 10

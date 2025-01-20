@@ -26,9 +26,9 @@ public struct PopoverCatalog: View {
       PBDoc(title: "Dropdrown") { dropdownPopover }
       PBDoc(title: "Scroll") { scrollPopover }
       PBDoc(title: "Close options") { onClosePopover }
-        PBDoc(title: "Explorarion Popover") { explorationPopover }
-            .padding(.bottom, 500)
-            .edgesIgnoringSafeArea(.all)
+//        PBDoc(title: "Explorarion Popover") { explorationPopover }
+        .padding(.bottom, 500)
+        .edgesIgnoringSafeArea(.all)
     }
     .onTapGesture {
         isPresented7 = false
