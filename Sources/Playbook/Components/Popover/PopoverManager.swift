@@ -12,8 +12,8 @@ import SwiftUI
 public class PopoverManager: ObservableObject {
     @Published var isPresented: [Int : Bool] = [:]
     @Published var popovers: [Int : Popover] = [:]
-    @Published var activePopoverID: Int?
-    
+    @Published var isPopooverActive: Bool = false
+
     public static let shared = PopoverManager()
     
     struct Popover {
@@ -22,18 +22,8 @@ public class PopoverManager: ObservableObject {
         var close: (Close, action: (() -> Void)?) = (.anywhere, nil)
     }
     
-    func showPopover(for id: Int) {
-        activePopoverID = id
-    }
-    
-    func hidePopover(for id: Int) {
-        if activePopoverID == id {
-            activePopoverID = nil
-        }
-    }
-    
-    func isPopoverActive(for id: Int) -> Bool {
-        return activePopoverID == id
+    public var isPopoverActive: Bool {
+        return isPopooverActive
     }
     
     func createPopover(with id: Int, view: AnyView, position: CGPoint?, close: (Close, action: (() -> Void)?)) {
@@ -49,10 +39,11 @@ public class PopoverManager: ObservableObject {
     func presentPopover(with id: Int, value: Bool) {
         DispatchQueue.main.async {
             self.isPresented.updateValue(value, forKey: id)
+            self.isPopooverActive = value
         }
     }
     
-    private func dismissPopover(with id: Int) {
+    func dismissPopover(with id: Int) {
         isPresented[id] = false
     }
     
