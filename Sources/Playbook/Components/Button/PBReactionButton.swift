@@ -16,6 +16,7 @@ public struct PBReactionButton: View {
   let icon: String?
   let pbIcon: PBIcon?
   let isInteractive: Bool
+  let countColor: Color
   let action: (() -> Void)?
   @Environment(\.colorScheme) var colorScheme
 
@@ -25,12 +26,14 @@ public struct PBReactionButton: View {
     icon: String? = nil,
     pbIcon: PBIcon? = nil,
     isInteractive: Bool = false,
+    countColor: Color = .text(.light),
     action: (() -> Void)? = nil
   ) {
     self._count = count
     self._isHighlighted = isHighlighted
     self.icon = icon
     self.pbIcon = pbIcon
+    self.countColor = countColor
     self.isInteractive = isInteractive
     self.action = action
   }
@@ -75,12 +78,12 @@ public extension PBReactionButton {
       countView
     }  
     .padding(.horizontal, 8)
-    .padding(.vertical, 2)
+    .padding(.top, 2.5)
   }
   
   var emojiView: some View {
     return Text(icon ?? "")
-      .pbFont(.monogram(12), variant: .light, color: textColor)
+      .pbFont(.caption, variant: .light, color: textColor)
       .padding(.leading, count > 0 ? 0 : 4)
   }
   
@@ -107,7 +110,7 @@ public extension PBReactionButton {
   
   var textColor: Color {
     switch colorScheme {
-    case .light: return Color.text(.lighter)
+    case .light: return countColor
     case .dark: return icon != nil ? Color(.white) : Color(.white).opacity(0.6)
     default:
       return Color.text(.light)

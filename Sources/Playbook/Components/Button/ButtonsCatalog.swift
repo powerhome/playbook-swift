@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct ButtonsCatalog: View {
-  @State private var count: Int = 153
+  @State private var count: Int = 154
   @State private var count1: Int = 5
   @State private var isLoading: Bool = false
   @State private var isHighlighted: Bool = true
