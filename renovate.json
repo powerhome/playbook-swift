@@ -2,9 +2,9 @@
   "extends": [
     "config:base",
     ":dependencyDashboard",
-    "group:allNonMajor"
+    "group:allNonMajor",
+    "github>powerhome/renovate-config"
   ],
-  "labels": ["dependencies"],
   "lockFileMaintenance": {
     "enabled": true
   },
