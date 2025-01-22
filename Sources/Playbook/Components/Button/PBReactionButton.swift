@@ -78,7 +78,7 @@ public extension PBReactionButton {
       countView
     }  
     .padding(.horizontal, 8)
-    .padding(.top, 2.5)
+    .padding(.top, 3)
   }
   
   var emojiView: some View {

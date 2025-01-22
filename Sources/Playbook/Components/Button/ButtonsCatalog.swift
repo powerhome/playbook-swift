@@ -66,8 +66,8 @@ extension ButtonsCatalog {
         isInteractive: true
       )
       PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
-      PBReactionButton(isInteractive: false)
-      PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false)
+      PBReactionButton(isInteractive: false, countColor: Color.text(.lighter))
+      PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false, countColor: Color.text(.lighter))
     }
   }
   var fullWidthButtonView: some View {
