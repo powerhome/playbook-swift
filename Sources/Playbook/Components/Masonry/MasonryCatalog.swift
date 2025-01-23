@@ -10,29 +10,7 @@
 import SwiftUI
 
 public struct MasonryCatalog: View {
-
-  let imageData = [
-     ImageModel(image: Image(.andrew)),
-     ImageModel(image: Image(.anna)),
-     ImageModel(image: Image(.lu)),
-     ImageModel(image: Image(.pat)),
-     ImageModel(image: Image(.julie)),
-     ImageModel(image: Image(.anna)),
-     ImageModel(image: Image(.pat)),
-     ImageModel(image: Image(.ronnie)),
-     ImageModel(image: Image(.andrew)),
-     ImageModel(image: Image(.anna)),
-     ImageModel(image: Image(.lu)),
-     ImageModel(image: Image(.julie)),
-     ImageModel(image: Image(.ronnie)),
-     ImageModel(image: Image(.julie)),
-     ImageModel(image: Image(.anna)),
-     ImageModel(image: Image(.lu)),
-     ImageModel(image: Image(.ronnie)),
-     ImageModel(image: Image(.andrew))
-   ]
-
-
+  var spaceImages = Mocks.spaceImages.identifiable()
 
   public var body: some View {
     PBDocStack(title: "Masonry") {
@@ -40,24 +18,22 @@ public struct MasonryCatalog: View {
         imageMasonryView
       }
     }
-    }
+  }
 }
 
 extension MasonryCatalog {
 
   var imageMasonryView: some View {
-
-    PBMasonry(numOfColumns: 3, horizontalSpacing: 10, verticalSpacing: 10, items: imageData) { item in
-
-      item.image
+    PBMasonry(numOfColumns: 3, horizontalSpacing: 10, verticalSpacing: 10, items: spaceImages) { item in
+      item.value
         .resizable()
         .aspectRatio(contentMode: .fill)
+        .zIndex(-2)
         .clipped()
     }
-    .padding(.horizontal, 5)
   }
-
 }
+
 #Preview {
-    MasonryCatalog()
+  MasonryCatalog()
 }

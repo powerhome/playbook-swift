@@ -42,7 +42,7 @@ public struct PBMasonry<Item: Identifiable, Content: View>: View {
   public var body: some View {
     ScrollView {
          HStack(alignment: .top, spacing: horizontalSpacing) {
-           ForEach(distributedColumns, id: \.id) { column in
+           ForEach(distributedColumns) { column in
             LazyVStack(spacing: verticalSpacing) {
               ForEach(column.gridItems) { item in
                 content(item)
@@ -66,33 +66,18 @@ public extension PBMasonry {
   }
 
   var distributedColumns: [Column] {
-      var columns = (0..<numOfColumns).map { _ in Column() }
+      (0..<numOfColumns).map { columnIndex in
+          let itemsPerColumn = items.count / numOfColumns
+          let remainder = items.count % numOfColumns
 
-      let itemsPerColumn = items.count / numOfColumns
-      let remainder = items.count % numOfColumns
+          let startIndex = columnIndex * itemsPerColumn + min(columnIndex, remainder)
+          let endIndex = startIndex + itemsPerColumn + (columnIndex < remainder ? 1 : 0)
 
-      var startIndex = 0
-      for columnIndex in 0..<numOfColumns {
-
-        let columnsItemCount = itemsPerColumn + (columnIndex < remainder ? 1 : 0)
-        let endIndex = min(startIndex + columnsItemCount, items.count)
-        
-        columns[columnIndex].gridItems = Array(items[startIndex..<endIndex])
-
-        startIndex = endIndex
+          return Column(gridItems: Array(items[startIndex..<min(endIndex, items.count)]))
       }
-
-      return columns
-    }
+  }
 
   private func randomHeight() -> CGFloat {
     CGFloat.random(in: itemSizeRange)
   }
 }
-
-struct ImageModel: Identifiable {
-  let id: UUID = UUID()
-  let image: Image
-
-}
-
