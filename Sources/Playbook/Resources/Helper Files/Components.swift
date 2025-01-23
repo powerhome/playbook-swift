@@ -38,6 +38,7 @@ public enum Components: String, CaseIterable {
   case label = "Label Value"
   case labelPill = "Label Pill"
   case loader = "Loading Inline"
+  case masonry = "Masonry"
   case message
   case multipleUser = "Multiple Users"
   case multipleUsersIndicator = "Multiple Users Indicator"
@@ -100,6 +101,7 @@ public enum Components: String, CaseIterable {
     case .label: LabelValueCatalog()
     case .labelPill: LabelPillCatalog()
     case .loader: LoaderCatalog()
+    case .masonry: MasonryCatalog()
     case .message: MessageCatalog()
     case .multipleUser: MultipleUsersCatalog()
     case .multipleUsersIndicator: MultipleUsersIndicatorCatalog()

@@ -35,8 +35,11 @@ public struct MasonryCatalog: View {
 
 
   public var body: some View {
-
-      imageMasonryView
+    PBDocStack(title: "Masonry") {
+      PBDoc(title: "Default") {
+        imageMasonryView
+      }
+    }
     }
 }
 
@@ -45,7 +48,7 @@ extension MasonryCatalog {
   var imageMasonryView: some View {
 
     PBMasonry(numOfColumns: 3, horizontalSpacing: 10, verticalSpacing: 10, items: imageData) { item in
-      
+
       item.image
         .resizable()
         .aspectRatio(contentMode: .fill)
