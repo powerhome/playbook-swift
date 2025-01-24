@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct ButtonsCatalog: View {
-  @State private var count: Int = 153
+  @State private var count: Int = 154
   @State private var count1: Int = 5
   @State private var isLoading: Bool = false
   @State private var isHighlighted: Bool = true
@@ -66,8 +66,8 @@ extension ButtonsCatalog {
         isInteractive: true
       )
       PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
-      PBReactionButton(isInteractive: false)
-      PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false)
+      PBReactionButton(isInteractive: false, countColor: Color.text(.lighter))
+      PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false, countColor: Color.text(.lighter))
     }
   }
   var fullWidthButtonView: some View {
