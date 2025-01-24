@@ -73,7 +73,7 @@ public extension PBMasonry {
         VStack(spacing: verticalSpacing) {
           ForEach(0..<20) { _ in
             RoundedRectangle(cornerRadius: 5)
-              .foregroundStyle(Color.gray).opacity(0.05)
+              .foregroundStyle(Color.text(.lighter).opacity(0.2))
               .frame(minWidth: 20)
               .frame(maxWidth: frameReader(in: { _ in}) as? CGFloat)
               .frame(height: randomHeight())
