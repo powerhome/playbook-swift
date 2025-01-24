@@ -340,7 +340,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook In House";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Playbook In House";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Playbook Showcase App";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
