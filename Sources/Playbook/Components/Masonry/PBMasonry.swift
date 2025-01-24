@@ -10,7 +10,8 @@
 import SwiftUI
 
 public struct PBMasonry<Item: Identifiable, Content: View>: View {
-
+  @State private var cachedColumns: [Column] = []
+  @State private var isLoading: Bool = true
   let numOfColumns: Int
   let horizontalSpacing: CGFloat
   let verticalSpacing: CGFloat
@@ -18,7 +19,6 @@ public struct PBMasonry<Item: Identifiable, Content: View>: View {
   let items: [Item]
   let columns: [Column]
   var content: (Item) -> Content
-
 
   public init(
     numOfColumns: Int = 3,
@@ -40,22 +40,7 @@ public struct PBMasonry<Item: Identifiable, Content: View>: View {
   }
 
   public var body: some View {
-    ScrollView {
-         HStack(alignment: .top, spacing: horizontalSpacing) {
-           ForEach(distributedColumns) { column in
-            LazyVStack(spacing: verticalSpacing) {
-              ForEach(column.gridItems) { item in
-                content(item)
-                  .frame(minWidth: 20)
-                  .frame(maxWidth: frameReader(in: { _ in}) as? CGFloat)
-                  .frame(height: randomHeight())
-                  .clipped()
-               }
-             }
-           }
-         }
-    }
-    .scrollIndicators(.hidden)
+    masonryScrollView
   }
 }
 
@@ -65,16 +50,66 @@ public extension PBMasonry {
     var gridItems: [Item] = []
   }
 
-  var distributedColumns: [Column] {
-      (0..<numOfColumns).map { columnIndex in
-          let itemsPerColumn = items.count / numOfColumns
-          let remainder = items.count % numOfColumns
-
-          let startIndex = columnIndex * itemsPerColumn + min(columnIndex, remainder)
-          let endIndex = startIndex + itemsPerColumn + (columnIndex < remainder ? 1 : 0)
-
-          return Column(gridItems: Array(items[startIndex..<min(endIndex, items.count)]))
+  var masonryScrollView: some View {
+    ScrollView {
+      if isLoading {
+        skeletonGrid
+      } else {
+        masonryGrid
       }
+    }
+    .scrollIndicators(.hidden)
+    .onAppear {
+      DispatchQueue.main.asyncAfter(deadline: .now()) {
+        cachedColumns = distributedColumns
+        isLoading = false
+      }
+    }
+  }
+
+  var skeletonGrid: some View {
+    HStack(alignment: .top, spacing: horizontalSpacing) {
+      ForEach(0..<numOfColumns, id: \.self) { column in
+        VStack(spacing: verticalSpacing) {
+          ForEach(0..<20) { _ in
+            RoundedRectangle(cornerRadius: 5)
+              .foregroundStyle(Color.gray).opacity(0.05)
+              .frame(minWidth: 20)
+              .frame(maxWidth: frameReader(in: { _ in}) as? CGFloat)
+              .frame(height: randomHeight())
+              .clipped()
+          }
+        }
+      }
+    }
+  }
+
+  var masonryGrid: some View {
+    HStack(alignment: .top, spacing: horizontalSpacing) {
+      ForEach(cachedColumns) { column in
+        VStack(spacing: verticalSpacing) {
+          ForEach(column.gridItems) { item in
+            content(item)
+              .frame(minWidth: 20)
+              .frame(maxWidth: frameReader(in: { _ in}) as? CGFloat)
+              .frame(height: randomHeight())
+              .clipped()
+          }
+        }
+      }
+    }
+  }
+
+  var distributedColumns: [Column] {
+    (0..<numOfColumns).map { columnIndex in
+      let itemsPerColumn = items.count / numOfColumns
+      let remainder = items.count % numOfColumns
+
+      let startIndex = columnIndex * itemsPerColumn + min(columnIndex, remainder)
+      let endIndex = startIndex + itemsPerColumn + (columnIndex < remainder ? 1 : 0)
+
+      return Column(gridItems: Array(items[startIndex..<min(endIndex, items.count)]))
+    }
   }
 
   private func randomHeight() -> CGFloat {

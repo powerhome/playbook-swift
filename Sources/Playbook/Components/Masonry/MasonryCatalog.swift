@@ -10,22 +10,21 @@
 import SwiftUI
 
 public struct MasonryCatalog: View {
-  var spaceImages = Mocks.spaceImages.identifiable()
+  @State var spaceImages = Mocks.spaceImages.identifiable()
 
   public var body: some View {
     PBDocStack(title: "Masonry") {
       PBDoc(title: "Default") {
-        imageMasonryView
+          imageMasonryView
       }
     }
   }
 }
 
 extension MasonryCatalog {
-
   var imageMasonryView: some View {
     PBMasonry(numOfColumns: 3, horizontalSpacing: 10, verticalSpacing: 10, items: spaceImages) { item in
-      item.value
+     Image(item.value)
         .resizable()
         .aspectRatio(contentMode: .fill)
         .zIndex(-2)
