@@ -26,9 +26,9 @@ public struct PopoverCatalog: View {
       PBDoc(title: "Dropdrown") { dropdownPopover }
       PBDoc(title: "Scroll") { scrollPopover }
       PBDoc(title: "Close options") { onClosePopover }
-        PBDoc(title: "Explorarion Popover") { explorationPopover }
-            .padding(.bottom, 500)
-            .edgesIgnoringSafeArea(.all)
+//        PBDoc(title: "Explorarion Popover") { explorationPopover }
+        .padding(.bottom, 500)
+        .edgesIgnoringSafeArea(.all)
     }
     .onTapGesture {
         isPresented7 = false
@@ -187,13 +187,13 @@ public struct PopoverCatalog: View {
         ) {
           isPresented7.toggle()
         }
-        .handlerPopoverController(
-          isPresented: $isPresented7,
-          position: CGPoint(x: viewFrame.midX, y: viewFrame.maxY)
-        ) {
-          Text("I'm a popover. I can show content of any size.")
-            .pbFont(.body, color: .text(.default))
-        }
+//        .pbPopoverAppKit(
+//            isPresented: $isPresented7,
+//            position: CGPoint(x: viewFrame.midX, y: viewFrame.maxY)
+//        ) {
+//          Text("I'm a popover. I can show content of any size.")
+//            .pbFont(.body, color: .text(.default))
+//        }
       }
       .onTapGesture {
           isPresented7 = false
