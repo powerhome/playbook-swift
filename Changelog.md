@@ -1,34 +1,72 @@
-# 🚀 Playbook Swift 6.6.1
-##### Jan 06, 2024
+# 🚀 Playbook Swift 6.6.3: Adjustments and Fixes! 🚀
+##### Jan 24, 2025
 
-### Playbook Changes 
+### Bug Fixes
+Popover Activity Flag: Added a flag to track popover activity in [#488]
+Reaction Button Font Color Alignment: Fixed an issue with font color alignment in the reaction button in [#490]
 
-- **Fix Typeahead presentation** in #482 (Isis Silva)
+[Full Changelog](https://github.com/Power/Playbook/compare/6.6.2...6.6.3)
 
-🔗 [Full Changelog](https://github.com/powerhome/playbook-swift/compare/6.6.0...6.6.1)
+---
 
-# 🚀 Playbook Swift 6.6.0: Enhanced Popovers and More! 🚀
+# 🚀 Playbook Swift 6.6.2: Adjustments and Fixes! 🚀
+##### Jan 17, 2025
+
+### Bug Fixes
+- Modify PBReactionButton to Use Binding by [@RachelRadford21](https://github.com/RachelRadford21) in [#485](https://github.com/Power/Playbook/pull/485)
+- Update PBSelect Kit Dynamic Select by [@RachelRadford21](https://github.com/RachelRadford21) in [#484](https://github.com/Power/Playbook/pull/484)
+- PBIcon Clipping Fix by [@RachelRadford21](https://github.com/RachelRadford21) in [#480](https://github.com/Power/Playbook/pull/480)
+- Section list fix for connect by [@isismsilva](https://github.com/isismsilva) in [#486](https://github.com/Power/Playbook/pull/486)
+
+[Full Changelog](https://github.com/Power/Playbook/compare/6.6.1...6.6.2)
+
+---
+
+# 🚀 Playbook Swift 6.6.1: Typeahead improvements! 🚀
+##### Jan 07, 2025
+
+This release introduces fixes and improvements that refine user experience, optimize component behavior, and expand functionality across platforms.
+
+#### Full List of Changes
+
+**Bug Fixes**
+- Typeahead presentation fix by [@isismsilva](https://github.com/isismsilva) in [#482](https://github.com/Power/Playbook/pull/482)
+
+[Full Changelog](https://github.com/Power/Playbook/compare/6.6.0...6.6.1)
+
+---
+
+# 🚀 Playbook Swift 6.6.0: Enhanced Reaction Button! 🚀
 ##### Dec 18, 2024
 
 This release introduces fixes and improvements that refine user experience, optimize component behavior, and expand functionality across platforms.
 
-[6.6.0 Full List of Changes](https://github.com/powerhome/playbook-swift/compare/6.5.1...6.6.0)
+#### Full List of Changes
 
-### Playbook Changes 
+**Bug Fixes**
+- Fix Popover Closing on Scroll: Resolved issues with popovers unexpectedly closing when scrolling. [#469](https://github.com/Power/Playbook/pull/469) (Isis Silva)
+- Fix Popover Leak: Addressed a memory leak associated with popover components. [#478](https://github.com/Power/Playbook/pull/478) (Alexandre Hauber)
+- Fix Typeahead Dropdown Scroll on Key Pressed: Improved dropdown behavior for a smoother scrolling experience when using the keyboard. [#476](https://github.com/Power/Playbook/pull/476)
 
-#### Kit Enhancements 
-- **Update Padding Prop to PBNavItem**: Introduced a new padding property for PBNavItem to allow greater customization. #475 (Rachel Radford)
-- **Add Action to Reaction Button**: Enabled new actions to enhance interactivity with the Reaction Button kit. #474(Rachel Radford)
+**Kit Enhancements**
+- Update Padding Prop to PBNavItem: Introduced a new padding property for PBNavItem to allow greater customization. [#475](https://github.com/Power/Playbook/pull/475) (Rachel Radford)
+- Add Action to Reaction Button: Enabled new actions to enhance interactivity with the Reaction Button kit. [#474](https://github.com/Power/Playbook/pull/474) (Rachel Radford)
 
-#### Bug Fixes
-- **Fix Popover Closing on Scroll**: Resolved issues with popovers unexpectedly closing when scrolling. #469 (Isis Silva)
-- **Fix Popover Leak**: Addressed a memory leak associated with popover components. #478 (Alexandre Hauber)
-- **Fix Typeahead Dropdown Scroll on Key Pressed**: Improved dropdown behavior for a smoother scrolling experience when using the keyboard. #476 (Isis Silva)
+**Platform Updates**
+- Upgrade iOS and macOS Versions: Updated supported versions for iOS and macOS to ensure compatibility with the latest platforms. [#477](https://github.com/Power/Playbook/pull/477)
 
-####Platform Updates
-- **Upgrade iOS and macOS Versions**: Updated supported versions for iOS and macOS to ensure compatibility with the latest platforms. #477 (Isis Silva) 
 
-🔗 [Full Changelog](https://github.com/powerhome/playbook-swift/compare/6.5.1...6.6.0)
+
+
+# 🚀 Playbook Swift 6.5.1: Adjustments and Fixes! 🚀
+##### Dec 04, 2024
+
+This release includes adjustments and necessary fixes for release 6.5.0
+
+Adjustments and Fixes 6.5.0: This update includes essential changes and tweaks following our last major release to ensure everything runs. [#1665](https://github.com/powerhome/playbook-swift/pull/472) [(Everton Cunha)](https://github.com/evertoncunha)
+
+🔗 [Full Changelog](https://github.com/powerhome/playbook-swift/compare/6.5.0...6.5.1)
+
 
 
 # 🚀 Playbook Swift 6.5.0: Enhanced Dynamic Typeahead! 🚀
