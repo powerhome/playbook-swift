@@ -93,7 +93,7 @@ public extension PBMasonry {
               .frame(minWidth: 20)
               .frame(maxWidth: frameReader(in: { _ in}) as? CGFloat)
               .frame(height: randomHeight())
-              .clipped()
+              .clipShape(RoundedRectangle(cornerRadius: 5))
           }
         }
       }
