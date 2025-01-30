@@ -51,4 +51,3 @@ fastlane/swift/formatting/Brewfile
 fastlane/swift/formatting/Brewfile.lock.json
 fastlane/swift/formatting/Rakefile
 PlaybookSwift.xcworkspace/xcuserdata
-.build/
