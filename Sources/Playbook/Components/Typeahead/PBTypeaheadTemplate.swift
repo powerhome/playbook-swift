@@ -21,6 +21,7 @@ public struct PBTypeaheadTemplate: View {
     private let listOffset: (x: CGFloat, y: CGFloat)
     private let clearAction: (() -> Void)?
     private var numberOfItemsToShowInSection: Int
+    private var useFilter: Bool
 
     @State private var showPopover: Bool = false
     @State private var hoveringIndex: Int?
@@ -31,6 +32,7 @@ public struct PBTypeaheadTemplate: View {
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
     @State private var numberOfItemsShow: [String?: Int] = [:]
+    @State private var searchResults: [PBTypeahead.OptionType] = []
 
     public init(
         id: Int,
@@ -46,6 +48,7 @@ public struct PBTypeaheadTemplate: View {
         selectedOptions: Binding<[PBTypeahead.Option]>,
         noOptionsText: String = "No options",
         numberOfItemsToShowInSection: Int = 2,
+        useFilter: Bool = true,
         clearAction: (() -> Void)? = nil
     ) {
         self.id = id
@@ -62,6 +65,7 @@ public struct PBTypeaheadTemplate: View {
         self.noOptionsText = noOptionsText
         self.numberOfItemsToShowInSection = numberOfItemsToShowInSection
         self._selectedOptions = selectedOptions
+        self.useFilter = useFilter
     }
 
     public var body: some View {
@@ -84,8 +88,39 @@ public struct PBTypeaheadTemplate: View {
                 variant: .dropdown,
                 refreshView: $isHovering
             ) {
-                listView
+                PBTypeaheadTemplateList(
+                    searchResults: $searchResults,
+                    hoveringIndex: $hoveringIndex,
+                    selectedIndex: $selectedIndex,
+                    showPopover: $showPopover,
+                    searchText: $searchText,
+                    isFocused: $isFocused,
+                    noOptionsText: noOptionsText,
+                    isHovering: $isHovering,
+                    onListSelection: onListSelection,
+                    selection: selection
+                )
+                .frame(maxHeight: dropdownMaxHeight)
+                .frame(minHeight: 200)
             }
+
+//          PBTypeaheadTemplateList(
+//            searchResults: $searchResults,
+//            hoveringIndex: $hoveringIndex,
+//            selectedIndex: $selectedIndex,
+//            showPopover: $showPopover,
+//            searchText: $searchText,
+//            isFocused: $isFocused,
+//            noOptionsText: noOptionsText,
+//            isHovering: $isHovering,
+//            onListSelection: onListSelection,
+//            selection: selection
+//          )
+//          .onChange(of: searchResults) { _, _ in
+//            isHovering.toggle()
+//          }
+//          .frame(maxHeight: dropdownMaxHeight)
+//          .frame(minHeight: 200)
         }
         .onTapGesture {
             isFocused = false
@@ -121,41 +156,49 @@ public struct PBTypeaheadTemplate: View {
                 showPopover = false
             }
         }
-        .onChange(of: searchText, debounce: debounce) { _ in
-            _ = searchResults
+        .onChange(of: searchText) { _, searchText in
+            updateSearchResults()
             reloadList
             if !searchText.isEmpty {
                 showPopover = true
             }
         }
+
     }
 }
 
-@MainActor
-private extension PBTypeaheadTemplate {
-    @ViewBuilder
-    var listView: some View {
-        PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
-            let flat = Array(zip(searchResults.indices, searchResults))
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(flat, id: \.0) { index, element in
-                            listElementView(index: index, element: element)
-                                .onAppear {
-                                    hoveringIndex = 0
-                                }
-                        }
-                    }
-                }
-                .scrollDismissesKeyboard(.immediately)
-                .frame(maxHeight: dropdownMaxHeight)
-                .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-    }
 
-    @ViewBuilder
+struct PBTypeaheadTemplateList: View {
+  @Binding var searchResults: [PBTypeahead.OptionType]
+  @Binding var hoveringIndex: Int?
+  @Binding var selectedIndex: Int?
+  @Binding var showPopover: Bool
+  @Binding var searchText: String
+  @FocusState.Binding var isFocused: Bool
+  let noOptionsText: String
+  @Binding var isHovering: Bool
+  let onListSelection: (Int, PBTypeahead.Option) -> Void
+  let selection: PBTypeahead.Selection
+  
+  var body: some View {
+    PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
+      List {
+        ForEach(searchResults.indices, id: \.self) { index in
+          VStack(alignment: .leading, spacing: 0) {
+            listElementView(index: index, element: searchResults[index])
+              .onAppear {
+                hoveringIndex = 0
+              }
+          }
+        }
+      }
+      .frame(height: 300)
+      .scrollDismissesKeyboard(.immediately)
+      .fixedSize(horizontal: false, vertical: true)
+    }
+  }
+
+  @ViewBuilder
     func listElementView(index: Int, element: PBTypeahead.OptionType) -> some View {
         switch element {
             case .section(let title):
@@ -166,7 +209,6 @@ private extension PBTypeaheadTemplate {
                 button.padding()
         }
     }
-
     func sectionView(_ section: String) -> some View {
         Text(section).pbFont(.caption)
             .padding(.top)
@@ -195,136 +237,79 @@ private extension PBTypeaheadTemplate {
                     hoveringIndex = index
                 }
                 .onTapGesture {
-                    onListSelection(index: index, option: option)
+                    onListSelection(index, option)
                 }
             }
         }
     }
 
-    var emptyView: some View {
-        HStack {
-            Spacer()
-            Text(noOptionsText)
-                .pbFont(.body, color: .text(.light))
-            Spacer()
-        }
-        .padding(.horizontal, Spacing.xSmall + 4)
-        .padding(.vertical, Spacing.xSmall + 4)
+  var emptyView: some View {
+    HStack {
+      Spacer()
+      Text(noOptionsText)
+        .pbFont(.body, color: .text(.light))
+      Spacer()
     }
+    .padding(.horizontal, Spacing.xSmall + 4)
+    .padding(.vertical, Spacing.xSmall + 4)
+  }
 
-    func listBackgroundColor(_ index: Int?) -> Color {
-        switch selection {
-            case .single:
-                if selectedIndex != nil, selectedIndex == index {
-                    return .pbPrimary
-                }
-            default: break
-        }
+  func listBackgroundColor(_ index: Int?) -> Color {
+    switch selection {
+    case .single:
+      if selectedIndex != nil, selectedIndex == index {
+        return .pbPrimary
+      }
+    default: break
+    }
 #if os(macOS)
-        return hoveringIndex == index ? .hover : .card
+    return hoveringIndex == index ? .hover : .card
 #elseif os(iOS)
-        return .card
+    return .card
 #endif
-    }
+  }
 
-    func listTextolor(_ index: Int?) -> Color {
-        if selectedIndex != nil, selectedIndex == index {
-            return .white
-        } else {
-            return .text(.default)
-        }
+  func listTextolor(_ index: Int?) -> Color {
+    if selectedIndex != nil, selectedIndex == index {
+      return .white
+    } else {
+      return .text(.default)
     }
+  }
+}
+
+@MainActor
+private extension PBTypeaheadTemplate {
+
+  func updateSearchResults() {
+    if useFilter {
+      let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
+        switch $0 {
+        case .item(let item):
+          if let text = item.text {
+            return text.localizedCaseInsensitiveContains(searchText)
+          } else {
+            return item.id.localizedCaseInsensitiveContains(searchText)
+          }
+        default: return true
+        }
+      }
+      let selectedIds = Set(selectedOptions.map { $0.id })
+      let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
+      self.searchResults = {
+        switch selection{
+        case .multiple: return filteredSelectedOptions
+        case .single: return filteredOptions
+        }}()
+    }
+    else {
+      self.searchResults = options.isEmpty ? [.item(PBTypeahead.Option(id: "", text: noOptionsText))] : options
+    }
+    print("@> searchResults.count \(searchResults.count)")
+  }
 }
 
 private extension PBTypeaheadTemplate {
-    var searchResults: [PBTypeahead.OptionType] {
-        let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
-            switch $0 {
-                case .item(let item):
-                    if let text = item.text {
-                        return text.localizedCaseInsensitiveContains(searchText)
-                    } else {
-                        return item.id.localizedCaseInsensitiveContains(searchText)
-                    }
-                default: return true
-            }
-        }
-        let selectedIds = Set(selectedOptions.map { $0.id })
-        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
-        switch selection{
-            case .multiple: return filteredSelectedOptions
-            case .single: return filteredOptions
-        }
-    }
-
-//    var mapResults: [PBTypeahead.SectionList] {
-//        var array: [PBTypeahead.SectionList] = []
-//        var currentSection: String? = nil
-//        var currentOptions: [PBTypeahead.Option] = []
-//        var currentButton: PBButton? = nil
-//        var buttonAction: () -> Void = {}
-//
-//        for result in searchResults {
-//            switch result {
-//                case .section(let section):
-//                    buttonAction = {  if numberOfItemsShow[section] == numberOfItemsToShowInSection {
-//                        numberOfItemsShow[section] = numberOfItemsToShowInSection*2
-//                    } else {
-//                        numberOfItemsShow[section] = numberOfItemsToShowInSection
-//                    }
-//                        reloadList
-//                    }
-//
-//                    if !currentOptions.isEmpty || currentSection != nil {
-//                        appendSectionToArray(
-//                            section: currentSection,
-//                            options: currentOptions,
-//                            button: currentButton,
-//                            to: &array
-//                        )
-//                        currentOptions = []
-//                    }
-//                    currentSection = section
-//                case .item(let option):
-//                    currentOptions.append(option)
-//                case .button(let button):
-//                    currentButton = PBButton(
-//                        fullWidth: button.fullWidth,
-//                        variant: button.variant,
-//                        size: button.size,
-//                        shape: button.shape,
-//                        title: currentSection,
-//                        icon: button.icon,
-//                        iconPosition: button.iconPosition,
-//                        isLoading: button.$isLoading,
-//                        action: buttonAction
-//                    )
-//            }
-//        }
-//        if currentOptions.isEmpty  {
-//            appendSectionToArray(
-//                section: currentSection,
-//                options: currentOptions,
-//                button: currentButton,
-//                to: &array
-//            )
-//        }
-//        return array
-//    }
-
-//    var flattenedResults: [PBTypeahead.OptionType] {
-//        var elements: [PBTypeahead.OptionType] = []
-//        for section in mapResults {
-//            if let sectionTitle = section.section {
-//                elements.append(.section(sectionTitle))
-//            }
-//            elements.append(contentsOf: section.items.map { .item($0) })
-//            if let button = section.button {
-//                elements.append(.button(button))
-//            }
-//        }
-//        return elements
-//    }
 
     private func appendSectionToArray(
         section: String?,
@@ -476,4 +461,10 @@ private extension PBTypeaheadTemplate {
 #Preview {
     registerFonts()
     return TypeaheadCatalog()
+}
+
+extension PBTypeahead.OptionType: Equatable {
+  public static func == (lhs: PBTypeahead.OptionType, rhs: PBTypeahead.OptionType) -> Bool {
+    return lhs.id == rhs.id
+  }
 }

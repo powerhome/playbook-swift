@@ -29,6 +29,8 @@ public struct PBTypeahead: View {
     @Binding var selectedOptions: [PBTypeahead.Option]
     @Binding var searchText: String
     @FocusState.Binding private var isFocused: Bool
+    @State private var searchResults: [PBTypeahead.Option] = []
+    private let updateDebouncer = Debouncer(delay: 0.3)
 
     public init(
         id: Int,
@@ -58,6 +60,8 @@ public struct PBTypeahead: View {
         self.clearAction = clearAction
         self.noOptionsText = noOptionsText
         self._selectedOptions = selectedOptions
+
+      print("@@@ >>> options count \(options.count)")
     }
 
     public var body: some View {
@@ -81,6 +85,7 @@ public struct PBTypeahead: View {
                 refreshView: $isHovering
             ) {
                 listView
+
             }
         }
         .onTapGesture {
@@ -121,7 +126,6 @@ public struct PBTypeahead: View {
             }
         }
         .onChange(of: searchText, debounce: debounce) { _ in
-            _ = searchResults
             reloadList
             if !searchText.isEmpty {
                 showPopover = true
@@ -138,7 +142,7 @@ private extension PBTypeahead {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 0) {
-                        ForEach(Array(zip(searchResults.indices, searchResults)), id: \.0) { index, result in
+                        ForEach(Array(zip(options.indices, options)), id: \.0) { index, result in
                             listItemView(option: result, index: index)
                         }
                     }
@@ -218,21 +222,23 @@ private extension PBTypeahead {
 }
 
 private extension PBTypeahead {
-    var searchResults: [PBTypeahead.Option] {
-        let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
-            if let text = $0.text {
-                return text.localizedCaseInsensitiveContains(searchText)
-            } else {
-                return $0.id.localizedCaseInsensitiveContains(searchText)
-            }
+  func updateSearchResults() {
+    self.searchResults = {
+      let filteredOptions = searchText.isEmpty && debounce.numberOfCharacters == 0 ? options : options.filter {
+        if let text = $0.text {
+          return text.localizedCaseInsensitiveContains(searchText)
+        } else {
+          return $0.id.localizedCaseInsensitiveContains(searchText)
         }
-        let selectedIds = Set(selectedOptions.map { $0.id })
-        let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
-        switch selection{
-            case .multiple: return filteredSelectedOptions.isEmpty ? [PBTypeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredSelectedOptions
-            case .single: return filteredOptions.isEmpty ? [PBTypeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredOptions
-        }
-    }
+      }
+      let selectedIds = Set(selectedOptions.map { $0.id })
+      let filteredSelectedOptions = filteredOptions.filter { !selectedIds.contains($0.id) }
+      switch selection{
+      case .multiple: return filteredSelectedOptions.isEmpty ? [PBTypeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredSelectedOptions
+      case .single: return filteredOptions.isEmpty ? [PBTypeahead.Option(id: "", text: noOptionsText, customView: nil)] : filteredOptions
+      }
+    }()
+  }
 
     var optionsSelected: GridInputField.Selection {
         let optionsSelected = selectedOptions.map { value in
@@ -266,6 +272,9 @@ private extension PBTypeahead {
     }
 
     var reloadList: Void {
+      updateDebouncer.debounce {
+        updateSearchResults()
+      }
         isHovering.toggle()
     }
 
@@ -365,3 +374,42 @@ private extension PBTypeahead {
     return TypeaheadCatalog()
 }
 
+class Debouncer {
+  private let queue: DispatchQueue
+  private let delay: TimeInterval
+  private var workItem: DispatchWorkItem?
+  private var lastExecutionTime: Date?
+
+  init(delay: TimeInterval, queue: DispatchQueue = .main) {
+    self.delay = delay
+    self.queue = queue
+  }
+
+  func debounce(action: @escaping () -> Void) {
+    if let lastExecution = lastExecutionTime {
+      let timeSinceLastExecution = Date().timeIntervalSince(lastExecution)
+      if timeSinceLastExecution < delay {
+        // Cancel previous pending work and schedule new one
+        workItem?.cancel()
+        let workItem = DispatchWorkItem { [weak self] in
+          action()
+          self?.lastExecutionTime = Date()
+        }
+        self.workItem = workItem
+        queue.asyncAfter(deadline: .now() + (delay - timeSinceLastExecution), execute: workItem)
+        return
+      }
+    }
+
+    // No recent execution, run immediately
+    workItem?.cancel()
+    workItem = nil
+    lastExecutionTime = Date()
+    queue.async(execute: action)
+  }
+
+  func cancel() {
+    workItem?.cancel()
+    workItem = nil
+  }
+}
