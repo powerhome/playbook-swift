@@ -8,7 +8,7 @@
 //
 
 #if os(macOS)
-import Foundation
+import AppKit
 
 enum KeyCode {
   static let tab = UInt16(48)
@@ -22,22 +22,5 @@ protocol KeyboardHandling: AnyObject {
     func setupKeyboardMonitoring()
     func cleanup()
     func handleKeyEvent(_ event: NSEvent)
-}
-
-enum KeyboardHandlingError: Error {
-    case viewModelNil
-    case indexOutOfBounds
-    case invalidSelection
-    
-    var localizedDescription: String {
-        switch self {
-        case .viewModelNil:
-            return "ViewModel reference is nil"
-        case .indexOutOfBounds:
-            return "Selected index is out of bounds"
-        case .invalidSelection:
-            return "Invalid selection state"
-        }
-    }
 }
 #endif 
