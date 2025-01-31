@@ -32,7 +32,6 @@ public struct PBTypeahead: View {
     @State private var searchResults: [PBTypeahead.Option] = []
     private let updateDebouncer = Debouncer(delay: 0.3)
     private var rowHeight: CGFloat = 54
-    private let ignoreFilter: Bool
 
     public init(
         id: Int,
@@ -47,7 +46,6 @@ public struct PBTypeahead: View {
         isFocused: FocusState<Bool>.Binding,
         selectedOptions: Binding<[PBTypeahead.Option]>,
         noOptionsText: String = "No options",
-        ignoreFilter: Bool = false,
         clearAction: (() -> Void)? = nil
     ) {
         self.id = id
@@ -63,88 +61,75 @@ public struct PBTypeahead: View {
         self.clearAction = clearAction
         self.noOptionsText = noOptionsText
         self._selectedOptions = selectedOptions
-        self.ignoreFilter = ignoreFilter
     }
 
-  var bodyPart1: some View {
-    VStack(alignment: .leading, spacing: Spacing.xSmall) {
-      Text(title).pbFont(.caption)
-        .padding(.bottom, Spacing.xxSmall)
-      GridInputField(
-        placeholder: placeholder,
-        searchText: $searchText,
-        selection: optionsSelected,
-        isFocused: $isFocused,
-        clearAction: { clear },
-        onItemTap: { removeSelected($0) },
-        onViewTap: { onViewTap }
-      )
-      .pbPopover(
-        isPresented: $showPopover,
-        id: id,
-        position: .bottom(listOffset.x, listOffset.y),
-        variant: .dropdown,
-        refreshView: $isHovering
-      ) {
-        listView
-      }
-    }
-    .onTapGesture {
-      isFocused = false
-    }
-    .onAppear {
-      focused = isFocused
-      if debounce.numberOfCharacters == 0 {
-        if isFocused {
-          showPopover = true
-          reloadList()
-        } else {
-          showPopover = false
+    public var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.xSmall) {
+            Text(title).pbFont(.caption)
+                .padding(.bottom, Spacing.xxSmall)
+            GridInputField(
+                placeholder: placeholder,
+                searchText: $searchText,
+                selection: optionsSelected,
+                isFocused: $isFocused,
+                clearAction: { clear },
+                onItemTap: { removeSelected($0) },
+                onViewTap: { onViewTap }
+            )
+            .pbPopover(
+                isPresented: $showPopover,
+                id: id,
+                position: .bottom(listOffset.x, listOffset.y),
+                variant: .dropdown,
+                refreshView: $isHovering
+            ) {
+                listView
+            }
         }
-      }
-      setKeyboardControls
-      if !selectedOptions.isEmpty {
-        selectedIndex = options.firstIndex(of: selectedOptions[0])
-      }
+        .onTapGesture {
+            isFocused = false
+        }
+        .onAppear {
+            focused = isFocused
+            if debounce.numberOfCharacters == 0 {
+                if isFocused {
+                    showPopover = true
+                    reloadList()
+                } else {
+                    showPopover = false
+                }
+            }
+            setKeyboardControls
+            if !selectedOptions.isEmpty {
+                selectedIndex = options.firstIndex(of: selectedOptions[0])
+            }
+        }
+        .onChange(of: isFocused) { _, newValue in
+            if newValue {
+                Task {
+                    await PopoverManager.shared.dismissPopovers()
+                    showPopover = true
+                }
+            }
+        }
+        .onChange(of: selectedOptions.count) {
+            reloadList()
+        }
+        .onChange(of: hoveringIndex) {
+            reloadList()
+        }
+        .onChange(of: PopoverManager.shared.isPresented[id] ?? false) { _, newValue in
+            if !newValue {
+                showPopover = false
+            }
+        }
+        .onChange(of: searchText, debounce: debounce) { _ in
+            reloadList()
+            if !searchText.isEmpty {
+                showPopover = true
+            }
+        }
     }
-    .onChange(of: isFocused) { _, newValue in
-      if newValue {
-        Task {
-          await PopoverManager.shared.dismissPopovers()
-          showPopover = true
-        }
-      }
-    }
-  }
-
-  public var body: some View {
-    bodyPart1
-      .onChange(of: selectedOptions.count) {
-        reloadList()
-      }
-      .onChange(of: hoveringIndex) {
-        reloadList()
-      }
-//      .onChange(of: PopoverManager.shared.isPresented[id] ?? false) { _, newValue in
-//        if !newValue {
-//          showPopover = false
-//        }
-//      }
-      .onChange(of: searchText, debounce: debounce) { _ in
-        if !ignoreFilter {
-          reloadList()
-          if !searchText.isEmpty {
-            showPopover = true
-          }
-        }
-      }
-      .onChange(of: options) {
-        if ignoreFilter {
-          reloadList()
-          showPopover = searchText.count >= debounce.numberOfCharacters
-        }
-      }
-  }
 }
 
 @MainActor
@@ -152,7 +137,6 @@ private extension PBTypeahead {
     @ViewBuilder
     var listView: some View {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
-        let searchResults = self.searchResults
         List {
           ForEach(searchResults.indices, id: \.self) { index in
             let element = searchResults[index]
@@ -246,12 +230,6 @@ private extension PBTypeahead {
 private extension PBTypeahead {
   func updateSearchResults() {
     self.searchResults = {
-      if ignoreFilter {
-        if options.count == 0 {
-          return [PBTypeahead.Option(id: "", text: noOptionsText, customView: nil)]
-        }
-        return options
-      }
       if debounce.numberOfCharacters > 0,
          searchText.count < debounce.numberOfCharacters {
         return []
@@ -306,7 +284,6 @@ private extension PBTypeahead {
     func reloadList() {
       updateDebouncer.debounce {
         updateSearchResults()
-        print("@> searchResults.count \(searchResults.count)")
         isHovering.toggle()
       }
     }
