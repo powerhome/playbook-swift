@@ -70,8 +70,8 @@ public struct PBTypeahead: View {
         options: options,
         debounce: debounce,
         placeholder: placeholder,
-        selectedOptions: selectedOptions,
-        searchText: searchText,
+        selectedOptionsBinding: $selectedOptions,
+        searchTextBinding: $searchText,
         isFocused: isFocused,
         clearAction: clearAction
       )
@@ -79,8 +79,7 @@ public struct PBTypeahead: View {
       #if os(macOS)
       keyboardHandler = TypeaheadKeyboardHandler(
         viewModel: viewModel,
-        isFocused: _isFocused,
-        searchText: $searchText
+        isFocused: _isFocused
       )
       keyboardHandler?.setupKeyboardMonitoring()
       #endif
@@ -92,7 +91,7 @@ public struct PBTypeahead: View {
       #endif
     }
     .onChange(of: options) { _, newOptions in
-      viewModel.updateOptions(newOptions)
+      viewModel.optionsChanged(newOptions)
     }
     .onChange(of: isFocused) { _, newValue in
       if newValue {

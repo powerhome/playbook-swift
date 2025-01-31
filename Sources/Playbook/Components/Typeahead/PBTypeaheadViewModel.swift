@@ -27,20 +27,20 @@ final class PBTypeaheadViewModel: ObservableObject {
     private(set) var noOptionsText = "No options"
     
     // State Publishers
-    private var optionsSubject: CurrentValueSubject<[PBTypeahead.Option], Never>!
+    var optionsSubject: CurrentValueSubject<[PBTypeahead.Option], Never>!
     private let searchTermSubject = PassthroughSubject<String, Never>()
     private var cancellables = Set<AnyCancellable>()
     
-    // Dependencies (dynamic)
-    private var selectedOptions: [PBTypeahead.Option] = []
-    private var searchText: String = ""
+    // Dependencies (bindings)
+    private var selectedOptionsBinding: Binding<[PBTypeahead.Option]>?
+    private var searchTextBinding: Binding<String>?
     private var isFocused: Bool = false
     private var clearAction: (() -> Void)?
     
     public init() {
         self.selection = .single
-        self.debounce = (0, 0)  // Default no debounce
-        self.placeholder = "Select"  // Default placeholder
+        self.debounce = (0, 0)
+        self.placeholder = "Select"
     }
     
     func configure(
@@ -48,8 +48,8 @@ final class PBTypeaheadViewModel: ObservableObject {
         options: [PBTypeahead.Option],
         debounce: (time: TimeInterval, numberOfCharacters: Int),
         placeholder: String,
-        selectedOptions: [PBTypeahead.Option],
-        searchText: String,
+        selectedOptionsBinding: Binding<[PBTypeahead.Option]>,
+        searchTextBinding: Binding<String>,
         isFocused: Bool,
         clearAction: (() -> Void)?
     ) {
@@ -57,8 +57,8 @@ final class PBTypeaheadViewModel: ObservableObject {
         self.debounce = debounce
         self.placeholder = placeholder
         
-        self.selectedOptions = selectedOptions
-        self.searchText = searchText
+        self.selectedOptionsBinding = selectedOptionsBinding
+        self.searchTextBinding = searchTextBinding
         self.isFocused = isFocused
         self.clearAction = clearAction
         
@@ -90,8 +90,93 @@ final class PBTypeaheadViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func updateOptions(_ newOptions: [PBTypeahead.Option]) {
+    private func updateSearchText(_ newText: String) {
+        searchTextBinding?.wrappedValue = newText
+    }
+    
+    private func updateSelectedOptions(_ newOptions: [PBTypeahead.Option]) {
+        selectedOptionsBinding?.wrappedValue = newOptions
+    }
+    
+    func onListSelection(index: Int, option: PBTypeahead.Option) {
+        guard option.text != noOptionsText else { return }
+        
+        switch selection {
+        case .single:
+            onSingleSelection(index: index, option: option)
+        case .multiple:
+            onMultipleSelection(option: option)
+        }
+        
+        showPopover = false
+        updateSearchText("")
+        reloadList()
+    }
+    
+    private func onSingleSelection(index: Int, option: PBTypeahead.Option) {
+        updateSelectedOptions([option])
+        selectedIndex = index
+        hoveringIndex = index
+        reloadList()
+    }
+    
+    private func onMultipleSelection(option: PBTypeahead.Option) {
+        var currentOptions = selectedOptionsBinding?.wrappedValue ?? []
+        currentOptions.append(option)
+        updateSelectedOptions(currentOptions)
+        hoveringIndex = nil
+        selectedIndex = nil
+        reloadList()
+    }
+    
+    func removeSelected(_ index: Int) {
+        guard var currentOptions = selectedOptionsBinding?.wrappedValue,
+              let selectedElementIndex = currentOptions.indices.first(where: { $0 == index }) else { return }
+        currentOptions.remove(at: selectedElementIndex)
+        updateSelectedOptions(currentOptions)
+        selectedIndex = nil
+        hoveringIndex = 0
+        reloadList()
+    }
+    
+    func clear() {
+        if let action = clearAction {
+            action()
+        }
+        updateSearchText("")
+        updateSelectedOptions([])
+        selectedIndex = nil
+        hoveringIndex = nil
+        showPopover = false
+    }
+    
+    func reloadList() {
+        isHovering.toggle()
+    }
+    
+    var optionsSelected: GridInputField.Selection {
+        let options = selectedOptionsBinding?.wrappedValue ?? []
+        let optionsSelected = options.map { value in
+            value.text ?? value.id
+        }
+        return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
+    }
+
+    func optionsChanged(_ newOptions: [PBTypeahead.Option]) {
         optionsSubject.send(newOptions)
+    }
+
+    func searchTermChanged(_ newTerm: String) {
+        searchTermSubject.send(newTerm)
+    }
+    
+    func handleSearchTextChange(_ text: String) {
+        let results = getSearchResults(text)
+        searchResults = results
+        reloadList()
+        if !text.isEmpty {
+            showPopover = true
+        }
     }
     
     private func getSearchResults(_ text: String) -> [PBTypeahead.Option] {
@@ -106,7 +191,7 @@ final class PBTypeaheadViewModel: ObservableObject {
             }
         }
         
-        let selectedIds = Set(selectedOptions.map { $0.id })
+      let selectedIds = Set(selectedOptionsBinding?.wrappedValue.map { $0.id } ?? [])
         
         let filteredSelectedOptions = filteredOptions.filter { option in
             !selectedIds.contains(option.id)
@@ -128,86 +213,6 @@ final class PBTypeaheadViewModel: ObservableObject {
             return filteredOptions.isEmpty
                 ? [emptyStateOption]
                 : filteredOptions
-        }
-    }
-    
-    func onListSelection(index: Int, option: PBTypeahead.Option) {
-        guard option.text != noOptionsText else { return }
-        
-        switch selection {
-        case .single:
-            onSingleSelection(index: index, option: option)
-        case .multiple:
-            onMultipleSelection(option: option)
-        }
-        
-        showPopover = false
-        searchText = ""
-        reloadList()
-    }
-    
-    private func onSingleSelection(index: Int, option: PBTypeahead.Option) {
-        selectedOptions.removeAll()
-        selectedOptions = [option]
-        selectedIndex = index
-        hoveringIndex = index
-        selectedOptions.append(option)
-        reloadList()
-    }
-    
-    private func onMultipleSelection(option: PBTypeahead.Option) {
-        selectedOptions.append(option)
-        hoveringIndex = nil
-        selectedIndex = nil
-        reloadList()
-    }
-    
-    func removeSelected(_ index: Int) {
-        guard let selectedElementIndex = selectedOptions.indices.first(where: { $0 == index }) else { return }
-        selectedOptions.remove(at: selectedElementIndex)
-        selectedIndex = nil
-        hoveringIndex = 0
-        reloadList()
-    }
-    
-    func clear() {
-        if let action = clearAction {
-            action()
-        }
-        searchText = ""
-        selectedOptions.removeAll()
-        selectedIndex = nil
-        hoveringIndex = nil
-        showPopover = false
-    }
-    
-    func reloadList() {
-        isHovering.toggle()
-    }
-    
-    var optionsSelected: GridInputField.Selection {
-        let optionsSelected = selectedOptions.map { value in
-            value.text ?? value.id
-        }
-        return selection.selectedOptions(options: optionsSelected, placeholder: placeholder)
-    }
-    
-    // MARK: - View Actions
-    func onViewTap() {
-        showPopover.toggle()
-        isFocused = true
-    }
-    
-    func searchTermChanged(_ newTerm: String) {
-        searchTermSubject.send(newTerm)
-    }
-    
-    func handleSearchTextChange(_ text: String) {
-        let results = getSearchResults(text)
-        searchResults = results
-        reloadList()
-        if !text.isEmpty {
-            showPopover = true
         }
     }
 } 
