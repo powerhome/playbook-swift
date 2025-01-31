@@ -137,6 +137,7 @@ private extension PBTypeahead {
     @ViewBuilder
     var listView: some View {
       PBCard(alignment: .leading, padding: Spacing.none, shadow: .deeper) {
+        let searchResults = searchResults
         List {
           ForEach(searchResults.indices, id: \.self) { index in
             let element = searchResults[index]
