@@ -27,7 +27,7 @@ public struct PBTypeahead: View {
   @FocusState.Binding internal var isFocused: Bool
 
   #if os(macOS)
-  private var keyboardHandler: TypeaheadKeyboardHandler?
+  @StateObject private var keyboardHandler = TypeaheadKeyboardHandler()
   #endif
 
   public init(
@@ -77,17 +77,12 @@ public struct PBTypeahead: View {
       )
       
       #if os(macOS)
-      keyboardHandler = TypeaheadKeyboardHandler(
-        viewModel: viewModel,
-        isFocused: _isFocused
-      )
-      keyboardHandler?.setupKeyboardMonitoring()
+      keyboardHandler.delegate = viewModel
       #endif
     }
     .onDisappear {
       #if os(macOS)
-      keyboardHandler?.cleanup()
-      keyboardHandler = nil
+      keyboardHandler.cleanup()
       #endif
     }
     .onChange(of: options) { _, newOptions in

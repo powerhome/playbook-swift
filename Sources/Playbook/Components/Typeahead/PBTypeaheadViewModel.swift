@@ -215,4 +215,47 @@ final class PBTypeaheadViewModel: ObservableObject {
                 : filteredOptions
         }
     }
-} 
+}
+
+#if os(macOS)
+extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
+    func onKeyPress(_ key: KeyCode) {
+        switch key {
+        case .tab:
+            isFocused = true
+            
+        case .return:
+            guard showPopover,
+                  let index = hoveringIndex,
+                  index < searchResults.count else {
+                return
+            }
+            onListSelection(index: index, option: searchResults[index])
+            
+        case .downArrow:
+            if !showPopover {
+                showPopover = true
+                hoveringIndex = 0
+                return
+            }
+            
+            let currentIndex = hoveringIndex ?? -1
+            hoveringIndex = min(currentIndex + 1, searchResults.count - 1)
+            
+        case .upArrow:
+            if !showPopover {
+                showPopover = true
+                hoveringIndex = searchResults.count - 1
+                return
+            }
+            
+            let currentIndex = hoveringIndex ?? searchResults.count
+            hoveringIndex = max(currentIndex - 1, 0)
+            
+        case .escape:
+            showPopover = false
+            isFocused = false
+        }
+    }
+}
+#endif 
