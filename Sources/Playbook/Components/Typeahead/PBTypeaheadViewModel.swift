@@ -185,19 +185,6 @@ final class PBTypeaheadViewModel: ObservableObject {
         isHovering.toggle()
     }
     
-    func setupInitialState(isFocused: Bool) {
-        if debounce.numberOfCharacters == 0 {
-            showPopover = isFocused
-            if isFocused {
-                reloadList()
-            }
-        }
-        
-        if !selectedOptions.isEmpty {
-            selectedIndex = optionsSubject.value.firstIndex(of: selectedOptions[0])
-        }
-    }
-    
     var optionsSelected: GridInputField.Selection {
         let optionsSelected = selectedOptions.map { value in
             value.text ?? value.id
@@ -222,17 +209,5 @@ final class PBTypeaheadViewModel: ObservableObject {
         if !text.isEmpty {
             showPopover = true
         }
-    }
-    
-    func setDependencies(
-        selectedOptions: [PBTypeahead.Option],
-        searchText: String,
-        isFocused: Bool,
-        clearAction: (() -> Void)?
-    ) {
-        self.selectedOptions = selectedOptions
-        self.searchText = searchText
-        self.isFocused = isFocused
-        self.clearAction = clearAction
     }
 } 
