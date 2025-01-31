@@ -20,6 +20,7 @@ enum KeyCode {
   case downArrow
   case upArrow
   case escape
+  case backspace
 }
 
 final class TypeaheadKeyboardHandler: ObservableObject {
@@ -60,6 +61,10 @@ final class TypeaheadKeyboardHandler: ObservableObject {
       delegate.onKeyPress(.escape)
       return nil // Consume the event
       
+    case 51: // backspace
+      delegate.onKeyPress(.backspace)
+      return event // Allow backspace to perform its default behavior
+
     default:
       return event
     }

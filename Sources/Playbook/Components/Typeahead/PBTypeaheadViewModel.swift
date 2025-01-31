@@ -233,6 +233,14 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
             let option = searchResults[index]
             onListSelection(index: index, option: option)
             
+        case .backspace:
+            // Only delete when search field is empty and there are selected options
+            if searchTextBinding?.wrappedValue.isEmpty == true,
+               let currentOptions = selectedOptionsBinding?.wrappedValue,
+               !currentOptions.isEmpty {
+                removeSelected(currentOptions.count - 1)  // Remove last item
+            }
+            
         case .downArrow:
             if !showPopover {
                 showPopover = true
