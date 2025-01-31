@@ -230,7 +230,8 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
                   index < searchResults.count else {
                 return
             }
-            onListSelection(index: index, option: searchResults[index])
+            let option = searchResults[index]
+            onListSelection(index: index, option: option)
             
         case .downArrow:
             if !showPopover {

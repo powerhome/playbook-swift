@@ -20,7 +20,7 @@ public extension PBTypeahead {
         GridInputField(
             placeholder: placeholder,
             searchText: $searchText,
-            selection: viewModel.optionsSelected,
+            selection: selectedInputOptions,
             isFocused: $isFocused,
             clearAction: { viewModel.clear() },
             onItemTap: { viewModel.removeSelected($0) },

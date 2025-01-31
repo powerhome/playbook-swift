@@ -22,6 +22,7 @@ public struct PBTypeahead: View {
   internal let selection: PBTypeahead.Selection
   internal let debounce: (time: TimeInterval, numberOfCharacters: Int)
 
+  @State internal var selectedInputOptions: GridInputField.Selection
   @Binding internal var selectedOptions: [PBTypeahead.Option]
   @Binding internal var searchText: String
   @FocusState.Binding internal var isFocused: Bool
@@ -56,6 +57,10 @@ public struct PBTypeahead: View {
     self._isFocused = isFocused
     self.clearAction = clearAction
     self._selectedOptions = selectedOptions
+    self._selectedInputOptions = State(initialValue: selection.selectedOptions(
+      options: selectedOptions.wrappedValue.map { $0.text ?? $0.id },
+      placeholder: placeholder
+    ))
   }
 
   public var body: some View {
@@ -104,6 +109,12 @@ public struct PBTypeahead: View {
     }
     .onChange(of: searchText) { _, newValue in
       viewModel.searchTermChanged(newValue)
+    }
+    .onChange(of: selectedOptions) { _, newOptions in
+      selectedInputOptions = selection.selectedOptions(
+        options: newOptions.map { $0.text ?? $0.id },
+        placeholder: placeholder
+      )
     }
   }
 }
