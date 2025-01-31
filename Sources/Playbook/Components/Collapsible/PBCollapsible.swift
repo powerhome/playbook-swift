@@ -17,32 +17,26 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
   var contentView: Content
   var iconSize: PBIcon.IconSize
   var iconColor: CollapsibleIconColor
+  var actionButton: PBButton?
 
   public init(
     isCollapsed: Binding<Bool> = .constant(false),
-    indicatorPosition: IndicatorPosition = .trailing,
+    indicatorPosition: IndicatorPosition = .leading,
     indicatorColor: Color = .text(.light),
     iconSize: PBIcon.IconSize = .small,
     iconColor: CollapsibleIconColor = .default,
+    actionButton: PBButton? = nil,
     @ViewBuilder header: @escaping () -> HeaderContent,
     @ViewBuilder content: @escaping () -> Content
   ) {
     _isCollapsed = isCollapsed
     self.indicatorPosition = indicatorPosition
     self.indicatorColor = indicatorColor
+      self.actionButton = actionButton
     headerView = header()
     contentView = content()
     self.iconSize = iconSize
     self.iconColor = iconColor
-  }
-
-  var indicator: some View {
-    PBIcon.fontAwesome(.chevronDown, size: iconSize)
-      .foregroundColor(iconColor.iconColor)
-      .padding(Spacing.xxSmall)
-      .rotationEffect(
-        .degrees(isCollapsed ? 0 : 180)
-      )
   }
 
   public var body: some View {
@@ -56,7 +50,13 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
           indicator
           headerView
           Spacer()
+            if let button = actionButton {
+                button
+            }
         } else {
+            if let button = actionButton {
+                button
+            }
           headerView
           Spacer()
           indicator
@@ -76,12 +76,22 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
       .frame(height: isCollapsed ? 0 : .none, alignment: .top)
       .clipped()
     }
+    .background(Color.pink)
   }
 }
 
 // MARK: - Extensions
 
 public extension PBCollapsible {
+    var indicator: some View {
+      PBIcon.fontAwesome(.chevronDown, size: iconSize)
+        .foregroundColor(iconColor.iconColor)
+        .padding(Spacing.xxSmall)
+        .rotationEffect(
+          .degrees(isCollapsed ? 0 : 180)
+        )
+    }
+
   enum IndicatorPosition {
     case leading
     case trailing
