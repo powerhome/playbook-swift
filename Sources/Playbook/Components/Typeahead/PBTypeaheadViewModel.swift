@@ -76,9 +76,19 @@ final class PBTypeaheadViewModel: ObservableObject {
     
     private func setupSubscriptions() {
         searchTermSubject
-            .debounce(for: .seconds(debounce.time), scheduler: DispatchQueue.main)
-            .sink { [weak self] text in
-                self?.handleSearchTextChange(text)
+            .debounce(for: .seconds(debounce.time), scheduler: DispatchQueue.global())
+            .receive(on: DispatchQueue.global())
+            .map { [weak self] text -> [PBTypeahead.Option] in
+                guard let self = self else { return [] }
+                return self.getSearchResults(text)
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] results in
+                self?.searchResults = results
+                self?.reloadList()
+                if !(self?.searchTextBinding?.wrappedValue.isEmpty ?? true) {
+                    self?.showPopover = true
+                }
             }
             .store(in: &cancellables)
             
@@ -168,15 +178,6 @@ final class PBTypeaheadViewModel: ObservableObject {
 
     func searchTermChanged(_ newTerm: String) {
         searchTermSubject.send(newTerm)
-    }
-    
-    func handleSearchTextChange(_ text: String) {
-        let results = getSearchResults(text)
-        searchResults = results
-        reloadList()
-        if !text.isEmpty {
-            showPopover = true
-        }
     }
     
     private func getSearchResults(_ text: String) -> [PBTypeahead.Option] {
