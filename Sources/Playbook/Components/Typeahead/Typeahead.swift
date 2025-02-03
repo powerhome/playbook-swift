@@ -10,7 +10,13 @@
 import SwiftUI
 
 public extension PBTypeahead {
-    public struct Option: Identifiable, Equatable {
+    struct DisplayableOption: Identifiable, Equatable {
+      public var id: String { option.id }
+      public let option: Option
+      public let index: Int
+    }
+
+    struct Option: Identifiable, Equatable {
         public let id: String
         public let text: String?
         public let customView: (() -> AnyView?)?
@@ -27,7 +33,7 @@ public extension PBTypeahead {
         }
     }
     
-    public enum OptionType: Identifiable {
+    enum OptionType: Identifiable {
         public var id: String {
             switch self {
                 case .section(let str):
@@ -43,7 +49,7 @@ public extension PBTypeahead {
         case button(PBButton)
     }
     
-    public enum Selection {
+    enum Selection {
         case single, multiple(variant: GridInputField.Selection.Variant)
         
         public func selectedOptions(options: [String], placeholder: String) -> GridInputField.Selection {
@@ -54,7 +60,7 @@ public extension PBTypeahead {
         }
     }
     
-    public struct SectionList: Identifiable {
+    struct SectionList: Identifiable {
         public let id: UUID
         let section: String?
         let items: [PBTypeahead.Option]

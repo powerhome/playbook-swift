@@ -45,9 +45,9 @@ public extension PBTypeahead {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 0) {
-                        ForEach(Array(zip(viewModel.searchResults.indices, viewModel.searchResults)), id: \.0) { index, result in
-                            listItemView(option: result, index: index)
-                            .id(result.id)
+                        ForEach(viewModel.searchResults) { result in
+                            listItemView(option: result.option, index: result.index)
+                              .id(result.id)
                         }
                     }
                 }

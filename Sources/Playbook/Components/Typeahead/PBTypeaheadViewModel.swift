@@ -16,8 +16,8 @@ final class PBTypeaheadViewModel: ObservableObject {
     @Published var hoveringIndex: Int?
     @Published var isHovering: Bool = false
     @Published var selectedIndex: Int?
-    @Published var searchResults: [PBTypeahead.Option] = []
-    
+    @Published var searchResults: [PBTypeahead.DisplayableOption] = []
+
     // Configuration (static)
     private(set) var selection: PBTypeahead.Selection
     private(set) var debounce: (time: TimeInterval, numberOfCharacters: Int)
@@ -63,8 +63,8 @@ final class PBTypeaheadViewModel: ObservableObject {
         self.clearAction = clearAction
         
         self.optionsSubject = CurrentValueSubject(options)
-        self.searchResults = options
-        
+        self.searchResults = PBTypeaheadViewModel.optionToDisplayable(options)
+
         setupSubscriptions()
         
         if isFocused {
@@ -73,29 +73,35 @@ final class PBTypeaheadViewModel: ObservableObject {
         
         reloadList()
     }
-    
+
+    private static func optionToDisplayable(_ options: [PBTypeahead.Option]) -> [PBTypeahead.DisplayableOption] {
+        options.enumerated().map { index, option in
+            .init(option: option, index: index)
+        }
+    }
+
     private func setupSubscriptions() {
         searchTermSubject
             .debounce(for: .seconds(debounce.time), scheduler: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .map { [weak self] text -> (String, [PBTypeahead.Option], Set<String>) in
+                guard let self = self else { return (text, [], []) }
+                let currentOptions = self.optionsSubject.value
+                let selectedIds = Set(self.selectedOptionsBinding?.wrappedValue.map(\.id) ?? [])
+                return (text, currentOptions, selectedIds)
+            }
             .receive(on: DispatchQueue.global())
-            .map { [weak self] text -> [PBTypeahead.Option] in
+            .map { [weak self] (text, options, selectedIds) -> [PBTypeahead.Option] in
                 guard let self = self else { return [] }
-                return self.getSearchResults(text)
+                return self.getSearchResults(text, options: options, selectedIds: selectedIds)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] results in
-                self?.searchResults = results
+                self?.searchResults = PBTypeaheadViewModel.optionToDisplayable(results)
                 self?.reloadList()
                 if !(self?.searchTextBinding?.wrappedValue.isEmpty ?? true) {
                     self?.showPopover = true
                 }
-            }
-            .store(in: &cancellables)
-            
-        optionsSubject
-            .sink { [weak self] newOptions in
-                self?.searchResults = newOptions
-                self?.reloadList()
             }
             .store(in: &cancellables)
     }
@@ -180,19 +186,20 @@ final class PBTypeaheadViewModel: ObservableObject {
         searchTermSubject.send(newTerm)
     }
     
-    private func getSearchResults(_ text: String) -> [PBTypeahead.Option] {
+    private func getSearchResults(
+        _ text: String,
+        options: [PBTypeahead.Option],
+        selectedIds: Set<String>
+    ) -> [PBTypeahead.Option] {
         let shouldShowAllOptions = text.isEmpty && debounce.numberOfCharacters == 0
-        let currentOptions = optionsSubject.value
         
-        let filteredOptions = shouldShowAllOptions ? currentOptions : currentOptions.filter { option in
+        let filteredOptions = shouldShowAllOptions ? options : options.filter { option in
             if let optionText = option.text {
                 return optionText.localizedCaseInsensitiveContains(text)
             } else {
                 return option.id.localizedCaseInsensitiveContains(text)
             }
         }
-        
-        let selectedIds = Set(selectedOptionsBinding?.wrappedValue.map { $0.id } ?? [])
         
         let filteredSelectedOptions = filteredOptions.filter { option in
             !selectedIds.contains(option.id)
@@ -232,8 +239,8 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
                 return
             }
             let option = searchResults[index]
-            onListSelection(index: index, option: option)
-            
+            onListSelection(index: index, option: option.option)
+
         case .backspace:
             // Only delete when search field is empty and there are selected options
             if searchTextBinding?.wrappedValue.isEmpty == true,
