@@ -81,8 +81,13 @@ final class PBTypeaheadViewModel: ObservableObject {
     }
 
     private func setupSubscriptions() {
-        searchTermSubject
-            .debounce(for: .seconds(debounce.time), scheduler: DispatchQueue.global())
+        var searchTerm = searchTermSubject.debounce(for: .seconds(debounce.time), scheduler: DispatchQueue.global()).eraseToAnyPublisher()
+
+        if debounce.time == 0 {
+            searchTerm = searchTermSubject.eraseToAnyPublisher()
+        }
+
+        searchTerm
             .receive(on: DispatchQueue.main)
             .map { [weak self] text -> (String, [PBTypeahead.Option], Set<String>) in
                 guard let self = self else { return (text, [], []) }
