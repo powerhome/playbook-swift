@@ -191,7 +191,7 @@ final class PBTypeaheadViewModel: ObservableObject {
             }
         }
         
-      let selectedIds = Set(selectedOptionsBinding?.wrappedValue.map { $0.id } ?? [])
+        let selectedIds = Set(selectedOptionsBinding?.wrappedValue.map { $0.id } ?? [])
         
         let filteredSelectedOptions = filteredOptions.filter { option in
             !selectedIds.contains(option.id)
@@ -210,9 +210,9 @@ final class PBTypeaheadViewModel: ObservableObject {
                 : filteredSelectedOptions
                 
         case .single:
-            return filteredOptions.isEmpty
+            return filteredSelectedOptions.isEmpty
                 ? [emptyStateOption]
-                : filteredOptions
+                : filteredSelectedOptions
         }
     }
 }
