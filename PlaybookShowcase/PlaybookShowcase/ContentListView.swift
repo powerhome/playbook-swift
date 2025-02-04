@@ -13,7 +13,6 @@ import Playbook
 import UIKit
 #endif
 
-@available(iOS 16.4, *)
 struct ContentListView: View {
   let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
   @State var selectedItem: Int = 0

@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBCollapsible<HeaderContent: View, Content: View>: View {
-  @Binding var isCollapsed: Bool
+  @State private var isCollapsed: Bool
   var indicatorPosition: IndicatorPosition
   var indicatorColor: Color
   var headerView: HeaderContent
@@ -20,7 +20,7 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
   var actionButton: PBButton?
 
   public init(
-    isCollapsed: Binding<Bool> = .constant(false),
+    isCollapsed: Bool = false,
     indicatorPosition: IndicatorPosition = .leading,
     indicatorColor: Color = .text(.light),
     iconSize: PBIcon.IconSize = .small,
@@ -29,12 +29,12 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
     @ViewBuilder header: @escaping () -> HeaderContent,
     @ViewBuilder content: @escaping () -> Content
   ) {
-    _isCollapsed = isCollapsed
+    self.isCollapsed = isCollapsed
     self.indicatorPosition = indicatorPosition
     self.indicatorColor = indicatorColor
-      self.actionButton = actionButton
-    headerView = header()
-    contentView = content()
+    self.actionButton = actionButton
+    self.headerView = header()
+    self.contentView = content()
     self.iconSize = iconSize
     self.iconColor = iconColor
   }
@@ -50,13 +50,13 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
           indicator
           headerView
           Spacer()
-            if let button = actionButton {
-                button
-            }
+          if let button = actionButton {
+            button
+          }
         } else {
-            if let button = actionButton {
-                button
-            }
+          if let button = actionButton {
+            button
+          }
           headerView
           Spacer()
           indicator
@@ -76,21 +76,20 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
       .frame(height: isCollapsed ? 0 : .none, alignment: .top)
       .clipped()
     }
-    .background(Color.pink)
   }
 }
 
 // MARK: - Extensions
 
 public extension PBCollapsible {
-    var indicator: some View {
-      PBIcon.fontAwesome(.chevronDown, size: iconSize)
-        .foregroundColor(iconColor.iconColor)
-        .padding(Spacing.xxSmall)
-        .rotationEffect(
-          .degrees(isCollapsed ? 0 : 180)
-        )
-    }
+  var indicator: some View {
+    PBIcon.fontAwesome(.chevronDown, size: iconSize)
+      .foregroundColor(iconColor.iconColor)
+      .padding(Spacing.xxSmall)
+      .rotationEffect(
+        .degrees(isCollapsed ? 0 : 180)
+      )
+  }
 
   enum IndicatorPosition {
     case leading
@@ -108,12 +107,12 @@ public enum CollapsibleIconColor {
 
   var iconColor: Color {
     switch self {
-    case .`default`: return .text(.default)
-    case .light: return .text(.light)
-    case .lighter: return .text(.lighter)
-    case .link: return .pbPrimary
-    case .error: return .status(.error)
-    case .success: return .status(.success)
+      case .`default`: return .text(.default)
+      case .light: return .text(.light)
+      case .lighter: return .text(.lighter)
+      case .link: return .pbPrimary
+      case .error: return .status(.error)
+      case .success: return .status(.success)
     }
   }
 }

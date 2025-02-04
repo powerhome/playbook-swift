@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBUser: View {
-    var name: String
+    public var name: String
     var nameFont: Typography
     var image: Image?
     var orientation: Orientation = .horizontal
