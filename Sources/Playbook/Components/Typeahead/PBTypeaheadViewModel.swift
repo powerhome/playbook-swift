@@ -36,7 +36,8 @@ final class PBTypeaheadViewModel: ObservableObject {
     private var searchTextBinding: Binding<String>?
     private var isFocused: Bool = false
     private var clearAction: (() -> Void)?
-    
+    var scrollProxy: ((String) -> Void) = { _ in }
+
     public init() {
         self.selection = .single
         self.debounce = (0, 0)
@@ -102,10 +103,17 @@ final class PBTypeaheadViewModel: ObservableObject {
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] results in
-                self?.searchResults = PBTypeaheadViewModel.optionToDisplayable(results)
-                self?.reloadList()
-                if !(self?.searchTextBinding?.wrappedValue.isEmpty ?? true) {
-                    self?.showPopover = true
+                guard let self else { return }
+                self.searchResults = PBTypeaheadViewModel.optionToDisplayable(results)
+
+                let firstId = self.searchResults.first!.id
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                  self.scrollProxy(firstId)
+                }
+
+                self.reloadList()
+                if !(self.searchTextBinding?.wrappedValue.isEmpty ?? true) {
+                    self.showPopover = true
                 }
             }
             .store(in: &cancellables)
@@ -263,7 +271,10 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
             
             let currentIndex = hoveringIndex ?? -1
             hoveringIndex = min(currentIndex + 1, searchResults.count - 1)
-            
+
+            guard let index = hoveringIndex, searchResults.indices.contains(index) else { return }
+            scrollProxy(searchResults[index].id)
+
         case .upArrow:
             if !showPopover {
                 showPopover = true
@@ -273,7 +284,10 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
             
             let currentIndex = hoveringIndex ?? searchResults.count
             hoveringIndex = max(currentIndex - 1, 0)
-            
+
+            guard let index = hoveringIndex, searchResults.indices.contains(index) else { return }
+            scrollProxy(searchResults[index].id)
+
         case .escape:
             showPopover = false
             isFocused = false
