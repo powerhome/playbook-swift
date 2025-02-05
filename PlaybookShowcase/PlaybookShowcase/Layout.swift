@@ -160,7 +160,8 @@ extension LayoutView {
       case .cozy:
         HStack {
           PBOnlineStatus(status: user.status)
-            .padding(.horizontal, Spacing.xSmall)
+            .padding(.leading, Spacing.xxSmall+1)
+            .padding(.trailing, Spacing.small)
           Text(user.name).pbFont(.body)
         }
     }
