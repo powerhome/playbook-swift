@@ -98,7 +98,11 @@ final class PBTypeaheadViewModel: ObservableObject {
                     !selectedIds.contains(option.id)
                 }
                 self.searchResults = PBTypeaheadViewModel.optionToDisplayable(results)
+              
                 self.reloadList()
+                if !(self.searchTextBinding?.wrappedValue.isEmpty ?? true) {
+                    self.showPopover = true
+                }
             }
             .store(in: &cancellables)
     }
