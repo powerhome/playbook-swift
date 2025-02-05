@@ -10,7 +10,8 @@
 import SwiftUI
 import Playbook
 
-struct ContentView: View {
+struct LayoutView: View {
+  let users = Mocks.multipleUsersGroup
   @State var selectedLayout: Int = Layout.classic.index
 
   var body: some View {
@@ -32,7 +33,6 @@ struct ContentView: View {
           } content: {
             roomContent
           }
-
           PBCollapsible(
             isCollapsed: false,
             iconSize: .small,
@@ -52,9 +52,7 @@ struct ContentView: View {
   }
 }
 
-extension ContentView {
-  static let users = Mocks.multipleUsersGroup
-//  ["Andrew", "Anna", "Pat", "Luccile", "Leo", "Ronnie", "Julie"]
+extension LayoutView {
   static let rooms = ["S.H.I.E.L.D", "System Operations", "Birds of Prey", "UX Nitro", "Incredibles", "Home Tour"]
 
   enum Layout: CaseIterable {
@@ -84,7 +82,7 @@ extension ContentView {
 
   var roomContent: some View {
     VStack(spacing: Spacing.xSmall) {
-      ForEach(ContentView.rooms, id: \.self) { room in
+      ForEach(LayoutView.rooms, id: \.self) { room in
         HStack {
           PBIconCircle(FontAwesome.lock, size: roomIconSize, color: .blue)
           Text(room)
@@ -96,72 +94,47 @@ extension ContentView {
   }
 
   func multipleUserView(users: [PBUser]) -> some View {
-    HStack {
+    HStack(spacing: Spacing.small) {
       PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .small)
       let userNames = users.map { $0.name }.prefix(2).joined(separator: ", ")
       Text(userNames).pbFont(.title4)
     }
     .padding(.bottom, Spacing.xxSmall)
-    .background(Color.yellow)
-    .frameReader { frame in
-      print("yellow frame: \(frame.height)")
-    }
+    .padding(.trailing, Spacing.xxSmall)
   }
 
-//  var foreachTest: some View {
-//    let testArray = [["lua", "sol"], ["banana"], ["maçã"]]
-//
-//    VStack {
-//      ForEach(testArray) { array in
-//        if array.count > 1 {
-//          Text(array[0])
-//          Text(array[1])
-//        } else {
-//          Text(array[0])
-//        }
-//      }
-//    }
-//  }
+  func singleUserView(user: PBUser) -> some View {
+    PBUser(
+      name: user.name,
+      image: user.image ?? Image("ana"),
+      orientation: .horizontal,
+      size: .small,
+      title: user.title,
+      status: user.status,
+      displayAvatar: true
+    )
+  }
 
   var peopleContent: some View {
     VStack(spacing: Spacing.xSmall) {
-      ForEach(ContentView.users.indices, id: \.self) { index in
+      ForEach(users.indices, id: \.self) { index in
+        let users = users[index]
+        let user = users[0]
         HStack {
-
-          let users = do { try? ContentView.users[index] } catch {  } 
-
-          if .count > 1 {
-            multipleUserView(users: ContentView.users[index])
+          if users.count > 1 {
+            multipleUserView(users: users)
           } else {
-            PBUser(
-              name: "\(user)",
-              image: Image("\(user)"),
-              orientation: .horizontal,
-              size: .small,
-              title: "User Experience Engineer",
-              status: .away,
-              displayAvatar: true
-            ).frameReader { frame in
-              print("green frame: \(frame.height)")
-            }
+            singleUserView(user: user)
           }
-
-
           Spacer()
           PBBadge(text: "1", rounded: true, variant: .chat)
         }
-        .background(Color.blue)
-        .frameReader { frame in
-          print("blue frame: \(frame.height)")
-        }
       }
     }
-
-
   }
 }
 
 #Preview {
   registerFonts()
-  return ContentView().padding()
+  return LayoutView().padding()
 }

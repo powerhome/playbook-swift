@@ -76,6 +76,7 @@ extension ContentListView {
       ) {
         PBNavItem(DesignElements.title)
         PBNavItem(Components.title)
+        PBNavItem("Layout")
       }
       .scaledToFit()
       .frame(minHeight: 80)
@@ -85,8 +86,10 @@ extension ContentListView {
   private var contentView: some View {
     if selectedItem == 0 {
       designElementsView
-    } else {
+    } else if selectedItem == 1 {
       componentsView
+    } else {
+      LayoutView()
     }
   }
   private var playbookLogo: some View {
