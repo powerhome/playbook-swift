@@ -12,7 +12,9 @@ import Playbook
 
 struct LayoutView: View {
   let users = Mocks.multipleUsersGroup
-  @State var selectedLayout: Int = Layout.classic.index
+  @State var selectedLayout: Int = Layout.classic.layoutIndex
+  @State private var hoveringItem: String?
+  @State private var hoveringIndex: Int?
 
   var body: some View {
     VStack(alignment: .leading, spacing: Spacing.none) {
@@ -45,6 +47,7 @@ struct LayoutView: View {
             peopleContent
           }
         }
+        .padding(.horizontal)
       }
       Spacer()
     }
@@ -60,42 +63,80 @@ extension LayoutView {
 
     var title: String {
       switch self {
-      case .classic: return "Classic"
-      case .cozy: return "Cozy"
+        case .classic: return "Classic"
+        case .cozy: return "Cozy"
       }
     }
 
-    var index: Int {
+    var layoutIndex: Int {
       switch self {
-      case .classic: return 0
-      case .cozy: return 1
+        case .classic: return 0
+        case .cozy: return 1
       }
     }
   }
 
   var roomIconSize: PBIcon.IconSize {
     switch Layout.allCases[selectedLayout] {
-    case .classic: return .small
-    case .cozy: return .xSmall
+      case .classic: return .x1
+      case .cozy: return .xSmall
     }
   }
 
   var roomContent: some View {
     VStack(spacing: Spacing.xSmall) {
       ForEach(LayoutView.rooms, id: \.self) { room in
-        HStack {
-          PBIconCircle(FontAwesome.lock, size: roomIconSize, color: .blue)
-          Text(room)
-          Spacer()
-          PBBadge(text: "1", rounded: true, variant: .chat)
-        }
+        roomRow(room: room)
+          .background(hoveringItem == room ? Color.active : .clear)
+          .onHover { isHovering in
+            self.hoveringItem = room
+          }
       }
+    }
+  }
+
+  func roomRow(room: String) -> some View {
+    HStack {
+      PBIconCircle(FontAwesome.lock, size: roomIconSize, color: .blue)
+      Text(room)
+      Spacer()
+      PBBadge(text: "1", rounded: true, variant: .chat)
+    }
+  }
+
+  var peopleContent: some View {
+    VStack(spacing: Spacing.xSmall) {
+      ForEach(users.indices, id: \.self) { index in
+        let users = users[index]
+        peopleRoow(users: users)
+          .background(hoveringIndex == index ? Color.active : .clear)
+          .onHover { _ in
+            self.hoveringIndex = index
+          }
+      }
+    }
+  }
+
+  func peopleRoow(users: [PBUser]) -> some View {
+    HStack {
+      if users.count > 1 {
+        multipleUserView(users: users)
+      } else {
+        singleUserView(user: users[0])
+      }
+      Spacer()
+      PBBadge(text: "1", rounded: true, variant: .chat)
     }
   }
 
   func multipleUserView(users: [PBUser]) -> some View {
     HStack(spacing: Spacing.small) {
-      PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .small)
+      switch Layout.allCases[selectedLayout] {
+        case .classic:
+          PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .small)
+        case .cozy:
+          PBIcon(FontAwesome.users, color: .text(.default))
+      }
       let userNames = users.map { $0.name }.prefix(2).joined(separator: ", ")
       Text(userNames).pbFont(.title4)
     }
@@ -103,33 +144,25 @@ extension LayoutView {
     .padding(.trailing, Spacing.xxSmall)
   }
 
+  @ViewBuilder
   func singleUserView(user: PBUser) -> some View {
-    PBUser(
-      name: user.name,
-      image: user.image ?? Image("ana"),
-      orientation: .horizontal,
-      size: .small,
-      title: user.title,
-      status: user.status,
-      displayAvatar: true
-    )
-  }
-
-  var peopleContent: some View {
-    VStack(spacing: Spacing.xSmall) {
-      ForEach(users.indices, id: \.self) { index in
-        let users = users[index]
-        let user = users[0]
+    switch Layout.allCases[selectedLayout] {
+      case .classic:
+        PBUser(
+          name: user.name,
+          image: user.image ?? Image("ana"),
+          orientation: .horizontal,
+          size: .small,
+          title: user.title,
+          status: user.status,
+          displayAvatar: true
+        )
+      case .cozy:
         HStack {
-          if users.count > 1 {
-            multipleUserView(users: users)
-          } else {
-            singleUserView(user: user)
-          }
-          Spacer()
-          PBBadge(text: "1", rounded: true, variant: .chat)
+          PBOnlineStatus(status: user.status)
+            .padding(.horizontal, Spacing.xSmall)
+          Text(user.name).pbFont(.body)
         }
-      }
     }
   }
 }
