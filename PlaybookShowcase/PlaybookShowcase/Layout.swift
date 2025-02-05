@@ -53,7 +53,8 @@ struct ContentView: View {
 }
 
 extension ContentView {
-  static let users = ["Andrew", "Anna", "Pat", "Luccile", "Leo", "Ronnie", "Julie"]
+  static let users = Mocks.multipleUsersGroup
+//  ["Andrew", "Anna", "Pat", "Luccile", "Leo", "Ronnie", "Julie"]
   static let rooms = ["S.H.I.E.L.D", "System Operations", "Birds of Prey", "UX Nitro", "Incredibles", "Home Tour"]
 
   enum Layout: CaseIterable {
@@ -107,13 +108,30 @@ extension ContentView {
     }
   }
 
+//  var foreachTest: some View {
+//    let testArray = [["lua", "sol"], ["banana"], ["maçã"]]
+//
+//    VStack {
+//      ForEach(testArray) { array in
+//        if array.count > 1 {
+//          Text(array[0])
+//          Text(array[1])
+//        } else {
+//          Text(array[0])
+//        }
+//      }
+//    }
+//  }
+
   var peopleContent: some View {
     VStack(spacing: Spacing.xSmall) {
-      ForEach(ContentView.users, id: \.self) { user in
+      ForEach(ContentView.users.indices, id: \.self) { index in
         HStack {
 
-          if user == "Pat" {
-            multipleUserView(users: Mocks.multipleUsers)
+          let users = do { try? ContentView.users[index] } catch {  } 
+
+          if .count > 1 {
+            multipleUserView(users: ContentView.users[index])
           } else {
             PBUser(
               name: "\(user)",
