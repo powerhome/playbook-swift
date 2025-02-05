@@ -22,6 +22,7 @@ final class PBTypeaheadViewModel: ObservableObject {
     private(set) var selection: PBTypeahead.Selection
     private(set) var debounce: (time: TimeInterval, numberOfCharacters: Int)
     private var placeholder: String
+    private var disableFiltering: Bool
     
     // Constants
     private(set) var noOptionsText = "No options"
@@ -42,6 +43,7 @@ final class PBTypeaheadViewModel: ObservableObject {
         self.selection = .single
         self.debounce = (0, 0)
         self.placeholder = "Select"
+        self.disableFiltering = false
     }
     
     func configure(
@@ -52,12 +54,13 @@ final class PBTypeaheadViewModel: ObservableObject {
         selectedOptionsBinding: Binding<[PBTypeahead.Option]>,
         searchTextBinding: Binding<String>,
         isFocused: Bool,
-        clearAction: (() -> Void)?
+        clearAction: (() -> Void)?,
+        disableFiltering: Bool
     ) {
         self.selection = selection
         self.debounce = debounce
         self.placeholder = placeholder
-        
+        self.disableFiltering = disableFiltering
         self.selectedOptionsBinding = selectedOptionsBinding
         self.searchTextBinding = searchTextBinding
         self.isFocused = isFocused
@@ -66,7 +69,11 @@ final class PBTypeaheadViewModel: ObservableObject {
         self.optionsSubject = CurrentValueSubject(options)
         self.searchResults = PBTypeaheadViewModel.optionToDisplayable(options)
 
-        setupSubscriptions()
+        if disableFiltering {
+            observeOptions()
+        } else {
+            observeSearchTextAndSearchResults()
+        }
         
         if isFocused {
             showPopover = true
@@ -81,7 +88,22 @@ final class PBTypeaheadViewModel: ObservableObject {
         }
     }
 
-    private func setupSubscriptions() {
+    private func observeOptions() {
+        optionsSubject
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] options in
+                guard let self = self else { return }
+                let selectedIds = Set(self.selectedOptionsBinding?.wrappedValue.map(\.id) ?? [])
+                let results = options.filter { option in
+                    !selectedIds.contains(option.id)
+                }
+                self.searchResults = PBTypeaheadViewModel.optionToDisplayable(results)
+                self.reloadList()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func observeSearchTextAndSearchResults() {
         var searchTerm = searchTermSubject.debounce(for: .seconds(debounce.time), scheduler: DispatchQueue.global()).eraseToAnyPublisher()
 
         if debounce.time == 0 {

@@ -21,6 +21,7 @@ public struct PBTypeahead: View {
   internal let options: [PBTypeahead.Option]
   internal let selection: PBTypeahead.Selection
   internal let debounce: (time: TimeInterval, numberOfCharacters: Int)
+  internal let disableFiltering: Bool
 
   @State internal var selectedInputOptions: GridInputField.Selection
   @Binding internal var selectedOptions: [PBTypeahead.Option]
@@ -43,7 +44,8 @@ public struct PBTypeahead: View {
     listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
     isFocused: FocusState<Bool>.Binding,
     selectedOptions: Binding<[PBTypeahead.Option]>,
-    clearAction: (() -> Void)? = nil
+    clearAction: (() -> Void)? = nil,
+    disableFiltering: Bool = false
   ) {
     self.id = id
     self.title = title
@@ -57,6 +59,7 @@ public struct PBTypeahead: View {
     self._isFocused = isFocused
     self.clearAction = clearAction
     self._selectedOptions = selectedOptions
+    self.disableFiltering = disableFiltering
     self._selectedInputOptions = State(initialValue: selection.selectedOptions(
       options: selectedOptions.wrappedValue.map { $0.text ?? $0.id },
       placeholder: placeholder
@@ -78,7 +81,8 @@ public struct PBTypeahead: View {
         selectedOptionsBinding: $selectedOptions,
         searchTextBinding: $searchText,
         isFocused: isFocused,
-        clearAction: clearAction
+        clearAction: clearAction,
+        disableFiltering: disableFiltering
       )
       
       #if os(macOS)
