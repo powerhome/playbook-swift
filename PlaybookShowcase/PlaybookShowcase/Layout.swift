@@ -51,7 +51,7 @@ struct LayoutView: View {
       }
       Spacer()
     }
-    .colorScheme(.light)
+    .background(Color.background(.default))
   }
 }
 
@@ -98,7 +98,7 @@ extension LayoutView {
   func roomRow(room: String) -> some View {
     HStack {
       PBIconCircle(FontAwesome.lock, size: roomIconSize, color: .blue)
-      Text(room)
+      Text(room).pbFont(.body)
       Spacer()
       PBBadge(text: "1", rounded: true, variant: .chat)
     }
