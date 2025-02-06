@@ -47,7 +47,8 @@ final class TypeaheadKeyboardHandler: ObservableObject {
       return delegate.onKeyPress(.tab) ? nil : event
       
     case 36: // return/enter
-        return delegate.onKeyPress(.return) ? nil : event
+        delegate.onKeyPress(.return)
+        return event
 
     case 125: // down arrow
         delegate.onKeyPress(.downArrow)
