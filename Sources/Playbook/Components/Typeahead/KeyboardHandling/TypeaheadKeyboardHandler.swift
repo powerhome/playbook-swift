@@ -11,7 +11,8 @@
 import AppKit
 
 protocol TypeaheadKeyboardDelegate: AnyObject {
-  func onKeyPress(_ key: KeyCode)
+  // Return true if the event should be consumed (override default behavior)
+  func onKeyPress(_ key: KeyCode) -> Bool
 }
 
 enum KeyCode {
@@ -42,28 +43,22 @@ final class TypeaheadKeyboardHandler: ObservableObject {
     
     switch event.keyCode {
     case 48: // tab
-      delegate.onKeyPress(.tab)
-      return event // Allow tab to perform its default behavior
+      return delegate.onKeyPress(.tab) ? nil : event
       
     case 36: // return/enter
-      delegate.onKeyPress(.return)
-      return nil // Consume the event
+      return delegate.onKeyPress(.return) ? nil : event
       
     case 125: // down arrow
-      delegate.onKeyPress(.downArrow)
-      return nil // Consume the event
+      return delegate.onKeyPress(.downArrow) ? nil : event
       
     case 126: // up arrow
-      delegate.onKeyPress(.upArrow)
-      return nil // Consume the event
+      return delegate.onKeyPress(.upArrow) ? nil : event
       
     case 53: // escape
-      delegate.onKeyPress(.escape)
-      return nil // Consume the event
+      return delegate.onKeyPress(.escape) ? nil : event
       
     case 51: // backspace
-      delegate.onKeyPress(.backspace)
-      return event // Allow backspace to perform its default behavior
+      return delegate.onKeyPress(.backspace) ? nil : event
 
     default:
       return event
