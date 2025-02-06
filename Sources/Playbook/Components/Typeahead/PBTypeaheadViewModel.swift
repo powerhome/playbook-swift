@@ -67,7 +67,12 @@ final class PBTypeaheadViewModel: ObservableObject {
         self.clearAction = clearAction
         
         self.optionsSubject = CurrentValueSubject(options)
-        self.searchResults = PBTypeaheadViewModel.optionToDisplayable(options)
+
+        let selectedIds = Set(self.selectedOptionsBinding?.wrappedValue.map(\.id) ?? [])
+        let filteredOptions = options.filter { option in
+            !selectedIds.contains(option.id)
+        }
+        self.searchResults = PBTypeaheadViewModel.optionToDisplayable(filteredOptions)
 
         if disableFiltering {
             observeOptions()
@@ -162,7 +167,13 @@ final class PBTypeaheadViewModel: ObservableObject {
         case .multiple:
             onMultipleSelection(option: option)
         }
-        
+
+        let selectedIds = Set(self.selectedOptionsBinding?.wrappedValue.map(\.id) ?? [])
+        let filteredOptions = self.optionsSubject.value.filter {
+            !selectedIds.contains($0.id)
+        }
+        self.searchResults = PBTypeaheadViewModel.optionToDisplayable(filteredOptions)
+
         showPopover = false
         updateSearchText("")
         reloadList()
