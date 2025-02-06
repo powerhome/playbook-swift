@@ -76,9 +76,9 @@ public extension PBTypeahead {
                     } else {
                         Text(option.text ?? option.id)
                             .pbFont(.body, color: listTextolor(index))
-                            .padding(.vertical, Spacing.xSmall + 4)
                     }
                 }
+                .padding(.vertical, Spacing.xSmall)
                 .padding(.horizontal, Spacing.xSmall + 4)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(listBackgroundColor(index))
