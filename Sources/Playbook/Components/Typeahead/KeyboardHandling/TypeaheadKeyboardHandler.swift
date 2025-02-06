@@ -20,6 +20,7 @@ enum KeyCode {
   case `return`
   case downArrow
   case upArrow
+  case space
   case escape
   case backspace
 }
@@ -46,19 +47,24 @@ final class TypeaheadKeyboardHandler: ObservableObject {
       return delegate.onKeyPress(.tab) ? nil : event
       
     case 36: // return/enter
-      return delegate.onKeyPress(.return) ? nil : event
-      
+        return delegate.onKeyPress(.return) ? nil : event
+
     case 125: // down arrow
-      return delegate.onKeyPress(.downArrow) ? nil : event
-      
+        delegate.onKeyPress(.downArrow)
+        return event
+
     case 126: // up arrow
-      return delegate.onKeyPress(.upArrow) ? nil : event
-      
+        delegate.onKeyPress(.upArrow)
+        return event
+
+    case 49: // space
+      return delegate.onKeyPress(.space) ? nil : event
+
     case 53: // escape
       return delegate.onKeyPress(.escape) ? nil : event
       
     case 51: // backspace
-      return delegate.onKeyPress(.backspace) ? nil : event
+        return delegate.onKeyPress(.backspace) ? nil : event
 
     default:
       return event

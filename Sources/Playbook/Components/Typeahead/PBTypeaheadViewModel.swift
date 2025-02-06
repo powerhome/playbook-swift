@@ -310,33 +310,29 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
             return false
             
         case .downArrow:
-            if !showPopover {
-                showPopover = true
-                hoveringIndex = 0
-                return true
+            if isFocused, showPopover {
+              let currentIndex = hoveringIndex ?? 0
+              hoveringIndex = min(currentIndex + 1, searchResults.count - 1)
+
+              guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
+              scrollProxy(searchResults[index].id)
             }
-            
-            let currentIndex = hoveringIndex ?? -1
-            hoveringIndex = min(currentIndex + 1, searchResults.count - 1)
-
-            guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
-            scrollProxy(searchResults[index].id)
-
             return true
 
         case .upArrow:
-            if !showPopover {
-                showPopover = true
-                hoveringIndex = searchResults.count - 1
-                return true
+            if isFocused, showPopover {
+              let currentIndex = hoveringIndex ?? 0
+              hoveringIndex = max(currentIndex - 1, 0)
+
+              guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
+              scrollProxy(searchResults[index].id)
             }
-            
-            let currentIndex = hoveringIndex ?? searchResults.count
-            hoveringIndex = max(currentIndex - 1, 0)
+            return true
 
-            guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
-            scrollProxy(searchResults[index].id)
-
+          case .space:
+            if isFocused, searchTextBinding?.wrappedValue.isEmpty == true {
+              showPopover.toggle()
+            }
             return true
 
         case .escape:
