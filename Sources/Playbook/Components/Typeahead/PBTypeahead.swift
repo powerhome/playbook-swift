@@ -22,6 +22,7 @@ public struct PBTypeahead: View {
   internal let selection: PBTypeahead.Selection
   internal let debounce: (time: TimeInterval, numberOfCharacters: Int)
   internal let disableFiltering: Bool
+  internal let disableKeyboardHandler: Bool
 
   @State internal var selectedInputOptions: GridInputField.Selection
   @Binding internal var selectedOptions: [PBTypeahead.Option]
@@ -45,7 +46,8 @@ public struct PBTypeahead: View {
     isFocused: FocusState<Bool>.Binding,
     selectedOptions: Binding<[PBTypeahead.Option]>,
     clearAction: (() -> Void)? = nil,
-    disableFiltering: Bool = false
+    disableFiltering: Bool = false,
+    disableKeyboardHandler: Bool = false
   ) {
     self.id = id
     self.title = title
@@ -64,6 +66,7 @@ public struct PBTypeahead: View {
       options: selectedOptions.wrappedValue.map { $0.text ?? $0.id },
       placeholder: placeholder
     ))
+    self.disableKeyboardHandler = disableKeyboardHandler
   }
 
   public var body: some View {
@@ -86,12 +89,16 @@ public struct PBTypeahead: View {
       )
       
       #if os(macOS)
-      keyboardHandler.delegate = viewModel
+      if !disableKeyboardHandler {
+        keyboardHandler.delegate = viewModel
+      }
       #endif
     }
     .onDisappear {
       #if os(macOS)
-      keyboardHandler.cleanup()
+      if !disableKeyboardHandler {
+        keyboardHandler.cleanup()
+      }
       #endif
     }
     .onChange(of: options) { _, newOptions in
