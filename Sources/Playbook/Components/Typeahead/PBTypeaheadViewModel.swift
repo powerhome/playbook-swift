@@ -329,11 +329,14 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
             }
             return true
 
-          case .space:
-            if isFocused, searchTextBinding?.wrappedValue.isEmpty == true {
-              showPopover.toggle()
-            }
-            return true
+//          case .space:
+//            if isFocused, searchTextBinding?.wrappedValue.isEmpty == true {
+//              showPopover.toggle()
+//              return true
+//            } else {
+//              return false
+//            }
+
 
         case .escape:
             showPopover = false
