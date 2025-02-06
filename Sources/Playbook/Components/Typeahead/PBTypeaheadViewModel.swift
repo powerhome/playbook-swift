@@ -202,6 +202,13 @@ final class PBTypeaheadViewModel: ObservableObject {
         updateSelectedOptions(currentOptions)
         selectedIndex = nil
         hoveringIndex = 0
+
+        let selectedIds = Set(self.selectedOptionsBinding?.wrappedValue.map(\.id) ?? [])
+        let filteredOptions = self.optionsSubject.value.filter {
+            !selectedIds.contains($0.id)
+        }
+        self.searchResults = PBTypeaheadViewModel.optionToDisplayable(filteredOptions)
+
         reloadList()
     }
     
