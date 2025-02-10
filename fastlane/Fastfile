@@ -47,6 +47,14 @@ lane :build_ios do |opts|
   export_method = 'enterprise'
   target = target_ios(opts[:suffix])
 
+  provisioningProfileBundle = "com.powerhrg.PlaybookShowcase"
+  provisioningProfileName = "Playbook Showcase App"
+
+  if opts[:suffix] == 'beta'
+    provisioningProfileBundle = "com.powerhrg.PlaybookShowcase.dev"
+    provisioningProfileName = "Playbook Showcase App Beta"
+  end
+
   gym(
     project: project,
     scheme: target,
@@ -56,7 +64,12 @@ lane :build_ios do |opts|
     build_path: build_path,
     derived_data_path: derived_data_path,
     xcargs: '-skipPackagePluginValidation -skipMacroValidation',
-    xcconfig: './PlaybookShowcase/Versioning.xcconfig'
+    xcconfig: './PlaybookShowcase/Versioning.xcconfig',
+    export_options: {
+      provisioningProfiles: {
+        provisioningProfileBundle => provisioningProfileName
+      }
+    }
   )
 end
 
@@ -65,6 +78,14 @@ lane :build_macos do |opts|
 
   export_method = 'developer-id'
   target = target_macos(opts[:suffix])
+
+  provisioningProfileBundle = "com.powerhrg.PlaybookShowcase"
+  provisioningProfileName = "Playbook Showcase App"
+
+  if opts[:suffix] == 'beta'
+    provisioningProfileBundle = "com.powerhrg.PlaybookShowcase.dev"
+    provisioningProfileName = "Playbook Showcase App Beta"
+  end
 
   gym(
     project: project,
@@ -76,7 +97,12 @@ lane :build_macos do |opts|
     build_path: build_path,
     derived_data_path: derived_data_path,
     xcargs: '-skipPackagePluginValidation -skipMacroValidation',
-    xcconfig: './PlaybookShowcase/Versioning.xcconfig'
+    xcconfig: './PlaybookShowcase/Versioning.xcconfig',
+    export_options: {
+      provisioningProfiles: {
+        provisioningProfileBundle => provisioningProfileName
+      }
+    }
   )
 end
 
