@@ -62,7 +62,9 @@ public struct GridInputField: View {
                 .onTapGesture {
                     isFocused.wrappedValue = true
                     if isFocused.wrappedValue {
-                        onViewTap?()
+                        DispatchQueue.main.async {
+                            onViewTap?()
+                        }
                     }
                 }
                 dismissIconView
