@@ -105,6 +105,7 @@ public struct PBTypeahead: View {
       viewModel.optionsChanged(newOptions)
     }
     .onChange(of: isFocused) { _, newValue in
+      viewModel.isFocused = newValue
       if newValue {
         Task {
           await PopoverManager.shared.dismissPopovers()

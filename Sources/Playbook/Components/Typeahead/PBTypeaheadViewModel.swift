@@ -35,7 +35,7 @@ final class PBTypeaheadViewModel: ObservableObject {
     // Dependencies (bindings)
     private var selectedOptionsBinding: Binding<[PBTypeahead.Option]>?
     private var searchTextBinding: Binding<String>?
-    private var isFocused: Bool = false
+    var isFocused: Bool = false
     private var clearAction: (() -> Void)?
     var scrollProxy: ((String) -> Void) = { _ in }
 
@@ -291,48 +291,50 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
             return false
             
         case .return:
+            guard isFocused else { return false }
             guard showPopover,
                   let index = hoveringIndex,
                   index < searchResults.count else {
-                return true
+                return false
             }
             let option = searchResults[index]
             onListSelection(index: index, option: option.option)
             return true
 
         case .backspace:
+            guard isFocused else { return false }
             // Only delete when search field is empty and there are selected options
             if searchTextBinding?.wrappedValue.isEmpty == true,
                let currentOptions = selectedOptionsBinding?.wrappedValue,
                !currentOptions.isEmpty {
                 removeSelected(currentOptions.count - 1)  // Remove last item
+                return true
             }
             return false
             
         case .downArrow:
-            if isFocused, showPopover {
-              let currentIndex = hoveringIndex ?? 0
-              hoveringIndex = min(currentIndex + 1, searchResults.count - 1)
+            guard isFocused, showPopover else { return false }
+            let currentIndex = hoveringIndex ?? 0
+            hoveringIndex = min(currentIndex + 1, searchResults.count - 1)
 
-              guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
-              scrollProxy(searchResults[index].id)
-            }
+            guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
+            scrollProxy(searchResults[index].id)
             return true
 
         case .upArrow:
-            if isFocused, showPopover {
-              let currentIndex = hoveringIndex ?? 0
-              hoveringIndex = max(currentIndex - 1, 0)
+            guard isFocused, showPopover else { return false }
+            let currentIndex = hoveringIndex ?? 0
+            hoveringIndex = max(currentIndex - 1, 0)
 
-              guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
-              scrollProxy(searchResults[index].id)
-            }
+            guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
+            scrollProxy(searchResults[index].id)
             return true
 
         case .space:
           return false
 
         case .escape:
+            guard isFocused, showPopover else { return false }
             showPopover = false
             isFocused = false
             return true
