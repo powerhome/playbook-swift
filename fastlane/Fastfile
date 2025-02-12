@@ -44,10 +44,13 @@ end
 desc "Build iOS"
 lane :build_ios do |opts|
 
-  export_method = 'enterprise'
+  export_method = 'ad-hoc'
   target = target_ios(opts[:suffix])
 
+  configuration = opts[:suffix] == "beta" ? "Beta" : "Release" 
+
   gym(
+    configuration: configuration,
     project: project,
     scheme: target,
     skip_package_dependencies_resolution: false,
