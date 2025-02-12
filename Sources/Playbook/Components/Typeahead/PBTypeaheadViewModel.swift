@@ -37,7 +37,6 @@ final class PBTypeaheadViewModel: ObservableObject {
     private var searchTextBinding: Binding<String>?
     var isFocused: Bool = false
     private var clearAction: (() -> Void)?
-    var scrollProxy: ((String) -> Void) = { _ in }
 
     public init() {
         self.selection = .single
@@ -136,13 +135,9 @@ final class PBTypeaheadViewModel: ObservableObject {
             .sink { [weak self] results in
                 guard let self else { return }
                 self.searchResults = PBTypeaheadViewModel.optionToDisplayable(results)
-
-                let firstId = self.searchResults.first!.id
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                  self.scrollProxy(firstId)
-                }
-
+                self.hoveringIndex = 0
                 self.reloadList()
+
                 if !(self.searchTextBinding?.wrappedValue.isEmpty ?? true) {
                     self.showPopover = true
                 }
@@ -315,21 +310,15 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
         case .downArrow:
             guard isFocused, showPopover else { return false }
             let currentIndex = hoveringIndex ?? 0
-            hoveringIndex = min(currentIndex + 1, searchResults.count - 1)
-
-            guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
-            let id = searchResults[index].id
-            scrollProxy(id)
+            let newHoveringIndex = min(currentIndex + 1, searchResults.count - 1)
+            hoveringIndex = newHoveringIndex
             return true
 
         case .upArrow:
             guard isFocused, showPopover else { return false }
             let currentIndex = hoveringIndex ?? 0
-            hoveringIndex = max(currentIndex - 1, 0)
-
-            guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
-            let id = searchResults[index].id
-            scrollProxy(id)
+            let newHoveringIndex = max(currentIndex - 1, 0)
+            hoveringIndex = newHoveringIndex
             return true
 
         case .space:

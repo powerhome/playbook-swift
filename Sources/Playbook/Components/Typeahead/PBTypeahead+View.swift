@@ -53,9 +53,11 @@ public extension PBTypeahead {
                 .onAppear {
                     viewModel.hoveringIndex = 0
                     isFocused = true
-                    viewModel.scrollProxy = { id in
-                        proxy.scrollTo(id)
-                    }
+                }
+                .onChange(of: viewModel.hoveringIndex) { _, newValue in
+                    guard let newValue, viewModel.searchResults.indices.contains(newValue) else { return }
+                    let id = viewModel.searchResults[newValue].id
+                    proxy.scrollTo(id)
                 }
                 .scrollDismissesKeyboard(.immediately)
                 .frame(maxHeight: dropdownMaxHeight)
