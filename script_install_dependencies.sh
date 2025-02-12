@@ -17,7 +17,18 @@ check_install swiftformat
 # asdf dependencies
 asdf plugin add ruby
 asdf plugin update ruby
-while read -r line; do asdf install $line; done < .tool-versions
+
+# Install or update the versions specified in .tool-versions
+while read -r plugin version; do
+  if ! asdf list $plugin | grep -q "$version"; then
+    echo "Installing $plugin $version..."
+    asdf install $plugin $version
+  else
+    echo "$plugin $version is already installed. Skipping."
+  fi
+done < .tool-versions
+
+# Reshim to reflect any changes
 asdf reshim
 
 # bundler
