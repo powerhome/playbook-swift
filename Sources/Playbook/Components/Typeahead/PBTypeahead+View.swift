@@ -24,8 +24,7 @@ public extension PBTypeahead {
             isFocused: $isFocused,
             clearAction: { viewModel.clear() },
             onItemTap: { viewModel.removeSelected($0) },
-            onViewTap: { 
-                viewModel.showPopover.toggle()
+            onViewTap: {
                 isFocused = true
             }
         )
