@@ -32,9 +32,9 @@ extension View {
       if !disabled {
         #if os(macOS)
         if isHovering {
-          NSCursor.pointingHand.push()
+          NSCursor.pointingHand.set()
         } else {
-          NSCursor.pointingHand.pop()
+          NSCursor.arrow.set()
         }
         #endif
       }
