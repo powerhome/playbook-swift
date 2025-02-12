@@ -318,7 +318,8 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
             hoveringIndex = min(currentIndex + 1, searchResults.count - 1)
 
             guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
-            scrollProxy(searchResults[index].id)
+            let id = searchResults[index].id
+            scrollProxy(id)
             return true
 
         case .upArrow:
@@ -327,7 +328,8 @@ extension PBTypeaheadViewModel: TypeaheadKeyboardDelegate {
             hoveringIndex = max(currentIndex - 1, 0)
 
             guard let index = hoveringIndex, searchResults.indices.contains(index) else { return true }
-            scrollProxy(searchResults[index].id)
+            let id = searchResults[index].id
+            scrollProxy(id)
             return true
 
         case .space:

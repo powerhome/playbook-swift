@@ -11,7 +11,7 @@ import SwiftUI
 
 public extension PBTypeahead {
     struct DisplayableOption: Identifiable, Equatable {
-      public var id: String { option.id }
+      public var id: String { "\(option.id)\(index)" }
       public let option: Option
       public let index: Int
     }
