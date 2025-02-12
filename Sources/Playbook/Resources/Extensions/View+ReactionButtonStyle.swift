@@ -29,10 +29,8 @@ struct ReactionButtonModifier: ViewModifier {
           .strokeBorder(borderColor, lineWidth: borderWidth)
           .background(backgroundColor)
           .animation(.easeInOut(duration: 0.3), value: isHighlighted)
-//          .animation(.easeInOut(duration: 0.3), value: isHovering)
       )
       .clipShape(Capsule())
-//      .setCursorPointer()
   }
   
   var backgroundColor: Color {
