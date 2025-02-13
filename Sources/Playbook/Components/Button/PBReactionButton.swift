@@ -10,38 +10,37 @@
 import SwiftUI
 
 public struct PBReactionButton: View {
-  @Binding var count: Int
-  @Binding var isHighlighted: Bool
-  @State private var isHovering: Bool = false
-  let icon: String?
-  let pbIcon: PBIcon?
-  let isInteractive: Bool
+  var count: Int
+  var isHighlighted: Bool
+  let icon: Icon?
   let countColor: Color
   let action: (() -> Void)?
+  @State private var isHovering: Bool = false
   @Environment(\.colorScheme) var colorScheme
 
+  public enum Icon {
+    case emoji(String)
+    case pbIcon(PBIcon)
+  }
+
   public init(
-    count: Binding<Int> = .constant(0),
-    isHighlighted: Binding<Bool> = .constant(false),
-    icon: String? = nil,
-    pbIcon: PBIcon? = nil,
-    isInteractive: Bool = false,
+    count: Int = 0,
+    isHighlighted: Bool = false,
+    icon: Icon? = nil,
     countColor: Color = .text(.light),
     action: (() -> Void)? = nil
   ) {
-    self._count = count
-    self._isHighlighted = isHighlighted
+    self.count = count
+    self.isHighlighted = isHighlighted
     self.icon = icon
-    self.pbIcon = pbIcon
     self.countColor = countColor
-    self.isInteractive = isInteractive
     self.action = action
   }
-  
+
   public var body: some View {
     reactionButtonView
-      .clipShape(Capsule())
       .onHover { isHovering = $0 }
+      .setCursorPointer()
   }
 }
 
@@ -49,65 +48,53 @@ public extension PBReactionButton {
   var reactionButtonView: some View {
     return Button {
       action?()
-      highlightReaction()
     } label: {
-        reactionButtonLabelView
+      iconCountView
         .reactionButtonStyle(
           isHighlighted: isHighlighted,
-          isInteractive: isInteractive,
           isHovering: isHovering
         )
     }
     .buttonStyle(.plain)
   }
-  
+
   @ViewBuilder
-  var reactionButtonLabelView: some View {
-      if icon != nil {
-        emojiCountView
-      } else if pbIcon != nil {
-        pbIconView
-      } else {
-        addReactionView
+  var iconCountView: some View {
+    HStack(spacing: Spacing.xxSmall) {
+      switch icon {
+        case .emoji(let emoji):
+          Text(emoji)
+            .pbFont(.caption, variant: .light, color: textColor)
+            .padding(.top, 3)
+        case .pbIcon(let pbIcon):
+          pbIcon
+            .foregroundStyle(textColor)
+        case .none:
+          addReactionView
       }
+      if count > 0 && icon != nil {
+        countView(count)
+      }
+    }
+    .padding(.horizontal, horizontalPadding)
   }
-  
-  var emojiCountView: some View {
-    return HStack(spacing: Spacing.xxSmall) {
-      emojiView
-      countView
-    }  
-    .padding(.horizontal, 8)
-    .padding(.top, 3)
+
+  var horizontalPadding: CGFloat {
+    return (count > 0 && icon != nil) ? Spacing.xSmall : Spacing.small-4
   }
-  
-  var emojiView: some View {
-    return Text(icon ?? "")
-      .pbFont(.caption, variant: .light, color: textColor)
-      .padding(.leading, count > 0 ? 0 : 4)
+
+  func countView(_ count: Int) -> some View {
+      Text("\(count)")
+        .pbFont(.subcaption, variant: .light, color: textColor)
   }
-  
-  var countView: some View {
-    return Text(count > 0 || isInteractive == true ? "\(count)" : "")
-      .pbFont(.subcaption, variant: .light, color: textColor)
-  }
-  
+
   var addReactionView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.faceSmilePlus, size: .small)
         .foregroundStyle(textColor)
-        .padding(.horizontal, 12)
     }
   }
-  
-  var pbIconView: some View {
-    return HStack(alignment: .center, spacing: Spacing.xxSmall) {
-      PBIcon(FontAwesome.user, size: .small)
-        .foregroundStyle(textColor)
-        .padding(.horizontal, 14.5)
-    }
-  }
-  
+
   var textColor: Color {
     switch colorScheme {
     case .light: return countColor
@@ -116,18 +103,13 @@ public extension PBReactionButton {
       return Color.text(.light)
     }
   }
-
-  func highlightReaction() {
-    isHighlighted.toggle()
-    if !isHighlighted && isInteractive {
-      count -= 1
-    } else if isHighlighted  && isInteractive {
-      count += 1
-    }
-  }
 }
 
 #Preview {
   registerFonts()
-  return PBReactionButton()
+  return HStack {
+    PBReactionButton()
+    PBReactionButton(count: 10, isHighlighted: false, icon: .pbIcon(PBIcon.fontAwesome(.perbyte)), countColor: .pink, action: {})
+    PBReactionButton(count: 10, isHighlighted: true, icon: .emoji("😇"), action: {})
+  }
 }
