@@ -352,7 +352,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.6.2;
+				MARKETING_VERSION = 6.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase App Beta";
@@ -394,7 +394,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 6.6.2;
+				MARKETING_VERSION = 6.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase Beta Dev ID";
@@ -428,7 +428,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.6.3;
+				MARKETING_VERSION = 6.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -466,7 +466,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.6.3;
+				MARKETING_VERSION = 6.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase App";
@@ -506,7 +506,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 6.6.3;
+				MARKETING_VERSION = 6.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -541,7 +541,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 6.6.3;
+				MARKETING_VERSION = 6.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase Dev ID";
