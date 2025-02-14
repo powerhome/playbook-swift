@@ -1,9 +1,28 @@
+# 🚀 Playbook Swift 6.7.0: Adjustments and Fixes! 🚀
+##### Feb 14, 2025
+
+#### Full List of Changes
+
+**New Kits**
+- Masonry Kit by [@RachelRadford21](https://github.com/RachelRadford21) in [#640](https://github.com/Power/Playbook/pull/493)
+
+**Kit Enhancements**
+- Refactor PBTypeahead by [@lucasfeijo](https://github.com/lucasfeijo) in [#678](https://github.com/powerhome/playbook-swift/pull/495)
+- Removed reaction button internal logic by [@isismsilva](https://github.com/isismsilva) in [#616](https://github.com/powerhome/playbook-swift/pull/498)
+
+**Platform Updates**
+- Update to profile managed by iOS provisioning profile repository by [@AlexandreHauber](https://github.com/AlexandreHauber) in [#878](https://github.com/powerhome/playbook-swift/pull/491)
+
+**Full Changelog**: https://github.com/powerhome/playbook-swift/compare/6.6.3...6.7.0
+
+---
+
 # 🚀 Playbook Swift 6.6.3: Adjustments and Fixes! 🚀
 ##### Jan 24, 2025
 
-### Bug Fixes
-Popover Activity Flag: Added a flag to track popover activity in [#488]
-Reaction Button Font Color Alignment: Fixed an issue with font color alignment in the reaction button in [#490]
+**Bug Fixes**
+- Popover Activity Flag: Added a flag to track popover activity in [#488]
+- Reaction Button Font Color Alignment: Fixed an issue with font color alignment in the reaction button in [#490]
 
 [Full Changelog](https://github.com/Power/Playbook/compare/6.6.2...6.6.3)
 
@@ -12,7 +31,7 @@ Reaction Button Font Color Alignment: Fixed an issue with font color alignment i
 # 🚀 Playbook Swift 6.6.2: Adjustments and Fixes! 🚀
 ##### Jan 17, 2025
 
-### Bug Fixes
+**Bug Fixes**
 - Modify PBReactionButton to Use Binding by [@RachelRadford21](https://github.com/RachelRadford21) in [#485](https://github.com/Power/Playbook/pull/485)
 - Update PBSelect Kit Dynamic Select by [@RachelRadford21](https://github.com/RachelRadford21) in [#484](https://github.com/Power/Playbook/pull/484)
 - PBIcon Clipping Fix by [@RachelRadford21](https://github.com/RachelRadford21) in [#480](https://github.com/Power/Playbook/pull/480)
@@ -250,3 +269,4 @@ We've added a fresh option to our Multiple Users component with the new bubble v
 - User Docs [#391](https://github.com/powerhome/playbook-swift/pull/391) ([Rachel Radford](https://github.com/RachelRadford21))
 
 [Full Changelog](https://github.com/powerhome/playbook-swift/compare/5.1.0...6.0.0)
+
