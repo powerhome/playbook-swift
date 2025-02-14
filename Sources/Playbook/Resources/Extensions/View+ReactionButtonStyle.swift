@@ -10,14 +10,13 @@
 import SwiftUI
 
 public extension View {
-  func reactionButtonStyle(isHighlighted: Bool, isInteractive: Bool, isHovering: Bool) -> some View {
-    modifier(ReactionButtonModifier(isHighlighted: isHighlighted, isInteractive: isInteractive, isHovering: isHovering))
+  func reactionButtonStyle(isHighlighted: Bool, isHovering: Bool) -> some View {
+    modifier(ReactionButtonModifier(isHighlighted: isHighlighted, isHovering: isHovering))
   }
 }
 
 struct ReactionButtonModifier: ViewModifier {
   let isHighlighted: Bool
-  let isInteractive: Bool
   let isHovering: Bool
   @Environment(\.colorScheme) var colorScheme
   
@@ -30,10 +29,8 @@ struct ReactionButtonModifier: ViewModifier {
           .strokeBorder(borderColor, lineWidth: borderWidth)
           .background(backgroundColor)
           .animation(.easeInOut(duration: 0.3), value: isHighlighted)
-          .animation(.easeInOut(duration: 0.3), value: isHovering)
       )
       .clipShape(Capsule())
-      .setCursorPointer()
   }
   
   var backgroundColor: Color {
@@ -46,13 +43,13 @@ struct ReactionButtonModifier: ViewModifier {
   
   var borderColor: Color {
     switch colorScheme {
-      case .light: isHighlighted && isInteractive ? Color.pbPrimary : Color.border
-      case .dark: isInteractive && isHighlighted ? Color.pbPrimary : Color.BorderColor.borderColor(colorScheme)
+      case .light: isHighlighted ? Color.pbPrimary : Color.border
+      case .dark: isHighlighted ? Color.pbPrimary : Color.BorderColor.borderColor(colorScheme)
       default: Color.pbPrimary
     }
   }
   
   var borderWidth: CGFloat {
-     isHighlighted && isInteractive ? 2.0 : 1.0
+     isHighlighted ? 2.0 : 1.0
    }
 }

@@ -68,4 +68,24 @@ enum Mocks {
     "Seattle",
     "Dallas"
   ]
+
+  static let spaceImages: [ImageResource] = [
+    .space1,
+    .space2,
+    .space3,
+    .space4,
+    .space5,
+    .space6,
+    .space7,
+    .space8,
+    .space9,
+    .space10,
+    .space11,
+    .space12,
+    .space13,
+    .space14,
+    .space15,
+    .space16,
+    .space17
+  ]
 }

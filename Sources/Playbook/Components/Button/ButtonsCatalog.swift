@@ -10,10 +10,7 @@
 import SwiftUI
 
 public struct ButtonsCatalog: View {
-  @State private var count: Int = 154
-  @State private var count1: Int = 5
   @State private var isLoading: Bool = false
-  @State private var isHighlighted: Bool = true
 
   public var body: some View {
     PBDocStack(title: "Button") {
@@ -33,7 +30,7 @@ extension ButtonsCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBButton(
         title: "Button Primary",
-        isLoading: $isLoading, 
+        isLoading: $isLoading,
         action: { isLoading = true }
       )
       PBButton(
@@ -59,15 +56,24 @@ extension ButtonsCatalog {
   }
   var reactionButtonView: some View {
     HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 12) {
-      PBReactionButton(
-        count: $count,
-        isHighlighted: $isHighlighted,
-        icon: "\u{1F389}",
-        isInteractive: true
+      ReactionButton(
+        icon: .emoji("\u{1F389}"),
+        count: 154,
+        isHighlighted: true
       )
-      PBReactionButton(count: $count1, icon: "1️⃣", isInteractive: false)
-      PBReactionButton(isInteractive: false, countColor: Color.text(.lighter))
-      PBReactionButton(pbIcon: PBIcon(FontAwesome.user), isInteractive: false, countColor: Color.text(.lighter))
+      ReactionButton(
+        icon: .emoji("1️⃣"),
+        count: 5,
+        isHighlighted: false
+      )
+      PBReactionButton(
+        isHighlighted: false,
+        countColor: Color.text(.lighter)
+      )
+      PBReactionButton(
+        icon: .pbIcon(PBIcon(FontAwesome.user, size: .small)),
+        countColor: Color.text(.lighter)
+      )
     }
   }
   var fullWidthButtonView: some View {
@@ -166,4 +172,40 @@ extension ButtonsCatalog {
 #Preview {
   registerFonts()
   return ButtonsCatalog()
+}
+
+
+struct ReactionButton: View {
+  let icon: PBReactionButton.Icon?
+  @State private var count: Int
+  @State private var isHighlighted: Bool
+
+  init(
+    icon: PBReactionButton.Icon? = nil,
+    count: Int = 0,
+    isHighlighted: Bool
+  ) {
+    self.icon = icon
+    self.count = count
+    self.isHighlighted = isHighlighted
+  }
+
+ var body: some View {
+   PBReactionButton(
+     count: count,
+     isHighlighted: isHighlighted,
+     icon: icon
+   ) {
+     highlightReaction()
+   }
+  }
+
+  func highlightReaction() {
+    isHighlighted.toggle()
+    if !isHighlighted {
+      count -= 1
+    } else if isHighlighted {
+      count += 1
+    }
+  }
 }
