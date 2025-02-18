@@ -11,12 +11,14 @@ import SwiftUI
 import Playbook
 
 struct LayoutView: View {
-  let users = Mocks.multipleUsersGroup
+  @State private var users = Mocks.multipleUsersGroup
   @State var selectedLayout: Int = Layout.classic.layoutIndex
   @State private var hoveringItem: String?
   @State private var hoveringIndex: Int?
   @State private var isHoveringRoom: Bool = false
   @State private var isHoveringPeople: Bool = false
+  @State private var rooms = ["S.H.I.E.L.D", "System Operations", "Birds of Prey", "UX Nitro", "Incredibles", "Home Tour"]
+  
   let action: (() -> Void)?
 
   public init(
@@ -29,7 +31,7 @@ struct LayoutView: View {
     VStack(alignment: .leading, spacing: Spacing.none) {
       PBNav(selected: $selectedLayout, variant: .subtle, orientation: .horizontal, borders: false, highlight: false) {
         PBNavItem(Layout.classic.title)
-        PBNavItem(Layout.cozy.title)
+        PBNavItem(Layout.comfortable.title)
       }
 
       ScrollView {
@@ -72,22 +74,21 @@ struct LayoutView: View {
 }
 
 extension LayoutView {
-  static let rooms = ["S.H.I.E.L.D", "System Operations", "Birds of Prey", "UX Nitro", "Incredibles", "Home Tour"]
 
   enum Layout: CaseIterable {
-    case classic, cozy
+    case classic, comfortable
 
     var title: String {
       switch self {
       case .classic: return "Classic"
-      case .cozy: return "Cozy"
+      case .comfortable: return "Comfortable"
       }
     }
 
     var layoutIndex: Int {
       switch self {
       case .classic: return 0
-      case .cozy: return 1
+      case .comfortable: return 1
       }
     }
   }
@@ -95,15 +96,24 @@ extension LayoutView {
   var roomIconSize: PBIcon.IconSize {
     switch Layout.allCases[selectedLayout] {
     case .classic: return .x1
-    case .cozy: return .xSmall
+    case .comfortable: return .xSmall
     }
   }
 
   var roomContent: some View {
     VStack(spacing: Spacing.none) {
-      ForEach(LayoutView.rooms, id: \.self) { room in
+      ForEach(rooms, id: \.self) { room in
         roomRow(room: room, isHovering: hoveringItem == room ? true : false)
           .background(hoveringItem == room ? Color.active : .clear)
+          .draggable(room)
+          .dropDestination(for: String.self) { droppedTabs, location in
+            guard let droppedTab = droppedTabs.first,
+                  let sourceIndex = rooms.firstIndex(of: droppedTab),
+                  let targetIndex = rooms.firstIndex(of: room) else { return false }
+
+            rooms.move(from: sourceIndex, to: targetIndex)
+            return true
+          }
           .onHover { isHovering in
             self.hoveringItem = room
             isHoveringRoom = isHovering
@@ -130,9 +140,9 @@ extension LayoutView {
        closeButton
          .opacity(isHovering ? 1 : 0)
          .padding(.trailing, isHovering ?  Spacing.small : 0)
-      #endif
+       #endif
     }
-    .frame(height: 50)
+    .frame(height: selectedLayout == 0 ? 50 : 38)
   }
 
   var peopleContent: some View {
@@ -168,21 +178,19 @@ extension LayoutView {
       #if os(macOS)
       closeButton
         .padding(.trailing, isHovering ?  Spacing.small : 0)
-      .opacity(isHovering ? 1 : 0)
+        .opacity(isHovering ? 1 : 0)
       #endif
     }
-    .frame(height: 50)
+    .frame(height: selectedLayout == 0 ? 50 : 35)
   }
 
   func multipleUserView(users: [PBUser]) -> some View {
     HStack {
       switch Layout.allCases[selectedLayout] {
-      case .classic:
+      case .classic, .comfortable:
         PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .default)
-          .padding(.leading, users.count >= 2 ? 8 : 0)
+          .padding(.leading, users.count >= 2 ? 7 : 0)
           .padding(.trailing,  10)
-      case .cozy:
-        PBIcon(FontAwesome.users, color: .text(.default))
       }
       let userNames = users.map { $0.name }.prefix(2).joined(separator: ", ")
       Text(userNames).pbFont(.title4)
@@ -203,11 +211,11 @@ extension LayoutView {
         status: user.status,
         displayAvatar: true
       )
-    case .cozy:
+    case .comfortable:
       HStack {
-        PBOnlineStatus(status: user.status)
-          .padding(.leading, Spacing.xxSmall+1)
-          .padding(.trailing, Spacing.small)
+        PBAvatar(image: Image("Ana"), name: "Ana Black", size: .xSmall, status: .online, statusSize: .small)
+          .padding(.trailing, 15)
+          .padding(.leading, Spacing.xxSmall)
         Text(user.name).pbFont(.body)
       }
     }
