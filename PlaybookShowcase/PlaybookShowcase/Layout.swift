@@ -18,7 +18,7 @@ struct LayoutView: View {
   @State private var isHoveringRoom: Bool = false
   @State private var isHoveringPeople: Bool = false
   @State private var rooms = ["S.H.I.E.L.D", "System Operations", "Birds of Prey", "UX Nitro", "Incredibles", "Home Tour"]
-  
+
   let action: (() -> Void)?
 
   public init(
@@ -132,6 +132,7 @@ extension LayoutView {
   func roomRow(room: String, isHovering: Bool) -> some View {
     HStack {
         PBIconCircle(FontAwesome.lock, size: roomIconSize, color: .blue)
+        .padding(.trailing, selectedLayout == 0 ? Spacing.xxSmall : Spacing.xxSmall)
         Text(room).pbFont(.body)
         Spacer()
 
@@ -190,7 +191,7 @@ extension LayoutView {
       case .classic, .comfortable:
         PBMultipleUsersStacked(users: Mocks.multipleUsers, size: .default)
           .padding(.leading, users.count >= 2 ? 7 : 0)
-          .padding(.trailing,  10)
+          .padding(.trailing, selectedLayout == 0 ? Spacing.xSmall+5 : Spacing.xxSmall)
       }
       let userNames = users.map { $0.name }.prefix(2).joined(separator: ", ")
       Text(userNames).pbFont(.title4)
@@ -211,10 +212,11 @@ extension LayoutView {
         status: user.status,
         displayAvatar: true
       )
+      .padding(.trailing, selectedLayout == 0 ? Spacing.xSmall+5 : Spacing.xxSmall)
     case .comfortable:
       HStack {
         PBAvatar(image: Image("Ana"), name: "Ana Black", size: .xSmall, status: .online, statusSize: .small)
-          .padding(.trailing, 15)
+          .padding(.trailing, selectedLayout == 0 ? Spacing.xSmall+5 : Spacing.xxSmall)
           .padding(.leading, Spacing.xxSmall)
         Text(user.name).pbFont(.body)
       }
