@@ -1,10 +1,7 @@
-# 🚀 Playbook Swift 6.7.0: Adjustments and Fixes! 🚀
+# 🚀 Playbook Swift 6.7.1: Adjustments and Fixes! 🚀
 ##### Feb 14, 2025
 
 #### Full List of Changes
-
-**New Kits**
-- Masonry Kit by [@RachelRadford21](https://github.com/RachelRadford21) in [#640](https://github.com/Power/Playbook/pull/493)
 
 **Kit Enhancements**
 - Refactor PBTypeahead by [@lucasfeijo](https://github.com/lucasfeijo) in [#678](https://github.com/powerhome/playbook-swift/pull/495)
