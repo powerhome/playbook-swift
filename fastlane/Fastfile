@@ -191,9 +191,9 @@ lane :distribute_to_mdm do |opts|
   pr_number = ""#opts[:pr_number]
   version_number = ""#{}"3.0.#{opts[:build_number]}"
 
-  file_path = "#{target_ios(opts[:suffix])}.ipa"
+  file_path = "../#{target_ios(opts[:suffix])}.ipa"
   if platform == "macos"
-    file_path = "#{target_macos(opts[:suffix])}.app"
+    file_path = "../#{target_macos(opts[:suffix])}.app"
   end
   output_file = "../upload-build-to-nitro-details.json"
 

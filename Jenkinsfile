@@ -233,7 +233,7 @@ def uploadiOS() {
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
   fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
-    "nitro_mdm_token:${NITRO_MDM_API_KEY}")
+    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum}")
 }
 
 def uploadmacOS() {
@@ -241,7 +241,7 @@ def uploadmacOS() {
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
   fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
-    "nitro_mdm_api_token:${NITRO_MDM_API_KEY}")
+    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum}")
 }
 
 def prTitleValid() {
