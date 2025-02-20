@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 success = true
-defaultNode = 'xcode-16'
+defaultNode = 'xcode-16 || xcode-16.2'
 sshKey = 'powerci-github-ssh-key'
 
 prTitle = null
