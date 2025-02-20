@@ -104,7 +104,9 @@ end
 desc "Upload iOS build"
 lane :upload_ios do |opts|
   keep_trying {
-    ship_ios_to_appcenter(opts)
+    # ship_ios_to_appcenter(opts)
+    opts[:platform] = "ios"
+    distribute_to_mdm(opts)
   }
 end
 
@@ -134,7 +136,9 @@ end
 desc "Upload macOS build"
 lane :upload_macos do |opts|
   keep_trying {
-    ship_macos_to_appcenter(opts)
+    # ship_macos_to_appcenter(opts)
+    opts[:platform] = "macos"
+    distribute_to_mdm(opts)
   }
 end
 
@@ -165,6 +169,57 @@ lane :ship_macos_to_appcenter do |opts|
     destination_type: "group",
     upload_build_only: false
   )
+end
+
+desc "Upload to Nitro MDM"
+lane :distribute_to_mdm do |opts|
+
+  target = opts[:type]
+  build_number = opts[:build_number]
+  platform = opts[:platform]
+  mdm_api_token = opts[:nitro_mdm_api_token]
+  upload_address = "https://nitroqa.powerhrg.com/mdm/api/v1/builds"
+
+  app_id = "com.powerhrg.PlaybookShowcase.dev"
+  if target == 'production'
+    app_id = "com.powerhrg.PlaybookShowcase"
+  end
+
+  # New properties
+  pr_link = "https://github.com/powerhome/connect-apple/pull/#{opts[:pr_number]}"
+  pr_name = opts[:release_notes]
+  #pr_number = opts[:pr_number]
+  #version_number = "3.0.#{opts[:build_number]}"
+
+  file_path = "#{target_ios(opts[:suffix])}.ipa"
+  if platform == "macos"
+    file_path = "#{target_macos(opts[:suffix])}.app"
+  end
+  output_file = "../upload-build-to-nitro-details.json"
+
+  # Copying to MDM S3
+  curl = <<-SHELL 
+    curl -v -sS #{upload_address} \
+      -F platform="#{platform}" \
+      -F app_id="#{app_id}" \
+      -F build_number="#{build_number}" \
+      -F pr_link="#{pr_link}" \
+      -F pr_name="#{pr_name}" \
+      -F pr_number="#{pr_number}" \
+      -F version_number="#{version_number}" \
+      -F file="@#{file_path}" \
+      -H "Authorization: #{mdm_api_token}" \
+      -o "#{output_file}"
+    if [[ $? -ne 0 ]] || grep -q errors "#{output_file}"; then
+      echo "---------------------------------"
+      echo ">>> There has been an error uploading the artifact to Nitro."
+      cat "#{output_file}"
+      exit 1
+    fi
+    jq . "#{output_file}"
+  SHELL
+
+  sh "#{curl}"
 end
 
 desc "Create Runway comment"

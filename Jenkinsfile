@@ -23,6 +23,10 @@ secrets = [
   appcenter: [
     credentialsId: 'appcenter-token',
     variable: 'APPCENTER_API_TOKEN'
+  ],
+  nitromdm: [
+    credentialsId: 'a5876938-2cc6-4921-9aaa-12f224fe60fe', 
+    variable: 'NITRO_MDM_API_KEY'
   ]
 ]
 
@@ -37,8 +41,8 @@ stg = [
   provision: 'Provisioning Profiles',
   runway: 'Create Runway Comment',
   setup: 'Setup',
-  uploadiOS: 'Upload iOS to AppCenter',
-  uploadmacOS: 'Upload macOS to AppCenter'
+  uploadiOS: 'Upload iOS to AppCenter and Nitro MDM',
+  uploadmacOS: 'Upload macOS to AppCenter and Nitro MDM'
 ]
 
 node(defaultNode) {
@@ -82,11 +86,11 @@ node(defaultNode) {
     }
 
     stage(stg.uploadiOS) {
-      uploadiOSToAppCenter()
+      uploadiOS()
     }
 
      stage(stg.uploadmacOS) {
-      uploadmacOSToAppCenter()
+      uploadmacOS()
     }
 
     stage(stg.runway) {
@@ -113,7 +117,8 @@ def setupEnv(block) {
   withCredentials([
     string(secrets.github),
     string(secrets.runway),
-    string(secrets.appcenter)
+    string(secrets.appcenter),
+    string(secrets.nitromdm)
   ]) {
     withEnv(['LC_ALL=en_US.UTF-8', 'LANG=en_US.UTF-8']) {
       sshagent([sshKey]) {
@@ -223,18 +228,20 @@ def readyForTesting() {
   return labels.find{it.name == "Ready for Testing"}
 }
 
-def uploadiOSToAppCenter() {
+def uploadiOS() {
   if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
-  fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+  fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
+    "nitro_mdm_token:${NITRO_MDM_API_KEY}")
 }
 
-def uploadmacOSToAppCenter() {
+def uploadmacOS() {
   if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
-  fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+  fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
+    "nitro_mdm_api_token:${NITRO_MDM_API_KEY}")
 }
 
 def prTitleValid() {
