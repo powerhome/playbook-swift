@@ -229,7 +229,7 @@ def readyForTesting() {
 }
 
 def uploadiOS() {
-  if (isDevBuild() && !readyForTesting()) return
+  // if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
   fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
@@ -237,7 +237,7 @@ def uploadiOS() {
 }
 
 def uploadmacOS() {
-  if (isDevBuild() && !readyForTesting()) return
+  // if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
   fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
