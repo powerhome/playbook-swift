@@ -236,7 +236,7 @@ def readyForTesting() {
 }
 
 def uploadiOS() {
-  // if (isDevBuild() && !readyForTesting()) return
+  if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
   def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-iOS' " +
@@ -247,7 +247,7 @@ def uploadiOS() {
 }
 
 def uploadmacOS() {
-  // if (isDevBuild() && !readyForTesting()) return
+  if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
   def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-macOS' " +

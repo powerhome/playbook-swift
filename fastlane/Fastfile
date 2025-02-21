@@ -178,7 +178,7 @@ lane :distribute_to_mdm do |opts|
   build_number = opts[:build_number]
   platform = opts[:platform]
   mdm_api_token = opts[:nitro_mdm_api_token]
-  upload_address = "https://nitroqa.powerhrg.com/mdm/api/v1/builds"
+  upload_address = "https://nitro.powerhrg.com/mdm/api/v1/builds"
 
   app_id = "com.powerhrg.PlaybookShowcase.dev"
   if target == 'production'
