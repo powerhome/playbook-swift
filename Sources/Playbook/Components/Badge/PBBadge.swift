@@ -79,7 +79,7 @@ public extension PBBadge {
     Text(text)
       .padding(3)
       .padding(.trailing, text.contains("+") ? 2 : 1)
-      .padding(.horizontal, text.contains("+") ? 0 : 2)
+      .padding(.horizontal, text.contains("+") ? 0 : 2.5)
       .foregroundColor(variant.foregroundColor())
       .background(variant.backgroundColor())
       .background(.white)
