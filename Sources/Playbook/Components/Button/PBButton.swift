@@ -18,6 +18,7 @@ public struct PBButton: View {
   var icon: PBIcon?
   var iconPosition: IconPosition?
   @Binding var isLoading: Bool
+  var customView: AnyView?
   let action: (() -> Void)?
   @Environment(\.colorScheme) var colorScheme
   
@@ -30,6 +31,7 @@ public struct PBButton: View {
     icon: PBIcon? = nil,
     iconPosition: IconPosition? = .left,
     isLoading: Binding<Bool> = .constant(false),
+    customView: AnyView? = nil,
     action: (() -> Void)? = nil
   ) {
     self.fullWidth = fullWidth
@@ -40,6 +42,7 @@ public struct PBButton: View {
     self.icon = icon
     self.iconPosition = iconPosition
     self._isLoading = isLoading
+    self.customView = customView
     self.action = action
   }
   
@@ -56,6 +59,7 @@ public struct PBButton: View {
             Text(title)
           }
         }
+        customView
       }
       .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
       .frame(maxWidth: fullWidth ? .infinity : nil)
