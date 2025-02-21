@@ -104,7 +104,7 @@ end
 desc "Upload iOS build"
 lane :upload_ios do |opts|
   keep_trying {
-    # ship_ios_to_appcenter(opts)
+    ship_ios_to_appcenter(opts)
     opts[:platform] = "ios"
     distribute_to_mdm(opts)
   }
@@ -136,7 +136,7 @@ end
 desc "Upload macOS build"
 lane :upload_macos do |opts|
   keep_trying {
-    # ship_macos_to_appcenter(opts)
+    ship_macos_to_appcenter(opts)
     opts[:platform] = "macos"
     distribute_to_mdm(opts)
   }
@@ -189,7 +189,7 @@ lane :distribute_to_mdm do |opts|
   pr_link = "https://github.com/powerhome/playbook-swift/pull/#{opts[:pr_number]}"
   pr_name = opts[:release_notes]
   pr_number = opts[:pr_number]
-  version_number = "3.0.#{opts[:build_number]}"
+  version_number = opts[:version]
 
   file_path = "../#{target_ios(opts[:suffix])}.ipa"
   if platform == "macos"
