@@ -9,6 +9,7 @@ runwayBacklogItemId = null
 githubPrDetails = null
 releaseNotes = null
 buildNum = null
+pullRequestId = null
 
 // TODO: move all secrets out!
 secrets = [
@@ -157,11 +158,17 @@ def getRunwayBacklogItemId() {
 
 def getReleaseNotes() {
   if (env.CHANGE_ID) {
+    // CHANGE_ID is PR ID
+    pullRequestID = env.CHANGE_ID
     releaseNotes = githubPrDetails['title']
   } else {
     releaseNotes = sh(script: 'git show-branch --no-name HEAD', returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
+    pullRequestIDRegex = "s/.*#\\([0-9]\\{1,\\}\\).*/\\1/p"
+    extractedPullRequestID = "echo '${releaseNotes}' | sed -n '${pullRequestIDRegex}'"
+    pullRequestID = sh(script: extractedPullRequestID, returnStdout: true).trim()
   }
   echo "Release Notes: ${releaseNotes}"
+  echo "Pull Request ID: ${pullRequestID}"
 }
 
 def clearProvisioningProfiles() {
@@ -232,16 +239,22 @@ def uploadiOS() {
   // if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
+  def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-iOS' " +
+    "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
+
   fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
-    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum}")
+    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
 def uploadmacOS() {
   // if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
+  def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-macOS' " +
+    "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
+  
   fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
-    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum}")
+    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
 def prTitleValid() {
