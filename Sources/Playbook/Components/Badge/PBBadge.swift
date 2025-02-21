@@ -25,14 +25,12 @@ public struct PBBadge: View {
   }
 
   public var body: some View {
-    Text(text)
-      .padding(EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4))
-      .frame(minWidth: 8)
-      .foregroundColor(variant.foregroundColor())
-      .background(variant.backgroundColor())
-      .background(.white)
-      .pbFont(.badgeText)
-      .cornerRadius(rounded ? 9 : 4)
+
+    if rounded {
+      roundedBadge
+    } else {
+      badgeView
+    }
   }
 }
 
@@ -65,6 +63,28 @@ public extension PBBadge {
         return foregroundColor().opacity(0.12)
       }
     }
+  }
+
+  var badgeView: some View {
+    Text("\(text)")
+      .padding(EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4))
+      .frame(minWidth: 8)
+      .foregroundColor(variant.foregroundColor())
+      .background(variant.backgroundColor())
+      .background(.white)
+      .pbFont(.badgeText)
+  }
+
+  var roundedBadge: some View {
+    Text(text)
+      .padding(3)
+      .padding(.trailing, text.contains("+") ? 2 : 1)
+      .padding(.horizontal, text.contains("+") ? 0 : 2)
+      .foregroundColor(variant.foregroundColor())
+      .background(variant.backgroundColor())
+      .background(.white)
+      .pbFont(.badgeText)
+      .clipShape(Capsule())
   }
 }
 
