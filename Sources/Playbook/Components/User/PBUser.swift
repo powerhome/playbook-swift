@@ -118,19 +118,25 @@ public extension PBUser {
 }
 
 public extension PBUser {
-    enum Size: CaseIterable {
-        case small
-        case medium
-        case large
-        
-        var avatarSize: PBAvatar.Size {
-            switch self {
-                case .small: return .small
-                case .medium: return .medium
-                case .large: return .large
-            }
-        }
+  enum Size: CaseIterable {
+    case xxSmall
+    case xSmall
+    case small
+    case medium
+    case large
+    case xLarge
+
+    var avatarSize: PBAvatar.Size {
+      switch self {
+      case .xxSmall: return .xxSmall
+      case .xSmall: return .xSmall
+      case .small: return .small
+      case .medium: return .medium
+      case .large: return .large
+      case .xLarge: return .xLarge
+      }
     }
+  }
 }
 
 #Preview {
