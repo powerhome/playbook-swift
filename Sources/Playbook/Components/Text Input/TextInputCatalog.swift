@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-struct TextInputCatalog: View {
+public struct TextInputCatalog: View {
   @State private var textFirstName: String = ""
   @State private var textLastName: String = ""
   @State private var textPhone: String = ""
@@ -26,7 +26,7 @@ struct TextInputCatalog: View {
   @State private var textInline: String = ""
   @State private var textDisabled: String = ""
   
-  var body: some View {
+  public var body: some View {
 #if os(iOS)
     PBDocStack(title: "Text Input") {
       PBDoc(title: "Default", spacing: Spacing.small) {

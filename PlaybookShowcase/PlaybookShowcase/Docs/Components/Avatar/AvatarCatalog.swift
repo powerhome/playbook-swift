@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import Playbook
 
 public struct AvatarCatalog: View {
   public var body: some View {
@@ -34,12 +35,12 @@ public struct AvatarCatalog: View {
 extension AvatarCatalog {
   var defaultAvatars: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .away)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .small, status: .online)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .large, status: .online)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .xLarge, status: .offline)
+      PBAvatar(image: Image("andrew"), size: .xxSmall, status: .online)
+      PBAvatar(image: Image("andrew"), size: .xSmall, status: .away)
+      PBAvatar(image: Image("andrew"), size: .small, status: .online)
+      PBAvatar(image: Image("andrew"), size: .medium, status: .away)
+      PBAvatar(image: Image("andrew"), size: .large, status: .online)
+      PBAvatar(image: Image("andrew"), size: .xLarge, status: .offline)
     }
   }
   
@@ -57,15 +58,15 @@ extension AvatarCatalog {
   var statusSize: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew", bundle: .module), size: .small, status: .online, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .small, status: .online, statusSize: .medium)
         Text("Small").pbFont(.caption)
       }
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .medium, status: .away, statusSize: .medium)
         Text("Medium").pbFont(.caption)
       }
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew", bundle: .module), size: .large, status: .offline, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .large, status: .offline, statusSize: .medium)
         Text("Large").pbFont(.caption)
       }
     }
@@ -74,15 +75,15 @@ extension AvatarCatalog {
   var statusColor: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .online, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .medium, status: .online, statusSize: .medium)
         Text("Online").pbFont(.caption)
       }
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .medium, status: .away, statusSize: .medium)
         Text("Away").pbFont(.caption)
       }
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .offline, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .medium, status: .offline, statusSize: .medium)
         Text("Offline").pbFont(.caption)
       }
     }
@@ -90,12 +91,12 @@ extension AvatarCatalog {
 
   var greyScale: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBAvatar(image: Image("andrew", bundle: .module), size: .xxSmall, status: .online, isActive: false)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .xSmall, status: .away, isActive: false)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .small, status: .online, isActive: false)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .medium, status: .away, isActive: false)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .large, status: .online, isActive: false)
-      PBAvatar(image: Image("andrew", bundle: .module), size: .xLarge, status: .offline, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .xxSmall, status: .online, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .xSmall, status: .away, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .small, status: .online, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .medium, status: .away, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .large, status: .online, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .xLarge, status: .offline, isActive: false)
     }
   }
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -34,6 +34,10 @@
 		F95597BE2ABCDC32009DA44D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		F93FA5302D6CE81100A26055 /* Docs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Docs; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		F905151529F03B0700F9B66D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -57,6 +61,7 @@
 		F905151929F03B0700F9B66D /* PlaybookShowcase */ = {
 			isa = PBXGroup;
 			children = (
+				F93FA5302D6CE81100A26055 /* Docs */,
 				F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */,
 				639039862A13A496004576FF /* ContentListView.swift */,
 				F905151E29F03B0700F9B66D /* Assets.xcassets */,
@@ -135,6 +140,9 @@
 			dependencies = (
 				F94356FB29F0474D0051C650 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				F93FA5302D6CE81100A26055 /* Docs */,
+			);
 			name = "PlaybookShowcase-iOS";
 			packageProductDependencies = (
 				F905157129F03B7600F9B66D /* Playbook */,
@@ -154,6 +162,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F93FA5302D6CE81100A26055 /* Docs */,
 			);
 			name = "PlaybookShowcase-macOS";
 			packageProductDependencies = (

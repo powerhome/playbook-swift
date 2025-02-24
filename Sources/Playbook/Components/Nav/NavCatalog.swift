@@ -13,7 +13,7 @@ enum NavContent {
   case vertical, horizontal, custom
 }
 
-struct NavCatalog: View {
+public struct NavCatalog: View {
   @State private var selectedVDefault: Int = 1
   @State private var selectedVIcon: Int = 1
   @State private var selectedVCustomIcon: Int = 1
@@ -31,7 +31,7 @@ struct NavCatalog: View {
   @State private var selectedCustom: Int = 1
   @State private var navContent: NavContent = .vertical
   
-  var body: some View {
+  public var body: some View {
     VStack {
       Picker("Select", selection: $navContent) {
         Text("Vertical").tag(NavContent.vertical)

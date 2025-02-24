@@ -9,8 +9,8 @@
 
 import SwiftUI
 
-struct TimeCatalog: View {
-  var body: some View {
+public struct TimeCatalog: View {
+  public var body: some View {
     PBDocStack(title: "Time") {
       PBDoc(title: "Default") {
         defaultView

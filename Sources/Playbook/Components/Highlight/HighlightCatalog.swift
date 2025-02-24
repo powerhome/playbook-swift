@@ -9,8 +9,8 @@
 
 import SwiftUI
 
-struct HighlightCatalog: View {
-    var body: some View {
+public struct HighlightCatalog: View {
+    public var body: some View {
       PBDocStack(title: "Highlight") {
         PBDoc(title: "Default") {
           defaultView
