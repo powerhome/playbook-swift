@@ -50,6 +50,7 @@ public extension PBLabelPill {
     }
   }
 }
+
 #Preview {
   registerFonts()
   return PBLabelPill(pillValue: "")

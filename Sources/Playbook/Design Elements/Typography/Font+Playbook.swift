@@ -136,7 +136,7 @@ public enum PBFont: Equatable {
     }
   }
 
-  func space(_ space: LetterSpacing, font: PBFont) -> CGFloat {
+  public func space(_ space: LetterSpacing, font: PBFont) -> CGFloat {
     switch space {
     case .tightest: return font.size * -0.1
     case .tighter: return font.size * -0.07
@@ -150,7 +150,7 @@ public enum PBFont: Equatable {
   }
 }
 
-enum LetterSpacing: String, CaseIterable {
+public enum LetterSpacing: String, CaseIterable {
   case tightest
   case tighter
   case tight

@@ -125,9 +125,3 @@ public extension PBSelect {
   }
 }
 
-public struct PBSelect_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return SelectCatalog()
-  }
-}

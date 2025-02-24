@@ -1,5 +1,0 @@
-  swift:
-  - message_default_swift: Default
- # - message_loading_swift: Message Loading
- # - message_with_timestamp_hover_swift: Timestamp Hover
-  - message_props_swift: ""

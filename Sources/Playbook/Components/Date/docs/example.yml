@@ -1,6 +1,0 @@
-swift:
- - date_default_swift: Default
- - date_variants_swift: Variants
- - date_alignment_swift: Alignment
- - date_unstyled_swift: Unstyled
- - date_props_swift: ""

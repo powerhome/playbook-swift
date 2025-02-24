@@ -89,10 +89,3 @@ public extension PBLabelValue {
     return "· " + formatter.string(from: date)
   }
 }
-
-public struct PBLabelValue_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return LabelValueCatalog()
-  }
-}

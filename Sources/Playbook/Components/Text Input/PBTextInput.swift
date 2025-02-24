@@ -258,8 +258,3 @@ public extension PBTextInput {
     case typeahead(AnyView)
   }
 }
-#Preview {
-  registerFonts()
-  return TextInputCatalog()
-}
-

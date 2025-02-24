@@ -27,9 +27,6 @@ public struct PBPerson: View {
   }
 }
 
-public struct PBPerson_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return PBPerson(firstName: "John", lastName: "Doe")
-  }
+#Preview {
+  PBPerson(firstName: "John", lastName: "Doe")
 }

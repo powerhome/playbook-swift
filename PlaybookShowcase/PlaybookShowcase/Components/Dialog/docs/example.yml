@@ -1,8 +1,0 @@
-  swift:
-  - dialog_default_swift: Simple
-  - dialog_complex_swift: Complex
-  - dialog_sizes_swift: Sizes
-  - dialog_stacked_swift: Stacked
-  - dialog_status_swift: Status
-  - dialog_props_swift: ""
-  

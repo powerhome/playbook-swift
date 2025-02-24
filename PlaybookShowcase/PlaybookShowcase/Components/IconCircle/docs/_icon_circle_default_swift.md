@@ -1,3 +1,0 @@
-```swift
-PBIconCircle(FontAwesome.rocket)
-```

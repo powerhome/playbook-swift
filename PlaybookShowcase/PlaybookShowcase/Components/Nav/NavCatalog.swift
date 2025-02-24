@@ -336,3 +336,7 @@ public struct NavCatalog: View {
     }
   }
 }
+
+#Preview {
+  NavCatalog()
+}

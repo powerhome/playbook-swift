@@ -1,7 +1,0 @@
- swift:
-  - time_default_swift: Simple
-  - time_sizes_swift: Sizes
-  - time_timezone_swift: Status
-  - time_alignment_swift: Alignment
-  - time_unstyled_swift: Unstyled
-  - time_props_swift: ""

@@ -66,10 +66,3 @@ extension PBMultipleUsersIndicator {
     size == .xxSmall ?.buttonText(size.fontSize) : .badgeText
   }
 }
-@available(macOS 13.0, *)
-struct PBMultipleUsersIndicator_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return MultipleUsersIndicatorCatalog()
-  }
-}

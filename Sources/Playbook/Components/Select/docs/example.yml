@@ -1,7 +1,0 @@
-swift:
-  - select_default_swift: Default
-  - select_blank_selection_text_swift: Blank Selection Text
-  - select_disabled_select_field_swift: Disabled Select Field
-#  - select_equal_option_and_value_text_swift: Equal Option Value and Value Text
-  - select_with_error_swift: Select With Error
-  - select_props_swift: ""

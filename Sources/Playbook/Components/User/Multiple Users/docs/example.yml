@@ -1,5 +1,0 @@
-  swift:
-  - multiple_users_default_swift: Default
-  - multiple_users_small_swift: Small
-  - multiple_users_reverse_swift: Reverse
-  - multiple_users_props_swift: ""

@@ -147,7 +147,7 @@ public enum DialogVariant: Equatable {
     }
 }
 
-#Preview {
-    registerFonts()
-    return DialogCatalog()
-}
+//#Preview {
+//    registerFonts()
+//    return DialogCatalog()
+//}

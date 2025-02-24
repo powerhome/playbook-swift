@@ -74,10 +74,3 @@ public extension PBImage {
     case sharp = 0
   }
 }
-
-public struct PBImage_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return ImageCatalog()
-  }
-}

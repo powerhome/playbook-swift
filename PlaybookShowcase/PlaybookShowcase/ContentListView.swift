@@ -30,34 +30,36 @@ struct ContentListView: View {
     UINavigationBar.appearance().scrollEdgeAppearance = appearance
   }
 #endif
+
   var body: some View {
     NavigationStack {
-      contentView.padding(.bottom, 80)
-        .toolbar {
-          ToolbarItem(placement: .cancellationAction) {
-            HStack(alignment: .center, spacing: Spacing.xLarge) {
-              HStack(spacing: Spacing.xxSmall) {
-                playbookLogo
-                if let version = version {
-                  PBBadge(text: version, variant: .success)
-                }
-              }
-            }
-          }
-          ToolbarItem {
-           darkmodeToggle
-          }
-        }
-        .background {
-          checked ? Color.background(.dark) : Color.background(.light)
-        }
-        .overlay {
+//      contentView.padding(.bottom, 80)
+//        .toolbar {
+//          ToolbarItem(placement: .cancellationAction) {
+//            HStack(alignment: .center, spacing: Spacing.xLarge) {
+//              HStack(spacing: Spacing.xxSmall) {
+//                playbookLogo
+//                if let version = version {
+//                  PBBadge(text: version, variant: .success)
+//                }
+//              }
+//            }
+//          }
+//          ToolbarItem(placement: .confirmationAction) {
+//            darkmodeToggle
+//          }
+//        }
+//        .background {
+//          checked ? Color.background(.dark) : Color.background(.light)
+//        }
+//      Color.pink
+//        .overlay {
           VStack {
             Spacer()
             bottomBar
-          }
+//          }
         }
-        .edgesIgnoringSafeArea(.bottom)
+//        .edgesIgnoringSafeArea(.bottom)
     }
     .preferredColorScheme(checked ? .dark : .light)
     #if os(iOS)
@@ -160,8 +162,8 @@ extension ContentListView {
     }
     .padding()
   }
-  
-  private var darkmodeToggle: some View {
+
+  var darkmodeToggle: some View {
     HStack(spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.moon, size: .xSmall)
         .pbFont(.body, color: .text(.lighter))
@@ -172,9 +174,5 @@ extension ContentListView {
 
 #Preview {
   registerFonts()
-  if #available(iOS 16.4, *) {
-    return ContentListView()
-  } else {
-    return EmptyView()
-  }
+  return ContentListView()
 }

@@ -107,13 +107,6 @@ public extension PBIcon {
   }
 }
 
-public struct PBIcon_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return IconCatalog()
-  }
-}
-
 extension View {
   func flipped(_ axis: [Axis]? = nil) -> some View {
     switch axis {
