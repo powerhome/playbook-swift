@@ -32,6 +32,10 @@
 		F91C44C12D6D0DE000E4E9C8 /* BorderRadiusCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C448D2D6D0DE000E4E9C8 /* BorderRadiusCatalog.swift */; };
 		F91C44C22D6D0DE000E4E9C8 /* SpacingCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C449E2D6D0DE000E4E9C8 /* SpacingCatalog.swift */; };
 		F91C44C32D6D0DE000E4E9C8 /* GlobalPositionCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C44992D6D0DE000E4E9C8 /* GlobalPositionCatalog.swift */; };
+		F91C44C72D6D313800E4E9C8 /* MasonryCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C44C62D6D313800E4E9C8 /* MasonryCatalog.swift */; };
+		F91C44C82D6D313800E4E9C8 /* MasonryCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C44C62D6D313800E4E9C8 /* MasonryCatalog.swift */; };
+		F91C44CA2D6D334A00E4E9C8 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C44C92D6D334A00E4E9C8 /* Mocks.swift */; };
+		F91C44CB2D6D334A00E4E9C8 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C44C92D6D334A00E4E9C8 /* Mocks.swift */; };
 		F943570829F070960051C650 /* PlaybookShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */; };
 		F943570929F070E90051C650 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F943570A29F070F10051C650 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
@@ -169,6 +173,8 @@
 		F91C449B2D6D0DE000E4E9C8 /* PBShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBShadow.swift; sourceTree = "<group>"; };
 		F91C449E2D6D0DE000E4E9C8 /* SpacingCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacingCatalog.swift; sourceTree = "<group>"; };
 		F91C44A22D6D0DE000E4E9C8 /* TypographyCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyCatalog.swift; sourceTree = "<group>"; };
+		F91C44C62D6D313800E4E9C8 /* MasonryCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasonryCatalog.swift; sourceTree = "<group>"; };
+		F91C44C92D6D334A00E4E9C8 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		F937100229EDCC3700FFD0DF /* PlaybookSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PlaybookSwift; path = ..; sourceTree = "<group>"; };
 		F948942C2D6CFDD3001B0122 /* AvatarCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarCatalog.swift; sourceTree = "<group>"; };
 		F94894352D6CFDD3001B0122 /* BadgeCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeCatalog.swift; sourceTree = "<group>"; };
@@ -256,6 +262,7 @@
 				639039862A13A496004576FF /* ContentListView.swift */,
 				F91C44892D6D0DB300E4E9C8 /* DesignElements.swift */,
 				F94895C42D6CFDD3001B0122 /* ComponentsView.swift */,
+				F91C44C92D6D334A00E4E9C8 /* Mocks.swift */,
 				F91C44A42D6D0DE000E4E9C8 /* Design Elements */,
 				F94895C52D6CFDD3001B0122 /* Components */,
 				F905151E29F03B0700F9B66D /* Assets.xcassets */,
@@ -357,6 +364,14 @@
 				F91C44A32D6D0DE000E4E9C8 /* Typography */,
 			);
 			path = "Design Elements";
+			sourceTree = "<group>";
+		};
+		F91C44C52D6D310600E4E9C8 /* Masonry */ = {
+			isa = PBXGroup;
+			children = (
+				F91C44C62D6D313800E4E9C8 /* MasonryCatalog.swift */,
+			);
+			path = Masonry;
 			sourceTree = "<group>";
 		};
 		F9370FC929EDCC0100FFD0DF = {
@@ -869,6 +884,7 @@
 				F94894F12D6CFDD3001B0122 /* Image */,
 				F94894F32D6CFDD3001B0122 /* Label Pill */,
 				F91C44862D6D0A9F00E4E9C8 /* Label Value */,
+				F91C44C52D6D310600E4E9C8 /* Masonry */,
 				F94894FB2D6CFDD3001B0122 /* Message */,
 				F948950E2D6CFDD3001B0122 /* Nav */,
 				F94895102D6CFDD3001B0122 /* Online Status */,
@@ -1042,6 +1058,7 @@
 				F905151B29F03B0700F9B66D /* PlaybookShowcaseApp.swift in Sources */,
 				F94897F82D6CFDD3001B0122 /* ProgressPillCatalog.swift in Sources */,
 				F94897F92D6CFDD3001B0122 /* MultipleUsersStackedCatalog.swift in Sources */,
+				F91C44C82D6D313800E4E9C8 /* MasonryCatalog.swift in Sources */,
 				F94897FA2D6CFDD3001B0122 /* SectionSeparatorCatalog.swift in Sources */,
 				F94897FB2D6CFDD3001B0122 /* TypeaheadCatalog.swift in Sources */,
 				F94897FC2D6CFDD3001B0122 /* HighlightCatalog.swift in Sources */,
@@ -1061,6 +1078,7 @@
 				F948980A2D6CFDD3001B0122 /* SelectCatalog.swift in Sources */,
 				F948980B2D6CFDD3001B0122 /* TextAreaCatalog.swift in Sources */,
 				F948980C2D6CFDD3001B0122 /* CardCatalog.swift in Sources */,
+				F91C44CB2D6D334A00E4E9C8 /* Mocks.swift in Sources */,
 				F948980D2D6CFDD3001B0122 /* ContactCatalog.swift in Sources */,
 				F948980E2D6CFDD3001B0122 /* HomeAddressStreetCatalog.swift in Sources */,
 				F948980F2D6CFDD3001B0122 /* TextInputCatalog.swift in Sources */,
@@ -1116,6 +1134,7 @@
 				F9E5A68A2AA7D02C00830A0C /* ContentListView.swift in Sources */,
 				F94895C62D6CFDD3001B0122 /* ProgressPillCatalog.swift in Sources */,
 				F94895C72D6CFDD3001B0122 /* MultipleUsersStackedCatalog.swift in Sources */,
+				F91C44C72D6D313800E4E9C8 /* MasonryCatalog.swift in Sources */,
 				F94895C82D6CFDD3001B0122 /* SectionSeparatorCatalog.swift in Sources */,
 				F94895C92D6CFDD3001B0122 /* TypeaheadCatalog.swift in Sources */,
 				F94895CA2D6CFDD3001B0122 /* HighlightCatalog.swift in Sources */,
@@ -1135,6 +1154,7 @@
 				F94895D82D6CFDD3001B0122 /* SelectCatalog.swift in Sources */,
 				F94895D92D6CFDD3001B0122 /* TextAreaCatalog.swift in Sources */,
 				F94895DA2D6CFDD3001B0122 /* CardCatalog.swift in Sources */,
+				F91C44CA2D6D334A00E4E9C8 /* Mocks.swift in Sources */,
 				F94895DB2D6CFDD3001B0122 /* ContactCatalog.swift in Sources */,
 				F94895DC2D6CFDD3001B0122 /* HomeAddressStreetCatalog.swift in Sources */,
 				F94895DD2D6CFDD3001B0122 /* TextInputCatalog.swift in Sources */,
