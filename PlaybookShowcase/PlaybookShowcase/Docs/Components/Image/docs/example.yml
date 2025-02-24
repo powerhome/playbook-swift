@@ -1,0 +1,4 @@
+  swift:
+  - image_default_swift: Default
+  - image_rounded_swift: Rounded
+  - image_props_swift: ""

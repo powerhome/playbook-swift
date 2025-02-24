@@ -126,7 +126,7 @@ public enum DialogSize: String, CaseIterable, Identifiable {
   case medium
   case large
   
-  var width: CGFloat {
+  public var width: CGFloat {
     switch self {
     case .small: return 300
     case .medium: return 500

@@ -165,7 +165,7 @@ public extension PBAvatar {
 
 #Preview {
   PBAvatar(
-    image: Image("andrew", bundle: .module),
+    image: Image("andrew"),
     size: .xLarge,
     status: .online
   )

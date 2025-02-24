@@ -1,0 +1,7 @@
+  swift:
+  - icon_default_swift: Default
+  - icon_rotate_swift: Rotate
+  - icon_flipped_swift: Flipped
+  - icon_border_swift: Border
+  - icon_size_swift: Size
+  - icon_props_swift: ""

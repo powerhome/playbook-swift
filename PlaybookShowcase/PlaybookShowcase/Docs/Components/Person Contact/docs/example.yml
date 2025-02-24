@@ -1,0 +1,6 @@
+  swift:
+  - person_contact_default_swift: Default
+  - person_contact_multiple_people_swift: Multiple People
+  - person_contact_with_detail_swift: With Detail
+  - person_contact_with_wrong_numbers_swift: With Wrong Numbers
+  - person_contact_props_swift: ""

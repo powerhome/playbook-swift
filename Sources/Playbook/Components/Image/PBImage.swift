@@ -58,7 +58,7 @@ public extension PBImage {
     case large = 120
     case xLarge = 140
 
-    var name: String {
+    public var name: String {
       switch self {
       case .xSmall: return "xSmall"
       case .small: return "small"

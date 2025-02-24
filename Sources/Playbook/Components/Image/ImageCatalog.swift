@@ -33,7 +33,7 @@ extension ImageCatalog {
           Text(size.name).pbFont(.detail(true), color: .text(.default))
           PBImage(
             image: nil,
-            placeholder: Image("Forest", bundle: .module),
+            placeholder: Image("Forest"),
             size: size,
             rounded: .sharp
           )
@@ -41,7 +41,7 @@ extension ImageCatalog {
       }
       VStack(alignment: .leading) {
         Text("None").pbFont(.detail(true), color: .text(.default))
-        PBImage(image: Image("Forest", bundle: .module))
+        PBImage(image: Image("Forest"))
       }
     }
   }
@@ -53,7 +53,7 @@ extension ImageCatalog {
           Text(size.name).pbFont(.detail(true), color: .text(.default))
           PBImage(
             image: nil,
-            placeholder: Image("Forest", bundle: .module),
+            placeholder: Image("Forest"),
             size: size,
             rounded: .rounded
           )
@@ -69,7 +69,7 @@ extension ImageCatalog {
           Text(size.name).pbFont(.detail(true), color: .text(.default))
           PBImage(
             image: nil,
-            placeholder: Image("Forest", bundle: .module),
+            placeholder: Image("Forest"),
             size: size,
             rounded: .rounded,
             isActive: false

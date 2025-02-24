@@ -13,6 +13,14 @@ public struct PBMultipleUsersIndicator: View {
   let usersCount: Int?
   var size: PBAvatar.Size
 
+  public init(
+    usersCount: Int?,
+    size: PBAvatar.Size
+  ) {
+    self.usersCount = usersCount
+    self.size = size
+  }
+
   public var body: some View {
     if let count = usersCount, count != 0 {
       Text("+\(count)")

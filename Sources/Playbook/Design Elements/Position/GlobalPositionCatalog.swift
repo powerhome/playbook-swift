@@ -63,7 +63,7 @@ extension GlobalPositionCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBImage(
         image: nil,
-        placeholder: Image("Forest", bundle: .module),
+        placeholder: Image("Forest"),
         size: .xSmall,
         rounded: .sharp
       )
@@ -119,7 +119,7 @@ extension GlobalPositionCatalog {
   var avatarBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBAvatar(
-        image: Image("Anna", bundle: .module),
+        image: Image("Anna"),
         size: .large
       )
       .globalPosition(
@@ -138,7 +138,7 @@ extension GlobalPositionCatalog {
   var avatarCardBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBAvatar(
-        image: Image("andrew", bundle: .module),
+        image: Image("andrew"),
         size: .large
       )
       .globalPosition(

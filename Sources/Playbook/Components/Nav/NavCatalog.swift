@@ -306,7 +306,7 @@ public struct NavCatalog: View {
         PBNavItem {
           PBUser(
             name: "Anna Black",
-            image: Image("Anna", bundle: .module),
+            image: Image("Anna"),
             size: .small,
             title: "PHL • Remodeling Consultant"
           )
@@ -314,7 +314,7 @@ public struct NavCatalog: View {
         PBNavItem {
           PBUser(
             name: "Julie",
-            image: Image("Julie", bundle: .module),
+            image: Image("Julie"),
             size: .small,
             title: "PHL • Sales Agent"
           )
@@ -322,7 +322,7 @@ public struct NavCatalog: View {
         PBNavItem {
           PBUser(
             name: "Denis Wilks",
-            image: Image("andrew", bundle: .module),
+            image: Image("andrew"),
             size: .small,
             title: "PHL • Remodeling Consultant"
           )

@@ -1,0 +1,7 @@
+swift:
+  - tab_bar_default_swift: Default
+  - tab_bar_without_shadow_swift: Without Shadow
+  - tab_bar_with_border_swift: With Border
+  - tab_bar_4_options_swift: 4 Options
+  - tab_bar_3_options_swift: 3 Options
+  - tab_bar_props_swift: ""

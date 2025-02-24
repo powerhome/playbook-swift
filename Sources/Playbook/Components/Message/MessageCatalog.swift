@@ -78,7 +78,7 @@ extension MessageCatalog {
         label: "Keith Craig",
         timestamp: Date().addingTimeInterval(-200000), 
         content: {
-          Image("Forest", bundle: .module).resizable().frame(width: 240, height: 240)
+          Image("Forest").resizable().frame(width: 240, height: 240)
         }
       )
       
@@ -87,7 +87,7 @@ extension MessageCatalog {
         message: "Please hold for one moment, I will check with my manager.",
         timestamp: Date().addingTimeInterval(-200000), 
         content: {
-          Image("Forest", bundle: .module).resizable().frame(width: 240, height: 240)
+          Image("Forest").resizable().frame(width: 240, height: 240)
         }
       )
     }
