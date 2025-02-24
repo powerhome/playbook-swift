@@ -10,95 +10,95 @@
 import SwiftUI
 
 public extension Color {
-  static let pbPrimary = Color("Primary")
-  static let card = Color("Card")
-  static let active = Color("Active")
-  static let border = Color("Border")
-  static let focus = Color("Focus")
-  static let shadow = Color("Shadow")
-  static let hover = Color("Hover")
+  static let pbPrimary = Color("Primary", bundle: .module)
+  static let card = Color("Card", bundle: .module)
+  static let active = Color("Active", bundle: .module)
+  static let border = Color("Border", bundle: .module)
+  static let focus = Color("Focus", bundle: .module)
+  static let shadow = Color("Shadow", bundle: .module)
+  static let hover = Color("Hover", bundle: .module)
 
   static func text(_ variant: TextColor) -> Color {
     switch variant {
-    case .default: return Color("TextDefault")
-    case .light: return Color("TextLight")
-    case .lighter: return Color("TextLighter")
-    case .successSmall: return Color("SuccessSmall")
+    case .default: return Color("TextDefault", bundle: .module)
+    case .light: return Color("TextLight", bundle: .module)
+    case .lighter: return Color("TextLighter", bundle: .module)
+    case .successSmall: return Color("SuccessSmall", bundle: .module)
     case .warningText: return Color(hex: "#C69500")
     }
   }
 
   static func background(_ variant: BackgroundColor) -> Color {
     switch variant {
-    case .light: return Color("BackgroundLight")
-    case .dark: return Color("BackgroundDark")
-    case .default: return Color("BackgroundDefault")
+    case .light: return Color("BackgroundLight", bundle: .module)
+    case .dark: return Color("BackgroundDark", bundle: .module)
+    case .default: return Color("BackgroundDefault", bundle: .module)
     }
   }
 
   static func status(_ variant: StatusColor, subtle: Bool = false) -> Color {
     switch variant {
-    case .success: return Color("Success").opacity(subtle ? 0.1 : 1)
-    case .warning: return Color("Warning").opacity(subtle ? 0.1 : 1)
-    case .error: return Color("Error").opacity(subtle ? 0.1 : 1)
-    case .info: return Color("Info").opacity(subtle ? 0.1 : 1)
-    case .neutral: return Color("Neutral").opacity(subtle ? 0.1 : 1)
-    case .primary: return Color("Primary").opacity(subtle ? 0.1 : 1)
+    case .success: return Color("Success", bundle: .module).opacity(subtle ? 0.1 : 1)
+    case .warning: return Color("Warning", bundle: .module).opacity(subtle ? 0.1 : 1)
+    case .error: return Color("Error", bundle: .module).opacity(subtle ? 0.1 : 1)
+    case .info: return Color("Info", bundle: .module).opacity(subtle ? 0.1 : 1)
+    case .neutral: return Color("Neutral", bundle: .module).opacity(subtle ? 0.1 : 1)
+    case .primary: return Color("Primary", bundle: .module).opacity(subtle ? 0.1 : 1)
     }
   }
 
   static func data(_ variant: DataColor) -> Color {
     switch variant {
-    case .data1: return Color("Data1")
-    case .data2: return Color("Data2")
-    case .data3: return Color("Data3")
-    case .data4: return Color("Data4")
-    case .data5: return Color("Data5")
-    case .data6: return Color("Data6")
-    case .data7: return Color("Data7")
-    case .data8: return Color("Data8")
+    case .data1: return Color("Data1", bundle: .module)
+    case .data2: return Color("Data2", bundle: .module)
+    case .data3: return Color("Data3", bundle: .module)
+    case .data4: return Color("Data4", bundle: .module)
+    case .data5: return Color("Data5", bundle: .module)
+    case .data6: return Color("Data6", bundle: .module)
+    case .data7: return Color("Data7", bundle: .module)
+    case .data8: return Color("Data8", bundle: .module)
     }
   }
 
   static func product(_ variant: ProductColor, category: ProductColor.Category) -> Color {
     let productCategory = category == .background ? "Background" : "Highlight"
     switch variant {
-    case .product1: return Color("Product1" + productCategory)
-    case .product2: return Color("Product2" + productCategory)
-    case .product3: return Color("Product3" + productCategory)
-    case .product4: return Color("Product4" + productCategory)
-    case .product5: return Color("Product5" + productCategory)
-    case .product6: return Color("Product6" + productCategory)
-    case .product7: return Color("Product7" + productCategory)
-    case .product8: return Color("Product8" + productCategory)
-    case .product9: return Color("Product9" + productCategory)
-    case .product10: return Color("Product10" + productCategory)
+    case .product1: return Color("Product1" + productCategory, bundle: .module)
+    case .product2: return Color("Product2" + productCategory, bundle: .module)
+    case .product3: return Color("Product3" + productCategory, bundle: .module)
+    case .product4: return Color("Product4" + productCategory, bundle: .module)
+    case .product5: return Color("Product5" + productCategory, bundle: .module)
+    case .product6: return Color("Product6" + productCategory, bundle: .module)
+    case .product7: return Color("Product7" + productCategory, bundle: .module)
+    case .product8: return Color("Product8" + productCategory, bundle: .module)
+    case .product9: return Color("Product9" + productCategory, bundle: .module)
+    case .product10: return Color("Product10" + productCategory, bundle: .module)
     }
   }
 
   static func category(_ variant: CategoryColor) -> Color {
     switch variant {
-    case .category1: return Color("Category1")
-    case .category2: return Color("Category2")
-    case .category3: return Color("Category3")
-    case .category4: return Color("Category4")
-    case .category5: return Color("Category5")
-    case .category6: return Color("Category6")
-    case .category7: return Color("Category7")
-    case .category8: return Color("Category8")
-    case .category9: return Color("Category9")
-    case .category10: return Color("Category10")
-    case .category11: return Color("Category11")
-    case .category12: return Color("Category12")
-    case .category13: return Color("Category13")
-    case .category14: return Color("Category14")
-    case .category15: return Color("Category15")
-    case .category16: return Color("Category16")
-    case .category17: return Color("Category17")
-    case .category18: return Color("Category18")
-    case .category19: return Color("Category19")
-    case .category20: return Color("Category20")
-    case .category21: return Color("Category21")
+    case .category1: return Color("Category1", bundle: .module)
+    case .category2: return Color("Category2", bundle: .module)
+    case .category3: return Color("Category3", bundle: .module)
+    case .category4: return Color("Category4", bundle: .module)
+    case .category5: return Color("Category5", bundle: .module)
+    case .category6: return Color("Category6", bundle: .module)
+    case .category7: return Color("Category7", bundle: .module)
+    case .category8: return Color("Category8", bundle: .module)
+    case .category9: return Color("Category9", bundle: .module)
+    case .category10: return Color("Category10", bundle: .module)
+    case .category11: return Color("Category11", bundle: .module)
+    case .category12: return Color("Category12", bundle: .module)
+    case .category13: return Color("Category13", bundle: .module)
+    case .category14: return Color("Category14", bundle: .module)
+    case .category15: return Color("Category15", bundle: .module)
+    case .category16: return Color("Category16", bundle: .module)
+    case .category17: return Color("Category17", bundle: .module)
+    case .category18: return Color("Category18", bundle: .module)
+    case .category19: return Color("Category19", bundle: .module)
+    case .category20: return Color("Category20", bundle: .module)
+    case .category21: return Color("Category21", bundle: .module)
     }
   }
 }

@@ -33,33 +33,32 @@ struct ContentListView: View {
 
   var body: some View {
     NavigationStack {
-//      contentView.padding(.bottom, 80)
-//        .toolbar {
-//          ToolbarItem(placement: .cancellationAction) {
-//            HStack(alignment: .center, spacing: Spacing.xLarge) {
-//              HStack(spacing: Spacing.xxSmall) {
-//                playbookLogo
-//                if let version = version {
-//                  PBBadge(text: version, variant: .success)
-//                }
-//              }
-//            }
-//          }
-//          ToolbarItem(placement: .confirmationAction) {
-//            darkmodeToggle
-//          }
-//        }
-//        .background {
-//          checked ? Color.background(.dark) : Color.background(.light)
-//        }
-//      Color.pink
-//        .overlay {
+      contentView.padding(.bottom, 80)
+        .toolbar {
+          ToolbarItem(placement: .cancellationAction) {
+            HStack(alignment: .center, spacing: Spacing.xLarge) {
+              HStack(spacing: Spacing.xxSmall) {
+                playbookLogo
+                if let version = version {
+                  PBBadge(text: version, variant: .success)
+                }
+              }
+            }
+          }
+          ToolbarItem(placement: .confirmationAction) {
+            darkmodeToggle
+          }
+        }
+        .background {
+          checked ? Color.background(.dark) : Color.background(.light)
+        }
+        .overlay {
           VStack {
             Spacer()
             bottomBar
-//          }
+          }
         }
-//        .edgesIgnoringSafeArea(.bottom)
+        .edgesIgnoringSafeArea(.bottom)
     }
     .preferredColorScheme(checked ? .dark : .light)
     #if os(iOS)
