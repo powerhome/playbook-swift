@@ -13,6 +13,14 @@ public struct PBMultipleUsersIndicator: View {
   let usersCount: Int?
   var size: PBAvatar.Size
 
+  public init(
+    usersCount: Int?,
+    size: PBAvatar.Size
+  ) {
+    self.usersCount = usersCount
+    self.size = size
+  }
+
   public var body: some View {
     if let count = usersCount, count != 0 {
       Text("+\(count)")
@@ -56,12 +64,5 @@ extension PBMultipleUsersIndicator {
   }
   var fontSize: PBFont {
     size == .xxSmall ?.buttonText(size.fontSize) : .badgeText
-  }
-}
-@available(macOS 13.0, *)
-struct PBMultipleUsersIndicator_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return MultipleUsersIndicatorCatalog()
   }
 }

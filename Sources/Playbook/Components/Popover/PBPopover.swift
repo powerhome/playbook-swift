@@ -132,7 +132,7 @@ public extension View {
     }
 }
 
-#Preview {
-    registerFonts()
-    return PopoverCatalog()
-}
+//#Preview {
+//    registerFonts()
+//    return PopoverCatalog()
+//}

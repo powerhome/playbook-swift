@@ -169,10 +169,3 @@ public extension PBTextArea {
     case noCount, count, maxCharacterCount(Int), maxCharacterCountBlock(Int), maxCharacterCountError(Int, String)
   }
 }
-
-struct PBTextArea_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return TextAreaCatalog()
-  }
-}

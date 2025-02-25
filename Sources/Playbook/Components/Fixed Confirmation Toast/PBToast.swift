@@ -118,5 +118,5 @@ public extension PBToast {
 
 #Preview {
   registerFonts()
- return ToastCatalog()
+  return PBToast(text: "Items Successfully Moved", variant: .success, dismissAction: {})
 }

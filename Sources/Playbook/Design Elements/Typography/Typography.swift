@@ -142,7 +142,7 @@ public extension View {
   }
 }
 
-#Preview {
-  registerFonts()
-  return TypographyCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return TypographyCatalog()
+//}

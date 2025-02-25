@@ -161,7 +161,7 @@ public extension View {
   }
 }
 
-#Preview {
-  registerFonts()
-  return TooltipCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return TooltipCatalog()
+//}

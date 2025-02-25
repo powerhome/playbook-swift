@@ -131,8 +131,7 @@ public struct PBTypeahead: View {
   }
 }
 
-#Preview {
-  registerFonts()
-  return TypeaheadCatalog()
-}
-
+//#Preview {
+//  registerFonts()
+//  return TypeaheadCatalog()
+//}

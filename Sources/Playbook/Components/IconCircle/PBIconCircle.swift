@@ -55,9 +55,6 @@ private extension View {
   }
 }
 
-public struct PBIconCircle_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return IconCircleCatalog()
-  }
+#Preview {
+  PBIconCircle(FontAwesome.ad, size: .small)
 }

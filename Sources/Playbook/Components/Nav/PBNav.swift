@@ -118,10 +118,3 @@ public extension PBNav {
     }
   }
 }
-
-public struct PBNav_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return NavCatalog()
-  }
-}

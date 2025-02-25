@@ -54,11 +54,6 @@ public extension PBPill {
   }
 }
 
-struct PBPill_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-
-    return PillCatalog()
-      .background(Color.card)
-  }
+#Preview {
+  PBPill("warning", variant: .warning)
 }

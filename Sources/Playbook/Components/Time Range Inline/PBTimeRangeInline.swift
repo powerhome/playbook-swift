@@ -97,7 +97,8 @@ public extension PBTimeRangeInline {
     isTimeZoneBold ? .text(.default): .text(.light)
   }
 }
-#Preview {
-  registerFonts()
-  return TimeRangeInlineCatalog()
-}
+
+//#Preview {
+//  registerFonts()
+//  return TimeRangeInlineCatalog()
+//}

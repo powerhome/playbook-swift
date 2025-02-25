@@ -81,9 +81,3 @@ public extension PBToggle {
     return .clear
   }
 }
-
-struct PBToggle_Previews: PreviewProvider {
-  static var previews: some View {
-    return ToggleCatalog()
-  }
-}

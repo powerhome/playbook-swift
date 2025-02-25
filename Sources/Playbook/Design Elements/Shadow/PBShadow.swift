@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-extension View {
+public extension View {
   func pbShadow(_ shadow: Shadow) -> some View {
     if shadow == .deepest {
       return AnyView(
@@ -45,8 +45,7 @@ public enum Shadow: String, CaseIterable {
   }
 }
 
-public struct PBShadow_Previews: PreviewProvider {
-  public static var previews: some View {
+#Preview {
     let shape = RoundedRectangle(cornerRadius: 7)
     List(Shadow.allCases, id: \.hashValue) { shadow in
       Section(shadow.rawValue.uppercased()) {
@@ -63,6 +62,4 @@ public struct PBShadow_Previews: PreviewProvider {
       .listRowBackground(Color.clear)
       .navigationTitle("Shadows")
     }
-   
-  }
 }

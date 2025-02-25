@@ -145,5 +145,12 @@ public extension PBMessage {
 
 #Preview {
   registerFonts()
-  return MessageCatalog()
+  return  PBMessage(
+    avatar: AnyView(Mocks.picPatric),
+    label: "Patrick Welch",
+    message: "We will escalate this issue to a Senior Support agent.",
+    timestamp: Date().addingTimeInterval(-540),
+    timestampAlignment: .leading,
+    isLoading: .constant(false)
+  )
 }

@@ -115,5 +115,13 @@ extension PBDateTimeStacked {
 }
 #Preview {
   registerFonts()
-  return DateTimeStackedCatalog()
+  return PBDateTimeStacked(
+    timeZoneIdentifier: "EDT",
+    isYearDisplayed: true,
+    isLowercase: true,
+    isMonthStacked: true,
+    isMonthBold: true,
+    isYearBold: true,
+    dateVariant: .standard
+  )
 }

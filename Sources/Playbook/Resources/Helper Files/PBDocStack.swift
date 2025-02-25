@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-struct PBDocStack<Content: View>: View {
+public struct PBDocStack<Content: View>: View {
   let title: String
   let spacing: CGFloat
   let padding: CGFloat
@@ -26,7 +26,8 @@ struct PBDocStack<Content: View>: View {
     self.padding = padding
     self.content = content()
   }
-  var body: some View {
+
+  public var body: some View {
     ScrollView {
       VStack(spacing: spacing) {
          content
@@ -39,7 +40,7 @@ struct PBDocStack<Content: View>: View {
 }
 
 
-struct Stack<Content: View>: View {
+public struct Stack<Content: View>: View {
   let spacing: CGFloat
   let content: Content
 
@@ -52,7 +53,7 @@ struct Stack<Content: View>: View {
     self.content = content()
   }
     
-  var body: some View {
+  public var body: some View {
       #if os(macOS)
       HStack(spacing: spacing) { content }
       #elseif os(iOS)

@@ -47,7 +47,7 @@ public class PopoverManager: ObservableObject {
         isPresented[id] = false
     }
     
-    func dismissPopovers() async {
+    public func dismissPopovers() async {
         DispatchQueue.main.async {
             self.isPresented.keys.forEach {
                 self.isPresented[$0] = false

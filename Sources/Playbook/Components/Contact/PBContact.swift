@@ -11,9 +11,10 @@ import SwiftUI
 import PhoneNumberKit
 
 public struct PBContact: View {
-  let detail: Bool
-  let contactValue: String
-  let type: ContactType
+  public let detail: Bool
+  public let contactValue: String
+  public let type: ContactType
+
   public init(type: ContactType = .home, value: String, detail: Bool = false) {
     self.type = type
     self.contactValue = value

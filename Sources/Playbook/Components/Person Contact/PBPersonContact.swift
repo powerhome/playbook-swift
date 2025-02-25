@@ -47,7 +47,7 @@ public extension PBPersonContact {
   }
 }
 
-#Preview {
-  registerFonts()
-  return PersonContactCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return PersonContactCatalog()
+//}

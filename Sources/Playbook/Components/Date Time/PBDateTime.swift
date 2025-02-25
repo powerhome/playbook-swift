@@ -89,5 +89,13 @@ extension PBDateTime {
 
 #Preview {
   registerFonts()
-  return DateTimeCatalog()
+  return PBDateTime(
+    dateVariant: .dayDate(showYear: true),
+    timeVariant: .iconTimeZone,
+    timeFontSize: .body,
+    isLowercase: true,
+    isTimeBold: true,
+    timeZoneIdentifier: "EST",
+    dateFontSize: .title4
+  )
 }

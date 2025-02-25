@@ -79,7 +79,7 @@ private extension TypeaheadPill {
   }
 }
 
-#Preview {
-  registerFonts()
-  return TypeaheadPillCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return TypeaheadPillCatalog()
+//}

@@ -65,7 +65,8 @@ public extension PBTimeStacked {
     .pbFont(timeZoneStyle)
   }
 }
-#Preview {
-  registerFonts()
-  return TimeStackedCatalog()
-}
+
+//#Preview {
+//  registerFonts()
+//  return TimeStackedCatalog()
+//}

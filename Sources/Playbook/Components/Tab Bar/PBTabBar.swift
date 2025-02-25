@@ -95,7 +95,7 @@ public struct TabIcon: View {
   }
 }
 
-#Preview {
-  registerFonts()
-  return TabBarCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return TabBarCatalog()
+//}
