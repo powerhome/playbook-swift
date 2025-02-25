@@ -26,8 +26,8 @@ public struct PBBadge: View {
 
   public var body: some View {
 
-    if rounded {
-      roundedBadge
+    if !text.contains("+") {
+      notificationBadge
     } else {
       badgeView
     }
@@ -73,13 +73,14 @@ public extension PBBadge {
       .background(variant.backgroundColor())
       .background(.white)
       .pbFont(.badgeText)
+      .cornerRadius(rounded ? 9 : 4)
   }
 
-  var roundedBadge: some View {
+  var notificationBadge: some View {
     Text(text)
       .padding(3)
-      .padding(.trailing, text.contains("+") ? 2 : 1)
-      .padding(.horizontal, text.contains("+") ? 0 : 2.5)
+      .padding(.trailing, 1)
+      .padding(.horizontal, 2.5)
       .foregroundColor(variant.foregroundColor())
       .background(variant.backgroundColor())
       .background(.white)
