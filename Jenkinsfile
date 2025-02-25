@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 success = true
-defaultNode = 'xcode-16'
+defaultNode = 'xcode-16 || xcode-16.2'
 sshKey = 'powerci-github-ssh-key'
 
 prTitle = null
@@ -9,6 +9,7 @@ runwayBacklogItemId = null
 githubPrDetails = null
 releaseNotes = null
 buildNum = null
+pullRequestId = null
 
 // TODO: move all secrets out!
 secrets = [
@@ -23,6 +24,10 @@ secrets = [
   appcenter: [
     credentialsId: 'appcenter-token',
     variable: 'APPCENTER_API_TOKEN'
+  ],
+  nitromdm: [
+    credentialsId: 'a5876938-2cc6-4921-9aaa-12f224fe60fe', 
+    variable: 'NITRO_MDM_API_KEY'
   ]
 ]
 
@@ -37,8 +42,8 @@ stg = [
   provision: 'Provisioning Profiles',
   runway: 'Create Runway Comment',
   setup: 'Setup',
-  uploadiOS: 'Upload iOS to AppCenter',
-  uploadmacOS: 'Upload macOS to AppCenter'
+  uploadiOS: 'Upload iOS to AppCenter and Nitro MDM',
+  uploadmacOS: 'Upload macOS to AppCenter and Nitro MDM'
 ]
 
 node(defaultNode) {
@@ -82,11 +87,11 @@ node(defaultNode) {
     }
 
     stage(stg.uploadiOS) {
-      uploadiOSToAppCenter()
+      uploadiOS()
     }
 
      stage(stg.uploadmacOS) {
-      uploadmacOSToAppCenter()
+      uploadmacOS()
     }
 
     stage(stg.runway) {
@@ -113,7 +118,8 @@ def setupEnv(block) {
   withCredentials([
     string(secrets.github),
     string(secrets.runway),
-    string(secrets.appcenter)
+    string(secrets.appcenter),
+    string(secrets.nitromdm)
   ]) {
     withEnv(['LC_ALL=en_US.UTF-8', 'LANG=en_US.UTF-8']) {
       sshagent([sshKey]) {
@@ -152,11 +158,17 @@ def getRunwayBacklogItemId() {
 
 def getReleaseNotes() {
   if (env.CHANGE_ID) {
+    // CHANGE_ID is PR ID
+    pullRequestID = env.CHANGE_ID
     releaseNotes = githubPrDetails['title']
   } else {
     releaseNotes = sh(script: 'git show-branch --no-name HEAD', returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
+    pullRequestIDRegex = "s/.*#\\([0-9]\\{1,\\}\\).*/\\1/p"
+    extractedPullRequestID = "echo '${releaseNotes}' | sed -n '${pullRequestIDRegex}'"
+    pullRequestID = sh(script: extractedPullRequestID, returnStdout: true).trim()
   }
   echo "Release Notes: ${releaseNotes}"
+  echo "Pull Request ID: ${pullRequestID}"
 }
 
 def clearProvisioningProfiles() {
@@ -223,18 +235,26 @@ def readyForTesting() {
   return labels.find{it.name == "Ready for Testing"}
 }
 
-def uploadiOSToAppCenter() {
+def uploadiOS() {
   if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
-  fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+  def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-iOS' " +
+    "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
+
+  fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
+    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
-def uploadmacOSToAppCenter() {
+def uploadmacOS() {
   if (isDevBuild() && !readyForTesting()) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
-  fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN}")
+  def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-macOS' " +
+    "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
+  
+  fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
+    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
 def prTitleValid() {
