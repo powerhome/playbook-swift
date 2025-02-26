@@ -14,24 +14,24 @@ public struct TypeaheadCatalog: View {
   @State private var searchTextColors: String = ""
   @State private var selectedColors: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
   @FocusState private var isFocusedColors
-  
+
   private var assetsUsers = Mocks.assetesMultipleUsers
   @State private var searchTextUsers: String = ""
   @State private var selectedUsers: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
   @FocusState private var isFocusedUsers
-  
+
   @State private var searchTextHeight: String = ""
   @State private var selectedHeight: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
   @FocusState private var isFocusedHeight
-  
+
   private var assetsSection: [PBTypeahead.OptionType] = Mocks.assetsSectionUsers
   @State private var searchTextSections: String = ""
   @State private var selectedSections: [PBTypeahead.Option] = []
   @FocusState private var isFocusedSection
-  
+
   @State private var presentDialog: Bool = false
   private var popoverManager = PopoverManager.shared
-  
+
   public var body: some View {
     PBDocStack(title: "Typeahead") {
       PBDoc(title: "Default", spacing: Spacing.small) { colors }
@@ -66,7 +66,7 @@ extension TypeaheadCatalog {
       selectedOptions: $selectedColors
     )
   }
-  
+
   var users: some View {
     PBTypeahead(
       id: 2,
@@ -79,7 +79,7 @@ extension TypeaheadCatalog {
       selectedOptions: $selectedUsers
     )
   }
-  
+
   var heightAdjusted: some View {
     PBTypeahead(
       id: 3,
@@ -93,7 +93,8 @@ extension TypeaheadCatalog {
       selectedOptions: $selectedHeight
     )
   }
-  
+
+
   var sections: some View {
     PBTypeaheadTemplate(
       id: 4,
@@ -106,7 +107,7 @@ extension TypeaheadCatalog {
       selectedOptions: $selectedSections
     )
   }
-  
+
   var dialog: some View {
     PBButton(title: "Simple") {
       DialogCatalog.disableAnimation()
@@ -115,16 +116,16 @@ extension TypeaheadCatalog {
     .presentationMode(isPresented: $presentDialog) {
       DialogView(isPresented: $presentDialog)
         .popoverHandler(id: 5)
-        #if os(macOS)
+#if os(macOS)
         .frame(minWidth: 500, minHeight: 390)
-        #endif
+#endif
     }
   }
-  
+
   func closeToast() {
     presentDialog = false
   }
-  
+
   struct DialogView: View {
     @Binding var isPresented: Bool
     @State private var isLoading: Bool = false
@@ -135,7 +136,7 @@ extension TypeaheadCatalog {
       Mocks.assetesMultipleUsers[1]
     ]
     @FocusState var isFocused
-    
+
     var body: some View {
       PBDialog(title: "Dialog",
                variant: .default,
@@ -163,7 +164,7 @@ extension TypeaheadCatalog {
       }
     }
   }
-  
+
   func dismissFocus() {
     isFocusedColors = false
     isFocusedUsers = false

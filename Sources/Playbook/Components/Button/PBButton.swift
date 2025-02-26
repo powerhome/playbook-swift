@@ -17,6 +17,7 @@ public struct PBButton: View {
   var title: String?
   var icon: PBIcon?
   var iconPosition: IconPosition?
+  var iconColor: Color
   @Binding var isLoading: Bool
   let action: (() -> Void)?
   @Environment(\.colorScheme) var colorScheme
@@ -29,6 +30,7 @@ public struct PBButton: View {
     title: String? = nil,
     icon: PBIcon? = nil,
     iconPosition: IconPosition? = .left,
+    iconColor: Color = .text(.light),
     isLoading: Binding<Bool> = .constant(false),
     action: (() -> Void)? = nil
   ) {
@@ -39,6 +41,7 @@ public struct PBButton: View {
     self.title = title
     self.icon = icon
     self.iconPosition = iconPosition
+    self.iconColor = iconColor
     self._isLoading = isLoading
     self.action = action
   }
@@ -49,6 +52,7 @@ public struct PBButton: View {
     } label: {
       HStack {
         icon
+          .foregroundStyle(iconColor)
         if isLoading {
           PBLoader(color: variant.foregroundColor(colorScheme: colorScheme))
         } else {
