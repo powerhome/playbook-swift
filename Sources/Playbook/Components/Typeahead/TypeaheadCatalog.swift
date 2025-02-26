@@ -18,7 +18,9 @@ public struct TypeaheadCatalog: View {
   private var assetsUsers = Mocks.assetesMultipleUsers
   @State private var searchTextUsers: String = ""
   @State private var selectedUsers: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+  @State private var selectedNoOptions: String = ""
   @FocusState private var isFocusedUsers
+  @FocusState private var isFocusedUsersNoOptions
 
   @State private var searchTextHeight: String = ""
   @State private var selectedHeight: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
@@ -36,9 +38,10 @@ public struct TypeaheadCatalog: View {
     PBDocStack(title: "Typeahead") {
       PBDoc(title: "Default", spacing: Spacing.small) { colors }
       PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-#if os(macOS)
+      PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }
+      #if os(macOS)
       PBDoc(title: "Dialog") { dialog }
-#endif
+      #endif
       PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
       PBDoc(title: "Sections", spacing: Spacing.small) { sections }
         .padding(.bottom, 500)
@@ -51,6 +54,7 @@ public struct TypeaheadCatalog: View {
     .popoverHandler(id: 2)
     .popoverHandler(id: 3)
     .popoverHandler(id: 4)
+    .popoverHandler(id: 5)
   }
 }
 
@@ -94,7 +98,6 @@ extension TypeaheadCatalog {
     )
   }
 
-
   var sections: some View {
     PBTypeaheadTemplate(
       id: 4,
@@ -105,6 +108,26 @@ extension TypeaheadCatalog {
       dropdownMaxHeight: 400,
       isFocused: $isFocusedSection,
       selectedOptions: $selectedSections
+    )
+  }
+
+  var noOptions: some View {
+    PBTypeahead(
+      id: 5,
+      title: "Users",
+      placeholder: "type the name of a user",
+      searchText: $selectedNoOptions,
+      options: [],
+      selection: .multiple(variant: .pill),
+      isFocused: $isFocusedUsersNoOptions,
+      selectedOptions: $selectedUsers,
+      noOptionsText: {
+        HStack(spacing: Spacing.none) {
+          Text("No results found. Review address for accuracy or ")
+          PBButton(variant: .link, title: "add address.")
+        }
+        .pbFont(.body, color: .text(.light))
+      }
     )
   }
 
