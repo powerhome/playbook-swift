@@ -66,7 +66,7 @@ public extension PBTypeahead {
         }
     }
 
-    func listItemView(option: PBTypeahead.Option, index: Int) -> some View {
+  func listItemView(option: PBTypeahead.Option, index: Int) -> some View {
         HStack {
             if option.text == viewModel.noOptionsText {
                 emptyView
@@ -95,14 +95,12 @@ public extension PBTypeahead {
     }
 
     var emptyView: some View {
-        HStack {
-            Spacer()
-            Text(viewModel.noOptionsText)
-                .pbFont(.body, color: .text(.light))
-            Spacer()
+        VStack {
+          noOptionsText()
         }
         .padding(.horizontal, Spacing.xSmall + 4)
         .padding(.vertical, Spacing.xSmall + 4)
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 
     func listBackgroundColor(_ index: Int?) -> Color {
@@ -113,11 +111,11 @@ public extension PBTypeahead {
                 }
             default: break
         }
-#if os(macOS)
+        #if os(macOS)
         return viewModel.hoveringIndex == index ? .hover : .card
-#elseif os(iOS)
+        #elseif os(iOS)
         return .card
-#endif
+        #endif
     }
 
     func listTextolor(_ index: Int?) -> Color {
