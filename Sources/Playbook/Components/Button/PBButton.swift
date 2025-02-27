@@ -17,6 +17,7 @@ public struct PBButton: View {
   var title: String?
   var icon: PBIcon?
   var iconPosition: IconPosition?
+  var iconColor: Color
   @Binding var isLoading: Bool
   var customView: AnyView?
   let action: (() -> Void)?
@@ -30,6 +31,7 @@ public struct PBButton: View {
     title: String? = nil,
     icon: PBIcon? = nil,
     iconPosition: IconPosition? = .left,
+    iconColor: Color = .text(.light),
     isLoading: Binding<Bool> = .constant(false),
     customView: AnyView? = nil,
     action: (() -> Void)? = nil
@@ -41,6 +43,7 @@ public struct PBButton: View {
     self.title = title
     self.icon = icon
     self.iconPosition = iconPosition
+    self.iconColor = iconColor
     self._isLoading = isLoading
     self.customView = customView
     self.action = action
@@ -57,7 +60,7 @@ public struct PBButton: View {
           if let customView = customView {
             customView
           } else {
-            icon
+            icon.foregroundStyle(iconColor)
             if let title = title, shape == .primary {
               Text(title)
             }

@@ -25,14 +25,12 @@ public struct PBBadge: View {
   }
 
   public var body: some View {
-    Text(text)
-      .padding(EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4))
-      .frame(minWidth: 8)
-      .foregroundColor(variant.foregroundColor())
-      .background(variant.backgroundColor())
-      .background(.white)
-      .pbFont(.badgeText)
-      .cornerRadius(rounded ? 9 : 4)
+
+    if !text.contains("+") {
+      notificationBadge
+    } else {
+      badgeView
+    }
   }
 }
 
@@ -65,6 +63,29 @@ public extension PBBadge {
         return foregroundColor().opacity(0.12)
       }
     }
+  }
+
+  var badgeView: some View {
+    Text("\(text)")
+      .padding(EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4))
+      .frame(minWidth: 8)
+      .foregroundColor(variant.foregroundColor())
+      .background(variant.backgroundColor())
+      .background(.white)
+      .pbFont(.badgeText)
+      .cornerRadius(rounded ? 9 : 4)
+  }
+
+  var notificationBadge: some View {
+    Text(text)
+      .padding(3)
+      .padding(.trailing, 1)
+      .padding(.horizontal, 2.5)
+      .foregroundColor(variant.foregroundColor())
+      .background(variant.backgroundColor())
+      .background(.white)
+      .pbFont(.badgeText)
+      .clipShape(Capsule())
   }
 }
 

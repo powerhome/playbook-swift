@@ -10,17 +10,17 @@
 import SwiftUI
 
 public struct PBUser: View {
-    var name: String
-    var nameFont: Typography
-    var image: Image?
-    var orientation: Orientation = .horizontal
-    var size: Size = .small
-    var territory: String?
-    var title: String?
-    var subtitle: AnyView?
-    var status: PBOnlineStatus.Status?
-    var displayAvatar: Bool = true
-    var territoryTitleFont: PBFont
+    public var name: String
+    public var nameFont: Typography
+    public var image: Image?
+    public var orientation: Orientation = .horizontal
+    public var size: Size = .small
+    public var territory: String?
+    public var title: String?
+    public var subtitle: AnyView?
+    public var status: PBOnlineStatus.Status?
+    public var displayAvatar: Bool = true
+    public var territoryTitleFont: PBFont
     public init(
         name: String = "",
         nameFont: Typography = .init(font: .title4, variant: .bold),
@@ -118,19 +118,25 @@ public extension PBUser {
 }
 
 public extension PBUser {
-    enum Size: CaseIterable {
-        case small
-        case medium
-        case large
-        
-        var avatarSize: PBAvatar.Size {
-            switch self {
-                case .small: return .small
-                case .medium: return .medium
-                case .large: return .large
-            }
-        }
+  enum Size: CaseIterable {
+    case xxSmall
+    case xSmall
+    case small
+    case medium
+    case large
+    case xLarge
+
+    var avatarSize: PBAvatar.Size {
+      switch self {
+      case .xxSmall: return .xxSmall
+      case .xSmall: return .xSmall
+      case .small: return .small
+      case .medium: return .medium
+      case .large: return .large
+      case .xLarge: return .xLarge
+      }
     }
+  }
 }
 
 #Preview {
