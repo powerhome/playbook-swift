@@ -51,21 +51,24 @@ public struct PBButton: View {
       action?()
     } label: {
       HStack {
-        icon
         if isLoading {
           PBLoader(color: variant.foregroundColor(colorScheme: colorScheme))
         } else {
-          if let title = title, shape == .primary {
-            Text(title)
+          if let customView = customView {
+            customView
+          } else {
+            icon
+            if let title = title, shape == .primary {
+              Text(title)
+            }
           }
         }
-        customView
       }
       .environment(\.layoutDirection, iconPosition == .left ? .leftToRight : .rightToLeft)
       .frame(maxWidth: fullWidth ? .infinity : nil)
     }
     .customButtonStyle(
-      variant: variant,
+      variant: customView != nil ? .link : variant,
       shape: shape,
       size: size
     )
