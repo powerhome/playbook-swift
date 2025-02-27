@@ -108,7 +108,7 @@ struct EdgeInsetModifier: ViewModifier {
   }
 }
 
-#Preview {
-  registerFonts()
-  return GlobalPositionCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return GlobalPositionCatalog()
+//}

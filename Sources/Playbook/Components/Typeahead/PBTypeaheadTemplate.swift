@@ -473,7 +473,7 @@ private extension PBTypeaheadTemplate {
     }
 }
 
-#Preview {
-    registerFonts()
-    return TypeaheadCatalog()
-}
+//#Preview {
+//    registerFonts()
+//    return TypeaheadCatalog()
+//}

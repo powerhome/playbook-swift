@@ -131,7 +131,7 @@ public extension PBButton {
   }
 }
 
-#Preview {
-  registerFonts()
-  return ButtonsCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return ButtonsCatalog()
+//}

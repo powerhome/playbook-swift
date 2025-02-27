@@ -56,5 +56,8 @@ extension PBDateYearStacked {
 
 #Preview {
   registerFonts()
-   return  DateYearStackedCatalog()
+   return PBDateYearStacked(
+    date: Date(),
+    alignment: .leading
+  )
 }

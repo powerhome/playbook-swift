@@ -132,7 +132,7 @@ public extension PBTimestamp {
   }
 }
 
-#Preview {
-  registerFonts()
-  return TimeStampCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return TimeStampCatalog()
+//}

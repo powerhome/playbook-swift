@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct UserCatalog: View {
-    let img = Image("Anna", bundle: .module)
+    let img = Image("Anna")
     let name = "Anna Black"
     let title = "Remodeling Consultant"
     

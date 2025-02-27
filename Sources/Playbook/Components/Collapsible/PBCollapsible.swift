@@ -138,10 +138,3 @@ public enum CollapsibleIconColor {
     }
   }
 }
-
-public struct PBCollapsible_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return CollapsibleCatalog()
-  }
-}

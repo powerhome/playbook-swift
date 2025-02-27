@@ -68,7 +68,7 @@ extension PBDateRangeInline {
   }
 }
 
-#Preview {
-  registerFonts()
-  return DateRangeInlineCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return DateRangeInlineCatalog()
+//}

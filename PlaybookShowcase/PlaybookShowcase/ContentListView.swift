@@ -30,6 +30,7 @@ struct ContentListView: View {
     UINavigationBar.appearance().scrollEdgeAppearance = appearance
   }
 #endif
+
   var body: some View {
     NavigationStack {
       contentView.padding(.bottom, 80)
@@ -44,8 +45,8 @@ struct ContentListView: View {
               }
             }
           }
-          ToolbarItem {
-           darkmodeToggle
+          ToolbarItem(placement: .confirmationAction) {
+            darkmodeToggle
           }
         }
         .background {
@@ -160,8 +161,8 @@ extension ContentListView {
     }
     .padding()
   }
-  
-  private var darkmodeToggle: some View {
+
+  var darkmodeToggle: some View {
     HStack(spacing: Spacing.xxSmall) {
       PBIcon(FontAwesome.moon, size: .xSmall)
         .pbFont(.body, color: .text(.lighter))
@@ -172,9 +173,5 @@ extension ContentListView {
 
 #Preview {
   registerFonts()
-  if #available(iOS 16.4, *) {
-    return ContentListView()
-  } else {
-    return EmptyView()
-  }
+  return ContentListView()
 }
