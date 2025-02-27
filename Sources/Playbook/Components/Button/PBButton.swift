@@ -19,6 +19,7 @@ public struct PBButton: View {
   var iconPosition: IconPosition?
   var iconColor: Color
   @Binding var isLoading: Bool
+  var customView: AnyView?
   let action: (() -> Void)?
   @Environment(\.colorScheme) var colorScheme
   
@@ -32,6 +33,7 @@ public struct PBButton: View {
     iconPosition: IconPosition? = .left,
     iconColor: Color = .text(.light),
     isLoading: Binding<Bool> = .constant(false),
+    customView: AnyView? = nil,
     action: (() -> Void)? = nil
   ) {
     self.fullWidth = fullWidth
@@ -43,6 +45,7 @@ public struct PBButton: View {
     self.iconPosition = iconPosition
     self.iconColor = iconColor
     self._isLoading = isLoading
+    self.customView = customView
     self.action = action
   }
   
@@ -51,13 +54,16 @@ public struct PBButton: View {
       action?()
     } label: {
       HStack {
-        icon
-          .foregroundStyle(iconColor)
         if isLoading {
           PBLoader(color: variant.foregroundColor(colorScheme: colorScheme))
         } else {
-          if let title = title, shape == .primary {
-            Text(title)
+          if let customView = customView {
+            customView
+          } else {
+            icon.foregroundStyle(iconColor)
+            if let title = title, shape == .primary {
+              Text(title)
+            }
           }
         }
       }
@@ -65,7 +71,7 @@ public struct PBButton: View {
       .frame(maxWidth: fullWidth ? .infinity : nil)
     }
     .customButtonStyle(
-      variant: variant,
+      variant: customView != nil ? .link : variant,
       shape: shape,
       size: size
     )
