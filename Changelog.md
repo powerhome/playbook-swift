@@ -1,10 +1,33 @@
-# 🚀 Playbook Swift 6.7.0: Adjustments and Fixes! 🚀
-##### Feb 14, 2025
+# 🚀 Playbook Swift 6.8.0: Adjustments and Fixes! 🚀
+##### Feb 27, 2025
 
 #### Full List of Changes
 
 **New Kits**
 - Masonry Kit by [@RachelRadford21](https://github.com/RachelRadford21) in [#640](https://github.com/Power/Playbook/pull/493)
+
+**Kit Enhancements**
+- Image and Avatar Greyscale by [@RachelRadford21](https://github.com/RachelRadford21) in [#688](https://github.com/powerhome/playbook-swift/pull/499)
+- Add Fontawesome xmark by [@RachelRadford21](https://github.com/RachelRadford21) in [#678](https://github.com/powerhome/playbook-swift/pull/507)
+- CollapsibleKitActionButton by [@RachelRadford21](https://github.com/RachelRadford21) in [#686](https://github.com/powerhome/playbook-swift/pull/506)
+- Add More Sizes for PBUser by [@RachelRadford21](https://github.com/RachelRadford21) in [#687](https://github.com/powerhome/playbook-swift/pull/508)
+- Make PBUser Vars Public by [@RachelRadford21](https://github.com/RachelRadford21) in [#690](https://github.com/powerhome/playbook-swift/pull/509)
+- Ability to Pass Custom View by [@RachelRadford21](https://github.com/RachelRadford21) in [#689](https://github.com/powerhome/playbook-swift/pull/510)
+
+**Bug Fixes**
+- Fix Rounded Badge Variant by [@RachelRadford21](https://github.com/RachelRadford21) in [#694](https://github.com/powerhome/playbook-swift/pull/511)
+
+**Platform Updates**
+- Adding Nitro MDM script by [@AlexandreHauber](https://github.com/AlexandreHauber) in [#923](https://github.com/powerhome/playbook-swift/pull/505)
+
+**Full Changelog**: https://github.com/powerhome/playbook-swift/compare/6.7.1...6.8.0
+
+---
+
+# 🚀 Playbook Swift 6.7.1: Adjustments and Fixes! 🚀
+##### Feb 14, 2025
+
+#### Full List of Changes
 
 **Kit Enhancements**
 - Refactor PBTypeahead by [@lucasfeijo](https://github.com/lucasfeijo) in [#678](https://github.com/powerhome/playbook-swift/pull/495)
