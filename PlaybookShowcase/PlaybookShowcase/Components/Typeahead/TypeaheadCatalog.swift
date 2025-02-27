@@ -95,6 +95,7 @@ extension TypeaheadCatalog {
         )
     }
 
+
     var sections: some View {
         PBTypeaheadTemplate(
             id: 4,

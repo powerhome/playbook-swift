@@ -17,23 +17,76 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
   var contentView: Content
   var iconSize: PBIcon.IconSize
   var iconColor: CollapsibleIconColor
+  var actionButton: PBButton?
 
   public init(
     isCollapsed: Binding<Bool> = .constant(false),
-    indicatorPosition: IndicatorPosition = .trailing,
+    indicatorPosition: IndicatorPosition = .leading,
     indicatorColor: Color = .text(.light),
     iconSize: PBIcon.IconSize = .small,
     iconColor: CollapsibleIconColor = .default,
+    actionButton: PBButton? = nil,
     @ViewBuilder header: @escaping () -> HeaderContent,
     @ViewBuilder content: @escaping () -> Content
   ) {
     _isCollapsed = isCollapsed
     self.indicatorPosition = indicatorPosition
     self.indicatorColor = indicatorColor
+    self.actionButton = actionButton
     headerView = header()
     contentView = content()
     self.iconSize = iconSize
     self.iconColor = iconColor
+  }
+
+  public var body: some View {
+    fullHeaderView
+  }
+}
+
+
+public extension PBCollapsible {
+  enum IndicatorPosition {
+    case leading
+    case trailing
+  }
+
+  var fullHeaderView: some View {
+    VStack {
+      HStack {
+        if indicatorPosition == .leading {
+          chevronHeaderView
+          Spacer()
+          actionButtonView
+        } else {
+          actionButtonView
+          chevronHeaderView
+        }
+      }
+      dropdownContentView
+    }
+  }
+
+  var chevronHeaderView: some View {
+    Button {
+      withAnimation {
+        isCollapsed.toggle()
+      }
+    } label: {
+      HStack {
+        if indicatorPosition == .leading {
+          indicator
+          headerView
+        } else {
+          headerView
+          Spacer()
+          indicator
+        }
+
+      }
+    }
+    .buttonStyle(BorderlessButtonStyle())
+    .tint(indicatorColor)
   }
 
   var indicator: some View {
@@ -45,46 +98,24 @@ public struct PBCollapsible<HeaderContent: View, Content: View>: View {
       )
   }
 
-  public var body: some View {
-    VStack {
-      Button {
-        withAnimation {
-          isCollapsed.toggle()
-        }
-      } label: {
-        if indicatorPosition == .leading {
-          indicator
-          headerView
-          Spacer()
-        } else {
-          headerView
-          Spacer()
-          indicator
-        }
-      }
-      .tint(indicatorColor)
-      .buttonStyle(BorderlessButtonStyle())
-
-      VStack {
-        if !isCollapsed {
-          contentView
-            .padding(.top, Spacing.small)
-        }
-      }
-      .frame(maxWidth: .infinity)
-      .fixedSize(horizontal: false, vertical: true)
-      .frame(height: isCollapsed ? 0 : .none, alignment: .top)
-      .clipped()
+  @ViewBuilder
+  var actionButtonView: some View {
+    if let button = actionButton {
+      button
     }
   }
-}
 
-// MARK: - Extensions
-
-public extension PBCollapsible {
-  enum IndicatorPosition {
-    case leading
-    case trailing
+  var dropdownContentView: some View {
+    VStack {
+      if !isCollapsed {
+        contentView
+          .padding(.top, Spacing.small)
+      }
+    }
+    .frame(maxWidth: .infinity)
+    .fixedSize(horizontal: false, vertical: true)
+    .frame(height: isCollapsed ? 0 : .none, alignment: .top)
+    .clipped()
   }
 }
 

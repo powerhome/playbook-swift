@@ -16,7 +16,7 @@ public struct CollapsibleCatalog: View {
     let iconColor: CollapsibleIconColor
     let text: String
     @State private var isCollapsed = true
-
+    
     var content: some View {
       Text(lorem).pbFont(.body)
     }
