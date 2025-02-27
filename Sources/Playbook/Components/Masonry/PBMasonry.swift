@@ -10,7 +10,6 @@
 import SwiftUI
 
 public struct PBMasonry<Item: Identifiable, Content: View>: View {
-  @State private var cachedColumns: [Column] = []
   @State private var isLoading: Bool = true
   let numOfColumns: Int
   let horizontalSpacing: CGFloat
@@ -61,7 +60,6 @@ public extension PBMasonry {
     .scrollIndicators(.hidden)
     .onAppear {
       DispatchQueue.main.asyncAfter(deadline: .now()) {
-        cachedColumns = distributedColumns
         isLoading = false
       }
     }
@@ -86,7 +84,7 @@ public extension PBMasonry {
 
   var masonryGrid: some View {
     HStack(alignment: .top, spacing: horizontalSpacing) {
-      ForEach(cachedColumns) { column in
+      ForEach(distributedColumns) { column in
         VStack(spacing: verticalSpacing) {
           ForEach(column.gridItems) { item in
             content(item)
