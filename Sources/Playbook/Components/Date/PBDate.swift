@@ -91,10 +91,3 @@ public extension PBDate {
     }
   }
 }
-
-public struct PBDate_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return DateCatalog()
-  }
-}

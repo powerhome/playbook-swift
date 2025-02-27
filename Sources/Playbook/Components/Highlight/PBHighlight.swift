@@ -36,5 +36,8 @@ extension PBHighlight {
 
 #Preview {
   registerFonts()
-  return HighlightCatalog()
+  return PBHighlight(
+    text: "This is the Highlight Kit.",
+    highlightedText: ["Highlight Kit"]
+  )
 }

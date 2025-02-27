@@ -183,7 +183,7 @@ public extension PBTime {
   }
 }
 
-#Preview {
-  registerFonts()
-  return TimeCatalog()
-}
+//#Preview {
+//  registerFonts()
+//  return TimeCatalog()
+//}

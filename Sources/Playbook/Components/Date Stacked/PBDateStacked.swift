@@ -87,5 +87,10 @@ extension PBDateStacked {
 }
 #Preview {
   registerFonts()
-   return DateStackedCatalog()
+   return PBDateStacked(
+    date: Date(),
+    variant: .short(showIcon: false),
+    dateSize: .title4,
+    isMonthStacked: true
+  )
 }

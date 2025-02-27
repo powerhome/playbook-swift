@@ -70,10 +70,3 @@ public extension PBMultipleUsersStacked {
     }
   }
 }
-
-public struct PBMultipleUsersStacked_Previews: PreviewProvider {
-  public static var previews: some View {
-    registerFonts()
-    return MultipleUsersStackedCatalog()
-  }
-}
