@@ -140,9 +140,9 @@ extension TypeaheadCatalog {
     .presentationMode(isPresented: $presentDialog) {
       DialogView(isPresented: $presentDialog)
         .popoverHandler(id: 5)
-#if os(macOS)
+        #if os(macOS)
         .frame(minWidth: 500, minHeight: 390)
-#endif
+        #endif
     }
   }
 
