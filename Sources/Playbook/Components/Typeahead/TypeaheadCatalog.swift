@@ -18,6 +18,7 @@ public struct TypeaheadCatalog: View {
   private var assetsUsers = Mocks.assetesMultipleUsers
   @State private var searchTextUsers: String = ""
   @State private var selectedUsers: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+  @State private var selectedUsersNoOptions: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
   @State private var selectedNoOptions: String = ""
   @FocusState private var isFocusedUsers
   @FocusState private var isFocusedUsersNoOptions
@@ -117,16 +118,16 @@ extension TypeaheadCatalog {
       title: "Users",
       placeholder: "type the name of a user",
       searchText: $selectedNoOptions,
-      options: [],
+      options: assetsUsers,
       selection: .multiple(variant: .pill),
       isFocused: $isFocusedUsersNoOptions,
-      selectedOptions: $selectedUsers,
+      selectedOptions: $selectedUsersNoOptions,
       noOptionsText: {
         HStack(spacing: Spacing.none) {
           Text("No results found. Review address for accuracy or ")
           PBButton(variant: .link, title: "add address.")
         }
-        .pbFont(.body, color: .text(.light))
+        .pbFont(.detail(false), color: .text(.light))
       }
     )
   }
