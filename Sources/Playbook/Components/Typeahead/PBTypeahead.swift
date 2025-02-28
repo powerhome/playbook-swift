@@ -50,7 +50,10 @@ public struct PBTypeahead: View {
     clearAction: (() -> Void)? = nil,
     disableFiltering: Bool = false,
     disableKeyboardHandler: Bool = false,
-    @ViewBuilder noOptionsText: @escaping () -> some View
+    @ViewBuilder noOptionsText: @escaping () -> some View = {
+          Text("No Options")
+            .pbFont(.body, color: .text(.light))
+    }
   ) {
     self.id = id
     self.title = title
