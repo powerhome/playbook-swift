@@ -40,9 +40,9 @@ public struct TypeaheadCatalog: View {
       PBDoc(title: "Default", spacing: Spacing.small) { colors }
       PBDoc(title: "With Pills", spacing: Spacing.small) { users }
       PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }
-      #if os(macOS)
+#if os(macOS)
       PBDoc(title: "Dialog") { dialog }
-      #endif
+#endif
       PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
       PBDoc(title: "Sections", spacing: Spacing.small) { sections }
         .padding(.bottom, 500)
