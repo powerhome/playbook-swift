@@ -25,7 +25,7 @@ final class PBTypeaheadViewModel: ObservableObject {
     private var disableFiltering: Bool
     
     // Constants
-    private(set) var noOptionsText = "No options"
+    private(set) var noOptionsText = ""
     
     // State Publishers
     var optionsSubject: CurrentValueSubject<[PBTypeahead.Option], Never>!
@@ -259,7 +259,7 @@ final class PBTypeaheadViewModel: ObservableObject {
         
         let emptyStateOption = PBTypeahead.Option(
             id: "",
-            text: noOptionsText,
+            text: "",
             customView: nil
         )
         

@@ -18,8 +18,11 @@ public struct TypeaheadCatalog: View {
 
     private var assetsUsers = Mocks.assetesMultipleUsers
     @State private var searchTextUsers: String = ""
+  @State private var selectedNoOptions: String = ""
     @State private var selectedUsers: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+  @State private var selectedUsersNoOptions: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
     @FocusState private var isFocusedUsers
+  @FocusState private var isFocusedUsersNoOptions
 
     @State private var searchTextHeight: String = ""
     @State private var selectedHeight: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
@@ -80,6 +83,27 @@ extension TypeaheadCatalog {
             selectedOptions: $selectedUsers
         )
     }
+
+  var noOptions: some View {
+    PBTypeahead(
+      id: 5,
+      title: "Users",
+      placeholder: "type the name of a user",
+      searchText: $selectedNoOptions,
+      options: assetsUsers,
+      selection: .multiple(variant: .pill),
+      isFocused: $isFocusedUsersNoOptions,
+      selectedOptions: $selectedUsersNoOptions
+//      ,
+//      noOptionsText: {
+//        HStack(spacing: Spacing.none) {
+//          Text("No results found. Review address for accuracy or ")
+//          PBButton(variant: .link, title: "add address.")
+//        }
+//        .pbFont(.detail(false), color: .text(.light))
+//      }
+    )
+  }
 
     var heightAdjusted: some View {
         PBTypeahead(
