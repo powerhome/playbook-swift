@@ -41,9 +41,9 @@ public struct TypeaheadCatalog: View {
       PBDoc(title: "Default", spacing: Spacing.small) { colors }
       PBDoc(title: "With Pills", spacing: Spacing.small) { users }
       PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }
-#if os(macOS)
+      #if os(macOS)
       PBDoc(title: "Dialog") { dialog }
-#endif
+      #endif
       PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
       PBDoc(title: "Sections", spacing: Spacing.small) { sections }
         .padding(.bottom, 500)
@@ -126,11 +126,7 @@ extension TypeaheadCatalog {
       selectedOptions: $selectedUsersNoOptions
       ,
       noOptionsText: {
-        HStack(spacing: Spacing.none) {
-          Text("No results found. Review address for accuracy or ")
-          PBButton(variant: .link, title: "add address.") 
-        }
-        .pbFont(.detail(false), color: .text(.light))
+        customNoOptionsText
       }
     )
   }
@@ -143,10 +139,28 @@ extension TypeaheadCatalog {
     .presentationMode(isPresented: $presentDialog) {
       DialogView(isPresented: $presentDialog)
         .popoverHandler(id: 5)
-        #if os(macOS)
+    #if os(macOS)
         .frame(minWidth: 500, minHeight: 390)
-        #endif
+    #endif
     }
+  }
+
+  var customNoOptionsText: some View {
+    #if os(macOS)
+    HStack(spacing: Spacing.none) {
+      Text("No results found. Review address for accuracy or ")
+      PBButton(variant: .link, title: "add address.")
+    }
+    .frame(maxWidth: .infinity, alignment: .center)
+    .pbFont(.detail(false), color: .text(.light))
+    #elseif os(iOS)
+    VStack {
+      Text("No results found. Review address for accuracy or ")
+      PBButton(variant: .link, title: "add address.")
+    }
+    .fixedSize(horizontal: true, vertical: false)
+    .pbFont(.detail(false), color: .text(.light))
+    #endif
   }
 
   func closeToast() {
