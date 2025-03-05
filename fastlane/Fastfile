@@ -15,6 +15,8 @@
 
 require 'httparty'
 
+zip_file = ''
+
 default_platform(:ios)
 
 build_path = "BuildTemp/Archives"
@@ -162,7 +164,7 @@ lane :ship_macos_to_appcenter do |opts|
     owner_type: "organization",
     app_name: app_name,
     app_os: "macOS",
-    file: "#{target_macos(opts[:suffix])}.app",
+    file: zip_file,
     version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
@@ -193,7 +195,7 @@ lane :distribute_to_mdm do |opts|
 
   file_path = "../#{target_ios(opts[:suffix])}.ipa"
   if platform == "macos"
-    file_path = "../#{target_macos(opts[:suffix])}.app"
+    file_path = "../#{zip_file}"
   end
   output_file = "../upload-build-to-nitro-details.json"
 
