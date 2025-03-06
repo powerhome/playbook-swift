@@ -25,11 +25,11 @@ secrets = [
     credentialsId: 'appcenter-token',
     variable: 'APPCENTER_API_TOKEN'
   ],
-  nitromdm: [
+  nitro_mdm: [
     credentialsId: 'a5876938-2cc6-4921-9aaa-12f224fe60fe', 
     variable: 'NITRO_MDM_API_KEY'
   ],
-  faslaneapp: [
+  fastlane_app_pass: [
     credentialsId: 'fastlane-apple-password',
     variable: 'FASTLANE_APPLE_PASSWORD'
   ]
@@ -129,7 +129,8 @@ def setupEnv(block) {
     string(secrets.github),
     string(secrets.runway),
     string(secrets.appcenter),
-    string(secrets.nitromdm)
+    string(secrets.nitro_mdm),
+    string(secrets.fastlane_app_pass)
   ]) {
     withEnv(['LC_ALL=en_US.UTF-8', 'LANG=en_US.UTF-8']) {
       sshagent([sshKey]) {
