@@ -170,10 +170,9 @@ lane :ship_macos_to_appcenter do |opts|
     app_name = "Playbook-Swift-Mac"
   end
 
-  zip_file = zip(
-    path: build_path,
-    output_path: "#{target_macos(opts[:suffix])}.zip"
-  )
+  #compress file
+  zip_file = "#{target_macos(opts[:suffix])}.zip"
+  sh "ditto -c -k --sequesterRsrc --keepParent '../#{target_macos(opts[:suffix])}.app' '../#{zip_file}'"
 
   opts[:os] = 'macos'
   appcenter_upload(
@@ -182,7 +181,7 @@ lane :ship_macos_to_appcenter do |opts|
     owner_type: "organization",
     app_name: app_name,
     app_os: "macOS",
-    file: "#{target_macos(opts[:suffix])}.app",
+    file: zip_file,
     version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
