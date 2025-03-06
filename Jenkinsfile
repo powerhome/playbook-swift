@@ -28,6 +28,10 @@ secrets = [
   nitromdm: [
     credentialsId: 'a5876938-2cc6-4921-9aaa-12f224fe60fe', 
     variable: 'NITRO_MDM_API_KEY'
+  ],
+  faslaneapp: [
+    credentialsId: 'fastlane-apple-password',
+    variable: 'FASTLANE_APPLE_PASSWORD'
   ]
 ]
 
@@ -39,11 +43,12 @@ stg = [
   cleanup: 'Cleanup',
   deps: 'Install Dependencies',
   keychain: 'Setup Keychain',
+  notarize: 'Notarize macOS',
   provision: 'Provisioning Profiles',
   runway: 'Create Runway Comment',
   setup: 'Setup',
-  uploadiOS: 'Upload iOS to AppCenter and Nitro MDM',
-  uploadmacOS: 'Upload macOS to AppCenter and Nitro MDM'
+  uploadiOS: 'Upload iOS to Nitro MDM',
+  uploadmacOS: 'Upload macOS to Nitro MDM'
 ]
 
 node(defaultNode) {
@@ -83,6 +88,7 @@ node(defaultNode) {
     }
 
      stage(stg.buildmacOS) {
+      fastlane("export_app_pass app_specific_pass:${FASTLANE_APPLE_PASSWORD}")
       fastlane("build_macos suffix:${buildSuffix()}")
     }
 
@@ -90,7 +96,11 @@ node(defaultNode) {
       uploadiOS()
     }
 
-     stage(stg.uploadmacOS) {
+    stage(stg.notarize) {
+      notarize()
+    }
+
+    stage(stg.uploadmacOS) {
       uploadmacOS()
     }
 
@@ -255,6 +265,12 @@ def uploadmacOS() {
   
   fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
     "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
+}
+
+def notarize() {
+  if (isDevBuild() && !readyForTesting()) return
+
+  fastlane("notarize_macos suffix:${buildSuffix()}")
 }
 
 def prTitleValid() {
