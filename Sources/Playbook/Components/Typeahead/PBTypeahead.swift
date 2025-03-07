@@ -24,6 +24,8 @@ public struct PBTypeahead: View {
   internal let disableFiltering: Bool
   internal let disableKeyboardHandler: Bool
 
+  var noOptionsText: () -> AnyView?
+
   @State internal var selectedInputOptions: GridInputField.Selection
   @Binding internal var selectedOptions: [PBTypeahead.Option]
   @Binding internal var searchText: String
@@ -47,7 +49,11 @@ public struct PBTypeahead: View {
     selectedOptions: Binding<[PBTypeahead.Option]>,
     clearAction: (() -> Void)? = nil,
     disableFiltering: Bool = false,
-    disableKeyboardHandler: Bool = false
+    disableKeyboardHandler: Bool = false,
+    @ViewBuilder noOptionsText: @escaping () -> some View = {
+          Text("No Options")
+            .pbFont(.body, color: .text(.light))
+    }
   ) {
     self.id = id
     self.title = title
@@ -67,6 +73,7 @@ public struct PBTypeahead: View {
       placeholder: placeholder
     ))
     self.disableKeyboardHandler = disableKeyboardHandler
+    self.noOptionsText = { AnyView(noOptionsText()) }
   }
 
   public var body: some View {
