@@ -109,7 +109,7 @@ extension GlobalPositionCatalog {
         PBIconCircle(
           FontAwesome.rocket,
           size: .small,
-          color: .data(.data5)
+          color: .orange
         )
         .background(Color.white)
       }
