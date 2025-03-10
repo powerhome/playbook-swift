@@ -15,6 +15,8 @@
 
 require 'httparty'
 
+zip_file = ''
+
 default_platform(:ios)
 
 build_path = "BuildTemp/Archives"
@@ -133,6 +135,24 @@ lane :ship_ios_to_appcenter do |opts|
   )
 end
 
+desc "Export App Pass to Environment"
+lane :export_app_pass do |opts|
+  # Add app-specific-password to environment variable
+  sh "echo FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=#{opts[:app_specific_pass]} >> .env"
+end
+
+desc "Notarize macOS build"
+lane :notarize_macos do |opts|
+keep_trying {
+    notarize(
+      package: "#{target_macos(opts[:suffix])}.app",
+      username: "#{ENV['APPLE_ID']}",
+      asc_provider: "#{ENV['TEAM_ID']}",
+      print_log: true
+    )
+  }
+end
+
 desc "Upload macOS build"
 lane :upload_macos do |opts|
   keep_trying {
@@ -150,10 +170,9 @@ lane :ship_macos_to_appcenter do |opts|
     app_name = "Playbook-Swift-Mac"
   end
 
-  zip_file = zip(
-    path: build_path,
-    output_path: "#{target_macos(opts[:suffix])}.zip"
-  )
+  #compress file
+  zip_file = "#{target_macos(opts[:suffix])}.zip"
+  sh "ditto -c -k --sequesterRsrc --keepParent '../#{target_macos(opts[:suffix])}.app' '../#{zip_file}'"
 
   opts[:os] = 'macos'
   appcenter_upload(
@@ -162,7 +181,7 @@ lane :ship_macos_to_appcenter do |opts|
     owner_type: "organization",
     app_name: app_name,
     app_os: "macOS",
-    file: "#{target_macos(opts[:suffix])}.app",
+    file: zip_file,
     version: "#{opts[:build_number]}",
     release_notes: "#{opts[:release_notes]}",
     destinations: "Rebels",
@@ -193,7 +212,7 @@ lane :distribute_to_mdm do |opts|
 
   file_path = "../#{target_ios(opts[:suffix])}.ipa"
   if platform == "macos"
-    file_path = "../#{target_macos(opts[:suffix])}.app"
+    file_path = "../#{zip_file}"
   end
   output_file = "../upload-build-to-nitro-details.json"
 

@@ -6,5 +6,9 @@ gem "fastlane", "~> 2.226.0"
 gem "json", "~> 2.8.0"
 gem 'httparty'
 
+# Until Fastlane includes them directly.
+gem "abbrev"
+gem "mutex_m"
+
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
 eval_gemfile(plugins_path) if File.exist?(plugins_path)
