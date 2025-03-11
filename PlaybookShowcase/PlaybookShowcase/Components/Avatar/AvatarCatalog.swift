@@ -43,7 +43,7 @@ extension AvatarCatalog {
       PBAvatar(image: Image("andrew"), size: .xLarge, status: .offline)
     }
   }
-  
+
   var monograms: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBAvatar(name: "Tim Wenhold", size: .xxSmall, status: .online)
@@ -54,7 +54,7 @@ extension AvatarCatalog {
       PBAvatar(name: "Tim", size: .xLarge, status: .offline)
     }
   }
-  
+
   var statusSize: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       VStack(spacing: Spacing.xxSmall) {

@@ -59,7 +59,7 @@ extension GlobalPositionCatalog {
       PBNavItem("Third")
     }
   }
-
+  
   var imageBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBImage(

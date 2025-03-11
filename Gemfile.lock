@@ -165,7 +165,7 @@ GEM
     httpclient (2.9.0)
       mutex_m
     jmespath (1.6.2)
-    json (2.8.2)
+    json (2.10.1)
     jwt (2.10.1)
       base64
     mini_magick (4.13.2)
@@ -235,7 +235,7 @@ DEPENDENCIES
   fastlane (~> 2.226.0)
   fastlane-plugin-appcenter
   httparty
-  json (~> 2.8.0)
+  json (~> 2.10.1)
   mutex_m
 
 BUNDLED WITH

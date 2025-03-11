@@ -17,7 +17,7 @@ public extension View {
     }, completionHandler:nil)
   }
   #elseif os(iOS)
-  public static func disableAnimation() {
+  static func disableAnimation() {
     UIView.setAnimationsEnabled(false)
   }
   #endif
