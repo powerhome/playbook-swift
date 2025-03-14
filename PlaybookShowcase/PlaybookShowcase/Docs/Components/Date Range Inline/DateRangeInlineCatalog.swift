@@ -21,7 +21,7 @@ public struct DateRangeInlineCatalog: View {
 }
 
 extension DateRangeInlineCatalog {
-  var defaultView: some View  {
+  var defaultView: some View {
     VStack(alignment: .leading, spacing: Spacing.large) {
       VStack(alignment: .leading, spacing: Spacing.small) {
         PBDateRangeInline(
@@ -32,17 +32,17 @@ extension DateRangeInlineCatalog {
           startVariant: .standard
         )
         PBDateRangeInline(
-          size: .body, 
+          size: .body,
           iconSize: .x1,
           startDate: "18 Jun 2013",
-          endDate: "20 Mar 2015", 
+          endDate: "20 Mar 2015",
           startVariant: .standard
         )
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       VStack(alignment: .center, spacing: Spacing.small) {
         PBDateRangeInline(
-          size: .caption, 
+          size: .caption,
           iconSize: .xSmall,
           startDate: "15 Jan 2013",
           endDate: "15 Aug 2015",
@@ -50,7 +50,7 @@ extension DateRangeInlineCatalog {
           endVariant: .short(showIcon: false)
         )
         PBDateRangeInline(
-          size: .body, 
+          size: .body,
           iconSize: .x1,
           startDate: "15 Jan 2013",
           endDate: "15 Aug 2015",
@@ -61,7 +61,7 @@ extension DateRangeInlineCatalog {
       .frame(maxWidth: .infinity, alignment: .center)
       VStack(alignment: .trailing, spacing: Spacing.small) {
         PBDateRangeInline(
-          size: .caption, 
+          size: .caption,
           iconSize: .xSmall,
           startDate: "15 Jan 2013",
           endDate: "15 Aug 2015",
@@ -69,7 +69,7 @@ extension DateRangeInlineCatalog {
           endVariant: .short(showIcon: false)
         )
         PBDateRangeInline(
-          size: .body, 
+          size: .body,
           iconSize: .x1,
           startDate: "15 Jan 2013",
           endDate: "15 Aug 2015",

@@ -34,13 +34,11 @@ struct PBDoc<Content: View>: View {
   }
 }
 
-struct PBDoc_Previews: PreviewProvider {
-  static var previews: some View {
-    PBDoc(title: "Example") {
-      PBButton(
-        title: "Button",
-        action: {}
-      )
-    }
+#Preview {
+  PBDoc(title: "Example") {
+    PBButton(
+      title: "Button",
+      action: {}
+    )
   }
 }

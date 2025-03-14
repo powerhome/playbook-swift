@@ -32,18 +32,20 @@ extension IconCircleCatalog {
   }
   var sizeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      let pBIconSizes = [PBIcon.IconSize.small, PBIcon.IconSize.x1, PBIcon.IconSize.large]
-
-      ForEach(pBIconSizes, id: \.self) { size in
+      ForEach(PBIconCircle.Size.allCases, id: \.self) { size in
         PBIconCircle(FontAwesome.rocket, size: size)
       }
     }
   }
   var colorView: some View {
     VStack(spacing: Spacing.small) {
-      ForEach(Color.DataColor.allCases, id: \.self) { color in
-        PBIconCircle(FontAwesome.rocket, size: .small, color: Color.data(color))
+      ForEach(PBIconCircle.IconColor.allCases, id: \.self) { color in
+        PBIconCircle(FontAwesome.rocket, size: .small, color: color)
       }
     }
   }
+}
+
+#Preview {
+  IconCircleCatalog()
 }

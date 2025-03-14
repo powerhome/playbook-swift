@@ -10,13 +10,13 @@
 import SwiftUI
 
 struct PBStatusDialogView: View {
-  let status: DialogStatus
+  let status: Status
   let title: String
   let description: String
 
   var body: some View {
     VStack {
-      PBIconCircle(status.icon.0, size: .x2, color: status.icon.1)
+      PBIconCircle(status.icon.0, size: .large, color: .custom(status.icon.1))
         .frame(width: 80)
       Text(title)
         .pbFont(.title3)
@@ -31,7 +31,7 @@ struct PBStatusDialogView: View {
     .padding()
   }
 }
-public enum DialogStatus: String, CaseIterable, Identifiable {
+public enum Status: String, CaseIterable, Identifiable {
   public var id: UUID { UUID() }
 
   case `default`, caution, delete, information, error, success
@@ -47,18 +47,16 @@ public enum DialogStatus: String, CaseIterable, Identifiable {
   }
 }
 
-struct PBStatusDialogView_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-    return List(DialogStatus.allCases, id: \.self) { status in
-      Section {
-        PBStatusDialogView(
-          status: status,
-          title: status.rawValue.capitalized,
-          description: "Some description Some description Some description Some description Some description"
-        )
-        .frame(maxWidth: .infinity)
-      }
+#Preview {
+  registerFonts()
+  return List(Status.allCases, id: \.self) { status in
+    Section {
+      PBStatusDialogView(
+        status: status,
+        title: status.rawValue.capitalized,
+        description: "Some description Some description Some description Some description Some description"
+      )
+      .frame(maxWidth: .infinity)
     }
   }
 }

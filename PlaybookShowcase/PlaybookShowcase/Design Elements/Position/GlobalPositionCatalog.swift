@@ -59,7 +59,7 @@ extension GlobalPositionCatalog {
       PBNavItem("Third")
     }
   }
-
+  
   var imageBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBImage(
@@ -109,7 +109,7 @@ extension GlobalPositionCatalog {
         PBIconCircle(
           FontAwesome.rocket,
           size: .small,
-          color: .data(.data5)
+          color: .orange
         )
         .background(Color.white)
       }

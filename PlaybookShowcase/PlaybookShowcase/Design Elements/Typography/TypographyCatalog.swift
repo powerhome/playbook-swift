@@ -40,7 +40,7 @@ private extension TypographyCatalog {
         .pbFont(.title4, variant: .link)
     }
   }
-  
+
   var titleLight: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("Title 1")
@@ -51,7 +51,7 @@ private extension TypographyCatalog {
         .pbFont(.title3, variant: .light)
     }
   }
-  
+
   var textSize: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       ForEach(TextSize.Body.allCases, id: \.rawValue) { size in
@@ -60,7 +60,7 @@ private extension TypographyCatalog {
       }
     }
   }
-  
+
   var letterSpacing: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       ForEach(LetterSpacing.allCases, id: \.rawValue) { space in
@@ -68,7 +68,7 @@ private extension TypographyCatalog {
       }
     }
   }
-  
+
   var componentsText: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("Button Text")
@@ -77,7 +77,7 @@ private extension TypographyCatalog {
         .pbFont(.badgeText)
     }
   }
-  
+
   var caption: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("Large Caption")
@@ -90,7 +90,7 @@ private extension TypographyCatalog {
         .pbFont(.subcaption, variant: .link)
     }
   }
-  
+
   var detail: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("I am a detail kit")
@@ -99,7 +99,7 @@ private extension TypographyCatalog {
         .pbFont(.detail(true))
     }
   }
-  
+
   var message: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
       Text("Message Title")
