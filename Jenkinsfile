@@ -52,63 +52,73 @@ stg = [
 ]
 
 node(defaultNode) {
-  setupEnv {
-    stage(stg.buildNum) {
-      getBuildNum()
-    }
+  try {
+    setupEnv {
+      stage(stg.buildNum) {
+        getBuildNum()
+      }
 
-    stage(stg.checkout) {
-      checkout scm
-    }
+      stage(stg.checkout) {
+        checkout scm
+      }
 
-    stage(stg.setup) {
-      updateBuildNum()
-      jenkinsSetup()
-      getRunwayBacklogItemId()
-      getReleaseNotes()
-    }
+      stage(stg.setup) {
+        updateBuildNum()
+        jenkinsSetup()
+        getRunwayBacklogItemId()
+        getReleaseNotes()
+      }
 
-    stage(stg.deps) {
-      sh 'make dependencies'
-    }
+      stage(stg.deps) {
+        sh 'make dependencies'
+      }
 
-    stage(stg.provision) {
-      clearProvisioningProfiles()
-      downloadProvisioningProfiles()
-      fastlane('install_prov_profiles_ios')
-      fastlane('install_prov_profiles_macos')
-    }
+      stage(stg.provision) {
+        clearProvisioningProfiles()
+        downloadProvisioningProfiles()
+        fastlane('install_prov_profiles_ios')
+        fastlane('install_prov_profiles_macos')
+      }
 
-    stage(stg.keychain) {
-      setupKeychain()
-    }
+      stage(stg.keychain) {
+        setupKeychain()
+      }
 
-    stage(stg.buildiOS) {
-      fastlane("build_ios suffix:${buildSuffix()}")
-    }
+      stage(stg.buildiOS) {
+        fastlane("build_ios suffix:${buildSuffix()}")
+      }
 
-     stage(stg.buildmacOS) {
-      fastlane("export_app_pass app_specific_pass:${FASTLANE_APPLE_PASSWORD}")
-      fastlane("build_macos suffix:${buildSuffix()}")
-    }
+       stage(stg.buildmacOS) {
+        fastlane("export_app_pass app_specific_pass:${FASTLANE_APPLE_PASSWORD}")
+        fastlane("build_macos suffix:${buildSuffix()}")
+      }
 
-    stage(stg.uploadiOS) {
-      uploadiOS()
-    }
+      stage(stg.uploadiOS) {
+        uploadiOS()
+      }
 
-    stage(stg.notarize) {
-      notarize()
-    }
+      stage(stg.notarize) {
+        notarize()
+      }
 
-    stage(stg.uploadmacOS) {
-      uploadmacOS()
-    }
+      stage(stg.uploadmacOS) {
+        uploadmacOS()
+      }
 
-    stage(stg.runway) {
-      writeRunwayComment()
+      stage(stg.runway) {
+        writeRunwayComment()
+      }
     }
-
-    stage(stg.cleanup) {
+  } catch (e) {
+    success = false
+    currentBuild.result = "FAILED"
+    stage('Handle Failure') {
+      handleFailure()
+    }
+    throw e
+  }
+  finally {
+    stage('Cleanup') {
       handleCleanup()
     }
   }
@@ -304,6 +314,10 @@ def deleteDerivedData(){
 
 def handleCleanup() {
   try { deleteKeychain() } catch (e) { }
-  try { deleteDerivedData() } catch (e) { }
   try { deleteDir() } catch (e) { }
+}
+
+def handleFailure() {
+  try { sh './.jenkins/jenkins-failed.sh' } catch (e) { }
+  try { deleteDerivedData() } catch (e) { }
 }
