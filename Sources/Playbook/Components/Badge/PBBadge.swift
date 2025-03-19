@@ -34,6 +34,7 @@ public extension PBBadge {
 
   var badgeView: some View {
     Text(text)
+      .padding(1.5)
       .padding(style.padding(for: text))
       .foregroundColor(variant.foregroundColor())
       .background(variant.backgroundColor())
