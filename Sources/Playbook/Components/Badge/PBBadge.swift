@@ -11,30 +11,69 @@ import SwiftUI
 
 public struct PBBadge: View {
   var text: String
-  var rounded: Bool
+  var style: BadgeStyle
   var variant: Variant
 
   public init(
     text: String,
-    rounded: Bool = false,
+    style: BadgeStyle = .rectangle,
     variant: Variant = .primary
+
   ) {
     self.text = text
-    self.rounded = rounded
+    self.style = style
     self.variant = variant
   }
 
   public var body: some View {
-
-    if !text.contains("+") {
-      notificationBadge
-    } else {
-      badgeView
-    }
+    badgeView
   }
 }
 
 public extension PBBadge {
+
+  var badgeView: some View {
+    Text(text)
+      .padding(style.padding(for: text))
+      .foregroundColor(variant.foregroundColor())
+      .background(variant.backgroundColor())
+      .background(.white)
+      .pbFont(.badgeText)
+      .clipShape(style.shape())
+
+  }
+
+  enum BadgeStyle {
+    case rectangle
+    case rounded
+    case notification
+    case custom(shape: AnyShape, padding: EdgeInsets, minWidth: CGFloat)
+
+    func shape() -> AnyShape {
+         switch self {
+         case .rectangle:
+           return AnyShape(RoundedRectangle(cornerRadius: 4))
+         case .rounded:
+           return AnyShape(RoundedRectangle(cornerRadius: 9))
+         case .notification:
+           return AnyShape(Capsule())
+         case .custom(let shape, _, _):
+             return AnyShape(shape)
+         }
+       }
+
+    func padding(for text: String) -> EdgeInsets {
+      switch self {
+      case .rectangle, .rounded:
+          return EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4)
+      case .notification:
+        return EdgeInsets(top: 3.5, leading: 7, bottom: 3.5, trailing: 7)
+      case .custom(_, let padding, _):
+            return padding
+      }
+    }
+  }
+
   enum Variant: CaseIterable {
     case chat
     case error
@@ -50,9 +89,9 @@ public extension PBBadge {
       case .error: return .status(.error)
       case .info: return .status(.info)
       case .neutral: return .text(.light)
+      case .primary: return .pbPrimary
       case .success: return .text(.successSmall)
       case .warning: return .status(.warning)
-      default: return .pbPrimary
       }
     }
 
@@ -64,32 +103,14 @@ public extension PBBadge {
       }
     }
   }
-
-  var badgeView: some View {
-    Text("\(text)")
-      .padding(EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4))
-      .frame(minWidth: 8)
-      .foregroundColor(variant.foregroundColor())
-      .background(variant.backgroundColor())
-      .background(.white)
-      .pbFont(.badgeText)
-      .cornerRadius(rounded ? 9 : 4)
-  }
-
-  var notificationBadge: some View {
-    Text(text)
-      .padding(3)
-      .padding(.trailing, 1)
-      .padding(.horizontal, 2.5)
-      .foregroundColor(variant.foregroundColor())
-      .background(variant.backgroundColor())
-      .background(.white)
-      .pbFont(.badgeText)
-      .clipShape(Capsule())
-  }
 }
 
 #Preview {
   registerFonts()
-  return PBBadge(text: "+1000", variant: .primary)
+  return VStack {
+    PBBadge(text: "+1000", style: .rectangle, variant: .primary)
+    PBBadge(text: "+1000", style: .rounded, variant: .primary)
+    PBBadge(text: "+1000", style: .notification, variant: .primary)
+    
+  }
 }
