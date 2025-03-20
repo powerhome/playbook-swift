@@ -195,14 +195,9 @@ lane :create_runway_comment do |opts|
   build_number = opts[:build_number]
   release_notes = "#{opts[:release_notes]}"
 
-  ios_app_name = "Playbook-Showcase-Beta"
+  app_id = "com.powerhrg.PlaybookShowcase.dev"
   if type == 'production'
-    app_name = "Playbook-Showcase"
-  end
-
-  macos_app_name = "Playbook-Swift-Mac-Beta"
-  if type == 'production'
-    app_name = "Playbook-Swift-Mac"
+    app_name = "com.powerhrg.PlaybookShowcase"
   end
 
   merged_comment = ''
@@ -213,8 +208,8 @@ lane :create_runway_comment do |opts|
   comment = <<~HEREDOC
   <p><b>#{merged_comment}#{type} build #{build_number}</b></p>
   <ul>
-    <li>PlaybookShowcase-iOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{ios_app_name}/releases/#{version_info["id"]}"}>iOS</a></li>
-    <li>PlaybookShowcase-macOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{macos_app_name}/releases/#{version_info["id"]}"}>macOS</a></li>
+    <li>PlaybookShowcase-iOS: <a href=#{"https://nitro.powerhrg.com/mdm/app_builds/#{app_id}/iOS"}>iOS Build #{build_number}</a></li>
+    <li>PlaybookShowcase-macOS: <a href=#{"https://nitro.powerhrg.com/mdm/app_builds/#{app_id}/macOS"}>macOS Build #{build_number}</a></li>
   </ul>
   HEREDOC
 
