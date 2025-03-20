@@ -38,6 +38,7 @@ extension BadgeCatalog {
       PBBadge(text: "+1", style: .rectangle, variant: .primary)
       PBBadge(text: "+4", style: .rectangle, variant: .primary)
       PBBadge(text: "+1000", style: .rectangle, variant: .primary)
+
     }
   }
   var roundedView: some View {
@@ -54,9 +55,10 @@ extension BadgeCatalog {
       PBBadge(text: "1000", style: .rounded, variant: .chat)
     }
   }
+
   var colorsView: some View {
     VStack(spacing: Spacing.xSmall) {
-      ForEach(PBBadge.Variant.allCases, id: \.self) { variant in
+      ForEach(PBBadge.Variant.standardVariants, id: \.self) { variant in
         HStack(spacing: Spacing.xSmall) {
           PBBadge(text: "+1", style: .rounded, variant: variant)
           PBBadge(text: "+4", variant: variant)
