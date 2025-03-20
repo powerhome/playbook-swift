@@ -156,7 +156,7 @@ lane :distribute_to_mdm do |opts|
 
   file_path = "../#{target_ios(opts[:suffix])}.ipa"
   if platform == "macos"
-    file_path = "../#{zip_file}"
+    file_path = "../#{target_macos(opts[:suffix])}.app.zip"
   end
   output_file = "../upload-build-to-nitro-details.json"
 
