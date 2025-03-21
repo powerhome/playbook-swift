@@ -51,8 +51,8 @@ extension BadgeCatalog {
   var chatNotificationView: some View {
     HStack(spacing: Spacing.xSmall) {
       PBBadge(text: "1", style: .notification, variant: .chat)
-      PBBadge(text: "4", style: .rounded, variant: .chat)
-      PBBadge(text: "1000", style: .rounded, variant: .chat)
+      PBBadge(text: "4", style: .notification, variant: .chat)
+      PBBadge(text: "1000", style: .notification, variant: .chat)
     }
   }
 

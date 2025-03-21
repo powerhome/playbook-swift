@@ -36,13 +36,15 @@ public extension PBBadge {
 
   var badgeView: some View {
     Text(text)
-      .padding(1)
+
+      .padding(0.5)
       .padding(style.padding(for: text))
       .foregroundColor(variant.foregroundColor(customColor: customColor))
       .background(variant.backgroundColor())
       .background(.white)
       .pbFont(.badgeText)
       .clipShape(style.shape())
+      .baselineOffset(0.65)
 
   }
 
@@ -70,7 +72,7 @@ public extension PBBadge {
       case .rectangle, .rounded:
         return EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4)
       case .notification:
-        return EdgeInsets(top: 3.5, leading: 7, bottom: 3.5, trailing: 7)
+        return EdgeInsets(top: 2, leading: 4.8, bottom: 2, trailing: 5.5)
       case .custom(_, let padding):
         return padding
       }
