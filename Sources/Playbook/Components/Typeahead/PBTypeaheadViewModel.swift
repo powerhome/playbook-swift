@@ -34,6 +34,7 @@ final class PBTypeaheadViewModel: ObservableObject {
     
     // Dependencies (bindings)
     private var selectedOptionsBinding: Binding<[PBTypeahead.Option]>?
+    private var deselectedOptionsBinding: Binding<[PBTypeahead.Option]>?
     private var searchTextBinding: Binding<String>?
     var isFocused: Bool = false
     private var clearAction: (() -> Void)?
@@ -51,6 +52,7 @@ final class PBTypeaheadViewModel: ObservableObject {
         debounce: (time: TimeInterval, numberOfCharacters: Int),
         placeholder: String,
         selectedOptionsBinding: Binding<[PBTypeahead.Option]>,
+        deselectedOptionsBinding: Binding<[PBTypeahead.Option]>,
         searchTextBinding: Binding<String>,
         isFocused: Bool,
         clearAction: (() -> Void)?,
@@ -61,6 +63,7 @@ final class PBTypeaheadViewModel: ObservableObject {
         self.placeholder = placeholder
         self.disableFiltering = disableFiltering
         self.selectedOptionsBinding = selectedOptionsBinding
+        self.deselectedOptionsBinding = deselectedOptionsBinding
         self.searchTextBinding = searchTextBinding
         self.isFocused = isFocused
         self.clearAction = clearAction
@@ -175,6 +178,12 @@ final class PBTypeaheadViewModel: ObservableObject {
     }
     
     private func onSingleSelection(index: Int, option: PBTypeahead.Option) {
+        removeFromDeselectedOptions(option)
+        
+        if let currentSelected = selectedOptionsBinding?.wrappedValue.first {
+            addToDeselectedOptions(currentSelected)
+        }
+        
         updateSelectedOptions([option])
         selectedIndex = index
         hoveringIndex = index
@@ -182,9 +191,9 @@ final class PBTypeaheadViewModel: ObservableObject {
     }
     
     private func onMultipleSelection(option: PBTypeahead.Option) {
-        var currentOptions = selectedOptionsBinding?.wrappedValue ?? []
-        currentOptions.append(option)
-        updateSelectedOptions(currentOptions)
+        removeFromDeselectedOptions(option)
+        
+        addToSelectedOptions(option)
         hoveringIndex = nil
         selectedIndex = nil
         reloadList()
@@ -193,8 +202,13 @@ final class PBTypeaheadViewModel: ObservableObject {
     func removeSelected(_ index: Int) {
         guard var currentOptions = selectedOptionsBinding?.wrappedValue,
               let selectedElementIndex = currentOptions.indices.first(where: { $0 == index }) else { return }
+        
+        let deselectedOption = currentOptions[selectedElementIndex]
         currentOptions.remove(at: selectedElementIndex)
         updateSelectedOptions(currentOptions)
+        
+        addToDeselectedOptions(deselectedOption)
+        
         selectedIndex = nil
         hoveringIndex = 0
 
@@ -211,6 +225,13 @@ final class PBTypeaheadViewModel: ObservableObject {
         if let action = clearAction {
             action()
         }
+        
+        if let currentSelectedOptions = selectedOptionsBinding?.wrappedValue {
+            for option in currentSelectedOptions {
+                addToDeselectedOptions(option)
+            }
+        }
+        
         updateSearchText("")
         updateSelectedOptions([])
         selectedIndex = nil
@@ -274,6 +295,26 @@ final class PBTypeaheadViewModel: ObservableObject {
                 ? [emptyStateOption]
                 : filteredSelectedOptions
         }
+    }
+
+    private func addToSelectedOptions(_ option: PBTypeahead.Option) {
+        guard var currentOptions = selectedOptionsBinding?.wrappedValue else { return }
+        guard !currentOptions.contains(where: { $0.id == option.id }) else { return }
+        currentOptions.append(option)
+        updateSelectedOptions(currentOptions)
+    }
+
+    private func addToDeselectedOptions(_ option: PBTypeahead.Option) {
+        guard var deselectedOptions = deselectedOptionsBinding?.wrappedValue else { return }
+        guard !deselectedOptions.contains(where: { $0.id == option.id }) else { return }
+        deselectedOptions.append(option)
+        deselectedOptionsBinding?.wrappedValue = deselectedOptions
+    }
+
+    private func removeFromDeselectedOptions(_ option: PBTypeahead.Option) {
+        guard var deselectedOptions = deselectedOptionsBinding?.wrappedValue else { return }
+        deselectedOptions.removeAll { $0.id == option.id }
+        deselectedOptionsBinding?.wrappedValue = deselectedOptions
     }
 }
 

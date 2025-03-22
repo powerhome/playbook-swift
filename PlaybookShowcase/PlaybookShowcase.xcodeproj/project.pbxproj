@@ -803,17 +803,9 @@
 			path = Tooltip;
 			sourceTree = "<group>";
 		};
-		F94895A02D6CFDD3001B0122 /* Pill */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pill;
-			sourceTree = "<group>";
-		};
 		F94895A22D6CFDD3001B0122 /* Typeahead */ = {
 			isa = PBXGroup;
 			children = (
-				F94895A02D6CFDD3001B0122 /* Pill */,
 				F94895A12D6CFDD3001B0122 /* TypeaheadCatalog.swift */,
 			);
 			path = Typeahead;
