@@ -175,7 +175,6 @@ extension ButtonsCatalog {
   return ButtonsCatalog()
 }
 
-
 struct ReactionButton: View {
   let icon: PBReactionButton.Icon?
   @State private var count: Int
@@ -191,14 +190,14 @@ struct ReactionButton: View {
     self.isHighlighted = isHighlighted
   }
 
- var body: some View {
-   PBReactionButton(
-     count: count,
-     isHighlighted: isHighlighted,
-     icon: icon
-   ) {
-     highlightReaction()
-   }
+  var body: some View {
+    PBReactionButton(
+      count: count,
+      isHighlighted: isHighlighted,
+      icon: icon
+    ) {
+      highlightReaction()
+    }
   }
 
   func highlightReaction() {

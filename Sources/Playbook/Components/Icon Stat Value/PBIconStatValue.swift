@@ -11,7 +11,7 @@ import SwiftUI
 
 public struct PBIconStatValue: View {
   let icon: FontAwesome
-  let iconSize: PBIcon.IconSize
+  let iconSize: PBIconCircle.Size
   let iconColor: Color
   let value: String
   let unit: String
@@ -25,7 +25,7 @@ public struct PBIconStatValue: View {
   let unitBaselineOffset: CGFloat
   public init(
     icon: FontAwesome = .lightbulbOn,
-    iconSize: PBIcon.IconSize = .small,
+    iconSize: PBIconCircle.Size = .small,
     iconColor: Color = .text(.light),
     value: String = "",
     unit: String = "",
@@ -66,7 +66,7 @@ extension PBIconStatValue {
     }
   }
   var iconView: some View {
-    PBIconCircle(icon, size: iconSize, color: iconColor)
+    PBIconCircle(icon, size: iconSize, color: .custom(iconColor))
   }
   var statValueTextView: some View {
     VStack(alignment: .leading, spacing: Spacing.xxSmall){

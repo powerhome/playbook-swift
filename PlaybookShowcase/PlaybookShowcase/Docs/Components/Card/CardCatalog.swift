@@ -195,6 +195,6 @@ extension CardCatalog {
 }
 
 #Preview {
-    registerFonts()
-    return CardCatalog()
+  registerFonts()
+  return CardCatalog()
 }

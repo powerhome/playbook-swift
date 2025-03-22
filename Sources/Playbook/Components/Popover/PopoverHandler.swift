@@ -70,7 +70,7 @@ public extension View {
 }
 
 public extension View {
-    public func pbPopoverAppKit<Content: View>(isPresented: Binding<Bool>, position: CGPoint = .init(x: 0, y: 0), @ViewBuilder content: @escaping (() -> Content)) -> some View {
+    func pbPopoverAppKit<Content: View>(isPresented: Binding<Bool>, position: CGPoint = .init(x: 0, y: 0), @ViewBuilder content: @escaping (() -> Content)) -> some View {
         self.background(PopHostingView(isPresented: isPresented, position: position, content: content))
     }
 }

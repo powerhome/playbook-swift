@@ -137,7 +137,7 @@ public enum DialogSize: String, CaseIterable, Identifiable {
 
 public enum DialogVariant: Equatable {
     case `default`
-    case status(_ status: DialogStatus)
+    case status(_ status: Status)
     
     public func width(_ size: DialogSize) -> CGFloat {
         switch self {

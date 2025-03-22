@@ -61,7 +61,7 @@ public extension DateCatalog {
         variant: .dayDate(showYear: true),
         typography: .title4
       )
-  
+      
     }
   }
   

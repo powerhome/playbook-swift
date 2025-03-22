@@ -13,9 +13,9 @@ import Playbook
 public struct ToastCatalog: View {
   @State private var toastView: PBToast?
   @State private var position: PBToast.Position = .top
-
+  
   private let message = "Design & Handoff Process was moved to UX Designer."
-
+  
   public var body: some View {
     PBDocStack(title: "Fixed Confirmation Toast") {
       PBDoc(title: "Default") { defaultToast }
@@ -27,11 +27,11 @@ public struct ToastCatalog: View {
     }
     .withToastHandling(toastView, position: position)
   }
-
+  
   private func closeToast() {
     toastView = nil
   }
-
+  
   private var defaultToast: some View {
     VStack(alignment: .leading) {
       PBToast(text: "Error Message", variant: .error, dismissAction: closeToast)
@@ -39,7 +39,7 @@ public struct ToastCatalog: View {
       PBToast(text: "Scan to Assign Selected Items", variant: .neutral, dismissAction: closeToast)
     }
   }
-
+  
   private var multiLine: some View {
     PBToast(
       text: message,
@@ -47,7 +47,7 @@ public struct ToastCatalog: View {
       dismissAction: closeToast
     )
   }
-
+  
   private var clickToClose: some View {
     VStack(alignment: .leading) {
       PBToast(
@@ -70,7 +70,7 @@ public struct ToastCatalog: View {
       )
     }
   }
-
+  
   private var positionButton: some View {
     return Grid {
       GridRow {

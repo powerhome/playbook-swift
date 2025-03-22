@@ -11,8 +11,6 @@ import SwiftUI
 import Playbook
 
 public struct CollapsibleCatalog: View {
-
-
   public var body: some View {
     PBDocStack(title: "Collapsible") {
       PBDoc(title: "Default") {
@@ -60,9 +58,7 @@ struct CollapsibleDoc: View {
   let lorem =
       """
       Group members... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel erat sed purus hendrerit vive.
-      
       Etiam nunc massa, pharetra vel quam id, posuere rhoncus quam. Quisque imperdiet arcu enim, nec aliquet justo.
-      
       Praesent lorem arcu. Vivamus suscipit, libero eu fringilla egestas, orci urna commodo arcu, vel gravida turpis.
       """
 
@@ -97,29 +93,33 @@ extension CollapsibleDoc {
   }
 
   var collapsibleAction: some View {
-    PBCollapsible(isCollapsed: $isCollapsed1, iconSize: iconSize, iconColor: iconColor, actionButton:
-                    PBButton(
-                      variant: .link,
-                      shape: .circle,
-                      icon: PBIcon.fontAwesome(.plus, size: .small),
-                      action: {
-                        presentDialog.toggle()
-                      }
-                    )) {
-                      Text(text).pbFont(.body)
-                    } content: {
-                      content
-                    }
-                    .presentationMode(isPresented: $presentDialog) {
-                      PBDialog(
-                        title: "This is some informative text",
-                        message: DialogCatalog.infoMessage,
-                        cancelButton: DialogCatalog().cancelButton { closeToast() },
-                        confirmButton: DialogCatalog().confirmationButton { closeToast() },
-                        size: .small
-                      )
-                      .backgroundViewModifier(alpha: 0.2)
-                    }
+    PBCollapsible(
+      isCollapsed: $isCollapsed1,
+      iconSize: iconSize,
+      iconColor: iconColor,
+      actionButton:
+        PBButton(
+          variant: .link,
+          shape: .circle,
+          icon: PBIcon.fontAwesome(.plus, size: .small),
+          action: {
+            presentDialog.toggle()
+          }
+        )) {
+          Text(text).pbFont(.body)
+        } content: {
+          content
+        }
+        .presentationMode(isPresented: $presentDialog) {
+          PBDialog(
+            title: "This is some informative text",
+            message: DialogCatalog.infoMessage,
+            cancelButton: DialogCatalog().cancelButton { closeToast() },
+            confirmButton: DialogCatalog().confirmationButton { closeToast() },
+            size: .small
+          )
+          .backgroundViewModifier(alpha: 0.2)
+        }
   }
 
   func closeToast() {
