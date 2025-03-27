@@ -43,9 +43,9 @@ public struct TypeaheadCatalog: View {
       PBDoc(title: "Default", spacing: Spacing.small) { colors }
       PBDoc(title: "With Pills", spacing: Spacing.small) { users }
       PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }
-#if os(macOS)
+      #if os(macOS)
       PBDoc(title: "Dialog") { dialog }
-#endif
+      #endif
       PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
       PBDoc(title: "Sections", spacing: Spacing.small) { sections }
         .padding(.bottom, 500)
@@ -143,7 +143,7 @@ extension TypeaheadCatalog {
     }
     .presentationMode(isPresented: $presentDialog) {
       DialogView(isPresented: $presentDialog)
-        .popoverHandler(id: 5)
+        .popoverHandler(id: 6)
 #if os(macOS)
         .frame(minWidth: 500, minHeight: 390)
 #endif
@@ -172,7 +172,7 @@ extension TypeaheadCatalog {
                shouldCloseOnOverlay: false) {
         VStack {
           PBTypeahead(
-            id: 5,
+            id: 6,
             title: "Users",
             placeholder: "type the name of a user",
             searchText: $searchTextUsers,
