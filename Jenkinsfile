@@ -21,10 +21,6 @@ secrets = [
     credentialsId: 'nitro-runway-api-token-tps-40',
     variable: 'RUNWAY_API_TOKEN'
   ],
-  appcenter: [
-    credentialsId: 'appcenter-token',
-    variable: 'APPCENTER_API_TOKEN'
-  ],
   nitro_mdm: [
     credentialsId: 'a5876938-2cc6-4921-9aaa-12f224fe60fe', 
     variable: 'NITRO_MDM_API_KEY'
@@ -138,7 +134,6 @@ def setupEnv(block) {
   withCredentials([
     string(secrets.github),
     string(secrets.runway),
-    string(secrets.appcenter),
     string(secrets.nitro_mdm),
     string(secrets.fastlane_app_pass)
   ]) {
@@ -263,7 +258,7 @@ def uploadiOS() {
   def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-iOS' " +
     "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
 
-  fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
+  fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" " +
     "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
@@ -274,7 +269,7 @@ def uploadmacOS() {
   def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-macOS' " +
     "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
   
-  fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
+  fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" " +
     "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
