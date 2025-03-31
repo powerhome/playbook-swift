@@ -26,6 +26,7 @@ public struct PBTypeahead: View {
 
   @State internal var selectedInputOptions: GridInputField.Selection
   @Binding internal var selectedOptions: [PBTypeahead.Option]
+  @Binding internal var deselectedOptions: [PBTypeahead.Option]
   @Binding internal var searchText: String
   @FocusState.Binding internal var isFocused: Bool
 
@@ -45,6 +46,7 @@ public struct PBTypeahead: View {
     listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
     isFocused: FocusState<Bool>.Binding,
     selectedOptions: Binding<[PBTypeahead.Option]>,
+    deselectedOptions: Binding<[PBTypeahead.Option]> = .constant([]),
     clearAction: (() -> Void)? = nil,
     disableFiltering: Bool = false,
     disableKeyboardHandler: Bool = false
@@ -66,6 +68,7 @@ public struct PBTypeahead: View {
       options: selectedOptions.wrappedValue.map { $0.text ?? $0.id },
       placeholder: placeholder
     ))
+    self._deselectedOptions = deselectedOptions
     self.disableKeyboardHandler = disableKeyboardHandler
   }
 
@@ -82,6 +85,7 @@ public struct PBTypeahead: View {
         debounce: debounce,
         placeholder: placeholder,
         selectedOptionsBinding: $selectedOptions,
+        deselectedOptionsBinding: $deselectedOptions,
         searchTextBinding: $searchText,
         isFocused: isFocused,
         clearAction: clearAction,

@@ -21,6 +21,11 @@ public struct TypeaheadCatalog: View {
   @State private var selectedUsers: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
   @FocusState private var isFocusedUsers
 
+  @State private var searchTextDeselectedUsers: String = ""
+  @State private var selectedUsersDeselected: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+  @State private var deselectedUsers: [PBTypeahead.Option] = []
+  @FocusState private var isFocusedDeselectedUsers
+
   @State private var searchTextHeight: String = ""
   @State private var selectedHeight: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
   @FocusState private var isFocusedHeight
@@ -37,9 +42,10 @@ public struct TypeaheadCatalog: View {
     PBDocStack(title: "Typeahead") {
       PBDoc(title: "Default", spacing: Spacing.small) { colors }
       PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-#if os(macOS)
+      PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }
+      #if os(macOS)
       PBDoc(title: "Dialog") { dialog }
-#endif
+      #endif
       PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
       PBDoc(title: "Sections", spacing: Spacing.small) { sections }
         .padding(.bottom, 500)
@@ -52,6 +58,7 @@ public struct TypeaheadCatalog: View {
     .popoverHandler(id: 2)
     .popoverHandler(id: 3)
     .popoverHandler(id: 4)
+    .popoverHandler(id: 5)
   }
 }
 
@@ -81,6 +88,27 @@ extension TypeaheadCatalog {
     )
   }
 
+  var deselectedUsersDoc: some View {
+    VStack(spacing: 32) {
+      PBTypeahead(
+        id: 5,
+        title: "Users",
+        placeholder: "type the name of a user",
+        searchText: $searchTextDeselectedUsers,
+        options: assetsUsers,
+        selection: .multiple(variant: .pill),
+        isFocused: $isFocusedDeselectedUsers,
+        selectedOptions: $selectedUsersDeselected,
+        deselectedOptions: $deselectedUsers
+      )
+      List(deselectedUsers, id: \.id) { user in
+        Text(user.text ?? "")
+      }
+      .listStyle(.plain)
+      .frame(height: 100)
+    }
+  }
+
   var heightAdjusted: some View {
     PBTypeahead(
       id: 3,
@@ -94,7 +122,6 @@ extension TypeaheadCatalog {
       selectedOptions: $selectedHeight
     )
   }
-
 
   var sections: some View {
     PBTypeaheadTemplate(
@@ -116,7 +143,7 @@ extension TypeaheadCatalog {
     }
     .presentationMode(isPresented: $presentDialog) {
       DialogView(isPresented: $presentDialog)
-        .popoverHandler(id: 5)
+        .popoverHandler(id: 6)
 #if os(macOS)
         .frame(minWidth: 500, minHeight: 390)
 #endif
@@ -145,7 +172,7 @@ extension TypeaheadCatalog {
                shouldCloseOnOverlay: false) {
         VStack {
           PBTypeahead(
-            id: 5,
+            id: 6,
             title: "Users",
             placeholder: "type the name of a user",
             searchText: $searchTextUsers,
