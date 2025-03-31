@@ -21,10 +21,6 @@ secrets = [
     credentialsId: 'nitro-runway-api-token-tps-40',
     variable: 'RUNWAY_API_TOKEN'
   ],
-  appcenter: [
-    credentialsId: 'appcenter-token',
-    variable: 'APPCENTER_API_TOKEN'
-  ],
   nitro_mdm: [
     credentialsId: 'a5876938-2cc6-4921-9aaa-12f224fe60fe', 
     variable: 'NITRO_MDM_API_KEY'
@@ -52,63 +48,73 @@ stg = [
 ]
 
 node(defaultNode) {
-  setupEnv {
-    stage(stg.buildNum) {
-      getBuildNum()
-    }
+  try {
+    setupEnv {
+      stage(stg.buildNum) {
+        getBuildNum()
+      }
 
-    stage(stg.checkout) {
-      checkout scm
-    }
+      stage(stg.checkout) {
+        checkout scm
+      }
 
-    stage(stg.setup) {
-      updateBuildNum()
-      jenkinsSetup()
-      getRunwayBacklogItemId()
-      getReleaseNotes()
-    }
+      stage(stg.setup) {
+        updateBuildNum()
+        jenkinsSetup()
+        getRunwayBacklogItemId()
+        getReleaseNotes()
+      }
 
-    stage(stg.deps) {
-      sh 'make dependencies'
-    }
+      stage(stg.deps) {
+        sh 'make dependencies'
+      }
 
-    stage(stg.provision) {
-      clearProvisioningProfiles()
-      downloadProvisioningProfiles()
-      fastlane('install_prov_profiles_ios')
-      fastlane('install_prov_profiles_macos')
-    }
+      stage(stg.provision) {
+        clearProvisioningProfiles()
+        downloadProvisioningProfiles()
+        fastlane('install_prov_profiles_ios')
+        fastlane('install_prov_profiles_macos')
+      }
 
-    stage(stg.keychain) {
-      setupKeychain()
-    }
+      stage(stg.keychain) {
+        setupKeychain()
+      }
 
-    stage(stg.buildiOS) {
-      fastlane("build_ios suffix:${buildSuffix()}")
-    }
+      stage(stg.buildiOS) {
+        fastlane("build_ios suffix:${buildSuffix()}")
+      }
 
-     stage(stg.buildmacOS) {
-      fastlane("export_app_pass app_specific_pass:${FASTLANE_APPLE_PASSWORD}")
-      fastlane("build_macos suffix:${buildSuffix()}")
-    }
+       stage(stg.buildmacOS) {
+        fastlane("export_app_pass app_specific_pass:${FASTLANE_APPLE_PASSWORD}")
+        fastlane("build_macos suffix:${buildSuffix()}")
+      }
 
-    stage(stg.uploadiOS) {
-      uploadiOS()
-    }
+      stage(stg.uploadiOS) {
+        uploadiOS()
+      }
 
-    stage(stg.notarize) {
-      notarize()
-    }
+      stage(stg.notarize) {
+        notarize()
+      }
 
-    stage(stg.uploadmacOS) {
-      uploadmacOS()
-    }
+      stage(stg.uploadmacOS) {
+        uploadmacOS()
+      }
 
-    stage(stg.runway) {
-      writeRunwayComment()
+      stage(stg.runway) {
+        writeRunwayComment()
+      }
     }
-
-    stage(stg.cleanup) {
+  } catch (e) {
+    success = false
+    currentBuild.result = "FAILED"
+    stage('Handle Failure') {
+      handleFailure()
+    }
+    throw e
+  }
+  finally {
+    stage('Cleanup') {
       handleCleanup()
     }
   }
@@ -128,7 +134,6 @@ def setupEnv(block) {
   withCredentials([
     string(secrets.github),
     string(secrets.runway),
-    string(secrets.appcenter),
     string(secrets.nitro_mdm),
     string(secrets.fastlane_app_pass)
   ]) {
@@ -253,7 +258,7 @@ def uploadiOS() {
   def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-iOS' " +
     "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
 
-  fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
+  fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" " +
     "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
@@ -264,7 +269,7 @@ def uploadmacOS() {
   def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-macOS' " +
     "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
   
-  fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" appcenter_token:${APPCENTER_API_TOKEN} " +
+  fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" " +
     "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
@@ -304,6 +309,10 @@ def deleteDerivedData(){
 
 def handleCleanup() {
   try { deleteKeychain() } catch (e) { }
-  try { deleteDerivedData() } catch (e) { }
   try { deleteDir() } catch (e) { }
+}
+
+def handleFailure() {
+  try { sh './.jenkins/jenkins-failed.sh' } catch (e) { }
+  try { deleteDerivedData() } catch (e) { }
 }

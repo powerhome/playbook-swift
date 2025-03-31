@@ -15,14 +15,11 @@
 
 require 'httparty'
 
-zip_file = ''
-
 default_platform(:ios)
 
 build_path = "BuildTemp/Archives"
 derived_data_path = "DerivedData"
 ios_plist = "./Info.plist"
-appcenter_token = "bf0ae509c985f2a1102c2ad53894b35a5fa5383e"
 project = './PlaybookShowcase/PlaybookShowcase.xcodeproj'
 
 def target_ios(suffix = nil)
@@ -46,7 +43,7 @@ end
 desc "Build iOS"
 lane :build_ios do |opts|
 
-  export_method = 'ad-hoc'
+  export_method = 'enterprise'
   target = target_ios(opts[:suffix])
 
   configuration = opts[:suffix] == "beta" ? "Beta" : "Release" 
@@ -106,33 +103,9 @@ end
 desc "Upload iOS build"
 lane :upload_ios do |opts|
   keep_trying {
-    ship_ios_to_appcenter(opts)
     opts[:platform] = "ios"
     distribute_to_mdm(opts)
   }
-end
-
-desc "Ship iOS to App Center"
-lane :ship_ios_to_appcenter do |opts|
-
-  app_name = "Playbook-Showcase-Beta"
-  if opts[:type] == 'production'
-    app_name = "Playbook-Showcase"
-  end
-
-  opts[:os] = 'ios'
-  appcenter_upload(
-    api_token: appcenter_token,
-    owner_name: "powerhome",
-    owner_type: "organization",
-    app_name: app_name,
-    file: "#{target_ios(opts[:suffix])}.ipa",
-    version: "#{opts[:build_number]}",
-    release_notes: "#{opts[:release_notes]}",
-    destinations: "Rebels",
-    destination_type: "group",
-    upload_build_only: false
-  )
 end
 
 desc "Export App Pass to Environment"
@@ -156,38 +129,9 @@ end
 desc "Upload macOS build"
 lane :upload_macos do |opts|
   keep_trying {
-    ship_macos_to_appcenter(opts)
     opts[:platform] = "macos"
     distribute_to_mdm(opts)
   }
-end
-
-desc "Ship macOS to App Center"
-lane :ship_macos_to_appcenter do |opts|
-
-  app_name = "Playbook-Swift-Mac-Beta"
-  if opts[:type] == 'production'
-    app_name = "Playbook-Swift-Mac"
-  end
-
-  #compress file
-  zip_file = "#{target_macos(opts[:suffix])}.zip"
-  sh "ditto -c -k --sequesterRsrc --keepParent '../#{target_macos(opts[:suffix])}.app' '../#{zip_file}'"
-
-  opts[:os] = 'macos'
-  appcenter_upload(
-    api_token: appcenter_token,
-    owner_name: "powerhome",
-    owner_type: "organization",
-    app_name: app_name,
-    app_os: "macOS",
-    file: zip_file,
-    version: "#{opts[:build_number]}",
-    release_notes: "#{opts[:release_notes]}",
-    destinations: "Rebels",
-    destination_type: "group",
-    upload_build_only: false
-  )
 end
 
 desc "Upload to Nitro MDM"
@@ -212,7 +156,7 @@ lane :distribute_to_mdm do |opts|
 
   file_path = "../#{target_ios(opts[:suffix])}.ipa"
   if platform == "macos"
-    file_path = "../#{zip_file}"
+    file_path = "../#{target_macos(opts[:suffix])}.app.zip"
   end
   output_file = "../upload-build-to-nitro-details.json"
 
@@ -251,14 +195,9 @@ lane :create_runway_comment do |opts|
   build_number = opts[:build_number]
   release_notes = "#{opts[:release_notes]}"
 
-  ios_app_name = "Playbook-Showcase-Beta"
+  app_id = "com.powerhrg.PlaybookShowcase.dev"
   if type == 'production'
-    app_name = "Playbook-Showcase"
-  end
-
-  macos_app_name = "Playbook-Swift-Mac-Beta"
-  if type == 'production'
-    app_name = "Playbook-Swift-Mac"
+    app_name = "com.powerhrg.PlaybookShowcase"
   end
 
   merged_comment = ''
@@ -266,19 +205,11 @@ lane :create_runway_comment do |opts|
     merged_comment = "✅ MERGED ✅\n\n"
   end
 
-  # https://install.appcenter.ms/orgs/powerhome/apps/#{app_name}/releases/#{release_num}
-  # Generate the link above based on this call:
-  version_info = appcenter_fetch_version_number(
-    api_token: appcenter_token,
-    owner_name: "powerhome",
-    app_name: ios_app_name
-  )
-
   comment = <<~HEREDOC
   <p><b>#{merged_comment}#{type} build #{build_number}</b></p>
   <ul>
-    <li>PlaybookShowcase-iOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{ios_app_name}/releases/#{version_info["id"]}"}>iOS</a></li>
-    <li>PlaybookShowcase-macOS: <a href=#{"https://install.appcenter.ms/orgs/powerhome/apps/#{macos_app_name}/releases/#{version_info["id"]}"}>macOS</a></li>
+    <li>PlaybookShowcase-iOS: <a href=#{"https://nitro.powerhrg.com/mdm/app_builds/#{app_id}/iOS"}>iOS Build #{build_number}</a></li>
+    <li>PlaybookShowcase-macOS: <a href=#{"https://nitro.powerhrg.com/mdm/app_builds/#{app_id}/macOS"}>macOS Build #{build_number}</a></li>
   </ul>
   HEREDOC
 
