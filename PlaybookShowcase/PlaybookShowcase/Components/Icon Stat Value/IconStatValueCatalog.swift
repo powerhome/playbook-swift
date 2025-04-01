@@ -16,7 +16,6 @@ public struct IconStatValueCatalog: View {
       PBDoc(title: "Default") {
         defaultView
       }
-      
       PBDoc(title: "Size") {
         sizeView
       }
@@ -44,13 +43,14 @@ extension IconStatValueCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBIconStatValue(
         icon: .car,
+        iconSize: .small,
         value: "158.3",
         unit: "mi",
         text: "distance driven"
       )
       PBIconStatValue(
         icon: .car,
-        iconSize: .large,
+        iconSize: .medium,
         value: "158.3",
         unit:  "mi",
         text: "distance driven",
@@ -59,7 +59,7 @@ extension IconStatValueCatalog {
       )
       PBIconStatValue(
         icon: .car,
-        iconSize: .x2,
+        iconSize: .large,
         value: "158.3",
         unit:  "mi",
         text: "distance driven",

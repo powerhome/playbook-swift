@@ -14,7 +14,7 @@ public struct MessageCatalog: View {
   @State private var isLoading: Bool = true
   @State private var showUser1: Bool = false
   @State private var showUser2: Bool = false
-  
+
   public var body: some View {
     PBDocStack(title: "Message") {
       PBDoc(title: "Default") {
@@ -45,7 +45,7 @@ extension MessageCatalog {
         message: "How can we assist you today?",
         timestamp: Date().addingTimeInterval(-20)
       )
-      
+
       PBMessage(
         avatar: AnyView(Mocks.picPatric),
         label: "Patrick Welch",
@@ -53,47 +53,47 @@ extension MessageCatalog {
         timestamp: Date().addingTimeInterval(-540),
         timestampAlignment: .leading
       )
-      
+
       PBMessage(
         avatar: AnyView(Mocks.picLuccile),
         label: "Lucille Sanchez",
         message: "Application for Kate Smith is waiting for your approval",
         timestamp: Date().addingTimeInterval(-200000)
       )
-      
+
       PBMessage(
         avatar: AnyView(PBAvatar(name: "Beverly Reyes", size: .xSmall)),
         label: "Beverly Reyes",
         message: "We are so sorry you had a bad experience!",
         timestamp: Date().addingTimeInterval(-200000)
       )
-      
+
       PBMessage(
         label: "Keith Craig",
         message: "Please hold for one moment, I will check with my manager.",
-        timestamp: Date().addingTimeInterval(-200000), 
+        timestamp: Date().addingTimeInterval(-200000),
         content:  {}
       )
-      
+
       PBMessage(
         label: "Keith Craig",
-        timestamp: Date().addingTimeInterval(-200000), 
+        timestamp: Date().addingTimeInterval(-200000),
         content: {
           Image("Forest").resizable().frame(width: 240, height: 240)
         }
       )
-      
+
       PBMessage(
         label: "Keith Craig",
         message: "Please hold for one moment, I will check with my manager.",
-        timestamp: Date().addingTimeInterval(-200000), 
+        timestamp: Date().addingTimeInterval(-200000),
         content: {
           Image("Forest").resizable().frame(width: 240, height: 240)
         }
       )
     }
   }
-  
+
   var messsagingLoadingView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       VStack(alignment: .leading, spacing: Spacing.xxSmall) {
@@ -126,7 +126,7 @@ extension MessageCatalog {
       }
     }
   }
-  
+
   var hoveringView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBMessage(
@@ -137,7 +137,7 @@ extension MessageCatalog {
         timestampAlignment: .leading,
         changeTimeStampOnHover: true
       )
-      
+
       PBMessage(
         avatar: AnyView(Mocks.avatarXSmall),
         label: Mocks.userName,
@@ -160,13 +160,13 @@ extension MessageCatalog {
         onHeaderClick: { showDialog() }
       )
       .presentationMode(isPresented: $showUser1) {
-          PBDialog(
-              title: "Info Dialog",
-              message: DialogCatalog.infoMessage,
-              cancelButton: DialogCatalog().cancelButton { showUser1 = false },
-              confirmButton: DialogCatalog().confirmationButton { showUser1 = false },
-              size: .small
-          )    .backgroundViewModifier(alpha: 0.2)
+        PBDialog(
+          title: "Info Dialog",
+          message: DialogCatalog.infoMessage,
+          cancelButton: DialogCatalog().cancelButton { showUser1 = false },
+          confirmButton: DialogCatalog().confirmationButton { showUser1 = false },
+          size: .small
+        )    .backgroundViewModifier(alpha: 0.2)
       }
 
       PBMessage(
@@ -175,11 +175,11 @@ extension MessageCatalog {
         message: "We will escalate this issue to a Senior Support agent.",
         timestamp: Date().addingTimeInterval(-540),
         timestampAlignment: .leading,
-        isOnClick: true, 
+        isOnClick: true,
         onHeaderClick: { showPopover() }
       )
       .pbPopover(isPresented: $showUser2, id: 9, position: .top(-65, 50)) {
-          Text("This is a popover")
+        Text("This is a popover")
       }
     }
   }
@@ -188,7 +188,7 @@ extension MessageCatalog {
     showUser1.toggle()
     MessageCatalog.disableAnimation()
   }
-  
+
   private func showPopover() {
     showUser2.toggle()
     MessageCatalog.disableAnimation()

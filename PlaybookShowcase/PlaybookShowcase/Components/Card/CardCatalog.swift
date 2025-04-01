@@ -19,7 +19,7 @@ public struct CardCatalog: View {
     Vestibulum aliquet at ipsum eget posuere. Morbi sed laoreet erat.
     Sed commodo posuere lectus, at porta nulla ornare a.
     """
-  
+
   public var body: some View {
     PBDocStack(title: "Card") {
       PBDoc(title: "Default") { defaultSection }
@@ -40,7 +40,7 @@ extension CardCatalog {
   var defaultSection: some View {
     PBCard { Text(text).pbFont(.body) }
   }
-  
+
   var cardBackgrounds: some View {
     VStack(alignment: .leading) {
       VStack(alignment: .leading, spacing: Spacing.small) {
@@ -55,41 +55,41 @@ extension CardCatalog {
         PBCard(backgroundColor: .background(.light)) {
           Text("Light").pbFont(.body, color: Color(hex: "#242b42"))
         }
-        
+
         Text("Product Colors")
           .pbFont(.detail(true), color: .text(.default))
-        
+
         PBCard(backgroundColor: .product(.product1, category: .background)) {
           Text("Product 1 Background").pbFont(.body, color: .white)
         }
-        
+
         PBCard(backgroundColor: .product(.product7, category: .highlight)) {
           Text("Product 7 Highlight").pbFont(.body, color: .white)
         }
-        
+
         PBCard(backgroundColor: .product(.product2, category: .highlight)) {
           Text("Product 2 Highlight").pbFont(.body, color: .white)
         }
       }
     }
   }
-  
+
   var highlights: some View {
     VStack(spacing: Spacing.small) {
       PBCard(highlight: .side(.product(.product6, category: .highlight))) {
         Text("Side Position & Product 6 Highlight Color").pbFont(.body)
       }
-      
+
       PBCard(highlight: .top(.status(.warning))) {
         Text("Top Position & Warning Color").pbFont(.body)
       }
-      
+
       PBCard(highlight: .side(.category(.category2))) {
         Text("Side Position & Category 2 Color").pbFont(.body)
       }
     }
   }
-  
+
   var headers: some View {
     VStack(spacing: Spacing.small) {
       PBCard(padding: Spacing.none) {
@@ -98,21 +98,21 @@ extension CardCatalog {
         }
         Text("Body").pbFont(.body, color: .text(.default)).padding(Spacing.small)
       }
-      
+
       PBCard(padding: Spacing.none) {
         PBCardHeader(color: .category(.category3)) {
           Text("Category 3").pbFont(.body, color: .black).padding(Spacing.small)
         }
         Text("Body").pbFont(.body, color: .text(.default)).padding(Spacing.small)
       }
-      
+
       PBCard(padding: Spacing.none) {
         PBCardHeader(color: .product(.product2, category: .background)) {
           Text("Product 2 Background").pbFont(.body, color: .white).padding(Spacing.small)
         }
         Text("Body").pbFont(.body, color: .text(.default)).padding(Spacing.small)
       }
-      
+
       PBCard(padding: Spacing.none) {
         PBCardHeader(color: .product(.product6, category: .background)) {
           Text("Product 6 Background").pbFont(.body, color: .white).padding(Spacing.small)
@@ -121,7 +121,7 @@ extension CardCatalog {
       }
     }
   }
-  
+
   var styles: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       Text("Default").pbFont(.detail(true), color: .text(.default))
@@ -138,7 +138,7 @@ extension CardCatalog {
       }
     }
   }
-  
+
   var padding: some View {
     VStack(spacing: Spacing.small) {
       ForEach(Spacing.allCase, id: \.0) { space in
@@ -148,7 +148,7 @@ extension CardCatalog {
       }
     }
   }
-  
+
   var shadow: some View {
     VStack(spacing: Spacing.small) {
       PBCard(shadow: .deep) {
@@ -166,7 +166,7 @@ extension CardCatalog {
     }
     .pbFont(.body)
   }
-  
+
   var separator: some View {
     PBCard(padding: Spacing.none) {
       Text("Header").pbFont(.body).padding(Spacing.small)
@@ -176,13 +176,13 @@ extension CardCatalog {
       Text("Footer").pbFont(.body).padding(Spacing.small)
     }
   }
-  
+
   var noborder: some View {
     PBCard(border: false) {
       Text(text).pbFont(.body)
     }
   }
-  
+
   var border: some View {
     VStack(spacing: Spacing.small) {
       ForEach(BorderRadius.allCase, id: \.1) { border in
@@ -195,6 +195,6 @@ extension CardCatalog {
 }
 
 #Preview {
-    registerFonts()
-    return CardCatalog()
+  registerFonts()
+  return CardCatalog()
 }
