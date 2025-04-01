@@ -20,19 +20,19 @@ public struct PopoverCatalog: View {
     @State private var isPresented7: Bool = false
 
   public init() {}
-  
+
   public var body: some View {
     return PBDocStack(title: "Popover") {
       PBDoc(title: "Default") { defaultPopover }
       PBDoc(title: "Dropdrown") { dropdownPopover }
       PBDoc(title: "Scroll") { scrollPopover }
       PBDoc(title: "Close options") { onClosePopover }
-//        PBDoc(title: "Explorarion Popover") { explorationPopover }
+      //        PBDoc(title: "Explorarion Popover") { explorationPopover }
         .padding(.bottom, 500)
         .edgesIgnoringSafeArea(.all)
     }
     .onTapGesture {
-        isPresented7 = false
+      isPresented7 = false
     }
     .popoverHandler(id: 1)
     .popoverHandler(id: 2)
@@ -42,7 +42,7 @@ public struct PopoverCatalog: View {
     .popoverHandler(id: 6)
     .navigationTitle("Popover")
   }
-  
+
   private var defaultPopover: some View {
     HStack {
       Text("Click info for more details")

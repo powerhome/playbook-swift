@@ -51,7 +51,7 @@ extension GlobalPositionCatalog {
         ) {
           PBBadge(
             text: "3",
-            rounded: true,
+            style: .rounded,
             variant: .chat
           )
         }
@@ -59,7 +59,7 @@ extension GlobalPositionCatalog {
       PBNavItem("Third")
     }
   }
-
+  
   var imageBadgeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBImage(
@@ -75,7 +75,7 @@ extension GlobalPositionCatalog {
       ) {
         PBBadge(
           text: "3",
-          rounded: true,
+          style: .rounded,
           variant: .chat
         )
       }
@@ -93,7 +93,7 @@ extension GlobalPositionCatalog {
       ) {
         PBBadge(
           text: "+1",
-          rounded: false,
+          style: .rounded,
           variant: .primary
         )
         .background(Color.white)
@@ -109,7 +109,7 @@ extension GlobalPositionCatalog {
         PBIconCircle(
           FontAwesome.rocket,
           size: .small,
-          color: .data(.data5)
+          color: .orange
         )
         .background(Color.white)
       }
@@ -130,7 +130,7 @@ extension GlobalPositionCatalog {
       ) {
         PBBadge(
           text: "5",
-          rounded: true,
+          style: .rounded,
           variant: .chat
         )
       }
@@ -145,7 +145,7 @@ extension GlobalPositionCatalog {
       .globalPosition(
         alignment: .bottom
       ) {
-        PBBadge(text: "On Roadtrip", rounded: true, variant: .neutral)
+        PBBadge(text: "On Roadtrip", style: .rounded, variant: .neutral)
       }
     }
   }

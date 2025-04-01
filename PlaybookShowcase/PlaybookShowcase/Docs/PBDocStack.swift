@@ -15,7 +15,7 @@ struct PBDocStack<Content: View>: View {
   let spacing: CGFloat
   let padding: CGFloat
   let content: Content
-
+  
   public init(
     title: String,
     spacing: CGFloat = Spacing.medium,
@@ -30,7 +30,7 @@ struct PBDocStack<Content: View>: View {
   var body: some View {
     ScrollView {
       VStack(spacing: spacing) {
-         content
+        content
       }
       .padding(padding)
     }
@@ -43,7 +43,7 @@ struct PBDocStack<Content: View>: View {
 struct Stack<Content: View>: View {
   let spacing: CGFloat
   let content: Content
-
+  
   public init(
     spacing: CGFloat = Spacing.medium,
     padding: CGFloat = Spacing.medium,
@@ -52,12 +52,12 @@ struct Stack<Content: View>: View {
     self.spacing = spacing
     self.content = content()
   }
-    
+  
   var body: some View {
-      #if os(macOS)
-      HStack(spacing: spacing) { content }
-      #elseif os(iOS)
-      VStack(alignment: .leading, spacing: spacing) { content }
-      #endif
-    }
+#if os(macOS)
+    HStack(spacing: spacing) { content }
+#elseif os(iOS)
+    VStack(alignment: .leading, spacing: spacing) { content }
+#endif
+  }
 }
