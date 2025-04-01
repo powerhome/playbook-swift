@@ -140,6 +140,31 @@ public extension PBUser {
 }
 
 #Preview {
-    registerFonts()
-    return UserCatalog()
+  registerFonts()
+  return Stack {
+    PBUser(
+      name: "Anna Black",
+      image: Image("ana"),
+      orientation: .vertical,
+      size: .large,
+      title: "Senior UX Engineer"
+    )
+    PBUser(
+      name: "Anna Black",
+      image: Image("ana"),
+      size: .small,
+      title: "Senior UX Engineer"
+    )
+    VStack {
+      PBUser(
+        name: "Anna Black",
+        image: Image("ana"),
+        size: .small
+      )
+      PBUser(
+        name: "Anna Black",
+        size: .small
+      )
+    }
+  }
 }
