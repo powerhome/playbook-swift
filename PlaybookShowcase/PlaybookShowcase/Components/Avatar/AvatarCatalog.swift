@@ -58,15 +58,15 @@ extension AvatarCatalog {
   var statusSize: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew"), size: .small, status: .online, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .small, status: .online)
         Text("Small").pbFont(.caption)
       }
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew"), size: .medium, status: .away, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .medium, status: .away)
         Text("Medium").pbFont(.caption)
       }
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew"), size: .large, status: .offline, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .large, status: .offline)
         Text("Large").pbFont(.caption)
       }
     }
@@ -75,15 +75,15 @@ extension AvatarCatalog {
   var statusColor: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew"), size: .medium, status: .online, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .medium, status: .online)
         Text("Online").pbFont(.caption)
       }
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew"), size: .medium, status: .away, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .medium, status: .away)
         Text("Away").pbFont(.caption)
       }
       VStack(spacing: Spacing.xxSmall) {
-        PBAvatar(image: Image("andrew"), size: .medium, status: .offline, statusSize: .medium)
+        PBAvatar(image: Image("andrew"), size: .medium, status: .offline)
         Text("Offline").pbFont(.caption)
       }
     }
