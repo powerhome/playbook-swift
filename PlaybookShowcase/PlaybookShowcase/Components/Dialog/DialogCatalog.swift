@@ -17,7 +17,7 @@ public struct DialogCatalog: View {
   @State private var presentDialog2: Bool = false
   @State private var presentDialog3: Bool = false
   @State private var presentDialog4: Bool = false
-  @State private var presentDialogStatus: DialogStatus?
+  @State private var presentDialogStatus: Status?
   @State private var message = ""
 
   public var body: some View {
@@ -141,7 +141,7 @@ extension DialogCatalog {
 
   var statusView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      ForEach(DialogStatus.allCases, id: \.self) { status in
+      ForEach(Status.allCases, id: \.self) { status in
         PBButton(title: status.rawValue.capitalized) {
           DialogCatalog.disableAnimation()
           presentDialogStatus = status

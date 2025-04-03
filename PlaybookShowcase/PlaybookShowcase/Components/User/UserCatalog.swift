@@ -239,7 +239,7 @@ public extension UserCatalog {
       PBContact(type: .home, value: "(555) 555-5555", detail: false),
       PBContact(type: .email, value: "email@example.com", detail: false)
     ]
-    return AnyView (
+    return AnyView(
       ForEach(contacts, id: \.parsedValue) { contact in
         PBContact(type: contact.type, value: contact.contactValue, detail: contact.detail)
       }

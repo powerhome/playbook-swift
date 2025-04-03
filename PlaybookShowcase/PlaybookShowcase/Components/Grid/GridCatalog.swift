@@ -13,7 +13,7 @@ import Playbook
 public struct GridCatalog: View {
   @State private var count = 1
   @State private var cities = Mocks.cities
- 
+  
   public var body: some View {
     PBDocStack(title: "Grid") {
       PBDoc(title: "Alignment") { alignmentView }

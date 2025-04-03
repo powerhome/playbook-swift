@@ -16,23 +16,18 @@ public struct MultipleUsersCatalog: View {
       PBDoc(title: "xSmall") {
         xsmallView
       }
-     
       PBDoc(title: "Small") {
         smallView
       }
-      
       PBDoc(title: "Small Reverse") {
         smallReverseView
       }
-      
       PBDoc(title: "Small Bubble") {
         smallUserBubbleView
       }
-      
       PBDoc(title: "Medium Bubble") {
         medUserBubbleView
       }
-      
       PBDoc(title: "Large Bubble") {
         largeUserBubbleView
       }

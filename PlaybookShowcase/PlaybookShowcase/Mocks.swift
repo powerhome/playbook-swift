@@ -7,7 +7,6 @@
 //  Mocks.swift
 //
 
-
 import SwiftUI
 import Playbook
 
@@ -20,7 +19,7 @@ public enum Mocks {
   public static let twoUsers = [andrew, ana]
   public static let threeUsers = [andrew, ana, patric]
   public static let multipleUsers = [andrew, ana, patric, luccile]
-
+  
   public static let avatarXSmall = PBAvatar(image: Image("andrew"), size: .xSmall)
   public static let avatarXSmallStatus = PBAvatar(image: Image("andrew"), size: .xSmall, status: .online)
   public static let userName = "Andrew Black"
@@ -29,35 +28,35 @@ public enum Mocks {
   public static let picAnna = PBAvatar(image: Image("Anna"), size: .xSmall, status: .online)
   public static let picPatric = PBAvatar(image: Image("Pat"), size: .xSmall)
   public static let picLuccile = PBAvatar(image: Image("Lu"), size: .xSmall)
-    public static let assetsColors: [PBTypeahead.Option] = [
+  public static let assetsColors: [PBTypeahead.Option] = [
     .init(id: "1", text: "Orange", customView: nil),
     .init(id: "2", text: "Red", customView: nil),
     .init(id: "3", text: "Blue", customView: nil),
     .init(id: "4", text: "Pink", customView: nil),
     .init(id: "5", text: "Magenta", customView: nil)
   ]
-    public static let assetesMultipleUsers: [PBTypeahead.Option] = [
-        .init(id: "1", text: andrew.name, customView: { AnyView(andrew) }),
-        .init(id: "2", text: ana.name, customView: { AnyView(ana) }),
-        .init(id: "3", text: patric.name, customView: { AnyView(patric) }),
-        .init(id: "4", text: luccile.name, customView: { AnyView(luccile) })
-    ]
-
-    public static let assetsSectionUsers: [PBTypeahead.OptionType] = [
-        .section("section 1"),
-        .item(.init(id: "1", text: andrew.name, customView: { AnyView(andrew) })),
-        .item(.init(id: "2", text: ana.name, customView: { AnyView(ana) })),
-//        .item(.init(id: "3", text: patric.name, customView: { AnyView(patric) })),
-//        .item(.init(id: "4", text: luccile.name, customView: { AnyView(luccile) })),
-//        .button(PBButton(variant: .link, title: "view more")),
-        .section("section 2"),
-        .item(.init(id: "5", text: andrew.name, customView: { AnyView(andrew) })),
-//        .item(.init(id: "6", text: ana.name, customView: { AnyView(ana) })),
-//        .item(.init(id: "7", text: patric.name, customView: { AnyView(patric) })),
-        .item(.init(id: "8", text: luccile.name, customView: { AnyView(luccile) }))
-//        .button(PBButton(variant: .primary, title: "view more"))
-    ]
-
+  public static let assetesMultipleUsers: [PBTypeahead.Option] = [
+    .init(id: "1", text: andrew.name, customView: { AnyView(andrew) }),
+    .init(id: "2", text: ana.name, customView: { AnyView(ana) }),
+    .init(id: "3", text: patric.name, customView: { AnyView(patric) }),
+    .init(id: "4", text: luccile.name, customView: { AnyView(luccile) })
+  ]
+  
+  public static let assetsSectionUsers: [PBTypeahead.OptionType] = [
+    .section("section 1"),
+    .item(.init(id: "1", text: andrew.name, customView: { AnyView(andrew) })),
+    .item(.init(id: "2", text: ana.name, customView: { AnyView(ana) })),
+    //        .item(.init(id: "3", text: patric.name, customView: { AnyView(patric) })),
+    //        .item(.init(id: "4", text: luccile.name, customView: { AnyView(luccile) })),
+    //        .button(PBButton(variant: .link, title: "view more")),
+      .section("section 2"),
+    .item(.init(id: "5", text: andrew.name, customView: { AnyView(andrew) })),
+    //        .item(.init(id: "6", text: ana.name, customView: { AnyView(ana) })),
+    //        .item(.init(id: "7", text: patric.name, customView: { AnyView(patric) })),
+      .item(.init(id: "8", text: luccile.name, customView: { AnyView(luccile) }))
+    //        .button(PBButton(variant: .primary, title: "view more"))
+  ]
+  
   public static let cities: [String] = [
     "Philadelphia",
     "New York",
@@ -69,7 +68,7 @@ public enum Mocks {
     "Seattle",
     "Dallas"
   ]
-
+  
   public static let spaceImages: [ImageResource] = [
     .space1,
     .space2,
