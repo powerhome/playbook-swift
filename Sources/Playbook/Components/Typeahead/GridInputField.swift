@@ -22,6 +22,7 @@ public struct GridInputField: View {
   @State private var isHovering: Bool = false
   @State private var clearButtonIsHovering: Bool = false
   @State private var indicatorIsHovering: Bool = false
+  @State private var textFrame: CGRect = .zero
 
   init(
     placeholder: String = "Select",
@@ -61,20 +62,20 @@ public struct GridInputField: View {
         }
         .padding(.horizontal, Spacing.small)
         .padding(.vertical, Spacing.xSmall)
-        .background(Color.white.opacity(0.01))
-        .onTapGesture {
-          isFocused.wrappedValue = true
-          if isFocused.wrappedValue {
-            DispatchQueue.main.async {
-              onViewTap?()
-            }
-          }
-        }
+        .frameReader { textFrame = $0 }
         dismissIconView
         indicatorView
       }
       .focused(isFocused)
       .background(backgroundColor)
+      .onTapGesture {
+        isFocused.wrappedValue = true
+        if isFocused.wrappedValue {
+          DispatchQueue.main.async {
+            onViewTap?()
+          }
+        }
+      }
       .overlay {
         shape.stroke(borderColor, lineWidth: 1.0)
       }
@@ -108,25 +109,24 @@ private extension GridInputField {
         .pbFont(.body, color: textColor)
         .frame(height: 24)
     }
-    .fixedSize()
+    .fixedSize(horizontal: true, vertical: false)
     .frame(minWidth: 60, alignment: .leading)
-    .overlay {
-      Color.white
-        .opacity(isFocused.wrappedValue ? 0.001 : 0)
-        .onTapGesture {
-          if isFocused.wrappedValue {
-            onViewTap?()
-          }
-        }
-    }
-    .clipped()
   }
 
   var systemTextField: some View {
     #if os(iOS)
-    KeyboardTextField(text: $searchText, onDelete: { onDelete?() })
+    KeyboardTextField(text: $searchText, maxWidth: maxWidth, onDelete: { onDelete?() })
     #elseif os(macOS)
-    TextField("", text: $searchText)
+    TextField("", text: $searchText).frame(maxWidth: maxWidth)
+    #endif
+  }
+
+  @MainActor
+  var maxWidth: CGFloat {
+    #if os(iOS)
+    return 250
+    #elseif os(macOS)
+    return textFrame.width
     #endif
   }
 
