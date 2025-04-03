@@ -14,7 +14,7 @@ public struct PBAvatar: View {
   var name: String?
   var size: Size
   var status: PBOnlineStatus.Status?
-  var statusSize: PBOnlineStatus.Size
+  var statusSize: PBOnlineStatus.Size?
   var wrapped: Bool
   var isActive: Bool
   @Environment(\.colorScheme) var colorScheme
@@ -24,7 +24,7 @@ public struct PBAvatar: View {
     name: String? = nil,
     size: Size = .medium,
     status: PBOnlineStatus.Status? = nil,
-    statusSize: PBOnlineStatus.Size = .small,
+    statusSize: PBOnlineStatus.Size? = nil,
     wrapped: Bool = false,
     isActive: Bool = true
   ) {
@@ -63,7 +63,7 @@ public struct PBAvatar: View {
 
       
       if let status = self.status {
-        PBOnlineStatus(status: status, size: statusSize, variant: .border)
+        PBOnlineStatus(status: status, size: statusSize ?? avatarStatusSize, variant: .border)
           .grayscale(isActive ? 0 : 1)
           .offset(
             x: (size.diameter/2 - size.diameter/9) * size.statusXModifier,
@@ -151,7 +151,16 @@ public extension PBAvatar {
       [.xLarge, .large, .medium, .small, .xSmall, .xxSmall]
     }
   }
-  
+
+  var avatarStatusSize: PBOnlineStatus.Size {
+    switch size {
+    case .xxSmall, .xSmall, .smallStacked, .smallStackedIndicator, .defaultStacked, .defaultStackedIndicator: return .small
+    case .small, .medium: return .medium
+    case .large, .xLarge: return .large
+    case .custom: return statusSize ?? .medium
+    }
+  }
+
   var avatarBorderColor: Color {
     switch colorScheme {
     case .light: return Color.BorderColor.borderColor(.light)
