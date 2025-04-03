@@ -12,23 +12,33 @@ import UIKit
 import SwiftUI
 
 class CustomTextField: UITextField {
+  var maxWidth: CGFloat?
   var onDelete: (() -> Void)?
 
   override func deleteBackward() {
     onDelete?()
     super.deleteBackward()
   }
+
+  override var intrinsicContentSize: CGSize {
+    let original = super.intrinsicContentSize
+    let cappedWidth = min(original.width, maxWidth ?? original.width)
+    return CGSize(width: cappedWidth, height: original.height)
+  }
 }
 
 struct KeyboardTextField: UIViewRepresentable {
   @Binding var text: String
+  var maxWidth: CGFloat
   var onDelete: () -> Void
 
   func makeUIView(context: Context) -> CustomTextField {
     let textField = CustomTextField(frame: .zero)
     textField.delegate = context.coordinator
     textField.onDelete = onDelete
+    textField.maxWidth = maxWidth
     textField.borderStyle = .none
+    textField.font = .init(name: PBFont.proximaNovaLight, size: PBFont.body.size)
     return textField
   }
 
@@ -48,7 +58,9 @@ struct KeyboardTextField: UIViewRepresentable {
     }
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
-      parent.text = textField.text ?? ""
+      DispatchQueue.main.async { [weak self] in
+        self?.parent.text = textField.text ?? ""
+      }
     }
   }
 }
