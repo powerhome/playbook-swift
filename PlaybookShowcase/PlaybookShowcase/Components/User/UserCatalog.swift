@@ -26,6 +26,8 @@ public struct UserCatalog: View {
       PBDoc(title: "Block Content Subtitle") { subtitleBlockContentView }
       PBDoc(title: "Presence Indicator") { presenceIndicatorView }
       PBDoc(title: "Custom Title Font") { customFontsView }
+      PBDoc(title: "Custom User") { customUserView }
+      PBDoc(title: "Member List") { memberListView }
     }
   }
 }
@@ -276,6 +278,40 @@ public extension UserCatalog {
       }
     }
   }
+
+  var customUserView: some View {
+    HStack {
+          PBAvatar(image: Image("andrew"), size: .small, status: .offline, isActive: false)
+          VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+            HStack(spacing: Spacing.xSmall) {
+              Text("Dan Blau")
+                .pbFont(.title4, color: .text(.light))
+              PBBadge(text: "Inactive", variant: .neutral)
+            }
+            Text("PHL \u{2022} Nitro Producteer")
+              .pbFont(.subcaption)
+          }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+  }
+
+  var memberListView: some View {
+      VStack(alignment: .leading, spacing: Spacing.xxSmall) {
+        PBAvatar(image: Image("andrew"), size: .large, status: .offline, isActive: false)
+          HStack(spacing: Spacing.xSmall) {
+            Text("Kraig Schwerin")
+            PBBadge(text: "Inactive", variant: .neutral)
+          }
+          .pbFont(.body, color: .text(.light))
+          Text("Director of Nitro Support Services")
+            .pbFont(.body, color: .text(.light))
+          Text("PHL \u{2022} Business Technology")
+            .pbFont(.subcaption)
+      }
+      .padding()
+      .frame(maxWidth: .infinity, alignment: .leading)
+    }
 }
 
 #Preview {
