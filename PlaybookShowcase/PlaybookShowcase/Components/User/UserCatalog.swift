@@ -15,19 +15,22 @@ public struct UserCatalog: View {
   let name = "Anna Black"
   let title = "Remodeling Consultant"
 
+  @State private var isLoading: Bool = true
+
   public var body: some View {
     PBDocStack(title: "User") {
-      PBDoc(title: "Default") { defaultView }
-      PBDoc(title: "With Territory") { withTerritoryView }
-      PBDoc(title: "Text Only") { textOnlyView }
-      PBDoc(title: "Horizontal Size") { horizontalSizeView }
-      PBDoc(title: "Vertical Size") { verticalSizeView }
-      PBDoc(title: "Subtitle") { subtitleView }
-      PBDoc(title: "Block Content Subtitle") { subtitleBlockContentView }
-      PBDoc(title: "Presence Indicator") { presenceIndicatorView }
-      PBDoc(title: "Custom Title Font") { customFontsView }
-      PBDoc(title: "Custom User") { customUserView }
+//      PBDoc(title: "Default") { defaultView }
+//      PBDoc(title: "With Territory") { withTerritoryView }
+//      PBDoc(title: "Text Only") { textOnlyView }
+//      PBDoc(title: "Horizontal Size") { horizontalSizeView }
+//      PBDoc(title: "Vertical Size") { verticalSizeView }
+//      PBDoc(title: "Subtitle") { subtitleView }
+//      PBDoc(title: "Block Content Subtitle") { subtitleBlockContentView }
+//      PBDoc(title: "Presence Indicator") { presenceIndicatorView }
+//      PBDoc(title: "Custom Title Font") { customFontsView }
+ //     PBDoc(title: "Custom User") { customUserView }
       PBDoc(title: "Member List") { memberListView }
+      PBDoc(title: "Member List Card") { contactCardView }
     }
   }
 }
@@ -281,24 +284,18 @@ public extension UserCatalog {
 
   var customUserView: some View {
     HStack {
-          PBAvatar(image: Image("andrew"), size: .small, status: .offline, isActive: false)
-          VStack(alignment: .leading, spacing: Spacing.xxSmall) {
-            HStack(spacing: Spacing.xSmall) {
-              Text("Dan Blau")
-                .pbFont(.title4, color: .text(.light))
-              PBBadge(text: "Inactive", variant: .neutral)
-            }
-            Text("PHL \u{2022} Nitro Producteer")
-              .pbFont(.subcaption)
-          }
+      PBAvatar(image: Image("andrew"), size: .small, status: .offline, isActive: false)
+      PBUser(name: "Dan Blau", nameFont: .init(font: .body, variant: .bold, color: .text(.light)),  territory: "PHL", title: "Nitro Producteer", displayAvatar: false)
+        .globalPosition(alignment: .trailing, bottom: 20) {
+          PBBadge(text: "Inactive", variant: .neutral)
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
+    }
   }
 
   var memberListView: some View {
       VStack(alignment: .leading, spacing: Spacing.xxSmall) {
         PBAvatar(image: Image("andrew"), size: .large, status: .offline, isActive: false)
+
           HStack(spacing: Spacing.xSmall) {
             Text("Kraig Schwerin")
             PBBadge(text: "Inactive", variant: .neutral)
@@ -309,11 +306,49 @@ public extension UserCatalog {
           Text("PHL \u{2022} Business Technology")
             .pbFont(.subcaption)
       }
-      .padding()
-      .frame(maxWidth: .infinity, alignment: .leading)
     }
+
+  var contactCardView: some View {
+    PBCard(padding: Spacing.xSmall, width: 300) {
+      Text("Member Info")
+        .skeletonLoader(isLoading: isLoading, cornerRadius: 5)
+        .frame(maxWidth: .infinity, alignment: .center)
+      PBSectionSeparator()
+        .padding(.horizontal, -Spacing.xSmall)
+
+        PBAvatar(image: Image("andrew"), size: .large, status: .offline)
+        .skeletonLoader(isLoading: isLoading, cornerRadius: 50)
+
+      VStack(alignment: .leading, spacing: Spacing.none) {
+          Text("Kraig Schwerin")
+            .skeletonLoader(isLoading: isLoading, cornerRadius: 5)
+        .pbFont(.body, color: .text(.light))
+        Text("Director of Nitro Support Services")
+          .skeletonLoader(isLoading: isLoading, cornerRadius: 5)
+          .pbFont(.body, color: .text(.light))
+        Text("PHL \u{2022} Business Technology")
+          .pbFont(.subcaption)
+          .skeletonLoader(isLoading: true, animation: .easeIn, cornerRadius: 5)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      PBContact(type: .email, value: "email@example.com")
+        .skeletonLoader(isLoading: true, animation: .easeIn, cornerRadius: 5)
+      PBContact(type: .work, value: "3245627482")
+        .skeletonLoader(isLoading: true, animation: .easeIn, cornerRadius: 5)
+      PBContact(type: .cell, value: "3491859988")
+        .skeletonLoader(isLoading: true, animation: .easeIn, cornerRadius: 5)
+Spacer()
+      PBButton(variant: .secondary, size: .small, shape: .primary, title: "Direct Message", icon: PBIcon(FontAwesome.messages), iconPosition: .left, iconColor: .pbPrimary) {}
+        .skeletonLoader(isLoading: true, animation: .easeIn, cornerRadius: 5)
+          .frame(maxWidth: .infinity, alignment: .center)
+
+    }
+    .padding(Spacing.small)
+  }
 }
 
 #Preview {
   UserCatalog()
+    .frame(height: 600)
 }
+

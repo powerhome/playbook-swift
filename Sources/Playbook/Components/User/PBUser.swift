@@ -21,9 +21,10 @@ public struct PBUser: View {
     public var status: PBOnlineStatus.Status?
     public var displayAvatar: Bool = true
     public var territoryTitleFont: PBFont
+
     public init(
         name: String = "",
-        nameFont: Typography = .init(font: .title4, variant: .bold),
+        nameFont: Typography = .init(font: .title4, variant: .bold, color: .text(.default)),
         image: Image? = nil,
         orientation: Orientation = .horizontal,
         size: Size = .medium,
@@ -86,7 +87,7 @@ public extension PBUser {
     var contentView: some View {
         VStack(alignment: alignment, spacing: Spacing.none) {
             Text(name)
-                .pbFont(nameFont.font, variant: nameFont.variant)
+            .pbFont(nameFont.font, variant: nameFont.variant, color: nameFont.color)
                 .foregroundColor(.text(.default))
             bodyText.pbFont(territoryTitleFont, color: .text(.light))
                 .lineLimit(1)
