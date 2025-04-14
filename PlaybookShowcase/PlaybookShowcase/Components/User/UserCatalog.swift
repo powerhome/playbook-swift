@@ -316,13 +316,13 @@ public extension UserCatalog {
       PBSectionSeparator()
         .padding(.horizontal, -Spacing.xSmall)
 
-        PBAvatar(image: Image("andrew"), size: .large, status: .offline)
+      PBAvatar(image: Image("andrew"), size: .large, status: .offline)
         .skeletonLoader(isLoading: isLoading, cornerRadius: 50)
 
       VStack(alignment: .leading, spacing: Spacing.none) {
-          Text("Kraig Schwerin")
-            .skeletonLoader(isLoading: isLoading, cornerRadius: 5)
-        .pbFont(.body, color: .text(.light))
+        Text("Kraig Schwerin")
+          .skeletonLoader(isLoading: isLoading, cornerRadius: 5)
+          .pbFont(.body, color: .text(.light))
         Text("Director of Nitro Support Services")
           .skeletonLoader(isLoading: isLoading, cornerRadius: 5)
           .pbFont(.body, color: .text(.light))
@@ -337,10 +337,10 @@ public extension UserCatalog {
         .skeletonLoader(isLoading: true, animation: .easeIn, cornerRadius: 5)
       PBContact(type: .cell, value: "3491859988")
         .skeletonLoader(isLoading: true, animation: .easeIn, cornerRadius: 5)
-Spacer()
+      Spacer()
       PBButton(variant: .secondary, size: .small, shape: .primary, title: "Direct Message", icon: PBIcon(FontAwesome.messages), iconPosition: .left, iconColor: .pbPrimary) {}
         .skeletonLoader(isLoading: true, animation: .easeIn, cornerRadius: 5)
-          .frame(maxWidth: .infinity, alignment: .center)
+        .frame(maxWidth: .infinity, alignment: .center)
 
     }
     .padding(Spacing.small)
