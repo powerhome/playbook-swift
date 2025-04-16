@@ -14,7 +14,6 @@ public struct PBAvatar: View {
   var name: String?
   var size: Size
   var status: PBOnlineStatus.Status?
-//  var statusSize: PBOnlineStatus.Size?
   var wrapped: Bool
   var isActive: Bool
   @Environment(\.colorScheme) var colorScheme
@@ -24,7 +23,6 @@ public struct PBAvatar: View {
     name: String? = nil,
     size: Size = .medium,
     status: PBOnlineStatus.Status? = nil,
-//    statusSize: PBOnlineStatus.Size? = nil,
     wrapped: Bool = false,
     isActive: Bool = true
   ) {
@@ -32,7 +30,6 @@ public struct PBAvatar: View {
     self.name = name
     self.size = size
     self.status = status
-//    self.statusSize = statusSize
     self.wrapped = wrapped
     self.isActive = isActive
   }
