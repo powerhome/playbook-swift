@@ -91,11 +91,11 @@ extension AvatarCatalog {
 
   var greyScale: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-      PBAvatar(image: Image("andrew"), size: .xxSmall, status: .online, isActive: false)
-      PBAvatar(image: Image("andrew"), size: .xSmall, status: .away, isActive: false)
-      PBAvatar(image: Image("andrew"), size: .small, status: .online, isActive: false)
-      PBAvatar(image: Image("andrew"), size: .medium, status: .away, isActive: false)
-      PBAvatar(image: Image("andrew"), size: .large, status: .online, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .xxSmall, status: .offline, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .xSmall, status: .offline, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .small, status: .offline, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .medium, status: .offline, isActive: false)
+      PBAvatar(image: Image("andrew"), size: .large, status: .offline, isActive: false)
       PBAvatar(image: Image("andrew"), size: .xLarge, status: .offline, isActive: false)
     }
   }
