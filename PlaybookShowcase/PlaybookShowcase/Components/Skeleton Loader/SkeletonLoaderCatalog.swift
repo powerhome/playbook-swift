@@ -80,13 +80,13 @@ extension SkeletonLoaderCatalog {
         }
       }
 
-      Spacer()
+      Spacer(minLength: 50)
       PBSkeletonLoader(isLoading: $isLoading8, shape: .rectangle(cornerRadius: 5), alignment: .center) {
         PBButton(variant: .secondary, size: .small, shape: .primary, title: "Direct Message", icon: PBIcon(FontAwesome.messages), iconPosition: .left, iconColor: .pbPrimary) {}
 
       }
+      .padding(.bottom, Spacing.xSmall)
     }
-    .padding(Spacing.small)
   }
 }
 
