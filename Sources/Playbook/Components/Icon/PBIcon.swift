@@ -86,7 +86,7 @@ public extension PBIcon {
       }
     }
    public static var sizeArray: [(IconSize, String)] {
-     return [(.xSmall, "XSmall"), (.small, "Small"), (.large, "Large"), (.x1, "1x"), (.x2, "x2"), (.x3, "3x"), (.x4, "4x"), (.x5,     "5x"), (.x6, "6x"), (.x7, "7x"), (.x8, "8x"), (.x9, "9x"), (.x10, "10x"), (.custom(170), "Custom")]
+     return [(.xSmall, "XSmall"), (.small, "Small"), (.large, "Large"), (.x1, "1x"), (.x2, "x2"), (.x3, "3x"), (.x4, "4x"), (.x5, "5x"), (.x6, "6x"), (.x7, "7x"), (.x8, "8x"), (.x9, "9x"), (.x10, "10x"), (.custom(170), "Custom")]
     }
   }
 
