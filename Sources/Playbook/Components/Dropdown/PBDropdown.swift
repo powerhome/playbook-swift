@@ -11,8 +11,8 @@ import SwiftUI
 import Foundation
 
 public struct PBDropdown: View {
-  var options: [String]
-  @State var selectedText: String = ""
+  @Binding var options: [String]
+  @Binding var selectedText: String
   @State var isOpen: Bool = false
   @State var isHovering: Bool = false
   @State var optionIndex: Int = -1
@@ -35,7 +35,8 @@ public struct PBDropdown: View {
   let content: () -> AnyView
 
   public init(
-    options: [String] = ["Philadelphia", "New York", "San Francisco", "Los Angeles", "Chicago"],
+    options: Binding<[String]> = .constant(["Philadelphia", "New York", "San Francisco", "Los Angeles", "Chicago"]),
+    selectedText: Binding<String> = .constant(""),
     cardPosition: Alignment = .top,
     buttonIcon: FontAwesome = .flag,
     buttonIconSize: PBIconCircle.Size = .medium,
@@ -54,7 +55,8 @@ public struct PBDropdown: View {
     dropdownHeight: CGFloat? = 130,
     @ViewBuilder content: @escaping () -> some View
   ) {
-    self.options = options
+    self._options = options
+    self._selectedText = selectedText
     self.buttonIcon = buttonIcon
     self.buttonIconSize = buttonIconSize
     self.buttonIconColor = buttonIconColor
@@ -100,11 +102,11 @@ public extension PBDropdown {
       Button {
         isOpen.toggle()
       } label: {
-        ReadOnlyTextFieldView(isSelectFocused: $isOpen, selectedText: $selectedText)
-          .globalPosition(alignment: cardPosition, top: topSpacing == 0 ? 45 : topSpacing, leading: leadingSpacing, bottom: bottomSpacing == 0 ? 45 : bottomSpacing, trailing: trailingSpacing) {
-            dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isFocused: isOpen)
+          ReadOnlyTextFieldView(isOpen: $isOpen, selectedText: $selectedText)
+      }
+      .globalPosition(alignment: cardPosition, top: topSpacing == 0 ? 45 : topSpacing, leading: leadingSpacing, bottom: bottomSpacing == 0 ? 45 : bottomSpacing, trailing: trailingSpacing) {
 
-          }
+        dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isOpen: isOpen)
       }
       .overlay {
         RoundedRectangle(cornerRadius: 8)
@@ -130,14 +132,13 @@ public extension PBDropdown {
         }
       }
       .globalPosition(alignment: cardPosition, top: topSpacing == 0 ? 45 : topSpacing, leading: leadingSpacing, bottom: bottomSpacing, trailing: trailingSpacing) {
-        dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isFocused: isOpen)
-
+        dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isOpen: isOpen)
       }
     }
     .buttonStyle(PlainButtonStyle())
   }
 
-  func dropdownCardView(options: [String], optionIndex: Int, selectedText: String, isFocused: Bool) -> some View {
+  func dropdownCardView(options: [String], optionIndex: Int, selectedText: String, isOpen: Bool) -> some View {
     ZStack {
       if isOpen {
         PBCard(padding: 0, shadow: .deep) {
@@ -146,7 +147,7 @@ public extension PBDropdown {
               selectOptionView(option: option)
             }
             .listRowSeparator(hasRowSeparator ? .visible : .hidden)
-            .dropdownOptionStyle(optionIndex: $optionIndex, index: index, option: option, selectedText: $selectedText, isSelectFocused: $isOpen)
+            .dropdownOptionStyle(optionIndex: $optionIndex, index: index, option: option, selectedText: $selectedText, isOpen: $isOpen)
           }
           .frame(width: width, height: dropdownHeight)
           .listRowInsets(EdgeInsets())
@@ -180,7 +181,7 @@ public extension PBDropdown {
 extension PBDropdown {
   struct ReadOnlyTextFieldView: View {
     @State private var placeholder = "Select"
-    @Binding var isSelectFocused: Bool
+    @Binding var isOpen: Bool
     @Binding var selectedText: String
 
     var body: some View {
@@ -204,7 +205,7 @@ extension PBDropdown {
       .cornerRadius(8)
       .contentShape(Rectangle())
       .onTapGesture {
-        isSelectFocused.toggle()
+        isOpen.toggle()
       }
       .onChange(of: selectedText) {
         placeholder = selectedText.isEmpty ? "Select" : selectedText
@@ -218,7 +219,7 @@ struct DropdownOptionStyle: ViewModifier {
   let index: Int
   let option: String
   @Binding var selectedText: String
-  @Binding var isSelectFocused: Bool
+  @Binding var isOpen: Bool
 
   func body(content: Content) -> some View {
     content
@@ -228,7 +229,7 @@ struct DropdownOptionStyle: ViewModifier {
         ZStack {
           optionIndex == index ? Color.pbPrimary.opacity(0.05) : .clear
         }
-          .frame(minWidth: 800, minHeight: 45)
+        .frame(minWidth: 800, minHeight: 45)
       )
       .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
         return -viewDimensions.width / 2
@@ -247,8 +248,8 @@ struct DropdownOptionStyle: ViewModifier {
         #endif
       }
       .onTapGesture {
-        selectedText = option
-        isSelectFocused = false
+        self.selectedText = option
+        self.isOpen = false
       }
   }
 }
@@ -259,14 +260,14 @@ extension View  {
     index: Int,
     option: String,
     selectedText: Binding<String>,
-    isSelectFocused: Binding<Bool>
+    isOpen: Binding<Bool>
   ) -> some View {
     self.modifier(DropdownOptionStyle(
       optionIndex: optionIndex,
       index: index,
       option: option,
       selectedText: selectedText,
-      isSelectFocused: isSelectFocused
+      isOpen: isOpen
     ))
   }
 }

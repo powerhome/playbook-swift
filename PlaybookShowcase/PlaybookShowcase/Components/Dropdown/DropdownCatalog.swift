@@ -11,7 +11,20 @@ import SwiftUI
 import Playbook
 
 public struct DropdownCatalog: View {
-  var options: [String] = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet"]
+  @State var colorOptions: [String] = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet"]
+  @State var selectedText: String = ""
+  @State var selectedText1: String = ""
+  @State var selectedText2: String = ""
+  @State var selectedText3: String = ""
+  @State var selectedText4: String = ""
+  @State var selectedText5: String = ""
+  @State var selectedText6: String = ""
+  @State var selectedText7: String = ""
+  @State var selectedText8: String = ""
+  @State var selectedText9: String = ""
+  @State var selectedText10: String = ""
+  @State var selectedText11: String = ""
+
   public var body: some View {
     PBDocStack(title: "Dropdown", spacing: Spacing.medium) {
       PBDoc(title: "Select Dropdown") { selectPlainDropdown }
@@ -30,12 +43,14 @@ extension DropdownCatalog {
   var selectPlainDropdown: some View {
     VStack(spacing: Spacing.medium) {
       PBDropdown(
+        selectedText: $selectedText,
         variant: .select,
         hasIcon: false,
         hasRowSeparator: false,
         hasCheckmark: false) {}
 
       PBDropdown(
+        selectedText: $selectedText1,
         variant: .select,
         hasIcon: false,
         hasRowSeparator: true,
@@ -47,6 +62,7 @@ extension DropdownCatalog {
   var selectIconDropdown: some View {
     VStack(spacing: Spacing.medium) {
       PBDropdown(
+        selectedText: $selectedText2,
         dropdownIcon: .calendar,
         dropdownIconSize: .small,
         variant: .select,
@@ -55,6 +71,7 @@ extension DropdownCatalog {
         hasCheckmark: false) {}
 
       PBDropdown(
+        selectedText: $selectedText3,
         dropdownIcon: .calendar,
         dropdownIconSize: .small,
         variant: .select,
@@ -69,12 +86,14 @@ extension DropdownCatalog {
   var selectCheckmarkDropdown: some View {
     VStack(spacing: Spacing.medium) {
       PBDropdown(
+        selectedText: $selectedText4,
         variant: .select,
         hasIcon: false,
         hasRowSeparator: true,
         hasCheckmark: true) {}
 
       PBDropdown(
+        selectedText: $selectedText5,
         variant: .select,
         hasIcon: false,
         hasRowSeparator: false,
@@ -87,6 +106,7 @@ extension DropdownCatalog {
   var selectCalendarIconDropdown: some View {
     VStack(spacing: Spacing.medium) {
       PBDropdown(
+        selectedText: $selectedText6,
         dropdownIcon: .calendar,
         dropdownIconSize: .small,
         variant: .select,
@@ -96,6 +116,7 @@ extension DropdownCatalog {
       ) {}
 
       PBDropdown(
+        selectedText: $selectedText7,
         dropdownIcon: .calendar,
         dropdownIconSize: .small,
         variant: .select,
@@ -111,7 +132,8 @@ extension DropdownCatalog {
   var selectCardTopDropdown: some View {
     VStack {
       PBDropdown(
-        options: options,
+        options: $colorOptions,
+        selectedText: $selectedText8,
         cardPosition: .bottom,
         variant: .select,
         hasIcon: false,
@@ -119,6 +141,7 @@ extension DropdownCatalog {
         hasCheckmark: false
       ) {}
         .padding(.top, 100)
+
     }
     .frame(height: 175)
     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -127,6 +150,7 @@ extension DropdownCatalog {
   var buttonDropdown: some View {
     VStack {
       PBDropdown(
+        selectedText: $selectedText9,
         cardPosition: .topLeading,
         topSpacing: 60,
         variant: .button,
@@ -143,7 +167,8 @@ extension DropdownCatalog {
   var buttonDropdownLeading: some View {
     HStack {
       PBDropdown(
-        options: options,
+        options: $colorOptions,
+        selectedText: $selectedText10,
         cardPosition: .leading,
         bottomSpacing: 40,
         leadingSpacing: 70,
@@ -161,6 +186,7 @@ extension DropdownCatalog {
   var customTriggerDropdown: some View {
     VStack {
       PBDropdown(
+        selectedText: $selectedText11,
         cardPosition: .topLeading,
         topSpacing: 30,
         variant: .content,
