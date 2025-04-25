@@ -75,7 +75,10 @@ public struct PBDropdown: View {
   }
 
   public var body: some View {
+    VStack(spacing: Spacing.none) {
       dropDownVariant
+    }
+    .zIndex(1000)
   }
 }
 
@@ -85,12 +88,12 @@ public extension PBDropdown {
   }
 
   @ViewBuilder
-    var dropDownVariant: some View {
-      switch variant {
-      case .select: selectDropdown
-      case .button, .content: buttonDropdown
-      }
+  var dropDownVariant: some View {
+    switch variant {
+    case .select: selectDropdown
+    case .button, .content: buttonDropdown
     }
+  }
 
   var selectDropdown: some View {
     VStack {
@@ -127,12 +130,12 @@ public extension PBDropdown {
         }
       }
       .globalPosition(alignment: cardPosition, top: topSpacing == 0 ? 45 : topSpacing, leading: leadingSpacing, bottom: bottomSpacing, trailing: trailingSpacing) {
-            dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isFocused: isOpen)
+        dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isFocused: isOpen)
 
-          }
       }
-      .buttonStyle(PlainButtonStyle())
     }
+    .buttonStyle(PlainButtonStyle())
+  }
 
   func dropdownCardView(options: [String], optionIndex: Int, selectedText: String, isFocused: Bool) -> some View {
     ZStack {
@@ -225,7 +228,7 @@ struct DropdownOptionStyle: ViewModifier {
         ZStack {
           optionIndex == index ? Color.pbPrimary.opacity(0.05) : .clear
         }
-        .frame(minWidth: 800, minHeight: 45)
+          .frame(minWidth: 800, minHeight: 45)
       )
       .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
         return -viewDimensions.width / 2
@@ -235,13 +238,13 @@ struct DropdownOptionStyle: ViewModifier {
       }
       .onHover { isHovering in
         optionIndex = index
-#if os(macOS)
+        #if os(macOS)
         if isHovering {
           NSCursor.pointingHand.set()
         } else {
           NSCursor.arrow.set()
         }
-#endif
+        #endif
       }
       .onTapGesture {
         selectedText = option
