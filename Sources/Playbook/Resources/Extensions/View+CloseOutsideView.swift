@@ -24,7 +24,6 @@ struct ClickOutsideToClose: ViewModifier {
         if isOpen {
           Color.clear
             .contentShape(Rectangle())
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onTapGesture {
               close()
             }
