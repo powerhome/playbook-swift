@@ -77,16 +77,21 @@ public struct PBDropdown: View {
   }
 
   public var body: some View {
-    VStack(spacing: Spacing.none) {
-      dropDownVariant
-    }
-    .zIndex(1000)
+      dropdownView
   }
 }
 
 public extension PBDropdown {
   enum Variant {
     case select, button, content
+  }
+
+  @ViewBuilder
+  var dropdownView: some View {
+      VStack(spacing: Spacing.none) {
+        dropDownVariant
+      }
+      .zIndex(1000)
   }
 
   @ViewBuilder
@@ -105,7 +110,6 @@ public extension PBDropdown {
           ReadOnlyTextFieldView(isOpen: $isOpen, selectedText: $selectedText)
       }
       .globalPosition(alignment: cardPosition, top: topSpacing == 0 ? 45 : topSpacing, leading: leadingSpacing, bottom: bottomSpacing == 0 ? 45 : bottomSpacing, trailing: trailingSpacing) {
-
         dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isOpen: isOpen)
       }
       .overlay {
