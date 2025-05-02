@@ -7,17 +7,15 @@
 //  View+CloseOutsideView.swift
 //
 
-import Foundation
 import SwiftUI
 
-struct ClickOutsideToClose: ViewModifier {
+public struct ClickOutsideToClose: ViewModifier {
   let isOpen: Bool
   let close: () -> Void
 
-  func body(content: Content) -> some View {
+ public func body(content: Content) -> some View {
     ZStack {
       content
-        .zIndex(1)
     }
     .background(
       Group {
@@ -30,13 +28,19 @@ struct ClickOutsideToClose: ViewModifier {
             .ignoresSafeArea()
         }
       }
-      .frame(minWidth: 1000, minHeight: 1000)
+      #if os(iOS)
+        .frame(minWidth: UIScreen.main.bounds.width, minHeight: UIScreen.main.bounds.height)
+      #elseif os(macOS)
+        .frame(minWidth: NSScreen.main?.frame.width, minHeight: NSScreen.main?.frame.height)
+      #endif
     )
   }
 }
 
-extension View {
+
+public extension View {
   func clickOutsideToClose(isOpen: Bool, close: @escaping () -> Void) -> some View {
     self.modifier(ClickOutsideToClose(isOpen: isOpen, close: close))
   }
+
 }

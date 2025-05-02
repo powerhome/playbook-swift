@@ -11,12 +11,13 @@ import SwiftUI
 import Foundation
 
 public struct PBDropdown: View {
-  @Namespace private var dropdownNamespace
-  @Binding var options: [String]
-  @Binding var selectedText: String
   @State var isOpen: Bool = false
   @State var isHovering: Bool = false
   @State var optionIndex: Int = -1
+  @Binding var options: [String]
+  @Binding var selectedText: String
+  @Binding var label: String?
+  var hasLabel: Bool
   var cardPosition: Alignment
   var buttonIcon: FontAwesome
   var buttonIconSize: PBIconCircle.Size
@@ -31,13 +32,15 @@ public struct PBDropdown: View {
   var hasIcon: Bool = true
   var hasRowSeparator: Bool
   var hasCheckmark: Bool?
-  var width: CGFloat?
+  var dropdownWidth: CGFloat?
   var dropdownHeight: CGFloat?
   let content: () -> AnyView
 
   public init(
     options: Binding<[String]> = .constant(["Philadelphia", "New York", "San Francisco", "Los Angeles", "Chicago"]),
     selectedText: Binding<String> = .constant(""),
+    label: Binding<String?> = .constant(nil),
+    hasLabel: Bool = false,
     cardPosition: Alignment = .top,
     buttonIcon: FontAwesome = .flag,
     buttonIconSize: PBIconCircle.Size = .medium,
@@ -52,12 +55,14 @@ public struct PBDropdown: View {
     hasIcon: Bool = true,
     hasRowSeparator: Bool = true,
     hasCheckmark: Bool? = false,
-    width: CGFloat? = 300,
+    dropdownWidth: CGFloat? = 300,
     dropdownHeight: CGFloat? = 140,
     @ViewBuilder content: @escaping () -> some View
   ) {
     self._options = options
     self._selectedText = selectedText
+    self._label = label
+    self.hasLabel = hasLabel
     self.buttonIcon = buttonIcon
     self.buttonIconSize = buttonIconSize
     self.buttonIconColor = buttonIconColor
@@ -72,7 +77,7 @@ public struct PBDropdown: View {
     self.hasIcon = hasIcon
     self.hasRowSeparator = hasRowSeparator
     self.hasCheckmark = hasCheckmark
-    self.width = width
+    self.dropdownWidth = dropdownWidth
     self.dropdownHeight = dropdownHeight
     self.content = { AnyView(content()) }
   }
@@ -86,18 +91,21 @@ public struct PBDropdown: View {
 
 public extension PBDropdown {
   enum Variant {
-    case select, button, content
+    case select, button, custom
   }
 
   @ViewBuilder
   var dropdownView: some View {
-    ZStack {
-
-      dropDownVariant
-        .zIndex(1000)
-    }
-    .clickOutsideToClose(isOpen: isOpen) {
-      isOpen = false
+    VStack(alignment: .leading, spacing: Spacing.none) {
+      if hasLabel {
+        PBLabelValue(label ?? "")
+      }
+      ZStack {
+        dropDownVariant
+      }
+      .clickOutsideToClose(isOpen: isOpen) {
+        isOpen = false
+      }
     }
   }
 
@@ -105,7 +113,7 @@ public extension PBDropdown {
   var dropDownVariant: some View {
     switch variant {
     case .select: selectDropdown
-    case .button, .content: buttonDropdown
+    case .button, .custom: buttonDropdown
     }
   }
 
@@ -114,16 +122,16 @@ public extension PBDropdown {
       Button {
         isOpen.toggle()
       } label: {
-        ReadOnlyTextFieldView(isOpen: $isOpen, selectedText: $selectedText)
+          ReadOnlyTextFieldView(isOpen: $isOpen, selectedText: $selectedText)
       }
       .globalPosition(alignment: cardPosition, top: topSpacing == 0 ? 45 : topSpacing, leading: leadingSpacing, bottom: bottomSpacing == 0 ? 45 : bottomSpacing, trailing: trailingSpacing) {
-        dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isOpen: isOpen)
+          dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isOpen: isOpen)
       }
       .overlay {
         RoundedRectangle(cornerRadius: 8)
           .stroke(isOpen ? Color.pbPrimary : Color.text(.lighter), lineWidth: 2)
       }
-      .frame(width: width)
+      .frame(width: dropdownWidth)
       .buttonStyle(PlainButtonStyle())
       Spacer()
     }
@@ -137,11 +145,11 @@ public extension PBDropdown {
       } label: {
         if variant == .button {
           PBIconCircle(buttonIcon, size: buttonIconSize, color: buttonIconColor)
-        } else {
+        } else if variant == .custom {
           content()
         }
       }
-      .globalPosition(alignment: cardPosition, top: topSpacing == 0 ? 45 : topSpacing, leading: leadingSpacing, bottom: bottomSpacing, trailing: trailingSpacing) {
+      .globalPosition(alignment: cardPosition, top: topSpacing == 0 ? 45 : topSpacing, leading: leadingSpacing == 0 ? 65 : leadingSpacing, bottom: bottomSpacing, trailing: trailingSpacing) {
         dropdownCardView(options: options, optionIndex: optionIndex, selectedText: selectedText, isOpen: isOpen)
       }
     }
@@ -159,7 +167,7 @@ public extension PBDropdown {
             .listRowSeparator(hasRowSeparator ? .visible : .hidden)
             .dropdownStyle(optionIndex: $optionIndex, index: index, option: option, selectedText: $selectedText, isOpen: $isOpen)
           }
-          .frame(width: width, height: dropdownHeight)
+          .frame(width: dropdownWidth, height: dropdownHeight)
           .listRowInsets(EdgeInsets())
           .listStyle(.plain)
           .scrollIndicators(.hidden)
@@ -173,6 +181,7 @@ public extension PBDropdown {
     HStack {
       if let dropDownIcon = dropdownIcon, hasIcon  {
         PBIcon(dropDownIcon, size: dropdownIconSize)
+          .offset(y: -1.5)
       }
 
       Text(option)

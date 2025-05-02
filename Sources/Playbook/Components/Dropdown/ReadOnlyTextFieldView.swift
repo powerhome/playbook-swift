@@ -26,19 +26,19 @@ struct ReadOnlyTextFieldView: View {
           .foregroundStyle(Color.text(.light))
           .padding(.horizontal, 8)
 
-        PBIcon.fontAwesome(.chevronDown)
-          .foregroundStyle(Color.text(.light))
-          .frame(maxWidth: .infinity, alignment: .trailing)
+          PBIcon.fontAwesome(.chevronDown)
+            .foregroundStyle(Color.text(.light))
+            .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+        .padding(.horizontal, 8)
       }
-      .padding(.horizontal, 8)
-    }
-    .cornerRadius(8)
-    .contentShape(Rectangle())
-    .onTapGesture {
-      isOpen.toggle()
-    }
-    .onChange(of: selectedText) {
-      placeholder = selectedText.isEmpty ? "Select" : selectedText
-    }
+      .cornerRadius(8)
+      .contentShape(Rectangle())
+      .onTapGesture {
+        isOpen.toggle()
+      }
+      .onChange(of: selectedText) {
+        placeholder = selectedText.isEmpty ? "Select" : selectedText
+      }
   }
 }

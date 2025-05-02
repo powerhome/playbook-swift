@@ -8,8 +8,9 @@
 //
 
 import Foundation
+import SwiftUI
 
-extension String {
+public extension String {
   static func iOS(_ val: String, macOS: String) -> String {
   #if os(iOS)
     return val
@@ -20,12 +21,13 @@ extension String {
 
 }
 
-extension CGFloat {
+public extension CGFloat {
   static func iOS(_ val: CGFloat, macOS: CGFloat) -> CGFloat {
-#if os(iOS)
+  #if os(iOS)
     return val
-#else
+  #else
     return macOS
-#endif
+  #endif
   }
 }
+
