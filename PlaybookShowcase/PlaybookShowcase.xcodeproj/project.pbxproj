@@ -10,8 +10,6 @@
 		639039872A13A496004576FF /* ContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639039862A13A496004576FF /* ContentListView.swift */; };
 		8F6D944E2AE98ED800AF0D15 /* Versioning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8F6D944D2AE98ED800AF0D15 /* Versioning.xcconfig */; };
 		8F6D944F2AE98ED800AF0D15 /* Versioning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8F6D944D2AE98ED800AF0D15 /* Versioning.xcconfig */; };
-		E72C68982DBAA09C00A9FD31 /* DropdownCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72C68972DBAA09C00A9FD31 /* DropdownCatalog.swift */; };
-		E72C68992DBAA09C00A9FD31 /* DropdownCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72C68972DBAA09C00A9FD31 /* DropdownCatalog.swift */; };
 		F905151B29F03B0700F9B66D /* PlaybookShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */; };
 		F905151F29F03B0700F9B66D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F905152229F03B0700F9B66D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
@@ -160,7 +158,6 @@
 /* Begin PBXFileReference section */
 		639039862A13A496004576FF /* ContentListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListView.swift; sourceTree = "<group>"; };
 		8F6D944D2AE98ED800AF0D15 /* Versioning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Versioning.xcconfig; sourceTree = "<group>"; };
-		E72C68972DBAA09C00A9FD31 /* DropdownCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownCatalog.swift; sourceTree = "<group>"; };
 		F905151829F03B0700F9B66D /* PlaybookShowcase-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaybookShowcase-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcaseApp.swift; sourceTree = "<group>"; };
 		F905151E29F03B0700F9B66D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -258,14 +255,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E72C68932DBAA04A00A9FD31 /* Dropdown */ = {
-			isa = PBXGroup;
-			children = (
-				E72C68972DBAA09C00A9FD31 /* DropdownCatalog.swift */,
-			);
-			path = Dropdown;
-			sourceTree = "<group>";
-		};
 		F905151929F03B0700F9B66D /* PlaybookShowcase */ = {
 			isa = PBXGroup;
 			children = (
@@ -876,7 +865,6 @@
 				F94894A32D6CFDD3001B0122 /* Date Time Stacked */,
 				F94894A92D6CFDD3001B0122 /* Date Year Stacked */,
 				F94894B32D6CFDD3001B0122 /* Dialog */,
-				E72C68932DBAA04A00A9FD31 /* Dropdown */,
 				F94894BE2D6CFDD3001B0122 /* Fixed Confirmation Toast */,
 				F94894C02D6CFDD3001B0122 /* Grid */,
 				F94894C62D6CFDD3001B0122 /* Highlight */,
@@ -1067,7 +1055,6 @@
 				F94897FB2D6CFDD3001B0122 /* TypeaheadCatalog.swift in Sources */,
 				F94897FC2D6CFDD3001B0122 /* HighlightCatalog.swift in Sources */,
 				F94897FD2D6CFDD3001B0122 /* DateRangeStackedCatalog.swift in Sources */,
-				E72C68982DBAA09C00A9FD31 /* DropdownCatalog.swift in Sources */,
 				F94897FE2D6CFDD3001B0122 /* DialogCatalog.swift in Sources */,
 				F94897FF2D6CFDD3001B0122 /* ToggleCatalog.swift in Sources */,
 				F94898002D6CFDD3001B0122 /* IconCircleCatalog.swift in Sources */,
@@ -1144,7 +1131,6 @@
 				F94895C92D6CFDD3001B0122 /* TypeaheadCatalog.swift in Sources */,
 				F94895CA2D6CFDD3001B0122 /* HighlightCatalog.swift in Sources */,
 				F94895CB2D6CFDD3001B0122 /* DateRangeStackedCatalog.swift in Sources */,
-				E72C68992DBAA09C00A9FD31 /* DropdownCatalog.swift in Sources */,
 				F94895CC2D6CFDD3001B0122 /* DialogCatalog.swift in Sources */,
 				F94895CD2D6CFDD3001B0122 /* ToggleCatalog.swift in Sources */,
 				F94895CE2D6CFDD3001B0122 /* IconCircleCatalog.swift in Sources */,
