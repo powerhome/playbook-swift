@@ -21,6 +21,7 @@ public struct PBUser: View {
     public var status: PBOnlineStatus.Status?
     public var displayAvatar: Bool = true
     public var territoryTitleFont: PBFont
+    public var hasInActiveBadge: Bool?
     public init(
         name: String = "",
         nameFont: Typography = .init(font: .title4, variant: .bold),
@@ -32,7 +33,8 @@ public struct PBUser: View {
         subtitle: AnyView? = nil,
         status: PBOnlineStatus.Status? = nil,
         displayAvatar: Bool = true,
-        territoryTitleFont: PBFont = .subcaption
+        territoryTitleFont: PBFont = .subcaption,
+        hasInActiveBadge: Bool? = false
     ) {
         self.name = name
         self.nameFont = nameFont
@@ -45,6 +47,7 @@ public struct PBUser: View {
         self.status = status
         self.displayAvatar = displayAvatar
         self.territoryTitleFont = territoryTitleFont
+        self.hasInActiveBadge = hasInActiveBadge
     }
     
     public var body: some View {
@@ -85,9 +88,15 @@ public extension PBUser {
     
     var contentView: some View {
         VStack(alignment: alignment, spacing: Spacing.none) {
+          HStack {
             Text(name)
-                .pbFont(nameFont.font, variant: nameFont.variant)
-                .foregroundColor(.text(.default))
+              .pbFont(nameFont.font, variant: nameFont.variant)
+              .foregroundColor(.text(.default))
+            if hasInActiveBadge == true {
+              PBBadge(text: "Inactive", variant: .neutral)
+                .padding(.top, -5)
+            }
+          }
             bodyText.pbFont(territoryTitleFont, color: .text(.light))
                 .lineLimit(1)
                 .truncationMode(.tail)
