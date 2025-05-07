@@ -21,7 +21,7 @@ public struct PBUser: View {
     public var status: PBOnlineStatus.Status?
     public var displayAvatar: Bool = true
     public var territoryTitleFont: PBFont
-    public var hasInActiveBadge: Bool?
+    public var hasInActiveBadge: Bool
     public init(
         name: String = "",
         nameFont: Typography = .init(font: .title4, variant: .bold),
@@ -34,7 +34,7 @@ public struct PBUser: View {
         status: PBOnlineStatus.Status? = nil,
         displayAvatar: Bool = true,
         territoryTitleFont: PBFont = .subcaption,
-        hasInActiveBadge: Bool? = false
+        hasInActiveBadge: Bool = false
     ) {
         self.name = name
         self.nameFont = nameFont
