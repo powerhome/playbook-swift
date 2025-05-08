@@ -94,7 +94,6 @@ public extension PBUser {
               .foregroundColor(.text(.default))
             if hasInActiveBadge == true {
               PBBadge(text: "Inactive", variant: .neutral)
-                .padding(.top, -5)
             }
           }
             bodyText.pbFont(territoryTitleFont, color: .text(.light))
