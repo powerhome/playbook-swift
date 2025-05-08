@@ -21,7 +21,7 @@ public struct PBSkeletonLoader<Content: View>: View {
   public init(
     isLoading: Binding<Bool> = .constant(false),
     animation: Animation = .smooth(duration: 1.0),
-    shape: SkeletonShape = .rectangle(),
+    shape: SkeletonShape = .rectangle(cornerRadius: 8),
     alignment: Alignment = .leading,
     @ViewBuilder content: () -> Content
   ) {
@@ -40,27 +40,6 @@ public struct PBSkeletonLoader<Content: View>: View {
 }
 
 public extension PBSkeletonLoader {
-  enum SkeletonShape {
-    case rectangle(cornerRadius: CGFloat = 8)
-    case circle
-    case capsule
-    case custom(AnyShape)
-  }
-
-  @ViewBuilder
-  var skeletonShape: some View {
-    switch shape {
-    case .rectangle(let cornerRadius):
-      RoundedRectangle(cornerRadius: cornerRadius)
-    case .circle:
-      Circle()
-    case .capsule:
-      Capsule()
-    case .custom(let shape):
-      shape
-    }
-  }
-
   var skeletonLoadingView: some View {
     VStack {
       if isLoading {
@@ -77,7 +56,7 @@ public extension PBSkeletonLoader {
   }
 
   var skeletonShapeView: some View {
-    skeletonShape
+    shape.skeletonShape
       .foregroundStyle(
         LinearGradient(
           gradient: Gradient(colors: [
@@ -99,5 +78,26 @@ public extension PBSkeletonLoader {
           }
         }
       }
+  }
+}
+
+public enum SkeletonShape {
+  case rectangle(cornerRadius: CGFloat = 8)
+  case circle
+  case capsule
+  case custom(AnyShape)
+
+  @ViewBuilder
+  var skeletonShape: some View {
+    switch self {
+    case .rectangle(let cornerRadius):
+      RoundedRectangle(cornerRadius: cornerRadius)
+    case .circle:
+      Circle()
+    case .capsule:
+      Capsule()
+    case .custom(let anyShape):
+      anyShape
+    }
   }
 }
