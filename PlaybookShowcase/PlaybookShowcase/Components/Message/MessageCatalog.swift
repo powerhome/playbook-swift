@@ -31,6 +31,9 @@ public struct MessageCatalog: View {
       PBDoc(title: "On user click") {
         onUserClickView
       }
+      PBDoc(title: "Inactive User") {
+        inactiveUserView
+      }
     }
     .popoverHandler(id: 9)
   }
@@ -182,6 +185,17 @@ extension MessageCatalog {
         Text("This is a popover")
       }
     }
+  }
+
+  var inactiveUserView: some View {
+    PBMessage(
+      avatar: AnyView(PBAvatar(image: Image("Anna"), size: .medium, status: .offline, isActive: false)),
+      label: "Patrick Welch",
+      message: "We will escalate this issue to a Senior Support agent.",
+      timestamp: Date().addingTimeInterval(-540),
+      timestampAlignment: .leading,
+      isActive: false
+    )
   }
 
   private func showDialog() {
