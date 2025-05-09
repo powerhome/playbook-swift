@@ -283,7 +283,7 @@ public extension UserCatalog {
         name: name,
         image: img,
         orientation: .horizontal,
-        size: .large,
+        size: .small,
         territory: "PHL",
         title: title,
         status: .offline,
