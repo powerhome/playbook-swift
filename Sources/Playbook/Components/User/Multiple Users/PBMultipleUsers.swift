@@ -17,7 +17,6 @@ public struct PBMultipleUsers: View {
   var bubbleSize: BubbleSize
   var bubbleCount: BubbleCount
   var maxDisplayedUsers: Int
-  var isActive: Bool
   @State private var avSize: CGFloat = 20
   @Environment(\.colorScheme) var colorScheme
 
@@ -28,8 +27,7 @@ public struct PBMultipleUsers: View {
     reversed: Bool = false,
     bubbleSize: BubbleSize = .small,
     bubbleCount: BubbleCount = .two,
-    maxDisplayedUsers: Int = 4,
-    isActive: Bool = true
+    maxDisplayedUsers: Int = 4
   ) {
     self.users = users
     self.size = size
@@ -38,7 +36,6 @@ public struct PBMultipleUsers: View {
     self.bubbleSize = bubbleSize
     self.bubbleCount = bubbleCount
     self.maxDisplayedUsers = maxDisplayedUsers
-    self.isActive = isActive
   }
   
   public var body: some View {
@@ -96,7 +93,7 @@ public extension PBMultipleUsers {
           name: filteredUsers.0[index].name,
           size: size,
           wrapped: true,
-          isActive: isActive
+          isActive: filteredUsers.0[index].isActive
         )
         .offset(x: xOffset(index: index), y: 0)
       }
@@ -133,7 +130,7 @@ public extension PBMultipleUsers {
         name: filteredUsers.0[index].name,
         size: .custom(avatarSize),
         wrapped: true,
-        isActive: isActive
+        isActive: filteredUsers.0[index].isActive
       )
       .padding(index <= 1 ? -1 : -4)
       .offset(

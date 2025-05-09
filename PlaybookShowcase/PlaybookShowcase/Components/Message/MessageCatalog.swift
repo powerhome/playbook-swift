@@ -189,7 +189,7 @@ extension MessageCatalog {
 
   var inactiveUserView: some View {
     PBMessage(
-      avatar: AnyView(PBAvatar(image: Image("Anna"), size: .medium, status: .offline, isActive: false)),
+      avatar: AnyView(PBAvatar(image: Image("Anna"), size: .small, status: .offline, isActive: false)),
       label: "Patrick Welch",
       message: "We will escalate this issue to a Senior Support agent.",
       timestamp: Date().addingTimeInterval(-540),

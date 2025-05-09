@@ -22,7 +22,7 @@ public struct PBUser: View {
     public var displayAvatar: Bool = true
     public var territoryTitleFont: PBFont
     public var isActive: Bool
-
+    public var hasInactiveBadge: Bool
     public init(
         name: String = "",
         nameFont: Typography = .init(font: .title4, variant: .bold),
@@ -35,7 +35,8 @@ public struct PBUser: View {
         status: PBOnlineStatus.Status? = nil,
         displayAvatar: Bool = true,
         territoryTitleFont: PBFont = .subcaption,
-        isActive: Bool = true
+        isActive: Bool = true,
+        hasInactiveBadge: Bool = false
     ) {
         self.name = name
         self.nameFont = nameFont
@@ -49,6 +50,7 @@ public struct PBUser: View {
         self.displayAvatar = displayAvatar
         self.territoryTitleFont = territoryTitleFont
         self.isActive = isActive
+        self.hasInactiveBadge = hasInactiveBadge
     }
     
     public var body: some View {
@@ -92,7 +94,7 @@ public extension PBUser {
           HStack {
             Text(name)
               .pbFont(nameFont.font, variant: nameFont.variant, color: isActive ? .text(.default) : .text(.light))
-            if !isActive {
+            if hasInactiveBadge {
               PBBadge(text: "Inactive", variant: .neutral)
             }
           }

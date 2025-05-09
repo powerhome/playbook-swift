@@ -287,7 +287,8 @@ public extension UserCatalog {
         territory: "PHL",
         title: title,
         status: .offline,
-        isActive: false
+        isActive: false,
+        hasInactiveBadge: true
     )
   }
 }

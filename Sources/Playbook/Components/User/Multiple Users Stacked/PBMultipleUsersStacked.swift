@@ -12,25 +12,22 @@ import SwiftUI
 public struct PBMultipleUsersStacked: View {
   var users: [PBUser]
   var size: Size
-  var isActive: Bool
   public init(
     users: [PBUser] = [],
-    size: Size = .small,
-    isActive: Bool = true
+    size: Size = .small
   ) {
     self.users = users
     self.size = size
-    self.isActive = isActive
   }
 
   public var body: some View {
     if users.count == 1 {
-      PBAvatar(image: users[0].image, name: users[0].name, size: avatarSize, isActive: isActive)
+      PBAvatar(image: users[0].image, name: users[0].name, size: avatarSize, isActive: users[0].isActive)
     } else if users.count >= 2 {
       ZStack {
-        PBAvatar(image: users[0].image, name: users[0].name, size: stackedSize.0, isActive: isActive)
+        PBAvatar(image: users[0].image, name: users[0].name, size: stackedSize.0, isActive: users[0].isActive)
         if users.count == 2 {
-          PBAvatar(image: users[1].image, name: users[1].name, size: stackedSize.1, wrapped: true, isActive: isActive)
+          PBAvatar(image: users[1].image, name: users[1].name, size: stackedSize.1, wrapped: true, isActive: users[0].isActive)
             .offset(x: offsetSize, y: offsetSize)
         } else {
           PBMultipleUsersIndicator(usersCount: users.count - 1, size: stackedSize.1)
