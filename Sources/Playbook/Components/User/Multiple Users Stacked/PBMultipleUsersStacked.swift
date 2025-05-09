@@ -27,7 +27,7 @@ public struct PBMultipleUsersStacked: View {
       ZStack {
         PBAvatar(image: users[0].image, name: users[0].name, size: stackedSize.0, isActive: users[0].isActive)
         if users.count == 2 {
-          PBAvatar(image: users[1].image, name: users[1].name, size: stackedSize.1, wrapped: true, isActive: users[0].isActive)
+          PBAvatar(image: users[1].image, name: users[1].name, size: stackedSize.1, wrapped: true, isActive: users[1].isActive)
             .offset(x: offsetSize, y: offsetSize)
         } else {
           PBMultipleUsersIndicator(usersCount: users.count - 1, size: stackedSize.1)
