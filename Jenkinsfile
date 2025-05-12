@@ -280,7 +280,7 @@ def notarize() {
 }
 
 def prTitleValid() {
-  def match = githubPrDetails['title'] =~ /\[PBIOS\-[0-9]+\]+/
+  def match = githubPrDetails['title'] =~ /\[[a-zA-Z0-9]+-\d+\]/
   return match.find()
 }
 
