@@ -26,6 +26,7 @@ public struct UserCatalog: View {
       PBDoc(title: "Block Content Subtitle") { subtitleBlockContentView }
       PBDoc(title: "Presence Indicator") { presenceIndicatorView }
       PBDoc(title: "Custom Title Font") { customFontsView }
+      PBDoc(title: "Inactive User") { inactiveUserView }
     }
   }
 }
@@ -275,6 +276,20 @@ public extension UserCatalog {
         )
       }
     }
+  }
+
+  var inactiveUserView: some View {
+    PBUser(
+        name: name,
+        image: img,
+        orientation: .horizontal,
+        size: .small,
+        territory: "PHL",
+        title: title,
+        status: .offline,
+        isActive: false,
+        hasInactiveBadge: true
+    )
   }
 }
 

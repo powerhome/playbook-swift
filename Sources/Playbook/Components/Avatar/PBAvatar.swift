@@ -58,7 +58,6 @@ public struct PBAvatar: View {
           .frame(width: size.diameter + 1, height: size.diameter + 1)
       }
 
-      
       if let status = self.status {
         PBOnlineStatus(status: status, size: avatarStatusSize, variant: .border)
           .grayscale(isActive ? 0 : 1)

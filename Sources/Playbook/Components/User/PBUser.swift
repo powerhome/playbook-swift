@@ -21,7 +21,8 @@ public struct PBUser: View {
     public var status: PBOnlineStatus.Status?
     public var displayAvatar: Bool = true
     public var territoryTitleFont: PBFont
-    public var hasInActiveBadge: Bool
+    public var isActive: Bool
+    public var hasInactiveBadge: Bool
     public init(
         name: String = "",
         nameFont: Typography = .init(font: .title4, variant: .bold),
@@ -34,7 +35,8 @@ public struct PBUser: View {
         status: PBOnlineStatus.Status? = nil,
         displayAvatar: Bool = true,
         territoryTitleFont: PBFont = .subcaption,
-        hasInActiveBadge: Bool = false
+        isActive: Bool = true,
+        hasInactiveBadge: Bool = false
     ) {
         self.name = name
         self.nameFont = nameFont
@@ -47,7 +49,8 @@ public struct PBUser: View {
         self.status = status
         self.displayAvatar = displayAvatar
         self.territoryTitleFont = territoryTitleFont
-        self.hasInActiveBadge = hasInActiveBadge
+        self.isActive = isActive
+        self.hasInactiveBadge = hasInactiveBadge
     }
     
     public var body: some View {
@@ -83,16 +86,15 @@ public extension PBUser {
     }
     
     var avatarView: some View {
-        PBAvatar(image: image, name: name, size: size.avatarSize, status: status)
+      PBAvatar(image: image, name: name, size: size.avatarSize, status: status, isActive: isActive)
     }
     
     var contentView: some View {
         VStack(alignment: alignment, spacing: Spacing.none) {
           HStack {
             Text(name)
-              .pbFont(nameFont.font, variant: nameFont.variant)
-              .foregroundColor(.text(.default))
-            if hasInActiveBadge == true {
+              .pbFont(nameFont.font, variant: nameFont.variant, color: isActive ? .text(.default) : .text(.light))
+            if hasInactiveBadge {
               PBBadge(text: "Inactive", variant: .neutral)
             }
           }
