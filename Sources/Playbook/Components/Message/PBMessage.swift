@@ -24,6 +24,7 @@ public struct PBMessage<Content: View>: View {
   let content: Content?
   let timestampVariant: PBTimestamp.Variant
   var isOnClick: Bool
+  var isActive: Bool
   let onHeaderClick: (() -> Void)?
   @Binding var isLoading: Bool
   @State private var isHovering: Bool = false
@@ -42,6 +43,7 @@ public struct PBMessage<Content: View>: View {
     showMessageDate: Bool = false,
     showMessageUser: Bool = false,
     isOnClick: Bool = false,
+    isActive: Bool = true,
     isLoading: Binding<Bool> = .constant(false),
     onHeaderClick: (() -> Void)? = nil,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
@@ -59,6 +61,7 @@ public struct PBMessage<Content: View>: View {
     self.showMessageDate = showMessageDate
     self.showMessageUser = showMessageUser
     self.isOnClick = isOnClick
+    self.isActive = isActive
     self._isLoading = isLoading
     self.onHeaderClick = onHeaderClick
     self.content = content()
@@ -75,7 +78,7 @@ public struct PBMessage<Content: View>: View {
       VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: Spacing.xSmall) {
           Text(label)
-            .pbFont(.messageTitle, color: isLoading ? .text(.light) : .text(.default))
+            .pbFont(.messageTitle, color: isLoading || !isActive ? .text(.light) : .text(.default))
             .setCursorPointer(disabled: !isCursorEnabled)
             .onTapGesture { onHeaderClick?() }
           if timestampAlignment == .trailing {
