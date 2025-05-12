@@ -10,6 +10,8 @@
 		639039872A13A496004576FF /* ContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639039862A13A496004576FF /* ContentListView.swift */; };
 		8F6D944E2AE98ED800AF0D15 /* Versioning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8F6D944D2AE98ED800AF0D15 /* Versioning.xcconfig */; };
 		8F6D944F2AE98ED800AF0D15 /* Versioning.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8F6D944D2AE98ED800AF0D15 /* Versioning.xcconfig */; };
+		E797E2622DB6E484008AB610 /* SkeletonLoaderCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E797E2612DB6E484008AB610 /* SkeletonLoaderCatalog.swift */; };
+		E797E2632DB6E484008AB610 /* SkeletonLoaderCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E797E2612DB6E484008AB610 /* SkeletonLoaderCatalog.swift */; };
 		F905151B29F03B0700F9B66D /* PlaybookShowcaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */; };
 		F905151F29F03B0700F9B66D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905151E29F03B0700F9B66D /* Assets.xcassets */; };
 		F905152229F03B0700F9B66D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F905152129F03B0700F9B66D /* Preview Assets.xcassets */; };
@@ -158,6 +160,7 @@
 /* Begin PBXFileReference section */
 		639039862A13A496004576FF /* ContentListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListView.swift; sourceTree = "<group>"; };
 		8F6D944D2AE98ED800AF0D15 /* Versioning.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Versioning.xcconfig; sourceTree = "<group>"; };
+		E797E2612DB6E484008AB610 /* SkeletonLoaderCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoaderCatalog.swift; sourceTree = "<group>"; };
 		F905151829F03B0700F9B66D /* PlaybookShowcase-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaybookShowcase-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F905151A29F03B0700F9B66D /* PlaybookShowcaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybookShowcaseApp.swift; sourceTree = "<group>"; };
 		F905151E29F03B0700F9B66D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -255,6 +258,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E797E2602DB6E456008AB610 /* Skeleton Loader */ = {
+			isa = PBXGroup;
+			children = (
+				E797E2612DB6E484008AB610 /* SkeletonLoaderCatalog.swift */,
+			);
+			path = "Skeleton Loader";
+			sourceTree = "<group>";
+		};
 		F905151929F03B0700F9B66D /* PlaybookShowcase */ = {
 			isa = PBXGroup;
 			children = (
@@ -891,6 +902,7 @@
 				F94895452D6CFDD3001B0122 /* Section Separator */,
 				F948954F2D6CFDD3001B0122 /* Select */,
 				F94895512D6CFDD3001B0122 /* Selectable Card */,
+				E797E2602DB6E456008AB610 /* Skeleton Loader */,
 				F948955B2D6CFDD3001B0122 /* Tab Bar */,
 				F94895642D6CFDD3001B0122 /* Text Area */,
 				F948956F2D6CFDD3001B0122 /* Text Input */,
@@ -1085,6 +1097,7 @@
 				F94898172D6CFDD3001B0122 /* TooltipCatalog.swift in Sources */,
 				F94898182D6CFDD3001B0122 /* LabelPillCatalog.swift in Sources */,
 				F94898192D6CFDD3001B0122 /* IconStatValueCatalog.swift in Sources */,
+				E797E2622DB6E484008AB610 /* SkeletonLoaderCatalog.swift in Sources */,
 				F948981A2D6CFDD3001B0122 /* ProgressSimpleCatalog.swift in Sources */,
 				F948981B2D6CFDD3001B0122 /* DateCatalog.swift in Sources */,
 				F91C448B2D6D0DB300E4E9C8 /* DesignElements.swift in Sources */,
@@ -1161,6 +1174,7 @@
 				F94895E52D6CFDD3001B0122 /* TooltipCatalog.swift in Sources */,
 				F94895E62D6CFDD3001B0122 /* LabelPillCatalog.swift in Sources */,
 				F94895E72D6CFDD3001B0122 /* IconStatValueCatalog.swift in Sources */,
+				E797E2632DB6E484008AB610 /* SkeletonLoaderCatalog.swift in Sources */,
 				F94895E82D6CFDD3001B0122 /* ProgressSimpleCatalog.swift in Sources */,
 				F94895E92D6CFDD3001B0122 /* DateCatalog.swift in Sources */,
 				F91C448A2D6D0DB300E4E9C8 /* DesignElements.swift in Sources */,
