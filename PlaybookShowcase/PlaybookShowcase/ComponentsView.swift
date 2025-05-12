@@ -56,6 +56,7 @@ public enum Components: String, CaseIterable {
   case sectionSeparator = "Section Separator"
   case select
   case selectableCard = "Selectable Card"
+  case skeletonLoader = "Skeleton Loader"
   case tabBar = "Tab Bar"
   case textArea = "Textarea"
   case textInput = "Text Input"
@@ -119,6 +120,7 @@ public enum Components: String, CaseIterable {
     case .sectionSeparator: SectionSeparatorCatalog()
     case .select: SelectCatalog()
     case .selectableCard: SelectableCardCatalog()
+    case .skeletonLoader: SkeletonLoaderCatalog()
     case .tabBar: TabBarCatalog()
     case .textArea: TextAreaCatalog()
     case .textInput: TextInputCatalog()
