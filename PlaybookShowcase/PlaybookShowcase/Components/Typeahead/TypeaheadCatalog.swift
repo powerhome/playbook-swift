@@ -159,9 +159,8 @@ extension TypeaheadCatalog {
       options: assetsUsers,
       selection: .multiple(variant: .pill),
       isFocused: $isFocusedNoOptions,
-      selectedOptions: $selectedNoOptions
-      ,
-      noOptionsText: {
+      selectedOptions: $selectedNoOptions,
+      noOptionsView: {
         customNoOptionsText
       }
     )
@@ -170,15 +169,15 @@ extension TypeaheadCatalog {
   var customNoOptionsText: some View {
     #if os(macOS)
     HStack(spacing: Spacing.none) {
-      Text("No results found. Review address for accuracy or ")
-      PBButton(variant: .link, title: "add address.")
+      Text("No results found. Review user name for accuracy or ")
+      PBButton(variant: .link, title: "add user name.")
     }
     .frame(maxWidth: .infinity, alignment: .center)
     .pbFont(.detail(false), color: .text(.light))
     #elseif os(iOS)
     VStack {
-      Text("No results found. Review address for accuracy or ")
-      PBButton(variant: .link, title: "add address.")
+      Text("No results found. Review user name for accuracy or ")
+      PBButton(variant: .link, title: "add user name.")
     }
     .fixedSize(horizontal: true, vertical: false)
     .pbFont(.detail(false), color: .text(.light))

@@ -101,7 +101,7 @@ public extension PBTypeahead {
   var emptyView: some View {
     HStack {
       Spacer()
-        noOptionsText()
+        noOptionsView()
         .pbFont(.body, color: .text(.light))
       Spacer()
     }
