@@ -1,3 +1,19 @@
+#✨ Introducing the New Skeleton Loader Kit! ✨
+#### May 13, 2025
+
+This release introduces the brand-new Skeleton Loader Kit, helping you build better loading states with ease. We’ve also made improvements to the Avatar kit and added support for inactive users.
+
+#### 6.10.0 full list of changes:
+
+**New Kits**
+- Skeleton Loader Kit [PBIOS-714] #531 (RachelRadford21) 🎉
+
+**Kit Enhancements:**
+- Updates to PBAvatar [PBIOS-701] #530 (RachelRadford21)
+- Add Inactive Users [PBIOS-1010] #535 (RachelRadford21)
+
+Full Changelog: 6.9.0 → 6.10.0
+
 # ✨ The Perfect Fit! ✨  
 #### Apr 2, 2025  
 
