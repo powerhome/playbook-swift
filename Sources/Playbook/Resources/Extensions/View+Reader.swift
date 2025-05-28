@@ -47,7 +47,7 @@ public extension View {
             }
           }
       }
-        .hidden()
+      .hidden()
     )
   }
 }

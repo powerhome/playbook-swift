@@ -92,7 +92,8 @@ public extension PBMultipleUsers {
           image: filteredUsers.0[index].image,
           name: filteredUsers.0[index].name,
           size: size,
-          wrapped: true
+          wrapped: true,
+          isActive: filteredUsers.0[index].isActive
         )
         .offset(x: xOffset(index: index), y: 0)
       }
@@ -128,7 +129,8 @@ public extension PBMultipleUsers {
         image: filteredUsers.0[index].image,
         name: filteredUsers.0[index].name,
         size: .custom(avatarSize),
-        wrapped: true
+        wrapped: true,
+        isActive: filteredUsers.0[index].isActive
       )
       .padding(index <= 1 ? -1 : -4)
       .offset(
