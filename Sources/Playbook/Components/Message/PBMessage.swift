@@ -111,6 +111,7 @@ public struct PBMessage<Content: View>: View {
       }
       #if os(macOS)
       .onHover { hover in
+        guard changeTimeStampOnHover else { return } 
         isHovering = hover
       }
       #endif
