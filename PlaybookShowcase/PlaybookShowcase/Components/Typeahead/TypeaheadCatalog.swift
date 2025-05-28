@@ -18,22 +18,35 @@ public struct TypeaheadCatalog: View {
 
   private var assetsUsers = Mocks.assetesMultipleUsers
   @State private var searchTextUsers: String = ""
-  @State private var selectedUsers: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+  @State private var selectedUsers: [PBTypeahead.Option] = [
+    Mocks.assetesMultipleUsers[0],
+    Mocks.assetesMultipleUsers[1]
+  ]
   @FocusState private var isFocusedUsers
 
   @State private var searchTextDeselectedUsers: String = ""
-  @State private var selectedUsersDeselected: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[0], Mocks.assetesMultipleUsers[1]]
+  @State private var selectedUsersDeselected: [PBTypeahead.Option] = [
+    Mocks.assetesMultipleUsers[0],
+    Mocks.assetesMultipleUsers[1]
+  ]
   @State private var deselectedUsers: [PBTypeahead.Option] = []
   @FocusState private var isFocusedDeselectedUsers
 
   @State private var searchTextHeight: String = ""
-  @State private var selectedHeight: [PBTypeahead.Option] = [Mocks.assetesMultipleUsers[3], Mocks.assetesMultipleUsers[2]]
+  @State private var selectedHeight: [PBTypeahead.Option] = [
+    Mocks.assetesMultipleUsers[3],
+    Mocks.assetesMultipleUsers[2]
+  ]
   @FocusState private var isFocusedHeight
 
   private var assetsSection: [PBTypeahead.OptionType] = Mocks.assetsSectionUsers
   @State private var searchTextSections: String = ""
   @State private var selectedSections: [PBTypeahead.Option] = []
   @FocusState private var isFocusedSection
+
+  @State private var searchTextNoOptions: String = ""
+  @State private var selectedNoOptions: [PBTypeahead.Option] = []
+  @FocusState private var isFocusedNoOptions
 
   @State private var presentDialog: Bool = false
   private var popoverManager = PopoverManager.shared
@@ -48,6 +61,7 @@ public struct TypeaheadCatalog: View {
       #endif
       PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
       PBDoc(title: "Sections", spacing: Spacing.small) { sections }
+      PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }
         .padding(.bottom, 500)
     }
     .scrollDismissesKeyboard(.immediately)
@@ -136,6 +150,41 @@ extension TypeaheadCatalog {
     )
   }
 
+  var noOptions: some View {
+    PBTypeahead(
+      id: 5,
+      title: "Users",
+      placeholder: "type the name of a user",
+      searchText: $searchTextNoOptions,
+      options: assetsUsers,
+      selection: .multiple(variant: .pill),
+      isFocused: $isFocusedNoOptions,
+      selectedOptions: $selectedNoOptions
+      ,
+      noOptionsText: {
+        customNoOptionsText
+      }
+    )
+  }
+
+  var customNoOptionsText: some View {
+    #if os(macOS)
+    HStack(spacing: Spacing.none) {
+      Text("No results found. Review address for accuracy or ")
+      PBButton(variant: .link, title: "add address.")
+    }
+    .frame(maxWidth: .infinity, alignment: .center)
+    .pbFont(.detail(false), color: .text(.light))
+    #elseif os(iOS)
+    VStack {
+      Text("No results found. Review address for accuracy or ")
+      PBButton(variant: .link, title: "add address.")
+    }
+    .fixedSize(horizontal: true, vertical: false)
+    .pbFont(.detail(false), color: .text(.light))
+    #endif
+  }
+
   var dialog: some View {
     PBButton(title: "Simple") {
       DialogCatalog.disableAnimation()
@@ -144,9 +193,9 @@ extension TypeaheadCatalog {
     .presentationMode(isPresented: $presentDialog) {
       DialogView(isPresented: $presentDialog)
         .popoverHandler(id: 6)
-#if os(macOS)
+      #if os(macOS)
         .frame(minWidth: 500, minHeight: 390)
-#endif
+      #endif
     }
   }
 
