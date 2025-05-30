@@ -15,6 +15,7 @@ public enum Position {
   case bottom(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
   case leading(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
   case center(_ xOffset: CGFloat = 0, _ yOffset: CGFloat = 0)
+  case custom(_ point: CGPoint = .zero)
 }
 
 public extension Position {
@@ -25,6 +26,7 @@ public extension Position {
     case .bottom: return .top()
     case .leading: return .trailing()
     case .center: return .top()
+    case .custom(let point): return Position.custom(point)
     }
   }
 
@@ -40,6 +42,8 @@ public extension Position {
       return CGPoint(x: xOffset, y: yOffset - space)
     case .center(let xOffset, let yOffset):
       return CGPoint(x: xOffset, y: yOffset)
+    case .custom(let point):
+        return point
     }
   }
 
@@ -104,38 +108,48 @@ public extension Position {
         origin: CGPoint(x: popoverOrigin.x - popoverSize.width / 2 + xOffset, y: popoverOrigin.y - popoverSize.height / 2 + yOffset),
         size: popoverSize
       )
+    case .custom(let position):
+        return CGRect(
+          origin: CGPoint(x: position.x - popoverSize.width / 2, y: position.y - popoverSize.height / 2),
+          size: popoverSize
+        )
     }
   }
 }
 
 public extension CGRect {
   func point(at anchor: Position) -> CGPoint {
-    switch anchor {
-    case .top:
-      return CGPoint(
-        x: origin.x + width / 2,
-        y: origin.y
-      )
-    case .trailing:
-      return CGPoint(
-        x: origin.x + width,
-        y: origin.y + height / 2
-      )
-    case .bottom:
-      return CGPoint(
-        x: origin.x + width / 2,
-        y: origin.y + height
-      )
-    case .leading:
-      return CGPoint(
-        x: origin.x,
-        y: origin.y + height / 2
-      )
-    case .center:
-      return CGPoint(
-        x: origin.x + width / 2,
-        y: origin.y + height / 2
-      )
-    }
+      switch anchor {
+      case .top:
+          return CGPoint(
+            x: origin.x + width / 2,
+            y: origin.y
+          )
+      case .trailing:
+          return CGPoint(
+            x: origin.x + width,
+            y: origin.y + height / 2
+          )
+      case .bottom:
+          return CGPoint(
+            x: origin.x + width / 2,
+            y: origin.y + height
+          )
+      case .leading:
+          return CGPoint(
+            x: origin.x,
+            y: origin.y + height / 2
+          )
+      case .center:
+          return CGPoint(
+            x: origin.x + width / 2,
+            y: origin.y + height / 2
+          )
+      case .custom(let point):
+          return CGPoint(
+            x: point.x,
+            y: point.y
+          )
+      }
   }
 }
