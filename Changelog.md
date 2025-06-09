@@ -1,3 +1,19 @@
+#✨ Playbook Swift 6.10.1 Improvements ✨
+###May 20, 2025
+
+This patch release introduces improvements to the PBMessage component and enhances the customization of option texts.
+
+####6.10.1 full list of changes:
+
+**Kit Enhancements:**
+- Add Custom No Options Text [RANGR-1048] [#539](https://github.com/powerhome/playbook-swift/pull/539) (RachelRadford21)
+Improvements:
+- PBMessage: Avoid hover state change unnecessarily [#537](https://github.com/powerhome/playbook-swift/pull/537) (lucasfeijo)
+
+New Contributors:
+@nidaqg made their first contribution [#538](https://github.com/powerhome/playbook-swift/pull/538) 🎉
+**Full Changelog**: [6.10.0 → 6.10.1](https://github.com/powerhome/playbook-swift/compare/6.10.0...6.10.1)
+
 #✨ Introducing the New Skeleton Loader Kit! ✨
 #### May 13, 2025
 
