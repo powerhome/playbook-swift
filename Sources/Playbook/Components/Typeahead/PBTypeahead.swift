@@ -29,6 +29,7 @@ public struct PBTypeahead: View {
   @Binding internal var deselectedOptions: [PBTypeahead.Option]
   @Binding internal var searchText: String
   @FocusState.Binding internal var isFocused: Bool
+  var noOptionsView: () -> AnyView?
 
   #if os(macOS)
   @StateObject private var keyboardHandler = TypeaheadKeyboardHandler()
@@ -49,7 +50,11 @@ public struct PBTypeahead: View {
     deselectedOptions: Binding<[PBTypeahead.Option]> = .constant([]),
     clearAction: (() -> Void)? = nil,
     disableFiltering: Bool = false,
-    disableKeyboardHandler: Bool = false
+    disableKeyboardHandler: Bool = false,
+    @ViewBuilder noOptionsView: @escaping () -> some View = {
+         Text("No Options")
+           .pbFont(.body, color: .text(.light))
+       }
   ) {
     self.id = id
     self.title = title
@@ -70,6 +75,7 @@ public struct PBTypeahead: View {
     ))
     self._deselectedOptions = deselectedOptions
     self.disableKeyboardHandler = disableKeyboardHandler
+    self.noOptionsView = { AnyView(noOptionsView()) }
   }
 
   public var body: some View {
