@@ -13,6 +13,7 @@ public struct PBToast: View {
   let text: String?
   let font: PBFont
   let variant: Variant
+  let animatedIcon: AnyView?
   let actionView: DismissAction?
   let dismissAction: (() -> Void)
   let content: (() -> AnyView)?
@@ -20,6 +21,7 @@ public struct PBToast: View {
     text: String? = nil,
     font: PBFont = .title4,
     variant: Variant = .custom(nil, .clear),
+    animatedIcon: AnyView? = nil,
     actionView: DismissAction? = nil,
     dismissAction: @escaping (() -> Void),
     content: (() -> AnyView)? = nil
@@ -27,6 +29,7 @@ public struct PBToast: View {
     self.text = text
     self.font = font
     self.variant = variant
+    self.animatedIcon = animatedIcon
     self.actionView = actionView
     self.dismissAction = dismissAction
     self.content = content
@@ -34,7 +37,9 @@ public struct PBToast: View {
 
   public var body: some View {
     HStack {
-      if let icon = variant.icon {
+      if let animatedIcon {
+        animatedIcon
+      } else if let icon = variant.icon {
         PBIcon.fontAwesome(icon, size: .x1)
       }
       if let text = text {

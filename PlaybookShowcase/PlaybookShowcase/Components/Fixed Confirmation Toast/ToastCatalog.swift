@@ -13,6 +13,7 @@ import Playbook
 public struct ToastCatalog: View {
   @State private var toastView: PBToast?
   @State private var position: PBToast.Position = .top
+  @State private var isAnimating: Bool = false
   
   private let message = "Design & Handoff Process was moved to UX Designer."
   
@@ -24,6 +25,7 @@ public struct ToastCatalog: View {
       PBDoc(title: "Children") { children }
       PBDoc(title: "Dismiss with timer") { withTimer }
       PBDoc(title: "Custom Icon") { customIcon }
+      PBDoc(title: "With Animation") { withAnimation }
     }
     .withToastHandling(toastView, position: position)
   }
@@ -199,7 +201,8 @@ public struct ToastCatalog: View {
       }
     }
   }
-  var customIcon: some View {
+    
+  private var customIcon: some View {
     VStack(alignment: .leading) {
       PBToast(
         text: "Fix before proceeding",
@@ -222,6 +225,23 @@ public struct ToastCatalog: View {
         dismissAction: closeToast
       )
       
+    }
+  }
+    
+  private var withAnimation: some View {
+    let iconWithAnimation = PBIcon.fontAwesome(FontAwesome.spinner, size: .x1)
+          .rotationEffect(Angle(degrees: isAnimating ? 360 : 0))
+          .animation(.linear(duration: 1)
+          .repeatForever(autoreverses: false), value: isAnimating)
+    return PBToast(text: "Animated Message",
+            variant: .neutral,
+            animatedIcon: AnyView(iconWithAnimation),
+            dismissAction: closeToast)
+    .onAppear {
+        isAnimating = true
+    }
+    .onDisappear {
+        isAnimating = false
     }
   }
 }
