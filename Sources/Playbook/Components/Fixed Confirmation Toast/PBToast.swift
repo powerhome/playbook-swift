@@ -106,7 +106,7 @@ public extension PBToast {
       switch self {
       case .error: return Color.status(.error)
       case .success: return Color.status(.success)
-      case .neutral: return Color.status(.neutral)
+      case .neutral: return Color.text(.light)
       case .custom(_, let color): return color
       }
     }
