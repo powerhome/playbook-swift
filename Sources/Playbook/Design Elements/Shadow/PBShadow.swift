@@ -10,15 +10,15 @@
 import SwiftUI
 
 public extension View {
-  func pbShadow(_ shadow: Shadow) -> some View {
+    func pbShadow(_ shadow: Shadow, x: CGFloat = 0, y: CGFloat = 6) -> some View {
     if shadow == .deepest {
       return AnyView(
-        self.shadow(color: shadow.color, radius: shadow.radius, x: 0, y: 10)
-          .shadow(color: shadow.color, radius: shadow.radius, x: 0, y: 10)
+        self.shadow(color: shadow.color.opacity(0.20), radius: shadow.radius, x: x, y: y * 1.6)
+            .shadow(color: shadow.color.opacity(0.10), radius: shadow.radius, x: x, y: y * 1.6)
       )
     } else {
       return AnyView(
-        self.shadow(color: shadow.color, radius: shadow.radius, x: 0, y: 6))
+        self.shadow(color: shadow.color, radius: shadow.radius, x: x, y: y))
     }
   }
 }
@@ -28,7 +28,8 @@ public enum Shadow: String, CaseIterable {
   
   var color: Color {
     switch self {
-    case .deep: return .shadow.opacity(0.74)
+    case .deep: return .shadow.opacity(0.16)
+    case .deeper: return .shadow.opacity(0.18)
     case .shadowDark: return Color.background(.dark)
     case .none: return Color.clear
     default: return .shadow
