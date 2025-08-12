@@ -27,7 +27,7 @@ public struct PBMultipleUsersIndicator: View {
         .tag("additionalUser")
         .pbFont(size == .xxSmall ?.buttonText(size.fontSize) : .badgeText, color: .pbPrimary)
         .frame(width: size.diameter-1, height: size.diameter-1)
-        .background(Color.shadow)
+        .background(Color.shadow.opacity(0.2))
         .clipShape(Circle())
         .background {
           Circle()
@@ -49,7 +49,7 @@ extension PBMultipleUsersIndicator {
           .tag("additionalUser")
           .pbFont(fontSize, color: .pbPrimary)
           .frame(width: size.diameter-1, height: size.diameter-1)
-          .background(Color.shadow)
+          .background(Color.shadow.opacity(0.2))
           .clipShape(Circle())
           .background {
             Circle()

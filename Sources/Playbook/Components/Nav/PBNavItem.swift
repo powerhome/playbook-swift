@@ -239,7 +239,7 @@ extension PBNavItem {
       } else {
         Rectangle()
           .frame(height: variant == .normal ? 3 : 0)
-          .foregroundColor(isSelected ? .pbPrimary : .shadow)
+          .foregroundColor(isSelected ? .pbPrimary : .shadow.opacity(0.2))
           
       }
     }
