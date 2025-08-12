@@ -29,10 +29,23 @@ public extension Color {
   }
 
   static func background(_ variant: BackgroundColor) -> Color {
+      switch variant {
+      case .light: return Color("BackgroundLight", bundle: .module)
+      case .dark: return Color("BackgroundDark", bundle: .module)
+      default: return Color("BackgroundDefault", bundle: .module)
+      }
+  }
+    
+  static func gradientBackground(_ variant: BackgroundColor) -> any ShapeStyle {
     switch variant {
-    case .light: return Color("BackgroundLight", bundle: .module)
-    case .dark: return Color("BackgroundDark", bundle: .module)
-    case .default: return Color("BackgroundDefault", bundle: .module)
+    case .gradient:
+      return LinearGradient(colors: [
+            .pbPrimary.opacity(0.875),
+            .pbPrimary],
+            startPoint: .leading,
+            endPoint: .trailing)
+      default:
+          return background(variant)
     }
   }
 
@@ -109,7 +122,7 @@ public extension Color {
   }
 
   enum BackgroundColor: String, CaseIterable {
-    case `default`, light, dark
+    case `default`, light, dark, gradient
   }
 
   enum StatusColor: String, CaseIterable {

@@ -13,6 +13,7 @@ public struct PBToast: View {
   let text: String?
   let font: PBFont
   let variant: Variant
+  let animatedIcon: AnyView?
   let actionView: DismissAction?
   let dismissAction: (() -> Void)
   let content: (() -> AnyView)?
@@ -20,6 +21,7 @@ public struct PBToast: View {
     text: String? = nil,
     font: PBFont = .title4,
     variant: Variant = .custom(nil, .clear),
+    animatedIcon: AnyView? = nil,
     actionView: DismissAction? = nil,
     dismissAction: @escaping (() -> Void),
     content: (() -> AnyView)? = nil
@@ -27,6 +29,7 @@ public struct PBToast: View {
     self.text = text
     self.font = font
     self.variant = variant
+    self.animatedIcon = animatedIcon
     self.actionView = actionView
     self.dismissAction = dismissAction
     self.content = content
@@ -34,7 +37,9 @@ public struct PBToast: View {
 
   public var body: some View {
     HStack {
-      if let icon = variant.icon {
+      if let animatedIcon {
+        animatedIcon
+      } else if let icon = variant.icon {
         PBIcon.fontAwesome(icon, size: .x1)
       }
       if let text = text {
@@ -44,7 +49,7 @@ public struct PBToast: View {
       }
       if let content = content {
         content()
-      } 
+      }
       if let dismiss = actionView, let view = dismiss.view {
         view.onTapGesture {
           dismissAction()
@@ -65,7 +70,7 @@ public struct PBToast: View {
     .padding(.vertical, Spacing.xSmall)
     .padding(.horizontal, Spacing.medium)
     .background(
-      Capsule().fill(variant.color())
+      Capsule().foregroundStyle(AnyShapeStyle(variant.color()))
     )
     .pbShadow(.deeper)
   }
@@ -96,12 +101,13 @@ public extension PBToast {
   }
 
   enum Variant {
-    case error, success, neutral, custom(FontAwesome? = nil, Color)
-    func color(_ custom: Color = .pbPrimary) -> Color {
+    case error, success, neutral, tip(FontAwesome? = .infoCircle), custom(FontAwesome? = nil, Color)
+    func color(_ custom: Color = .pbPrimary) -> any ShapeStyle   {
       switch self {
       case .error: return Color.status(.error)
       case .success: return Color.status(.success)
-      case .neutral: return Color.status(.neutral)
+      case .neutral: return Color.text(.light)
+      case .tip(_): return Color.gradientBackground(.gradient)
       case .custom(_, let color): return color
       }
     }
@@ -110,6 +116,7 @@ public extension PBToast {
       case .error: return FontAwesome.exclamationTriangle
       case .success: return FontAwesome.check
       case .neutral: return FontAwesome.infoCircle
+      case .tip(let icon): return icon
       case .custom(let icon, _): return icon
       }
     }

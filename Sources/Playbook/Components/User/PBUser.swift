@@ -23,6 +23,7 @@ public struct PBUser: View {
     public var territoryTitleFont: PBFont
     public var isActive: Bool
     public var hasInactiveBadge: Bool
+    public var spacing: CGFloat
     public init(
         name: String = "",
         nameFont: Typography = .init(font: .title4, variant: .bold),
@@ -36,7 +37,8 @@ public struct PBUser: View {
         displayAvatar: Bool = true,
         territoryTitleFont: PBFont = .subcaption,
         isActive: Bool = true,
-        hasInactiveBadge: Bool = false
+        hasInactiveBadge: Bool = false,
+        spacing: CGFloat = Spacing.small
     ) {
         self.name = name
         self.nameFont = nameFont
@@ -51,6 +53,7 @@ public struct PBUser: View {
         self.territoryTitleFont = territoryTitleFont
         self.isActive = isActive
         self.hasInactiveBadge = hasInactiveBadge
+        self.spacing = spacing
     }
     
     public var body: some View {
@@ -64,7 +67,7 @@ public struct PBUser: View {
 
 public extension PBUser {
     var horizontalView: some View {
-        HStack(spacing: Spacing.small) {
+        HStack(spacing: self.spacing) {
             if displayAvatar {
                 avatarView
             }
@@ -73,7 +76,7 @@ public extension PBUser {
     }
     
     var verticalView: some View {
-        VStack(spacing: Spacing.xSmall) {
+        VStack(spacing: self.spacing) {
             if displayAvatar {
                 avatarView
             }

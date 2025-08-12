@@ -2,8 +2,8 @@ source "https://rubygems.org"
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-gem "fastlane", "~> 2.227.0"
-gem "json", "~> 2.10.2"
+gem "fastlane", "~> 2.228.0"
+gem "json", "~> 2.13.2"
 gem 'httparty'
 
 # Until Fastlane includes them directly.
