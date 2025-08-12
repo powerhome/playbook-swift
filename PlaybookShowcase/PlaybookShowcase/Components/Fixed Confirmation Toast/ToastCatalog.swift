@@ -45,7 +45,7 @@ public struct ToastCatalog: View {
   private var multiLine: some View {
     PBToast(
       text: message,
-      variant: .custom(.infoCircle, .pbPrimary),
+      variant: .tip(),
       dismissAction: closeToast
     )
   }
@@ -221,7 +221,7 @@ public struct ToastCatalog: View {
       )
       PBToast(
         text: "New Messages",
-        variant: .custom(.arrowDown, .pbPrimary),
+        variant: .tip(.arrowDown),
         dismissAction: closeToast
       )
       

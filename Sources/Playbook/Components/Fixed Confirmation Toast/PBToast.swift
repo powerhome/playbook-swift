@@ -49,7 +49,7 @@ public struct PBToast: View {
       }
       if let content = content {
         content()
-      } 
+      }
       if let dismiss = actionView, let view = dismiss.view {
         view.onTapGesture {
           dismissAction()
@@ -70,7 +70,7 @@ public struct PBToast: View {
     .padding(.vertical, Spacing.xSmall)
     .padding(.horizontal, Spacing.medium)
     .background(
-      Capsule().fill(variant.color())
+      Capsule().foregroundStyle(AnyShapeStyle(variant.color()))
     )
     .pbShadow(.deeper)
   }
@@ -101,12 +101,13 @@ public extension PBToast {
   }
 
   enum Variant {
-    case error, success, neutral, custom(FontAwesome? = nil, Color)
-    func color(_ custom: Color = .pbPrimary) -> Color {
+    case error, success, neutral, tip(FontAwesome? = .infoCircle), custom(FontAwesome? = nil, Color)
+    func color(_ custom: Color = .pbPrimary) -> any ShapeStyle   {
       switch self {
       case .error: return Color.status(.error)
       case .success: return Color.status(.success)
       case .neutral: return Color.text(.light)
+      case .tip(_): return Color.gradientBackground(.gradient)
       case .custom(_, let color): return color
       }
     }
@@ -115,6 +116,7 @@ public extension PBToast {
       case .error: return FontAwesome.exclamationTriangle
       case .success: return FontAwesome.check
       case .neutral: return FontAwesome.infoCircle
+      case .tip(let icon): return icon
       case .custom(let icon, _): return icon
       }
     }
