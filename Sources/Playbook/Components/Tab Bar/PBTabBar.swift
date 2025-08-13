@@ -63,7 +63,7 @@ public extension PBTabBar {
   }
 
   var shadowColor: Color {
-      return shadow ? .shadow : .clear
+      return shadow ? .shadow.opacity(0.2) : .clear
     }
 
   func iconColor(_ index: Int) -> Color {
