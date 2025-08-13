@@ -1338,7 +1338,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 6.11.0;
+				MARKETING_VERSION = 6.11.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase Beta Dev ID";
@@ -1450,7 +1450,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 6.11.0;
+				MARKETING_VERSION = 6.11.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1485,7 +1485,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 6.11.0;
+				MARKETING_VERSION = 6.11.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase Dev ID";
