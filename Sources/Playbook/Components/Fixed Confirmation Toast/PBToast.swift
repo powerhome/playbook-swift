@@ -95,7 +95,7 @@ public struct PBToast: View {
 #if os(iOS)
           .padding(.horizontal, Spacing.medium)
 #else
-          .padding(self.isLink ? .trailing : .horizontal, self.isLink ? 0 : Spacing.medium)
+          .padding(self.isLink ? .leading : .horizontal, Spacing.medium)
 #endif
       }
       if let content = content {
