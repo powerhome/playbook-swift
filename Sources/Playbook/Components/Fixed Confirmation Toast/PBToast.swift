@@ -106,7 +106,9 @@ public struct PBToast: View {
         view.onTapGesture {
           dismissAction()
         }
-#if os(iOS)
+#if os(macOS)
+        .padding(.trailing, self.isLink ? Spacing.small : 0)
+#else
         .padding(.top, self.isLink ? -Spacing.xSmall : 0)
 #endif
       }
