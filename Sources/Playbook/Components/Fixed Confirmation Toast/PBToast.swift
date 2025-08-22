@@ -34,7 +34,15 @@ public struct PBToast: View {
     self.dismissAction = dismissAction
     self.content = content
   }
-
+  
+  private var isLink: Bool {
+    if let actionView, case .link = actionView {
+      return true
+    } else {
+      return false
+    }
+  }
+  
   public var body: some View {
     HStack {
       if let animatedIcon {
@@ -42,20 +50,23 @@ public struct PBToast: View {
       } else if let icon = variant.icon {
         PBIcon.fontAwesome(icon, size: .x1)
       }
-      if let text = text {
-        Text(text)
-          .pbFont(font, color: .white)
-          .padding(.horizontal, Spacing.medium)
-      }
-      if let content = content {
-        content()
-      }
-      if let dismiss = actionView, let view = dismiss.view {
-        view.onTapGesture {
-          dismissAction()
-        }
-      }
       
+#if os(iOS)
+      if let actionView {
+        switch actionView {
+        case .link:
+          VStack {
+            textContent
+          }
+        default:
+          textContent
+        }
+      } else {
+        textContent
+      }
+#else
+      textContent
+#endif
     }
     .onAppear {
       if let dismiss = actionView {
@@ -74,6 +85,35 @@ public struct PBToast: View {
     )
     .pbShadow(.deeper)
   }
+  
+  @ViewBuilder
+  private var textContent: some View {
+    Group {
+      if let text = text {
+        Text(text)
+          .pbFont(font, color: .white)
+#if os(iOS)
+          .padding(.horizontal, Spacing.medium)
+#else
+          .padding(self.isLink ? .leading : .horizontal, Spacing.medium)
+#endif
+      }
+      if let content = content {
+        content()
+      }
+      
+      if let dismiss = actionView, let view = dismiss.view {
+        view.onTapGesture {
+          dismissAction()
+        }
+#if os(macOS)
+        .padding(.trailing, self.isLink ? Spacing.small : 0)
+#else
+        .padding(.top, self.isLink ? -Spacing.xSmall : 0)
+#endif
+      }
+    }
+  }
 }
 
 public extension PBToast {
@@ -87,19 +127,25 @@ public extension PBToast {
       }
     }
   }
-
+  
   enum DismissAction {
-    case `default`, custom(AnyView), withTimer(TimeInterval)
-
+    case `default`, custom(AnyView), withTimer(TimeInterval), link(String)
+    
     var view: AnyView? {
       switch self {
       case .default: return AnyView(PBIcon.fontAwesome(.times))
       case .custom(let view): return view
       case .withTimer: return nil
+      case .link(let text): return AnyView(
+        Text(text)
+          .underline()
+          .pbFont(.title4, color: .white)
+          .padding(.leading, -Spacing.xxSmall)
+      )
       }
     }
   }
-
+  
   enum Variant {
     case error, success, neutral, tip(FontAwesome? = .infoCircle), custom(FontAwesome? = nil, Color)
     func color(_ custom: Color = .pbPrimary) -> any ShapeStyle   {

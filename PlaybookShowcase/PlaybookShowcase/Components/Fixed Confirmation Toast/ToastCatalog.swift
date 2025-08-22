@@ -147,7 +147,7 @@ public struct ToastCatalog: View {
         content: {
           AnyView(
             VStack {
-              Text("Coversation full.")
+              Text("Conversation full.")
                 .pbFont(.title4, color: .white)
               Text("For 10+ members please create a room")
                 .pbFont(.detail(true), color: .white)
@@ -173,6 +173,13 @@ public struct ToastCatalog: View {
               PBButton(variant: .primary, title: "Undo").disabled(true)
             }
           )),
+        dismissAction: closeToast
+      )
+      
+      PBToast(
+        text: "Text with a button link",
+        variant: .error,
+        actionView: .link("Retry"),
         dismissAction: closeToast
       )
     }
