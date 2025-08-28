@@ -117,6 +117,7 @@ extension PBDialog {
     
     func dismissDialog() {
         presentationMode.wrappedValue.dismiss()
+        onClose?()
     }
 }
 
