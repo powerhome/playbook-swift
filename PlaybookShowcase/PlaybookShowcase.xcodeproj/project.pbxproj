@@ -1278,7 +1278,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Power Home Remodeling Group, LLC";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 135.1;
+				CURRENT_PROJECT_VERSION = 142.2;
 				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EG5Q7XM634;
@@ -1296,7 +1296,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.11.1;
+				MARKETING_VERSION = 6.12.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase App Beta";
@@ -1323,7 +1323,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 142.1;
+				CURRENT_PROJECT_VERSION = 142.2;
 				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = EG5Q7XM634;
@@ -1338,7 +1338,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 6.11.1;
+				MARKETING_VERSION = 6.12.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase Beta Dev ID";
@@ -1355,7 +1355,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 135.1;
+				CURRENT_PROJECT_VERSION = 142.2;
 				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
 				DEVELOPMENT_TEAM = EG5Q7XM634;
 				ENABLE_PREVIEWS = YES;
@@ -1372,7 +1372,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.11.1;
+				MARKETING_VERSION = 6.12.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1392,7 +1392,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Power Home Remodeling Group, LLC";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 135.1;
+				CURRENT_PROJECT_VERSION = 142.2;
 				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = EG5Q7XM634;
@@ -1410,7 +1410,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.11.1;
+				MARKETING_VERSION = 6.12.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase App";
@@ -1436,7 +1436,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 142.1;
+				CURRENT_PROJECT_VERSION = 142.2;
 				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
 				DEVELOPMENT_TEAM = EG5Q7XM634;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1450,7 +1450,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 6.11.1;
+				MARKETING_VERSION = 6.12.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1470,7 +1470,7 @@
 				"CODE_SIGN_IDENTITY[sdk=*]" = "Developer ID Application: Power Home Remodeling Group, LLC (EG5Q7XM634)";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 142.1;
+				CURRENT_PROJECT_VERSION = 142.2;
 				DEVELOPMENT_ASSET_PATHS = "\"PlaybookShowcase/Preview Content\"";
 				DEVELOPMENT_TEAM = EG5Q7XM634;
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = EG5Q7XM634;
@@ -1485,7 +1485,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 6.11.1;
+				MARKETING_VERSION = 6.12.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.powerhrg.PlaybookShowcase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Playbook Showcase Dev ID";
