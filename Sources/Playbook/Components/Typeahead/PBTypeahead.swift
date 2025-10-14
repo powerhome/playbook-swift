@@ -119,7 +119,9 @@ public struct PBTypeahead: View {
       if newValue {
         Task {
           await PopoverManager.shared.dismissPopovers()
-          viewModel.showPopover = true
+            DispatchQueue.main.async {
+                viewModel.showPopover = true
+            }
         }
       }
     }
