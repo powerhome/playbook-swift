@@ -9,5 +9,7 @@
   "prConcurrentLimit": 1,
   "pre-commit": {
     "enabled": true
-  }
+  },
+  "commitMessagePrefix": "[RANGR-874] ",
+  "rebaseWhen": "conflicted"
 }
