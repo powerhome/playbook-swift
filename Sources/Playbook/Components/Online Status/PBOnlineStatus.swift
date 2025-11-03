@@ -80,9 +80,9 @@ public extension PBOnlineStatus {
     
   private var _size: CGFloat {
     switch size {
-    case .small: return hasBorder ? 8 : 6
-    case .medium: return hasBorder ? 10 : 8
-    case .large: return hasBorder ? 12 : 10
+    case .small: return hasBorder ? 12 : 10
+    case .medium: return hasBorder ? 14 : 12
+    case .large: return hasBorder ? 16 : 14
     }
   }
   
