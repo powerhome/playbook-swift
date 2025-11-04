@@ -58,16 +58,21 @@ public struct PBAvatar: View {
           .frame(width: size.diameter + 1, height: size.diameter + 1)
       }
 
-      if let status = self.status {
+        if let status = self.status, let (dx, dy) = offsetOnCircle(with: size.diameter, atAnAngleOf: size.presenceIndicatorAngle) {
         PBOnlineStatus(status: status, size: avatarStatusSize, variant: .border)
           .grayscale(isActive ? 0 : 1)
-          .offset(
-            x: (size.diameter/2 - size.diameter/9) * size.statusXModifier,
-            y: (size.diameter/2 - size.diameter/6) * size.statusYModifier
-          )
+          .offset(x: dx, y: dy)
       }
     }
   }
+
+    private func offsetOnCircle(with diameter: CGFloat, atAnAngleOf angle: Angle) -> (CGFloat, CGFloat)? {
+      let R  = diameter / 2
+      let θ  = angle.radians
+      let dx = CGFloat(R * cos(θ))
+      let dy = CGFloat(-R * sin(θ))
+      return (dx, dy)
+    }
 }
 
 public extension PBAvatar {
@@ -119,28 +124,16 @@ public extension PBAvatar {
       return diameter * 0.38
     }
 
-    var statusXModifier: CGFloat {
-      switch self {
-      case .xxSmall: return 1.3
-      case .xSmall: return 1.2
-      case .small: return 0.95
-      case .medium: return 1.05
-      case .large: return 1.12
-      case .xLarge: return 1.16
-      default: return 0
-      }
-    }
-
-    var statusYModifier: CGFloat {
-      switch self {
-      case .xxSmall: return -0.8
-      case .xSmall: return -1
-      case .small: return -1.1
-      case .medium: return 1
-      case .large: return 0.78
-      case .xLarge: return 0.68
-      default: return 0
-      }
+    var presenceIndicatorAngle: Angle {
+        switch self {
+        case .xxSmall: return .degrees(25)
+        case .xSmall: return .degrees(30)
+        case .small: return .degrees(35)
+        case .medium: return .degrees(310)
+        case .large: return .degrees(305)
+        case .xLarge: return .degrees(300)
+        default: return .zero
+        }
     }
 
     var avatarCases: [Size] {
