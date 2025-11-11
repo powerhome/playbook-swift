@@ -16,7 +16,7 @@ public struct SectionSeparatorCatalog: View {
   )
     .pbFont(.body)
   public init() {}
-
+  
   public var body: some View {
     PBDocStack(title: "Section Separator") {
       PBDoc(title: "Line separator") {
