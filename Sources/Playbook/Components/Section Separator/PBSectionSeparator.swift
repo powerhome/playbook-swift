@@ -84,6 +84,7 @@ public extension PBSectionSeparator {
                     dividerVariantView
                         .frame(width: 1)
                         .background(dividerColor)
+                        .padding(.horizontal, margin)
 
                     if let text = text, !text.isEmpty {
                         Text(text)
@@ -96,6 +97,7 @@ public extension PBSectionSeparator {
                         dividerVariantView
                             .frame(width: 1)
                             .background(dividerColor)
+                            .padding(.horizontal, margin)
                     } else if let content = content() {
                         content
                             .layoutPriority(1)
@@ -110,10 +112,10 @@ public extension PBSectionSeparator {
     private var dividerVariantView: some View {
         switch variant {
         case .dashed:
-            PBLine()
+            PBLine(orientation: orientation)
                 .stroke(dividerColor, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
         default:
-            PBLine()
+            PBLine(orientation: orientation)
                 .background(dividerColor)
         }
     }
