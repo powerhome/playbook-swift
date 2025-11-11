@@ -56,7 +56,7 @@ public extension PBSectionSeparator {
     case card
   }
   var dividerView: some View {
-    VStack {
+    Group {
       if orientation == .horizontal {
         HStack(alignment: .center, spacing: Spacing.none) {
           divider
@@ -80,10 +80,10 @@ public extension PBSectionSeparator {
         .frame(maxWidth: .infinity)
         
       } else {
-        Divider()
+          dividerVariantView
           .frame(width: 1)
-          .padding(.horizontal, margin)
           .background(dividerColor)
+          .padding(.horizontal, margin)
       }
     }
   }
@@ -94,10 +94,8 @@ public extension PBSectionSeparator {
     case .dashed:
       PBLine()
         .stroke(dividerColor, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
-        .frame(height: 1)
     default:
       PBLine()
-        .frame(height: 1)
         .background(dividerColor)
     }
   }
@@ -105,6 +103,7 @@ public extension PBSectionSeparator {
   var divider: some View {
     VStack {
       dividerVariantView.frame(minWidth: 24)
+        .frame(height: 1)
     }
     .opacity(dividerOpacity)
   }
