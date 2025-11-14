@@ -64,7 +64,7 @@ public extension PBReactionButton {
       switch icon {
         case .emoji(let emoji):
           Text(emoji)
-            .font(.system(size: 12))
+              .font(.system(size: PBIcon.IconSize.xSmall.fontSize))
         case .pbIcon(let pbIcon):
           pbIcon
             .foregroundStyle(textColor)
