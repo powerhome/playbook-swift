@@ -71,7 +71,7 @@ public struct PBTypeaheadTemplate: View {
         onItemTap: { removeSelected($0) },
         onViewTap: { onViewTap }
       )
-      .globalPosition(alignment: .top, top: .iOS(45, macOS: 48)) {
+      .globalPosition(alignment: .top, top: 48) {
         ZStack {
           if showDropdown {
             listView
