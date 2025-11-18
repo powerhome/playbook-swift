@@ -26,20 +26,18 @@ public extension PBTypeahead {
       onItemTap: { viewModel.removeSelected($0) },
       onViewTap: {
         isFocused = true
-        viewModel.showPopover.toggle()
+        viewModel.showDropdown.toggle()
       },
       onDelete: {
         viewModel.onDeleteKeyPressed()
       }
     )
-    .pbPopover(
-      isPresented: $viewModel.showPopover,
-      id: id,
-      position: .bottom(listOffset.x, listOffset.y),
-      variant: .dropdown,
-      refreshView: $viewModel.isHovering
-    ) {
-      listView
+    .globalPosition(alignment: .top, top: .iOS(45, macOS: 48)) {
+      ZStack {
+        if viewModel.showDropdown && isFocused {
+            listView
+        }
+      }
     }
   }
 
@@ -63,7 +61,8 @@ public extension PBTypeahead {
           let id = viewModel.searchResults[newValue].id
           proxy.scrollTo(id)
         }
-        .scrollDismissesKeyboard(.immediately)
+        .scrollDismissesKeyboard(viewModel.showDropdown ? .never : .immediately)
+        .scrollIndicators(.hidden)
         .frame(maxHeight: dropdownMaxHeight)
         .fixedSize(horizontal: false, vertical: true)
       }
@@ -101,7 +100,7 @@ public extension PBTypeahead {
   var emptyView: some View {
     HStack {
       Spacer()
-        noOptionsView()
+      noOptionsView()
         .pbFont(.body, color: .text(.light))
       Spacer()
     }
@@ -111,11 +110,11 @@ public extension PBTypeahead {
 
   func listBackgroundColor(_ index: Int?) -> Color {
     switch viewModel.selection {
-      case .single:
-        if viewModel.selectedIndex != nil, viewModel.selectedIndex == index {
-          return .pbPrimary
-        }
-      default: break
+    case .single:
+      if viewModel.selectedIndex != nil, viewModel.selectedIndex == index {
+        return .pbPrimary
+      }
+    default: break
     }
     #if os(macOS)
     return viewModel.hoveringIndex == index ? .hover : .card

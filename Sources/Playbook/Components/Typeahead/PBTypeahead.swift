@@ -12,11 +12,9 @@ import SwiftUI
 public struct PBTypeahead: View {
   @StateObject var viewModel = PBTypeaheadViewModel()
 
-  internal let id: Int
   internal let title: String
   internal let placeholder: String
   internal let dropdownMaxHeight: CGFloat?
-  internal let listOffset: (x: CGFloat, y: CGFloat)
   internal let clearAction: (() -> Void)?
   internal let options: [PBTypeahead.Option]
   internal let selection: PBTypeahead.Selection
@@ -36,7 +34,6 @@ public struct PBTypeahead: View {
   #endif
 
   public init(
-    id: Int,
     title: String,
     placeholder: String = "Select",
     searchText: Binding<String>,
@@ -44,7 +41,6 @@ public struct PBTypeahead: View {
     selection: PBTypeahead.Selection,
     debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
     dropdownMaxHeight: CGFloat? = nil,
-    listOffset: (x: CGFloat, y: CGFloat) = (0, 0),
     isFocused: FocusState<Bool>.Binding,
     selectedOptions: Binding<[PBTypeahead.Option]>,
     deselectedOptions: Binding<[PBTypeahead.Option]> = .constant([]),
@@ -56,7 +52,6 @@ public struct PBTypeahead: View {
            .pbFont(.body, color: .text(.light))
        }
   ) {
-    self.id = id
     self.title = title
     self.placeholder = placeholder
     self._searchText = searchText
@@ -64,7 +59,6 @@ public struct PBTypeahead: View {
     self.selection = selection
     self.debounce = debounce
     self.dropdownMaxHeight = dropdownMaxHeight
-    self.listOffset = listOffset
     self._isFocused = isFocused
     self.clearAction = clearAction
     self._selectedOptions = selectedOptions
@@ -83,7 +77,6 @@ public struct PBTypeahead: View {
       titleView
       inputField
     }
-    .onTapGesture { isFocused = false }
     .onAppear {
       viewModel.configure(
         selection: selection,
@@ -118,9 +111,8 @@ public struct PBTypeahead: View {
       viewModel.isFocused = newValue
       if newValue {
         Task {
-          await PopoverManager.shared.dismissPopovers()
-            DispatchQueue.main.async {   
-                viewModel.showPopover = true
+            DispatchQueue.main.async {
+                viewModel.showDropdown = true
             }
         }
       }
