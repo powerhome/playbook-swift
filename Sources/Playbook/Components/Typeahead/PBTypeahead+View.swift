@@ -32,9 +32,7 @@ public extension PBTypeahead {
         viewModel.onDeleteKeyPressed()
       }
     )
-    .frameReader {
-        fieldHeight = $0.height
-    }
+    .frameReader { fieldHeight = $0.height }
     .globalPosition(alignment: .top, top: fieldHeight) {
       ZStack {
         if viewModel.showDropdown && isFocused {

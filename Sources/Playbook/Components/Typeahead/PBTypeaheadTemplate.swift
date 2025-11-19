@@ -25,6 +25,7 @@ public struct PBTypeaheadTemplate: View {
   @State private var isHovering: Bool = false
   @State private var selectedIndex: Int?
   @State private var focused: Bool = false
+  @State var fieldHeight: CGFloat = 48
   @Binding var selectedOptions: [PBTypeahead.Option]
   @Binding var searchText: String
   @FocusState.Binding private var isFocused: Bool
@@ -71,7 +72,8 @@ public struct PBTypeaheadTemplate: View {
         onItemTap: { removeSelected($0) },
         onViewTap: { onViewTap }
       )
-      .globalPosition(alignment: .top, top: 48) {
+      .frameReader { fieldHeight = $0.height }
+      .globalPosition(alignment: .top, top: fieldHeight) {
         ZStack {
           if showDropdown {
             listView
