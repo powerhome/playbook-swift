@@ -401,7 +401,7 @@ private extension PBTypeaheadTemplate {
   }
 
   var setKeyboardControls: Void {
-#if os(macOS)
+    #if os(macOS)
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
       if event.keyCode == 48  { // tab
         focused = true
@@ -454,7 +454,7 @@ private extension PBTypeaheadTemplate {
       }
       return event
     }
-#endif
+  #endif
   }
 }
 

@@ -36,7 +36,7 @@ public extension PBTypeahead {
     .globalPosition(alignment: .top, top: fieldHeight) {
       ZStack {
         if viewModel.showDropdown && isFocused {
-            listView
+          listView
         }
       }
     }

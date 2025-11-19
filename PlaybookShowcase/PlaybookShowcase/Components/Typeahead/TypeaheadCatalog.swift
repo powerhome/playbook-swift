@@ -217,22 +217,22 @@ extension TypeaheadCatalog {
 
     var body: some View {
       PBDialog(title: "Dialog",
-        variant: .default,
-        onClose: { isPresented = false },
-        shouldCloseOnOverlay: false) {
-          VStack {
-            PBTypeahead(
-              title: "Users",
-              placeholder: "type the name of a user",
-              searchText: $searchTextUsers,
-              options: assetsUsers,
-              selection: .multiple(variant: .pill),
-              dropdownMaxHeight: 300,
-              isFocused: $isFocused,
-              selectedOptions: $selectedUsers
-              )
-            Spacer()
-          }
+               variant: .default,
+               onClose: { isPresented = false },
+               shouldCloseOnOverlay: false) {
+        VStack {
+          PBTypeahead(
+            title: "Users",
+            placeholder: "type the name of a user",
+            searchText: $searchTextUsers,
+            options: assetsUsers,
+            selection: .multiple(variant: .pill),
+            dropdownMaxHeight: 300,
+            isFocused: $isFocused,
+            selectedOptions: $selectedUsers
+          )
+          Spacer()
+        }
         .padding(.top, -Spacing.small)
         .padding(Spacing.medium)
         .frame(height: 220, alignment: .top)
