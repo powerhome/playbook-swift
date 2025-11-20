@@ -18,7 +18,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
   var textColor: Color
   var content: () -> Content?
   var margin: CGFloat
-  
+
   public init(
     _ text: String? = nil,
     orientation: Orientation = .horizontal,
@@ -38,7 +38,7 @@ public struct PBSectionSeparator<Content>: View where Content: View {
     self.content = content
     self.margin = margin
   }
-  
+
   public var body: some View {
     dividerView
   }
@@ -56,11 +56,11 @@ public extension PBSectionSeparator {
     case card
   }
   var dividerView: some View {
-    VStack {
+    Group {
       if orientation == .horizontal {
         HStack(alignment: .center, spacing: Spacing.none) {
           divider
-          
+
           if let text = text, !text.isEmpty {
             Text(text)
               .foregroundStyle(textColor)
@@ -69,7 +69,7 @@ public extension PBSectionSeparator {
               .background(Color.clear)
               .layoutPriority(1)
               .lineLimit(1)
-            
+
             divider
           } else if let content = content() {
             content
@@ -78,37 +78,52 @@ public extension PBSectionSeparator {
           }
         }
         .frame(maxWidth: .infinity)
-        
+
       } else {
-        Divider()
-          .frame(width: 1)
-          .padding(.horizontal, margin)
-          .background(dividerColor)
+        VStack(spacing: Spacing.xSmall) {
+          dividerVariantView
+            .frame(width: 1)
+            .background(dividerColor)
+            .padding(.horizontal, margin)
+
+          if let text = text, !text.isEmpty {
+            Text(text)
+              .foregroundStyle(textColor)
+              .pbFont(.caption)
+              .padding(textPadding)
+              .background(Color.clear)
+              .layoutPriority(1)
+              .lineLimit(1)
+            dividerVariantView
+              .frame(width: 1)
+              .background(dividerColor)
+              .padding(.horizontal, margin)
+          }
+        }
       }
     }
   }
-  
+
   @ViewBuilder
   private var dividerVariantView: some View {
     switch variant {
     case .dashed:
-      PBLine()
+      PBLine(orientation: orientation)
         .stroke(dividerColor, style: StrokeStyle(lineWidth: 1, dash: [3, 2]))
-        .frame(height: 1)
     default:
-      PBLine()
-        .frame(height: 1)
+      PBLine(orientation: orientation)
         .background(dividerColor)
     }
   }
-  
+
   var divider: some View {
     VStack {
       dividerVariantView.frame(minWidth: 24)
+        .frame(height: 1)
     }
     .opacity(dividerOpacity)
   }
-  
+
   private var textPadding: EdgeInsets {
     switch variant {
     case .dashed: return EdgeInsets(.init(top: 4, leading: Spacing.xSmall, bottom: 4, trailing: Spacing.xSmall))
