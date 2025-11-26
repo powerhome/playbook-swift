@@ -76,6 +76,7 @@ extension ContentListView {
         variant: .subtle,
         orientation: .horizontal
       ) {
+
         PBNavItem(DesignElements.title)
         PBNavItem(Components.title)
       }

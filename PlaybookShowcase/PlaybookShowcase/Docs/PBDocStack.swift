@@ -30,11 +30,12 @@ struct PBDocStack<Content: View>: View {
   var body: some View {
     ScrollView {
       VStack(spacing: spacing) {
-        content
+//        content
       }
       .padding(padding)
+      .background(Color.pink)
     }
-    .background(Color.background(.default))
+
     .navigationTitle(title)
   }
 }
