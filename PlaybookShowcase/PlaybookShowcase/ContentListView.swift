@@ -36,17 +36,17 @@ struct ContentListView: View {
       contentView.padding(.bottom, 80)
         .toolbar {
           ToolbarItem(placement: .cancellationAction) {
-            HStack(alignment: .center, spacing: Spacing.xLarge) {
-              HStack(spacing: Spacing.xxSmall) {
-                playbookLogo
-                if let version = version {
-                  PBBadge(text: version, variant: .success)
-                }
+            HStack(spacing: Spacing.xxSmall) {
+              playbookLogo
+              if let version = version {
+                PBBadge(text: version, variant: .success)
+                  .frame(width: 50)
               }
             }
           }
           ToolbarItem(placement: .confirmationAction) {
             darkmodeToggle
+              .frame(width: 80)
           }
         }
         .background {
@@ -98,6 +98,7 @@ extension ContentListView {
       Text("Playbook")
         .pbFont(.title4, variant: .link)
     }
+    .frame(width: 100)
   }
   private var componentsView: some View {
     ScrollView(showsIndicators: false) {
