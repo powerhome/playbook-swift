@@ -94,7 +94,7 @@ public struct PBNavItem<Content: View>: View {
        navSelectionHandler?()
      }
   }
-  
+
   @ViewBuilder
   var textView: some View {
     if orientation == .horizontal, variant == .bold {
@@ -182,7 +182,7 @@ extension PBNavItem {
         return .text(.default)
       }
     } else {
-      return .clear
+      return .disabled
     }
   }
 
