@@ -11,9 +11,10 @@ import SwiftUI
 import Playbook
 
 public struct SelectableCardCatalog: View {
- @State private var isSelected: Bool = true
+  @State private var isSelected: Bool = true
   @State private var isSelected1: Bool = true
   @State private var isSelected2: Bool = false
+  @State private var isSelectedError: Bool = false
   @State private var isSelected3: Bool = true
   @State private var isSelected4: Bool = true
   @State private var isSelected5: Bool = true
@@ -25,8 +26,8 @@ public struct SelectableCardCatalog: View {
   @State private var isSelected11: Bool = false
   @State private var isSelected12: Bool = false
   @State private var radioId: Int = 0
-  @State private var hasIcon: Bool = true
-  @State private var isDisabled: Bool = true
+
+  private var isDisabled: Bool = true
   
   public var body: some View {
     PBDocStack(title: "Selectable Card", spacing: Spacing.medium) {
@@ -48,8 +49,8 @@ public extension SelectableCardCatalog {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBSelectableCard(
         cardText: "Selected, with icon",
-        isSelected: $isSelected,
-        hasIcon: $hasIcon
+        hasIcon: true,
+        isSelected: $isSelected
       )
       PBSelectableCard(
         cardText: "Selected, without icon",
@@ -60,11 +61,17 @@ public extension SelectableCardCatalog {
         isSelected: $isSelected2
       )
       PBSelectableCard(
+        cardText: "With error",
+        isSelected: $isSelectedError,
+        error: true
+      )
+      PBSelectableCard(
         cardText: "Disabled",
-        isDisabled: $isDisabled
+        isDisabled: isDisabled
       )
     }
   }
+
   var blockView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       PBSelectableCard(
@@ -74,6 +81,7 @@ public extension SelectableCardCatalog {
       )
     }
   }
+
   var inputView: some View {
     VStack(alignment: .leading, spacing: Spacing.medium) {
       Text("What programming languages do you know?")
