@@ -143,20 +143,20 @@ extension PBSelectableCard {
     }
 
   var iconView: some View {
-      Group {
-          if hasIcon {
-              Circle()
-                  .stroke(Color.white, lineWidth: 2)
-                  .background(Circle().fill(Color.pbPrimary))
-                  .frame(width: 24, height: 24)
-                  .overlay {
-                      icon.foregroundStyle(Color.white)
-                  }
-                  .offset(x: iconOffset.x ?? 0, y: iconOffset.y ?? 0)
-                  .opacity(isSelected ? 1 : 0)
-          } else {
-              Color.clear
+    Group {
+      if let icon = icon, hasIcon {
+        Circle()
+          .stroke(Color.white, lineWidth: 2)
+          .background(Circle().fill(Color.pbPrimary))
+          .frame(width: 24, height: 24)
+          .overlay {
+            icon.foregroundStyle(Color.white)
           }
+            .offset(x: iconOffset.x ?? 0, y: iconOffset.y ?? 0)
+            .opacity(isSelected ? 1 : 0)
+        } else {
+          Color.clear
+        }
       }
   }
 
@@ -175,7 +175,7 @@ extension PBSelectableCard {
     let blockSubText = wholeText.dropFirst().joined(separator: "\n")
     return VStack(alignment: .leading) {
       Text(blockTitle).pbFont(.title4)
-      Text(blockSubText)
+      Text(blockSubText).pbFont(.body)
     }
   }
 
@@ -185,6 +185,7 @@ extension PBSelectableCard {
         .padding()
       separatorView
       Text(text)
+        .pbFont(.body)
         .padding(.horizontal, isSelected ? cardPadding - 1 : cardPadding - 0.10)
     }
     .padding(.vertical, -4)
@@ -202,6 +203,7 @@ extension PBSelectableCard {
       .padding(.horizontal, 10)
       separatorView
       Text(text)
+        .pbFont(.body)
         .padding(cardPadding)
         .padding(.horizontal, isSelected ? padding - 1 : padding - 0.10)
     }
