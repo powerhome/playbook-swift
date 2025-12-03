@@ -17,6 +17,7 @@ public extension Color {
   static let focus = Color("Focus", bundle: .module)
   static let shadow = Color("Shadow", bundle: .module)
   static let hover = Color("Hover", bundle: .module)
+  static let disabled = Color("Disabled", bundle: .module)
 
   static func text(_ variant: TextColor) -> Color {
     switch variant {
