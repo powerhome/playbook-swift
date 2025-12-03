@@ -29,15 +29,13 @@ extension View {
   func setCursorPointer(disabled: Bool = false, action: ((Bool) -> Void)? = nil) -> some View {
     self.onHover { isHovering in
       action?(isHovering)
-      if !disabled {
         #if os(macOS)
-        if isHovering {
-          NSCursor.pointingHand.set()
-        } else {
-          NSCursor.arrow.set()
-        }
-        #endif
+      switch (isHovering, disabled) {
+      case (true, false): NSCursor.pointingHand.set()
+      case (true, true): NSCursor.operationNotAllowed.set()
+      default: NSCursor.arrow.set()
       }
+        #endif
     }
   }
 }

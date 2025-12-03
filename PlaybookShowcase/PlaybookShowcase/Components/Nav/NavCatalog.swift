@@ -31,22 +31,26 @@ public struct NavCatalog: View {
   @State private var selectedHBold: Int = 1
   @State private var selectedCustom: Int = 1
   @State private var navContent: NavContent = .vertical
-  
+
   public var body: some View {
-    VStack {
-      Picker("Select", selection: $navContent) {
-        Text("Vertical").tag(NavContent.vertical)
-        Text("Horizontal").tag(NavContent.horizontal)
-        Text("Custom").tag(NavContent.custom)
+    PBDocStack(title: "Nav") {
+      VStack {
+        Picker("Select", selection: $navContent) {
+          Text("Vertical").tag(NavContent.vertical)
+          Text("Horizontal").tag(NavContent.horizontal)
+          Text("Custom").tag(NavContent.custom)
+        }
+        .pickerStyle(.segmented)
+        .padding(.top)
+        .padding(.horizontal)
+
+        switch navContent {
+          case .vertical: verticalListView
+          case .horizontal: horizontalListView
+          case .custom: customListView
+        }
       }
-      .pickerStyle(.segmented)
-      .padding()
-    
-      switch navContent {
-      case .vertical: verticalListView
-      case .horizontal: horizontalListView
-      case .custom: customListView
-      }
+      .padding(.bottom)
     }
   }
 
@@ -62,6 +66,7 @@ public struct NavCatalog: View {
         PBNavItem("Music")
         PBNavItem("Video")
         PBNavItem("Files")
+        PBNavItem("Disabled", isDisabled: true)
       }
     }
 
@@ -77,6 +82,7 @@ public struct NavCatalog: View {
         PBNavItem("Events", icon: .pbIcon(.fontAwesome(.calendarCheck)))
         PBNavItem("Friends", icon: .pbIcon(.fontAwesome(.peopleCarry)))
         PBNavItem("Groups", icon: .pbIcon(.fontAwesome(.campground)))
+        PBNavItem("Disabled", icon: .pbIcon(.fontAwesome(.campground)), isDisabled: true)
       }
     }
 
@@ -107,6 +113,12 @@ public struct NavCatalog: View {
           "Groups",
           icon: .custom(AnyView(Text("👨‍👩‍👦‍👦")))
         )
+        PBNavItem(
+          "Disabled",
+          icon: .custom(AnyView(Text("👨‍👩‍👦‍👦"))),
+          isDisabled: true
+        )
+
       }
     }
 
@@ -121,6 +133,7 @@ public struct NavCatalog: View {
         PBNavItem("Music")
         PBNavItem("Video")
         PBNavItem("Files")
+        PBNavItem("Disabled", isDisabled: true).disabled(true)
       }
     }
 
@@ -135,6 +148,7 @@ public struct NavCatalog: View {
         PBNavItem("Music")
         PBNavItem("Video")
         PBNavItem("Files")
+        PBNavItem("Disabled", isDisabled: true)
       }
     }
 
@@ -149,6 +163,7 @@ public struct NavCatalog: View {
         PBNavItem("Music")
         PBNavItem("Video")
         PBNavItem("Files")
+        PBNavItem("Disabled", isDisabled: true)
       }
     }
 
@@ -163,6 +178,7 @@ public struct NavCatalog: View {
         PBNavItem("Events", icon: .pbIcon(.fontAwesome(.calendarCheck)))
         PBNavItem("Friends", icon: .pbIcon(.fontAwesome(.peopleCarry)))
         PBNavItem("Groups", icon: .pbIcon(.fontAwesome(.campground)))
+        PBNavItem("Disabled", icon: .pbIcon(.fontAwesome(.campground)), isDisabled: true)
       }
     }
 
@@ -178,6 +194,7 @@ public struct NavCatalog: View {
         PBNavItem("Music")
         PBNavItem("Video")
         PBNavItem("Files")
+        PBNavItem("Disabled", isDisabled: true)
       }
     }
 
@@ -192,6 +209,7 @@ public struct NavCatalog: View {
         PBNavItem("Music")
         PBNavItem("Video")
         PBNavItem("Files")
+        PBNavItem("Disabled", isDisabled: true)
       }
     }
 
@@ -220,6 +238,7 @@ public struct NavCatalog: View {
           PBNavItem("Music")
           PBNavItem("Video")
           PBNavItem("Files")
+          PBNavItem("Disabled", isDisabled: true)
         }
       }
     }
@@ -255,6 +274,7 @@ public struct NavCatalog: View {
         PBNavItem("Music")
         PBNavItem("Video")
         PBNavItem("Files")
+        PBNavItem("Disabled", isDisabled: true)
       }
     }
 
@@ -270,6 +290,7 @@ public struct NavCatalog: View {
         PBNavItem("Music")
         PBNavItem("Video")
         PBNavItem("Files")
+        PBNavItem("Disabled", isDisabled: true)
       }
     }
 
@@ -284,6 +305,7 @@ public struct NavCatalog: View {
         PBNavItem("Music")
         PBNavItem("Video")
         PBNavItem("Files")
+        PBNavItem("Disabled", isDisabled: true)
       }
     }
 
