@@ -33,7 +33,7 @@ public extension PBTypeahead {
       }
     )
     .frameReader { fieldHeight = $0.height }
-    .globalPosition(alignment: .top, top: fieldHeight) {
+    .globalPosition(alignment: .top, top: fieldHeight + 2.5) {
       ZStack {
         if viewModel.showDropdown && isFocused {
           listView
