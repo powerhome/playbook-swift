@@ -23,7 +23,8 @@ public struct PBTypeahead: View {
   internal let disableKeyboardHandler: Bool
 
   @State internal var selectedInputOptions: GridInputField.Selection
-  @State var fieldHeight: CGFloat = 48
+  @State var dropdownHeight: CGFloat = 48
+  @State var dropdownWidth: CGFloat = 48
   @Binding internal var selectedOptions: [PBTypeahead.Option]
   @Binding internal var deselectedOptions: [PBTypeahead.Option]
   @Binding internal var searchText: String

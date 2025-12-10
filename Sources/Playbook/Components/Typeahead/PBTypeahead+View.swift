@@ -32,8 +32,9 @@ public extension PBTypeahead {
         viewModel.onDeleteKeyPressed()
       }
     )
-    .frameReader { fieldHeight = $0.height }
-    .globalPosition(alignment: .top, top: fieldHeight + 2.5) {
+    .frameReader { dropdownHeight = $0.height }
+    .frameReader { dropdownWidth = $0.width }
+    .globalPosition(alignment: .top, top: dropdownHeight + 2.5) {
       ZStack {
         if viewModel.showDropdown && isFocused {
           listView
@@ -68,6 +69,7 @@ public extension PBTypeahead {
         .fixedSize(horizontal: false, vertical: true)
       }
     }
+    .frame(maxWidth: dropdownWidth)
   }
 
   func listItemView(option: PBTypeahead.Option, index: Int) -> some View {
