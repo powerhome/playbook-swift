@@ -34,7 +34,7 @@ public struct PBDocStack<Content: View>: View {
       }
       .padding(padding)
     }
-    .background(Color.background(.default))
+    .background(Color.background(.light))
     .navigationTitle(title)
   }
 }

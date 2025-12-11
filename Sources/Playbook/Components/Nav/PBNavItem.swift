@@ -15,6 +15,8 @@ public struct PBNavItem<Content: View>: View {
   @Environment(\.variant) var variant: PBNav.Variant
   @Environment(\.orientation) var orientation: Orientation
   @Environment(\.highlight) var highlight: Bool
+  @Environment(\.navSelectionHandler) var navSelectionHandler
+
   var label: String?
   var icon: NavigationIcon?
   var accessory: FontAwesome?
@@ -22,6 +24,7 @@ public struct PBNavItem<Content: View>: View {
   var horizontalOrientationPadding: CGFloat?
   var vertOrientationPadding: CGFloat?
   var vertPadding: CGFloat?
+  var isDisabled: Bool
   var content: Content?
 
   public init(
@@ -32,6 +35,7 @@ public struct PBNavItem<Content: View>: View {
     horizontalOrientationPadding: CGFloat? = nil,
     vertOrientationPadding: CGFloat? = nil,
     vertPadding: CGFloat? = nil,
+    isDisabled: Bool = false,
     @ViewBuilder content: @escaping () -> Content = { EmptyView() }
   ) {
     self.label = label
@@ -41,6 +45,7 @@ public struct PBNavItem<Content: View>: View {
     self.horizontalOrientationPadding = horizontalOrientationPadding
     self.vertOrientationPadding = vertOrientationPadding
     self.vertPadding = vertPadding
+    self.isDisabled = isDisabled
     self.content = content()
   }
 
@@ -83,23 +88,33 @@ public struct PBNavItem<Content: View>: View {
     .overlay {
       textView
     }
+    .setCursorPointer(disabled: isDisabled)
+    .onTapGesture {
+       guard !isDisabled else { return }    
+       navSelectionHandler?()
+     }
   }
+
   @ViewBuilder
   var textView: some View {
     if orientation == .horizontal, variant == .bold {
       Text(label ?? "")
-        .pbFont(isSelected ? .title4 : .body, color: captionBoldForegroundColor)
+        .pbFont(isSelected && !isDisabled ? .title4 : .body, color: captionBoldForegroundColor)
     }
   }
 }
 
 extension PBNavItem {
   var iconColor: Color {
-    ((isSelected && variant == .normal) || isHovering) ? .pbPrimary : .text(.lighter)
+    if !isDisabled {
+      return ((isSelected && variant == .normal) || isHovering) ? .pbPrimary : .text(.lighter)
+    } else {
+      return .disabled
+    }
   }
 
   var hoverBackgroundColor: Color {
-    if variant == .normal && orientation == .horizontal {
+    if variant == .normal && orientation == .horizontal, isDisabled {
       return .clear
     }
     return .pbPrimary
@@ -113,45 +128,52 @@ extension PBNavItem {
   }
 
   var iconForegroundColor: Color {
-    if variant == .normal && orientation == .horizontal {
-      if isHovering {
-        return .pbPrimary
-      }
-      return .text(.default)
-    }
-
-    if isSelected || isHovering {
-      return .pbPrimary
-    }
-    return .text(.lighter)
-  }
-
-  var captionForegroundColor: Color {
-    if variant != .bold {
+    if !isDisabled {
       if variant == .normal && orientation == .horizontal {
         if isHovering {
           return .pbPrimary
         }
         return .text(.default)
       }
-
       if isSelected || isHovering {
         return .pbPrimary
       }
+      return .text(.lighter)
     } else {
-      if orientation == .horizontal {
-        return .clear
+      return .disabled
+    }
+  }
+
+  var captionForegroundColor: Color {
+    if !isDisabled {
+      if variant != .bold {
+        if variant == .normal && orientation == .horizontal {
+          if isHovering {
+            return .pbPrimary
+          }
+          return .text(.default)
+        }
+
+        if isSelected || isHovering {
+          return .pbPrimary
+        }
       } else {
-        if isSelected {
-          return .white
+        if orientation == .horizontal {
+          return .clear
+        } else {
+          if isSelected {
+            return .white
+          }
         }
       }
+      return .text(.default)
+    } else {
+      return .disabled
     }
-    return .text(.default)
   }
 
   var captionBoldForegroundColor: Color {
-    if variant == .bold, orientation == .horizontal {
+    if variant == .bold, orientation == .horizontal, !isDisabled {
       if isSelected {
         return .white
       } else if isHovering {
@@ -160,12 +182,12 @@ extension PBNavItem {
         return .text(.default)
       }
     } else {
-      return Color.clear
+      return .disabled
     }
   }
 
   var font: PBFont {
-    if isSelected, variant != .subtle {
+    if isSelected && !isDisabled, variant != .subtle {
       if variant == .bold, orientation == .vertical {
         return .title4
       } else if variant == .bold, orientation == .horizontal {
@@ -180,22 +202,26 @@ extension PBNavItem {
   }
 
   var backgroundColor: Color {
-    if variant != .bold {
-      if isSelected, isHovering, highlight {
-        return hoverBackgroundColor.opacity(0.08)
+    if !isDisabled {
+      if variant != .bold {
+        if isSelected, isHovering, highlight {
+          return hoverBackgroundColor.opacity(0.08)
+        }
+        if isSelected || isHovering, highlight {
+          return hoverBackgroundColor.opacity(0.03)
+        }
+      } else {
+        if isSelected {
+          return .pbPrimary
+        }
+        if isHovering {
+          return .hover
+        }
       }
-      if isSelected || isHovering, highlight {
-        return hoverBackgroundColor.opacity(0.03)
-      }
+      return .clear
     } else {
-      if isSelected {
-        return .pbPrimary
-      }
-      if isHovering {
-        return .hover
-      }
+      return .clear
     }
-    return .clear
   }
 
   var cornerRadius: CGFloat {
@@ -235,49 +261,11 @@ extension PBNavItem {
       if orientation == .vertical {
         Rectangle()
           .frame(maxWidth: variant == .normal ? 3 : 0)
-          .foregroundColor(isSelected ? .pbPrimary : .clear)
+          .foregroundColor(isSelected && !isDisabled ? .pbPrimary : .clear)
       } else {
         Rectangle()
           .frame(height: variant == .normal ? 3 : 0)
-          .foregroundColor(isSelected ? .pbPrimary : .shadow.opacity(0.2))
-          
-      }
-    }
-  }
-}
-
-struct PBNavItem_Previews: PreviewProvider {
-  static var previews: some View {
-    registerFonts()
-
-    let item = PBNavItem(
-      "Users Item",
-      icon: .pbIcon(.fontAwesome(.addressCard))
-    )
-
-    let allItemCombinations = Group {
-      item
-        .environment(\.selected, false)
-        .environment(\.hovering, false)
-      item
-        .environment(\.selected, false)
-        .environment(\.hovering, true)
-      item
-        .environment(\.selected, true)
-        .environment(\.hovering, false)
-      item
-        .environment(\.selected, true)
-        .environment(\.hovering, true)
-    }
-
-    return List {
-      Section("Normal Variant Horizontal") {
-        HStack { allItemCombinations }
-          .environment(\.orientation, .horizontal)
-      }
-
-      Section("Normal Variant Vertical") {
-        VStack { allItemCombinations }
+          .foregroundColor(isSelected && !isDisabled ? .pbPrimary : .shadow.opacity(0.2))
       }
     }
   }
@@ -300,6 +288,50 @@ public enum NavigationIcon {
           .resizable()
           .frame(width: 24, height: 24)
         )
+    }
+  }
+}
+
+struct PBNavItem_Previews: PreviewProvider {
+  static var previews: some View {
+    registerFonts()
+
+    let item = PBNavItem(
+      "Users Item",
+      icon: .pbIcon(.fontAwesome(.addressCard))
+    )
+
+    let disabledItem = PBNavItem(
+      "Disabled Item",
+      icon: .pbIcon(.fontAwesome(.addressCard)),
+      isDisabled: true
+    )
+
+    let allItemCombinations = Group {
+      item
+        .environment(\.selected, false)
+        .environment(\.hovering, false)
+      item
+        .environment(\.selected, false)
+        .environment(\.hovering, true)
+      item
+        .environment(\.selected, true)
+        .environment(\.hovering, false)
+      item
+        .environment(\.selected, true)
+        .environment(\.hovering, true)
+      disabledItem
+    }
+
+    return List {
+      Section("Normal Variant Horizontal") {
+        HStack { allItemCombinations }
+          .environment(\.orientation, .horizontal)
+      }
+
+      Section("Normal Variant Vertical") {
+        VStack { allItemCombinations }
+      }
     }
   }
 }
