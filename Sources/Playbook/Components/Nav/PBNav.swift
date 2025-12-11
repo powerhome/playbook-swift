@@ -42,6 +42,9 @@ public struct PBNav: View {
     let isHovering = index == currentHover
 
     return view
+      .environment(\.navSelectionHandler, {
+        selected = index
+      })
       .contentShape(Rectangle())
       .onHover(disabled: false) { hovering in
         if hovering {
@@ -50,13 +53,12 @@ public struct PBNav: View {
           currentHover = nil
         }
       }
-      .onTapGesture { selected = index }
       .environment(\.selected, isSelected)
       .environment(\.hovering, isHovering)
       .environment(\.variant, variant)
       .environment(\.orientation, orientation)
       .environment(\.highlight, highlight)
-     
+      .eraseToAnyView()
   }
 
   public var body: some View {
@@ -97,7 +99,7 @@ public extension PBNav {
   var horizontalBody: some View {
     HStack(spacing: variant.spacing) {
       ForEach(views.indices, id: \.self) { index in
-        item(views[index], index)
+        item(views[index], index).eraseToAnyView()
           .scaledToFill()
           .contentShape(Rectangle())
       }
@@ -107,14 +109,20 @@ public extension PBNav {
   var verticalBody: some View {
     ForEach(views.indices, id: \.self) { index in
       VStack(alignment: .leading, spacing: Spacing.none) {
-        item(views[index], index)
-        if
-          index < views.count - 1,
-          borders,
-          variant == .normal {
-          Divider()
+        Group {
+          item(views[index], index).eraseToAnyView()
+          if index < views.count - 1, borders, variant == .normal {
+            Divider()
+          }
         }
       }
     }
+  }
+}
+
+
+public extension View {
+  func eraseToAnyView() -> AnyView {
+    AnyView(self)
   }
 }

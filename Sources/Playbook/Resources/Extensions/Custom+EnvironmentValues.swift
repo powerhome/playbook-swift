@@ -37,6 +37,10 @@ struct PBNavHighlight: EnvironmentKey {
   static let defaultValue = true
 }
 
+struct NavSelectionHandlerKey: EnvironmentKey {
+  static let defaultValue: (() -> Void)? = nil
+}
+
 public extension EnvironmentValues {
   var selected: Bool {
     get { self[Selection.self] }
@@ -71,5 +75,10 @@ public extension EnvironmentValues {
   var highlight: Bool {
     get { self[PBNavHighlight.self] }
     set { self[PBNavHighlight.self] = newValue }
+  }
+
+  var navSelectionHandler: (() -> Void)? {
+    get { self[NavSelectionHandlerKey.self] }
+    set { self[NavSelectionHandlerKey.self] = newValue }
   }
 }
