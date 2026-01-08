@@ -24,8 +24,13 @@ public struct PBCardHeader<Content: View>: View {
     content
       .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
       .background(
-        RoundedRectangle(cornerRadius: borderRadius)
-          .fill(color)
+        UnevenRoundedRectangle(
+          topLeadingRadius: borderRadius,
+          bottomLeadingRadius: 0,
+          bottomTrailingRadius: 0,
+          topTrailingRadius: borderRadius
+        )
+        .fill(color)
       )
   }
 }
