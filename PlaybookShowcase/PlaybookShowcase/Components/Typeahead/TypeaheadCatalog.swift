@@ -147,7 +147,6 @@ extension TypeaheadCatalog {
 
     var noTitle: some View {
       PBTypeahead(
-        id: 8,
         searchText: $searchTextNoTitle,
         options: assetsColors,
         selection: .single,
