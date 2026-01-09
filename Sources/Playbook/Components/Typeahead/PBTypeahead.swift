@@ -12,7 +12,7 @@ import SwiftUI
 public struct PBTypeahead: View {
   @StateObject var viewModel = PBTypeaheadViewModel()
 
-  internal let title: String
+  internal let title: String?
   internal let placeholder: String
   internal let dropdownMaxHeight: CGFloat?
   internal let clearAction: (() -> Void)?
@@ -36,7 +36,7 @@ public struct PBTypeahead: View {
   #endif
 
   public init(
-    title: String,
+    title: String? = nil,
     placeholder: String = "Select",
     searchText: Binding<String>,
     options: [PBTypeahead.Option],
@@ -76,7 +76,9 @@ public struct PBTypeahead: View {
 
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.xSmall) {
-      titleView
+        if let title = title {
+            titleView(title)
+        }
       inputField
     }
     .onAppear {

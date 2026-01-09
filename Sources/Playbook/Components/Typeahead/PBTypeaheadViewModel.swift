@@ -162,16 +162,16 @@ final class PBTypeaheadViewModel: ObservableObject {
     switch selection {
       case .single:
         onSingleSelection(index: index, option: option)
+        self.searchResults = PBTypeaheadViewModel.optionToDisplayable(self.optionsSubject.value)
+
       case .multiple:
         onMultipleSelection(option: option)
+            let selectedIds = Set(self.selectedOptionsBinding?.wrappedValue.map(\.id) ?? [])
+              let filteredOptions = self.optionsSubject.value.filter {
+              !selectedIds.contains($0.id)
+            }
+            self.searchResults = PBTypeaheadViewModel.optionToDisplayable(filteredOptions)
     }
-
-    let selectedIds = Set(self.selectedOptionsBinding?.wrappedValue.map(\.id) ?? [])
-    let filteredOptions = self.optionsSubject.value.filter {
-      !selectedIds.contains($0.id)
-    }
-    self.searchResults = PBTypeaheadViewModel.optionToDisplayable(filteredOptions)
-
     showDropdown = false
     updateSearchText("")
     reloadList()
