@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct PBDialog<Content: View>: View {
     @Environment(\.presentationMode) var presentationMode
+    @Binding var isTypeaheadPresentationMode: Bool?
     let content: Content?
     let title: String?
     let message: String?
@@ -23,6 +24,7 @@ public struct PBDialog<Content: View>: View {
     let shouldCloseOnOverlay: Bool
     
     public init(
+        isTypeaheadPresentationMode: Binding<Bool?> = .constant(false),
         title: String? = nil,
         message: String? = nil,
         variant: DialogVariant = .default,
@@ -34,6 +36,7 @@ public struct PBDialog<Content: View>: View {
         shouldCloseOnOverlay: Bool = false,
         @ViewBuilder content: (() -> Content) = { EmptyView() }
     ) {
+        self._isTypeaheadPresentationMode = isTypeaheadPresentationMode
         self.content = content()
         self.title = title
         self.message = message
@@ -62,7 +65,7 @@ public struct PBDialog<Content: View>: View {
 
 extension PBDialog {
     private func dialogView() -> some View {
-        return PBCard(alignment: .center, padding: Spacing.none) {
+        return PBCard(alignment: .center, padding: Spacing.none, style: .inline) {
           switch variant {
           case .default:
             if let title = title {
@@ -116,8 +119,12 @@ extension PBDialog {
     }
     
     func dismissDialog() {
-        presentationMode.wrappedValue.dismiss()
-        onClose?()
+      if isTypeaheadPresentationMode != nil {
+            onClose?()
+        } else {
+            presentationMode.wrappedValue.dismiss()
+            onClose?()
+        }
     }
 }
 
