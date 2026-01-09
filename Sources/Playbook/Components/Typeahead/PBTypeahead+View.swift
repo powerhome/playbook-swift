@@ -69,6 +69,7 @@ public extension PBTypeahead {
         .scrollIndicators(.hidden)
         .frame(maxHeight: dropdownMaxHeight)
         .fixedSize(horizontal: false, vertical: true)
+        .clipShape(RoundedRectangle(cornerRadius: BorderRadius.large))
       }
     }
     .frame(maxWidth: dropdownWidth)

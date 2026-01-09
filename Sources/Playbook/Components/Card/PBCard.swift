@@ -54,12 +54,10 @@ public struct PBCard<Content: View>: View {
         .padding(padding)
     }
     .frame(maxWidth: width, alignment: alignment)
-    .border(width: 5, edges: highlight.edge, color: highlight.color)
-    .background(cardColor)
-    .clipShape(
+    .background(
       RoundedRectangle(cornerRadius: borderRadius, style: .circular)
+        .fill(cardColor)
     )
-    .pbShadow(shadowColor)
     .overlay(
       RoundedRectangle(cornerRadius: borderRadius, style: .circular)
         .strokeBorder(
@@ -67,6 +65,9 @@ public struct PBCard<Content: View>: View {
           lineWidth: border ? style.lineWidth : 0
         )
     )
+    .compositingGroup() 
+    .pbShadow(shadowColor)
+    .border(width: borderRadius, edges: highlight.edge, color: highlight.color)
   }
 }
 

@@ -188,7 +188,6 @@ extension PBSelectableCard {
         .pbFont(.body)
         .padding(.horizontal, isSelected ? cardPadding - 1 : cardPadding - 0.10)
     }
-    .padding(.vertical, -4)
     .frame(maxWidth: isCardFullWidth ? .infinity : nil, alignment: .leading)
   }
 
@@ -207,7 +206,6 @@ extension PBSelectableCard {
         .padding(cardPadding)
         .padding(.horizontal, isSelected ? padding - 1 : padding - 0.10)
     }
-    .padding(.vertical, -4)
     .frame(maxWidth: isCardFullWidth ? .infinity : nil, alignment: .leading)
   }
 

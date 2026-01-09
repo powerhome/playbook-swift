@@ -53,19 +53,22 @@ public struct TypeaheadCatalog: View {
   public var body: some View {
     PBDocStack(title: "Typeahead") {
 
-      PBDoc(title: "Default", spacing: Spacing.small) { colors }
-      PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-      PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }
+      PBDoc(title: "Default", spacing: Spacing.small) { colors }.zIndex(80)
+      PBDoc(title: "With Pills", spacing: Spacing.small) { users }.zIndex(70)
+      PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }.zIndex(50)
       #if os(macOS)
-      PBDoc(title: "Dialog") { dialog }
+        PBDoc(title: "Dialog") { dialog }
       #endif
-      PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
+      PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }.zIndex(30)
       PBDoc(title: "Sections", spacing: Spacing.small) { sections }
-      PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }
+      PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }.zIndex(10)
         .padding(.bottom, 500)
 
     }
     .scrollDismissesKeyboard(.immediately)
+    .typeaheadPresentationMode(isPresented: $presentDialog) {
+        DialogView(isPresented: $presentDialog)
+    }
     .onTapGesture {
       dismissFocus()
     }
@@ -191,13 +194,6 @@ extension TypeaheadCatalog {
       DialogCatalog.disableAnimation()
       presentDialog.toggle()
     }
-    .presentationMode(isPresented: $presentDialog) {
-      DialogView(isPresented: $presentDialog)
-        .popoverHandler(id: 6)
-        #if os(macOS)
-        .frame(minWidth: 500, minHeight: 390)
-        #endif
-    }
   }
 
   func closeToast() {
@@ -206,6 +202,7 @@ extension TypeaheadCatalog {
 
   struct DialogView: View {
     @Binding var isPresented: Bool
+    @State private var isTypeaheadPresentationMode: Bool? = true
     @State private var isLoading: Bool = false
     @State private var searchTextUsers: String = ""
     @State private var assetsUsers = Mocks.assetesMultipleUsers
@@ -215,32 +212,34 @@ extension TypeaheadCatalog {
     ]
     @FocusState var isFocused
 
-    var body: some View {
-      PBDialog(title: "Dialog",
-               variant: .default,
-               onClose: { isPresented = false },
-               shouldCloseOnOverlay: false) {
-        VStack {
-          PBTypeahead(
-            title: "Users",
-            placeholder: "type the name of a user",
-            searchText: $searchTextUsers,
-            options: assetsUsers,
-            selection: .multiple(variant: .pill),
-            dropdownMaxHeight: 300,
-            isFocused: $isFocused,
-            selectedOptions: $selectedUsers
-          )
-          Spacer()
-        }
-        .padding(.top, -Spacing.small)
-        .padding(Spacing.medium)
-        .frame(height: 220, alignment: .top)
-        .background(Color.white.opacity(0.01))
-        .onTapGesture {
-          isFocused = false
-        }
-      }
+      var body: some View {
+          PBDialog(isTypeaheadPresentationMode: $isTypeaheadPresentationMode,
+                   title: "Dialog",
+                   variant: .default,
+                   onClose: { isPresented = false },
+                   shouldCloseOnOverlay: false) {
+              VStack {
+                  PBTypeahead(
+                    title: "Users",
+                    placeholder: "type the name of a user",
+                    searchText: $searchTextUsers,
+                    options: assetsUsers,
+                    selection: .multiple(variant: .pill),
+                    dropdownMaxHeight: 250,
+                    isFocused: $isFocused,
+                    selectedOptions: $selectedUsers
+                  )
+
+                  Spacer()
+              }
+              .padding(.top, -Spacing.small)
+              .padding(Spacing.medium)
+              .frame(height: 220, alignment: .top)
+              .background(Color.white.opacity(0.01))
+              .onTapGesture {
+                  isFocused = false
+              }
+          }
     }
   }
 
