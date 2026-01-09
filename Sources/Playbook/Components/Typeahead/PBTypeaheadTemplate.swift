@@ -74,8 +74,8 @@ public struct PBTypeaheadTemplate: View {
         onViewTap: { onViewTap }
       )
       .frameReader {
-          dropdownHeight = $0.height
-          dropdownWidth = $0.width
+        dropdownHeight = $0.height
+        dropdownWidth = $0.width
       }
       .globalPosition(alignment: .top, top: dropdownHeight + 2.5) {
         ZStack {
