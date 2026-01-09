@@ -12,16 +12,26 @@ import SwiftUI
 public struct PBCardHeader<Content: View>: View {
   let content: Content
   let color: Color
+  let borderRadius: CGFloat
 
-  public init(color: Color = .product(.product1, category: .highlight), @ViewBuilder content: () -> Content) {
+  public init(color: Color = .product(.product1, category: .highlight), borderRadius: CGFloat = BorderRadius.medium, @ViewBuilder content: () -> Content) {
     self.content = content()
     self.color = color
+    self.borderRadius = borderRadius
   }
 
   public var body: some View {
     content
       .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-      .background(color)
+      .background(
+        UnevenRoundedRectangle(
+          topLeadingRadius: borderRadius,
+          bottomLeadingRadius: 0,
+          bottomTrailingRadius: 0,
+          topTrailingRadius: borderRadius
+        )
+        .fill(color)
+      )
   }
 }
 

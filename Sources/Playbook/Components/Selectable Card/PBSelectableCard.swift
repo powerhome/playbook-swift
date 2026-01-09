@@ -188,7 +188,6 @@ extension PBSelectableCard {
         .pbFont(.body)
         .padding(.horizontal, isSelected ? cardPadding - 1 : cardPadding - 0.10)
     }
-    .padding(.vertical, -4)
     .frame(maxWidth: isCardFullWidth ? .infinity : nil, alignment: .leading)
   }
 
@@ -207,7 +206,6 @@ extension PBSelectableCard {
         .padding(cardPadding)
         .padding(.horizontal, isSelected ? padding - 1 : padding - 0.10)
     }
-    .padding(.vertical, -4)
     .frame(maxWidth: isCardFullWidth ? .infinity : nil, alignment: .leading)
   }
 
@@ -223,7 +221,7 @@ extension PBSelectableCard {
 
   var separatorView: some View {
     HStack {
-      Divider()
+        PBSectionSeparator(orientation: .vertical, variant: .card, dividerColor: separatorColor)
         .frame(width: isSelected || error ? 2 : 1)
         .background(separatorColor)
         .foregroundStyle(isSelected ? Color.pbPrimary : Color.border)
