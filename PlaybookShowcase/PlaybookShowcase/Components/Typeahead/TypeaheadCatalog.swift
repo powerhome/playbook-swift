@@ -53,15 +53,15 @@ public struct TypeaheadCatalog: View {
   public var body: some View {
     PBDocStack(title: "Typeahead") {
 
-      PBDoc(title: "Default", spacing: Spacing.small) { colors }.zIndex(80)
-      PBDoc(title: "With Pills", spacing: Spacing.small) { users }.zIndex(70)
-      PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }.zIndex(50)
+      PBDoc(title: "Default", spacing: Spacing.small) { colors }.zIndex(6)
+      PBDoc(title: "With Pills", spacing: Spacing.small) { users }.zIndex(5)
+      PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }.zIndex(4)
       #if os(macOS)
         PBDoc(title: "Dialog") { dialog }
       #endif
-      PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }.zIndex(30)
-      PBDoc(title: "Sections", spacing: Spacing.small) { sections }
-      PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }.zIndex(10)
+      PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }.zIndex(3)
+      PBDoc(title: "Sections", spacing: Spacing.small) { sections }.zIndex(2)
+      PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }.zIndex(1)
         .padding(.bottom, 500)
 
     }
