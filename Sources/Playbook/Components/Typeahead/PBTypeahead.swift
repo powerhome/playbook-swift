@@ -114,11 +114,7 @@ public struct PBTypeahead: View {
     .onChange(of: isFocused) { _, newValue in
       viewModel.isFocused = newValue
       if newValue {
-        Task {
-            DispatchQueue.main.async {
-                viewModel.showDropdown = true
-            }
-        }
+        viewModel.showDropdown = true
       }
     }
     .onChange(of: selectedOptions.count) { _, _ in

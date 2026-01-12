@@ -100,8 +100,10 @@ public struct PBTypeaheadTemplate: View {
       }
       setKeyboardControls
     }
-    .onChange(of: isFocused) {
-      showDropdown = true
+    .onChange(of: isFocused) { _, newValue in
+      if newValue {
+        showDropdown = true
+      }
     }
     .onChange(of: selectedOptions.count) {
       reloadList

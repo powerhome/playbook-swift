@@ -16,9 +16,9 @@ public struct TypeaheadCatalog: View {
   @State private var selectedColors: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
   @FocusState private var isFocusedColors
 
-    @State private var searchTextNoTitle: String = ""
-    @State private var selectedNoTitle: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
-    @FocusState private var isFocusedNoTitle
+  @State private var searchTextNoTitle: String = ""
+  @State private var selectedNoTitle: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
+  @FocusState private var isFocusedNoTitle
 
   private var assetsUsers = Mocks.assetesMultipleUsers
   @State private var searchTextUsers: String = ""
@@ -61,7 +61,7 @@ public struct TypeaheadCatalog: View {
       PBDoc(title: "With Pills", spacing: Spacing.small) { users }.zIndex(5)
       PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }.zIndex(4)
       #if os(macOS)
-        PBDoc(title: "Dialog") { dialog }
+      PBDoc(title: "Dialog") { dialog }
       #endif
       PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }.zIndex(3)
       PBDoc(title: "Sections", spacing: Spacing.small) { sections }.zIndex(2)
@@ -71,7 +71,7 @@ public struct TypeaheadCatalog: View {
     }
     .scrollDismissesKeyboard(.immediately)
     .typeaheadPresentationMode(isPresented: $presentDialog) {
-        DialogView(isPresented: $presentDialog)
+      DialogView(isPresented: $presentDialog)
     }
     .onTapGesture {
       dismissFocus()
@@ -144,15 +144,15 @@ extension TypeaheadCatalog {
     .frame(height: 175, alignment: .top)
   }
 
-    var noTitle: some View {
-      PBTypeahead(
-        searchText: $searchTextNoTitle,
-        options: assetsColors,
-        selection: .single,
-        isFocused: $isFocusedNoTitle,
-        selectedOptions: $selectedNoTitle
-      )
-    }
+  var noTitle: some View {
+    PBTypeahead(
+      searchText: $searchTextNoTitle,
+      options: assetsColors,
+      selection: .single,
+      isFocused: $isFocusedNoTitle,
+      selectedOptions: $selectedNoTitle
+    )
+  }
 
   var sections: some View {
     PBTypeaheadTemplate(
@@ -226,34 +226,34 @@ extension TypeaheadCatalog {
     ]
     @FocusState var isFocused
 
-      var body: some View {
-          PBDialog(isTypeaheadPresentationMode: $isTypeaheadPresentationMode,
-                   title: "Dialog",
-                   variant: .default,
-                   onClose: { isPresented = false },
-                   shouldCloseOnOverlay: false) {
-              VStack {
-                  PBTypeahead(
-                    title: "Users",
-                    placeholder: "type the name of a user",
-                    searchText: $searchTextUsers,
-                    options: assetsUsers,
-                    selection: .multiple(variant: .pill),
-                    dropdownMaxHeight: 250,
-                    isFocused: $isFocused,
-                    selectedOptions: $selectedUsers
-                  )
+    var body: some View {
+      PBDialog(isTypeaheadPresentationMode: $isTypeaheadPresentationMode,
+        title: "Dialog",
+        variant: .default,
+        onClose: { isPresented = false },
+        shouldCloseOnOverlay: false) {
+        VStack {
+          PBTypeahead(
+            title: "Users",
+            placeholder: "type the name of a user",
+            searchText: $searchTextUsers,
+            options: assetsUsers,
+            selection: .multiple(variant: .pill),
+            dropdownMaxHeight: 250,
+            isFocused: $isFocused,
+            selectedOptions: $selectedUsers
+          )
 
-                  Spacer()
-              }
-              .padding(.top, -Spacing.small)
-              .padding(Spacing.medium)
-              .frame(height: 220, alignment: .top)
-              .background(Color.white.opacity(0.01))
-              .onTapGesture {
-                  isFocused = false
-              }
-          }
+          Spacer()
+        }
+        .padding(.top, -Spacing.small)
+        .padding(Spacing.medium)
+        .frame(height: 220, alignment: .top)
+        .background(Color.white.opacity(0.01))
+        .onTapGesture {
+          isFocused = false
+        }
+      }
     }
   }
 
