@@ -102,7 +102,7 @@ public struct PBTypeaheadTemplate: View {
     }
     .onChange(of: isFocused) { _, newValue in
       if newValue {
-        showDropdown = true
+        showDropdown = newValue
       }
     }
     .onChange(of: selectedOptions.count) {

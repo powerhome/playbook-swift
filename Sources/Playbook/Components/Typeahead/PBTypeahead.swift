@@ -114,7 +114,7 @@ public struct PBTypeahead: View {
     .onChange(of: isFocused) { _, newValue in
       viewModel.isFocused = newValue
       if newValue {
-        viewModel.showDropdown = true
+        viewModel.showDropdown = newValue
       }
     }
     .onChange(of: selectedOptions.count) { _, _ in
