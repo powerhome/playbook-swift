@@ -16,6 +16,10 @@ public struct TypeaheadCatalog: View {
   @State private var selectedColors: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
   @FocusState private var isFocusedColors
 
+    @State private var searchTextNoTitle: String = ""
+    @State private var selectedNoTitle: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
+    @FocusState private var isFocusedNoTitle
+
   private var assetsUsers = Mocks.assetesMultipleUsers
   @State private var searchTextUsers: String = ""
   @State private var selectedUsers: [PBTypeahead.Option] = [
@@ -56,6 +60,7 @@ public struct TypeaheadCatalog: View {
       PBDoc(title: "Default", spacing: Spacing.small) { colors }
       PBDoc(title: "With Pills", spacing: Spacing.small) { users }
       PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }
+      PBDoc(title: "No title", spacing: Spacing.small) { noTitle }
       #if os(macOS)
       PBDoc(title: "Dialog") { dialog }
       #endif
@@ -73,6 +78,7 @@ public struct TypeaheadCatalog: View {
     .popoverHandler(id: 3)
     .popoverHandler(id: 4)
     .popoverHandler(id: 5)
+    .popoverHandler(id: 8)
   }
 }
 
@@ -136,6 +142,17 @@ extension TypeaheadCatalog {
       selectedOptions: $selectedHeight
     )
   }
+
+    var noTitle: some View {
+      PBTypeahead(
+        id: 8,
+        searchText: $searchTextNoTitle,
+        options: assetsColors,
+        selection: .single,
+        isFocused: $isFocusedNoTitle,
+        selectedOptions: $selectedNoTitle
+      )
+    }
 
   var sections: some View {
     PBTypeaheadTemplate(
