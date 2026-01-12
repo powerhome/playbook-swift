@@ -16,6 +16,10 @@ public struct TypeaheadCatalog: View {
   @State private var selectedColors: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
   @FocusState private var isFocusedColors
 
+    @State private var searchTextNoTitle: String = ""
+    @State private var selectedNoTitle: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
+    @FocusState private var isFocusedNoTitle
+
   private var assetsUsers = Mocks.assetesMultipleUsers
   @State private var searchTextUsers: String = ""
   @State private var selectedUsers: [PBTypeahead.Option] = [
@@ -139,6 +143,16 @@ extension TypeaheadCatalog {
     .padding(.top, -Spacing.small)
     .frame(height: 175, alignment: .top)
   }
+
+    var noTitle: some View {
+      PBTypeahead(
+        searchText: $searchTextNoTitle,
+        options: assetsColors,
+        selection: .single,
+        isFocused: $isFocusedNoTitle,
+        selectedOptions: $selectedNoTitle
+      )
+    }
 
   var sections: some View {
     PBTypeaheadTemplate(

@@ -11,7 +11,7 @@ import SwiftUI
 
 @MainActor
 public extension PBTypeahead {
-  var titleView: some View {
+  func titleView(_ title: String) -> some View {
     Text(title).pbFont(.caption)
       .padding(.bottom, Spacing.xxSmall)
   }
