@@ -83,7 +83,7 @@ final class PBTypeaheadViewModel: ObservableObject {
     }
 
     if isFocused {
-        showDropdown = true
+      showDropdown = true
     }
 
     reloadList()
