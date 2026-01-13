@@ -221,7 +221,7 @@ extension PBSelectableCard {
 
   var separatorView: some View {
     HStack {
-      Divider()
+        PBSectionSeparator(orientation: .vertical, variant: .card, dividerColor: separatorColor)
         .frame(width: isSelected || error ? 2 : 1)
         .background(separatorColor)
         .foregroundStyle(isSelected ? Color.pbPrimary : Color.border)

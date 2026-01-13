@@ -47,7 +47,7 @@ public struct PBCard<Content: View>: View {
     self.isHovering = isHovering
     self.content = content()
   }
-  
+
   public var body: some View {
     VStack(alignment: .leading, spacing: Spacing.none) {
       content
