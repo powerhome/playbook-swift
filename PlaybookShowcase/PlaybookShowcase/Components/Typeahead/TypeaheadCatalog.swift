@@ -16,9 +16,9 @@ public struct TypeaheadCatalog: View {
   @State private var selectedColors: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
   @FocusState private var isFocusedColors
 
-    @State private var searchTextNoTitle: String = ""
-    @State private var selectedNoTitle: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
-    @FocusState private var isFocusedNoTitle
+  @State private var searchTextNoTitle: String = ""
+  @State private var selectedNoTitle: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
+  @FocusState private var isFocusedNoTitle
 
   private var assetsUsers = Mocks.assetesMultipleUsers
   @State private var searchTextUsers: String = ""
@@ -53,51 +53,50 @@ public struct TypeaheadCatalog: View {
   @FocusState private var isFocusedNoOptions
 
   @State private var presentDialog: Bool = false
-  private var popoverManager = PopoverManager.shared
 
   public var body: some View {
     PBDocStack(title: "Typeahead") {
-      PBDoc(title: "Default", spacing: Spacing.small) { colors }
-      PBDoc(title: "With Pills", spacing: Spacing.small) { users }
-      PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }
-      PBDoc(title: "No title", spacing: Spacing.small) { noTitle }
+
+      PBDoc(title: "Default", spacing: Spacing.small) { colors }.zIndex(6)
+      PBDoc(title: "With Pills", spacing: Spacing.small) { users }.zIndex(5)
+      PBDoc(title: "Deselected listener", spacing: Spacing.small) { deselectedUsersDoc }.zIndex(4)
       #if os(macOS)
       PBDoc(title: "Dialog") { dialog }
       #endif
-      PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }
-      PBDoc(title: "Sections", spacing: Spacing.small) { sections }
-      PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }
+      PBDoc(title: "Height Adjusted Dropdown", spacing: Spacing.small) { heightAdjusted }.zIndex(3)
+      PBDoc(title: "Sections", spacing: Spacing.small) { sections }.zIndex(2)
+      PBDoc(title: "No Options", spacing: Spacing.small) { noOptions }.zIndex(1)
         .padding(.bottom, 500)
+
     }
     .scrollDismissesKeyboard(.immediately)
+    .typeaheadPresentationMode(isPresented: $presentDialog) {
+      DialogView(isPresented: $presentDialog)
+    }
     .onTapGesture {
       dismissFocus()
     }
-    .popoverHandler(id: 1)
-    .popoverHandler(id: 2)
-    .popoverHandler(id: 3)
-    .popoverHandler(id: 4)
-    .popoverHandler(id: 5)
-    .popoverHandler(id: 8)
   }
 }
 
 extension TypeaheadCatalog {
   var colors: some View {
-    PBTypeahead(
-      id: 1,
-      title: "Colors",
-      searchText: $searchTextColors,
-      options: assetsColors,
-      selection: .single,
-      isFocused: $isFocusedColors,
-      selectedOptions: $selectedColors
-    )
+    VStack {
+      PBTypeahead(
+        title: "Colors",
+        searchText: $searchTextColors,
+        options: assetsColors,
+        selection: .single,
+        isFocused: $isFocusedColors,
+        selectedOptions: $selectedColors
+      )
+    }
+    .padding(.top, -Spacing.small)
+    .frame(height: 220, alignment: .top)
   }
 
   var users: some View {
     PBTypeahead(
-      id: 2,
       title: "Users",
       placeholder: "type the name of a user",
       searchText: $searchTextUsers,
@@ -106,12 +105,13 @@ extension TypeaheadCatalog {
       isFocused: $isFocusedUsers,
       selectedOptions: $selectedUsers
     )
+    .padding(.top, -Spacing.small)
+    .frame(height: 220, alignment: .top)
   }
 
   var deselectedUsersDoc: some View {
-    VStack(spacing: 32) {
+    VStack {
       PBTypeahead(
-        id: 5,
         title: "Users",
         placeholder: "type the name of a user",
         searchText: $searchTextDeselectedUsers,
@@ -121,17 +121,16 @@ extension TypeaheadCatalog {
         selectedOptions: $selectedUsersDeselected,
         deselectedOptions: $deselectedUsers
       )
-      List(deselectedUsers, id: \.id) { user in
-        Text(user.text ?? "")
+      .padding(.top, -Spacing.small)
+      .frame(height: 220, alignment: .top)
+      .onAppear {
+        $isFocusedDeselectedUsers.wrappedValue = true
       }
-      .listStyle(.plain)
-      .frame(height: 100)
     }
   }
 
   var heightAdjusted: some View {
     PBTypeahead(
-      id: 3,
       title: "Users",
       placeholder: "type the name of a user",
       searchText: $searchTextHeight,
@@ -141,22 +140,22 @@ extension TypeaheadCatalog {
       isFocused: $isFocusedHeight,
       selectedOptions: $selectedHeight
     )
+    .padding(.top, -Spacing.small)
+    .frame(height: 175, alignment: .top)
   }
 
-    var noTitle: some View {
-      PBTypeahead(
-        id: 8,
-        searchText: $searchTextNoTitle,
-        options: assetsColors,
-        selection: .single,
-        isFocused: $isFocusedNoTitle,
-        selectedOptions: $selectedNoTitle
-      )
-    }
+  var noTitle: some View {
+    PBTypeahead(
+      searchText: $searchTextNoTitle,
+      options: assetsColors,
+      selection: .single,
+      isFocused: $isFocusedNoTitle,
+      selectedOptions: $selectedNoTitle
+    )
+  }
 
   var sections: some View {
     PBTypeaheadTemplate(
-      id: 4,
       title: "Sections",
       searchText: $searchTextSections,
       options: assetsSection,
@@ -165,11 +164,12 @@ extension TypeaheadCatalog {
       isFocused: $isFocusedSection,
       selectedOptions: $selectedSections
     )
+    .padding(.top, -Spacing.small)
+    .frame(height: 285, alignment: .top)
   }
 
   var noOptions: some View {
     PBTypeahead(
-      id: 5,
       title: "Users",
       placeholder: "type the name of a user",
       searchText: $searchTextNoOptions,
@@ -181,6 +181,8 @@ extension TypeaheadCatalog {
         customNoOptionsText
       }
     )
+    .padding(.top, -Spacing.small)
+    .frame(height: 285, alignment: .top)
   }
 
   var customNoOptionsText: some View {
@@ -206,13 +208,6 @@ extension TypeaheadCatalog {
       DialogCatalog.disableAnimation()
       presentDialog.toggle()
     }
-    .presentationMode(isPresented: $presentDialog) {
-      DialogView(isPresented: $presentDialog)
-        .popoverHandler(id: 6)
-      #if os(macOS)
-        .frame(minWidth: 500, minHeight: 390)
-      #endif
-    }
   }
 
   func closeToast() {
@@ -221,6 +216,7 @@ extension TypeaheadCatalog {
 
   struct DialogView: View {
     @Binding var isPresented: Bool
+    @State private var isTypeaheadPresentationMode: Bool? = true
     @State private var isLoading: Bool = false
     @State private var searchTextUsers: String = ""
     @State private var assetsUsers = Mocks.assetesMultipleUsers
@@ -231,25 +227,28 @@ extension TypeaheadCatalog {
     @FocusState var isFocused
 
     var body: some View {
-      PBDialog(title: "Dialog",
-               variant: .default,
-               onClose: { isPresented = false },
-               shouldCloseOnOverlay: false) {
+      PBDialog(isTypeaheadPresentationMode: $isTypeaheadPresentationMode,
+        title: "Dialog",
+        variant: .default,
+        onClose: { isPresented = false },
+        shouldCloseOnOverlay: false) {
         VStack {
           PBTypeahead(
-            id: 6,
             title: "Users",
             placeholder: "type the name of a user",
             searchText: $searchTextUsers,
             options: assetsUsers,
             selection: .multiple(variant: .pill),
-            dropdownMaxHeight: 300,
+            dropdownMaxHeight: 250,
             isFocused: $isFocused,
             selectedOptions: $selectedUsers
           )
+
           Spacer()
         }
+        .padding(.top, -Spacing.small)
         .padding(Spacing.medium)
+        .frame(height: 220, alignment: .top)
         .background(Color.white.opacity(0.01))
         .onTapGesture {
           isFocused = false
@@ -263,9 +262,6 @@ extension TypeaheadCatalog {
     isFocusedUsers = false
     isFocusedHeight = false
     isFocusedSection = false
-    Task {
-      await popoverManager.dismissPopovers()
-    }
   }
 }
 

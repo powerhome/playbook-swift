@@ -12,7 +12,7 @@ import Combine
 
 @MainActor
 final class PBTypeaheadViewModel: ObservableObject {
-  @Published var showPopover: Bool = false
+  @Published var showDropdown: Bool = false
   @Published var hoveringIndex: Int?
   @Published var isHovering: Bool = false
   @Published var selectedIndex: Int?
@@ -83,7 +83,7 @@ final class PBTypeaheadViewModel: ObservableObject {
     }
 
     if isFocused {
-      showPopover = true
+      showDropdown = true
     }
 
     reloadList()
@@ -108,7 +108,7 @@ final class PBTypeaheadViewModel: ObservableObject {
 
         self.reloadList()
         if !(self.searchTextBinding?.wrappedValue.isEmpty ?? true) {
-          self.showPopover = true
+          self.showDropdown = true
         }
       }
       .store(in: &cancellables)
@@ -142,7 +142,7 @@ final class PBTypeaheadViewModel: ObservableObject {
         self.reloadList()
 
         if !(self.searchTextBinding?.wrappedValue.isEmpty ?? true) {
-          self.showPopover = true
+          self.showDropdown = true
         }
       }
       .store(in: &cancellables)
@@ -172,7 +172,7 @@ final class PBTypeaheadViewModel: ObservableObject {
             }
             self.searchResults = PBTypeaheadViewModel.optionToDisplayable(filteredOptions)
     }
-    showPopover = false
+    showDropdown = false
     updateSearchText("")
     reloadList()
   }
@@ -236,7 +236,7 @@ final class PBTypeaheadViewModel: ObservableObject {
     updateSelectedOptions([])
     selectedIndex = nil
     hoveringIndex = nil
-    showPopover = false
+    showDropdown = false
   }
 
   func reloadList() {
@@ -340,7 +340,7 @@ extension PBTypeaheadViewModel: @preconcurrency TypeaheadKeyboardDelegate {
 
       case .return:
         guard isFocused else { return false }
-        guard showPopover,
+        guard showDropdown,
               let index = hoveringIndex,
               index < searchResults.count else {
           return false
@@ -353,14 +353,14 @@ extension PBTypeaheadViewModel: @preconcurrency TypeaheadKeyboardDelegate {
         return onDeleteKeyPressed()
 
       case .downArrow:
-        guard isFocused, showPopover else { return false }
+        guard isFocused, showDropdown else { return false }
         let currentIndex = hoveringIndex ?? 0
         let newHoveringIndex = min(currentIndex + 1, searchResults.count - 1)
         hoveringIndex = newHoveringIndex
         return true
 
       case .upArrow:
-        guard isFocused, showPopover else { return false }
+        guard isFocused, showDropdown else { return false }
         let currentIndex = hoveringIndex ?? 0
         let newHoveringIndex = max(currentIndex - 1, 0)
         hoveringIndex = newHoveringIndex
@@ -370,8 +370,8 @@ extension PBTypeaheadViewModel: @preconcurrency TypeaheadKeyboardDelegate {
         return false
 
       case .escape:
-        guard isFocused, showPopover else { return false }
-        showPopover = false
+        guard isFocused, showDropdown else { return false }
+        showDropdown = false
         isFocused = false
         return true
     }

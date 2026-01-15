@@ -65,9 +65,9 @@ public struct PBCard<Content: View>: View {
           lineWidth: border ? style.lineWidth : 0
         )
     )
-    .compositingGroup()
+    .compositingGroup() 
     .pbShadow(shadowColor)
-    .border(width: 5, edges: highlight.edge, color: highlight.color)
+    .border(width: borderRadius, edges: highlight.edge, color: highlight.color)
   }
 }
 

@@ -13,8 +13,11 @@ public struct PBCardHeader<Content: View>: View {
   let content: Content
   let color: Color
   let borderRadius: CGFloat
-
-  public init(color: Color = .product(.product1, category: .highlight), borderRadius: CGFloat = BorderRadius.medium, @ViewBuilder content: () -> Content) {
+  public init(
+    color: Color = .product(.product1, category: .highlight), 
+    borderRadius: CGFloat = 0, 
+    @ViewBuilder content: () -> Content
+  ) {
     self.content = content()
     self.color = color
     self.borderRadius = borderRadius
