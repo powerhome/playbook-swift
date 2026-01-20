@@ -1,3 +1,15 @@
+#✨ Playbook Swift 6.16.0 Improvements ✨
+###Jan 20, 2026
+
+####6.16.0 full list of changes:
+
+**Kit Enhancements:**
+* Turn typeahead title optional by @isismsilva in [#1312](https://github.com/powerhome/playbook-swift/pull/561)
+* PBCard Refactor by @RachelRadford21 in [#1222](https://github.com/powerhome/playbook-swift/pull/562)
+* TypeaheadPresentationMode Modifier by @RachelRadford21 in [#1323](https://github.com/powerhome/playbook-swift/pull/563)
+* PBSwift Typeahead Popover Removal by @RachelRadford21 in [#1243](https://github.com/powerhome/playbook-swift/pull/557)
+
+
 #✨ Playbook Swift 6.10.1 Improvements ✨
 ###May 20, 2025
 
