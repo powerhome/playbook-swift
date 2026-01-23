@@ -16,6 +16,7 @@ public struct PBMessage<Content: View>: View {
   let timestamp: Date?
   let timestampAlignment: Alignment?
   let changeTimeStampOnHover: Bool
+  let pinnedAt: Date?
   let verticalPadding: CGFloat
   let horizontalPadding: CGFloat
   let messageAmPmStyle: PBTimestamp.AmPmStyle
@@ -37,6 +38,7 @@ public struct PBMessage<Content: View>: View {
     timestampAlignment: Alignment? = .trailing,
     timestampVariant: PBTimestamp.Variant = .standard,
     changeTimeStampOnHover: Bool = false,
+    pinnedAt: Date? = nil,
     verticalPadding: CGFloat = Spacing.none,
     horizontalPadding: CGFloat = Spacing.none,
     messageAmPmStyle: PBTimestamp.AmPmStyle = .full,
@@ -55,6 +57,7 @@ public struct PBMessage<Content: View>: View {
     self.timestampAlignment = timestampAlignment
     self.timestampVariant = timestampVariant
     self.changeTimeStampOnHover = changeTimeStampOnHover
+    self.pinnedAt = pinnedAt
     self.verticalPadding = verticalPadding
     self.horizontalPadding = horizontalPadding
     self.messageAmPmStyle = messageAmPmStyle
@@ -89,13 +92,23 @@ public struct PBMessage<Content: View>: View {
               PBLoader()
             } else {
               if let timestamp = timestamp {
-                PBTimestamp(
-                  timestamp,
-                  amPmStyle: messageAmPmStyle,
-                  showDate: showMessageDate,
-                  showUser: showMessageUser,
-                  variant: returnTimestamp(isHovering: isHovering)
-                )
+                if let pinnedAt = pinnedAt, isHovering {
+                  PBTimestamp(
+                    pinnedAt,
+                    amPmStyle: messageAmPmStyle,
+                    showDate: showMessageDate,
+                    showUser: showMessageUser,
+                    variant: .standardPrefix("Pinned")
+                  )
+                } else {
+                  PBTimestamp(
+                    timestamp,
+                    amPmStyle: messageAmPmStyle,
+                    showDate: showMessageDate,
+                    showUser: showMessageUser,
+                    variant: returnTimestamp(isHovering: isHovering)
+                  )
+                }
               }
             }
           }
@@ -111,8 +124,9 @@ public struct PBMessage<Content: View>: View {
       }
       #if os(macOS)
       .onHover { hover in
-        guard changeTimeStampOnHover else { return } 
-        isHovering = hover
+        if changeTimeStampOnHover || pinnedAt != nil {
+          isHovering = hover
+        }
       }
       #endif
     }
