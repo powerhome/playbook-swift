@@ -2,19 +2,15 @@
 VStack(alignment: .leading, spacing: Spacing.small) {
   PBMessage(
     avatar: AnyView(Mocks.avatarXSmall),
-    label: Mocks.userName,
-    message: Mocks.message,
+    sender: Mocks.userName,
     timestamp: Date(),
-    timestampAlignment: .leading,
-    changeTimeStampOnHover: true
-  )  
+    message: AttributedString(Mocks.message)
+  )
   PBMessage(
     avatar: AnyView(Mocks.avatarXSmall),
-    label: Mocks.userName,
-    message: Mocks.message,
+    sender: Mocks.userName,
     timestamp: Date(),
-    timestampAlignment: .trailing,
-    changeTimeStampOnHover: true
+    message: AttributedString(Mocks.message)
   )
 }
 ```

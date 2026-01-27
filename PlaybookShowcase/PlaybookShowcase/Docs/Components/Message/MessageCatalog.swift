@@ -12,9 +12,8 @@ import Playbook
 
 public struct MessageCatalog: View {
   @State private var isLoading: Bool = true
-  @State private var showUser1: Bool = false
-  @State private var showUser2: Bool = false
-  
+  @State private var showPopover: Bool = false
+
   public var body: some View {
     PBDocStack(title: "Message") {
       PBDoc(title: "Default") {
@@ -23,16 +22,13 @@ public struct MessageCatalog: View {
       PBDoc(title: "Message Loading") {
         messsagingLoadingView
       }
-      #if os(macOS)
-      PBDoc(title: "With timestamp hover") {
-        hoveringView
-      }
-      #endif
-      PBDoc(title: "On user click") {
+      PBDoc(title: "On User Click") {
         onUserClickView
       }
+      PBDoc(title: "Inactive User") {
+        inactiveUserView
+      }
     }
-    .popoverHandler(id: 9)
   }
 }
 
@@ -41,81 +37,78 @@ extension MessageCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBMessage(
         avatar: AnyView(Mocks.picAnna),
-        label: "Anna Black",
-        message: "How can we assist you today?",
-        timestamp: Date().addingTimeInterval(-20)
+        sender: "Anna Black",
+        timestamp: Date().addingTimeInterval(-20),
+        message: AttributedString("How can we assist you today?")
       )
-      
+
       PBMessage(
         avatar: AnyView(Mocks.picPatric),
-        label: "Patrick Welch",
-        message: "We will escalate this issue to a Senior Support agent.",
+        sender: "Patrick Welch",
         timestamp: Date().addingTimeInterval(-540),
-        timestampAlignment: .leading
+        message: AttributedString("We will escalate this issue to a Senior Support agent.")
       )
-      
+
       PBMessage(
         avatar: AnyView(Mocks.picLuccile),
-        label: "Lucille Sanchez",
-        message: "Application for Kate Smith is waiting for your approval",
-        timestamp: Date().addingTimeInterval(-200000)
+        sender: "Lucille Sanchez",
+        timestamp: Date().addingTimeInterval(-200000),
+        message: AttributedString("Application for Kate Smith is waiting for your approval")
       )
-      
+
       PBMessage(
         avatar: AnyView(PBAvatar(name: "Beverly Reyes", size: .xSmall)),
-        label: "Beverly Reyes",
-        message: "We are so sorry you had a bad experience!",
+        sender: "Beverly Reyes",
+        timestamp: Date().addingTimeInterval(-200000),
+        message: AttributedString("We are so sorry you had a bad experience!")
+      )
+
+      PBMessage(
+        avatar: nil,
+        sender: "Keith Craig",
+        timestamp: Date().addingTimeInterval(-200000),
+        message: AttributedString("Please hold for one moment, I will check with my manager.")
+      )
+
+      PBMessage(
+        avatar: nil,
+        sender: "Keith Craig",
         timestamp: Date().addingTimeInterval(-200000)
-      )
-      
+      ) {
+        Image("Forest").resizable().frame(width: 240, height: 240)
+      }
+
       PBMessage(
-        label: "Keith Craig",
-        message: "Please hold for one moment, I will check with my manager.",
-        timestamp: Date().addingTimeInterval(-200000), 
-        content:  {}
-      )
-      
-      PBMessage(
-        label: "Keith Craig",
-        timestamp: Date().addingTimeInterval(-200000), 
-        content: {
-          Image("Forest").resizable().frame(width: 240, height: 240)
-        }
-      )
-      
-      PBMessage(
-        label: "Keith Craig",
-        message: "Please hold for one moment, I will check with my manager.",
-        timestamp: Date().addingTimeInterval(-200000), 
-        content: {
-          Image("Forest").resizable().frame(width: 240, height: 240)
-        }
-      )
+        avatar: nil,
+        sender: "Keith Craig",
+        timestamp: Date().addingTimeInterval(-200000),
+        message: AttributedString("Please hold for one moment, I will check with my manager.")
+      ) {
+        Image("Forest").resizable().frame(width: 240, height: 240)
+      }
     }
   }
-  
+
   var messsagingLoadingView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       VStack(alignment: .leading, spacing: Spacing.xxSmall) {
         Text("Load forever").pbFont(.caption)
         PBMessage(
           avatar: AnyView(Mocks.picPatric),
-          label: "Patrick Welch",
-          message: "We will escalate this issue to a Senior Support agent.",
+          sender: "Patrick Welch",
           timestamp: nil,
-          timestampAlignment: .leading,
-          isLoading: .constant(true)
+          message: AttributedString("We will escalate this issue to a Senior Support agent."),
+          isLoading: true
         )
       }
       VStack(alignment: .leading, spacing: Spacing.xxSmall) {
         Text("Load for 5 seconds").pbFont(.caption)
         PBMessage(
           avatar: AnyView(Mocks.picPatric),
-          label: "Patrick Welch",
-          message: "We will escalate this issue to a Senior Support agent.",
+          sender: "Patrick Welch",
           timestamp: Date().addingTimeInterval(-540),
-          timestampAlignment: .leading,
-          isLoading: $isLoading
+          message: AttributedString("We will escalate this issue to a Senior Support agent."),
+          isLoading: isLoading
         )
         .onAppear {
           isLoading = true
@@ -126,72 +119,32 @@ extension MessageCatalog {
       }
     }
   }
-  
-  var hoveringView: some View {
-    VStack(alignment: .leading, spacing: Spacing.small) {
-      PBMessage(
-        avatar: AnyView(Mocks.avatarXSmall),
-        label: Mocks.userName,
-        message: Mocks.message,
-        timestamp: Date(),
-        timestampAlignment: .leading,
-        changeTimeStampOnHover: true
-      )
-      
-      PBMessage(
-        avatar: AnyView(Mocks.avatarXSmall),
-        label: Mocks.userName,
-        message: Mocks.message,
-        timestamp: Date(),
-        timestampAlignment: .trailing,
-        changeTimeStampOnHover: true
-      )
-    }
-  }
 
   var onUserClickView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBMessage(
-        avatar: AnyView(Mocks.picAnna),
-        label: "Anna Black",
-        message: "How can we assist you today?",
-        timestamp: Date().addingTimeInterval(-20),
-        isOnClick: true,
-        onHeaderClick: { showDialog() }
+        avatar: Mocks.picPatric
+          .onTapGesture { showPopover.toggle() }
+          .popover(isPresented: $showPopover) {
+            Text("User info popover")
+              .padding()
+          },
+        sender: Text("Patrick Welch")
+          .onTapGesture { showPopover.toggle() },
+        timestamp: PBTimestamp(Date().addingTimeInterval(-540), amPmStyle: .short, showDate: false),
+        message: AttributedString("Tap avatar or sender name to show popover.")
       )
-      .presentationMode(isPresented: $showUser1) {
-          PBDialog(
-              title: "Info Dialog",
-              message: DialogCatalog.infoMessage,
-              cancelButton: DialogCatalog().cancelButton { showUser1 = false },
-              confirmButton: DialogCatalog().confirmationButton { showUser1 = false },
-              size: .small
-          )    .backgroundViewModifier(alpha: 0.2)
-      }
-
-      PBMessage(
-        avatar: AnyView(Mocks.picPatric),
-        label: "Patrick Welch",
-        message: "We will escalate this issue to a Senior Support agent.",
-        timestamp: Date().addingTimeInterval(-540),
-        timestampAlignment: .leading,
-        isOnClick: true, 
-        onHeaderClick: { showPopover() }
-      )
-      .pbPopover(isPresented: $showUser2, id: 9, position: .top(-65, 50)) {
-          Text("This is a popover")
-      }
     }
   }
 
-  private func showDialog() {
-    showUser1.toggle()
-    MessageCatalog.disableAnimation()
-  }
-  
-  private func showPopover() {
-    showUser2.toggle()
-    MessageCatalog.disableAnimation()
+  var inactiveUserView: some View {
+    PBMessage(
+      avatar: AnyView(PBAvatar(image: Image("Anna"), size: .xSmall, status: .offline)),
+      sender: "Patrick Welch",
+      timestamp: Date().addingTimeInterval(-540),
+      message: AttributedString("We will escalate this issue to a Senior Support agent."),
+      isSenderActive: false
+    )
   }
 }
 

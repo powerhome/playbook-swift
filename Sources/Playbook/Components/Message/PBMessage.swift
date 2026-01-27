@@ -9,64 +9,30 @@
 
 import SwiftUI
 
-public struct PBMessage<Content: View>: View {
-  let avatar: AnyView?
-  let label: String
+public struct PBMessage<Avatar: View, Sender: View, Timestamp: View, Content: View>: View {
+  let avatar: Avatar?
+  let sender: Sender
+  let timestamp: Timestamp?
   let message: AttributedString?
-  let timestamp: Date?
-  let timestampAlignment: Alignment?
-  let changeTimeStampOnHover: Bool
-  let pinnedAt: Date?
-  let verticalPadding: CGFloat
-  let horizontalPadding: CGFloat
-  let messageAmPmStyle: PBTimestamp.AmPmStyle
-  let showMessageDate: Bool
-  let showMessageUser: Bool
   let content: Content?
-  let timestampVariant: PBTimestamp.Variant
-  var isOnClick: Bool
-  var isActive: Bool
-  let onHeaderClick: (() -> Void)?
-  @Binding var isLoading: Bool
-  @State private var isHovering: Bool = false
+  let isSenderActive: Bool
+  let isLoading: Bool
 
   public init(
-    avatar: AnyView? = nil,
-    label: String = "",
+    avatar: Avatar?,
+    sender: Sender,
+    timestamp: Timestamp?,
     message: AttributedString? = nil,
-    timestamp: Date? = nil,
-    timestampAlignment: Alignment? = .trailing,
-    timestampVariant: PBTimestamp.Variant = .standard,
-    changeTimeStampOnHover: Bool = false,
-    pinnedAt: Date? = nil,
-    verticalPadding: CGFloat = Spacing.none,
-    horizontalPadding: CGFloat = Spacing.none,
-    messageAmPmStyle: PBTimestamp.AmPmStyle = .full,
-    showMessageDate: Bool = false,
-    showMessageUser: Bool = false,
-    isOnClick: Bool = false,
-    isActive: Bool = true,
-    isLoading: Binding<Bool> = .constant(false),
-    onHeaderClick: (() -> Void)? = nil,
+    isSenderActive: Bool = true,
+    isLoading: Bool = false,
     @ViewBuilder content: (() -> Content) = { EmptyView() }
   ) {
     self.avatar = avatar
-    self.label = label
-    self.message = message
+    self.sender = sender
     self.timestamp = timestamp
-    self.timestampAlignment = timestampAlignment
-    self.timestampVariant = timestampVariant
-    self.changeTimeStampOnHover = changeTimeStampOnHover
-    self.pinnedAt = pinnedAt
-    self.verticalPadding = verticalPadding
-    self.horizontalPadding = horizontalPadding
-    self.messageAmPmStyle = messageAmPmStyle
-    self.showMessageDate = showMessageDate
-    self.showMessageUser = showMessageUser
-    self.isOnClick = isOnClick
-    self.isActive = isActive
-    self._isLoading = isLoading
-    self.onHeaderClick = onHeaderClick
+    self.message = message
+    self.isSenderActive = isSenderActive
+    self.isLoading = isLoading
     self.content = content()
   }
   
@@ -74,47 +40,21 @@ public struct PBMessage<Content: View>: View {
     HStack(alignment: .top, spacing: nil) {
       if let avatar = avatar {
         avatar
-          .setCursorPointer(disabled: !isCursorEnabled)
           .opacity(isLoading ? 0.8 : 1)
-          .onTapGesture { onHeaderClick?() }
       }
       VStack(alignment: .leading, spacing: Spacing.none) {
         HStack(spacing: Spacing.xSmall) {
-          Text(label)
-            .pbFont(.messageTitle, color: isLoading || !isActive ? .text(.light) : .text(.default))
-            .setCursorPointer(disabled: !isCursorEnabled)
-            .onTapGesture { onHeaderClick?() }
-          if timestampAlignment == .trailing {
-            Spacer()
-          }
+          sender
+            .pbFont(.messageTitle, color: isLoading || !isSenderActive ? .text(.light) : .text(.default))
           Group {
             if isLoading {
               PBLoader()
-            } else {
-              if let timestamp = timestamp {
-                if let pinnedAt = pinnedAt, isHovering {
-                  PBTimestamp(
-                    pinnedAt,
-                    amPmStyle: messageAmPmStyle,
-                    showDate: showMessageDate,
-                    showUser: showMessageUser,
-                    variant: .standardPrefix("Pinned")
-                  )
-                } else {
-                  PBTimestamp(
-                    timestamp,
-                    amPmStyle: messageAmPmStyle,
-                    showDate: showMessageDate,
-                    showUser: showMessageUser,
-                    variant: returnTimestamp(isHovering: isHovering)
-                  )
-                }
-              }
+            } else if let timestamp = timestamp {
+              timestamp
             }
           }
           .frame(height: 16.8)
         }
-        .setCursorPointer(disabled: !isCursorEnabled)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         if let message = message {
           Text(message)
@@ -122,53 +62,39 @@ public struct PBMessage<Content: View>: View {
         }
         content
       }
-      #if os(macOS)
-      .onHover { hover in
-        if changeTimeStampOnHover || pinnedAt != nil {
-          isHovering = hover
-        }
-      }
-      #endif
     }
-    .setCursorPointer(disabled: !isOnClick)
-    .padding(.vertical, verticalPadding)
-    .padding(.horizontal, horizontalPadding)
     .frame(maxWidth: .infinity, alignment: .topLeading)
   }
 }
 
-private extension PBMessage {
-  func returnTimestamp(isHovering: Bool) -> PBTimestamp.Variant {
-    if changeTimeStampOnHover {
-      return isHovering ? .standard : .hideUserElapsed
-    } else {
-      return timestampVariant
-    }
-  }
-  
-  var isCursorEnabled: Bool {
-    if onHeaderClick != nil {
-      return true
-    } else {
-      return false
-    }
+// Convenience initializer for String sender and Date timestamp
+public extension PBMessage where Sender == Text, Timestamp == PBTimestamp {
+  init(
+    avatar: Avatar?,
+    sender: String,
+    timestamp: Date?,
+    message: AttributedString? = nil,
+    isSenderActive: Bool = true,
+    isLoading: Bool = false,
+    @ViewBuilder content: (() -> Content) = { EmptyView() }
+  ) {
+    self.avatar = avatar
+    self.sender = Text(sender)
+    self.timestamp = timestamp.map { PBTimestamp($0, amPmStyle: .short, showDate: false) }
+    self.message = message
+    self.isSenderActive = isSenderActive
+    self.isLoading = isLoading
+    self.content = content()
   }
 }
 
-public extension PBMessage {
-  enum Alignment {
-    case leading, trailing
-  }
-}
 
 #Preview {
   registerFonts()
-  return  PBMessage(
+  return PBMessage(
     avatar: AnyView(Mocks.picPatric),
-    label: "Patrick Welch",
-    message: "We will escalate this issue to a Senior Support agent.",
+    sender: "Patrick Welch",
     timestamp: Date().addingTimeInterval(-540),
-    timestampAlignment: .leading,
-    isLoading: .constant(false)
+    message: AttributedString("We will escalate this issue to a Senior Support agent.")
   )
 }
