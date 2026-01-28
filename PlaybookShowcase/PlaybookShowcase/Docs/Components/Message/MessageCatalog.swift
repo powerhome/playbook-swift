@@ -123,7 +123,7 @@ extension MessageCatalog {
   var onUserClickView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBMessage(
-        avatar: Mocks.picPatric
+        avatar: AnyView(Mocks.picPatric)
           .onTapGesture { showPopover.toggle() }
           .popover(isPresented: $showPopover) {
             Text("User info popover")

@@ -64,14 +64,14 @@ extension MessageCatalog {
       )
 
       PBMessage(
-        avatar: nil,
+        avatar: PBAvatar(),
         sender: "Keith Craig",
         timestamp: Date().addingTimeInterval(-200000),
         message: AttributedString("Please hold for one moment, I will check with my manager.")
       )
 
       PBMessage(
-        avatar: nil,
+        avatar: PBAvatar(),
         sender: "Keith Craig",
         timestamp: Date().addingTimeInterval(-200000)
       ) {
@@ -79,7 +79,7 @@ extension MessageCatalog {
       }
 
       PBMessage(
-        avatar: nil,
+        avatar: PBAvatar(),
         sender: "Keith Craig",
         timestamp: Date().addingTimeInterval(-200000),
         message: AttributedString("Please hold for one moment, I will check with my manager.")
@@ -123,7 +123,7 @@ extension MessageCatalog {
   var onUserClickView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBMessage(
-        avatar: Mocks.picPatric
+        avatar: AnyView(Mocks.picPatric)
           .onTapGesture { showPopover.toggle() }
           .popover(isPresented: $showPopover) {
             Text("User info popover")
