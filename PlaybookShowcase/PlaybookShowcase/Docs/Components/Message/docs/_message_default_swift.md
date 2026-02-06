@@ -4,46 +4,48 @@
 VStack(alignment: .leading, spacing: Spacing.small) {
   PBMessage(
     avatar: AnyView(Mocks.picAnna),
-    label: "Anna Black",
-    message: "How can we assist you today?",
-    timestamp: Date().addingTimeInterval(-20)
+    sender: "Anna Black",
+    timestamp: Date().addingTimeInterval(-20),
+    message: AttributedString("How can we assist you today?")
   )
   PBMessage(
     avatar: AnyView(Mocks.picPatric),
-    label: "Patrick Welch",
-    message: "We will escalate this issue to a Senior Support agent.",
+    sender: "Patrick Welch",
     timestamp: Date().addingTimeInterval(-540),
-    timestampAlignment: .leading
+    message: AttributedString("We will escalate this issue to a Senior Support agent.")
   )
   PBMessage(
     avatar: AnyView(Mocks.picLuccile),
-    label: "Lucille Sanchez",
-    message: "Application for Kate Smith is waiting for your approval",
-    timestamp: Date().addingTimeInterval(-200000)
+    sender: "Lucille Sanchez",
+    timestamp: Date().addingTimeInterval(-200000),
+    message: AttributedString("Application for Kate Smith is waiting for your approval")
   )
   PBMessage(
     avatar: AnyView(PBAvatar(name: "Beverly Reyes", size: .xSmall)),
-    label: "Beverly Reyes",
-    message: "We are so sorry you had a bad experience!",
-    timestamp: Date().addingTimeInterval(-200000)
+    sender: "Beverly Reyes",
+    timestamp: Date().addingTimeInterval(-200000),
+    message: AttributedString("We are so sorry you had a bad experience!")
   )
   PBMessage(
-    label: "Keith Craig",
-    message: "Please hold for one moment, I will check with my manager.",
-    timestamp: Date().addingTimeInterval(-200000)
-  ) {}
+    avatar: nil,
+    sender: "Keith Craig",
+    timestamp: Date().addingTimeInterval(-200000),
+    message: AttributedString("Please hold for one moment, I will check with my manager.")
+  )
   PBMessage(
-    label: "Keith Craig",
+    avatar: nil,
+    sender: "Keith Craig",
     timestamp: Date().addingTimeInterval(-200000)
   ) {
-      Image("Forest").resizable().frame(width: 240, height: 240)
-    }
+    Image("Forest").resizable().frame(width: 240, height: 240)
+  }
   PBMessage(
-    label: "Keith Craig",
-    message: "Please hold for one moment, I will check with my manager.",
-    timestamp: Date().addingTimeInterval(-200000)
+    avatar: nil,
+    sender: "Keith Craig",
+    timestamp: Date().addingTimeInterval(-200000),
+    message: AttributedString("Please hold for one moment, I will check with my manager.")
   ) {
-      Image("Forest").resizable().frame(width: 240, height: 240)
-    }
+    Image("Forest").resizable().frame(width: 240, height: 240)
+  }
 }
 ```

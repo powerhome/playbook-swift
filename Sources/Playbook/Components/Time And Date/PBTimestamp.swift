@@ -45,6 +45,7 @@ public struct PBTimestamp: View {
     case .elapsed: text = "Last updated \(userDisplay)\(formattedElapsed)"
     case .updated: text = "Last updated \(userDisplay)on \(formattedUpdated)"
     case .hideUserElapsed: text = "\(formattedElapsed)"
+    case .standardPrefix(let prefix): text = "\(prefix) \(formattedDefault)"
     default: text = formattedDefault
     }
     return text
@@ -129,6 +130,7 @@ public extension PBTimestamp {
     case standard
     case updated
     case hideUserElapsed
+    case standardPrefix(String)
   }
 }
 
