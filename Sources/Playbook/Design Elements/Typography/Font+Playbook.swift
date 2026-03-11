@@ -119,10 +119,10 @@ public enum PBFont: Equatable {
 
   var size: CGFloat {
     switch self {
-    case .title1: return 46
-    case .title2: return 34
-    case .title3: return 28
-    case .title4: return 16
+    case .title1: return 44
+    case .title2: return 32
+    case .title3: return 27
+    case .title4: return 15.5
     case .body: return 16
     case .detail: return 14
     case .largeCaption: return 20
