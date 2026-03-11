@@ -26,91 +26,91 @@ public enum PBFont: Equatable {
   case messageTitle
   case messageBody
 
-  static let proximaNovaLight = Font.ProximaNova.light.rawValue
+  static let powerCentraLight = Font.PowerCentra.light.rawValue
 
   public var font: Font {
     switch self {
     case .title1:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .largeTitle
       )
     case .title2:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .title
       )
     case .title3:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .title2
       )
     case .title4:
       return Font.custom(
-        Font.ProximaNova.bold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: size,
         relativeTo: .title3
       )
     case .body:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .body
       ).weight(Font.Weight.regular)
     case let .buttonText(fontSize):
       return Font.custom(
-        Font.ProximaNova.bold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: fontSize,
         relativeTo: .body
       )
     case .largeCaption:
       return Font.custom(
-        Font.ProximaNova.regular.rawValue,
+        Font.PowerCentra.book.rawValue,
         size: size,
         relativeTo: .caption2
       )
     case .caption:
       return Font.custom(
-        Font.ProximaNova.semibold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: size,
         relativeTo: .caption
       )
     case .subcaption:
       return Font.custom(
-        Font.ProximaNova.regular.rawValue,
+        Font.PowerCentra.book.rawValue,
         size: size
       )
     case let .monogram(fontSize):
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: fontSize,
         relativeTo: .body
       )
     case .badgeText:
       return Font.custom(
-        Font.ProximaNova.bold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: size,
         relativeTo: .body
       )
     case .detail:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: TextSize.Body.small.rawValue,
         relativeTo: .body
       )
     case .messageTitle:
       return Font.custom(
-        Font.ProximaNova.bold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: size,
         relativeTo: .title3
       )
       
     case .messageBody:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .body
       )
