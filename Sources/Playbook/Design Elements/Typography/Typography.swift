@@ -94,10 +94,11 @@ private extension Typography {
   var letterSpacing: CGFloat {
     switch font {
     case .subcaption: return font.space(.normal, font: .subcaption)
-    case .caption: return font.space(.looser, font: .caption)
-    case .largeCaption: return font.space(.looser, font: .largeCaption)
-    case .body: return font.space(.normal, font: .body)
+    case .caption: return font.space(.loosest, font: .caption)
+    case .largeCaption: return font.space(.loosest, font: .largeCaption)
+    case .body: return TextSize.Body.base.rawValue * -0.003
     case .badgeText: return font.space(.normal, font: .badgeText)
+    case .buttonText(let size): return size * -0.03
     case .title1: return font.space(.tight, font: .title1)
     case .title2: return font.space(.tight, font: .title2)
     case .title3: return font.space(.tight, font: .title3)

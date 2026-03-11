@@ -26,91 +26,91 @@ public enum PBFont: Equatable {
   case messageTitle
   case messageBody
 
-  static let proximaNovaLight = Font.ProximaNova.light.rawValue
+  static let powerCentraLight = Font.PowerCentra.light.rawValue
 
   public var font: Font {
     switch self {
     case .title1:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .largeTitle
       )
     case .title2:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .title
       )
     case .title3:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .title2
       )
     case .title4:
       return Font.custom(
-        Font.ProximaNova.bold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: size,
         relativeTo: .title3
       )
     case .body:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .body
       ).weight(Font.Weight.regular)
     case let .buttonText(fontSize):
       return Font.custom(
-        Font.ProximaNova.bold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: fontSize,
         relativeTo: .body
       )
     case .largeCaption:
       return Font.custom(
-        Font.ProximaNova.regular.rawValue,
+        Font.PowerCentra.book.rawValue,
         size: size,
         relativeTo: .caption2
       )
     case .caption:
       return Font.custom(
-        Font.ProximaNova.semibold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: size,
         relativeTo: .caption
       )
     case .subcaption:
       return Font.custom(
-        Font.ProximaNova.regular.rawValue,
+        Font.PowerCentra.book.rawValue,
         size: size
       )
     case let .monogram(fontSize):
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: fontSize,
         relativeTo: .body
       )
     case .badgeText:
       return Font.custom(
-        Font.ProximaNova.bold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: size,
         relativeTo: .body
       )
     case .detail:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: TextSize.Body.small.rawValue,
         relativeTo: .body
       )
     case .messageTitle:
       return Font.custom(
-        Font.ProximaNova.bold.rawValue,
+        Font.PowerCentra.bold.rawValue,
         size: size,
         relativeTo: .title3
       )
       
     case .messageBody:
       return Font.custom(
-        PBFont.proximaNovaLight,
+        PBFont.powerCentraLight,
         size: size,
         relativeTo: .body
       )
@@ -119,11 +119,11 @@ public enum PBFont: Equatable {
 
   var size: CGFloat {
     switch self {
-    case .title1: return 46
-    case .title2: return 34
-    case .title3: return 28
-    case .title4: return 16
-    case .body: return 16
+    case .title1: return TextSize.Title.title1.rawValue
+    case .title2: return TextSize.Title.title2.rawValue
+    case .title3: return TextSize.Title.title3.rawValue
+    case .title4: return TextSize.Title.title4.rawValue
+    case .body: return TextSize.Body.base.rawValue
     case .detail: return 14
     case .largeCaption: return 20
     case .caption: return 12
@@ -173,10 +173,10 @@ public struct FontWeight {
 
 public enum TextSize {
   enum Title: CGFloat, CaseIterable {
-    case title1 = 46
-    case title2 = 34
-    case title3 = 28
-    case title4 = 16
+    case title1 = 44
+    case title2 = 32
+    case title3 = 27
+    case title4 = 15.5
   }
 
   public enum Body: CGFloat, CaseIterable {

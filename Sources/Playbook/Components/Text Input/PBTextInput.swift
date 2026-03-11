@@ -218,7 +218,7 @@ public extension PBTextInput {
       .foregroundColor(placeHolderColor)
       .font(
         Font.custom(
-          Font.ProximaNova.light.rawValue,
+          Font.PowerCentra.light.rawValue,
           size: TextSize.Body.base.rawValue
         )
       )
