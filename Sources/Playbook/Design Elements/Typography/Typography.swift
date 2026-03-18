@@ -97,12 +97,13 @@ private extension Typography {
     case .caption: return font.space(.loosest, font: .caption)
     case .largeCaption: return font.space(.loosest, font: .largeCaption)
     case .body: return TextSize.Body.base.rawValue * -0.003
+    case .messageBody: return TextSize.Body.base.rawValue * 0.003
     case .badgeText: return font.space(.normal, font: .badgeText)
-    case .buttonText(let size): return size * -0.03
+    case .buttonText(let size): return size * 0.03
     case .title1: return font.space(.tight, font: .title1)
     case .title2: return font.space(.tight, font: .title2)
     case .title3: return font.space(.tight, font: .title3)
-    case .title4: return TextSize.Title.title4.rawValue * -0.03
+    case .title4: return TextSize.Title.title4.rawValue * 0.03
     default: return font.space(.normal, font: .body)
     }
   }
