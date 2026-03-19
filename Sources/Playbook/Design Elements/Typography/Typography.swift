@@ -74,12 +74,12 @@ private extension Typography {
     case .title2: return 0
     case .title3: return 5.4
     case .title4: return 3
-    case .body: return 6.2
+    case .body: return 2.3
     case .detail: return 5.4
     case .caption, .subcaption: return 5.8
     case .largeCaption: return 9.8
     case .messageTitle: return 2.6
-    case .messageBody: return 6
+    case .messageBody: return 1
     default: return 0
     }
   }
@@ -96,14 +96,15 @@ private extension Typography {
     case .subcaption: return font.space(.normal, font: .subcaption)
     case .caption: return font.space(.loosest, font: .caption)
     case .largeCaption: return font.space(.loosest, font: .largeCaption)
-    case .body: return TextSize.Body.base.rawValue * -0.003
-    case .messageBody: return TextSize.Body.base.rawValue * 0.003
+    case .body: return TextSize.Body.base.rawValue * -0.004
+    case .messageTitle: return TextSize.Body.base.rawValue * -0.006
+    case .messageBody: return TextSize.Body.base.rawValue * 0.02
     case .badgeText: return font.space(.normal, font: .badgeText)
     case .buttonText(let size): return size * 0.03
     case .title1: return font.space(.tight, font: .title1)
     case .title2: return font.space(.tight, font: .title2)
     case .title3: return font.space(.tight, font: .title3)
-    case .title4: return TextSize.Title.title4.rawValue * 0.03
+    case .title4: return TextSize.Title.title4.rawValue * 0.004
     default: return font.space(.normal, font: .body)
     }
   }

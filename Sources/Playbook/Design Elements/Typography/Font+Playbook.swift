@@ -131,7 +131,7 @@ public enum PBFont: Equatable {
     case .monogram(let size): return size
     case .badgeText: return 11
     case .buttonText(let size): return size
-    case .messageTitle: return 14
+    case .messageTitle: return TextSize.Body.base.rawValue
     case .messageBody: return 15
     }
   }
@@ -183,7 +183,7 @@ public enum TextSize {
     case smallest = 11
     case smaller = 12
     case small = 14
-    case base = 16
+    case base = 15.5
     case large = 20
     case larger = 28
     case largest = 32
