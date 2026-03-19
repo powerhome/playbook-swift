@@ -3,7 +3,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem "fastlane", "2.230.0"
-gem "json", "2.18.0"
+gem "json", "2.19.2"
 gem "httparty", "0.24.0"
 gem "ostruct", "0.6.3"
 
