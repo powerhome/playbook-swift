@@ -33,19 +33,15 @@ public struct PBBadge: View {
 }
 
 public extension PBBadge {
-
   var badgeView: some View {
     Text(text)
-
-      .padding(0.5)
-      .padding(style.padding(for: text))
       .foregroundColor(variant.foregroundColor(customColor: customColor))
-      .background(variant.backgroundColor())
-      .background(.white)
       .pbFont(.badgeText)
+      .padding(style.padding(for: text))
+      .frame(minWidth: style.minWidth(for: text), minHeight: style.minHeight)
+      .background(variant.backgroundColor())
       .clipShape(style.shape())
       .baselineOffset(0.65)
-
   }
 
   enum BadgeStyle {
@@ -72,9 +68,27 @@ public extension PBBadge {
       case .rectangle, .rounded:
         return EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4)
       case .notification:
-        return EdgeInsets(top: 2, leading: 4.8, bottom: 2, trailing: 5.5)
+        return EdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 5)
       case .custom(_, let padding):
         return padding
+      }
+    }
+
+    var minHeight: CGFloat {
+      switch self {
+      case .notification:
+        return 20
+      default:
+        return 0
+      }
+    }
+
+    func minWidth(for text: String) -> CGFloat {
+      switch self {
+      case .notification:
+        return minHeight
+      default:
+        return 0
       }
     }
   }
