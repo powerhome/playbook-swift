@@ -68,7 +68,7 @@ public extension PBBadge {
       case .rectangle, .rounded:
         return EdgeInsets(top: 2.5, leading: 4, bottom: 1.5, trailing: 4)
       case .notification:
-        return EdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 5)
+        return EdgeInsets(top: 1, leading: 3.8, bottom: 1, trailing: 4)
       case .custom(_, let padding):
         return padding
       }
@@ -77,7 +77,7 @@ public extension PBBadge {
     var minHeight: CGFloat {
       switch self {
       case .notification:
-        return 20
+        return 16
       default:
         return 0
       }
