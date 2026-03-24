@@ -77,7 +77,7 @@ public extension PBBadge {
     var minHeight: CGFloat {
       switch self {
       case .notification:
-        return 16
+        return 17
       default:
         return 0
       }
