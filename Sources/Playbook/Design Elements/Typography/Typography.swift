@@ -57,10 +57,10 @@ private extension Typography {
     case .title1: return 4.6
     case .title2: return -0.7
     case .title3: return 2.8
-    case .title4: return 1.6
+    case .title4: return 0
     case .body: return 3.2
     case .detail: return 2.8
-    case .caption, .subcaption: return 3
+    case .caption, .subcaption: return 0
     case .largeCaption: return 5
     case .messageTitle: return 1.4
     case .messageBody: return 3
