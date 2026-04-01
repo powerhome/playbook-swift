@@ -19,14 +19,25 @@ struct MacOSTextField: NSViewRepresentable {
     textField.delegate = context.coordinator
     textField.backgroundColor = .clear
     textField.isBordered = false
-    textField.placeholderString = prompt
+    textField.placeholderAttributedString = NSAttributedString(
+      string: prompt,
+      attributes: [
+        .font: NSFont(name: Font.PowerCentra.light.rawValue, size: TextSize.Body.base.rawValue) ?? NSFont.systemFont(ofSize: TextSize.Body.base.rawValue)
+      ]
+    )
+      
     return textField
   }
 
   func updateNSView(_ nsView: NSTextField, context: Context) {
     nsView.stringValue = text
     nsView.backgroundColor = .clear
-    nsView.placeholderString = prompt
+    nsView.placeholderAttributedString = NSAttributedString(
+      string: prompt,
+      attributes: [
+        .font: NSFont(name: Font.PowerCentra.light.rawValue, size: TextSize.Body.base.rawValue) ?? NSFont.systemFont(ofSize: TextSize.Body.base.rawValue)
+      ]
+    )
   }
 
   func makeCoordinator() -> Coordinator {
