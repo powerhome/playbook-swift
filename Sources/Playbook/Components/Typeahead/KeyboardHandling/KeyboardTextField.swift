@@ -38,7 +38,7 @@ struct KeyboardTextField: UIViewRepresentable {
     textField.onDelete = onDelete
     textField.maxWidth = maxWidth
     textField.borderStyle = .none
-    textField.font = .init(name: PBFont.proximaNovaLight, size: PBFont.body.size)
+    textField.font = .init(name: PBFont.powerCentraLight, size: PBFont.body.size)
     return textField
   }
 
