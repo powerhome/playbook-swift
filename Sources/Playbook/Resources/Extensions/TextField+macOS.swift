@@ -13,17 +13,20 @@ import SwiftUI
 struct MacOSTextField: NSViewRepresentable {
   @Binding var text: String
   let prompt: String
+    
+  private let font: NSFont = {
+      NSFont(name: Font.PowerCentra.light.rawValue, size: TextSize.Body.base.rawValue) ?? NSFont.systemFont(ofSize: TextSize.Body.base.rawValue)
+  }()
 
   func makeNSView(context: Context) -> NSTextField {
     let textField = NSTextField()
     textField.delegate = context.coordinator
     textField.backgroundColor = .clear
     textField.isBordered = false
+    textField.font = font
     textField.placeholderAttributedString = NSAttributedString(
       string: prompt,
-      attributes: [
-        .font: NSFont(name: Font.PowerCentra.light.rawValue, size: TextSize.Body.base.rawValue) ?? NSFont.systemFont(ofSize: TextSize.Body.base.rawValue)
-      ]
+      attributes: [.font: font]
     )
       
     return textField
@@ -34,9 +37,7 @@ struct MacOSTextField: NSViewRepresentable {
     nsView.backgroundColor = .clear
     nsView.placeholderAttributedString = NSAttributedString(
       string: prompt,
-      attributes: [
-        .font: NSFont(name: Font.PowerCentra.light.rawValue, size: TextSize.Body.base.rawValue) ?? NSFont.systemFont(ofSize: TextSize.Body.base.rawValue)
-      ]
+      attributes: [.font: font]
     )
   }
 
