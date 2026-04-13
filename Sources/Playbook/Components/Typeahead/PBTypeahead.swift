@@ -28,6 +28,9 @@ public struct PBTypeahead: View {
   @Binding internal var selectedOptions: [PBTypeahead.Option]
   @Binding internal var deselectedOptions: [PBTypeahead.Option]
   @Binding internal var searchText: String
+  #if os(iOS)
+  @Binding internal var showDropdown: Bool
+  #endif
   @FocusState.Binding internal var isFocused: Bool
   var noOptionsView: () -> AnyView?
 
@@ -49,6 +52,7 @@ public struct PBTypeahead: View {
     clearAction: (() -> Void)? = nil,
     disableFiltering: Bool = false,
     disableKeyboardHandler: Bool = false,
+    showDropdown: Binding<Bool> = .constant(true),
     @ViewBuilder noOptionsView: @escaping () -> some View = {
          Text("No Options")
            .pbFont(.body, color: .text(.light))
@@ -71,6 +75,9 @@ public struct PBTypeahead: View {
     ))
     self._deselectedOptions = deselectedOptions
     self.disableKeyboardHandler = disableKeyboardHandler
+    #if os(iOS)
+    self._showDropdown = showDropdown
+    #endif
     self.noOptionsView = { AnyView(noOptionsView()) }
   }
 
@@ -113,9 +120,14 @@ public struct PBTypeahead: View {
     }
     .onChange(of: isFocused) { _, newValue in
       viewModel.isFocused = newValue
+      #if os(macOS)
+      viewModel.showDropdown = newValue
+      #elseif os(iOS)
       if newValue {
         viewModel.showDropdown = newValue
+        showDropdown = newValue
       }
+      #endif
     }
     .onChange(of: selectedOptions.count) { _, _ in
       viewModel.reloadList()
@@ -126,6 +138,11 @@ public struct PBTypeahead: View {
     .onChange(of: searchText) { _, newValue in
       viewModel.searchTermChanged(newValue)
     }
+    #if os(iOS)
+    .onChange(of: showDropdown) { _, newValue in
+      viewModel.showDropdown = newValue
+    }
+      #endif
     .onChange(of: selectedOptions) { _, newOptions in
       selectedInputOptions = selection.selectedOptions(
         options: newOptions.map { $0.text ?? $0.id },
