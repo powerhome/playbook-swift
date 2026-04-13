@@ -15,10 +15,12 @@ public struct TypeaheadCatalog: View {
   @State private var searchTextColors: String = ""
   @State private var selectedColors: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
   @FocusState private var isFocusedColors
+  @State private var showDropdownColors: Bool = true
 
   @State private var searchTextNoTitle: String = ""
   @State private var selectedNoTitle: [PBTypeahead.Option] = [Mocks.assetsColors[2]]
   @FocusState private var isFocusedNoTitle
+  @State private var showDropdownNoTitle: Bool = true
 
   private var assetsUsers = Mocks.assetesMultipleUsers
   @State private var searchTextUsers: String = ""
@@ -27,6 +29,7 @@ public struct TypeaheadCatalog: View {
     Mocks.assetesMultipleUsers[1]
   ]
   @FocusState private var isFocusedUsers
+  @State private var showDropdownUsers: Bool = true
 
   @State private var searchTextDeselectedUsers: String = ""
   @State private var selectedUsersDeselected: [PBTypeahead.Option] = [
@@ -35,6 +38,7 @@ public struct TypeaheadCatalog: View {
   ]
   @State private var deselectedUsers: [PBTypeahead.Option] = []
   @FocusState private var isFocusedDeselectedUsers
+  @State private var showDropdownDeselectUsers: Bool = true
 
   @State private var searchTextHeight: String = ""
   @State private var selectedHeight: [PBTypeahead.Option] = [
@@ -42,6 +46,7 @@ public struct TypeaheadCatalog: View {
     Mocks.assetesMultipleUsers[2]
   ]
   @FocusState private var isFocusedHeight
+  @State private var showDropdownHeight: Bool = true
 
   private var assetsSection: [PBTypeahead.OptionType] = Mocks.assetsSectionUsers
   @State private var searchTextSections: String = ""
@@ -51,7 +56,8 @@ public struct TypeaheadCatalog: View {
   @State private var searchTextNoOptions: String = ""
   @State private var selectedNoOptions: [PBTypeahead.Option] = []
   @FocusState private var isFocusedNoOptions
-
+  @State private var showDropdownNoOptions: Bool = true
+    
   @State private var presentDialog: Bool = false
 
   public var body: some View {
@@ -88,7 +94,8 @@ extension TypeaheadCatalog {
         options: assetsColors,
         selection: .single,
         isFocused: $isFocusedColors,
-        selectedOptions: $selectedColors
+        selectedOptions: $selectedColors,
+        showDropdown: $showDropdownColors
       )
     }
     .padding(.top, -Spacing.small)
@@ -103,14 +110,14 @@ extension TypeaheadCatalog {
       options: assetsUsers,
       selection: .multiple(variant: .pill),
       isFocused: $isFocusedUsers,
-      selectedOptions: $selectedUsers
+      selectedOptions: $selectedUsers,
+      showDropdown: $showDropdownUsers
     )
     .padding(.top, -Spacing.small)
     .frame(height: 220, alignment: .top)
   }
 
   var deselectedUsersDoc: some View {
-    VStack {
       PBTypeahead(
         title: "Users",
         placeholder: "type the name of a user",
@@ -119,14 +126,11 @@ extension TypeaheadCatalog {
         selection: .multiple(variant: .pill),
         isFocused: $isFocusedDeselectedUsers,
         selectedOptions: $selectedUsersDeselected,
-        deselectedOptions: $deselectedUsers
+        deselectedOptions: $deselectedUsers,
+        showDropdown: $showDropdownDeselectUsers
       )
       .padding(.top, -Spacing.small)
       .frame(height: 220, alignment: .top)
-      .onAppear {
-        $isFocusedDeselectedUsers.wrappedValue = true
-      }
-    }
   }
 
   var heightAdjusted: some View {
@@ -138,7 +142,8 @@ extension TypeaheadCatalog {
       selection: .multiple(variant: .pill),
       dropdownMaxHeight: 150,
       isFocused: $isFocusedHeight,
-      selectedOptions: $selectedHeight
+      selectedOptions: $selectedHeight,
+      showDropdown: $showDropdownHeight
     )
     .padding(.top, -Spacing.small)
     .frame(height: 175, alignment: .top)
@@ -150,7 +155,8 @@ extension TypeaheadCatalog {
       options: assetsColors,
       selection: .single,
       isFocused: $isFocusedNoTitle,
-      selectedOptions: $selectedNoTitle
+      selectedOptions: $selectedNoTitle,
+      showDropdown: $showDropdownNoTitle
     )
   }
 
@@ -177,8 +183,9 @@ extension TypeaheadCatalog {
       selection: .multiple(variant: .pill),
       isFocused: $isFocusedNoOptions,
       selectedOptions: $selectedNoOptions,
+      showDropdown: $showDropdownNoOptions, 
       noOptionsView: {
-        customNoOptionsText
+          customNoOptionsText
       }
     )
     .padding(.top, -Spacing.small)
@@ -220,6 +227,7 @@ extension TypeaheadCatalog {
     @State private var isLoading: Bool = false
     @State private var searchTextUsers: String = ""
     @State private var assetsUsers = Mocks.assetesMultipleUsers
+    @State private var showDropdown: Bool = true
     @State private var selectedUsers: [PBTypeahead.Option] = [
       Mocks.assetesMultipleUsers[0],
       Mocks.assetesMultipleUsers[1]
@@ -241,9 +249,9 @@ extension TypeaheadCatalog {
             selection: .multiple(variant: .pill),
             dropdownMaxHeight: 250,
             isFocused: $isFocused,
-            selectedOptions: $selectedUsers
+            selectedOptions: $selectedUsers,
+            showDropdown: $showDropdown
           )
-
           Spacer()
         }
         .padding(.top, -Spacing.small)
@@ -252,6 +260,7 @@ extension TypeaheadCatalog {
         .background(Color.white.opacity(0.01))
         .onTapGesture {
           isFocused = false
+          showDropdown = false 
         }
       }
     }
@@ -262,6 +271,11 @@ extension TypeaheadCatalog {
     isFocusedUsers = false
     isFocusedHeight = false
     isFocusedSection = false
+    showDropdownColors = false
+    showDropdownUsers = false
+    showDropdownHeight = false
+    showDropdownNoTitle = false
+    showDropdownDeselectUsers = false
   }
 }
 
