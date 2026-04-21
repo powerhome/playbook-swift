@@ -92,6 +92,7 @@ public struct PBToast: View {
       if let text = text {
         Text(text)
           .pbFont(font, color: .white)
+          .multilineTextAlignment(.center)
 #if os(iOS)
           .padding(.horizontal, Spacing.medium)
 #else
