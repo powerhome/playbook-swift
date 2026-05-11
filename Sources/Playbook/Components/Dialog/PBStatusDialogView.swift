@@ -59,7 +59,7 @@ public enum Status: Identifiable, CaseIterable {
     }
   }
 
-  var icon: (PlaybookGenericIcon, Color) {
+  public var icon: (PlaybookGenericIcon, Color) {
     switch self {
     case .default: return (FontAwesome.exclamationCircle, .status(.neutral))
     case .caution: return (FontAwesome.exclamationTriangle, .status(.warning))
