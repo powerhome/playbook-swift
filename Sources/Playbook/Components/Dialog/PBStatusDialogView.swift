@@ -47,7 +47,7 @@ public enum Status: Identifiable, CaseIterable {
     [.default, .caution, .delete, .information, .error, .success]
   }
 
-  var title: String {
+  public var title: String {
     switch self {
     case .default: return "Default"
     case .caution: return "Caution"
