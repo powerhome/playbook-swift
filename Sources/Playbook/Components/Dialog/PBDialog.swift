@@ -143,7 +143,7 @@ public enum DialogSize: String, CaseIterable, Identifiable {
   }
 }
 
-public enum DialogVariant: Equatable {
+public enum DialogVariant {
     case `default`
     case status(_ status: Status)
     

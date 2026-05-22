@@ -31,11 +31,35 @@ struct PBStatusDialogView: View {
     .padding()
   }
 }
-public enum Status: String, CaseIterable, Identifiable {
-  public var id: UUID { UUID() }
 
-  case `default`, caution, delete, information, error, success
-  var icon: (PlaybookGenericIcon, Color) {
+public enum Status: Identifiable, CaseIterable {
+  public var id: String { title }
+
+  case `default`
+  case caution
+  case delete
+  case information
+  case error
+  case success
+  case custom(PlaybookGenericIcon, Color)
+
+  public static var allCases: [Status] {
+    [.default, .caution, .delete, .information, .error, .success]
+  }
+
+  public var title: String {
+    switch self {
+    case .default: return "Default"
+    case .caution: return "Caution"
+    case .delete: return "Delete"
+    case .information: return "Information"
+    case .error: return "Error"
+    case .success: return "Success"
+    case .custom: return "Custom"
+    }
+  }
+
+  public var icon: (PlaybookGenericIcon, Color) {
     switch self {
     case .default: return (FontAwesome.exclamationCircle, .status(.neutral))
     case .caution: return (FontAwesome.exclamationTriangle, .status(.warning))
@@ -43,17 +67,18 @@ public enum Status: String, CaseIterable, Identifiable {
     case .information: return (FontAwesome.infoCircle, .status(.neutral))
     case .error: return (FontAwesome.timesCircle, .status(.error))
     case .success: return (FontAwesome.checkCircle, .status(.success))
+    case .custom(let icon, let color): return (icon, color)
     }
   }
 }
 
 #Preview {
   registerFonts()
-  return List(Status.allCases, id: \.self) { status in
+    return List(Status.allCases + [.custom(FontAwesome.folder, .status(.warning))], id: \.id) { status in
     Section {
       PBStatusDialogView(
         status: status,
-        title: status.rawValue.capitalized,
+        title: status.title,
         description: "Some description Some description Some description Some description Some description"
       )
       .frame(maxWidth: .infinity)
