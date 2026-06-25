@@ -152,6 +152,7 @@ public struct PBTypeahead: View {
         placeholder: placeholder
       )
     }
+    .zIndex(viewModel.showDropdown ? 1_000 : 0)
   }
 }
 

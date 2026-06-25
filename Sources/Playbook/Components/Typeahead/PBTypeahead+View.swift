@@ -41,6 +41,7 @@ public extension PBTypeahead {
       ZStack {
         if viewModel.showDropdown {
           listView
+            .zIndex(1_000)
         }
       }
     }
@@ -74,6 +75,7 @@ public extension PBTypeahead {
       }
     }
     .frame(maxWidth: dropdownWidth)
+    .zIndex(1_000)
   }
 
   func listItemView(option: PBTypeahead.Option, index: Int) -> some View {
