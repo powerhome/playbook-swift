@@ -21,6 +21,7 @@ public struct PBTypeahead: View {
   internal let debounce: (time: TimeInterval, numberOfCharacters: Int)
   internal let disableFiltering: Bool
   internal let disableKeyboardHandler: Bool
+  internal let selectedOptionsMaxHeight: CGFloat
 
   @State internal var selectedInputOptions: GridInputField.Selection
   @State var dropdownHeight: CGFloat = 48
@@ -46,6 +47,7 @@ public struct PBTypeahead: View {
     selection: PBTypeahead.Selection,
     debounce: (time: TimeInterval, numberOfCharacters: Int) = (0, 0),
     dropdownMaxHeight: CGFloat? = nil,
+    selectedOptionsMaxHeight: CGFloat = 220,
     isFocused: FocusState<Bool>.Binding,
     selectedOptions: Binding<[PBTypeahead.Option]>,
     deselectedOptions: Binding<[PBTypeahead.Option]> = .constant([]),
@@ -65,6 +67,7 @@ public struct PBTypeahead: View {
     self.selection = selection
     self.debounce = debounce
     self.dropdownMaxHeight = dropdownMaxHeight
+    self.selectedOptionsMaxHeight = selectedOptionsMaxHeight
     self._isFocused = isFocused
     self.clearAction = clearAction
     self._selectedOptions = selectedOptions

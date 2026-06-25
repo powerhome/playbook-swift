@@ -21,6 +21,7 @@ public extension PBTypeahead {
       placeholder: placeholder,
       searchText: $searchText,
       selection: selectedInputOptions,
+      selectedOptionsMaxHeight: selectedOptionsMaxHeight,
       isFocused: $isFocused,
       clearAction: { viewModel.clear() },
       onItemTap: { viewModel.removeSelected($0) },

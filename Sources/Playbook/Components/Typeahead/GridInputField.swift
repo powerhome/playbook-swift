@@ -12,22 +12,26 @@ import SwiftUI
 public struct GridInputField: View {
   private let placeholder: String
   private let selection: Selection
+  private let selectedOptionsMaxHeight: CGFloat
   private let clearAction: (() -> Void)?
   private let onItemTap: ((Int) -> Void)?
   private let onViewTap: (() -> Void)?
   private let onDelete: (() -> Void)?
   private let shape = RoundedRectangle(cornerRadius: BorderRadius.medium)
+  private let inputFieldID = "grid-input-field-text-field"
   private var isFocused: FocusState<Bool>.Binding
   @Binding var searchText: String
   @State private var isHovering: Bool = false
   @State private var clearButtonIsHovering: Bool = false
   @State private var indicatorIsHovering: Bool = false
   @State private var textFrame: CGRect = .zero
+  @State private var selectedOptionsGridHeight: CGFloat = 40
 
   init(
     placeholder: String = "Select",
     searchText: Binding<String>,
     selection: Selection,
+    selectedOptionsMaxHeight: CGFloat = 220,
     isFocused: FocusState<Bool>.Binding,
     clearAction: (() -> Void)? = nil,
     onItemTap: ((Int) -> Void)? = nil,
@@ -37,6 +41,7 @@ public struct GridInputField: View {
     self.placeholder = placeholder
     self._searchText = searchText
     self.selection = selection
+    self.selectedOptionsMaxHeight = selectedOptionsMaxHeight
     self.isFocused = isFocused
     self.clearAction = clearAction
     self.onItemTap = onItemTap
@@ -47,22 +52,8 @@ public struct GridInputField: View {
   public var body: some View {
     VStack(alignment: .leading) {
       HStack {
-        PBGrid(
-          alignment: .leading,
-          horizontalSpacing: Spacing.xSmall,
-          verticalSpacing: Spacing.xSmall,
-          fitContent: false
-        ) {
-          ForEach(indices, id: \.self) { index in
-            if indices.last != index {
-              gridView(index: index)
-            }
-          }
-          textfieldWithCustomPlaceholder
-        }
-        .padding(.horizontal, Spacing.small)
-        .padding(.vertical, Spacing.xSmall)
-        .frameReader { textFrame = $0 }
+        selectedOptionsContainer
+          .frame(maxWidth: .infinity, alignment: .leading)
         dismissIconView
         indicatorView
       }
@@ -85,10 +76,56 @@ public struct GridInputField: View {
 }
 
 private extension GridInputField {
+  var selectedOptionsContainer: some View {
+    ScrollViewReader { proxy in
+      ScrollView(.vertical, showsIndicators: false) {
+        selectedOptionsGrid
+          .sizeReader { size in
+            selectedOptionsGridHeight = max(size.height, 40)
+          }
+      }
+      .frame(height: min(selectedOptionsGridHeight, selectedOptionsMaxHeight))
+      .onAppear {
+        scrollToInput(proxy)
+      }
+      .onChange(of: selectedOptionsCount) {
+        scrollToInput(proxy)
+      }
+    }
+  }
+
+  var selectedOptionsGrid: some View {
+    PBGrid(
+      alignment: .leading,
+      horizontalSpacing: Spacing.xSmall,
+      verticalSpacing: Spacing.xSmall,
+      fitContent: false
+    ) {
+      ForEach(indices, id: \.self) { index in
+        if indices.last != index {
+          gridView(index: index)
+        }
+      }
+      textfieldWithCustomPlaceholder
+        .id(inputFieldID)
+    }
+    .padding(.horizontal, Spacing.small)
+    .padding(.vertical, Spacing.xSmall)
+    .frameReader { textFrame = $0 }
+    .frame(maxWidth: .infinity, alignment: .leading)
+  }
+
   var indices: Range<Int> {
     switch selection {
       case .multiple(_, let options): return Range(0...(options?.count ?? 0))
       case .single(_): return Range(0...1)
+    }
+  }
+
+  var selectedOptionsCount: Int {
+    switch selection {
+      case .multiple(_, let options): return options?.count ?? 0
+      case .single(let option): return option == nil ? 0 : 1
     }
   }
 
@@ -225,6 +262,12 @@ private extension GridInputField {
       return Color.text(.default)
     } else {
       return Color.text(.lighter)
+    }
+  }
+
+  func scrollToInput(_ proxy: ScrollViewProxy) {
+    DispatchQueue.main.async {
+      proxy.scrollTo(inputFieldID, anchor: .bottom)
     }
   }
 }
