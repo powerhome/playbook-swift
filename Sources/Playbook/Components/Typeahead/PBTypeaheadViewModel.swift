@@ -253,6 +253,11 @@ final class PBTypeaheadViewModel: ObservableObject {
 
   func optionsChanged(_ newOptions: [PBTypeahead.Option]) {
     optionsSubject.send(newOptions)
+
+    if !disableFiltering {
+      // Re-run filtering against the current search text now that options have changed
+      searchTermSubject.send(searchTextBinding?.wrappedValue ?? "")
+    }
   }
 
   func searchTermChanged(_ newTerm: String) {
