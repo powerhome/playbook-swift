@@ -72,7 +72,7 @@ extension ButtonsCatalog {
         countColor: Color.text(.lighter)
       )
       PBReactionButton(
-        icon: .pbIcon(PBIcon(FontAwesome.user, size: .small)),
+        icon: .pbIcon(PBIcon(Icons.user, size: .small)),
         countColor: Color.text(.lighter)
       )
     }
@@ -88,12 +88,12 @@ extension ButtonsCatalog {
     VStack(alignment: .leading, spacing: Spacing.small) {
       PBButton(
         title: "Button with Icon on Left",
-        icon: PBIcon.fontAwesome(.user, size: .x1),
+        icon: PBIcon.playbook(.user, size: .x1),
         action: {}
       )
       PBButton(
         title: "Button with Icon on Right",
-        icon: PBIcon.fontAwesome(.user, size: .x1),
+        icon: PBIcon.playbook(.user, size: .x1),
         iconPosition: .right,
         action: {}
       )
@@ -146,24 +146,24 @@ extension ButtonsCatalog {
     return HStack(spacing: Spacing.small) {
       PBButton(
         shape: .circle,
-        icon: PBIcon.fontAwesome(.plus, size: .x1),
+        icon: PBIcon.playbook(.plus, size: .x1),
         action: {}
       )
       PBButton(
         variant: .secondary,
         shape: .circle,
-        icon: PBIcon.fontAwesome(.pen, size: .x1),
+        icon: PBIcon.playbook(.pen, size: .x1),
         action: {}
       )
       PBButton(
         variant: .disabled,
         shape: .circle,
-        icon: PBIcon.fontAwesome(.times, size: .x1)
+        icon: PBIcon.playbook(.times, size: .x1)
       )
       PBButton(
         variant: .link,
         shape: .circle,
-        icon: PBIcon.fontAwesome(.user, size: .x1),
+        icon: PBIcon.playbook(.user, size: .x1),
         action: {}
       )
     }

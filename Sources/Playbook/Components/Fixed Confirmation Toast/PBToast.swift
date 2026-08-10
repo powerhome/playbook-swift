@@ -48,7 +48,7 @@ public struct PBToast: View {
       if let animatedIcon {
         animatedIcon
       } else if let icon = variant.icon {
-        PBIcon.fontAwesome(icon, size: .x1)
+        PBIcon.playbook(icon, size: .x1)
       }
       
 #if os(iOS)
@@ -134,7 +134,7 @@ public extension PBToast {
     
     var view: AnyView? {
       switch self {
-      case .default: return AnyView(PBIcon.fontAwesome(.times))
+      case .default: return AnyView(PBIcon.playbook(.times))
       case .custom(let view): return view
       case .withTimer: return nil
       case .link(let text): return AnyView(
@@ -148,7 +148,7 @@ public extension PBToast {
   }
   
   enum Variant {
-    case error, success, neutral, tip(FontAwesome? = .infoCircle), custom(FontAwesome? = nil, Color)
+    case error, success, neutral, tip(Icons? = .infoCircle), custom(Icons? = nil, Color)
     func color(_ custom: Color = .pbPrimary) -> any ShapeStyle   {
       switch self {
       case .error: return Color.status(.error)
@@ -158,11 +158,11 @@ public extension PBToast {
       case .custom(_, let color): return color
       }
     }
-    var icon: FontAwesome? {
+    var icon: Icons? {
       switch self {
-      case .error: return FontAwesome.exclamationTriangle
-      case .success: return FontAwesome.check
-      case .neutral: return FontAwesome.infoCircle
+      case .error: return Icons.exclamationTriangle
+      case .success: return Icons.check
+      case .neutral: return Icons.infoCircle
       case .tip(let icon): return icon
       case .custom(let icon, _): return icon
       }

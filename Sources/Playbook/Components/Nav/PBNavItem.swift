@@ -19,7 +19,7 @@ public struct PBNavItem<Content: View>: View {
 
   var label: String?
   var icon: NavigationIcon?
-  var accessory: FontAwesome?
+  var accessory: Icons?
   let isFullWidth: Bool
   var horizontalOrientationPadding: CGFloat?
   var vertOrientationPadding: CGFloat?
@@ -30,7 +30,7 @@ public struct PBNavItem<Content: View>: View {
   public init(
     _ label: String? = nil,
     icon: NavigationIcon? = nil,
-    accessory: FontAwesome? = nil,
+    accessory: Icons? = nil,
     isFullWidth: Bool = false,
     horizontalOrientationPadding: CGFloat? = nil,
     vertOrientationPadding: CGFloat? = nil,
@@ -298,12 +298,12 @@ struct PBNavItem_Previews: PreviewProvider {
 
     let item = PBNavItem(
       "Users Item",
-      icon: .pbIcon(.fontAwesome(.addressCard))
+      icon: .pbIcon(.playbook(.addressCard))
     )
 
     let disabledItem = PBNavItem(
       "Disabled Item",
-      icon: .pbIcon(.fontAwesome(.addressCard)),
+      icon: .pbIcon(.playbook(.addressCard)),
       isDisabled: true
     )
 

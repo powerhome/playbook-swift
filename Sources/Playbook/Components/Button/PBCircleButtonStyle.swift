@@ -56,24 +56,24 @@ public struct PBCircleButtonStyle: ButtonStyle {
   return HStack(spacing: Spacing.small) {
     PBButton(
       shape: .circle,
-      icon: PBIcon.fontAwesome(.plus, size: .x1),
+      icon: PBIcon.playbook(.plus, size: .x1),
       action: {}
     )
     PBButton(
       variant: .secondary,
       shape: .circle,
-      icon: PBIcon.fontAwesome(.pen, size: .x1),
+      icon: PBIcon.playbook(.pen, size: .x1),
       action: {}
     )
     PBButton(
       variant: .disabled,
       shape: .circle,
-      icon: PBIcon.fontAwesome(.times, size: .x1)
+      icon: PBIcon.playbook(.times, size: .x1)
     )
     PBButton(
       variant: .link,
       shape: .circle,
-      icon: PBIcon.fontAwesome(.user, size: .x1),
+      icon: PBIcon.playbook(.user, size: .x1),
       action: {}
     )
   }

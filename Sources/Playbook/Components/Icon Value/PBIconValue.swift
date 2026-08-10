@@ -10,12 +10,12 @@
 import SwiftUI
 
 public struct PBIconValue: View {
-  let icon: FontAwesome
+  let icon: Icons
   let iconSize: PBIcon.IconSize
   let text: String?
   
   public init(
-    icon: FontAwesome = .clipboard,
+    icon: Icons = .clipboard,
     iconSize: PBIcon.IconSize = .large,
     text: String? = nil
   ) {

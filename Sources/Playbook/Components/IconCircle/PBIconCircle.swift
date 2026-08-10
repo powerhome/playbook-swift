@@ -119,7 +119,7 @@ private extension View {
   return VStack(alignment: .leading, spacing: Spacing.small) {
 
     ForEach(PBIconCircle.Size.allCases, id: \.self) { size in
-      PBIconCircle(FontAwesome.rocket, size: size)
+      PBIconCircle(Icons.rocket, size: size)
     }
   }
 }

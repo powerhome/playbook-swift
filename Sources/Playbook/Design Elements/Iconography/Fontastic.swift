@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-public enum Fontastic: String, PlaybookGenericIcon, CaseIterable {
+public enum Fontastic: String, PlaybookGenericFontIcon, CaseIterable {
   case smilePlus = "smile-plus"
 
   public var unicodeString: String {

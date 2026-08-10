@@ -22,7 +22,7 @@ public struct PBContact: View {
   }
   public var body: some View {
     HStack(spacing: Spacing.xxSmall) {
-      PBIcon.fontAwesome(type.icon)
+      PBIcon.playbook(type.icon)
         .foregroundStyle(Color.text(.light))
         .padding(.trailing, Spacing.xxSmall - 2)
       Text(parsedValue)
@@ -47,8 +47,8 @@ public extension PBContact {
     case workCell
     case wrongPhone
     case ext
-    case custom(String, FontAwesome)
-    var icon: FontAwesome {
+    case custom(String, Icons)
+    var icon: Icons {
       switch self {
       case .cell: return .mobile
       case .email: return .envelope

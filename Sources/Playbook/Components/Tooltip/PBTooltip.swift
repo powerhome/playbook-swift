@@ -13,7 +13,7 @@ public struct PBTooltip: ViewModifier {
   let canPresent: Bool
   let delay: TimeInterval
   let delayType: DelayType
-  let icon: FontAwesome?
+  let icon: Icons?
   let placement: Edge
   let text: String
 
@@ -26,7 +26,7 @@ public struct PBTooltip: ViewModifier {
     canPresent: Bool = true,
     delay: TimeInterval = 0.0,
     delayType: DelayType = .all,
-    icon: FontAwesome? = nil,
+    icon: Icons? = nil,
     placement: Edge = .top,
     text: String = ""
   ) {
@@ -144,7 +144,7 @@ public extension View {
     canPresent: Bool = true,
     delay: TimeInterval = 0.0,
     delayType: PBTooltip.DelayType = .all,
-    icon: FontAwesome? = nil,
+    icon: Icons? = nil,
     placement: Edge = .top,
     text: String = ""
   ) -> some View {

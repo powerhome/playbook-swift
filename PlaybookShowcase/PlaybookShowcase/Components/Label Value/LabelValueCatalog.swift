@@ -41,14 +41,14 @@ extension LabelValueCatalog {
       PBLabelValue(
         "Installer",
         variant: .details,
-        icon: FontAwesome.truck,
+        icon: Icons.truck,
         title: "JD Installations LLC"
       )
 
       PBLabelValue(
         "Project",
         variant: .details,
-        icon: FontAwesome.home,
+        icon: Icons.home,
         description: "33-12345",
         title: "Jefferson-Smith"
       )
@@ -56,7 +56,7 @@ extension LabelValueCatalog {
       PBLabelValue(
         "Project",
         variant: .details,
-        icon: FontAwesome.home,
+        icon: Icons.home,
         description: "33-12345",
         title: "Jefferson-Smith",
         date: Date()
@@ -65,7 +65,7 @@ extension LabelValueCatalog {
       PBLabelValue(
         "Project",
         variant: .details,
-        icon: FontAwesome.home,
+        icon: Icons.home,
         description: "33-12345",
         title: "Jefferson-Smith",
         date: Date(),
@@ -82,28 +82,28 @@ extension LabelValueCatalog {
       PBLabelValue(
         "Age",
         variant: .details,
-        icon: FontAwesome.user,
+        icon: Icons.user,
         title: "24 yrs old"
       )
 
       PBLabelValue(
         "Blood",
         variant: .details,
-        icon: FontAwesome.tint,
+        icon: Icons.tint,
         title: "A +"
       )
 
       PBLabelValue(
         "Weight",
         variant: .details,
-        icon: FontAwesome.weight,
+        icon: Icons.weight,
         title: "91 kg"
       )
 
       PBLabelValue(
         "Height",
         variant: .details,
-        icon: FontAwesome.arrowsAltV,
+        icon: Icons.arrowsAltV,
         title: "187 cm"
       )
 
@@ -115,7 +115,7 @@ extension LabelValueCatalog {
       PBLabelValue(
         "Chest",
         variant: .details,
-        icon: FontAwesome.dumbbell,
+        icon: Icons.dumbbell,
         description: "6 sets • 8 reps • 40-100 kg",
         title: "Bench Press",
         active: true
@@ -124,7 +124,7 @@ extension LabelValueCatalog {
       PBLabelValue(
         "Biceps",
         variant: .details,
-        icon: FontAwesome.dumbbell,
+        icon: Icons.dumbbell,
         description: "5 sets • 12 reps • 20-40 kg",
         title: "Barbell Curl",
         active: true
@@ -133,7 +133,7 @@ extension LabelValueCatalog {
       PBLabelValue(
         "Back",
         variant: .details,
-        icon: FontAwesome.dumbbell,
+        icon: Icons.dumbbell,
         description: "8 sets • 8 reps • 40-120 kg",
         title: "Back Squat",
         active: true

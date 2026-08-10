@@ -90,7 +90,7 @@ public extension PBTimeRangeInline {
     .pbFont(size, color: fontColor)
   }
   var timeRangeIcon: some View {
-    PBIcon(FontAwesome.arrowRight)
+    PBIcon(Icons.arrowRight)
       .pbFont(size, color: isArrowIconBold ? .text(.default) : .text(.light))
   }
   var fontColor: Color{

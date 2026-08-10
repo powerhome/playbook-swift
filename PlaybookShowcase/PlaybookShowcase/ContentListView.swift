@@ -118,7 +118,7 @@ extension ContentListView {
                 HStack {
                   Text(element.rawValue.capitalized).pbFont(.buttonText(16))
                     .multilineTextAlignment(.leading)
-                  PBIcon.fontAwesome(.chevronRight, size: .small)
+                  PBIcon.playbook(.chevronRight, size: .small)
                     .foregroundColor(.text(.default))
                     .frame(maxWidth: .infinity, alignment: .trailing)
                 }
@@ -147,10 +147,10 @@ extension ContentListView {
             } label: {
               PBCard(borderRadius: BorderRadius.large, padding: Spacing.small, shadow: .deep) {
                 HStack {
-                  PBIcon.fontAwesome(element.icon, size: .small).foregroundColor(checked ? .white : .black)
+                  PBIcon.playbook(element.icon, size: .small).foregroundColor(checked ? .white : .black)
                   Text(element.rawValue.capitalized).pbFont(.buttonText(16))
                     .multilineTextAlignment(.leading)
-                  PBIcon.fontAwesome(.chevronRight, size: .small)
+                  PBIcon.playbook(.chevronRight, size: .small)
                     .foregroundColor(.text(.default))
                     .frame(maxWidth: .infinity, alignment: .trailing)
                 }
@@ -166,7 +166,7 @@ extension ContentListView {
 
   var darkmodeToggle: some View {
     HStack(spacing: Spacing.xxSmall) {
-      PBIcon(FontAwesome.moon, size: .xSmall)
+      PBIcon(Icons.moon, size: .xSmall)
         .pbFont(.body, color: .text(.lighter))
       PBToggle(checked: $checked)
     }

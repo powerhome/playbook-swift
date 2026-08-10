@@ -141,7 +141,7 @@ extension DialogCatalog {
 
   var statusView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
-        ForEach(Status.allCases + [.custom(FontAwesome.folder, .status(.warning))], id: \.id) { status in
+        ForEach(Status.allCases + [.custom(Icons.folder, .status(.warning))], id: \.id) { status in
         PBButton(title: status.title.capitalized) {
           DialogCatalog.disableAnimation()
           presentDialogStatus = status

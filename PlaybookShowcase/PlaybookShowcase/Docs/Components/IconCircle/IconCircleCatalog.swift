@@ -28,21 +28,21 @@ public struct IconCircleCatalog: View {
 
 extension IconCircleCatalog {
   var defaultView: some View {
-    PBIconCircle(FontAwesome.rocket)
+    PBIconCircle(Icons.rocket)
   }
   var sizeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       let pBIconSizes = [PBIcon.IconSize.small, PBIcon.IconSize.x1, PBIcon.IconSize.large]
 
       ForEach(pBIconSizes, id: \.self) { size in
-        PBIconCircle(FontAwesome.rocket, size: size)
+        PBIconCircle(Icons.rocket, size: size)
       }
     }
   }
   var colorView: some View {
     VStack(spacing: Spacing.small) {
       ForEach(Color.DataColor.allCases, id: \.self) { color in
-        PBIconCircle(FontAwesome.rocket, size: .small, color: Color.data(color))
+        PBIconCircle(Icons.rocket, size: .small, color: Color.data(color))
       }
     }
   }
