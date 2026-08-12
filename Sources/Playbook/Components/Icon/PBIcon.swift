@@ -8,7 +8,7 @@
 //
 
 import SwiftUI
-import PlaybookIcons
+@_exported import PlaybookIcons
 
 public typealias Icon = PlaybookIcons.PlaybookIcon
 

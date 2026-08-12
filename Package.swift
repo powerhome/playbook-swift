@@ -20,7 +20,7 @@ let package = Package(
     .package(url: "git@github.com:powerhome/power-fonts.git", from: "0.0.1"),
     .package(
       url: "git@github.com:powerhome/playbook-icons.git",
-      branch: "automate-swift-icon-generation"
+      revision: "bbbb2b659f2c9b14e1030e66f2e808ddb9db7011"
     ),
     .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.18.6")
   ],
