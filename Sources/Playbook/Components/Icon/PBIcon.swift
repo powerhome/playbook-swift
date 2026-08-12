@@ -8,7 +8,9 @@
 //
 
 import SwiftUI
-@_exported import PlaybookIcons
+import PlaybookIcons
+
+public typealias Icon = PlaybookIcons.PlaybookIcon
 
 public protocol PlaybookGenericIcon {
   func iconView(size: CGFloat) -> AnyView
@@ -29,7 +31,7 @@ public extension PlaybookGenericFontIcon {
   }
 }
 
-extension Icons: PlaybookGenericIcon {
+extension Icon: PlaybookGenericIcon {
   public func iconView(size: CGFloat) -> AnyView {
     AnyView(
       image
@@ -71,15 +73,15 @@ public struct PBIcon: View {
 }
 
 public extension PBIcon {
-  static func playbook(_ icon: Icons, size: IconSize = .x1) -> PBIcon {
+  static func playbook(_ icon: Icon, size: IconSize = .x1) -> PBIcon {
     PBIcon(icon, size: size)
   }
 
-  static func getFileIcon(mimetype: String) -> Icons {
+  static func getFileIcon(mimetype: String) -> Icon {
     getFileIcon(fileType: mimetype.split(separator: "/").last?.description ?? "")
   }
 
-  static func getFileIcon(fileType: String) -> Icons {
+  static func getFileIcon(fileType: String) -> Icon {
     switch fileType {
     case "csv": return .fileCsv
     case "doc", "docx": return .fileWord

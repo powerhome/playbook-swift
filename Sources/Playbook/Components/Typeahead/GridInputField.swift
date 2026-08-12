@@ -188,7 +188,7 @@ private extension GridInputField {
   }
 
   var dismissIcon: some View {
-    PBIcon(Icons.times, size: .xSmall)
+    PBIcon(Icon.times, size: .xSmall)
       .foregroundStyle(iconColor(on: clearButtonIsHovering))
       .padding(.vertical, Spacing.small)
       .padding(.leading, Spacing.small)
@@ -203,7 +203,7 @@ private extension GridInputField {
   }
 
   var indicatorView: some View {
-    PBIcon(Icons.chevronDown, size: .xSmall)
+    PBIcon(Icon.chevronDown, size: .xSmall)
       .padding(Spacing.small)
       .foregroundStyle(iconColor(on: indicatorIsHovering))
       .onHover(disabled: false) {

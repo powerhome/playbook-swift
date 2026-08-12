@@ -27,7 +27,7 @@ struct PBDialogHeaderView: View {
       Button {
         dismissAction()
       } label: {
-        PBIcon(Icons.times, size: .x1)
+        PBIcon(Icon.times, size: .x1)
           .foregroundColor(.text(.default))
           .setCursorPointer()
       }

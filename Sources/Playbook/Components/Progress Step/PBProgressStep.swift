@@ -25,7 +25,7 @@ public struct PBProgressStep: View {
   public init(
     steps: Int = 3,
     progress: Binding<Int> = .constant(1),
-    icon: PBIcon? = PBIcon(Icons.check, size: .custom(9)),
+    icon: PBIcon? = PBIcon(Icon.check, size: .custom(9)),
     label: String? = nil,
     showLabelIndex: Bool = false,
     pillHeight: CGFloat = 4,
@@ -261,7 +261,7 @@ private extension PBProgressStep {
       
       var icon: PBIcon? {
         switch self {
-          case .active, .complete: return PBIcon(Icons.check, size: .custom(8))
+          case .active, .complete: return PBIcon(Icon.check, size: .custom(8))
           case .inactive: return nil
         }
       }

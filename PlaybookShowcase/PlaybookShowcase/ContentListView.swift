@@ -166,7 +166,7 @@ extension ContentListView {
 
   var darkmodeToggle: some View {
     HStack(spacing: Spacing.xxSmall) {
-      PBIcon(Icons.moon, size: .xSmall)
+      PBIcon(Icon.moon, size: .xSmall)
         .pbFont(.body, color: .text(.lighter))
       PBToggle(checked: $checked)
     }

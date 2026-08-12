@@ -94,7 +94,7 @@ public extension PBTime {
   }
 
   var timeIcon: some View {
-    return PBIcon(Icons.clock, size: iconSize)
+    return PBIcon(Icon.clock, size: iconSize)
       .pbFont(.caption, variant: .light, color: isIconBold ? .text(.default) : .text(.light))
   }
 

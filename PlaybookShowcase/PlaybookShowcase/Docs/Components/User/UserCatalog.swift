@@ -225,7 +225,7 @@ public extension UserCatalog {
   var roleSubtitle: AnyView {
     return AnyView(
       HStack {
-        PBIcon(Icons.users, size: .small)
+        PBIcon(Icon.users, size: .small)
         Text("ADMIN").pbFont(.caption, color: .text(.light))
       }
     )

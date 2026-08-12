@@ -19,7 +19,7 @@ public struct PBNavItem<Content: View>: View {
 
   var label: String?
   var icon: NavigationIcon?
-  var accessory: Icons?
+  var accessory: Icon?
   let isFullWidth: Bool
   var horizontalOrientationPadding: CGFloat?
   var vertOrientationPadding: CGFloat?
@@ -30,7 +30,7 @@ public struct PBNavItem<Content: View>: View {
   public init(
     _ label: String? = nil,
     icon: NavigationIcon? = nil,
-    accessory: Icons? = nil,
+    accessory: Icon? = nil,
     isFullWidth: Bool = false,
     horizontalOrientationPadding: CGFloat? = nil,
     vertOrientationPadding: CGFloat? = nil,

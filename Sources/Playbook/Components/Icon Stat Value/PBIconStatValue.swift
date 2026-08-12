@@ -10,7 +10,7 @@
 import SwiftUI
 
 public struct PBIconStatValue: View {
-  let icon: Icons
+  let icon: Icon
   let iconSize: PBIconCircle.Size
   let iconColor: Color
   let value: String
@@ -24,7 +24,7 @@ public struct PBIconStatValue: View {
   let textColor: Color
   let unitBaselineOffset: CGFloat
   public init(
-    icon: Icons = .lightbulbOn,
+    icon: Icon = .lightbulbOn,
     iconSize: PBIconCircle.Size = .small,
     iconColor: Color = .text(.light),
     value: String = "",

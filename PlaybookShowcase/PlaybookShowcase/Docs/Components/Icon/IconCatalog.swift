@@ -19,22 +19,22 @@ public struct IconCatalog: View {
 
       PBDoc(title: "Rotate") {
         HStack(spacing: Spacing.xSmall) {
-          PBIcon(Icons.user, rotation: .right)
-          PBIcon(Icons.user, rotation: .zero)
-          PBIcon(Icons.user, rotation: .obtuse)
+          PBIcon(Icon.user, rotation: .right)
+          PBIcon(Icon.user, rotation: .zero)
+          PBIcon(Icon.user, rotation: .obtuse)
         }
       }
 
       PBDoc(title: "Flipped") {
         HStack(spacing: Spacing.xSmall) {
-          PBIcon(Icons.questionCircle, flipped: [.horizontal])
-          PBIcon(Icons.questionCircle, flipped: [.vertical])
-          PBIcon(Icons.questionCircle, flipped: [.horizontal, .vertical])
+          PBIcon(Icon.questionCircle, flipped: [.horizontal])
+          PBIcon(Icon.questionCircle, flipped: [.vertical])
+          PBIcon(Icon.questionCircle, flipped: [.horizontal, .vertical])
         }
       }
 
       PBDoc(title: "Border") {
-        PBIcon(Icons.user, border: true)
+        PBIcon(Icon.user, border: true)
       }
 
       PBDoc(title: "Size") {

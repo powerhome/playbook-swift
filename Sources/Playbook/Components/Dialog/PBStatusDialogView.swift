@@ -61,12 +61,12 @@ public enum Status: Identifiable, CaseIterable {
 
   public var icon: (PlaybookGenericIcon, Color) {
     switch self {
-    case .default: return (Icons.exclamationCircle, .status(.neutral))
-    case .caution: return (Icons.exclamationTriangle, .status(.warning))
-    case .delete: return (Icons.trashAlt, .status(.error))
-    case .information: return (Icons.infoCircle, .status(.neutral))
-    case .error: return (Icons.timesCircle, .status(.error))
-    case .success: return (Icons.checkCircle, .status(.success))
+    case .default: return (Icon.exclamationCircle, .status(.neutral))
+    case .caution: return (Icon.exclamationTriangle, .status(.warning))
+    case .delete: return (Icon.trashAlt, .status(.error))
+    case .information: return (Icon.infoCircle, .status(.neutral))
+    case .error: return (Icon.timesCircle, .status(.error))
+    case .success: return (Icon.checkCircle, .status(.success))
     case .custom(let icon, let color): return (icon, color)
     }
   }
@@ -74,7 +74,7 @@ public enum Status: Identifiable, CaseIterable {
 
 #Preview {
   registerFonts()
-    return List(Status.allCases + [.custom(Icons.folder, .status(.warning))], id: \.id) { status in
+    return List(Status.allCases + [.custom(Icon.folder, .status(.warning))], id: \.id) { status in
     Section {
       PBStatusDialogView(
         status: status,

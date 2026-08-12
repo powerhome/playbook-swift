@@ -72,7 +72,7 @@ extension ButtonsCatalog {
         countColor: Color.text(.lighter)
       )
       PBReactionButton(
-        icon: .pbIcon(PBIcon(Icons.user, size: .small)),
+        icon: .pbIcon(PBIcon(Icon.user, size: .small)),
         countColor: Color.text(.lighter)
       )
     }

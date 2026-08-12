@@ -13,9 +13,9 @@ import Playbook
 public struct Iconography: View {
   let columns = Array(repeating: GridItem(.adaptive(minimum: 65)), count: 3)
 
-  private var categories: [IconCategory] {
-    let groupedIcons: [String: [Icons]] = Dictionary(
-      grouping: Icons.allCases,
+  private static let categories: [IconCategory] = {
+    let groupedIcons: [String: [Icon]] = Dictionary(
+      grouping: Icon.allCases,
       by: \.categoryName
     )
     let categories = groupedIcons.map { category, icons in
@@ -25,18 +25,18 @@ public struct Iconography: View {
       )
     }
     return categories.sorted { $0.name < $1.name }
-  }
+  }()
 
   public var body: some View {
     VStack {
       ScrollView {
         Text("Playbook Icons")
-//          .pbFont(.caption)
+          .pbFont(.caption)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding()
 
         LazyVStack(alignment: .leading, spacing: 24) {
-          ForEach(categories) { category in
+          ForEach(Self.categories) { category in
             VStack(alignment: .leading, spacing: 12) {
               Text(category.displayName)
                 .pbFont(.caption)
@@ -64,7 +64,7 @@ public struct Iconography: View {
 
 private struct IconCategory: Identifiable {
   let name: String
-  let icons: [Icons]
+  let icons: [Icon]
 
   var id: String { name }
 
@@ -73,7 +73,7 @@ private struct IconCategory: Identifiable {
   }
 }
 
-private extension Icons {
+private extension Icon {
   var categoryName: String {
     rawValue.split(separator: "/", maxSplits: 1).first.map(String.init) ?? ""
   }

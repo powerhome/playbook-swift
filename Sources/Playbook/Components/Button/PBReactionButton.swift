@@ -89,7 +89,7 @@ public extension PBReactionButton {
 
   var addReactionView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
-      PBIcon(Icons.faceSmilePlus, size: .small)
+      PBIcon.playbook(.faceSmilePlus, size: .small)
         .foregroundStyle(textColor)
     }
   }

@@ -161,7 +161,7 @@ public extension PBTextInput {
     }
   }
 
-  func customIcon(_ icon: Icons) -> some View {
+  func customIcon(_ icon: Icon) -> some View {
     PBIcon.playbook(icon, size: .x1)
       .foregroundColor(.text(.lighter))
       .frame(width: 45)
@@ -251,8 +251,8 @@ public extension PBTextInput {
 public extension PBTextInput {
   enum Style {
     case `default`
-    case rightIcon(_ icon: Icons, divider: Bool)
-    case leftIcon(_ icon: Icons, divider: Bool)
+    case rightIcon(_ icon: Icon, divider: Bool)
+    case leftIcon(_ icon: Icon, divider: Bool)
     case inline
     case disabled
     case typeahead(AnyView)

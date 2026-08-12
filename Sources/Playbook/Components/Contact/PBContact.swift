@@ -47,8 +47,8 @@ public extension PBContact {
     case workCell
     case wrongPhone
     case ext
-    case custom(String, Icons)
-    var icon: Icons {
+    case custom(String, Icon)
+    var icon: Icon {
       switch self {
       case .cell: return .mobile
       case .email: return .envelope

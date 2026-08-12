@@ -148,7 +148,7 @@ public extension PBToast {
   }
   
   enum Variant {
-    case error, success, neutral, tip(Icons? = .infoCircle), custom(Icons? = nil, Color)
+    case error, success, neutral, tip(Icon? = .infoCircle), custom(Icon? = nil, Color)
     func color(_ custom: Color = .pbPrimary) -> any ShapeStyle   {
       switch self {
       case .error: return Color.status(.error)
@@ -158,11 +158,11 @@ public extension PBToast {
       case .custom(_, let color): return color
       }
     }
-    var icon: Icons? {
+    var icon: Icon? {
       switch self {
-      case .error: return Icons.exclamationTriangle
-      case .success: return Icons.check
-      case .neutral: return Icons.infoCircle
+      case .error: return Icon.exclamationTriangle
+      case .success: return Icon.check
+      case .neutral: return Icon.infoCircle
       case .tip(let icon): return icon
       case .custom(let icon, _): return icon
       }

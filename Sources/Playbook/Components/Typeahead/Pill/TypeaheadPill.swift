@@ -15,11 +15,11 @@ struct TypeaheadPill: View {
   @Environment(\.hovering) var hovering: Bool
   @State private var isHovering: Bool = false
   private var shape =  Capsule()
-  let icon: Icons?
+  let icon: Icon?
   let text: String
   let closeAction: (() -> Void)?
 
-  init(_ text: String, icon: Icons? = nil, closeAction: (() -> Void)? = nil) {
+  init(_ text: String, icon: Icon? = nil, closeAction: (() -> Void)? = nil) {
     self.text = text
     self.icon = icon
     self.closeAction = closeAction
@@ -33,7 +33,7 @@ struct TypeaheadPill: View {
         }
         Text(text)
               .font(.custom(Font.PowerCentra.bold.rawValue, size: 14))
-        PBIcon(Icons.times, size: .xSmall)
+        PBIcon(Icon.times, size: .xSmall)
       }
       .foregroundStyle(Color.text(.default))
       .padding(.vertical, verticalPadding)
