@@ -27,11 +27,11 @@ public struct PBCheckboxStyle: ToggleStyle {
 
         switch (checked, checkboxType) {
         case (true, .indeterminate):
-          PBIcon.fontAwesome(.minus, size: .small)
+          PBIcon.playbook(.minus, size: .small)
             .foregroundColor(.white)
         case (false, _): EmptyView()
         default:
-          PBIcon.fontAwesome(.check, size: .small)
+          PBIcon.playbook(.check, size: .small)
             .foregroundColor(.white)
         }
       }

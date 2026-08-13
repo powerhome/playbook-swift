@@ -56,7 +56,7 @@ extension PBDateRangeInline {
   }
 
   var dateRangeIcon: some View {
-    PBIcon(FontAwesome.arrowRight, size: iconSize)
+    PBIcon(Icon.arrowRight, size: iconSize)
       .pbFont(size, color: isArrowIconBold ? .text(.default) : .text(.light))
   }
 

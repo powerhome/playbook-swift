@@ -50,7 +50,7 @@ public struct PopoverCatalog: View {
       PBButton(
         variant: .secondary,
         shape: .circle,
-        icon: .fontAwesome(.info)
+        icon: .playbook(.info)
       ) {
         isPresented1.toggle()
       }
@@ -68,7 +68,7 @@ public struct PopoverCatalog: View {
     PBButton(
       variant: .secondary,
       title: "Filter By",
-      icon: .fontAwesome(.chevronDown),
+      icon: .playbook(.chevronDown),
       iconPosition: .right
     ) {
       isPresented2.toggle()
@@ -184,7 +184,7 @@ public struct PopoverCatalog: View {
         PBButton(
           variant: .secondary,
           shape: .circle,
-          icon: .fontAwesome(.info)
+          icon: .playbook(.info)
         ) {
           isPresented7.toggle()
         }

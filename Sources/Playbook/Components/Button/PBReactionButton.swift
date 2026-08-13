@@ -89,7 +89,7 @@ public extension PBReactionButton {
 
   var addReactionView: some View {
     return HStack(alignment: .center, spacing: Spacing.xxSmall) {
-      PBIcon(FontAwesome.faceSmilePlus, size: .small)
+      PBIcon.playbook(.faceSmilePlus, size: .small)
         .foregroundStyle(textColor)
     }
   }
@@ -108,7 +108,7 @@ public extension PBReactionButton {
   registerFonts()
   return HStack {
     PBReactionButton()
-    PBReactionButton(count: 10, isHighlighted: false, icon: .pbIcon(PBIcon.fontAwesome(.perbyte)), countColor: .pink, action: {})
+    PBReactionButton(count: 10, isHighlighted: false, icon: .pbIcon(PBIcon.playbook(.perbyte)), countColor: .pink, action: {})
     PBReactionButton(count: 10, isHighlighted: true, icon: .emoji("😇"), action: {})
   }
 }

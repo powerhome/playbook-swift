@@ -53,7 +53,7 @@ public struct PBSelect: View {
             Text(selected)
               .pbFont(.body, color: style.textColor)
             Spacer()
-            PBIcon.fontAwesome(.chevronDown)
+            PBIcon.playbook(.chevronDown)
               .foregroundColor(style.textColor)
           }
           .padding(.horizontal, Spacing.small)

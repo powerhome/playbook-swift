@@ -11,29 +11,74 @@ import SwiftUI
 
 public struct Iconography: View {
   let columns = Array(repeating: GridItem(.adaptive(minimum: 65)), count: 3)
+
+  private static let categories: [IconCategory] = {
+    let groupedIcons: [String: [Icon]] = Dictionary(
+      grouping: Icon.allCases,
+      by: \.categoryName
+    )
+    let categories = groupedIcons.map { category, icons in
+      IconCategory(
+        name: category,
+        icons: icons.sorted { $0.rawValue < $1.rawValue }
+      )
+    }
+    return categories.sorted { $0.name < $1.name }
+  }()
+
   public var body: some View {
     VStack {
       ScrollView {
-        Text("FontAwesome Icons")
+        Text("Playbook Icons")
           .pbFont(.caption)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding()
 
-          LazyVGrid(columns: columns) {
-            ForEach(FontAwesome.allCases, id: \.unicodeString) { icon in
-              VStack {
-                PBIcon.fontAwesome(icon, size: .x1)
-                  .padding(2)
-                Text(icon.rawValue).pbFont(.subcaption)
-              }
+        LazyVStack(alignment: .leading, spacing: 24) {
+          ForEach(Self.categories) { category in
+            VStack(alignment: .leading, spacing: 12) {
+              Text(category.displayName)
+                .pbFont(.caption)
 
+              LazyVGrid(columns: columns) {
+                ForEach(category.icons, id: \.rawValue) { icon in
+                  VStack {
+                    PBIcon.playbook(icon, size: .x1)
+                      .padding(2)
+                    Text(icon.displayName)
+                      .pbFont(.subcaption)
+                  }
+                }
+              }
             }
           }
+        }
       }
       .padding()
       .navigationTitle("Iconography")
     }
     .background(Color.background(.default))
+  }
+}
+
+private struct IconCategory: Identifiable {
+  let name: String
+  let icons: [Icon]
+
+  var id: String { name }
+
+  var displayName: String {
+    name.replacingOccurrences(of: "-", with: " ").capitalized
+  }
+}
+
+private extension Icon {
+  var categoryName: String {
+    rawValue.split(separator: "/", maxSplits: 1).first.map(String.init) ?? ""
+  }
+
+  var displayName: String {
+    rawValue.split(separator: "/").last.map(String.init) ?? rawValue
   }
 }
 

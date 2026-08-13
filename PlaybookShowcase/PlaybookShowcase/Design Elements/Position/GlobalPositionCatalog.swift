@@ -107,7 +107,7 @@ extension GlobalPositionCatalog {
         isCard: true
       ) {
         PBIconCircle(
-          FontAwesome.rocket,
+          Icon.rocket,
           size: .small,
           color: .orange
         )

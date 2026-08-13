@@ -72,12 +72,12 @@ public extension PBTabBar {
 }
 
 public struct TabIcon: View {
-  var icon: FontAwesome
+  var icon: Icon
   var name: String
   var color: Color
 
  public init(
-    icon: FontAwesome = .home,
+    icon: Icon = .home,
     name: String = "",
     color: Color = .text(.light)
   ) {

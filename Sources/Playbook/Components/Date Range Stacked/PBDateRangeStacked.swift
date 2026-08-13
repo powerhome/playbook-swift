@@ -49,7 +49,7 @@ extension PBDateRangeStacked {
   }
 
   var arrowIconView: some View {
-    PBIcon(FontAwesome.arrowRight)
+    PBIcon(Icon.arrowRight)
       .pbFont(.body, variant: .bold, color: .text(.light))
   }
 }

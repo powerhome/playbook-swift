@@ -28,19 +28,19 @@ public struct IconCircleCatalog: View {
 
 extension IconCircleCatalog {
   var defaultView: some View {
-    PBIconCircle(FontAwesome.rocket)
+    PBIconCircle(Icon.rocket)
   }
   var sizeView: some View {
     VStack(alignment: .leading, spacing: Spacing.small) {
       ForEach(PBIconCircle.Size.allCases, id: \.self) { size in
-        PBIconCircle(FontAwesome.rocket, size: size)
+        PBIconCircle(Icon.rocket, size: size)
       }
     }
   }
   var colorView: some View {
     VStack(spacing: Spacing.small) {
       ForEach(PBIconCircle.IconColor.allCases, id: \.self) { color in
-        PBIconCircle(FontAwesome.rocket, size: .small, color: color)
+        PBIconCircle(Icon.rocket, size: .small, color: color)
       }
     }
   }

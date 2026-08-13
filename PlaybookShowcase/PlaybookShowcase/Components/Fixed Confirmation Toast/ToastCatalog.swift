@@ -236,7 +236,7 @@ public struct ToastCatalog: View {
   }
     
   private var withAnimation: some View {
-    let iconWithAnimation = PBIcon.fontAwesome(FontAwesome.spinner, size: .x1)
+    let iconWithAnimation = PBIcon.playbook(Icon.spinner, size: .x1)
           .rotationEffect(Angle(degrees: isAnimating ? 360 : 0))
           .animation(.linear(duration: 1)
           .repeatForever(autoreverses: false), value: isAnimating)

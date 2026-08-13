@@ -8,10 +8,36 @@
 //
 
 import SwiftUI
+@_exported import PlaybookIcons
+
+public typealias Icon = PlaybookIcons.PlaybookIcon
 
 public protocol PlaybookGenericIcon {
+  func iconView(size: CGFloat) -> AnyView
+}
+
+public protocol PlaybookGenericFontIcon: PlaybookGenericIcon {
   var unicodeString: String { get }
   var fontFamily: String { get }
+}
+
+public extension PlaybookGenericFontIcon {
+  func iconView(size: CGFloat) -> AnyView {
+    AnyView(
+      Text(unicodeString)
+        .font(Font.custom(fontFamily, size: size))
+        .baselineOffset(-0.5)
+    )
+  }
+}
+
+extension Icon: PlaybookGenericIcon {
+  public func iconView(size: CGFloat) -> AnyView {
+    AnyView(
+      image
+        .frame(width: size, height: size)
+    )
+  }
 }
 
 public struct PBIcon: View {
@@ -36,9 +62,7 @@ public struct PBIcon: View {
   }
 
   public var body: some View {
-    Text(icon.unicodeString)
-      .font(Font.custom(icon.fontFamily, size: size.fontSize))
-      .baselineOffset(-0.5)
+    icon.iconView(size: size.fontSize)
       .rotationEffect(rotation.angle)
       .padding(.horizontal, border ? 10.5 : 0)
       .padding(.top, border ? 6.4 : 0)
@@ -49,6 +73,26 @@ public struct PBIcon: View {
 }
 
 public extension PBIcon {
+  static func playbook(_ icon: Icon, size: IconSize = .x1) -> PBIcon {
+    PBIcon(icon, size: size)
+  }
+
+  static func getFileIcon(mimetype: String) -> Icon {
+    getFileIcon(fileType: mimetype.split(separator: "/").last?.description ?? "")
+  }
+
+  static func getFileIcon(fileType: String) -> Icon {
+    switch fileType {
+    case "csv": return .fileCsv
+    case "doc", "docx": return .fileWord
+    case "pdf": return .filePdf
+    case "ppt", "pptx": return .filePowerpoint
+    case "xls", "xlsx": return .fileExcel
+    case "zip": return .fileArchive
+    default: return .fileUpload
+    }
+  }
+
   enum IconSize: Hashable {
     case xSmall
     case small

@@ -101,7 +101,7 @@ extension CollapsibleDoc {
         PBButton(
           variant: .link,
           shape: .circle,
-          icon: PBIcon.fontAwesome(.plus, size: .small),
+          icon: PBIcon.playbook(.plus, size: .small),
           action: {
             presentDialog.toggle()
           }

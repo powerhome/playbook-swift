@@ -27,7 +27,7 @@ public enum DesignElements: String, CaseIterable {
     }
   }
 
-  public var icon: FontAwesome {
+  public var icon: Icon {
     switch self {
     case .borderRadius: return .borderStyle
     case .color: return .palette

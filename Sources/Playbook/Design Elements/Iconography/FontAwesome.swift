@@ -7,30 +7,6 @@
 //  PBIcon.swift
 //
 
-import SwiftUI
-
-public extension PBIcon {
-  static func fontAwesome(_ icon: FontAwesome, size: IconSize = .x1) -> PBIcon {
-    PBIcon(icon, size: size)
-  }
-
-  static func getFileIcon(mimetype: String) -> FontAwesome {
-    getFileIcon(fileType: mimetype.split(separator: "/").last?.description ?? "")
-  }
-
-  static func getFileIcon(fileType: String) -> FontAwesome {
-    switch fileType {
-    case "csv": return FontAwesome.fileCsv
-    case "doc", "docx": return FontAwesome.fileWord
-    case "pdf": return FontAwesome.filePdf
-    case "ppt", "pptx": return FontAwesome.filePowerpoint
-    case "xls", "xlsx": return FontAwesome.fileExcel
-    case "zip": return FontAwesome.fileArchive
-    default: return FontAwesome.fileUpload
-    }
-  }
-}
-
 // Enum.swift
 //
 // Copyright (c) 2014-present FontAwesome.swift contributors
@@ -56,7 +32,7 @@ public extension PBIcon {
 // Font-Awesome submodule and run `./codegen.swift`.
 // An enumaration of FontAwesome icon names.
 // swiftlint:disable file_length type_body_length
-public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
+public enum FontAwesome: String, PlaybookGenericFontIcon, CaseIterable {
   case ad = "fa-ad"
   case addressBook = "fa-address-book"
   case addressCard = "fa-address-card"
@@ -2992,7 +2968,7 @@ public enum FontAwesome: String, PlaybookGenericIcon, CaseIterable {
 }
 
 /// An enumaration of FontAwesome Brands icon names
-public enum FontAwesomeBrands: String, PlaybookGenericIcon {
+public enum FontAwesomeBrands: String, PlaybookGenericFontIcon {
   case fiveHundredPixels = "fa-500px"
   case accessibleIcon = "fa-accessible-icon"
   case accusoft = "fa-accusoft"

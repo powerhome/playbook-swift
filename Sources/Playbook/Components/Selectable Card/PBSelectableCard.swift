@@ -42,7 +42,7 @@ public struct PBSelectableCard<Content: View>: View {
     width: CGFloat? = .infinity,
     fontSize: PBFont = .body,
     cardText: String? = nil,
-    icon: PBIcon? = PBIcon(FontAwesome.check, size: .small),
+    icon: PBIcon? = PBIcon(Icon.check, size: .small),
     hasIcon: Bool = false,
     iconOffset: (x: CGFloat?, y: CGFloat?) = (x: 10, y: -10),
     isSelected: Binding<Bool> = .constant(false),

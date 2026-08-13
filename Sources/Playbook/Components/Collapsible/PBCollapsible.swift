@@ -90,7 +90,7 @@ public extension PBCollapsible {
   }
 
   var indicator: some View {
-    PBIcon.fontAwesome(.chevronDown, size: iconSize)
+    PBIcon.playbook(.chevronDown, size: iconSize)
       .foregroundColor(iconColor.iconColor)
       .padding(Spacing.xxSmall)
       .rotationEffect(

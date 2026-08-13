@@ -77,12 +77,12 @@ public struct NavCatalog: View {
         orientation: .vertical,
         title: "Browse"
       ) {
-        PBNavItem("News Feed", icon: .pbIcon(.fontAwesome(.newspaper)), accessory: .chevronDown)
-        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.messages)))
-        PBNavItem("Events", icon: .pbIcon(.fontAwesome(.calendarCheck)))
-        PBNavItem("Friends", icon: .pbIcon(.fontAwesome(.peopleCarry)))
-        PBNavItem("Groups", icon: .pbIcon(.fontAwesome(.campground)))
-        PBNavItem("Disabled", icon: .pbIcon(.fontAwesome(.campground)), isDisabled: true)
+        PBNavItem("News Feed", icon: .pbIcon(.playbook(.newspaper)), accessory: .chevronDown)
+        PBNavItem("Messages", icon: .pbIcon(.playbook(.messages)))
+        PBNavItem("Events", icon: .pbIcon(.playbook(.calendarCheck)))
+        PBNavItem("Friends", icon: .pbIcon(.playbook(.peopleCarry)))
+        PBNavItem("Groups", icon: .pbIcon(.playbook(.campground)))
+        PBNavItem("Disabled", icon: .pbIcon(.playbook(.campground)), isDisabled: true)
       }
     }
 
@@ -173,12 +173,12 @@ public struct NavCatalog: View {
         variant: .subtle,
         orientation: .vertical
       ) {
-        PBNavItem("News Feed", icon: .pbIcon(.fontAwesome(.newspaper)))
-        PBNavItem("Messages", icon: .pbIcon(.fontAwesome(.messages)))
-        PBNavItem("Events", icon: .pbIcon(.fontAwesome(.calendarCheck)))
-        PBNavItem("Friends", icon: .pbIcon(.fontAwesome(.peopleCarry)))
-        PBNavItem("Groups", icon: .pbIcon(.fontAwesome(.campground)))
-        PBNavItem("Disabled", icon: .pbIcon(.fontAwesome(.campground)), isDisabled: true)
+        PBNavItem("News Feed", icon: .pbIcon(.playbook(.newspaper)))
+        PBNavItem("Messages", icon: .pbIcon(.playbook(.messages)))
+        PBNavItem("Events", icon: .pbIcon(.playbook(.calendarCheck)))
+        PBNavItem("Friends", icon: .pbIcon(.playbook(.peopleCarry)))
+        PBNavItem("Groups", icon: .pbIcon(.playbook(.campground)))
+        PBNavItem("Disabled", icon: .pbIcon(.playbook(.campground)), isDisabled: true)
       }
     }
 
