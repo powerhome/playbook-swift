@@ -18,7 +18,7 @@ secrets = [
     variable: 'GITHUB_API_TOKEN'
   ],
   runway: [
-    credentialsId: 'nitro-runway-api-token-tps-40',
+    credentialsId: 'pac-ci-nitro-runway-api-token-tps',
     variable: 'RUNWAY_API_TOKEN'
   ],
   nitro_mdm: [
@@ -26,7 +26,7 @@ secrets = [
     variable: 'NITRO_MDM_API_KEY'
   ],
   fastlane_app_pass: [
-    credentialsId: 'fastlane-apple-password',
+    credentialsId: 'fastlane-apple-notary-password',
     variable: 'FASTLANE_APPLE_PASSWORD'
   ]
 ]
