@@ -25,9 +25,9 @@ secrets = [
     credentialsId: 'a5876938-2cc6-4921-9aaa-12f224fe60fe', 
     variable: 'NITRO_MDM_API_KEY'
   ],
-  fastlane_app_pass: [
+  fastlane_notary_pass: [
     credentialsId: 'fastlane-apple-notary-password',
-    variable: 'FASTLANE_APPLE_PASSWORD'
+    variable: 'FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD'
   ]
 ]
 
@@ -85,7 +85,6 @@ node(defaultNode) {
       }
 
        stage(stg.buildmacOS) {
-        fastlane("export_app_pass app_specific_pass:${FASTLANE_APPLE_PASSWORD}")
         fastlane("build_macos suffix:${buildSuffix()}")
       }
 
@@ -135,7 +134,7 @@ def setupEnv(block) {
     string(secrets.github),
     string(secrets.runway),
     string(secrets.nitro_mdm),
-    string(secrets.fastlane_app_pass)
+    string(secrets.fastlane_notary_pass)
   ]) {
     withEnv(['LC_ALL=en_US.UTF-8', 'LANG=en_US.UTF-8']) {
       sshagent([sshKey]) {

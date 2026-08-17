@@ -108,12 +108,6 @@ lane :upload_ios do |opts|
   }
 end
 
-desc "Export App Pass to Environment"
-lane :export_app_pass do |opts|
-  # Add app-specific-password to environment variable
-  sh "echo FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=#{opts[:app_specific_pass]} >> .env"
-end
-
 desc "Notarize macOS build"
 lane :notarize_macos do |opts|
 keep_trying {
