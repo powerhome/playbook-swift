@@ -1,3 +1,65 @@
+#✨ Playbook Swift 8.0.0 Improvements ✨
+
+####8.0.0 full list of changes:
+
+**Kit Enhancements:**
+* [RANGR-1622] Playbook icons automated library by @isismsilva in [#583](https://github.com/powerhome/playbook-swift/pull/583)
+
+**Full Changelog**: [7.3.1 → 8.0.0](https://github.com/powerhome/playbook-swift/compare/7.3.1...8.0.0)
+
+
+#✨ Playbook Swift 7.3.1 Improvements ✨
+###Jul 17, 2026
+
+####7.3.1 full list of changes:
+
+**Kit Enhancements:**
+* [RANGR-1575] Adjustment to the typeahead field to re-run filtering to better support search debouncing by @DanWoodPower in [#580](https://github.com/powerhome/playbook-swift/pull/580)
+
+
+#✨ Playbook Swift 7.3.0 Improvements ✨
+###May 22, 2026
+
+####7.3.0 full list of changes:
+
+**Kit Enhancements:**
+* [ROGUE-2534] Update dialog to have a custom icon by @welingtonramospwr in [#577](https://github.com/powerhome/playbook-swift/pull/577)
+
+**Full Changelog**: [7.2.0 → 7.3.0](https://github.com/powerhome/playbook-swift/compare/7.2.0...7.3.0)
+
+
+#✨ Playbook Swift 7.2.0 Improvements ✨
+###May 7, 2026
+
+####7.2.0 full list of changes:
+
+**Kit Enhancements:**
+* [ROGUE-2544] Fix typeahead list presentation by @FellipeSouzaDEV in [#576](https://github.com/powerhome/playbook-swift/pull/576)
+
+
+#✨ Playbook Swift 7.1.0 Improvements ✨
+###Apr 14, 2026
+
+####7.1.0 full list of changes:
+
+**Kit Enhancements:**
+* [RANGR-1483] Fix typeahead list presentation by @isismsilva in [#573](https://github.com/powerhome/playbook-swift/pull/573)
+* [ROGUE-2389] Fix text edit font by @welingtonramospwr in [#574](https://github.com/powerhome/playbook-swift/pull/574)
+* [PBIOS-1483] 7.1.0-release by @isismsilva in [#575](https://github.com/powerhome/playbook-swift/pull/575)
+
+
+#✨ Playbook Swift 7.0.0 Improvements ✨
+###Apr 2, 2026
+
+####7.0.0 full list of changes:
+
+**Kit Enhancements:**
+* [RANGR-1404] Bumping ruby and gems by @AlexandreHauber in [#570](https://github.com/powerhome/playbook-swift/pull/570)
+* [RANGR-1472] Update macos developer certificate by @AlexandreHauber in [#571](https://github.com/powerhome/playbook-swift/pull/571)
+* [ROGUE-2478] Update base typography by @welingtonramospwr in [#568](https://github.com/powerhome/playbook-swift/pull/568)
+* [ROGUE-2478] Release 7.0.0 by @welingtonramospwr in [#572](https://github.com/powerhome/playbook-swift/pull/572)
+
+
 #✨ Playbook Swift 6.16.0 Improvements ✨
 ###Jan 20, 2026
 
@@ -40,7 +102,6 @@ This release introduces the brand-new Skeleton Loader Kit, helping you build bet
 - Updates to PBAvatar [PBIOS-701] #530 (RachelRadford21)
 - Add Inactive Users [PBIOS-1010] #535 (RachelRadford21)
 
-Full Changelog: 6.9.0 → 6.10.0
 
 # ✨ The Perfect Fit! ✨  
 #### Apr 2, 2025  
