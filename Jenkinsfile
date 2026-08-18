@@ -246,12 +246,27 @@ def isDevBuild() {
 }
 
 def readyForTesting() {
+  if (githubPrDetails == null) {
+    echo "PR details are missing; cannot check Ready for Testing label."
+    return false
+  }
   def labels = githubPrDetails['labels']
-  return labels.find{it.name == "Ready for Testing"}
+  if (labels == null) {
+    return false
+  }
+  return labels.find { it.name == "Ready for Testing" }
+}
+
+def skipUnlessReadyForTesting(String stageName) {
+  if (isDevBuild() && !readyForTesting()) {
+    echo "PR is not ready for testing yet. Skipping ${stageName}."
+    return true
+  }
+  return false
 }
 
 def uploadiOS() {
-  if (isDevBuild() && !readyForTesting()) return
+  if (skipUnlessReadyForTesting(stg.uploadiOS)) return
 
   def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
   def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-iOS' " +
