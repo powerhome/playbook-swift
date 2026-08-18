@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "$ROOT_DIR/Tools/github-utils.sh"
+. "$ROOT_DIR/Tools/utils.sh"
 
 requireVariables      \
   BUILD_NUMBER        \
@@ -14,8 +14,6 @@ if [ -z "$GITHUB_COMMIT_SHA" ]; then
 fi
 
 mkdir -p "$BUILD_ROOT"
-
-. "$TOOLS_ROOT/setup-story-details.sh"
 
 echo ""
 echo "****************************"
