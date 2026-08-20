@@ -10,6 +10,7 @@ githubPrDetails = null
 releaseNotes = null
 buildNum = null
 pullRequestId = null
+prUserHandle = null
 
 // TODO: move all secrets out!
 secrets = [
@@ -18,16 +19,16 @@ secrets = [
     variable: 'GITHUB_API_TOKEN'
   ],
   runway: [
-    credentialsId: 'nitro-runway-api-token-tps-40',
+    credentialsId: 'pac-ci-nitro-runway-api-token-tps',
     variable: 'RUNWAY_API_TOKEN'
   ],
   nitro_mdm: [
     credentialsId: 'a5876938-2cc6-4921-9aaa-12f224fe60fe', 
     variable: 'NITRO_MDM_API_KEY'
   ],
-  fastlane_app_pass: [
-    credentialsId: 'fastlane-apple-password',
-    variable: 'FASTLANE_APPLE_PASSWORD'
+  fastlane_notary_pass: [
+    credentialsId: 'fastlane-apple-notary-password',
+    variable: 'FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD'
   ]
 ]
 
@@ -61,7 +62,6 @@ node(defaultNode) {
       stage(stg.setup) {
         updateBuildNum()
         jenkinsSetup()
-        getRunwayBacklogItemId()
         getReleaseNotes()
       }
 
@@ -85,7 +85,6 @@ node(defaultNode) {
       }
 
        stage(stg.buildmacOS) {
-        fastlane("export_app_pass app_specific_pass:${FASTLANE_APPLE_PASSWORD}")
         fastlane("build_macos suffix:${buildSuffix()}")
       }
 
@@ -135,7 +134,7 @@ def setupEnv(block) {
     string(secrets.github),
     string(secrets.runway),
     string(secrets.nitro_mdm),
-    string(secrets.fastlane_app_pass)
+    string(secrets.fastlane_notary_pass)
   ]) {
     withEnv(['LC_ALL=en_US.UTF-8', 'LANG=en_US.UTF-8']) {
       sshagent([sshKey]) {
@@ -164,26 +163,27 @@ def updateBuildNum() {
   sh "echo \"CURRENT_PROJECT_VERSION = ${buildNum}\" > ./PlaybookShowcase/Versioning.xcconfig"
 }
 
-def getRunwayBacklogItemId() {
-  runwayBacklogItemId = sh(script: './Tools/setup-story-details.sh', returnStdout: true).trim().replaceAll (/\"/,/\\\"/).readLines().last()
-  if (isDevBuild()) {
-    githubPrDetails = readJSON file: "./Build/pr-${env.CHANGE_ID}-details.json"
-  }
-  return runwayBacklogItemId
-}
-
 def getReleaseNotes() {
   if (env.CHANGE_ID) {
-    // CHANGE_ID is PR ID
     pullRequestID = env.CHANGE_ID
-    releaseNotes = githubPrDetails['title']
+    def prJson = sh(script: """\
+      curl -f -sS -X GET -H "Authorization: token \${GITHUB_API_TOKEN}" \
+        https://api.github.com/repos/powerhome/playbook-swift/pulls/${pullRequestID}
+    """.stripIndent(), returnStdout: true)
+    githubPrDetails = readJSON text: prJson
+    releaseNotes = githubPrDetails['title'] ?: ''
+    prUserHandle = githubPrDetails['user'] ? githubPrDetails['user']['login'] : ''
   } else {
-    releaseNotes = sh(script: 'git show-branch --no-name HEAD', returnStdout:true).trim().replaceAll (/\"/,/\\\"/)
-    pullRequestIDRegex = "s/.*#\\([0-9]\\{1,\\}\\).*/\\1/p"
-    extractedPullRequestID = "echo '${releaseNotes}' | sed -n '${pullRequestIDRegex}'"
-    pullRequestID = sh(script: extractedPullRequestID, returnStdout: true).trim()
+    releaseNotes = sh(script: 'git show-branch --no-name HEAD', returnStdout: true).trim()
+    pullRequestID = extractPullRequestIdFromNotes(releaseNotes)
   }
+  runwayBacklogItemId = extractBacklogItemIdFromNotes(releaseNotes ?: '')
+  if (!runwayBacklogItemId) {
+    runwayBacklogItemId = 'PBIOS-000'
+  }
+  releaseNotes = (releaseNotes ?: '').replaceAll(/\"/, /\\\"/)
   echo "Release Notes: ${releaseNotes}"
+  echo "Runway Backlog Item ID: ${runwayBacklogItemId}"
   echo "Pull Request ID: ${pullRequestID}"
 }
 
@@ -247,50 +247,72 @@ def isDevBuild() {
 }
 
 def readyForTesting() {
+  if (githubPrDetails == null) {
+    echo "PR details are missing; cannot check Ready for Testing label."
+    return false
+  }
   def labels = githubPrDetails['labels']
-  return labels.find{it.name == "Ready for Testing"}
+  if (labels == null) {
+    return false
+  }
+  return labels.find { it.name == "Ready for Testing" }
+}
+
+def skipUnlessReadyForTesting(String stageName) {
+  if (isDevBuild() && !readyForTesting()) {
+    echo "PR is not ready for testing yet. Skipping ${stageName}."
+    return true
+  }
+  return false
 }
 
 def uploadiOS() {
-  if (isDevBuild() && !readyForTesting()) return
+  if (skipUnlessReadyForTesting(stg.uploadiOS)) return
 
-  def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
+  def trimmedReleaseNotes = releaseNotes.trim().replaceAll(/\"/, /\\\"/)
   def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-iOS' " +
     "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
 
   fastlane("upload_ios suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" " +
-    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
+    "build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
 def uploadmacOS() {
-  if (isDevBuild() && !readyForTesting()) return
+  if (skipUnlessReadyForTesting(stg.uploadmacOS)) return
 
-  def trimmedReleaseNotes = releaseNotes.trim().replaceAll (/\"/,/\\\"/)
+  def trimmedReleaseNotes = releaseNotes.trim().replaceAll(/\"/, /\\\"/)
   def version = sh(script: "xcodebuild -project 'PlaybookShowcase/PlaybookShowcase.xcodeproj' -target 'PlaybookShowcase-macOS' " +
     "-showBuildSettings | grep MARKETING_VERSION | sed 's/.*= //'", returnStdout: true).trim()
-  
+
   fastlane("upload_macos suffix:${buildSuffix()} type:${buildType()} release_notes:\"${trimmedReleaseNotes}\" " +
-    "nitro_mdm_api_token:${NITRO_MDM_API_KEY} build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
+    "build_number:${buildNum} version:${version} pr_number:\"${pullRequestID}\"")
 }
 
 def notarize() {
-  if (isDevBuild() && !readyForTesting()) return
+  if (skipUnlessReadyForTesting(stg.notarize)) return
 
   fastlane("notarize_macos suffix:${buildSuffix()}")
 }
 
 def prTitleValid() {
-  def match = githubPrDetails['title'] =~ /\[[a-zA-Z0-9]+-\d+\]/
-  return match.find()
+  def title = githubPrDetails ? githubPrDetails['title'] : ''
+  return extractBacklogItemIdFromNotes(title ?: '') != ''
+}
+
+def extractPullRequestIdFromNotes(String notes) {
+  def matcher = (notes =~ /#(\d+)/)
+  return matcher.find() ? matcher.group(1) : ''
+}
+
+def extractBacklogItemIdFromNotes(String notes) {
+  def matcher = (notes =~ /\[([A-Za-z0-9]+-\d+)\]/)
+  return matcher.find() ? matcher.group(1) : ''
 }
 
 def writeRunwayComment() {
-  if (isDevBuild() && !readyForTesting()) {
-    echo "PR is not ready for testing yet. Skipping Runway comment."
-    return
-  }
+  if (skipUnlessReadyForTesting(stg.runway)) return
 
-  if (env.PR_USER_HANDLE in ['renovate[bot]', 'dependabot']) {
+  if (prUserHandle in ['renovate[bot]', 'dependabot']) {
     echo "Bot PR detected. Skipping Runway comment."
     return
   }
@@ -300,7 +322,8 @@ def writeRunwayComment() {
     return
   }
 
-  fastlane("create_runway_comment build_number:${buildNum} type:${buildType()} runway_api_token:${RUNWAY_API_TOKEN} runway_backlog_item_id:${runwayBacklogItemId} github_pull_request_id:${env.CHANGE_ID}")
+  fastlane("create_runway_comment build_number:${buildNum} type:${buildType()} " +
+    "runway_backlog_item_id:${runwayBacklogItemId} github_pull_request_id:${pullRequestID}")
 }
 
 def deleteDerivedData(){

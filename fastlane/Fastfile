@@ -108,12 +108,6 @@ lane :upload_ios do |opts|
   }
 end
 
-desc "Export App Pass to Environment"
-lane :export_app_pass do |opts|
-  # Add app-specific-password to environment variable
-  sh "echo FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=#{opts[:app_specific_pass]} >> .env"
-end
-
 desc "Notarize macOS build"
 lane :notarize_macos do |opts|
 keep_trying {
@@ -140,7 +134,7 @@ lane :distribute_to_mdm do |opts|
   target = opts[:type]
   build_number = opts[:build_number]
   platform = opts[:platform]
-  mdm_api_token = opts[:nitro_mdm_api_token]
+  UI.user_error!("NITRO_MDM_API_KEY is required for Nitro MDM upload") if ENV["NITRO_MDM_API_KEY"].to_s.empty?
   upload_address = "https://nitro.powerhrg.com/mdm/api/v1/builds"
 
   app_id = "com.powerhrg.PlaybookShowcase.dev"
@@ -161,8 +155,8 @@ lane :distribute_to_mdm do |opts|
   output_file = "../upload-build-to-nitro-details.json"
 
   # Copying to MDM S3
-  curl = <<-SHELL 
-    curl -v -sS #{upload_address} \
+  curl = <<-SHELL
+    curl -f -sS #{upload_address} \
       -F platform="#{platform}" \
       -F app_id="#{app_id}" \
       -F build_number="#{build_number}" \
@@ -171,7 +165,7 @@ lane :distribute_to_mdm do |opts|
       -F pr_number="#{pr_number}" \
       -F version_number="#{version_number}" \
       -F file="@#{file_path}" \
-      -H "Authorization: #{mdm_api_token}" \
+      -H "Authorization: \${NITRO_MDM_API_KEY}" \
       -o "#{output_file}"
     if [[ $? -ne 0 ]] || grep -q errors "#{output_file}"; then
       echo "---------------------------------"
@@ -188,7 +182,8 @@ end
 desc "Create Runway comment"
 lane :create_runway_comment do |opts|
 
-  runway_api_token = opts[:runway_api_token]
+  runway_api_token = ENV["RUNWAY_API_TOKEN"]
+  UI.user_error!("RUNWAY_API_TOKEN is required for Runway comment") if runway_api_token.to_s.empty?
   runway_backlog_item_id = opts[:runway_backlog_item_id]
   github_pull_request_id = opts[:github_pull_request_id]
   type = opts[:type]
