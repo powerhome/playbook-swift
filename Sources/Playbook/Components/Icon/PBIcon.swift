@@ -69,6 +69,7 @@ public struct PBIcon: View {
       .padding(.bottom, border ? 4.8 : 0)
       .border(border ? Color.border : .clear, width: 2.5)
       .flipped(flipped)
+      .scaleEffect(1.4)
   }
 }
 
