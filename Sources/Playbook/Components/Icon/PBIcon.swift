@@ -46,19 +46,22 @@ public struct PBIcon: View {
   var rotation: IconRotation
   var border: Bool
   var flipped: [Axis]?
+  var scale: CGFloat 
 
   public init(
     _ icon: PlaybookGenericIcon,
     size: IconSize = .x1,
     rotation: IconRotation = .zero,
     border: Bool = false,
-    flipped: [Axis]? = nil
+    flipped: [Axis]? = nil,
+    scale: CGFloat = 1.4
   ) {
     self.size = size
     self.icon = icon
     self.rotation = rotation
     self.border = border
     self.flipped = flipped
+    self.scale = scale
   }
 
   public var body: some View {
@@ -69,7 +72,7 @@ public struct PBIcon: View {
       .padding(.bottom, border ? 4.8 : 0)
       .border(border ? Color.border : .clear, width: 2.5)
       .flipped(flipped)
-      .scaleEffect(1.4)
+      .scaleEffect(scale)
   }
 }
 
