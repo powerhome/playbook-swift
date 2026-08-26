@@ -41,7 +41,7 @@ public struct IconCatalog: View {
         VStack(alignment: .leading, spacing: Spacing.small) {
           ForEach(PBIcon.IconSize.sizeArray, id: \.0) { size in
             HStack(spacing: Spacing.xSmall) {
-              PBIcon.playbook(.atlas, size: size.0)
+              PBIcon.playbook(.user, size: size.0)
               Text("\(size.1)")
             }
           }
