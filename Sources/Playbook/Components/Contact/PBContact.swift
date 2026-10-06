@@ -74,7 +74,7 @@ public extension PBContact {
     }
   }
   var parsedValue: String {
-    let phoneNumberKit = PhoneNumberKit()
+    let phoneNumberKit = PhoneNumberKit.PhoneNumberUtility()
     let dialContext: PhoneNumberFormat = self.contactValue.prefix(1) == "1" ? .international : .national
     let phoneNum: PhoneNumber
     do {
