@@ -14,6 +14,7 @@ public struct PBContact: View {
   public let detail: Bool
   public let contactValue: String
   public let type: ContactType
+  public typealias PartialFormatter = PhoneNumberKit.PartialFormatter
 
   public init(type: ContactType = .home, value: String, detail: Bool = false) {
     self.type = type
