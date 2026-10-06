@@ -14,6 +14,7 @@ public struct PBContact: View {
   public let detail: Bool
   public let contactValue: String
   public let type: ContactType
+  public typealias PartialFormatter = PhoneNumberKit.PartialFormatter
 
   public init(type: ContactType = .home, value: String, detail: Bool = false) {
     self.type = type
@@ -74,7 +75,7 @@ public extension PBContact {
     }
   }
   var parsedValue: String {
-    let phoneNumberKit = PhoneNumberKit()
+    let phoneNumberKit = PhoneNumberKit.PhoneNumberUtility()
     let dialContext: PhoneNumberFormat = self.contactValue.prefix(1) == "1" ? .international : .national
     let phoneNum: PhoneNumber
     do {
