@@ -67,10 +67,10 @@ public struct PBIcon: View {
   public var body: some View {
     icon.iconView(size: size.fontSize * scale)
       .rotationEffect(rotation.angle)
-      .padding(.horizontal, border ? 10.5 : 0)
-      .padding(.top, border ? 6.4 : 0)
-      .padding(.bottom, border ? 4.8 : 0)
-      .border(border ? Color.border : .clear, width: 2.5)
+      .padding(.horizontal, border ? 10.5 * scale : 0)
+      .padding(.top, border ? 6.4 * scale : 0)
+      .padding(.bottom, border ? 4.8 * scale : 0)
+      .border(border ? Color.border : .clear, width: 2.5 * scale)
       .flipped(flipped)
   }
 }
